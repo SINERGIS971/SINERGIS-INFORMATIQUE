@@ -1,0 +1,93 @@
+<odoo>
+    <data>
+
+        <record id="sinergis_inherited_calendar_event_form" model="ir.ui.view">
+            <field name="name">sinergis.inherited.calendar.event.form</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <!-- Ajout d'un bouton pour générer un rapport d'intervention -->
+                <xpath expr="//button[@name='action_open_composer']" position="after">
+                    <button name="generer_rapport_intervention" help="Génerer un rapport d'intervention au format PDF" type="object" string=" Rapport d'intervention (PDF)" icon="fa-download"/>
+                </xpath>
+
+
+                <!-- Ajout client/contact/participants -->
+                <xpath expr="//field[@name='start']" position="before">
+                    <field name="x_sinergis_calendar_event_client" domain="[('is_company','=',True)]" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
+                    <field name="x_sinergis_calendar_event_contact" domain="[('parent_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
+                    <field name="partner_ids" widget="many2manyattendee" placeholder="Selectionnez des participants..." context="{'force_email':True}" class="oe_inline o_calendar_attendees" string="Autres participants"/>
+                </xpath>
+
+                <!-- Creation de la page du notebook de facturation -->
+                <xpath expr="//page[@name='page_invitations']" position="after">
+                    <page name="x_sinergis_facturation_page" string="Facturation">
+                        <group>
+                            <field name="x_sinergis_calendar_event_object"/>
+                            <field name="x_sinergis_calendar_event_desc_intervention"/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <field name="x_sinergis_calendar_event_produits"/>
+                    <field name="x_sinergis_calendar_event_produits_cegid" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'CEGID')]}"/>
+                    <field name="x_sinergis_calendar_event_produits_sage100" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAGE 100')]}"/>
+                    <field name="x_sinergis_calendar_event_produits_sage1000" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAGE 1000')]}"/>
+                    <field name="x_sinergis_calendar_event_produits_sap" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAP')]}"/>
+                    <field name="x_sinergis_calendar_event_produits_x3" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'X3')]}"/>
+                    <field name="x_sinergis_calendar_event_produits_divers" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'DIVERS')],'required': [('x_sinergis_calendar_event_produits',  '=', 'DIVERS')]}"/>
+                            <field name="x_sinergis_calendar_event_type_client" readonly="True" force_save="1"/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <field name="x_sinergis_calendar_event_facturation"/>
+                            <field name="x_sinergis_calendar_event_project" domain="[('partner_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)], 'invisible': [('x_sinergis_calendar_event_facturation',  '=', 'Contrat heure')]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="x_sinergis_calendar_event_tache" domain="[('project_id','=',x_sinergis_calendar_event_project),('name','not ilike','HEURES')]" attrs="{'invisible' : ['|','|',('x_sinergis_calendar_event_project',  '=', False),('x_sinergis_calendar_event_facturation',  '=', 'Contrat heure'),('x_sinergis_calendar_event_facturation',  '=', 'Non facturable')]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="x_sinergis_calendar_event_tache2" domain="[('partner_id','=',x_sinergis_calendar_event_client),('name','ilike','HEURES')]" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)],'invisible' : [('x_sinergis_calendar_event_facturation',  '!=', 'Contrat heure')]}"/>
+                            <field name="x_sinergis_calendar_event_tache_information" force_save="1" attrs="{'invisible' : [('x_sinergis_calendar_event_tache_information',  '=', False)]}" readonly="True" string=""/>
+
+                            <field name="x_sinergis_calendar_event_taches" attrs="{'invisible': ['|',('x_sinergis_calendar_event_client',  '=', False),'&amp;',('x_sinergis_calendar_event_facturation',  '!=', 'Devis'),('x_sinergis_calendar_event_facturation',  '!=', 'Contrat heure')]}" string="Prestations en cours">
+                                <tree decoration-warning="effective_hours>0.9*planned_hours" decoration-danger="effective_hours>=planned_hours">
+                                    <field name="project_id"/>
+                                    <field name="name"/>
+                                    <field name="user_ids" domain="[('share','=',False),('active','=',True)]" widget="many2many_avatar_user"/>
+                                    <field name="planned_hours" string="Heures prévues" widget="float_time"/>
+                                    <field name="effective_hours" widget="float_time"/>
+                                    <field name="remaining_hours" widget="float_time"/>
+                                    <field name="progress" widget="progressbar"/>
+                                    <field name="company_id"/>
+                                </tree>
+                            </field>
+
+                            <br/>
+                            <field name="x_sinergis_calendar_duree_facturee" widget="float_time" style="font-size:13pt;"/>
+                            <field name="x_sinergis_calendar_event_is_solved"/>
+                        </group>
+                        <!-- BOUTTON POUR DECOMPTER LES HEURES DU CONTRAT D'HEURE-->
+                        <field name="x_sinergis_calendar_event_is_facturee" invisible="True"/>
+                        <button name="x_sinergis_calendar_event_duree_button" string="Décompter le temps facturé" type="object" class="btn-primary oe_right" readonly="True" confirm="Êtes-vous sûr de vouloir décompter les heures ?" attrs="{'invisible': ['|','|','|','|',('x_sinergis_calendar_event_facturation',  '=', False),('x_sinergis_calendar_event_facturation',  '=', 'Temps passé'),('x_sinergis_calendar_event_facturation',  '=', 'Non facturable'),('x_sinergis_calendar_event_is_facturee', '=', True),'&amp;',('x_sinergis_calendar_event_tache', '=', False),('x_sinergis_calendar_event_tache2', '=', False)]}" style="background-color:green;"/>
+                        <button name="x_sinergis_calendar_event_duree_button" string="Décompter le temps facturé" type="object" class="btn-primary oe_right" readonly="True" confirm="Vous avez déjà décompté les heures sur cet évenement. Souhaitez vous vraiment encore les décompter ?" attrs="{'invisible': ['|','|','|','|',('x_sinergis_calendar_event_facturation',  '=', False),('x_sinergis_calendar_event_facturation',  '=', 'Temps passé'),('x_sinergis_calendar_event_facturation',  '=', 'Non facturable'),('x_sinergis_calendar_event_is_facturee', '=', False),'&amp;',('x_sinergis_calendar_event_tache', '=', False),('x_sinergis_calendar_event_tache2', '=', False)]}" style="background-color:orange;"/>
+                    </page>
+                </xpath>
+
+                <xpath expr="//page[@name='x_sinergis_facturation_page']" position="after">
+                     <xpath expr="//page[@name='page_options']" position="move"/>
+                </xpath>
+
+                <!--Modification des champs d'origine-->
+                <xpath expr="//field[@name='partner_ids']" position="replace"/>
+                <xpath expr="//field[@name='duration']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='start']" position="attributes">
+                    <attribute name="required">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='stop']" position="attributes">
+                    <attribute name="required">True</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,118 @@
+<odoo>
+  <data>
+    <!-- FILTER -->
+    <record id="sinergis_inherited_project_view_task_search_form" model="ir.ui.view">
+      <field name="name">sinergis.inherited.project.view.task.search.form</field>
+      <field name="model">project.task</field>
+      <field name="inherit_id" ref="project.view_task_search_form"/>
+      <field name="arch" type="xml">
+          <xpath expr="//filter[@name='unassigned']" position="after">
+              <filter string="Unassigned" name="unassigned" domain="[('user_ids', '=', False)]"/>
+          </xpath>
+      </field>
+  </record>
+
+    <!-- KANBAN TACHES -->
+      <record id="sinergis_inherited_project_task_kanban" model="ir.ui.view">
+        <field name="name">sinergis.inherited.project.task.kanban</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="x_sinergis_project_task_etat_tache" display="full" bold="True" widget="badge" attrs="{'invisible': [['x_sinergis_project_task_etat_tache','=',False]]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- KANBAN PROJET -->
+      <record id="sinergis_inherited_project_project_kanban" model="ir.ui.view">
+        <field name="name">sinergis.inherited.project.project.kanban</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/div[1]/div[1]/div[1]/field[@name='tag_ids']" position="after">
+                <field name="x_sinergis_project_project_etat_projet" display="full" bold="True" widget="badge" attrs="{'invisible': [['x_sinergis_project_project_etat_projet','=',False]]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ FORM ============ -->
+
+    <!-- FORM TACHES -->
+    <record id="sinergis_inherited_project_task" model="ir.ui.view">
+        <field name="name">sinergis.inherited.project.task</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_enterprise.project_task_view_form"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@class='oe_title pr-0']" position="after">
+                <group>
+                    <field name="x_sinergis_project_task_alerte" widget="badge" readonly="True" style="background-color:#FE9078;color:white;font-size:12pt;" string=""/>
+                </group>
+            </xpath>
+
+            <xpath expr="//label[@for='project_id']" position="before">
+                <field name="create_date"/>
+            </xpath>
+
+            <xpath expr="//field[@name='date_deadline']" position="after">
+                <field name="x_sinergis_project_task_details_ch"/>
+            </xpath>
+
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="x_sinergis_project_task_etat_tache"/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('is_company','=',True)]</attribute>
+                <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
+            </xpath>
+
+            <xpath expr="//label[@for='planned_date_begin']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@class='w-100']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+      <!-- FORM PROJET -->
+    <record id="sinergis_inherited_project_project" model="ir.ui.view">
+        <field name="name">sinergis.inherited.project.project</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="x_sinergis_project_project_etat_projet"/>
+            </xpath>
+        </field>
+    </record>
+
+      <!-- ============ FEUILLE DE TEMPS ============ -->
+      <record id="sinergis_inherited_project_task_form_hr" model="ir.ui.view">
+        <field name="name">sinergis.inherited.project.task.form.hr</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="x_sinergis_account_analytic_line_user_id" widget="many2one_avatar_user"/>
+            </xpath>
+
+            <!-- FEUILLE DE TEMPS PAR DEFAUT -->
+            <xpath expr="//page[@name='description_page']" position="before">
+                <xpath expr="//page[@id='timesheets_tab']" position="move"/>
+            </xpath>
+        </field>
+    </record>
+
+  </data>
+</odoo>

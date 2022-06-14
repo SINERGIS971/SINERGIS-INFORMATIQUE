@@ -1,0 +1,54 @@
+<odoo>
+  <data>
+
+    <record id="sinergis_inherited_saler_order" model="ir.ui.view">
+        <field name="name">sinergis.inherited.sale.order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="x_sinergis_sale_order_objet" placeholder="Objet du devis..."/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">Société</attribute>
+                <attribute name="domain">[('is_company','=',True)]</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_invoice_id']" position="before">
+                <field name="x_sinergis_sale_order_contact" domain="[('parent_id','=',partner_id)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                <br/>
+                <br/>
+            </xpath>
+
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="default">3</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- TREE VIEW  -->
+
+    <record id="sinergis_inherited_saler_order_tree" model="ir.ui.view">
+        <field name="name">sinergis.inherited.sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='create_date']" position="after">
+                <field name="x_sinergis_sale_order_objet" readonly="1" decoration-bf="1"/>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="replace">
+            </xpath>
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="company_id" optional="show" readonly="1" on_change="1" can_create="true" can_write="true" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+  </data>
+</odoo>
