@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Enregistrement des informations du rapport -->
+	<record id="sinergis_intervention_report_calendar" model="ir.actions.report">
+		<field name="name">Rapport d'intervention SINERGIS</field>
+		<field name="model">calendar.event</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">sinergis.intervention_report_calendar</field>
+		<field name="report_file">sinergis.intervention_report_calendar</field>
+		<field name="binding_model_id" ref="model_calendar_event"/>
+		<field name="binding_type">report</field>
+	</record>
+	<!-- Enregistrement des données du rapport -->
+	<template id="sinergis.intervention_report_calendar">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+					<div class="page o_bold h4">
+						<div class="row"></div>
+						<div class="row text-center o_bold h1">
+							<div class="col o_bold h1">
+								<span style="font-size:55px">Rapport d'intervention</span>
+							</div>
+						</div>
+						<div class="row o_bold h3">
+                            <t t-if="doc.x_sinergis_calendar_event_facturation == 'Devis'">
+                                <t t-if="doc.x_sinergis_calendar_event_tache != False">
+                                <div style="margin-left:10px">
+                                    <span>
+                                        <strong>
+                                            <br/>Nom de la tâche:
+
+                                        </strong>
+                                        <span t-field="doc.x_sinergis_calendar_event_tache" class="h3"/>
+                                        <br/>
+                                    </span>
+                                </div>
+                                <div class="col-3"/>
+                                <div class="col-3"/>
+                                <div class="col-3"/>
+                                </t>
+                            </t>
+                        </div>
+						<div class="row o_bold h3">
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row">
+							<div class="col-0 o_bold h3" style="margin-left:10px">
+								<span>
+									<strong>
+										<br/>Objet:
+
+									</strong>
+									<br/>
+								</span>
+								<span t-field="doc.x_sinergis_calendar_event_object" style="width:900px;display:inline-block" class="h3"/>
+							</div>
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row">
+                            <div class="col-0 o_bold h3" style="margin-left:10px">
+								<span>
+									<strong>
+										<br/>Contact:
+
+									</strong>
+									<br/>
+								</span>
+								<span t-field="doc.x_sinergis_calendar_event_contact.name" style="width:900px;display:inline-block" class="h3"/>
+							</div>
+                        </div>
+						<div class="row">
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row">
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row text-left h4 o_bold">
+							<div class="col-4 h3 o_bold">
+								<span>
+									<strong>
+										<br/>Client:
+
+									</strong>
+									<br/>
+								</span>
+								<span t-field="doc.x_sinergis_calendar_event_client" class="h3"/>
+							</div>
+							<div class="col-4 h3 o_bold">
+								<span>
+									<strong>
+										<br/>Assigné à:
+
+									</strong>
+									<br/>
+								</span>
+								<span t-field="doc.user_id" class="h3"/>
+							</div>
+							<div class="col-3 h3 o_bold">
+								<span>
+									<strong>
+										<br/>Facturation:
+
+									</strong>
+									<br/>
+								</span>
+								<span t-field="doc.x_sinergis_calendar_event_facturation" class="h3"/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row">
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row">
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row">
+							<div class="col-3 h3 o_bold">
+								<span>
+									<strong>
+										<br/>Temps passé:
+
+									</strong>
+									<br/>
+								</span>
+                                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_duree_facturee), doc.x_sinergis_calendar_duree_facturee % 1 * 60)" class="h3" />
+                                <span class="h3"> h</span>
+								<!--<span t-field="doc.x_sinergis_calendar_duree_facturee" class="h3" />-->
+							</div>
+							<div class="col-3"/></div>
+						<div class="row">
+                            <div class="col-3 h3 o_bold">
+								<span>
+									<strong>
+										<br/>
+										<br/>Statut de l'intervention:
+
+									</strong>
+									<br/>
+								</span>
+								<span t-if="doc.x_sinergis_calendar_event_is_solved == True" class="h3">
+                                    Résolu
+                                </span>
+                                <span t-if="doc.x_sinergis_calendar_event_is_solved == False" class="h3">
+                                    En cours
+                                </span>
+							</div>
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row">
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row address">
+							<div class="col-5 offset-2"/></div>
+						<div class="row">
+							<div class="col-3"/></div>
+						<div class="row">
+							<div class="col-3">
+								<!--<span t-field="doc.sale_order_id.name"/>-->
+							</div>
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row">
+							<div class="col-3"/>
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row o_bold"></div>
+						<div class="row">
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row address">
+							<div class="col-5 offset-2"/></div>
+						<div class="row"></div>
+						<div class="row h5">
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row address">
+							<div class="col-5 offset-2"/></div>
+						<div class="row o_bold h3">
+							<div class="col-0 h4"></div>
+							<div style="margin-left:10px">
+								<strong>
+									<br/>
+									<br/>Description de l'intervention:
+
+								</strong>
+								<span t-field="doc.x_sinergis_calendar_event_desc_intervention"/>
+							</div>
+							<div class="col-0"/></div>
+						<div class="row">
+							<div class="col-3"/>
+							<div class="col-3"/></div>
+						<div class="row o_bold">
+							<div class="col h3 o_bold">
+								<strong>
+									<br/>Cadre réservé au client:
+
+								</strong>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col h3">
+								<span> - L'intervention à t'elle répondu à vos attentes ? Oui - non</span>
+							</div>
+						</div>
+						<div class="row"></div>
+						<div class="row">
+							<div class="col h3">
+								<span>- Si non - Veuillez préciser vos remarques :</span>
+							</div>
+						</div>
+						<img class="img" src="/sinergis/static/src/img/zone_1.png"/>
+						<div class="row h3">
+							<div class="col h3">
+								<span>
+									<br/>N.B: Sans retour signé de votre part dans les 48 heures, ce rapport sera considéré comme a accepté pou son contenu et sa durée d'exécution.
+
+									<br/>
+									<br/>Consultant:
+
+								</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<span t-field="doc.user_id.x_sinergis_res_users_tampon_signature"/>
+                                <div style="page-break-after: always;"/> <!-- Active le saut de page pour les champs HTML -->
+							</div>
+						</div>
+						<div class="row h4"></div>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>
