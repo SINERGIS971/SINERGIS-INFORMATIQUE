@@ -3,10 +3,10 @@
     'name': "sinergis",
 
     'summary': """
-        Short""",
+        Module Sinergis""",
 
     'description': """
-        Long
+        Module Sinergis
     """,
 
     'author': "Sinergis",
