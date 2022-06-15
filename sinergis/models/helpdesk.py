@@ -152,8 +152,8 @@ class HelpdeskTicket(models.Model):
     def on_change_x_sinergis_helpdesk_ticket_is_solved(self):
         if self.x_sinergis_helpdesk_ticket_is_solved:
             self.stage_id = self.env['helpdesk.stage'].search([('name','=',"Résolu")])
-        else:
-            self.stage_id = self.env['helpdesk.stage'].search([('name','=',"En cours")])
+        #else if self.name != False: #Pour eviter un changement d'état à la création d'un ticket
+    #        self.stage_id = self.env['helpdesk.stage'].search([('name','=',"En cours")])
 
     def updateTasks (self):
         for event in self:
