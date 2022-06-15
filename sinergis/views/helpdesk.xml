@@ -11,7 +11,8 @@
                   <field name="priority" position="move"/>
                   <field name="partner_id" position="move"/>
                   <field name="x_sinergis_helpdesk_ticket_produits" string="Produit"/>
-                  <field name="display_name" position="move"/>
+                </xpath>
+                <xpath expr="//field[@name='display_name']" position="after">
                   <field name="user_id" position="move"/>
                   <field name="x_sinergis_helpdesk_ticket_temps_passe" widget="float_time"/>
                   <field name="x_sinergis_helpdesk_ticket_facturation"/>
