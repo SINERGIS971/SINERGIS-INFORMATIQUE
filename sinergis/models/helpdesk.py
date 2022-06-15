@@ -49,10 +49,6 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
 
-    @api.onchange("partner_id")
-    def on_change_partner_id(self):
-        self.x_sinergis_helpdesk_ticket_contact = ""
-
     @api.onchange("x_sinergis_helpdesk_ticket_produits")
     def on_change_x_sinergis_helpdesk_ticket_produits(self):
         HelpdeskTicket.update_type_client(self)
@@ -96,10 +92,6 @@ class HelpdeskTicket(models.Model):
             elif subvalue == "AUTRE":
                 self.x_sinergis_helpdesk_ticket_type_client = "PME"
 
-    @api.onchange("partner_id")
-    def on_change_partner_id(self):
-        self.x_sinergis_helpdesk_ticket_contact = False
-
     @api.onchange("x_sinergis_helpdesk_ticket_contact")
     def on_change_x_sinergis_helpdesk_ticket_contact(self):
         if self.x_sinergis_helpdesk_ticket_contact:
@@ -118,6 +110,7 @@ class HelpdeskTicket(models.Model):
 
     @api.onchange("partner_id")
     def on_change_partner_id(self):
+        self.x_sinergis_helpdesk_ticket_contact = False
         self.x_sinergis_helpdesk_ticket_type_client = False
         self.x_sinergis_helpdesk_ticket_project = False
         self.x_sinergis_helpdesk_ticket_tache = False
@@ -214,7 +207,7 @@ class HelpdeskTicket(models.Model):
         if self.x_sinergis_helpdesk_ticket_taches :
             self.x_sinergis_helpdesk_ticket_is_facturee = True
             name = self.name
-            self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_task_id' : self.id})]
+            self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_task_id' : self})]
             HelpdeskTicket.setTacheInformation(self)
 
     #BOUTONS
