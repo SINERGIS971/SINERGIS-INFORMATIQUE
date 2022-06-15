@@ -198,7 +198,7 @@
             <field name="category_id" position="replace">
             </field>
             <xpath expr="//field[@name='x_sinergis_societe_suspect']" position="after">
-                <field name="category_id" string="Type Tiers" widget="many2many_tags" attrs="{'invisible':[('x_sinergis_societe_suspect','=',True)]}"/>
+                <field name="category_id" string="Type Tiers" widget="many2many_tags" attrs="{'invisible':[('x_sinergis_societe_suspect','=',True)],'required':[('is_company','=',True)]}"/>
             </xpath>
 
             <!-- Hide old "notes techniques" page -->
@@ -221,7 +221,7 @@
                 <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False)]}</attribute>
             </field>
             <field name="category_id" position="attributes">
-                <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False)], 'invisible':[('x_sinergis_societe_suspect','=',True)]}</attribute>
+                <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False)], 'invisible':[('x_sinergis_societe_suspect','=',True)],'required':[('is_company','=',True)]}</attribute>
             </field>
             <field name="phone" position="attributes">
                 <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False)]}</attribute>
@@ -402,7 +402,7 @@
             </xpath>
 
             <field name="siret" position="attributes">
-                <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False),('x_sinergis_societe_en_cours_immatriculation','=',False)]}</attribute>
+                <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False),('x_sinergis_societe_en_cours_immatriculation','=',False)],'required':[('is_company','=',True)]}</attribute>
             </field>
 
             <!-- Contact modifications -->
