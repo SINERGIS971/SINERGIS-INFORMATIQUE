@@ -29,10 +29,12 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_show_facturation = fields.Boolean(default=0)
 
+    x_sinergis_helpdesk_ticket_ticket_resolution = fields.Html(string="Description de l'intervention")
+
     x_sinergis_helpdesk_ticket_facturation = fields.Selection([("Contrat heures", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable', 'Non facturable')], string="Facturation")
     x_sinergis_helpdesk_ticket_project = fields.Many2one("project.project", string="Projet")
     x_sinergis_helpdesk_ticket_tache = fields.Many2one("project.task", string="Tâche")
-    x_sinergis_helpdesk_ticket_tache2 = fields.Many2one("project.task", string="Contrat d'heure")
+    x_sinergis_helpdesk_ticket_tache2 = fields.Many2one("project.task", string="Contrat d'heures")
     x_sinergis_helpdesk_ticket_tache_information = fields.Char(string="")
 
     x_sinergis_helpdesk_ticket_temps_passe = fields.Float(string="Temps passé")
@@ -46,10 +48,6 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_fixe = fields.Char(string="Fixe contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
-
-    @api.onchange("partner_id")
-    def on_change_partner_id(self):
-        self.x_sinergis_helpdesk_ticket_contact = ""
 
     @api.onchange("x_sinergis_helpdesk_ticket_produits")
     def on_change_x_sinergis_helpdesk_ticket_produits(self):
@@ -94,10 +92,6 @@ class HelpdeskTicket(models.Model):
             elif subvalue == "AUTRE":
                 self.x_sinergis_helpdesk_ticket_type_client = "PME"
 
-    @api.onchange("partner_id")
-    def on_change_partner_id(self):
-        self.x_sinergis_helpdesk_ticket_contact = None
-
     @api.onchange("x_sinergis_helpdesk_ticket_contact")
     def on_change_x_sinergis_helpdesk_ticket_contact(self):
         if self.x_sinergis_helpdesk_ticket_contact:
@@ -116,6 +110,7 @@ class HelpdeskTicket(models.Model):
 
     @api.onchange("partner_id")
     def on_change_partner_id(self):
+        self.x_sinergis_helpdesk_ticket_contact = False
         self.x_sinergis_helpdesk_ticket_type_client = False
         self.x_sinergis_helpdesk_ticket_project = False
         self.x_sinergis_helpdesk_ticket_tache = False
@@ -207,16 +202,13 @@ class HelpdeskTicket(models.Model):
         else : self.x_sinergis_helpdesk_ticket_tache_information = False
 
     def x_sinergis_helpdesk_ticket_duree_button(self):
-        if self.x_sinergis_helpdesk_ticket_temps_passe <= 0:
+        if self.x_sinergis_helpdesk_ticket_temps_passe <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
             raise ValidationError("Le temps passé doit être supérieur à 0")
-        self.x_sinergis_helpdesk_ticket_is_facturee = True
         if self.x_sinergis_helpdesk_ticket_taches :
+            self.x_sinergis_helpdesk_ticket_is_facturee = True
             name = self.name
-            self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe})]
+            self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_ticket_id' : self.id})]
             HelpdeskTicket.setTacheInformation(self)
-
-    #Notebook du dessous
-    x_sinergis_helpdesk_ticket_ticket_resolution = fields.Html()
 
     #BOUTONS
 
