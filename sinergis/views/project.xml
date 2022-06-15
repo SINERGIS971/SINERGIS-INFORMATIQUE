@@ -1,5 +1,22 @@
 <odoo>
   <data>
+    <!-- FILTER -->
+    <record id="sinergis_inherited_project_view_task_search_form" model="ir.ui.view">
+      <field name="name">sinergis.inherited.project.view.task.search.form</field>
+      <field name="model">project.task</field>
+      <field name="inherit_id" ref="project.view_task_search_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='parent_id']" position="after">
+          <field name="effective_hours"/>
+          <field name="planned_hours"/>
+        </xpath>
+        <xpath expr="//filter[@name='my_tasks']" position="before">
+              <filter string="Contrat terminé" name="contractended" domain="[('effective_hours', '>=', planned_hours)]"/>
+              <separator/>
+        </xpath>
+      </field>
+  </record>
+
     <!-- KANBAN TACHES -->
       <record id="sinergis_inherited_project_task_kanban" model="ir.ui.view">
         <field name="name">sinergis.inherited.project.task.kanban</field>
@@ -10,27 +27,8 @@
             <xpath expr="//field[@name='tag_ids']" position="after">
                 <field name="x_sinergis_project_task_etat_tache" display="full" bold="True" widget="badge" attrs="{'invisible': [['x_sinergis_project_task_etat_tache','=',False]]}"/>
             </xpath>
-
-            <!-- FOR FILTER -->
-            <xpath expr="//field[@name='is_private']" position="after">
-              <field name="effective_hours"/>
-              <field name="planned_hours"/>
-            </xpath>
         </field>
     </record>
-
-    <!-- FILTER -->
-    <record id="sinergis_inherited_project_view_task_search_form" model="ir.ui.view">
-      <field name="name">sinergis.inherited.project.view.task.search.form</field>
-      <field name="model">project.task</field>
-      <field name="inherit_id" ref="project.view_task_search_form"/>
-      <field name="arch" type="xml">
-          <xpath expr="//filter[@name='my_tasks']" position="before">
-              <filter string="Contrat terminé" name="contract_ended" domain="[('effective_hours', '>=', planned_hours)]"/>
-              <separator/>
-          </xpath>
-      </field>
-  </record>
 
     <!-- KANBAN PROJET -->
       <record id="sinergis_inherited_project_project_kanban" model="ir.ui.view">
