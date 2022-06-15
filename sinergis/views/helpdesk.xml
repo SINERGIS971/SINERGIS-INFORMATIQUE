@@ -18,10 +18,13 @@
                   <field name="x_sinergis_helpdesk_ticket_facturation"/>
                   <field name="activity_ids" position="move"/>
                   <field name="company_id" position="move"/>
-                  <field name="stage_id"/>
+                  <field name="stage_id" position="move"/>
                 </xpath>
 
                 <xpath expr="//field[@name='team_id']" position="attributes">
+                  <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='sla_deadline']" position="attributes">
                   <attribute name="invisible">1</attribute>
                 </xpath>
             </field>
