@@ -29,7 +29,7 @@
                 <field name="x_sinergis_project_task_etat_tache" display="full" bold="True" widget="badge" attrs="{'invisible': [['x_sinergis_project_task_etat_tache','=',False]]}"/>
             </xpath>
             <!-- FOR FILTER -->
-            <xpath expr="//field[@name='is_pr']" position="after">
+            <xpath expr="//field[@name='is_private']" position="after">
               <field name="effective_hours"/>
               <field name="planned_hours"/>
             </xpath>
