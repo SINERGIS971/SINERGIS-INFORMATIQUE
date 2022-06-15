@@ -11,7 +11,7 @@ class ProjectTask(models.Model):
     x_sinergis_project_task_alerte = fields.Char(compute="_compute_x_sinergis_project_task_alerte")
 
     #Variables pour les filtres
-    x_sinergis_project_task_done = fields.Boolean(default=False)
+    x_sinergis_project_task_done = fields.Boolean(default=False,compute="_compute_x_sinergis_project_task_done")
 
     @api.depends('x_sinergis_project_task_done')
     def _compute_x_sinergis_project_task_done (self):
