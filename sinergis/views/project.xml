@@ -113,7 +113,7 @@
                 <field name="x_sinergis_account_analytic_line_user_id" widget="many2one_avatar_user"/>
             </xpath>
             <xpath expr="//field[@name='unit_amount']" position="after">
-                <field name="x_sinergis_account_analytic_line_ticket_id"/>
+                <field name="x_sinergis_account_analytic_line_task_id"/>
             </xpath>
 
             <!-- FEUILLE DE TEMPS PAR DEFAUT -->
