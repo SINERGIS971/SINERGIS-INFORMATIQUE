@@ -83,7 +83,7 @@
                     <field name="x_sinergis_helpdesk_ticket_show_facturation" invisible="1"/>
                     <div attrs="{'invisible': [('x_sinergis_helpdesk_ticket_show_facturation',  '=', False)]}">
                     <group>
-                        <field name="x_sinergis_helpdesk_ticket_ticket_resolution" class="field_description" placeholder="Description de la résolution du ticket..." string="Description de l'intervention" attrs="{'required' : [('x_sinergis_helpdesk_ticket_show_facturation',  '=', True)]}"/>
+                        <field name="x_sinergis_helpdesk_ticket_ticket_resolution" class="field_description" placeholder="Description de la résolution du ticket..." string="Description de l'intervention"/>
                     <field name="x_sinergis_helpdesk_ticket_facturation"/>
                     <field name="x_sinergis_helpdesk_ticket_project" domain="[('partner_id','=',partner_id)]" attrs="{'readonly': [('partner_id',  '=', False)], 'invisible': ['|','|','|',('x_sinergis_helpdesk_ticket_facturation',  '=', False),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Temps passé'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Contrat heures'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Non facturable')]}" options="{'no_create': True, 'no_create_edit':True}"/>
                     <field name="x_sinergis_helpdesk_ticket_tache" domain="[('project_id','=',x_sinergis_helpdesk_ticket_project),('name','not ilike','HEURES')]" attrs="{'invisible' : ['|','|',('x_sinergis_helpdesk_ticket_project',  '=', False),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Contrat heures'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Non facturable')]}" options="{'no_create': True, 'no_create_edit':True}"/>

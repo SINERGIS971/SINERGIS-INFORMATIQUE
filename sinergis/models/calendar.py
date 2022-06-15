@@ -177,10 +177,10 @@ class CalendarEvent(models.Model):
         else : self.x_sinergis_calendar_event_tache_information = False
 
     def x_sinergis_calendar_event_duree_button(self):
-        if self.x_sinergis_calendar_duree_facturee <= 0:
+        if self.x_sinergis_calendar_duree_facturee <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
             raise ValidationError("Le temps passé doit être supérieur à 0")
-        self.x_sinergis_calendar_event_is_facturee = True
         if self.x_sinergis_calendar_event_taches :
+            self.x_sinergis_calendar_event_is_facturee = True
             self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : 'Enregistrement depuis le calendrier', 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee})]
             CalendarEvent.setTacheInformation(self)
 
