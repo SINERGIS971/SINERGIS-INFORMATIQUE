@@ -10,6 +10,17 @@ class ProjectTask(models.Model):
     x_sinergis_project_task_details_ch = fields.Char(string="Détails contrat d'heures")
     x_sinergis_project_task_alerte = fields.Char(compute="_compute_x_sinergis_project_task_alerte")
 
+    #Variables pour les filtres
+    x_sinergis_project_task_done = fields.Boolean(default=False)
+
+    @api.depends('x_sinergis_project_task_done')
+    def _compute_x_sinergis_project_task_done (self):
+        if (self.effective_hours >= self.planned_hours):
+            self.x_sinergis_project_task_done = True
+        else:
+            self.x_sinergis_project_task_done = False
+
+
 
     @api.depends('x_sinergis_project_task_alerte')
     def _compute_x_sinergis_project_task_alerte (self):
