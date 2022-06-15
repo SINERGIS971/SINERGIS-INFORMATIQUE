@@ -207,7 +207,7 @@ class HelpdeskTicket(models.Model):
         if self.x_sinergis_helpdesk_ticket_taches :
             self.x_sinergis_helpdesk_ticket_is_facturee = True
             name = self.name
-            self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_task_id' : self})]
+            self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_task_id' : self.id})]
             HelpdeskTicket.setTacheInformation(self)
 
     #BOUTONS
