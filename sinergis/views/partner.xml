@@ -198,7 +198,7 @@
             <field name="category_id" position="replace">
             </field>
             <xpath expr="//field[@name='x_sinergis_societe_suspect']" position="after">
-                <field name="category_id" string="Type Tiers" widget="many2many_tags" attrs="{'invisible':[('x_sinergis_societe_suspect','=',True)]}"/>
+                <field name="category_id" string="Type Tiers" widget="many2many_tags" attrs="{'invisible':[('x_sinergis_societe_suspect','=',True)],'required':[('is_company','=',True)]}"/>
             </xpath>
 
             <!-- Hide old "notes techniques" page -->
@@ -377,7 +377,7 @@
             <field name="siret" position="replace">
             </field>
             <xpath expr="//field[@name='category_id']" position="after">
-                    <field name="siret"  attrs="{'invisible':[('ResPartner.x_sinergis_societe_en_cours_immatriculation','=',True)]}"/>
+                    <field name="siret"  attrs="{'invisible':[('ResPartner.x_sinergis_societe_en_cours_immatriculation','=',True)],'required':[('is_company','=',True)]}"/>
             </xpath>
 
         </field>
