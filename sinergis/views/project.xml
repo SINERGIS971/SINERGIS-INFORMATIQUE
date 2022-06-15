@@ -7,9 +7,7 @@
       <field name="inherit_id" ref="project.view_task_search_form"/>
       <field name="arch" type="xml">
           <xpath expr="//filter[@name='my_tasks']" position="before">
-              <field name="effective_hours" invisible="True"/>
-              <field name="planned_hours" invisible="True"/>
-              <filter string="Contrat terminé" name="contract_ended" domain="[('effective_hours', '=', planned_hours)]"/>
+              <filter string="Contrat terminé" name="contract_ended" domain="[('effective_hours', '>=', planned_hours)]"/>
               <separator/>
           </xpath>
       </field>
@@ -24,6 +22,12 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='tag_ids']" position="after">
                 <field name="x_sinergis_project_task_etat_tache" display="full" bold="True" widget="badge" attrs="{'invisible': [['x_sinergis_project_task_etat_tache','=',False]]}"/>
+            </xpath>
+
+            <!-- FOR FILTER -->
+            <xpath expr="//field[@name='is_private']" position="after">
+              <field name="effective_hours"/>
+              <field name="planned_hours"/>
             </xpath>
         </field>
     </record>
