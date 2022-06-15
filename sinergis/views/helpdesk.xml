@@ -15,6 +15,9 @@
                 <xpath expr="//field[@name='company_id']" position="after">
                     <field name="x_sinergis_helpdesk_ticket_temps_passe" widget="float_time"/>
                 </xpath>
+
+                <xpath expr="//field[@name='team_id']" position="replace">
+                </xpath>
             </field>
         </record>
 
