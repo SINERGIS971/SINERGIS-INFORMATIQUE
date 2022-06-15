@@ -29,10 +29,12 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_show_facturation = fields.Boolean(default=0)
 
+    x_sinergis_helpdesk_ticket_ticket_resolution = fields.Html(string="Description de l'intervention")
+
     x_sinergis_helpdesk_ticket_facturation = fields.Selection([("Contrat heures", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable', 'Non facturable')], string="Facturation")
     x_sinergis_helpdesk_ticket_project = fields.Many2one("project.project", string="Projet")
     x_sinergis_helpdesk_ticket_tache = fields.Many2one("project.task", string="Tâche")
-    x_sinergis_helpdesk_ticket_tache2 = fields.Many2one("project.task", string="Contrat d'heure")
+    x_sinergis_helpdesk_ticket_tache2 = fields.Many2one("project.task", string="Contrat d'heures")
     x_sinergis_helpdesk_ticket_tache_information = fields.Char(string="")
 
     x_sinergis_helpdesk_ticket_temps_passe = fields.Float(string="Temps passé")
@@ -214,9 +216,6 @@ class HelpdeskTicket(models.Model):
             name = self.name
             self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe})]
             HelpdeskTicket.setTacheInformation(self)
-
-    #Notebook du dessous
-    x_sinergis_helpdesk_ticket_ticket_resolution = fields.Html()
 
     #BOUTONS
 

@@ -9,12 +9,15 @@
                 <xpath expr="//field[@name='display_name']" position="before">
                   <field name="create_date"/>
                   <field name="priority" position="move"/>
-                </xpath>
-                <xpath expr="//field[@name='partner_id']" position="after">
+                  <field name="partner_id" position="move"/>
                   <field name="x_sinergis_helpdesk_ticket_produits" string="Produit"/>
-                </xpath>
-                <xpath expr="//field[@name='company_id']" position="after">
-                    <field name="x_sinergis_helpdesk_ticket_temps_passe" widget="float_time"/>
+                  <field name="display_name" position="move"/>
+                  <field name="user_id" position="move"/>
+                  <field name="x_sinergis_helpdesk_ticket_temps_passe" widget="float_time"/>
+                  <field name="x_sinergis_helpdesk_ticket_facturation"/>
+                  <field name="activity_ids" position="move"/>
+                  <field name="company_id" position="move"/>
+                  <field name="stage_id"/>
                 </xpath>
 
                 <xpath expr="//field[@name='team_id']" position="attributes">
@@ -69,8 +72,8 @@
                     </group>
                         <br/>
                         <br/>
-                        <button name="x_sinergis_helpdesk_ticket_show_facturation_button" string="Afficher la partie facturation" type="object" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_show_facturation',  '=', True)]}"/>
-                    <button name="x_sinergis_helpdesk_ticket_show_facturation_button" string="Masquer la partie facturation" type="object" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_show_facturation',  '=', False)]}"/>
+                        <button name="x_sinergis_helpdesk_ticket_show_facturation_button" string="Afficher la partie traitement" type="object" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_show_facturation',  '=', True)]}"/>
+                    <button name="x_sinergis_helpdesk_ticket_show_facturation_button" string="Masquer la partie traitement" type="object" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_show_facturation',  '=', False)]}"/>
                         <br/>
                         <br/>
                     <field name="x_sinergis_helpdesk_ticket_show_facturation" invisible="1"/>
