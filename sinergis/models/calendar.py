@@ -23,6 +23,7 @@ class CalendarEvent(models.Model):
     #PAGE FACTURATION
     x_sinergis_calendar_event_object = fields.Html(string="Objet")
     x_sinergis_calendar_event_desc_intervention = fields.Html(string="Description d'intervention")
+    x_sinergis_calendar_event_trip = fields.Boolean(string="Déplacement")
     x_sinergis_calendar_event_facturation = fields.Selection([("Contrat heure", "Contrat d'heures"),("Temps passé", "Temps passé"),("Devis", "Devis"),("Non facturable", "Non facturable")], string="Facturation")
     x_sinergis_calendar_event_project = fields.Many2one("project.project", string="Projet")
 
@@ -32,6 +33,12 @@ class CalendarEvent(models.Model):
 
 
     x_sinergis_calendar_event_taches = fields.One2many('project.task',compute="_compute_tasks",readonly=True)
+
+    x_sinergis_calendar_duree_facturee = fields.Float(string="Temps passé")
+
+    x_sinergis_calendar_event_is_solved = fields.Boolean(string="L'intervention est-elle terminée ?'",default=False)
+
+    x_sinergis_calendar_event_is_facturee = fields.Boolean(string="",default=False)
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
@@ -55,12 +62,6 @@ class CalendarEvent(models.Model):
                     if self.x_sinergis_calendar_event_tache2:
                             domain.append(('id', '=', self.x_sinergis_calendar_event_tache2.id))
             self.x_sinergis_calendar_event_taches = self.env["project.task"].search(domain)
-
-    x_sinergis_calendar_duree_facturee = fields.Float(string="Temps passé")
-
-    x_sinergis_calendar_event_is_solved = fields.Boolean(string="L'intervention est-elle terminée ?'",default=False)
-
-    x_sinergis_calendar_event_is_facturee = fields.Boolean(string="",default=False)
 
     @api.onchange("x_sinergis_calendar_event_client")
     def on_change_x_sinergis_calendar_event_client(self):
