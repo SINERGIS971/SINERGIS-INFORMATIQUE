@@ -158,7 +158,7 @@
 								<span t-field="doc.close_date" class="h3"/>
 							</div>
 							<div class="col-3 h3 o_bold">
-								<t t-if="doc.x_sinergis_helpdesk_ticket_temps_cumule &lt;= 1">
+								<t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &lt;= 1">
 									<span>
 										<strong>
 											<br/>Temps passé:
@@ -169,7 +169,7 @@
 	                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_passe), doc.x_sinergis_helpdesk_ticket_temps_passe % 1 * 60)" class="h3"/>
 	                <span class="h3"> h</span>
                 </t>
-								<t t-if="doc.x_sinergis_helpdesk_ticket_temps_cumule &gt; 1">
+								<t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &gt; 1">
 									<span>
 										<strong>
 											<br/>Temps total cumulé :
@@ -185,7 +185,7 @@
 							<div class="row">
 								<div class="col-4 h3 o_bold"/>
 							</div>
-							<t t-if="doc.x_sinergis_helpdesk_ticket_temps_cumule &gt; 1">
+							<t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &gt; 1">
               <br/>
               <br/>
               <br/>
@@ -254,7 +254,7 @@
 									<br/>Description de l'intervention:
 
 								</strong>
-								<span t-field="doc.x_sinergis_helpdesk_ticket_ticket_resolution"/>
+								<span t-field="doc.x_sinergis_helpdesk_ticket_ticket_resolution" class="h3"/>
 							</div>
 							<div class="col-0"/></div>
 						<div class="row">
