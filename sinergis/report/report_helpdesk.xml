@@ -169,15 +169,17 @@
                                 <span class="h3"> h</span>
 							</div>
 							<div class="col-3"/></div>
-							<br/>
-							<br/>
-							<br/>
-							<span style="width:100%; text-align:center;">
+							<div class="row">
+								<div class="col-4 h3 o_bold"/>
+							</div>
+							<span style="width:100%; margin:auto;">
 								<strong>
 									Dates et heures d'intervention:
 								</strong>
 							</span>
-							<br/>
+							<div class="row">
+								<div class="col-4 h3 o_bold"/>
+							</div>
 						<div class="row">
 							<table border="1" style="width:50%;border-collapse: collapse;margin: auto;">
 							  <tr style="font-weight:bold;border: 1px solid black;">
@@ -193,7 +195,6 @@
 									</t>
 								</t>
 							</table>
-							<br/>
 							<span class="h3">Temps total :</span>
 							<t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/>
 							<div class="col-3"/></div>
