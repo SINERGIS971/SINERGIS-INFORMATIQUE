@@ -166,14 +166,12 @@
 							    <th>Date</th>
 							    <th>Heures</th>
 							  </tr>
-							  <tr>
-							    <td>15/01/2001</td>
-							    <td>02:30</td>
-							  </tr>
-							  <tr>
-							    <td>17/01/2001</td>
-							    <td>00:30</td>
-							  </tr>
+								<t t-foreach="doc.x_sinergis_calendar_event_tache2" t-as="line">
+									<tr>
+								    <td><span t-field="line.date"/></td>
+								    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
+								  </tr>
+								</t>
 							</table>
 							<div class="col-3"/></div>
 						<div class="row">
