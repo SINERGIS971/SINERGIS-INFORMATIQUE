@@ -38,11 +38,22 @@ class CalendarEvent(models.Model):
 
     x_sinergis_calendar_event_is_solved = fields.Boolean(string="L'intervention est-elle terminée ?'",default=False)
 
+    x_sinergis_calendar_event_intervention_count = fields.Integer(string="Nombre d'interventions", compute="_compute_x_sinergis_calendar_event_intervention_count")
+    x_sinergis_calendar_event_temps_cumule = fields.Float(string="Temps cumulé", compute="_compute_x_sinergis_calendar_event_temps_cumule")
+
     x_sinergis_calendar_event_is_facturee = fields.Boolean(string="",default=False)
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
         CalendarEvent.updateTasks(self)
+
+    @api.depends('x_sinergis_calendar_event_intervention_count')
+    def _compute_x_sinergis_calendar_event_intervention_count (self):
+        self.x_sinergis_calendar_event_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_event_id', '=', self.id)])
+
+    @api.depends('x_sinergis_calendar_event_temps_cumule')
+    def _compute_x_sinergis_calendar_event_temps_cumule (self):
+        self.x_sinergis_calendar_event_temps_cumule = sum(self.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_event_id', '=', self.id)]).mapped('unit_amount'))
 
     def updateTasks (self):
         for event in self:
@@ -184,7 +195,7 @@ class CalendarEvent(models.Model):
             raise ValidationError("Le temps passé doit être supérieur à 0")
         if self.x_sinergis_calendar_event_taches :
             self.x_sinergis_calendar_event_is_facturee = True
-            self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : 'Enregistrement depuis le calendrier', 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee})]
+            self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : 'Enregistrement depuis le calendrier', 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee,'x_sinergis_account_analytic_line_event_id' : self.id})]
             CalendarEvent.setTacheInformation(self)
 
         #OVERRIDE WRITE & CREATE
