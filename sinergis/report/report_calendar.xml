@@ -167,10 +167,12 @@
 							    <th>Heures</th>
 							  </tr>
 								<t t-foreach="doc.x_sinergis_calendar_event_tache2.timesheet_ids" t-as="line">
-									<tr>
-								    <td><span t-field="line.date"/></td>
-								    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
-								  </tr>
+									<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
+										<tr>
+									    <td><span t-field="line.date"/></td>
+									    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
+									  </tr>
+									</t>
 								</t>
 							</table>
 							<div class="col-3"/></div>
