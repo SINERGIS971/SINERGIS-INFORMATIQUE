@@ -16,7 +16,7 @@
 			<t t-foreach="docs" t-as="doc">
 				<t t-call="web.external_layout">
 					<div class="page o_bold h4">
-						<div class="row"></div>
+						<div class="row"/>
 						<div class="row text-center o_bold h1">
 							<div class="col o_bold h1">
 								<span style="font-size:55px">Rapport d'intervention</span>
@@ -172,7 +172,9 @@
 							<div class="row">
 								<div class="col-4 h3 o_bold"/>
 							</div>
-
+              <br/>
+              <br/>
+              <br/>
 							<div class="row text-center o_bold h1">
 								<div class="col o_bold h1">
 									<span style="font-size:30px">Dates et heures d'intervention:</span>
@@ -198,13 +200,13 @@
 								</t>
 							</table>
 							<div class="col-3"/></div>
-						<div class="row">
-							<div class="row text-center o_bold h1">
-								<div class="col o_bold h1">
-									<span class="font-size:20px">Temps total cumulé :</span>
-									<span t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/>
+						<div class="row text-center o_bold">
+								<div class="col o_bold">
+									<span style="font-size:20px">Temps total cumulé :</span>
+									<span style="font-size:20px" t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/>
 								</div>
 							</div>
+						<div class="row">
 							<div class="col-3"/>
 							<div class="col-3"/>
 							<div class="col-3"/></div>
@@ -223,20 +225,20 @@
 							<div class="col-3"/>
 							<div class="col-3"/>
 							<div class="col-3"/></div>
-						<div class="row o_bold"></div>
+						<div class="row o_bold"/>
 						<div class="row">
 							<div class="col-3"/>
 							<div class="col-3"/></div>
 						<div class="row address">
 							<div class="col-5 offset-2"/></div>
-						<div class="row"></div>
+						<div class="row"/>
 						<div class="row h5">
 							<div class="col-3"/>
 							<div class="col-3"/></div>
 						<div class="row address">
 							<div class="col-5 offset-2"/></div>
 						<div class="row o_bold h3">
-							<div class="col-0 h4"></div>
+							<div class="col-0 h4"/>
 							<div style="margin-left:10px">
 								<strong>
 									<br/>
@@ -273,7 +275,7 @@
 								<span> - L'intervention à t'elle répondu à vos attentes ? Oui - non</span>
 							</div>
 						</div>
-						<div class="row"></div>
+						<div class="row"/>
 						<div class="row">
 							<div class="col h3">
 								<span>- Si non - Veuillez préciser vos remarques :</span>
@@ -291,17 +293,17 @@
 								</span>
 							</div>
 						</div>
-						<div class="row"></div>
-						<div class="row"></div>
-						<div class="row"></div>
-						<div class="row"></div>
+						<div class="row"/>
+						<div class="row"/>
+						<div class="row"/>
+						<div class="row"/>
 						<div class="row">
 							<div class="col">
 								<span t-field="doc.user_id.x_sinergis_res_users_tampon_signature"/>
                                 <div style="page-break-after: always;"/> <!-- Active le saut de page pour les champs HTML -->
 							</div>
 						</div>
-						<div class="row h4"></div>
+						<div class="row h4"/>
 					</div>
 				</t>
 			</t>
