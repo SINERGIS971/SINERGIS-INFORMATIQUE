@@ -9,8 +9,8 @@
         <field name="arch" type="xml">
 
           <xpath expr="//header" position="after">
-              <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#875053;color:white;">
-                  The information is too old <strong></strong>.
+              <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#875053;color:white;" attrs="{'invisible': [('partner_id.x_sinergis_societe_litige_bloque',  '=', False)]}">
+                  Attention! Le client est <strong>bloqué</strong>!.
               </div>
           </xpath>
 
