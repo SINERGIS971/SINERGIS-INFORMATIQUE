@@ -22,7 +22,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_produits_divers = fields.Selection([('SCANFACT', 'SCANFACT'),('WINDEV', 'WINDEV'),('AUTRE', 'AUTRE')], string="Module Divers")
 
 
-    x_sinergis_helpdesk_ticket_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client",compute="update_type_client")
+    x_sinergis_helpdesk_ticket_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client")
 
 
     fields.Char(string="Type de client")
@@ -41,15 +41,25 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_is_solved = fields.Boolean(string="Le ticket est-il résolu ?",default=False)
 
+    x_sinergis_helpdesk_ticket_intervention_count = fields.Integer(string="Nombre d'interventions", compute="_compute_x_sinergis_helpdesk_ticket_intervention_count")
+    x_sinergis_helpdesk_ticket_temps_cumule = fields.Float(string="Temps cumulé", compute="_compute_x_sinergis_helpdesk_ticket_temps_cumule")
+
     x_sinergis_helpdesk_ticket_is_facturee = fields.Boolean(string="",default=False)
 
-    
 
     #Colonne de droite
     x_sinergis_helpdesk_ticket_contact = fields.Many2one("res.partner",string="Contact")
     x_sinergis_helpdesk_ticket_contact_fixe = fields.Char(string="Fixe contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
+
+    @api.depends('x_sinergis_helpdesk_ticket_intervention_count')
+    def _compute_x_sinergis_helpdesk_ticket_intervention_count (self):
+        self.x_sinergis_helpdesk_ticket_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)])
+
+    @api.depends('x_sinergis_helpdesk_ticket_temps_cumule')
+    def _compute_x_sinergis_helpdesk_ticket_temps_cumule (self):
+        self.x_sinergis_helpdesk_ticket_temps_cumule = sum(self.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)]).mapped('unit_amount'))
 
     @api.onchange("x_sinergis_helpdesk_ticket_produits")
     def on_change_x_sinergis_helpdesk_ticket_produits(self):
@@ -58,6 +68,7 @@ class HelpdeskTicket(models.Model):
     @api.onchange("x_sinergis_helpdesk_ticket_produits_divers")
     def on_change_x_sinergis_helpdesk_ticket_produits_divers(self):
         HelpdeskTicket.update_type_client(self)
+
 
     def update_type_client (self):
         value = self.x_sinergis_helpdesk_ticket_produits

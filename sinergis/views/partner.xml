@@ -154,7 +154,18 @@
                     </field>
                 </page>
                 <page string="Suivi">
-                    <field name="x_sinergis_societe_suivi_activite"/>
+                    <field name="x_sinergis_societe_suivi_activite">
+                      <tree decoration-warning="effective_hours>0.9*planned_hours" decoration-danger="effective_hours>=planned_hours" >
+                            <field name="project_id"/>
+                            <field name="name"/>
+                            <field name="user_ids" domain="[('share','=',False),('active','=',True)]" widget="many2many_avatar_user"/>
+                            <field name="planned_hours" string="Heures prévues" widget="float_time"/>
+                            <field name="effective_hours" widget="float_time"/>
+                            <field name="remaining_hours" widget="float_time"/>
+                            <field name="progress" widget="progressbar"/>
+                            <field name="company_id"/>
+                        </tree>
+                      </field>
                 </page>
             </notebook>
 
@@ -402,7 +413,7 @@
             </xpath>
 
             <field name="siret" position="attributes">
-                <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False),('x_sinergis_societe_en_cours_immatriculation','=',False)],'required':[('is_company','=',True)]}</attribute>
+                <attribute name="attrs">{'required':['&amp;','&amp;',('x_sinergis_societe_suspect','=',False),('x_sinergis_societe_en_cours_immatriculation','=',False),('is_company','=',True)]}</attribute>
             </field>
 
             <!-- Contact modifications -->
