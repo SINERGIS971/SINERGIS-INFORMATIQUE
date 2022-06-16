@@ -166,7 +166,7 @@
 							    <th>Date</th>
 							    <th>Heures</th>
 							  </tr>
-								<t t-foreach="doc.x_sinergis_calendar_event_tache2" t-as="line">
+								<t t-foreach="doc.x_sinergis_calendar_event_tache2.timesheet_ids" t-as="line">
 									<tr>
 								    <td><span t-field="line.date"/></td>
 								    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
