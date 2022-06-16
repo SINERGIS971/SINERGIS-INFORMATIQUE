@@ -42,6 +42,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_is_solved = fields.Boolean(string="Le ticket est-il résolu ?",default=False)
 
     x_sinergis_helpdesk_ticket_intervention_count = fields.Integer(string="Nombre d'interventions", compute="_compute_x_sinergis_helpdesk_ticket_intervention_count")
+    x_sinergis_helpdesk_ticket_temps_cumule = fields.Float(string="Temps cumulé", compute="_compute_x_sinergis_helpdesk_ticket_temps_cumule")
 
     x_sinergis_helpdesk_ticket_is_facturee = fields.Boolean(string="",default=False)
 
@@ -55,6 +56,10 @@ class HelpdeskTicket(models.Model):
     @api.depends('x_sinergis_helpdesk_ticket_intervention_count')
     def _compute_x_sinergis_helpdesk_ticket_intervention_count (self):
         self.x_sinergis_helpdesk_ticket_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)])
+
+    @api.depends('x_sinergis_helpdesk_ticket_temps_cumule')
+    def _compute_x_sinergis_helpdesk_ticket_temps_cumule (self):
+        self.x_sinergis_helpdesk_ticket_temps_cumule = sum(self.env.search([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)]).mapped('unit_amount'))
 
     @api.onchange("x_sinergis_helpdesk_ticket_produits")
     def on_change_x_sinergis_helpdesk_ticket_produits(self):
