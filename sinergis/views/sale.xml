@@ -22,10 +22,10 @@
 
           <!-- Empecher de confirmer le devis si le client est bloqué -->
           <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
-            <attribute name="attrs">{'invisible': [('x_sinergis_sale_order_client_bloque',  '=', False)]}</attribute>
+            <attribute name="attrs">{'invisible': [('x_sinergis_sale_order_client_bloque',  '=', True)]}</attribute>
           </xpath>
           <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
-            <attribute name="attrs">{'invisible': [('x_sinergis_sale_order_client_bloque',  '=', False)]}</attribute>
+            <attribute name="attrs">{'invisible': [('x_sinergis_sale_order_client_bloque',  '=', True)]}</attribute>
           </xpath>
 
 

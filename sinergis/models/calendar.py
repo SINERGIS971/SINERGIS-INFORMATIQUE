@@ -71,6 +71,7 @@ class CalendarEvent(models.Model):
         self.x_sinergis_calendar_event_tache2 = False
         self.x_sinergis_calendar_event_tache_information = False
         if self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque:
+            self.x_sinergis_calendar_event_client = False
             raise ValidationError("Le client est bloqué, vous ne pouvez pas l'assigner.")
         CalendarEvent.updateTasks(self)
 
