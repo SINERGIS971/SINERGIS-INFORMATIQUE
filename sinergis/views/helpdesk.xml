@@ -106,7 +106,6 @@
                 <group>
                 <field name="x_sinergis_helpdesk_ticket_temps_passe" widget="float_time" style="font-size:13pt;"/>
                 <field name="x_sinergis_helpdesk_ticket_is_solved"/>
-                <field name="x_sinergis_helpdesk_ticket_intervention_count"/>
                 </group>
                 <field name="x_sinergis_helpdesk_ticket_is_facturee" invisible="True"/>
                 <button name="x_sinergis_helpdesk_ticket_duree_button" string="Décompter le temps facturé" type="object" class="btn-primary oe_right" readonly="True" confirm="Êtes-vous sûr de vouloir décompter les heures ?" attrs="{'invisible': ['|','|','|','|',('x_sinergis_helpdesk_ticket_facturation',  '=', False),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Temps passé'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Non facturable'),('x_sinergis_helpdesk_ticket_is_facturee', '=', True),'&amp;',('x_sinergis_helpdesk_ticket_tache', '=', False),('x_sinergis_helpdesk_ticket_tache2', '=', False)]}" style="background-color:green;"/>
