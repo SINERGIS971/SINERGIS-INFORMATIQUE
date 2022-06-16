@@ -214,6 +214,11 @@ class HelpdeskTicket(models.Model):
             self.x_sinergis_helpdesk_ticket_tache_information = "Attention ! Il reste uniquement " + str(hours) + " heures et " + str(minutes) + " minutes sur le contrat"
         else : self.x_sinergis_helpdesk_ticket_tache_information = False
 
+    #BOUTONS
+
+    def x_sinergis_helpdesk_ticket_show_facturation_button (self):
+        self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
+
     def x_sinergis_helpdesk_ticket_duree_button(self):
         if self.x_sinergis_helpdesk_ticket_temps_passe <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
             raise ValidationError("Le temps passé doit être supérieur à 0")
@@ -223,7 +228,7 @@ class HelpdeskTicket(models.Model):
             self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_ticket_id' : self.id})]
             HelpdeskTicket.setTacheInformation(self)
 
-    #BOUTONS
-
-    def x_sinergis_helpdesk_ticket_show_facturation_button (self):
-        self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
+    def x_sinergis_helpdesk_ticket_reset_button (self):
+        if self.x_sinergis_helpdesk_ticket_is_facturee:
+            self.env["account.analytic.line"].search([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)]).unlink()
+            self.x_sinergis_helpdesk_ticket_is_facturee = not self.x_sinergis_helpdesk_ticket_is_facturee

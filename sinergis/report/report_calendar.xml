@@ -63,12 +63,12 @@
                             <div class="col-0 o_bold h3" style="margin-left:10px">
 								<span>
 									<strong>
-										<br/>Contact:
+										<br/>Client:
 
 									</strong>
 									<br/>
 								</span>
-								<span t-field="doc.x_sinergis_calendar_event_contact.name" style="width:900px;display:inline-block" class="h3"/>
+								<span t-field="doc.x_sinergis_calendar_event_client" class="h3"/>
 							</div>
                         </div>
 						<div class="row">
@@ -83,12 +83,12 @@
 							<div class="col-4 h3 o_bold">
 								<span>
 									<strong>
-										<br/>Client:
+										<br/>Contact:
 
 									</strong>
 									<br/>
 								</span>
-								<span t-field="doc.x_sinergis_calendar_event_client" class="h3"/>
+								<span t-field="doc.x_sinergis_calendar_event_contact.name" style="width:900px;display:inline-block" class="h3"/>
 							</div>
 							<div class="col-4 h3 o_bold">
 								<span>
@@ -123,20 +123,93 @@
 							<div class="col-3"/>
 							<div class="col-3"/>
 							<div class="col-3"/></div>
-						<div class="row">
-							<div class="col-3 h3 o_bold">
-								<span>
-									<strong>
-										<br/>Temps passé:
+							<div class="row text-left h4 o_bold">
+								<div class="col-4 h3 o_bold">
+									<t t-if="doc.x_sinergis_calendar_event_intervention_count &lt;= 1">
+										<span>
+											<strong>
+												<br/>Temps passé:
 
-									</strong>
-									<br/>
-								</span>
-                                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_duree_facturee), doc.x_sinergis_calendar_duree_facturee % 1 * 60)" class="h3" />
-                                <span class="h3"> h</span>
-								<!--<span t-field="doc.x_sinergis_calendar_duree_facturee" class="h3" />-->
+											</strong>
+											<br/>
+										</span>
+		                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_duree_facturee), doc.x_sinergis_calendar_duree_facturee % 1 * 60)" class="h3"/>
+		                <span class="h3"> h</span>
+	                </t>
+									<t t-if="doc.x_sinergis_calendar_event_intervention_count &gt; 1">
+										<span>
+											<strong>
+												<br/>Temps total cumulé :
+
+											</strong>
+											<br/>
+										</span>
+										<t t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_event_temps_cumule), doc.x_sinergis_calendar_event_temps_cumule % 1 * 60)" class="h3"/>
+		                <span class="h3"> h</span>
+	                </t>
+								</div>
+								<div class="col-4 h3 o_bold">
+									<span>
+										<strong>
+											<br/>Déplacement:
+
+										</strong>
+										<br/>
+									</span>
+									<span t-if="doc.x_sinergis_calendar_event_trip == True" class="h3">
+	                                    Oui
+	                </span>
+	                <span t-if="doc.x_sinergis_calendar_event_trip == False" class="h3">
+	                                    Non
+	                </span>
+								</div>
+								<div class="col-3 h3 o_bold">
+								</div>
+						</div>
+						<!--GENERATION TABLEAU -->
+
+						<t t-if="doc.x_sinergis_calendar_event_intervention_count &gt; 1">
+						<br/>
+						<br/>
+						<br/>
+						<div class="row text-center o_bold h1">
+							<div class="col o_bold h1">
+								<span style="font-size:30px">Dates et heures d'intervention:</span>
 							</div>
-							<div class="col-3"/></div>
+						</div>
+
+						<div class="row">
+							<div class="col-4 h3 o_bold"/>
+						</div>
+					<div class="row">
+						<table border="1" style="width:50%;border-collapse: collapse;margin: auto;">
+							<tr style="font-weight:bold;border: 1px solid black;">
+								<th style="text-align:center;"><strong>Date</strong></th>
+								<th style="text-align:center;"><strong>Heures</strong></th>
+							</tr>
+							<t t-if="doc.x_sinergis_calendar_event_tache2">
+								<t t-foreach="doc.x_sinergis_calendar_event_tache2.timesheet_ids" t-as="line">
+									<t t-if="line.x_sinergis_account_analytic_line_event_id == doc">
+										<tr>
+											<td><span t-field="line.date"/></td>
+											<td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
+										</tr>
+									</t>
+								</t>
+							</t>
+							<t t-if="doc.x_sinergis_calendar_event_tache">
+								<t t-foreach="doc.x_sinergis_calendar_event_tache.timesheet_ids" t-as="line">
+									<t t-if="line.x_sinergis_account_analytic_line_event_id == doc">
+										<tr>
+											<td><span t-field="line.date"/></td>
+											<td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
+										</tr>
+									</t>
+								</t>
+							</t>
+						</table>
+						<div class="col-3"/></div>
+					</t>
 						<div class="row">
                             <div class="col-3 h3 o_bold">
 								<span>

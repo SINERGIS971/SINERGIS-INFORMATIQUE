@@ -16,7 +16,7 @@
 			<t t-foreach="docs" t-as="doc">
 				<t t-call="web.external_layout">
 					<div class="page o_bold h4">
-						<div class="row"></div>
+						<div class="row"/>
 						<div class="row text-center o_bold h1">
 							<div class="col o_bold h1">
 								<span style="font-size:55px">Rapport d'intervention</span>
@@ -73,12 +73,12 @@
                         <div class="col-0 o_bold h3" style="margin-left:10px">
 								<span>
 									<strong>
-										<br/>Contact:
+										<br/>Client:
 
 									</strong>
 									<br/>
 								</span>
-								<span t-field="doc.x_sinergis_helpdesk_ticket_contact" style="width:900px;display:inline-block" class="h3"/>
+								<span t-field="doc.partner_id" class="h3"/>
 							</div>
 							<div class="col-3"/>
 							<div class="col-3"/>
@@ -96,12 +96,12 @@
 							<div class="col-4 h3 o_bold">
 								<span>
 									<strong>
-										<br/>Client:
+										<br/>Contact:
 
 									</strong>
 									<br/>
 								</span>
-								<span t-field="doc.partner_id" class="h3"/>
+								<span t-field="doc.x_sinergis_helpdesk_ticket_contact.name" style="width:900px;display:inline-block" class="h3"/>
 							</div>
 							<div class="col-4 h3 o_bold">
 								<span>
@@ -158,21 +158,75 @@
 								<span t-field="doc.close_date" class="h3"/>
 							</div>
 							<div class="col-3 h3 o_bold">
-								<span>
-									<strong>
-										<br/>Temps passé:
+								<t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &lt;= 1">
+									<span>
+										<strong>
+											<br/>Temps passé:
 
-									</strong>
-									<br/>
-								</span>
-                                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_passe), doc.x_sinergis_helpdesk_ticket_temps_passe % 1 * 60)" class="h3"/>
-                                <span class="h3"> h</span>
+										</strong>
+										<br/>
+									</span>
+	                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_passe), doc.x_sinergis_helpdesk_ticket_temps_passe % 1 * 60)" class="h3"/>
+	                <span class="h3"> h</span>
+                </t>
+								<t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &gt; 1">
+									<span>
+										<strong>
+											<br/>Temps total cumulé :
+
+										</strong>
+										<br/>
+									</span>
+									<t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)" class="h3"/>
+	                <span class="h3"> h</span>
+                </t>
 							</div>
 							<div class="col-3"/></div>
+							<div class="row">
+								<div class="col-4 h3 o_bold"/>
+							</div>
+							<t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &gt; 1">
+              <br/>
+              <br/>
+              <br/>
+							<div class="row text-center o_bold h1">
+								<div class="col o_bold h1">
+									<span style="font-size:30px">Dates et heures d'intervention:</span>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-4 h3 o_bold"/>
+							</div>
 						<div class="row">
-							<div class="col-3"/>
-							<div class="col-3"/>
+							<table border="1" style="width:50%;border-collapse: collapse;margin: auto;">
+							  <tr style="font-weight:bold;border: 1px solid black;">
+							    <th style="text-align:center;"><strong>Date</strong></th>
+							    <th style="text-align:center;"><strong>Heures</strong></th>
+							  </tr>
+								<t t-if="doc.x_sinergis_helpdesk_ticket_tache2">
+									<t t-foreach="doc.x_sinergis_helpdesk_ticket_tache2.timesheet_ids" t-as="line">
+										<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
+											<tr>
+										    <td><span t-field="line.date"/></td>
+										    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
+										  </tr>
+										</t>
+									</t>
+								</t>
+								<t t-if="doc.x_sinergis_helpdesk_ticket_tache">
+									<t t-foreach="doc.x_sinergis_helpdesk_ticket_tache.timesheet_ids" t-as="line">
+										<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
+											<tr>
+										    <td><span t-field="line.date"/></td>
+										    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
+										  </tr>
+										</t>
+									</t>
+								</t>
+							</table>
 							<div class="col-3"/></div>
+						</t>
 						<div class="row">
 							<div class="col-3"/>
 							<div class="col-3"/>
@@ -192,27 +246,27 @@
 							<div class="col-3"/>
 							<div class="col-3"/>
 							<div class="col-3"/></div>
-						<div class="row o_bold"></div>
+						<div class="row o_bold"/>
 						<div class="row">
 							<div class="col-3"/>
 							<div class="col-3"/></div>
 						<div class="row address">
 							<div class="col-5 offset-2"/></div>
-						<div class="row"></div>
+						<div class="row"/>
 						<div class="row h5">
 							<div class="col-3"/>
 							<div class="col-3"/></div>
 						<div class="row address">
 							<div class="col-5 offset-2"/></div>
 						<div class="row o_bold h3">
-							<div class="col-0 h4"></div>
+							<div class="col-0 h4"/>
 							<div style="margin-left:10px">
 								<strong>
 									<br/>
 									<br/>Description de l'intervention:
 
 								</strong>
-								<span t-field="doc.x_sinergis_helpdesk_ticket_ticket_resolution"/>
+								<span t-field="doc.x_sinergis_helpdesk_ticket_ticket_resolution" class="h3"/>
 							</div>
 							<div class="col-0"/></div>
 						<div class="row">
@@ -242,7 +296,7 @@
 								<span> - L'intervention à t'elle répondu à vos attentes ? Oui - non</span>
 							</div>
 						</div>
-						<div class="row"></div>
+						<div class="row"/>
 						<div class="row">
 							<div class="col h3">
 								<span>- Si non - Veuillez préciser vos remarques :</span>
@@ -260,17 +314,17 @@
 								</span>
 							</div>
 						</div>
-						<div class="row"></div>
-						<div class="row"></div>
-						<div class="row"></div>
-						<div class="row"></div>
+						<div class="row"/>
+						<div class="row"/>
+						<div class="row"/>
+						<div class="row"/>
 						<div class="row">
 							<div class="col">
 								<span t-field="doc.user_id.x_sinergis_res_users_tampon_signature"/>
                                 <div style="page-break-after: always;"/> <!-- Active le saut de page pour les champs HTML -->
 							</div>
 						</div>
-						<div class="row h4"></div>
+						<div class="row h4"/>
 					</div>
 				</t>
 			</t>

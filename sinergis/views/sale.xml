@@ -8,6 +8,27 @@
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
 
+
+          <xpath expr="//header" position="after">
+            <field name="x_sinergis_sale_order_client_bloque" invisible="True"/>
+            <field name="x_sinergis_sale_order_client_douteux" invisible="True"/>
+            <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#875053;color:white;" attrs="{'invisible': [('x_sinergis_sale_order_client_bloque',  '=', False)]}">
+                  Attention! Le client est <strong>bloqué</strong>!. Vous ne pouvez pas confirmer le devis.
+            </div>
+            <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#875053;color:white;" attrs="{'invisible': ['|',('x_sinergis_sale_order_client_douteux',  '=', False),('x_sinergis_sale_order_client_bloque',  '=', True)]}">
+                  Attention! Le client est <strong>douteux</strong>!.
+            </div>
+          </xpath>
+
+          <!-- Empecher de confirmer le devis si le client est bloqué -->
+          <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
+            <attribute name="attrs">{'invisible': ['|',('x_sinergis_sale_order_client_bloque',  '=', True),('state', 'not in', ['sent'])]}</attribute>
+          </xpath>
+          <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
+            <attribute name="attrs">{'invisible': ['|',('x_sinergis_sale_order_client_bloque',  '=', True),('state', 'not in', ['draft'])]}</attribute>
+          </xpath>
+
+
             <xpath expr="//field[@name='partner_id']" position="before">
                 <field name="x_sinergis_sale_order_objet" placeholder="Objet du devis..."/>
             </xpath>
