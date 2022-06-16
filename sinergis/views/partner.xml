@@ -413,7 +413,7 @@
             </xpath>
 
             <field name="siret" position="attributes">
-                <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False),('x_sinergis_societe_en_cours_immatriculation','=',False)],'required':[('is_company','=',True)]}</attribute>
+                <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False),('x_sinergis_societe_en_cours_immatriculation','=',False),('is_company','=',True)]}</attribute>
             </field>
 
             <!-- Contact modifications -->
