@@ -101,7 +101,7 @@
 									</strong>
 									<br/>
 								</span>
-								<span t-field="doc.x_sinergis_helpdesk_ticket_contact" style="width:900px;display:inline-block" class="h3"/>
+								<span t-field="doc.x_sinergis_helpdesk_ticket_contact.name" style="width:900px;display:inline-block" class="h3"/>
 							</div>
 							<div class="col-4 h3 o_bold">
 								<span>
@@ -170,8 +170,8 @@
 							</div>
 							<div class="col-3"/></div>
 						<div class="row">
-							<table border="1" style="width:50%;border-collapse: collapse;text-align:center;">
-							  <tr style="font-weight:bold;">
+							<table border="1" style="width:50%;border-collapse: collapse;margin: auto;">
+							  <tr style="font-weight:bold;border: 1px solid black;">
 							    <th style="text-align:center;"><strong>Date</strong></th>
 							    <th style="text-align:center;"><strong>Heures</strong></th>
 							  </tr>
