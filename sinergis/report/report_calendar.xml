@@ -161,6 +161,15 @@
 								</div>
 						</div>
 						<div class="row">
+							<span style="width:100%; text-align:center;">
+								<strong>
+									<br/>
+									<br/>
+									<br/>
+									Dates et heures d'intervention:
+								</strong>
+								<br/>
+							</span>
 							<table border="1" style="width:100%;">
 							  <tr style="font-weight:bold;">
 							    <th>Date</th>
@@ -175,6 +184,8 @@
 									</t>
 								</t>
 							</table>
+							<br/>
+							<span class="h3">Temps total : <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/> h</span>
 							<div class="col-3"/></div>
 						<div class="row">
                             <div class="col-3 h3 o_bold">
