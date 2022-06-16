@@ -63,12 +63,12 @@
                             <div class="col-0 o_bold h3" style="margin-left:10px">
 								<span>
 									<strong>
-										<br/>Contact:
+										<br/>Client:
 
 									</strong>
 									<br/>
 								</span>
-								<span t-field="doc.x_sinergis_calendar_event_contact.name" style="width:900px;display:inline-block" class="h3"/>
+								<span t-field="doc.x_sinergis_calendar_event_client" class="h3"/>
 							</div>
                         </div>
 						<div class="row">
@@ -83,12 +83,12 @@
 							<div class="col-4 h3 o_bold">
 								<span>
 									<strong>
-										<br/>Client:
+										<br/>Contact:
 
 									</strong>
 									<br/>
 								</span>
-								<span t-field="doc.x_sinergis_calendar_event_client" class="h3"/>
+								<span t-field="doc.x_sinergis_calendar_event_contact.name" style="width:900px;display:inline-block" class="h3"/>
 							</div>
 							<div class="col-4 h3 o_bold">
 								<span>
@@ -132,19 +132,22 @@
 										</strong>
 										<br/>
 									</span>
-	                                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_duree_facturee), doc.x_sinergis_calendar_duree_facturee % 1 * 60)" class="h3" />
-	                                <span class="h3"> h</span>
-									<span t-field="doc.x_sinergis_calendar_event_client" class="h3"/>
+	                                <span t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_duree_facturee), doc.x_sinergis_calendar_duree_facturee % 1 * 60)" class="h3" />
 								</div>
 								<div class="col-4 h3 o_bold">
 									<span>
 										<strong>
-											<br/>Assigné à:
+											<br/>Déplacement:
 
 										</strong>
 										<br/>
 									</span>
-									<span t-field="doc.user_id" class="h3"/>
+									<span t-if="doc.x_sinergis_calendar_event_trip == True" class="h3">
+	                                    Oui
+	                </span>
+	                <span t-if="doc.x_sinergis_calendar_event_trip == False" class="h3">
+	                                    Non
+	                </span>
 								</div>
 								<div class="col-3 h3 o_bold">
 									<span>

@@ -73,12 +73,12 @@
                         <div class="col-0 o_bold h3" style="margin-left:10px">
 								<span>
 									<strong>
-										<br/>Contact:
+										<br/>Client:
 
 									</strong>
 									<br/>
 								</span>
-								<span t-field="doc.x_sinergis_helpdesk_ticket_contact" style="width:900px;display:inline-block" class="h3"/>
+								<span t-field="doc.partner_id" class="h3"/>
 							</div>
 							<div class="col-3"/>
 							<div class="col-3"/>
@@ -96,12 +96,12 @@
 							<div class="col-4 h3 o_bold">
 								<span>
 									<strong>
-										<br/>Client:
+										<br/>Contact:
 
 									</strong>
 									<br/>
 								</span>
-								<span t-field="doc.partner_id" class="h3"/>
+								<span t-field="doc.x_sinergis_helpdesk_ticket_contact" style="width:900px;display:inline-block" class="h3"/>
 							</div>
 							<div class="col-4 h3 o_bold">
 								<span>
