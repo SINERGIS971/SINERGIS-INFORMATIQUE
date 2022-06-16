@@ -158,20 +158,28 @@
 								<span t-field="doc.close_date" class="h3"/>
 							</div>
 							<div class="col-3 h3 o_bold">
-								<span>
-									<strong>
-										<br/>Temps passé:
+								<t t-if="doc.x_sinergis_helpdesk_ticket_temps_cumule <= 1">
+									<span>
+										<strong>
+											<br/>Temps passé:
 
-									</strong>
-									<br/>
-								</span>
-                                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_passe), doc.x_sinergis_helpdesk_ticket_temps_passe % 1 * 60)" class="h3"/>
-                                <span class="h3"> h</span>
+										</strong>
+										<br/>
+									</span>
+	                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_passe), doc.x_sinergis_helpdesk_ticket_temps_passe % 1 * 60)" class="h3"/>
+	                <span class="h3"> h</span>
+                </t>
+								<t t-if="doc.x_sinergis_helpdesk_ticket_temps_cumule > 1">
+									<span style="font-size:20px">Temps total cumulé :</span>
+	                <span style="font-size:20px" t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/>
+	                <span class="h3"> h</span>
+                </t>
 							</div>
 							<div class="col-3"/></div>
 							<div class="row">
 								<div class="col-4 h3 o_bold"/>
 							</div>
+							<t t-if="doc.x_sinergis_helpdesk_ticket_temps_cumule > 1">
               <br/>
               <br/>
               <br/>
@@ -200,12 +208,7 @@
 								</t>
 							</table>
 							<div class="col-3"/></div>
-						<div class="row text-center o_bold">
-								<div class="col o_bold">
-									<span style="font-size:20px">Temps total cumulé :</span>
-									<span style="font-size:20px" t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/>
-								</div>
-							</div>
+						</t>
 						<div class="row">
 							<div class="col-3"/>
 							<div class="col-3"/>
