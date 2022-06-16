@@ -8,6 +8,12 @@
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
 
+          <xpath expr="//header" position="after">
+              <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;">
+                  The information is too old <strong></strong>.
+              </div>
+          </xpath>
+
             <xpath expr="//field[@name='partner_id']" position="before">
                 <field name="x_sinergis_sale_order_objet" placeholder="Objet du devis..."/>
             </xpath>
