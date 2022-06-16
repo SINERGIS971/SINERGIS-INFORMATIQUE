@@ -170,10 +170,10 @@
 							</div>
 							<div class="col-3"/></div>
 						<div class="row">
-							<table border="1" style="width:100%;">
+							<table border="1" style="width:50%;border-collapse: collapse;text-align:center;">
 							  <tr style="font-weight:bold;">
-							    <th>Date</th>
-							    <th>Heures</th>
+							    <th style="text-align:center;"><strong>Date</strong></th>
+							    <th style="text-align:center;"><strong>Heures</strong></th>
 							  </tr>
 								<t t-foreach="doc.x_sinergis_helpdesk_ticket_tache2.timesheet_ids" t-as="line">
 									<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
