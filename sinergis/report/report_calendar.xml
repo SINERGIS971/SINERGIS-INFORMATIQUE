@@ -123,19 +123,41 @@
 							<div class="col-3"/>
 							<div class="col-3"/>
 							<div class="col-3"/></div>
-						<div class="row">
-							<div class="col-3 h3 o_bold">
-								<span>
-									<strong>
-										<br/>Temps passé:
+							<div class="row text-left h4 o_bold">
+								<div class="col-4 h3 o_bold">
+									<span>
+										<strong>
+											<br/>Temps passé:
 
-									</strong>
-									<br/>
-								</span>
-                                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_duree_facturee), doc.x_sinergis_calendar_duree_facturee % 1 * 60)" class="h3" />
-                                <span class="h3"> h</span>
-								<!--<span t-field="doc.x_sinergis_calendar_duree_facturee" class="h3" />-->
-							</div>
+										</strong>
+										<br/>
+									</span>
+	                                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_duree_facturee), doc.x_sinergis_calendar_duree_facturee % 1 * 60)" class="h3" />
+	                                <span class="h3"> h</span>
+									<span t-field="doc.x_sinergis_calendar_event_client" class="h3"/>
+								</div>
+								<div class="col-4 h3 o_bold">
+									<span>
+										<strong>
+											<br/>Assigné à:
+
+										</strong>
+										<br/>
+									</span>
+									<span t-field="doc.user_id" class="h3"/>
+								</div>
+								<div class="col-3 h3 o_bold">
+									<span>
+										<strong>
+											<br/>Facturation:
+
+										</strong>
+										<br/>
+									</span>
+									<span t-field="doc.x_sinergis_calendar_event_facturation" class="h3"/>
+								</div>
+						</div>
+						<div class="row">
 							<div class="col-3"/></div>
 						<div class="row">
                             <div class="col-3 h3 o_bold">
