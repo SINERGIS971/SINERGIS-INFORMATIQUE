@@ -170,8 +170,14 @@
 	                <span class="h3"> h</span>
                 </t>
 								<t t-if="doc.x_sinergis_helpdesk_ticket_temps_cumule &gt; 1">
-									<span style="font-size:20px">Temps total cumulé :</span>
-	                <span style="font-size:20px" t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/>
+									<span>
+										<strong>
+											<br/>Temps total cumulé :
+
+										</strong>
+										<br/>
+									</span>
+									<t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)" class="h3"/>
 	                <span class="h3"> h</span>
                 </t>
 							</div>
