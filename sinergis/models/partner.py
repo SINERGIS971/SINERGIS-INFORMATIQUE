@@ -118,10 +118,10 @@ class ResPartner(models.Model):
     def on_change_x_sinergis_societe_litige_bloque(self):
         self.x_sinergis_societe_litige_bloque_remarques = ""
         ResPartner.sinergisLitige(self)
-        if self.x_sinergis_societe_litige_bloque: #SEND MAIL
-            template_id = self.env.ref("sinergis.your_template_email_a").id
-            template = self.env["mail.template"].browse(template_id)
-            template.send_mail(self.id, force_send=True)
+        #if self.x_sinergis_societe_litige_bloque: #SEND MAIL
+        #    template_id = self.env.ref("sinergis.your_template_email_a").id
+        #    template = self.env["mail.template"].browse(template_id)
+        #    template.send_mail(self.id, force_send=True)
 
     def sinergisLitige(self):
         douteux = self.x_sinergis_societe_litige_douteux
