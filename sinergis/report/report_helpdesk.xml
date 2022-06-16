@@ -172,11 +172,13 @@
 							<div class="row">
 								<div class="col-4 h3 o_bold"/>
 							</div>
-							<span style="width:100%; margin:auto;">
-								<strong>
-									Dates et heures d'intervention:
-								</strong>
-							</span>
+
+							<div class="row text-center o_bold h1">
+								<div class="col o_bold h1">
+									<span style="font-size:30px">Dates et heures d'intervention:</span>
+								</div>
+							</div>
+
 							<div class="row">
 								<div class="col-4 h3 o_bold"/>
 							</div>
