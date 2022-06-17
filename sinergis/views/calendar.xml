@@ -70,6 +70,9 @@
                         <field name="x_sinergis_calendar_event_is_facturee" invisible="True"/>
                         <button name="x_sinergis_calendar_event_duree_button" string="Décompter le temps facturé" type="object" class="btn-primary oe_right" readonly="True" confirm="Êtes-vous sûr de vouloir décompter les heures ?" attrs="{'invisible': ['|','|','|','|',('x_sinergis_calendar_event_facturation',  '=', False),('x_sinergis_calendar_event_facturation',  '=', 'Temps passé'),('x_sinergis_calendar_event_facturation',  '=', 'Non facturable'),('x_sinergis_calendar_event_is_facturee', '=', True),'&amp;',('x_sinergis_calendar_event_tache', '=', False),('x_sinergis_calendar_event_tache2', '=', False)]}" style="background-color:green;"/>
                         <button name="x_sinergis_calendar_event_duree_button" string="Temps facturé décompté" type="object" class="btn-primary oe_right" readonly="True" confirm="Vous avez déjà décompté les heures sur cet évenement. Souhaitez vous vraiment encore les décompter ?" attrs="{'invisible': ['|','|','|','|',('x_sinergis_calendar_event_facturation',  '=', False),('x_sinergis_calendar_event_facturation',  '=', 'Temps passé'),('x_sinergis_calendar_event_facturation',  '=', 'Non facturable'),('x_sinergis_calendar_event_is_facturee', '=', False),'&amp;',('x_sinergis_calendar_event_tache', '=', False),('x_sinergis_calendar_event_tache2', '=', False)]}" style="background-color:orange;"/>
+                        <group>
+                          <button name="x_sinergis_calendar_event_reset_button" string="Réinitialiser" type="object" class="btn-primary" readonly="True" confirm="Souhaitez-vous vraiment réinitialiser les heures décomptées ?" attrs="{'invisible': [('x_sinergis_calendar_event_is_facturee', '=', False)]}" style="background-color:red;"/>
+                        </group>
                     </page>
                 </xpath>
 

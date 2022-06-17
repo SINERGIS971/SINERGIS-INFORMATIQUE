@@ -253,3 +253,8 @@ class CalendarEvent(models.Model):
 
     def generer_rapport_intervention(self):
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self)
+
+    def x_sinergis_calendar_event_reset_button (self):
+        if self.x_sinergis_calendar_event_is_facturee:
+            self.env["account.analytic.line"].search([('x_sinergis_account_analytic_line_event_id', '=', self.id)]).unlink()
+            self.x_sinergis_calendar_event_is_facturee = not self.x_sinergis_calendar_event_is_facturee
