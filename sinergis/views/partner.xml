@@ -231,9 +231,6 @@
             <field name="country_id" position="attributes">
                 <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False)]}</attribute>
             </field>
-            <field name="category_id" position="attributes">
-                <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False)], 'invisible':[('x_sinergis_societe_suspect','=',True)],'required':[('is_company','=',True)]}</attribute>
-            </field>
             <field name="phone" position="attributes">
                 <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False)]}</attribute>
             </field>
