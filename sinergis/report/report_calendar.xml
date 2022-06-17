@@ -157,10 +157,10 @@
 										<br/>
 									</span>
 									<span t-if="doc.x_sinergis_calendar_event_trip == True" class="h3">
-	                                    Oui
+	                	Oui
 	                </span>
 	                <span t-if="doc.x_sinergis_calendar_event_trip == False" class="h3">
-	                                    Non
+	                	Non
 	                </span>
 								</div>
 								<div class="col-3 h3 o_bold">

@@ -59,7 +59,7 @@ class HelpdeskTicket(models.Model):
     @api.depends('x_sinergis_helpdesk_ticket_temps_cumule')
     def _compute_x_sinergis_helpdesk_ticket_temps_cumule (self):
         for rec in self:
-                rec.x_sinergis_helpdesk_ticket_temps_cumule = sum(rec.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_ticket_id', '=', rec.id)]).mapped('unit_amount'))
+            rec.x_sinergis_helpdesk_ticket_temps_cumule = sum(rec.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_ticket_id', '=', rec.id)]).mapped('unit_amount'))
 
 
 
