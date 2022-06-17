@@ -119,7 +119,7 @@ class ResPartner(models.Model):
         self.x_sinergis_societe_litige_bloque_remarques = ""
         ResPartner.sinergisLitige(self)
         if self.x_sinergis_societe_litige_bloque: #SEND MAIL
-            template_id = self.env.ref("sinergis.model_res_partner").id
+            template_id = self.env.ref("sinergis.sinergis_mail_societe_bloque").id
             self.env['mail.template'].browse(template_id).send_mail(self.id,force_send=True)
         #    template.send_mail(self.id, force_send=True)
 
