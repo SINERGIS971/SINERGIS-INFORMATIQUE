@@ -7,7 +7,7 @@ class MailActivity(models.Model):
 
     def x_sinergis_mail_activity_button_calendar_event(self):
         res_model = self.env.context.get('default_res_model')
-        if res_model.name == "helpdesk.task":
+        if res_model == "helpdesk.ticket":
             self.ensure_one()
             action = self.env["ir.actions.actions"]._for_xml_id("calendar.action_calendar_event")
             res_id = self.env.context.get('default_res_id')
