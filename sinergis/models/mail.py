@@ -19,7 +19,7 @@ class MailActivity(models.Model):
                 'default_description': self.note if not is_html_empty(self.note) else '',
                 'default_activity_ids': [(6, 0, self.ids)],
                 'default_x_sinergis_calendar_event_client': self.env['helpdesk.ticket'].search([('id','=',res_id)]).partner_id.id,
-                'default_x_sinergis_calendar_event_contact': self.env['helpdesk.ticket'].search([('id','=',res_id)]).x_sinergis_helpdesk_ticket_contact,
+                'default_x_sinergis_calendar_event_contact': self.env['helpdesk.ticket'].search([('id','=',res_id)]).x_sinergis_helpdesk_ticket_contact.id,
             }
             return action
         return

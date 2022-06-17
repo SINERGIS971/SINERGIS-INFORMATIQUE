@@ -78,7 +78,8 @@ class CalendarEvent(models.Model):
     def on_change_x_sinergis_calendar_event_client(self):
         if self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque:
             raise ValidationError("Le client est bloqué, vous ne pouvez pas l'assigner.")
-        self.x_sinergis_calendar_event_contact = False
+        if self._origin.x_sinergis_calendar_event_client != False:
+            self.x_sinergis_calendar_event_contact = False
         self.x_sinergis_calendar_event_project = False
         self.x_sinergis_calendar_event_tache = False
         self.x_sinergis_calendar_event_tache2 = False
