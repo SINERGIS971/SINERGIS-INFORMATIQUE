@@ -42,6 +42,7 @@
 
                 <xpath expr="//field[@name='team_id']" position="before">
                     <field name="create_date"/>
+                    <field name="team_id"/>
                 </xpath>
 
                 <xpath expr="//field[@name='priority']" position="after">
