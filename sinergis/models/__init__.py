@@ -8,3 +8,4 @@ from . import project
 from . import users
 from . import company
 from . import account
+from . import mail
