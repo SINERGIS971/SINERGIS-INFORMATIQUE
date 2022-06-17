@@ -1,15 +1,14 @@
 <odoo>
   <data>
 
-    <record id="sinergis_inherited_activity_popup" model="ir.ui.view">
-        <field name="name">sinergis.inherited.activity.popup</field>
+    <record id="sinergis_inherited_activity_popup_calendar" model="ir.ui.view">
+        <field name="name">sinergis.inherited.activity.popup.calendar</field>
         <field name="model">mail.activity</field>
-        <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+        <field name="inherit_id" ref="calendar.mail_activity_view_form_popup"/>
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
-          <xpath expr="//button[@name='action_close_dialog']" position="before">
-                <field name="calendar_event_id" invisible="1"/>
-                <button string="SINERGIS" attrs="{'invisible': ['|', ('activity_category', 'not in', ['meeting', 'phonecall']), ('calendar_event_id', '!=', False)]}" name="x_sinergis_mail_activity_button_calendar_event" type="object" class="btn-primary"/>
+          <xpath expr="//button[@name='action_create_calendar_event']" position="replace">
+                <button string="Planifier dans le calendrier" attrs="{'invisible': ['|', ('activity_category', 'not in', ['meeting', 'phonecall']), ('calendar_event_id', '!=', False)]}" name="x_sinergis_mail_activity_button_calendar_event" type="object" class="btn-primary"/>
           </xpath>
         </field>
     </record>

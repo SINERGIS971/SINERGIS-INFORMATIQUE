@@ -23,3 +23,4 @@ class MailActivity(models.Model):
             }
             return action
         return
+  
