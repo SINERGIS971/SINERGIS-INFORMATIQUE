@@ -60,6 +60,8 @@ class HelpdeskTicket(models.Model):
     def _compute_x_sinergis_helpdesk_ticket_temps_cumule (self):
         if self.name == "helpdesk.ticket.form":
             self.x_sinergis_helpdesk_ticket_temps_cumule = sum(self.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)]).mapped('unit_amount'))
+        else:
+            self.x_sinergis_helpdesk_ticket_temps_cumule = self.x_sinergis_helpdesk_ticket_temps_cumule
 
     @api.onchange("x_sinergis_helpdesk_ticket_produits")
     def on_change_x_sinergis_helpdesk_ticket_produits(self):
