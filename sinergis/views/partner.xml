@@ -468,5 +468,17 @@
         </field>
     </record>
 
+    <!--Bouton "Rendez-vous" lié au calendrier: Remplacement de la fonction pour faire passer la société dans les valeurs transférées-->
+    <record id="sinergis_inherited_calendar_view_partners_form" model="ir.ui.view">
+        <field name="name">sinergis.inherited.calendar.view.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="calendar.view_partners_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='schedule_meeting']" position="attributes">
+                <attribute name="name">sinergis_schedule_meeting</attribute>
+            </xpath>
+        </field>
+    </record>
+
   </data>
 </odoo>

@@ -176,3 +176,16 @@ class ResPartner(models.Model):
         if type(firstname).__name__ != "str":
             firstname = ""
         self.name = lastname + " " + firstname
+
+    #Bouton "Rendez-vous" lié au calendrier: Remplacement de la fonction pour faire passer la société dans les valeurs transférées
+    def sinergis_schedule_meeting(self):
+        self.ensure_one()
+        partner_ids = self.ids
+        partner_ids.append(self.env.user.partner_id.id)
+        action = self.env["ir.actions.actions"]._for_xml_id("calendar.action_calendar_event")
+        action['context'] = {
+            'default_partner_ids': partner_ids,
+            'default_x_sinergis_calendar_event_client': self.env['res.partner'].search([('id','=',res_id)]).id,
+        }
+        action['domain'] = ['|', ('id', 'in', self._compute_meeting()[self.id]), ('partner_ids', 'in', self.ids)]
+        return action
