@@ -7,6 +7,7 @@ class CalendarEvent(models.Model):
     _inherit = "calendar.event"
     x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client", required="True")
     x_sinergis_calendar_event_contact = fields.Many2one("res.partner",string="Contact", required="True")
+    x_sinergis_calendar_event_contact_transfered = fields.Many2one("res.partner",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
 
 #ZONE PRODUITS
     x_sinergis_calendar_event_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('DIVERS', 'DIVERS')], string="Produits")
@@ -78,7 +79,10 @@ class CalendarEvent(models.Model):
     def on_change_x_sinergis_calendar_event_client(self):
         if self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque:
             raise ValidationError("Le client est bloqué, vous ne pouvez pas l'assigner.")
-        if self._origin.x_sinergis_calendar_event_client != False:
+        if self.x_sinergis_calendar_event_contact_transfered :
+            self.x_sinergis_calendar_event_contact = self.x_sinergis_calendar_event_contact_transfered
+            self.x_sinergis_calendar_event_contact_transfered = False
+        else :
             self.x_sinergis_calendar_event_contact = False
         self.x_sinergis_calendar_event_project = False
         self.x_sinergis_calendar_event_tache = False
