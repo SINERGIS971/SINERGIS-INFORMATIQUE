@@ -185,7 +185,7 @@ class ResPartner(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id("calendar.action_calendar_event")
         action['context'] = {
             'default_partner_ids': partner_ids,
-            'default_x_sinergis_calendar_event_client': self.env['res.partner'].search([('id','=',res_id)]).id,
+            'default_x_sinergis_calendar_event_client': self.id,
         }
         action['domain'] = ['|', ('id', 'in', self._compute_meeting()[self.id]), ('partner_ids', 'in', self.ids)]
         return action
