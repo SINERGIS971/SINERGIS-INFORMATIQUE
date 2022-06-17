@@ -21,10 +21,6 @@
                   <field name="stage_id" position="move"/>
                 </xpath>
 
-
-                <xpath expr="//field[@name='company_id']" position="attributes">
-                  <attribute name="invisible">1</attribute>
-                </xpath>
                 <xpath expr="//field[@name='team_id']" position="attributes">
                   <attribute name="invisible">1</attribute>
                 </xpath>
@@ -42,7 +38,6 @@
 
                 <xpath expr="//field[@name='team_id']" position="before">
                     <field name="create_date"/>
-                    <field name="team_id"/>
                 </xpath>
 
                 <xpath expr="//field[@name='priority']" position="after">
@@ -56,9 +51,9 @@
                     <field name="x_sinergis_helpdesk_ticket_type_client" readonly="True" force_save="1"/>
                 </xpath>
 
-                <!--<field name="company_id" position="replace">
+                <field name="company_id" position="replace">
                     <field name="company_id" string="Société SINERGIS"/>
-                </field>-->
+                </field>
                 <field name="company_id" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>

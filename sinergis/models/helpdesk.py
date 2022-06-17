@@ -11,6 +11,7 @@ class HelpdeskTicket(models.Model):
     #Override
     #company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company, readonly=True,related='')
     #team_id = fields.Many2one('helpdesk.team', string='Helpdesk Team', default=lambda self: self.env['helpdesk.team'].search([('name','=',"Service Clientèle")]), index=True)
+    stage_id = fields.Many2one(domain=False)
 
     #Colonne de gauche
     x_sinergis_helpdesk_ticket_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('DIVERS', 'DIVERS')], string="Produits", required=True)
@@ -23,9 +24,6 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_produits_divers = fields.Selection([('SCANFACT', 'SCANFACT'),('WINDEV', 'WINDEV'),('AUTRE', 'AUTRE')], string="Module Divers")
 
     x_sinergis_helpdesk_ticket_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client")
-
-
-    fields.Char(string="Type de client")
 
     x_sinergis_helpdesk_ticket_show_facturation = fields.Boolean(default=0)
 
