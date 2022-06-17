@@ -14,8 +14,8 @@
 
                 <!-- Ajout client/contact/participants -->
                 <xpath expr="//field[@name='start']" position="before">
-                    <field name="x_sinergis_calendar_event_client" domain="[('is_company','=',True)]" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
-                    <field name="x_sinergis_calendar_event_contact" domain="[('parent_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
+                    <field name="x_sinergis_calendar_event_client" domain="[('is_company','=',True)]" options="{'no_create': True, 'no_create_edit':True}" force_save="1" attrs="{'readonly': [('x_sinergis_calendar_event_is_facturee','=',True)]}"/>
+                    <field name="x_sinergis_calendar_event_contact" domain="[('parent_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': ['|',('x_sinergis_calendar_event_client',  '=', False),('x_sinergis_calendar_event_is_facturee','=',True)]}" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
                     <field name="x_sinergis_calendar_event_contact_transfered" invisible="True"/>
                     <field name="partner_ids" widget="many2manyattendee" placeholder="Selectionnez des participants..." context="{'force_email':True}" class="oe_inline o_calendar_attendees" string="Autres participants"/>
                 </xpath>
@@ -43,10 +43,10 @@
                             <br/>
                             <br/>
                             <br/>
-                            <field name="x_sinergis_calendar_event_facturation"/>
-                            <field name="x_sinergis_calendar_event_project" domain="[('partner_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)], 'invisible': [('x_sinergis_calendar_event_facturation',  '=', 'Contrat heure')]}" options="{'no_create': True, 'no_create_edit':True}"/>
-                            <field name="x_sinergis_calendar_event_tache" domain="[('project_id','=',x_sinergis_calendar_event_project),('name','not ilike','HEURES')]" attrs="{'invisible' : ['|','|',('x_sinergis_calendar_event_project',  '=', False),('x_sinergis_calendar_event_facturation',  '=', 'Contrat heure'),('x_sinergis_calendar_event_facturation',  '=', 'Non facturable')]}" options="{'no_create': True, 'no_create_edit':True}"/>
-                            <field name="x_sinergis_calendar_event_tache2" domain="[('partner_id','=',x_sinergis_calendar_event_client),('name','ilike','HEURES')]" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)],'invisible' : [('x_sinergis_calendar_event_facturation',  '!=', 'Contrat heure')]}"/>
+                            <field name="x_sinergis_calendar_event_facturation" attrs="{'readonly': [('x_sinergis_calendar_event_is_facturee','=',True)]}"/>
+                            <field name="x_sinergis_calendar_event_project" domain="[('partner_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': ['|',('x_sinergis_calendar_event_client',  '=', False),('x_sinergis_calendar_event_is_facturee','=',True)], 'invisible': [('x_sinergis_calendar_event_facturation',  '=', 'Contrat heure')]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="x_sinergis_calendar_event_tache" domain="[('project_id','=',x_sinergis_calendar_event_project),('name','not ilike','HEURES')]" attrs="{'invisible' : ['|','|',('x_sinergis_calendar_event_project',  '=', False),('x_sinergis_calendar_event_facturation',  '=', 'Contrat heure'),('x_sinergis_calendar_event_facturation',  '=', 'Non facturable')], 'readonly' : [('x_sinergis_calendar_event_is_facturee','=',True)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="x_sinergis_calendar_event_tache2" domain="[('partner_id','=',x_sinergis_calendar_event_client),('name','ilike','HEURES')]" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': ['|',('x_sinergis_calendar_event_client',  '=', False),('x_sinergis_calendar_event_is_facturee','=',True)],'invisible' : [('x_sinergis_calendar_event_facturation',  '!=', 'Contrat heure')]}"/>
                             <field name="x_sinergis_calendar_event_tache_information" force_save="1" attrs="{'invisible' : [('x_sinergis_calendar_event_tache_information',  '=', False)]}" readonly="True" string=""/>
 
                             <field name="x_sinergis_calendar_event_taches" attrs="{'invisible': ['|',('x_sinergis_calendar_event_client',  '=', False),'&amp;',('x_sinergis_calendar_event_facturation',  '!=', 'Devis'),('x_sinergis_calendar_event_facturation',  '!=', 'Contrat heure')]}" string="Prestations en cours">
@@ -65,6 +65,8 @@
                             <br/>
                             <field name="x_sinergis_calendar_duree_facturee" widget="float_time" style="font-size:13pt;"/>
                             <field name="x_sinergis_calendar_event_is_solved"/>
+                            <field name="x_sinergis_calendar_event_intervention_count" readonly="True"/>
+                            <field name="x_sinergis_calendar_event_temps_cumule" widget="float_time" readonly="True"/>
                         </group>
                         <!-- BOUTTON POUR DECOMPTER LES HEURES DU CONTRAT D'HEURE-->
                         <field name="x_sinergis_calendar_event_is_facturee" invisible="True"/>
