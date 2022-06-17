@@ -15,6 +15,6 @@ class MailActivity(models.Model):
             'default_name': self.summary or self.res_name,
             'default_description': self.note if not is_html_empty(self.note) else '',
             'default_activity_ids': [(6, 0, self.ids)],
-            'default_x_sinergis_calendar_event_client': self.partner_id.id,
+            'default_x_sinergis_calendar_event_client': self.env.context.get('default_res_id'),
         }
         return action
