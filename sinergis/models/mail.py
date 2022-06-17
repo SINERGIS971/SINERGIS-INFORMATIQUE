@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-
+from odoo.tools import is_html_empty
 
 class MailActivity(models.Model):
     _inherit = "mail.activity"
