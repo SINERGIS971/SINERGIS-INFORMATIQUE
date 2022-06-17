@@ -1,17 +1,16 @@
+<?xml version="1.0" ?>
 <odoo>
-    <data noupdate="1">
-       <record id="your_template_email_a" model="mail.template">
-            <field name="name">Template title 2</field>
-           <!--<field name="lang">${object.partner_id.lang}</field>-->
+    <data>
+       <record id="sinergis_mail_societe_bloque" model="mail.template">
+            <field name="name">Société bloquée</field>
+            <field name="model_id" ref="sinergis.model_res_partner"/>
             <field name="email_from">admin@example.com</field>
-            <field name="subject">Reminder</field>
-            <field name="model_id" ref="sinergis.your_template_email_a"/>
-            <field name="email_to" >este.developpeur@gmail.com</field>
+            <field name="email_to">este.developpeur@gmail.com</field>
+            <field name="subject">Société bloquée - MAIL</field>
             <field name="auto_delete" eval="True"/>
-            <field name="body_html"><![CDATA[
-                <p>Hello world</p>
-                ]]>
-                </field>
+            <field name="body_html" type="html">
+              <p>CONTENT TEST</p>
+            </field>
         </record>
     </data>
 </odoo>
