@@ -9,7 +9,9 @@ class HelpdeskTicket(models.Model):
     # --FORM--
 
     #Override
-    company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company, readonly=True,related='')
+    #company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company, readonly=True,related='')
+    #team_id = fields.Many2one('helpdesk.team', string='Helpdesk Team', default=lambda self: self.env['helpdesk.team'].search([('name','=',"Service Clientèle")]), index=True)
+    stage_id = fields.Many2one(domain=False)
 
     #Colonne de gauche
     x_sinergis_helpdesk_ticket_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('DIVERS', 'DIVERS')], string="Produits", required=True)
@@ -21,10 +23,9 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_produits_x3 = fields.Selection([('CPT', 'CPT'),('GES', 'GES'),('CRYSTAL', 'CRYSTAL'),('BI', 'BI'),('DEV', 'DEV')], string="Module Sage X3")
     x_sinergis_helpdesk_ticket_produits_divers = fields.Selection([('SCANFACT', 'SCANFACT'),('WINDEV', 'WINDEV'),('AUTRE', 'AUTRE')], string="Module Divers")
 
+    x_sinergis_helpdesk_ticket_produit_nom_complet = fields.Char(string="Produit", readonly=True, compute="_compute_x_sinergis_helpdesk_ticket_produit_nom_complet")
+
     x_sinergis_helpdesk_ticket_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client")
-
-
-    fields.Char(string="Type de client")
 
     x_sinergis_helpdesk_ticket_show_facturation = fields.Boolean(default=0)
 
@@ -52,6 +53,25 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
 
+    @api.depends('x_sinergis_helpdesk_ticket_produit_nom_complet')
+    def _compute_x_sinergis_helpdesk_ticket_produit_nom_complet (self):
+        for rec in self:
+            if rec.x_sinergis_helpdesk_ticket_produits == "CEGID":
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_cegid
+            elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 100":
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage100
+            elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 1000":
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage1000
+            elif rec.x_sinergis_helpdesk_ticket_produits == "SAP":
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sap
+            elif rec.x_sinergis_helpdesk_ticket_produits == "X3":
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_x3
+            elif rec.x_sinergis_helpdesk_ticket_produits == "DIVERS":
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_divers
+            else:
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits
+
+
     @api.depends('x_sinergis_helpdesk_ticket_intervention_count')
     def _compute_x_sinergis_helpdesk_ticket_intervention_count (self):
         self.x_sinergis_helpdesk_ticket_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)])
@@ -59,7 +79,7 @@ class HelpdeskTicket(models.Model):
     @api.depends('x_sinergis_helpdesk_ticket_temps_cumule')
     def _compute_x_sinergis_helpdesk_ticket_temps_cumule (self):
         for rec in self:
-                rec.x_sinergis_helpdesk_ticket_temps_cumule = sum(rec.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_ticket_id', '=', rec.id)]).mapped('unit_amount'))
+            rec.x_sinergis_helpdesk_ticket_temps_cumule = sum(rec.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_ticket_id', '=', rec.id)]).mapped('unit_amount'))
 
 
 
@@ -217,6 +237,31 @@ class HelpdeskTicket(models.Model):
         else : self.x_sinergis_helpdesk_ticket_tache_information = False
 
     #BOUTONS
+
+    def x_sinergis_send_intervention_report_mail(self):
+        if not self.x_sinergis_helpdesk_ticket_contact:
+            raise UserError(_("Il vous faut un contact pour envoyer le rapport d'intervention."))
+        template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis.sinergis_mail_helpdesk_ticket_rapport_intervention', raise_if_not_found=False)
+        # The mail is sent with datetime corresponding to the sending user TZ
+        composition_mode = self.env.context.get('composition_mode', 'comment')
+        compose_ctx = dict(
+            default_composition_mode=composition_mode,
+            default_model='helpdesk.ticket',
+            default_res_ids=self.ids,
+            default_use_template=bool(template_id),
+            default_template_id=template_id,
+            mail_tz=self.env.user.tz,
+        )
+        return {
+            'type': 'ir.actions.act_window',
+            'name': "Rapport d'intervention",
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': compose_ctx,
+        }
 
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation

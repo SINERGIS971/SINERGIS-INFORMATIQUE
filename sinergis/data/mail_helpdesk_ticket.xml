@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+       <record id="sinergis_mail_helpdesk_ticket_rapport_intervention" model="mail.template">
+            <field name="name">Rapport d'intervention</field>
+            <field name="model_id" ref="sinergis.model_helpdesk_ticket"/>
+            <field name="email_from">support@sinergis.odoo.com</field>
+            <field name="email_to">{{ (object.x_sinergis_helpdesk_ticket_contact.email or '') }}</field>
+            <field name="subject">Rapport d'intervention</field>
+            <field name="report_template" ref="report_e"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+              <p>Bonjour,</p>
+              <br/>
+              <p>Vous trouverez en pièce jointe le rapport d'intervention détaillé.</p>
+              <br/>
+              <p>N'hésitez pas à nous contacter si vous avez des questions.</p>
+            </field>
+        </record>
+    </data>
+</odoo>
