@@ -5,7 +5,7 @@
             <field name="name">Rapport d'intervention</field>
             <field name="model_id" ref="sinergis.model_helpdesk_ticket"/>
             <field name="email_from">support@sinergis.odoo.com</field>
-            <field name="email_to">este.developpeur@gmail.com</field>
+            <field name="email_to">{{ (object.x_sinergis_helpdesk_ticker_contact.email or '') }}</field>
             <field name="subject">Rapport d'intervention</field>
             <field name="report_template" ref="report_e"/>
             <field name="auto_delete" eval="True"/>
