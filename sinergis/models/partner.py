@@ -100,13 +100,14 @@ class ResPartner(models.Model):
     # TO DO: Voir si on peut sélécitonner la position fiscale différament qu'avec l'ID
     @api.onchange("country_id")
     def on_change_country_id(self):
-        country_id = self.country_id.name
-        if country_id == "France":
-            self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE")]).id
-        elif country_id == "Guadeloupe" or country_id == "Martinique":
-            self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM")]).id
-        elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
-            self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO")]).id
+        if self.is_company == True :
+            country_id = self.country_id.name
+            if country_id == "France":
+                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE")]).id
+            elif country_id == "Guadeloupe" or country_id == "Martinique":
+                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM")]).id
+            elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
+                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO")]).id
 
 
     @api.onchange("x_sinergis_societe_litige_douteux")
