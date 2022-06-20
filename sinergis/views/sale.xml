@@ -37,6 +37,12 @@
                 <attribute name="string">Société</attribute>
                 <attribute name="domain">[('is_company','=',True)]</attribute>
             </xpath>
+            <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                <attribute name="domain">[('is_company','=',True)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                <attribute name="domain">[('is_company','=',True)]</attribute>
+            </xpath>
 
             <xpath expr="//field[@name='partner_invoice_id']" position="before">
                 <field name="x_sinergis_sale_order_contact" domain="[('parent_id','=',partner_id)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
