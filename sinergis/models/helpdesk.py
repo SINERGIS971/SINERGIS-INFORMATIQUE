@@ -238,6 +238,9 @@ class HelpdeskTicket(models.Model):
 
     #BOUTONS
 
+    def x_sinergis_send_intervention_report_mail():
+        print("ok")
+
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
 
