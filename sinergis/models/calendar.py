@@ -87,9 +87,10 @@ class CalendarEvent(models.Model):
             self.x_sinergis_calendar_event_contact_transfered = False
         else :
             self.x_sinergis_calendar_event_contact = False
-
-        self.x_sinergis_calendar_event_tache2 = False
-        self.x_sinergis_calendar_event_tache_information = False
+            self.x_sinergis_calendar_event_project = False
+            self.x_sinergis_calendar_event_tache = False
+            self.x_sinergis_calendar_event_tache2 = False
+            self.x_sinergis_calendar_event_tache_information = False
         CalendarEvent.updateTasks(self)
 
     @api.onchange("duration")
@@ -148,9 +149,9 @@ class CalendarEvent(models.Model):
             self.x_sinergis_calendar_event_project_transfered = False
         else :
             self.x_sinergis_calendar_event_project = False
-        self.x_sinergis_calendar_event_tache = False
-        self.x_sinergis_calendar_event_tache2 = False
-        self.x_sinergis_calendar_event_tache_information = False
+            self.x_sinergis_calendar_event_tache = False
+            self.x_sinergis_calendar_event_tache2 = False
+            self.x_sinergis_calendar_event_tache_information = False
         CalendarEvent.updateTasks(self)
 
     @api.onchange("x_sinergis_calendar_event_project")
@@ -160,8 +161,9 @@ class CalendarEvent(models.Model):
             self.x_sinergis_calendar_event_tache_transfered = False
         else :
             self.x_sinergis_calendar_event_tache = False
-        self.x_sinergis_calendar_event_tache2 = False
-        self.x_sinergis_calendar_event_tache_information = False
+            self.x_sinergis_calendar_event_tache = False
+            self.x_sinergis_calendar_event_tache2 = False
+            self.x_sinergis_calendar_event_tache_information = False
         CalendarEvent.updateTasks(self)
 
     @api.onchange("x_sinergis_calendar_event_tache")
