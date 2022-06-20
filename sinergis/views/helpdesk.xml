@@ -36,6 +36,10 @@
             <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
             <field name="arch" type="xml">
 
+              <xpath expr="//button[@name='assign_ticket_to_self']" position="after">
+                  <button name="send_intervention_report_mail" string="Envoyer le rapport d'intervention" type="object" class="oe_highlight"/>
+              </xpath>
+
                 <xpath expr="//field[@name='team_id']" position="before">
                     <field name="create_date"/>
                 </xpath>

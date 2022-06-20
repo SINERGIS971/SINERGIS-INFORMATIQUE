@@ -7,6 +7,7 @@
             <field name="email_from">support@sinergis.odoo.com</field>
             <field name="email_to">este.developpeur@gmail.com</field>
             <field name="subject">Rapport d'intervention</field>
+            <field name="report_template" ref="report_e"/>
             <field name="auto_delete" eval="True"/>
             <field name="body_html" type="html">
               <p>Bonjour,</p>
