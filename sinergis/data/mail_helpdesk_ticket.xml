@@ -3,7 +3,7 @@
     <data>
        <record id="sinergis_mail_helpdesk_ticket_rapport_intervention" model="mail.template">
             <field name="name">Société bloquée</field>
-            <field name="model_id" ref="sinergis.mail_helpdesk_ticket_rapport_intervention"/>
+            <field name="model_id" ref="sinergis.model_helpdesk_ticket"/>
             <field name="email_from">support@sinergis.odoo.com</field>
             <field name="email_to">este.developpeur@gmail.com</field>
             <field name="subject">Rapport d'intervention</field>
