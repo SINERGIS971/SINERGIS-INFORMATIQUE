@@ -21,10 +21,9 @@
                   <field name="stage_id" position="move"/>
                 </xpath>
 
-                <xpath expr="//field[@name='display_name']" position="replace">
-                    <field name="display_name" options='{"no_open": True}'/>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                  <attribute name="options">{"no_open": True}</attribute>
                 </xpath>
-
                 <xpath expr="//field[@name='team_id']" position="attributes">
                   <attribute name="invisible">1</attribute>
                 </xpath>
