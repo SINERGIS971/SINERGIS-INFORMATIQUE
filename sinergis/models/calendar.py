@@ -155,6 +155,7 @@ class CalendarEvent(models.Model):
 
     @api.onchange("x_sinergis_calendar_event_project")
     def on_change_x_sinergis_calendar_event_project(self):
+        #TEST
         if self.x_sinergis_calendar_event_tache_transfered :
             self.x_sinergis_calendar_event_tache = self.x_sinergis_calendar_event_tache_transfered
             self.x_sinergis_calendar_event_tache_transfered = False
