@@ -36,4 +36,5 @@ class MailActivity(models.Model):
                 'default_x_sinergis_calendar_event_client': self.env['project.task'].search([('id','=',res_id)]).partner_id.id,
                 'default_x_sinergis_calendar_event_facturation': 'Devis',
             }
+            return action
         return
