@@ -88,18 +88,6 @@ class CalendarEvent(models.Model):
         else :
             self.x_sinergis_calendar_event_contact = False
 
-        if self.x_sinergis_calendar_event_project_transfered :
-            self.x_sinergis_calendar_event_project = self.x_sinergis_calendar_event_project_transfered
-            self.x_sinergis_calendar_event_project_transfered = False
-        else :
-            self.x_sinergis_calendar_event_project = False
-
-        if self.x_sinergis_calendar_event_tache_transfered :
-            self.x_sinergis_calendar_event_tache = self.x_sinergis_calendar_event_tache_transfered
-            self.x_sinergis_calendar_event_tache_transfered = False
-        else :
-            self.x_sinergis_calendar_event_tache = False
-
         self.x_sinergis_calendar_event_tache2 = False
         self.x_sinergis_calendar_event_tache_information = False
         CalendarEvent.updateTasks(self)
@@ -155,7 +143,11 @@ class CalendarEvent(models.Model):
 
     @api.onchange("x_sinergis_calendar_event_facturation")
     def on_change_x_sinergis_calendar_event_facturation(self):
-        self.x_sinergis_calendar_event_project = False
+        if self.x_sinergis_calendar_event_project_transfered :
+            self.x_sinergis_calendar_event_project = self.x_sinergis_calendar_event_project_transfered
+            self.x_sinergis_calendar_event_project_transfered = False
+        else :
+            self.x_sinergis_calendar_event_project = False
         self.x_sinergis_calendar_event_tache = False
         self.x_sinergis_calendar_event_tache2 = False
         self.x_sinergis_calendar_event_tache_information = False
@@ -163,7 +155,11 @@ class CalendarEvent(models.Model):
 
     @api.onchange("x_sinergis_calendar_event_project")
     def on_change_x_sinergis_calendar_event_project(self):
-        self.x_sinergis_calendar_event_tache = False
+        if self.x_sinergis_calendar_event_tache_transfered :
+            self.x_sinergis_calendar_event_tache = self.x_sinergis_calendar_event_tache_transfered
+            self.x_sinergis_calendar_event_tache_transfered = False
+        else :
+            self.x_sinergis_calendar_event_tache = False
         self.x_sinergis_calendar_event_tache2 = False
         self.x_sinergis_calendar_event_tache_information = False
         CalendarEvent.updateTasks(self)
