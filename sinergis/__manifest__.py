@@ -36,6 +36,7 @@
         'report/report_calendar.xml',
         'report/report_devis_ventes.xml',
         'data/mail_template.xml',
+        'data/mail_helpdesk_ticket.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
