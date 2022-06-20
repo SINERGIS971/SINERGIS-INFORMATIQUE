@@ -27,8 +27,11 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_trip = fields.Boolean(string="Déplacement")
     x_sinergis_calendar_event_facturation = fields.Selection([("Contrat heure", "Contrat d'heures"),("Temps passé", "Temps passé"),("Devis", "Devis"),("Non facturable", "Non facturable")], string="Facturation")
     x_sinergis_calendar_event_project = fields.Many2one("project.project", string="Projet")
+    x_sinergis_calendar_event_project_transfered = fields.Many2one("project.project",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
 
     x_sinergis_calendar_event_tache = fields.Many2one("project.task", string="Tâche")
+    x_sinergis_calendar_event_tache_transfered = fields.Many2one("project.task",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
+
     x_sinergis_calendar_event_tache2 = fields.Many2one("project.task", string="Contrat d'heure")
     x_sinergis_calendar_event_tache_information = fields.Char(string="")
 
@@ -84,8 +87,19 @@ class CalendarEvent(models.Model):
             self.x_sinergis_calendar_event_contact_transfered = False
         else :
             self.x_sinergis_calendar_event_contact = False
-        self.x_sinergis_calendar_event_project = False
-        self.x_sinergis_calendar_event_tache = False
+
+        if self.x_sinergis_calendar_event_project_transfered :
+            self.x_sinergis_calendar_event_project = self.x_sinergis_calendar_event_project_transfered
+            self.x_sinergis_calendar_event_project_transfered = False
+        else :
+            self.x_sinergis_calendar_event_project = False
+
+        if self.x_sinergis_calendar_event_tache_transfered :
+            self.x_sinergis_calendar_event_tache = self.x_sinergis_calendar_event_tache_transfered
+            self.x_sinergis_calendar_event_tache_transfered = False
+        else :
+            self.x_sinergis_calendar_event_tache = False
+
         self.x_sinergis_calendar_event_tache2 = False
         self.x_sinergis_calendar_event_tache_information = False
         CalendarEvent.updateTasks(self)
