@@ -250,12 +250,11 @@ class HelpdeskTicket(models.Model):
             default_res_ids=self.ids,
             default_use_template=bool(template_id),
             default_template_id=template_id,
-            default_partner_ids=self.partner_ids.ids,
             mail_tz=self.env.user.tz,
         )
         return {
             'type': 'ir.actions.act_window',
-            'name': _('Contact Attendees'),
+            'name': "Rapport d'intervention",
             'view_mode': 'form',
             'res_model': 'mail.compose.message',
             'views': [(False, 'form')],
