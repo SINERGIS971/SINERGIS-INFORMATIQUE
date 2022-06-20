@@ -10,7 +10,7 @@
                   <field name="create_date"/>
                   <field name="priority" position="move"/>
                   <field name="partner_id" position="move"/>
-                  <field name="x_sinergis_helpdesk_ticket_produits" string="Produit"/>
+                  <field name="x_sinergis_helpdesk_ticket_produit_nom_complet" string="Produit"/>
                 </xpath>
                 <xpath expr="//field[@name='display_name']" position="after">
                   <field name="user_id" position="move"/>
