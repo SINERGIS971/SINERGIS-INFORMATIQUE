@@ -21,6 +21,9 @@
                   <field name="stage_id" position="move"/>
                 </xpath>
 
+                <xpath expr="//field[@name='display_name']" position="attributes">
+                  <attribute name="style">pointer-events:none;</attribute>
+                </xpath>
                 <xpath expr="//field[@name='team_id']" position="attributes">
                   <attribute name="invisible">1</attribute>
                 </xpath>
