@@ -24,6 +24,8 @@ class ResPartner(models.Model):
 
     # --FORM--
 
+    company_id = fields.Many2one(default=lambda self: self.env.company);
+
     x_sinergis_societe_mere = fields.Many2one('res.partner', string="Société mère", index=True)
 
     x_sinergis_societe_suspect = fields.Boolean(string="Suspect")
@@ -101,13 +103,15 @@ class ResPartner(models.Model):
     @api.onchange("country_id")
     def on_change_country_id(self):
         if self.is_company == True :
+            company_id = self.company_id
             country_id = self.country_id.name
-            if country_id == "France":
-                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE")])[0].id
-            elif country_id == "Guadeloupe" or country_id == "Martinique":
-                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM")])[0].id
-            elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
-                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO")])[0].id
+            if company_id and country_id :
+                if country_id == "France":
+                    self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE"),('company_id', '=', company_id)])[0].id
+                elif country_id == "Guadeloupe" or country_id == "Martinique":
+                    self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM"),('company_id', '=', company_id)])[0].id
+                elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
+                    self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO"),('company_id', '=', company_id)])[0].id
 
 
     @api.onchange("x_sinergis_societe_litige_douteux")
