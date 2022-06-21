@@ -18,6 +18,32 @@
       </field>
   </record>
 
+  <!-- ============ TREE ============ -->
+
+  <record id="sinergis_inherited_project_task_tree2" model="ir.ui.view">
+    <field name="name">sinergis.inherited.project.task.tree2</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_tree2"/>
+    <field name="priority" eval="10"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='priority']" position="after">
+            <field name="project_id" position="move"/>
+            <field name="name" position="move"/>
+            <field name="user_ids" position="move"/>
+            <field name="planner_hours"/>
+            <field name="effective_hours"/>
+            <field name="remaining_hours"/>
+            <field name="progress"/>
+            <field name="activity_ids" position="move"/>
+            <field name="tag_ids" position="move"/>
+            <field name="stage_id" position="move"/>
+            <field name="company_id" position="move"/>
+        </xpath>
+    </field>
+  </record>
+
+  <!-- ============ KANBAN ============ -->
+
     <!-- KANBAN TACHES -->
       <record id="sinergis_inherited_project_task_kanban" model="ir.ui.view">
         <field name="name">sinergis.inherited.project.task.kanban</field>
