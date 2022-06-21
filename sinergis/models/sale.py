@@ -28,10 +28,10 @@ class SaleOrder(models.Model):
     @api.onchange("order_line")
     def on_change_order_line(self):
         for line in self.order_line:
-            if line.product_id.name = "CONTRAT D'HEURES PME":
-                self.pricelist_id = self.env['product.pricelist'].search([('name','=',"Liste de prix - PME (EUR)")]))
-            elif line.product_id.name = "CONTRAT D'HEURES MGE":
-                self.pricelist_id = self.env['product.pricelist'].search([('name','=',"Liste de prix - MGE (EUR)")]))
+            if line.product_id.name == "CONTRAT D'HEURES PME":
+                self.pricelist_id = self.env['product.pricelist'].search([('name','=',"PRIX CONTRAT D'HEURES PME")])
+            elif line.product_id.name == "CONTRAT D'HEURES MGE":
+                self.pricelist_id = self.env['product.pricelist'].search([('name','=',"PRIX CONTRAT D'HEURES MGE")])
 
 
     @api.onchange("partner_id")
