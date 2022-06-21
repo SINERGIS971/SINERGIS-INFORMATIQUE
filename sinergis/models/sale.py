@@ -25,7 +25,7 @@ class SaleOrder(models.Model):
         else:
             self.x_sinergis_sale_order_client_douteux = False
 
-    @api.onchange("order_line"):
+    @api.onchange("order_line")
     def on_change_order_line(self):
         for line in self.order_line:
             if line.product_id.name = "CONTRAT D'HEURES PME":
