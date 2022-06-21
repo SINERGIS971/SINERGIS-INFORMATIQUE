@@ -47,6 +47,12 @@ class SaleOrder(models.Model):
         SaleOrder._compute_x_sinergis_sale_order_client_douteux(self)
         SaleOrder._compute_x_sinergis_sale_order_client_suspect(self)
 
+    @api.onchange("fiscal_position_id")
+    def on_change_fiscal_position_id(self):
+        if self.fiscal_position_id:
+            self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',fiscal_position_id.name),('company_id.name', '=', company_id.name)])[0].id
+
+
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
     payment_term_id = fields.Many2one(
         'account.payment.term', string='Payment Terms', check_company=True,domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",default=lambda self: self.env['account.payment.term'].search([('name','=',"100% des logiciels et des contrats d'heures et 50% des prestations et formations. Le solde à livraison. à la commande")]))
