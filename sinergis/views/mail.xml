@@ -13,5 +13,20 @@
         </field>
     </record>
 
+    <record id="sinergis_inherited_email_compose_message" model="ir.ui.view">
+        <field name="name">sinergis.inherited.email.compose.message</field>
+        <field name="model">mail.compose.message</field>
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='partner_ids']" position="replace">
+            <field name="partner_ids" widget="many2many_tags_email" placeholder="Ajoutez un contact à notifier..."
+                                context="{'force_email':True, 'show_email':True}"
+                                attrs="{'invisible': [('composition_mode', '!=', 'comment')]}"
+                                options="{'no_open':True,'no_create':1,'no_create_edit':1}"/>
+          </xpath>
+        </field>
+    </record>
+
   </data>
 </odoo>
