@@ -121,6 +121,8 @@ class ResPartner(models.Model):
                 "city": raw_record.get("libellecommuneetablissement"),
                 "siren": raw_record.get("siren") and str(raw_record["siren"]) or False,
                 "nic": raw_record.get("nic"),
+                "x_sinergis_societe_effectif": raw_record.get("trancheeffectifsunitelegale"),
+                "x_sinergis_societe_activite": raw_record.get("denominationunitelegale"),
             }
             # In feb 2022, they changed codepostaletablissement and
             # codedepartementetablissement from string to integer
