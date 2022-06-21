@@ -101,13 +101,15 @@ class ResPartner(models.Model):
     @api.onchange("country_id")
     def on_change_country_id(self):
         if self.is_company == True :
+            company_id = self.company_id
             country_id = self.country_id.name
-            if country_id == "France":
-                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE")]).id
-            elif country_id == "Guadeloupe" or country_id == "Martinique":
-                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM")]).id
-            elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
-                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO")]).id
+            if company_id and country_id :
+                if country_id == "France":
+                    self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE"),('company_id', '=', company_id)])[0].id
+                elif country_id == "Guadeloupe" or country_id == "Martinique":
+                    self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM"),('company_id', '=', company_id)])[0].id
+                elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
+                    self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO"),('company_id', '=', company_id)])[0].id
 
 
     @api.onchange("x_sinergis_societe_litige_douteux")
@@ -138,7 +140,7 @@ class ResPartner(models.Model):
             # -- CREATION DE CONTACT --
 
     x_sinergis_societe_contact_firstname = fields.Char(string='Prenom')
-    x_sinergis_societe_contact_lastname = fields.Char(string='Nom de famille')
+    x_sinergis_societe_contact_lastname = fields.Char(string='Nom')
 
     x_sinergis_societe_contact_metier = fields.Many2many('x_metier',string='Metier')
 
