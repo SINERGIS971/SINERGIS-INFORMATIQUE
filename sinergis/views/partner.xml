@@ -249,14 +249,11 @@
             <xpath expr="//field[@name='child_ids']/form/sheet/group/group/div" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath expr="//field[@name='child_ids']/form/sheet/group/group/field[@name='title']" position="before">
+            <xpath expr="//field[@name='child_ids']/form/sheet/group/group/field[@name='title']" position="replace">
                 <field name="title" options="{'no_create': True, 'no_create_edit':True}"/>
                 <field name="x_sinergis_societe_contact_lastname" required="True"/>
                 <field name="x_sinergis_societe_contact_firstname" required="True"/>
                 <field name="function"/>
-            </xpath>
-            <xpath expr="//field[@name='title'][2]" position="attributes">
-                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='function'][2]" position="attributes">
                 <attribute name="invisible">1</attribute>

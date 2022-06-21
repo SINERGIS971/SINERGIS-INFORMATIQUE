@@ -37,6 +37,7 @@ class SaleOrder(models.Model):
     def on_change_partner_id(self):
         SaleOrder._compute_x_sinergis_sale_order_client_bloque(self)
         SaleOrder._compute_x_sinergis_sale_order_client_douteux(self)
+        SaleOrder._compute_x_sinergis_sale_order_client_suspect(self)
 
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
     payment_term_id = fields.Many2one(

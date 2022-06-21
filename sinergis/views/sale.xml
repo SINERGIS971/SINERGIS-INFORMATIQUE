@@ -26,10 +26,10 @@
 
           <!-- Empecher de confirmer le devis si le client est bloqué -->
           <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
-            <attribute name="attrs">{'invisible': ['|','|','&amp;',('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['sent'])]}</attribute>
+            <attribute name="attrs">{'invisible': ['|','|',('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['sent'])]}</attribute>
           </xpath>
           <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
-            <attribute name="attrs">{'invisible': ['|','|','&amp;',('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft'])]}</attribute>
+            <attribute name="attrs">{'invisible': ['|','|',('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft'])]}</attribute>
           </xpath>
 
 
@@ -55,6 +55,7 @@
             </xpath>
 
             <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="required">1</attribute>
                 <attribute name="default">3</attribute>
             </xpath>
 
