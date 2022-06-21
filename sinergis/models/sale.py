@@ -33,6 +33,14 @@ class SaleOrder(models.Model):
         else:
             self.x_sinergis_sale_order_client_suspect = False
 
+    @api.onchange("order_line")
+     def on_change_order_line(self):
+         for line in self.order_line:
+             if line.product_id.name == "CONTRAT D'HEURES PME":
+                 self.pricelist_id = self.env['product.pricelist'].search([('name','=',"PRIX CONTRAT D'HEURES PME")])
+             elif line.product_id.name == "CONTRAT D'HEURES MGE":
+                 self.pricelist_id = self.env['product.pricelist'].search([('name','=',"PRIX CONTRAT D'HEURES MGE")])
+
     @api.onchange("partner_id")
     def on_change_partner_id(self):
         SaleOrder._compute_x_sinergis_sale_order_client_bloque(self)
