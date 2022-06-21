@@ -320,8 +320,7 @@
 						<div class="row"/>
 						<div class="row">
 							<div class="col">
-								<span t-field="doc.user_id.x_sinergis_res_users_tampon_signature"/>
-                                <div style="page-break-after: always;"/> <!-- Active le saut de page pour les champs HTML -->
+								<span t-field="doc.user_id.x_sinergis_res_users_tampon_signature" t-options='{"widget": "image"}'/>
 							</div>
 						</div>
 						<div class="row h4"/>
