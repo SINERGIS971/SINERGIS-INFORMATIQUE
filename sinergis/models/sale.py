@@ -7,6 +7,7 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_client_bloque = fields.Boolean(string="",default=False,compute="_compute_x_sinergis_sale_order_client_bloque")
     x_sinergis_sale_order_client_douteux = fields.Boolean(string="",default=False,compute="_compute_x_sinergis_sale_order_client_douteux")
+    x_sinergis_sale_order_client_suspect = fields.Boolean(string="",default=False,compute="_compute_x_sinergis_sale_order_client_suspect")
 
     x_sinergis_sale_order_objet = fields.Char(string="Objet")
     x_sinergis_sale_order_contact = fields.Many2one("res.partner",string="Contact", required="True")
@@ -25,14 +26,12 @@ class SaleOrder(models.Model):
         else:
             self.x_sinergis_sale_order_client_douteux = False
 
-    @api.onchange("order_line")
-    def on_change_order_line(self):
-        for line in self.order_line:
-            if line.product_id.name == "CONTRAT D'HEURES PME":
-                self.pricelist_id = self.env['product.pricelist'].search([('name','=',"PRIX CONTRAT D'HEURES PME")])
-            elif line.product_id.name == "CONTRAT D'HEURES MGE":
-                self.pricelist_id = self.env['product.pricelist'].search([('name','=',"PRIX CONTRAT D'HEURES MGE")])
-
+    @api.depends('x_sinergis_sale_order_client_suspect')
+    def _compute_x_sinergis_sale_order_client_suspect (self):
+        if self.partner_id:
+            self.x_sinergis_sale_order_client_suspect = self.partner_id.x_sinergis_societe_suspect
+        else:
+            self.x_sinergis_sale_order_client_suspect = False
 
     @api.onchange("partner_id")
     def on_change_partner_id(self):
