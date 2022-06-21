@@ -271,7 +271,9 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_duree_button(self):
         if self.x_sinergis_helpdesk_ticket_temps_passe <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
-            raise ValidationError("Le temps passé doit être supérieur à 0")
+            raise ValidationError("Le temps passé doit être supérieur à 0.")
+        if not self.user_id:
+            raise ValidationError("Vous devez assigner une personne pour décompter des heures.")
         if self.x_sinergis_helpdesk_ticket_taches :
             self.x_sinergis_helpdesk_ticket_is_facturee = True
             name = self.name

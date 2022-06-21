@@ -81,7 +81,8 @@ class CalendarEvent(models.Model):
     @api.onchange("x_sinergis_calendar_event_client")
     def on_change_x_sinergis_calendar_event_client(self):
         if self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque:
-            raise ValidationError("Le client est bloqué, vous ne pouvez pas l'assigner.")
+            raise ValidationError("Le client est bloqué pour la raison suivante : "+ self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque_remarques +". Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
+            self.x_sinergis_calendar_event_client = False
         if self.x_sinergis_calendar_event_contact_transfered :
             self.x_sinergis_calendar_event_contact = self.x_sinergis_calendar_event_contact_transfered
             self.x_sinergis_calendar_event_contact_transfered = False
@@ -210,6 +211,8 @@ class CalendarEvent(models.Model):
     def x_sinergis_calendar_event_duree_button(self):
         if self.x_sinergis_calendar_duree_facturee <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
             raise ValidationError("Le temps passé doit être supérieur à 0")
+        if not self.user_id:
+            raise ValidationError("Vous devez assigner une personne pour décompter des heures.")
         if self.x_sinergis_calendar_event_taches :
             self.x_sinergis_calendar_event_is_facturee = True
             self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : 'Enregistrement depuis le calendrier', 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee,'x_sinergis_account_analytic_line_event_id' : self.id})]
