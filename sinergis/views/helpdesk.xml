@@ -113,8 +113,9 @@
                 <group>
                 <field name="x_sinergis_helpdesk_ticket_temps_passe" widget="float_time" style="font-size:13pt;"/>
                 <field name="x_sinergis_helpdesk_ticket_is_solved"/>
-                <field name="x_sinergis_helpdesk_ticket_intervention_count" class="oe_right"/>
-                <field name="x_sinergis_helpdesk_ticket_temps_cumule" widget="float_time" class="oe_right"/>
+                <br/>
+                <field name="x_sinergis_helpdesk_ticket_intervention_count"/>
+                <field name="x_sinergis_helpdesk_ticket_temps_cumule" widget="float_time"/>
                 </group>
                 <field name="x_sinergis_helpdesk_ticket_is_facturee" invisible="True"/>
                 <group>

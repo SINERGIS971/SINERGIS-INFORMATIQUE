@@ -12,6 +12,8 @@ class SaleOrder(models.Model):
     x_sinergis_sale_order_objet = fields.Char(string="Objet")
     x_sinergis_sale_order_contact = fields.Many2one("res.partner",string="Contact", required="True")
 
+    fiscal_position_id = fields.Many2one(compute="_compute_fiscal_position_id");
+
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
         if self.partner_id:
@@ -33,6 +35,19 @@ class SaleOrder(models.Model):
         else:
             self.x_sinergis_sale_order_client_suspect = False
 
+    @api.depends('fiscal_position_id')
+    def _compute_fiscal_position_id (self):
+        if self.partner_id :
+            company_id = self.company_id
+            country_id = self.partner_id.country_id.name
+            if company_id and country_id :
+                if country_id == "France":
+                    self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE"),('company_id.name', '=', company_id.name)])[0].id
+                elif country_id == "Guadeloupe" or country_id == "Martinique":
+                    self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM"),('company_id.name', '=', company_id.name)])[0].id
+                elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
+                    self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO"),('company_id.name', '=', company_id.name)])[0].id
+
     @api.onchange("order_line")
     def on_change_order_line(self):
         for line in self.order_line:
@@ -47,10 +62,10 @@ class SaleOrder(models.Model):
         SaleOrder._compute_x_sinergis_sale_order_client_douteux(self)
         SaleOrder._compute_x_sinergis_sale_order_client_suspect(self)
 
-    @api.onchange("fiscal_position_id")
-    def on_change_fiscal_position_id(self):
-        if self.fiscal_position_id:
-            self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',self.fiscal_position_id.name),('company_id.name', '=', self.company_id.name)])[0].id
+    #@api.onchange("fiscal_position_id")
+    #def on_change_fiscal_position_id(self):
+    #    if self.fiscal_position_id:
+    #        self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',self.fiscal_position_id.name),('company_id.name', '=', self.company_id.name)])[0].id
 
 
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
