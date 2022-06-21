@@ -50,7 +50,7 @@ class SaleOrder(models.Model):
     @api.onchange("fiscal_position_id")
     def on_change_fiscal_position_id(self):
         if self.fiscal_position_id:
-            self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',fiscal_position_id.name),('company_id.name', '=', company_id.name)])[0].id
+            self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',self.fiscal_position_id.name),('company_id.name', '=', self.company_id.name)])[0].id
 
 
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
