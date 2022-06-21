@@ -33,11 +33,25 @@ class SaleOrder(models.Model):
         else:
             self.x_sinergis_sale_order_client_suspect = False
 
+    @api.onchange("order_line")
+    def on_change_order_line(self):
+        for line in self.order_line:
+            if line.product_id.name == "CONTRAT D'HEURES PME":
+                self.pricelist_id = self.env['product.pricelist'].search([('name','=',"PRIX CONTRAT D'HEURES PME")])
+            elif line.product_id.name == "CONTRAT D'HEURES MGE":
+                self.pricelist_id = self.env['product.pricelist'].search([('name','=',"PRIX CONTRAT D'HEURES MGE")])
+
     @api.onchange("partner_id")
     def on_change_partner_id(self):
         SaleOrder._compute_x_sinergis_sale_order_client_bloque(self)
         SaleOrder._compute_x_sinergis_sale_order_client_douteux(self)
         SaleOrder._compute_x_sinergis_sale_order_client_suspect(self)
+
+    @api.onchange("fiscal_position_id")
+    def on_change_fiscal_position_id(self):
+        if self.fiscal_position_id:
+            self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',self.fiscal_position_id.name),('company_id.name', '=', self.company_id.name)])[0].id
+
 
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
     payment_term_id = fields.Many2one(
