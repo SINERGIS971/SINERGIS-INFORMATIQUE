@@ -308,8 +308,7 @@
 						</div>
 						<div class="row">
 							<div class="col">
-								<span t-field="doc.user_id.x_sinergis_res_users_tampon_signature"/>
-                                <div style="page-break-after: always;"/> <!-- Active le saut de page pour les champs HTML -->
+								<img t-if="doc.user_id.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.user_id.x_sinergis_res_users_tampon_signature)" class="float-left" alt="Signature"/>
 							</div>
 						</div>
 						<div class="row h4"></div>
