@@ -103,11 +103,11 @@ class ResPartner(models.Model):
         if self.is_company == True :
             country_id = self.country_id.name
             if country_id == "France":
-                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE")]).id
+                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE")])[0].id
             elif country_id == "Guadeloupe" or country_id == "Martinique":
-                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM")]).id
+                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM")])[0].id
             elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
-                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO")]).id
+                self.property_account_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO")])[0].id
 
 
     @api.onchange("x_sinergis_societe_litige_douteux")
