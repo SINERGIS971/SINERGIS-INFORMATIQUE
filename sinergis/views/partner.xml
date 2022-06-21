@@ -326,7 +326,7 @@
             <xpath expr="//form/sheet/group" position="before">
                 <group attrs="{'invisible':[('is_company','=',True)]}">
                     <group>
-                        <field name="title"/>
+                        <field name="title" options="{'no_open': True, 'no_quick_create': True}"/>
                         <field name="x_sinergis_societe_contact_lastname"/>
                         <field name="x_sinergis_societe_contact_firstname"/>
                         <field name="function"/>
