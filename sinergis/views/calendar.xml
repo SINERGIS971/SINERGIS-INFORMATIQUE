@@ -1,6 +1,27 @@
 <odoo>
     <data>
 
+
+        <!-- =======CALENDAR TREE VIEW=======-->
+
+        <record id="sinergis_inherited_calendar_view_event_tree" model="ir.ui.view">
+            <field name="name">sinergis.inherited.calendar.view.event.tree</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+            <field name="arch" type="xml">
+              <xpath expr="//header" position="after">
+                <field name="create_date"/>
+                <field name="x_sinergis_calendar_event_client"/>
+                <field name="x_sinergis_calendar_event_produits"/>
+                <field name="user_id" widget="many2one_avatar_user" attrs="{'readonly':[('recurrency','=',True)]}" optional="hide" position="move"/>
+                <field name="x_sinergis_calendar_event_produits"/>
+                <field name="x_sinergis_calendar_event_temps_cumule" string="Temps"/>
+                <field name="x_sinergis_calendar_event_facturation"/>
+              </xpath>
+            </field>
+        </record>
+
+
         <record id="sinergis_inherited_calendar_event_form" model="ir.ui.view">
             <field name="name">sinergis.inherited.calendar.event.form</field>
             <field name="model">calendar.event</field>
