@@ -20,13 +20,13 @@
                 <field name="x_sinergis_calendar_event_facturation"/>
               </xpath>
               <xpath expr="//field[@name='location']" position="attributes">
-                <arrtibue name="invisible">1</attribute>
+                <attribute name="invisible">1</attribute>
               </xpath>
               <xpath expr="//field[@name='duration']" position="attributes">
-                <arrtibue name="invisible">1</attribute>
+                <attribute name="invisible">1</attribute>
               </xpath>
               <xpath expr="//field[@name='user_id'][2]" position="attributes">
-                <arrtibue name="invisible">1</attribute>
+                <attribute name="invisible">1</attribute>
               </xpath>
             </field>
         </record>
