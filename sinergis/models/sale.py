@@ -44,10 +44,13 @@ class SaleOrder(models.Model):
             if company_id and country_id :
                 if country_id == "France":
                     self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE"),('company_id.name', '=', company_id.name)])[0].id
+                    self.partner_id.property_account_position_id = self.fiscal_position_id
                 elif country_id == "Guadeloupe" or country_id == "Martinique":
                     self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM"),('company_id.name', '=', company_id.name)])[0].id
+                    self.partner_id.property_account_position_id = self.fiscal_position_id
                 elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
                     self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO"),('company_id.name', '=', company_id.name)])[0].id
+                    self.partner_id.property_account_position_id = self.fiscal_position_id
         for order in self:
             order.order_line._compute_tax_id()
 
