@@ -94,9 +94,9 @@ class CalendarEvent(models.Model):
             self.x_sinergis_calendar_event_tache_information = False
         CalendarEvent.updateTasks(self)
 
-    @api.onchange("duration")
-    def on_change_duration(self):
-        self.x_sinergis_calendar_duree_facturee = self.duration
+    #@api.onchange("duration")
+    #def on_change_duration(self):
+    #    self.x_sinergis_calendar_duree_facturee = self.duration
 
     @api.onchange("x_sinergis_calendar_event_produits")
     def on_change_x_sinergis_calendar_event_produits(self):
