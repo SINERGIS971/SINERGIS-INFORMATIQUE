@@ -10,13 +10,23 @@
             <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
             <field name="arch" type="xml">
               <xpath expr="//header" position="after">
-                <field name="create_date"/>
+                <field name="start" position="move"/>
+                <field name="stop" position="move"/>
                 <field name="x_sinergis_calendar_event_client"/>
+                <field name="partner_ids"/>
                 <field name="x_sinergis_calendar_event_produits"/>
-                <field name="user_id" widget="many2one_avatar_user" attrs="{'readonly':[('recurrency','=',True)]}" optional="hide" position="move"/>
-                <field name="x_sinergis_calendar_event_produits"/>
+                <field name="user_id" widget="many2one_avatar_user" attrs="{'readonly':[('recurrency','=',True)]}" optional="hide"/>
                 <field name="x_sinergis_calendar_event_temps_cumule" string="Temps"/>
                 <field name="x_sinergis_calendar_event_facturation"/>
+              </xpath>
+              <xpath expr="//field[@name='location']" position="attributes">
+                <arrtibue name="invisible">1</attribute>
+              </xpath>
+              <xpath expr="//field[@name='duration']" position="attributes">
+                <arrtibue name="invisible">1</attribute>
+              </xpath>
+              <xpath expr="//field[@name='user_id'][2]" position="attributes">
+                <arrtibue name="invisible">1</attribute>
               </xpath>
             </field>
         </record>
