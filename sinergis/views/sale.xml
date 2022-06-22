@@ -78,6 +78,18 @@
         </field>
     </record>
 
+    <record id="sinergis_inherited_management_saler_order" model="ir.ui.view">
+        <field name="name">sinergis.inherited.management.sale.order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_management.sale_order_form_quote"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+          <xpath expr="//page[@name='other_information']" position="after">
+              <xpath expr="//page[@name='optional_products']" position="move"/>
+          </xpath>
+        </field>
+      </record>
+
     <!-- TREE VIEW  -->
 
     <record id="sinergis_inherited_saler_order_tree" model="ir.ui.view">
