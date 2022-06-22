@@ -57,7 +57,6 @@ class CalendarEvent(models.Model):
 
     @api.depends('x_sinergis_calendar_event_temps_cumule')
     def _compute_x_sinergis_calendar_event_temps_cumule (self):
-        self.x_sinergis_calendar_event_temps_cumule = sum(self.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_event_id', '=', self.id)]).mapped('unit_amount'))
         for rec in self:
             if rec.x_sinergis_calendar_event_facturation == "Contrat heures" or rec.x_sinergis_calendar_event_facturation == "Devis":
                 rec.x_sinergis_calendar_event_temps_cumule = sum(rec.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_event_id', '=', rec.id)]).mapped('unit_amount'))
