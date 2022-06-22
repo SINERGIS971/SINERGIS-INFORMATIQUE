@@ -17,6 +17,7 @@ class SaleOrder(models.Model):
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
     @api.onchange('partner_shipping_id', 'partner_id', 'company_id')
     def onchange_partner_shipping_id(self):
+        SaleOrder._compute_fiscal_position_id(self);
         return {}
 
     @api.depends('x_sinergis_sale_order_client_bloque')
