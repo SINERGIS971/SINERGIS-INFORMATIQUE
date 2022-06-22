@@ -76,7 +76,7 @@
             </xpath>
 
             <xpath expr="//group[@name='other_information']" position="before">
-              <xpath expr="//page[@name='order_lines']" position="move">
+              <xpath expr="//page[@name='order_lines']" position="move"/>
             </xpath>
 
         </field>
