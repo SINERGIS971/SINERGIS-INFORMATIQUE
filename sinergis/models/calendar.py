@@ -19,6 +19,26 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_produits_x3 = fields.Selection([('CPT', 'CPT'),('GES', 'GES'),('CRYSTAL', 'CRYSTAL'),('BI', 'BI'),('DEV', 'DEV')], string="Module Sage X3")
     x_sinergis_calendar_event_produits_divers = fields.Selection([('SCANFACT', 'SCANFACT'),('WINDEV', 'WINDEV'),('AUTRE', 'AUTRE')], string="Module Divers")
 
+    x_sinergis_calendar_event_produit_nom_complet = fields.Char(string="Produit", readonly=True, compute="_compute_x_sinergis_calendar_event_produit_nom_complet")
+
+    @api.depends('x_sinergis_calendar_event_produit_nom_complet')
+    def _compute_x_sinergis_calendar_event_produit_nom_complet (self):
+        for rec in self:
+            if rec.x_sinergis_calendar_event_produits == "CEGID":
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_cegid
+            elif rec.x_sinergis_calendar_event_produits == "SAGE 100":
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sage100
+            elif rec.x_sinergis_calendar_event_produits == "SAGE 1000":
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sage1000
+            elif rec.x_sinergis_calendar_event_produits == "SAP":
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sap
+            elif rec.x_sinergis_calendar_event_produits == "X3":
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_x3
+            elif rec.x_sinergis_calendar_event_produits == "DIVERS":
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits_divers
+            else:
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits
+
     x_sinergis_calendar_event_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client")
 
     #PAGE FACTURATION

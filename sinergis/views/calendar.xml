@@ -14,7 +14,7 @@
                 <field name="stop" position="move"/>
                 <field name="x_sinergis_calendar_event_client"/>
                 <field name="partner_ids"/>
-                <field name="x_sinergis_calendar_event_produits"/>
+                <field name="x_sinergis_calendar_event_produit_nom_complet"/>
                 <field name="user_id" widget="many2one_avatar_user" attrs="{'readonly':[('recurrency','=',True)]}" optional="hide"/>
                 <field name="x_sinergis_calendar_event_temps_cumule" string="Temps"/>
                 <field name="x_sinergis_calendar_event_facturation"/>
