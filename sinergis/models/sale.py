@@ -12,7 +12,11 @@ class SaleOrder(models.Model):
     x_sinergis_sale_order_objet = fields.Char(string="Objet")
     x_sinergis_sale_order_contact = fields.Many2one("res.partner",string="Contact", required="True")
 
-    fiscal_position_id = fields.Many2one(compute="_compute_fiscal_position_id", readonly=False);
+    fiscal_position_id = fields.Many2one(
+        'account.fiscal.position', string='Fiscal Position',
+        domain="[('company_id', '=', company_id)]", check_company=True,
+        help="Fiscal positions are used to adapt taxes and accounts for particular customers or sales orders/invoices."
+        "The default value comes from the customer.", compute="_compute_fiscal_position_id")
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
