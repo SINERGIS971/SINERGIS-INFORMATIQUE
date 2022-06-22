@@ -54,6 +54,10 @@
                 <br/>
             </xpath>
 
+            <xpath expr="//page[@name='sale_reporting']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
             <xpath expr="//field[@name='payment_term_id']" position="attributes">
                 <attribute name="required">1</attribute>
                 <attribute name="default">3</attribute>
@@ -69,6 +73,10 @@
 
             <xpath expr="//group[@name='sale_reporting']" position="attributes">
                 <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//group[@name='other_information']" position="before">
+              <xpath expr="//page[@name='order_lines']" position="move">
             </xpath>
 
         </field>
