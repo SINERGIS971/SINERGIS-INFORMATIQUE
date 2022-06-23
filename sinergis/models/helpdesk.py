@@ -284,3 +284,10 @@ class HelpdeskTicket(models.Model):
         if self.x_sinergis_helpdesk_ticket_is_facturee:
             self.env["account.analytic.line"].search([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)]).unlink()
             self.x_sinergis_helpdesk_ticket_is_facturee = not self.x_sinergis_helpdesk_ticket_is_facturee
+
+    #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
+    def write(self, values):
+        user_id = values.get('user_id', self.user_id)
+        if user_id != self.env.user and self.stage_id.name == "Résolu":
+            raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
+        return super(CalendarEvent, self).write(values)
