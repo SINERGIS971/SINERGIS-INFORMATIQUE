@@ -258,6 +258,22 @@
 							<div class="col-3"/></div>
 						<div class="row address">
 							<div class="col-5 offset-2"/></div>
+
+						<t t-if="doc.x_sinergis_helpdesk_ticket_tache2">
+							<div class="row o_bold h3">
+									<div class="col-0 h4"/>
+									<div style="margin-left:10px">
+										<strong>
+											<br/>
+											<br/>Solde restant sur le contrat d'heures:
+
+										</strong>
+										<t t-esc="'%02d:%02d' % (int(doc.doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)" class="h3"/>
+		                <span class="h3"> h</span>
+									</div>
+							<div class="col-0"/></div>
+						</t>
+
 						<div class="row o_bold h3">
 							<div class="col-0 h4"/>
 							<div style="margin-left:10px">
