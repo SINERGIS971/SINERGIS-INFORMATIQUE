@@ -5,8 +5,8 @@ from datetime import datetime
 
 class CalendarEvent(models.Model):
     _inherit = "calendar.event"
-    x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client", required="True")
-    x_sinergis_calendar_event_contact = fields.Many2one("res.partner",string="Contact", required="True")
+    x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client", required="False")
+    x_sinergis_calendar_event_contact = fields.Many2one("res.partner",string="Contact", required="False")
     x_sinergis_calendar_event_contact_transfered = fields.Many2one("res.partner",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
 
 #ZONE PRODUITS
