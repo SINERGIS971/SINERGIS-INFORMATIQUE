@@ -290,4 +290,4 @@ class HelpdeskTicket(models.Model):
         user_id = values.get('user_id', self.user_id)
         if user_id != self.env.user and self.stage_id.name == "Résolu":
             raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
-        return super(CalendarEvent, self).write(values)
+        return super(HelpdeskTicket, self).write(values)
