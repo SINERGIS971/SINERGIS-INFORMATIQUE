@@ -288,6 +288,6 @@ class HelpdeskTicket(models.Model):
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
     @api.constrains("user_id")
     def constraint_user_id(self):
-        user_id = self.user_ids
+        user_id = self.user_id
         if user_id != self.env.user and self.stage_id.name == "Résolu":
-            raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
+            raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné ou assigner une nouvelle personne à celui-ci.")
