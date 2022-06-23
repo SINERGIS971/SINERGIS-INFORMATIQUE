@@ -232,10 +232,7 @@
                 <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False)]}</attribute>
             </field>
             <field name="phone" position="attributes">
-                <attribute name="attrs">{'required':['&amp;','|',('x_sinergis_societe_suspect','=',False),('mobile','=',False),('mobile','=','')]}</attribute>
-            </field>
-            <field name="mobile" position="attributes">
-                <attribute name="attrs">{'required':['&amp;','|',('x_sinergis_societe_suspect','=',False),('phone','=',False),('phone','=','')]}</attribute>
+                <attribute name="attrs">{'required':[('x_sinergis_societe_suspect','=',False)]}</attribute>
             </field>
 
             <!-- Contact modifications -->
