@@ -39,7 +39,7 @@ class MailActivity(models.Model):
                 'default_x_sinergis_calendar_event_tache_transfered': self.env['project.task'].search([('id','=',res_id)]).id,
             }
             return action
-        if res_model == "re.partner":
+        if res_model == "res.partner":
             self.ensure_one()
             action = self.env["ir.actions.actions"]._for_xml_id("calendar.action_calendar_event")
             res_id = self.env.context.get('default_res_id')
