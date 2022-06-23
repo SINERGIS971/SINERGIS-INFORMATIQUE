@@ -62,9 +62,8 @@ class CalendarEvent(models.Model):
 
     x_sinergis_calendar_event_is_solved = fields.Boolean(string="L'intervention est-elle terminée ?'",default=False)
 
-
     x_sinergis_calendar_event_intervention_count = fields.Integer(string="Nombre d'interventions", compute="_compute_x_sinergis_calendar_event_intervention_count")
-    x_sinergis_calendar_event_temps_cumule = fields.Float(string="Temps cumulé", compute="_compute_x_sinergis_calendar_event_temps_cumule", group_operator=True)
+    x_sinergis_calendar_event_temps_cumule = fields.Float(string="Temps cumulé", compute="_compute_x_sinergis_calendar_event_temps_cumule", group_operator='sum')
 
     x_sinergis_calendar_event_is_facturee = fields.Boolean(string="",default=False)
 
