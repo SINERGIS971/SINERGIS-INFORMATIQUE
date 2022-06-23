@@ -233,7 +233,7 @@ class CalendarEvent(models.Model):
         else : self.x_sinergis_calendar_event_tache_information = False
 
     def x_sinergis_calendar_event_duree_button(self):
-        if self.x_sinergis_calendar_duree_facturee <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
+        if self.x_sinergis_calendar_duree_facturee <= 0 and self.x_sinergis_calendar_event_is_facturee == False:
             raise ValidationError("Le temps passé doit être supérieur à 0")
         if not self.user_id:
             raise ValidationError("Vous devez assigner une personne pour décompter des heures.")
