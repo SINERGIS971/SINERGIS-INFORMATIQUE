@@ -268,8 +268,7 @@
 											<br/>Solde restant sur le contrat d'heures:
 
 										</strong>
-										<t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours), doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours % 1 * 60)" class="h3"/>
-		                <span class="h3"> h</span>
+		                <span class="h3"><t t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours), doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours % 1 * 60)" class="h3"/> h</span>
 									</div>
 							<div class="col-0"/></div>
 						</t>
