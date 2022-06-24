@@ -10,13 +10,13 @@
           <field name="effective_hours"/>
           <field name="planned_hours"/>
         </xpath>
-        <xpath expr="//filter[@name='my_tasks']" position="before">
+        <!--<xpath expr="//filter[@name='my_tasks']" position="before">
               <field name="x_sinergis_project_task_done"/>
               <field name="x_sinergis_project_task_soon_done"/>
-              <!--<filter string="Contrat terminé" name="contractended" domain="[('x_sinergis_project_task_done','=',True)]"/>
+              <filter string="Contrat terminé" name="contractended" domain="[('x_sinergis_project_task_done','=',True)]"/>
               <filter string="Contrat bientôt terminé" name="contract_soon_ended" domain="[('x_sinergis_project_task_soon_done','=',True)]"/>
-              <separator/>-->
-        </xpath>
+              <separator/>
+        </xpath>-->
       </field>
   </record>
 
