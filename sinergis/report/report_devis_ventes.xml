@@ -178,7 +178,7 @@
                         <br/>
                         <strong>Signature:</strong>
 												<br/>
-												<img t-if="doc.env.user.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.env.user.x_sinergis_res_users_tampon_signature)" class="float-left" alt="Signature" style="width: 300px; height: auto;"/>
+												<img t-if="doc.env.user.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.env.user.x_sinergis_res_users_tampon_signature)" class="float-left" alt="Signature" style="width: 250pt; height: auto;"/>
                     </div>
                     <div class="col-auto col-3 mw-100 mb-2">
                       <br/><br/><br/>
