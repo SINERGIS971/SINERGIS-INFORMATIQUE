@@ -25,9 +25,6 @@ class ProjectTask(models.Model):
         for rec in self :
             rec.x_sinergis_project_task_soon_done = rec.effective_hours >= rec.planned_hours
 
-
-
-
     @api.depends('x_sinergis_project_task_alerte')
     def _compute_x_sinergis_project_task_alerte (self):
         tache = self
