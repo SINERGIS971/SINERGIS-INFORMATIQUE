@@ -85,6 +85,10 @@ class HelpdeskTicket(models.Model):
                 rec.x_sinergis_helpdesk_ticket_temps_cumule = rec.x_sinergis_helpdesk_ticket_temps_passe
 
 
+    @api.onchange("stage_id")
+    def on_change_stage_id_sinergis(self):
+        if self.stage_id.name == "En cours":
+            self.x_sinergis_helpdesk_ticket_is_solved = False
 
     @api.onchange("x_sinergis_helpdesk_ticket_produits")
     def on_change_x_sinergis_helpdesk_ticket_produits(self):
