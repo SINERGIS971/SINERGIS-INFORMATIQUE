@@ -12,8 +12,8 @@
         </xpath>
         <xpath expr="//filter[@name='my_tasks']" position="before">
               <field name="x_sinergis_project_task_done"/>
-              <filter string="Contrat terminé" name="contractended" domain="[('x_sinergis_project_task_done','=',True)]"/>
               <field name="x_sinergis_project_task_soon_done"/>
+              <filter string="Contrat terminé" name="contractended" domain="[('x_sinergis_project_task_done','=',True)]"/>
               <filter string="Contrat bientôt terminé" name="contract_soon_ended" domain="[('x_sinergis_project_task_soon_done','=',True)]"/>
               <separator/>
         </xpath>
@@ -70,6 +70,8 @@
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="x_sinergis_project_task_done" invisible="True"/>
+                <field name="x_sinergis_project_task_soon_done" invisible="True"/>
                 <field name="x_sinergis_project_task_etat_tache" display="full" bold="True" widget="badge" attrs="{'invisible': [['x_sinergis_project_task_etat_tache','=',False]]}"/>
             </xpath>
         </field>
