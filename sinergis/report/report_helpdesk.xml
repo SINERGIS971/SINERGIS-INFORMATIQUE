@@ -335,7 +335,7 @@
 						<div class="row"/>
 						<div class="row">
 							<div class="col">
-                  <img t-if="doc.user_id.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.env.user.x_sinergis_res_users_tampon_signature)" class="float-left" alt="Signature"/>
+                  <img t-if="doc.user_id.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.env.user.x_sinergis_res_users_tampon_signature)" class="float-left" alt="Signature" style="width: 200px; height: auto;"/>
 							</div>
 						</div>
 						<div class="row h4"/>
