@@ -23,10 +23,9 @@ class ProjectTask(models.Model):
     @api.depends('x_sinergis_project_task_soon_done')
     def _compute_x_sinergis_project_task_soon_done (self):
         for rec in self :
-            if rec.effective_hours >= 0.9*rec.planned_hours and rec.effective_hours < rec.planned_hour :
-                rec.x_sinergis_project_task_soon_done = True
-            else:
-                rec.x_sinergis_project_task_soon_done = False
+            rec.x_sinergis_project_task_soon_done = rec.effective_hours >= rec.planned_hours
+
+
 
     @api.depends('x_sinergis_project_task_alerte')
     def _compute_x_sinergis_project_task_alerte (self):
@@ -49,7 +48,7 @@ class ProjectTask(models.Model):
         if tache.effective_hours>=tache.planned_hours:
             self.x_sinergis_project_task_alerte = "Attention ! Le contrat est terminé, merci de consulter un commercial."
         elif tache.effective_hours>=0.9*tache.planned_hours:
-            hours = int(tache.remaining_hours)
+            hours = math.in(tache.remaining_hours)
             minutes = math.ceil((tache.remaining_hours - hours)*60)
             self.x_sinergis_project_task_alerte = "Attention ! Il reste uniquement " + str(hours) + " heures et " + str(minutes) + " minutes sur le contrat"
         else : self.x_sinergis_project_task_alerte = False

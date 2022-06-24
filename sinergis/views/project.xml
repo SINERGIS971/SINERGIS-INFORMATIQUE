@@ -70,8 +70,6 @@
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="x_sinergis_project_task_done" invisible="True"/>
-                <field name="x_sinergis_project_task_soon_done" invisible="True"/>
                 <field name="x_sinergis_project_task_etat_tache" display="full" bold="True" widget="badge" attrs="{'invisible': [['x_sinergis_project_task_etat_tache','=',False]]}"/>
             </xpath>
         </field>
