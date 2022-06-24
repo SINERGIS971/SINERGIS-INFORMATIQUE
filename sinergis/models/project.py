@@ -49,7 +49,7 @@ class ProjectTask(models.Model):
         if tache.effective_hours>=tache.planned_hours:
             self.x_sinergis_project_task_alerte = "Attention ! Le contrat est terminé, merci de consulter un commercial."
         elif tache.effective_hours>=0.9*tache.planned_hours:
-            hours = math.in(tache.remaining_hours)
+            hours = int(tache.remaining_hours)
             minutes = math.ceil((tache.remaining_hours - hours)*60)
             self.x_sinergis_project_task_alerte = "Attention ! Il reste uniquement " + str(hours) + " heures et " + str(minutes) + " minutes sur le contrat"
         else : self.x_sinergis_project_task_alerte = False
