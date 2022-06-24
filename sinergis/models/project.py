@@ -27,6 +27,7 @@ class ProjectTask(models.Model):
 
 
 
+
     @api.depends('x_sinergis_project_task_alerte')
     def _compute_x_sinergis_project_task_alerte (self):
         tache = self
