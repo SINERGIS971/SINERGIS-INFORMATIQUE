@@ -257,7 +257,8 @@
 							<div class="col-3"/>
 							<div class="col-3"/></div>
 						<div class="row address">
-							<div class="col-5 offset-2"/></div>
+							<div class="col-5 offset-2"/>
+                        </div>
 
 						<t t-if="doc.x_sinergis_helpdesk_ticket_tache2">
 							<div class="row o_bold h3">
@@ -267,7 +268,7 @@
 											<br/>Solde restant sur le contrat d'heures:
 											<br/>
 										</strong>
-		                <span class="h3"><t t-esc="'%02d:%02d h' % (int(doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours), floor(abs(doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours) % 1 * 60)" class="h3"/></span>
+		                <span class="h3"><t t-esc="'%02d:%02d h' % (int(doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours), floor(abs(doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours) % 1 * 60))" class="h3"/></span>
 									</div>
 								</div>
 						</t>
