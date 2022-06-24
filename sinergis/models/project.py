@@ -12,11 +12,17 @@ class ProjectTask(models.Model):
 
     #Variables pour les filtres
     x_sinergis_project_task_done = fields.Boolean(default=False,compute="_compute_x_sinergis_project_task_done", store=True)
+    x_sinergis_project_task_soon_done = fields.Boolean(default=False,compute="_compute_x_sinergis_project_task_soon_done", store=True)
 
     @api.depends('x_sinergis_project_task_done')
     def _compute_x_sinergis_project_task_done (self):
         for rec in self :
             rec.x_sinergis_project_task_done = rec.effective_hours >= rec.planned_hours
+
+    @api.depends('x_sinergis_project_task_soon_done')
+    def _compute_x_sinergis_project_task_soon_done (self):
+        for rec in self :
+            rec.x_sinergis_project_task_soon_done = (rec.effective_hours >= 0.9*rec.planned_hours and rec.effective_hours < rec.planned_hours)
 
 
 
