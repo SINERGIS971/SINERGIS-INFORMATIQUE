@@ -209,7 +209,7 @@
 									<t t-foreach="doc.x_sinergis_helpdesk_ticket_tache2.timesheet_ids" t-as="line">
 										<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
 											<tr>
-												<td><span t-field="line.date"/></td>
+												<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
 										    <td><span t-field="line.date"/></td>
 										    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), floor(abs(line.unit_amount) % 1 * 60))"/></td>
 										  </tr>
@@ -220,6 +220,7 @@
 									<t t-foreach="doc.x_sinergis_helpdesk_ticket_tache.timesheet_ids" t-as="line">
 										<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
 											<tr>
+												<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
 										    <td><span t-field="line.date"/></td>
 										    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
 										  </tr>
