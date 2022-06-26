@@ -11,6 +11,7 @@ class HelpdeskTicket(models.Model):
     #Override
     #company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company, readonly=True,related='')
     #team_id = fields.Many2one('helpdesk.team', string='Helpdesk Team', default=lambda self: self.env['helpdesk.team'].search([('name','=',"Service Clientèle")]), index=True)
+
     stage_id = fields.Many2one(domain=False)
 
     #Colonne de gauche
@@ -57,19 +58,19 @@ class HelpdeskTicket(models.Model):
     def _compute_x_sinergis_helpdesk_ticket_produit_nom_complet (self):
         for rec in self:
             if rec.x_sinergis_helpdesk_ticket_produits == "CEGID":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_cegid
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_cegid if rec.x_sinergis_helpdesk_ticket_produits_cegid else rec.x_sinergis_helpdesk_ticket_produits
             elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 100":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage100
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage100 if rec.x_sinergis_helpdesk_ticket_produits_sage100 else rec.x_sinergis_helpdesk_ticket_produits
             elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 1000":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage1000
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage1000 if rec.x_sinergis_helpdesk_ticket_produits_sage1000 else rec.x_sinergis_helpdesk_ticket_produits
             elif rec.x_sinergis_helpdesk_ticket_produits == "SAP":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sap
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sap if rec.x_sinergis_helpdesk_ticket_produits_sap else rec.x_sinergis_helpdesk_ticket_produits
             elif rec.x_sinergis_helpdesk_ticket_produits == "X3":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_x3
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_x3 if rec.x_sinergis_helpdesk_ticket_produits_x3 else rec.x_sinergis_helpdesk_ticket_produits
             elif rec.x_sinergis_helpdesk_ticket_produits == "DIVERS":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_divers
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_divers if rec.x_sinergis_helpdesk_ticket_produits_divers else ''
             else:
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits if rec.x_sinergis_helpdesk_ticket_produits else ''
 
 
     @api.depends('x_sinergis_helpdesk_ticket_intervention_count')
@@ -290,8 +291,10 @@ class HelpdeskTicket(models.Model):
             self.x_sinergis_helpdesk_ticket_is_facturee = not self.x_sinergis_helpdesk_ticket_is_facturee
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
+    """
     def write(self, values):
         user_id = self.user_id
         if user_id != self.env.user.id and self.stage_id.name == "Résolu":
             raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
         return super(HelpdeskTicket, self).write(values)
+    """
