@@ -90,6 +90,10 @@ class HelpdeskTicket(models.Model):
     def on_change_stage_id_sinergis(self):
         if self.stage_id.name == "En cours":
             self.x_sinergis_helpdesk_ticket_is_solved = False
+        elif self.stage_id.name == "Résolu":
+        user_id = self.user_id
+            if user_id != self.env.user.id :
+                raise ValidationError("Vous ne pouvez pas marquer un ticket que ne vous est pas assigné comme résolu.")
 
     @api.onchange("x_sinergis_helpdesk_ticket_produits")
     def on_change_x_sinergis_helpdesk_ticket_produits(self):
@@ -291,10 +295,9 @@ class HelpdeskTicket(models.Model):
             self.x_sinergis_helpdesk_ticket_is_facturee = not self.x_sinergis_helpdesk_ticket_is_facturee
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
-    """
+
     def write(self, values):
         user_id = self.user_id
         if user_id != self.env.user.id and self.stage_id.name == "Résolu":
             raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
         return super(HelpdeskTicket, self).write(values)
-    """
