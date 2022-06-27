@@ -91,7 +91,7 @@ class HelpdeskTicket(models.Model):
         if self.stage_id.name == "En cours":
             self.x_sinergis_helpdesk_ticket_is_solved = False
         elif self.stage_id.name == "Résolu":
-        user_id = self.user_id
+            user_id = self.user_id
             if user_id != self.env.user.id :
                 raise ValidationError("Vous ne pouvez pas marquer un ticket que ne vous est pas assigné comme résolu.")
 
