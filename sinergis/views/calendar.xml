@@ -56,6 +56,12 @@
                     <page name="x_sinergis_facturation_page" string="Facturation">
                         <group>
                             <field name="x_sinergis_calendar_event_object"/>
+                            <label for="x_sinergis_calendar_event_end_time"/>
+                            <div>
+                                <field name="x_sinergis_calendar_event_start_time" class="oe_inline"/>
+                                <label for="x_sinergis_calendar_event_end_time" string=" --> " nolabel="1" attrs="{'invisible': ['|',('x_sinergis_calendar_event_start_time', '=', False),('x_sinergis_calendar_event_end_time', '=', False)]}" />
+                                <field name="x_sinergis_calendar_event_end_time" class="oe_inline"/>
+                            </div>
                             <field name="x_sinergis_calendar_event_desc_intervention"/>
                             <field name="x_sinergis_calendar_event_trip"/>
                             <br/>

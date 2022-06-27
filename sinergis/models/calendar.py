@@ -43,6 +43,10 @@ class CalendarEvent(models.Model):
 
     #PAGE FACTURATION
     x_sinergis_calendar_event_object = fields.Html(string="Objet")
+
+    x_sinergis_calendar_event_start_time = fields.Datetime(string="Début et fin de l'intervention")
+    x_sinergis_calendar_event_end_time = fields.Datetime(string='')
+
     x_sinergis_calendar_event_desc_intervention = fields.Html(string="Description d'intervention")
     x_sinergis_calendar_event_trip = fields.Boolean(string="Déplacement")
     x_sinergis_calendar_event_facturation = fields.Selection([("Contrat heure", "Contrat d'heures"),("Temps passé", "Temps passé"),("Devis", "Devis"),("Non facturable", "Non facturable")], string="Facturation")
@@ -239,7 +243,7 @@ class CalendarEvent(models.Model):
             raise ValidationError("Vous devez assigner une personne pour décompter des heures.")
         if self.x_sinergis_calendar_event_taches :
             self.x_sinergis_calendar_event_is_facturee = True
-            self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : 'Enregistrement depuis le calendrier', 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee,'x_sinergis_account_analytic_line_event_id' : self.id})]
+            self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : 'Enregistrement depuis le calendrier', 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee,'x_sinergis_account_analytic_line_event_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_calendar_event_start_time ,'x_sinergis_account_analytic_line_end_time' : self.x_sinergis_calendar_event_end_time})]
             CalendarEvent.setTacheInformation(self)
 
         #OVERRIDE WRITE & CREATE
