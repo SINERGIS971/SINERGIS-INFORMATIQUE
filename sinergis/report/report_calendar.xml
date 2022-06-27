@@ -189,7 +189,7 @@
 							<div class="col-4 h3 o_bold"/>
 						</div>
 					<div class="row">
-						<table border="1" style="width:50%;border-collapse: collapse;margin: auto;">
+						<table border="1" style="width:90%;border-collapse: collapse;margin: auto;">
 							<tr style="font-weight:bold;border: 1px solid black;">
 								<th style="text-align:center;"><strong>Début</strong></th>
 								<th style="text-align:center;"><strong>Fin</strong></th>
