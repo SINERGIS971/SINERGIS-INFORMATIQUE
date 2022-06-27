@@ -127,7 +127,7 @@ class CalendarEvent(models.Model):
         self.x_sinergis_calendar_duree_facturee = self.duration
         if self.x_sinergis_calendar_event_start_time == False and self.x_sinergis_calendar_event_end_time == False :
             self.x_sinergis_calendar_event_start_time = self.start
-            self.x_sinergis_calendar_event_end_time = self.end
+            self.x_sinergis_calendar_event_end_time = self.stop
 
     @api.onchange("x_sinergis_calendar_event_produits")
     def on_change_x_sinergis_calendar_event_produits(self):
