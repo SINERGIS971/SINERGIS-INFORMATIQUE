@@ -30,8 +30,8 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_show_facturation = fields.Boolean(default=0)
 
-    x_sinergis_helpdesk_ticket_start_time = fields.Datetime(string="Début et fin de l'intervention",default=datetime.now())
-    x_sinergis_helpdesk_ticket_end_time = fields.Datetime(string='',default=datetime.now())
+    x_sinergis_helpdesk_ticket_start_time = fields.Datetime(string="Début et fin de l'intervention")
+    x_sinergis_helpdesk_ticket_end_time = fields.Datetime(string='')
 
     x_sinergis_helpdesk_ticket_ticket_resolution = fields.Html(string="Description de l'intervention")
 
@@ -281,6 +281,9 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
+        if x_sinergis_helpdesk_ticket_start_time == False and x_sinergis_helpdesk_ticket_end_time == False :
+            x_sinergis_helpdesk_ticket_start_time = datetime.now()
+            x_sinergis_helpdesk_ticket_end_time = datetime.now()
 
     def x_sinergis_helpdesk_ticket_duree_button(self):
         if self.x_sinergis_helpdesk_ticket_temps_passe <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
