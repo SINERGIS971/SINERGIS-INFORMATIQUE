@@ -30,6 +30,9 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_show_facturation = fields.Boolean(default=0)
 
+    x_sinergis_helpdesk_ticket_start_time = fields.Datetime(string="Début et fin de l'intervention")
+    x_sinergis_helpdesk_ticket_end_time = fields.Datetime(string='')
+
     x_sinergis_helpdesk_ticket_ticket_resolution = fields.Html(string="Description de l'intervention")
 
     x_sinergis_helpdesk_ticket_facturation = fields.Selection([("Contrat heures", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable', 'Non facturable')], string="Facturation")
