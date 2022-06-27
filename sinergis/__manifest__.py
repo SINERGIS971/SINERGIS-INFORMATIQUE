@@ -34,7 +34,7 @@
         'views/mail.xml',
         'report/report_helpdesk.xml',
         'report/report_calendar.xml',
-        #'report/report_devis_ventes.xml',
+        'report/report_devis_ventes.xml',
         'data/mail_template.xml',
         'data/mail_helpdesk_ticket.xml',
     ],
