@@ -92,7 +92,7 @@ class HelpdeskTicket(models.Model):
             self.x_sinergis_helpdesk_ticket_is_solved = False
         elif self.stage_id.name == "Résolu":
             user_id = self.user_id
-            if user_id != self.env.user.id :
+            if user_id != self.env.user :
                 raise ValidationError("Vous ne pouvez pas marquer un ticket que ne vous est pas assigné comme résolu.")
 
     @api.onchange("x_sinergis_helpdesk_ticket_produits")
@@ -298,6 +298,6 @@ class HelpdeskTicket(models.Model):
 
     def write(self, values):
         user_id = self.user_id
-        if user_id != self.env.user.id and self.stage_id.name == "Résolu":
+        if user_id != self.env.user and self.stage_id.name == "Résolu":
             raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
         return super(HelpdeskTicket, self).write(values)
