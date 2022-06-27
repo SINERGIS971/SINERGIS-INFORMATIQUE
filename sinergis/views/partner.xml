@@ -23,6 +23,7 @@
               <filter string="Ancien client X3" name="old_client_x3" domain="[('x_sinergis_societe_ancien_code_x3', '!=', False)]"/>
               <filter string="En cours d'immatriculation" name="in_process_of_registration" domain="[('x_sinergis_societe_en_cours_immatriculation', '=', True)]"/>
               <filter string="Suspects" name="is_suspect_filter" domain="[('x_sinergis_societe_suspect', '=', True)]"/>
+              <separator/>
             </xpath>
         </field>
     </record>
