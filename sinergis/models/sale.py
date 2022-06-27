@@ -20,6 +20,10 @@ class SaleOrder(models.Model):
         SaleOrder._compute_fiscal_position_id(self);
         return {}
 
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        self.x_sinergis_sale_order_contact = False
+
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
         if self.partner_id:
