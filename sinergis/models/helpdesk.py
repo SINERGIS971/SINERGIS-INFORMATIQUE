@@ -11,6 +11,7 @@ class HelpdeskTicket(models.Model):
     #Override
     #company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company, readonly=True,related='')
     #team_id = fields.Many2one('helpdesk.team', string='Helpdesk Team', default=lambda self: self.env['helpdesk.team'].search([('name','=',"Service Clientèle")]), index=True)
+
     stage_id = fields.Many2one(domain=False)
 
     #Colonne de gauche
