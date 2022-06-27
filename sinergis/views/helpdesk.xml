@@ -97,7 +97,7 @@
                       <label for="x_sinergis_helpdesk_ticket_start_time"/>
                       <div>
                           <field name="x_sinergis_helpdesk_ticket_start_time" class="oe_inline"/>
-                          <label for="x_sinergis_helpdesk_ticket_end_time" string=" --> " nolabel="1" class="oe_edit_only" />
+                          <label for="x_sinergis_helpdesk_ticket_end_time" string=" --> " nolabel="1" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_start_time', '=', False),('x_sinergis_helpdesk_ticket_end_time', '=', False)]}" />
                           <field name="x_sinergis_helpdesk_ticket_end_time" class="oe_inline"/>
                       </div>
                         <field name="x_sinergis_helpdesk_ticket_ticket_resolution" class="field_description" placeholder="Description de la résolution du ticket..." string="Description de l'intervention"/>

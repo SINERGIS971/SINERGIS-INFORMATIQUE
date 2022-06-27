@@ -281,9 +281,9 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
-        if x_sinergis_helpdesk_ticket_start_time == False and x_sinergis_helpdesk_ticket_end_time == False :
-            x_sinergis_helpdesk_ticket_start_time = datetime.now()
-            x_sinergis_helpdesk_ticket_end_time = datetime.now()
+        if self.x_sinergis_helpdesk_ticket_start_time == False and self.x_sinergis_helpdesk_ticket_end_time == False :
+            self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
+            self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
 
     def x_sinergis_helpdesk_ticket_duree_button(self):
         if self.x_sinergis_helpdesk_ticket_temps_passe <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
@@ -293,7 +293,7 @@ class HelpdeskTicket(models.Model):
         if self.x_sinergis_helpdesk_ticket_taches :
             self.x_sinergis_helpdesk_ticket_is_facturee = True
             name = self.name
-            self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_ticket_id' : self.id})]
+            self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_ticket_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_helpdesk_ticket_start_time ,'x_sinergis_account_analytic_line_end_time': self.x_sinergis_helpdesk_ticket_end_time})]
             HelpdeskTicket.setTacheInformation(self)
 
     def x_sinergis_helpdesk_ticket_reset_button (self):

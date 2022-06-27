@@ -156,6 +156,8 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="x_sinergis_account_analytic_line_start_time"/>
+                <field name="x_sinergis_account_analytic_line_end_time"/>
                 <field name="x_sinergis_account_analytic_line_user_id" widget="many2one_avatar_user"/>
             </xpath>
             <xpath expr="//field[@name='unit_amount']" position="after">
