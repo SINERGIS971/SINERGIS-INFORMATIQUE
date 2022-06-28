@@ -6,6 +6,10 @@
             <field name="model">helpdesk.ticket</field>
             <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_tree"/>
             <field name="arch" type="xml">
+                <!-- Couleur orange lorsque le temps cumulé sur le ticket est supérieur à 1h00 -->
+                <xpath expr="//tree" position="attributes">
+                  <attribute name="decoration-warning">x_sinergis_helpdesk_ticket_temps_cumule>=1</attribute>
+                </xpath>
                 <xpath expr="//field[@name='display_name']" position="before">
                   <field name="create_date"/>
                   <field name="priority" position="move"/>
@@ -90,6 +94,12 @@
                     <field name="x_sinergis_helpdesk_ticket_show_facturation" invisible="1"/>
                     <div attrs="{'invisible': [('x_sinergis_helpdesk_ticket_show_facturation',  '=', False)]}">
                     <group>
+                      <label for="x_sinergis_helpdesk_ticket_start_time"/>
+                      <div>
+                          <field name="x_sinergis_helpdesk_ticket_start_time" class="oe_inline"/>
+                          <label for="x_sinergis_helpdesk_ticket_end_time" string=" --> " nolabel="1" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_start_time', '=', False),('x_sinergis_helpdesk_ticket_end_time', '=', False)]}" />
+                          <field name="x_sinergis_helpdesk_ticket_end_time" class="oe_inline"/>
+                      </div>
                         <field name="x_sinergis_helpdesk_ticket_ticket_resolution" class="field_description" placeholder="Description de la résolution du ticket..." string="Description de l'intervention"/>
                     <field name="x_sinergis_helpdesk_ticket_facturation" attrs="{'readonly': [('x_sinergis_helpdesk_ticket_is_facturee','=',True)]}"/>
                     <field name="x_sinergis_helpdesk_ticket_project" domain="[('partner_id','=',partner_id)]" attrs="{'readonly': ['|',('partner_id',  '=', False),('x_sinergis_helpdesk_ticket_is_facturee','=',True)], 'invisible': ['|','|','|',('x_sinergis_helpdesk_ticket_facturation',  '=', False),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Temps passé'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Contrat heures'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Non facturable')]}" options="{'no_create': True, 'no_create_edit':True}"/>
@@ -114,15 +124,15 @@
                 <field name="x_sinergis_helpdesk_ticket_temps_passe" widget="float_time" style="font-size:13pt;"/>
                 <field name="x_sinergis_helpdesk_ticket_is_solved"/>
                 <br/>
-                <field name="x_sinergis_helpdesk_ticket_intervention_count"/>
-                <field name="x_sinergis_helpdesk_ticket_temps_cumule" widget="float_time"/>
+                <field name="x_sinergis_helpdesk_ticket_intervention_count" attrs="{'invisible': ['&amp;',('x_sinergis_helpdesk_ticket_facturation', '!=', 'Contrat heures'),('x_sinergis_helpdesk_ticket_facturation', '!=', 'Devis')]}"/>
+                <field name="x_sinergis_helpdesk_ticket_temps_cumule" widget="float_time" attrs="{'invisible': ['&amp;',('x_sinergis_helpdesk_ticket_facturation', '!=', 'Contrat heures'),('x_sinergis_helpdesk_ticket_facturation', '!=', 'Devis')]}" />
                 </group>
                 <field name="x_sinergis_helpdesk_ticket_is_facturee" invisible="True"/>
                 <group>
                 <button name="x_sinergis_helpdesk_ticket_duree_button" string="Décompter le temps facturé" type="object" class="btn-primary oe_right" readonly="True" confirm="Êtes-vous sûr de vouloir décompter les heures ?" attrs="{'invisible': ['|','|','|','|',('x_sinergis_helpdesk_ticket_facturation',  '=', False),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Temps passé'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Non facturable'),('x_sinergis_helpdesk_ticket_is_facturee', '=', True),'&amp;',('x_sinergis_helpdesk_ticket_tache', '=', False),('x_sinergis_helpdesk_ticket_tache2', '=', False)]}" style="background-color:green;"/>
                 </group>
                 <group>
-                <button name="x_sinergis_helpdesk_ticket_duree_button" string="Temps facturé décompté" type="object" class="btn-primary oe_right" readonly="True" confirm="Vous avez déjà décompté du temps sur cet évenement. Souhaitez vous vraiment encore ?" attrs="{'invisible': ['|','|','|','|',('x_sinergis_helpdesk_ticket_facturation',  '=', False),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Temps passé'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Non facturable'),('x_sinergis_helpdesk_ticket_is_facturee', '=', False),'&amp;',('x_sinergis_helpdesk_ticket_tache', '=', False),('x_sinergis_helpdesk_ticket_tache2', '=', False)]}" style="background-color:orange;"/>
+                <button name="x_sinergis_helpdesk_ticket_duree_button" string="Temps facturé décompté" type="object" class="btn-primary oe_right" readonly="True" confirm="Vous avez déjà décompté du temps sur ce ticket. Souhaitez vous encore en décompter ?" attrs="{'invisible': ['|','|','|','|',('x_sinergis_helpdesk_ticket_facturation',  '=', False),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Temps passé'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Non facturable'),('x_sinergis_helpdesk_ticket_is_facturee', '=', False),'&amp;',('x_sinergis_helpdesk_ticket_tache', '=', False),('x_sinergis_helpdesk_ticket_tache2', '=', False)]}" style="background-color:orange;"/>
                 </group>
                 <group>
                   <button name="x_sinergis_helpdesk_ticket_reset_button" string="Réinitialiser" type="object" class="btn-primary" readonly="True" confirm="Souhaitez-vous vraiment réinitialiser les heures décomptées ?" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_is_facturee', '=', False)]}" style="background-color:grey;"/>

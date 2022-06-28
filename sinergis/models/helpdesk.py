@@ -30,6 +30,9 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_show_facturation = fields.Boolean(default=0)
 
+    x_sinergis_helpdesk_ticket_start_time = fields.Datetime(string="Début et fin de l'intervention")
+    x_sinergis_helpdesk_ticket_end_time = fields.Datetime(string='')
+
     x_sinergis_helpdesk_ticket_ticket_resolution = fields.Html(string="Description de l'intervention")
 
     x_sinergis_helpdesk_ticket_facturation = fields.Selection([("Contrat heures", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable', 'Non facturable')], string="Facturation")
@@ -42,7 +45,7 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_is_solved = fields.Boolean(string="Le ticket est-il résolu ?",default=False)
 
-    x_sinergis_helpdesk_ticket_intervention_count = fields.Integer(string="Nombre d'interventions", compute="_compute_x_sinergis_helpdesk_ticket_intervention_count")
+    x_sinergis_helpdesk_ticket_intervention_count = fields.Integer(string="Nombre d'interventions", compute="_compute_x_sinergis_helpdesk_ticket_intervention_count", group_operator="sum")
     x_sinergis_helpdesk_ticket_temps_cumule = fields.Float(string="Temps cumulé", compute="_compute_x_sinergis_helpdesk_ticket_temps_cumule")
 
     x_sinergis_helpdesk_ticket_is_facturee = fields.Boolean(string="",default=False)
@@ -58,24 +61,25 @@ class HelpdeskTicket(models.Model):
     def _compute_x_sinergis_helpdesk_ticket_produit_nom_complet (self):
         for rec in self:
             if rec.x_sinergis_helpdesk_ticket_produits == "CEGID":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_cegid
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_cegid if rec.x_sinergis_helpdesk_ticket_produits_cegid else rec.x_sinergis_helpdesk_ticket_produits
             elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 100":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage100
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage100 if rec.x_sinergis_helpdesk_ticket_produits_sage100 else rec.x_sinergis_helpdesk_ticket_produits
             elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 1000":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage1000
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage1000 if rec.x_sinergis_helpdesk_ticket_produits_sage1000 else rec.x_sinergis_helpdesk_ticket_produits
             elif rec.x_sinergis_helpdesk_ticket_produits == "SAP":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sap
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sap if rec.x_sinergis_helpdesk_ticket_produits_sap else rec.x_sinergis_helpdesk_ticket_produits
             elif rec.x_sinergis_helpdesk_ticket_produits == "X3":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_x3
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_x3 if rec.x_sinergis_helpdesk_ticket_produits_x3 else rec.x_sinergis_helpdesk_ticket_produits
             elif rec.x_sinergis_helpdesk_ticket_produits == "DIVERS":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_divers
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_divers if rec.x_sinergis_helpdesk_ticket_produits_divers else ''
             else:
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits if rec.x_sinergis_helpdesk_ticket_produits else ''
 
 
     @api.depends('x_sinergis_helpdesk_ticket_intervention_count')
     def _compute_x_sinergis_helpdesk_ticket_intervention_count (self):
-        self.x_sinergis_helpdesk_ticket_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)])
+        for rec in self:
+            rec.x_sinergis_helpdesk_ticket_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_ticket_id', '=', rec.id)])
 
     @api.depends('x_sinergis_helpdesk_ticket_temps_cumule')
     def _compute_x_sinergis_helpdesk_ticket_temps_cumule (self):
@@ -86,6 +90,14 @@ class HelpdeskTicket(models.Model):
                 rec.x_sinergis_helpdesk_ticket_temps_cumule = rec.x_sinergis_helpdesk_ticket_temps_passe
 
 
+    @api.onchange("stage_id")
+    def on_change_stage_id_sinergis(self):
+        if self.stage_id.name == "En cours":
+            self.x_sinergis_helpdesk_ticket_is_solved = False
+        elif self.stage_id.name == "Résolu":
+            user_id = self.user_id
+            if user_id != self.env.user :
+                raise ValidationError("Vous ne pouvez pas marquer un ticket que ne vous est pas assigné comme résolu.")
 
     @api.onchange("x_sinergis_helpdesk_ticket_produits")
     def on_change_x_sinergis_helpdesk_ticket_produits(self):
@@ -269,6 +281,9 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
+        if self.x_sinergis_helpdesk_ticket_start_time == False and self.x_sinergis_helpdesk_ticket_end_time == False :
+            self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
+            self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
 
     def x_sinergis_helpdesk_ticket_duree_button(self):
         if self.x_sinergis_helpdesk_ticket_temps_passe <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
@@ -278,10 +293,18 @@ class HelpdeskTicket(models.Model):
         if self.x_sinergis_helpdesk_ticket_taches :
             self.x_sinergis_helpdesk_ticket_is_facturee = True
             name = self.name
-            self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_ticket_id' : self.id})]
+            self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_ticket_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_helpdesk_ticket_start_time ,'x_sinergis_account_analytic_line_end_time': self.x_sinergis_helpdesk_ticket_end_time})]
             HelpdeskTicket.setTacheInformation(self)
 
     def x_sinergis_helpdesk_ticket_reset_button (self):
         if self.x_sinergis_helpdesk_ticket_is_facturee:
             self.env["account.analytic.line"].search([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)]).unlink()
             self.x_sinergis_helpdesk_ticket_is_facturee = not self.x_sinergis_helpdesk_ticket_is_facturee
+
+    #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
+
+    def write(self, values):
+        user_id = self.user_id
+        if user_id != self.env.user and self.stage_id.name == "Résolu":
+            raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
+        return super(HelpdeskTicket, self).write(values)

@@ -12,7 +12,9 @@
         </xpath>
         <!--<xpath expr="//filter[@name='my_tasks']" position="before">
               <field name="x_sinergis_project_task_done"/>
+              <field name="x_sinergis_project_task_soon_done"/>
               <filter string="Contrat terminé" name="contractended" domain="[('x_sinergis_project_task_done','=',True)]"/>
+              <filter string="Contrat bientôt terminé" name="contract_soon_ended" domain="[('x_sinergis_project_task_soon_done','=',True)]"/>
               <separator/>
         </xpath>-->
       </field>
@@ -27,6 +29,8 @@
     <field name="priority" eval="10"/>
     <field name="arch" type="xml">
         <xpath expr="//field[@name='priority']" position="after">
+            <field name="x_sinergis_project_task_done" invisible="True"/>
+            <field name="x_sinergis_project_task_soon_done" invisible="True"/>
             <field name="project_id" position="move"/>
             <field name="name" position="move"/>
             <field name="user_ids" position="move"/>
@@ -152,6 +156,8 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="x_sinergis_account_analytic_line_start_time"/>
+                <field name="x_sinergis_account_analytic_line_end_time"/>
                 <field name="x_sinergis_account_analytic_line_user_id" widget="many2one_avatar_user"/>
             </xpath>
             <xpath expr="//field[@name='unit_amount']" position="after">

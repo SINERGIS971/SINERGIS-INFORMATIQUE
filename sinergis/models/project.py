@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import datetime
+import math
 
 
 class ProjectTask(models.Model):
@@ -11,16 +12,18 @@ class ProjectTask(models.Model):
     x_sinergis_project_task_alerte = fields.Char(compute="_compute_x_sinergis_project_task_alerte")
 
     #Variables pour les filtres
-    #x_sinergis_project_task_done = fields.Boolean(default=False,compute="_compute_x_sinergis_project_task_done", store=True)
+    x_sinergis_project_task_done = fields.Boolean(default=False,compute="_compute_x_sinergis_project_task_done", store=False)
+    x_sinergis_project_task_soon_done = fields.Boolean(default=False,compute="_compute_x_sinergis_project_task_soon_done", store=False)
 
-    #@api.depends('x_sinergis_project_task_done')
-    #def _compute_x_sinergis_project_task_done (self):
-    #    if (self.effective_hours >= self.planned_hours):
-    #        self.x_sinergis_project_task_done = True
-    #    else:
-    #        self.x_sinergis_project_task_done = False
+    @api.depends('x_sinergis_project_task_done')
+    def _compute_x_sinergis_project_task_done (self):
+        for rec in self :
+            rec.x_sinergis_project_task_done = rec.effective_hours >= rec.planned_hours
 
-
+    @api.depends('x_sinergis_project_task_soon_done')
+    def _compute_x_sinergis_project_task_soon_done (self):
+        for rec in self :
+            rec.x_sinergis_project_task_soon_done = rec.effective_hours >= rec.planned_hours
 
     @api.depends('x_sinergis_project_task_alerte')
     def _compute_x_sinergis_project_task_alerte (self):
@@ -44,7 +47,7 @@ class ProjectTask(models.Model):
             self.x_sinergis_project_task_alerte = "Attention ! Le contrat est terminé, merci de consulter un commercial."
         elif tache.effective_hours>=0.9*tache.planned_hours:
             hours = int(tache.remaining_hours)
-            minutes = int((tache.remaining_hours - hours)*60)
+            minutes = math.ceil((tache.remaining_hours - hours)*60)
             self.x_sinergis_project_task_alerte = "Attention ! Il reste uniquement " + str(hours) + " heures et " + str(minutes) + " minutes sur le contrat"
         else : self.x_sinergis_project_task_alerte = False
 

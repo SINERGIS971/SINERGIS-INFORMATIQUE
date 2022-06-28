@@ -15,7 +15,6 @@
 		<t t-call="web.html_container">
 			<t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
-					<div class="page o_bold h4">
 						<div class="row"></div>
 						<div class="row text-center o_bold h1">
 							<div class="col o_bold h1">
@@ -147,6 +146,14 @@
 										<t t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_event_temps_cumule), doc.x_sinergis_calendar_event_temps_cumule % 1 * 60)" class="h3"/>
 		                <span class="h3"> h</span>
 	                </t>
+								<t t-if="doc.x_sinergis_calendar_event_tache2">
+                <br/>
+										<strong style="font-size: 26px">
+											<br/>Solde restant sur le contrat d'heures:
+											<br/>
+										</strong>
+		                <span class="h3" style="font-size: 26px;"><t t-esc="'%02d:%02d h' % (int(doc.x_sinergis_calendar_event_tache2.remaining_hours), floor(abs(doc.x_sinergis_calendar_event_tache2.remaining_hours) % 1 * 60))" class="h3"/></span>
+						  </t>
 								</div>
 								<div class="col-4 h3 o_bold">
 									<span>
@@ -182,16 +189,20 @@
 							<div class="col-4 h3 o_bold"/>
 						</div>
 					<div class="row">
-						<table border="1" style="width:50%;border-collapse: collapse;margin: auto;">
+						<table border="1" style="width:90%;border-collapse: collapse;margin: auto; font-size: 25px;">
 							<tr style="font-weight:bold;border: 1px solid black;">
-								<th style="text-align:center;"><strong>Date</strong></th>
-								<th style="text-align:center;"><strong>Heures</strong></th>
+								<th style="text-align:center;"><strong>Début</strong></th>
+								<th style="text-align:center;"><strong>Fin</strong></th>
+								<th style="text-align:center;"><strong>Intervenant</strong></th>
+								<th style="text-align:center;"><strong>Durée facturée</strong></th>
 							</tr>
 							<t t-if="doc.x_sinergis_calendar_event_tache2">
 								<t t-foreach="doc.x_sinergis_calendar_event_tache2.timesheet_ids" t-as="line">
 									<t t-if="line.x_sinergis_account_analytic_line_event_id == doc">
 										<tr>
-											<td><span t-field="line.date"/></td>
+											<td><span t-field="line.x_sinergis_account_analytic_line_start_time"/></td>
+											<td><span t-field="line.x_sinergis_account_analytic_line_end_time"/></td>
+											<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
 											<td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
 										</tr>
 									</t>
@@ -201,7 +212,9 @@
 								<t t-foreach="doc.x_sinergis_calendar_event_tache.timesheet_ids" t-as="line">
 									<t t-if="line.x_sinergis_account_analytic_line_event_id == doc">
 										<tr>
-											<td><span t-field="line.date"/></td>
+											<td><span t-field="line.x_sinergis_account_analytic_line_start_time"/></td>
+											<td><span t-field="line.x_sinergis_account_analytic_line_end_time"/></td>
+											<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
 											<td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
 										</tr>
 									</t>
@@ -261,6 +274,7 @@
 							<div class="col-3"/></div>
 						<div class="row address">
 							<div class="col-5 offset-2"/></div>
+
 						<div class="row o_bold h3">
 							<div class="col-0 h4"></div>
 							<div style="margin-left:10px">
@@ -308,11 +322,10 @@
 						</div>
 						<div class="row">
 							<div class="col">
-								<img t-if="doc.user_id.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.user_id.x_sinergis_res_users_tampon_signature)" class="float-left" alt="Signature"/>
+								<img t-if="doc.env.user.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.env.user.x_sinergis_res_users_tampon_signature)" class="float-left" alt="Signature" style="width: 300px; height: auto;"/>
 							</div>
 						</div>
 						<div class="row h4"></div>
-					</div>
 				</t>
 			</t>
 		</t>

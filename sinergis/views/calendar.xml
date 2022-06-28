@@ -56,6 +56,13 @@
                     <page name="x_sinergis_facturation_page" string="Facturation">
                         <group>
                             <field name="x_sinergis_calendar_event_object"/>
+
+                            <label for="x_sinergis_calendar_event_start_time"/>
+                            <div>
+                                <field name="x_sinergis_calendar_event_start_time" class="oe_inline"/>
+                                <label for="x_sinergis_calendar_event_end_time" string=" --> " nolabel="1" attrs="{'invisible': ['|',('x_sinergis_calendar_event_start_time', '=', False),('x_sinergis_calendar_event_end_time', '=', False)]}" />
+                                <field name="x_sinergis_calendar_event_end_time" class="oe_inline"/>
+                            </div>
                             <field name="x_sinergis_calendar_event_desc_intervention"/>
                             <field name="x_sinergis_calendar_event_trip"/>
                             <br/>
@@ -100,8 +107,8 @@
                             <br/>
                             <field name="x_sinergis_calendar_duree_facturee" widget="float_time" style="font-size:13pt;"/>
                             <field name="x_sinergis_calendar_event_is_solved"/>
-                            <field name="x_sinergis_calendar_event_intervention_count" readonly="True"/>
-                            <field name="x_sinergis_calendar_event_temps_cumule" widget="float_time" readonly="True"/>
+                            <field name="x_sinergis_calendar_event_intervention_count" readonly="True" attrs="{'invisible': ['&amp;',('x_sinergis_calendar_event_facturation', '!=', 'Contrat heures'),('x_sinergis_calendar_event_facturation', '!=', 'Devis')]}"/>
+                            <field name="x_sinergis_calendar_event_temps_cumule" widget="float_time" readonly="True" attrs="{'invisible': ['&amp;',('x_sinergis_calendar_event_facturation', '!=', 'Contrat heures'),('x_sinergis_calendar_event_facturation', '!=', 'Devis')]}"/>
                         </group>
                         <!-- BOUTTON POUR DECOMPTER LES HEURES DU CONTRAT D'HEURE-->
                         <field name="x_sinergis_calendar_event_is_facturee" invisible="True"/>
