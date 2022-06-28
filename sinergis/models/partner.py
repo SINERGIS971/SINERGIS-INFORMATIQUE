@@ -162,7 +162,7 @@ class ResPartner(models.Model):
                 firstnameList = list(firstname)
                 firstnameList[0] = firstname[0].upper()
                 self.x_sinergis_societe_contact_firstname = "".join(firstnameList)
-                ResPartner.update_name(self)
+            ResPartner.update_name(self)
 
 
     @api.onchange("x_sinergis_societe_contact_lastname")
@@ -173,6 +173,7 @@ class ResPartner(models.Model):
                 self.x_sinergis_societe_contact_lastname = lastname.upper()
                 ResPartner.update_name(self)
 
+
     def update_name(self):
         firstname = self.x_sinergis_societe_contact_firstname
         lastname = self.x_sinergis_societe_contact_lastname
@@ -180,7 +181,11 @@ class ResPartner(models.Model):
             lastname = ""
         if type(firstname).__name__ != "str":
             firstname = ""
-        self.name = lastname + " " + firstname
+
+        if firstname != False and firstname != "":
+            self.name = lastname + " " + firstname
+        else :
+            self.name = lastname
 
     #Bouton "Rendez-vous" lié au calendrier: Remplacement de la fonction pour faire passer la société dans les valeurs transférées
     def sinergis_schedule_meeting(self):
