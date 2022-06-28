@@ -12,6 +12,7 @@
 	</record>
 	<!-- Enregistrement des données du rapport -->
 	<template id="sinergis.sinergis_devis_ventes">
+    <t t-name="sinergis.devis_ventes">
       <t t-call="web.html_container">
   			<t t-foreach="docs" t-as="doc">
         <t t-call="web.external_layout">
@@ -211,5 +212,6 @@
         </t>
     </t>
   </t>
+	</t>
 	</template>
 </odoo>
