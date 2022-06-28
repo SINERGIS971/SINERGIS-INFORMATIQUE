@@ -23,6 +23,8 @@ class SaleOrder(models.Model):
     @api.onchange('partner_id')
     def onchange_partner_id(self):
         self.x_sinergis_sale_order_contact = False
+        self.partner_invoice_id = self.partner_id
+        self.partner_shipping_id = self.partner_id
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
