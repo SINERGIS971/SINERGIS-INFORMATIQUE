@@ -2,7 +2,7 @@
   <data>
 
     <!-- KANBAN FILTRE -->
-    <!-- Dans la fonction recherche, ajouter la reconnaissance de 'autre nom' et 'nom juridique' -->
+    <!-- Dans la fonction recherche, ajouter la reconnaissance de 'autre nom' et 'nom juridique' --> 
 
     <record id="sinergis_inherited_res_partner_select" model="ir.ui.view">
         <field name="name">sinergis.inherited.res.partner.select</field>
