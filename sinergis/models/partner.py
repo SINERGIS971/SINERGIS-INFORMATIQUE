@@ -180,7 +180,11 @@ class ResPartner(models.Model):
             lastname = ""
         if type(firstname).__name__ != "str":
             firstname = ""
-        self.name = lastname + " " + firstname
+
+        if firstname != False and firstname != "":
+            self.name = lastname + " " + firstname
+        else :
+            self.name = lastname
 
     #Bouton "Rendez-vous" lié au calendrier: Remplacement de la fonction pour faire passer la société dans les valeurs transférées
     def sinergis_schedule_meeting(self):
