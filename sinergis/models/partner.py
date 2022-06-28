@@ -162,7 +162,7 @@ class ResPartner(models.Model):
                 firstnameList = list(firstname)
                 firstnameList[0] = firstname[0].upper()
                 self.x_sinergis_societe_contact_firstname = "".join(firstnameList)
-                ResPartner.update_name(self)
+            ResPartner.update_name(self)
 
 
     @api.onchange("x_sinergis_societe_contact_lastname")
@@ -172,6 +172,7 @@ class ResPartner(models.Model):
             if len(lastname) > 0:
                 self.x_sinergis_societe_contact_lastname = lastname.upper()
                 ResPartner.update_name(self)
+
 
     def update_name(self):
         firstname = self.x_sinergis_societe_contact_firstname
