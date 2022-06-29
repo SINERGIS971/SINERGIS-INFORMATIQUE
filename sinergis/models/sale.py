@@ -49,8 +49,8 @@ class SaleOrder(models.Model):
         else:
             self.x_sinergis_sale_order_client_suspect = False
 
-"""
-    @api.depends('fiscal_position_id')
+
+"""    @api.depends('fiscal_position_id')
     def _compute_fiscal_position_id (self):
         if self.partner_id :
             if self.state == "draft":
@@ -67,8 +67,8 @@ class SaleOrder(models.Model):
                         self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO"),('company_id.name', '=', company_id.name)])[0].id
                         self.partner_id.property_account_position_id = self.fiscal_position_id
         for order in self:
-            order.order_line._compute_tax_id()
-"""
+            order.order_line._compute_tax_id()"""
+
     @api.onchange("order_line")
     def on_change_order_line(self):
         for line in self.order_line:
