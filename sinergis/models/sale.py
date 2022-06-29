@@ -67,7 +67,7 @@ class SaleOrder(models.Model):
                         self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO"),('company_id.name', '=', company_id.name)])[0].id
                         self.partner_id.property_account_position_id = self.fiscal_position_id
         for order in self:
-            order.order_line._compute_tax_id()"""
+            order.order_line._compute_tax_id()
 
     @api.onchange("order_line")
     def on_change_order_line(self):
@@ -76,6 +76,7 @@ class SaleOrder(models.Model):
                 self.pricelist_id = self.env['product.pricelist'].search([('name','=',"PRIX CONTRAT D'HEURES PME")])
             elif line.product_id.name == "CONTRAT D'HEURES MGE":
                 self.pricelist_id = self.env['product.pricelist'].search([('name','=',"PRIX CONTRAT D'HEURES MGE")])
+    """
 
     @api.onchange("partner_id")
     def on_change_partner_id(self):
