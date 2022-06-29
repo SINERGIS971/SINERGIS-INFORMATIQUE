@@ -12,15 +12,15 @@ class SaleOrder(models.Model):
     x_sinergis_sale_order_objet = fields.Char(string="Objet")
     x_sinergis_sale_order_contact = fields.Many2one("res.partner",string="Contact", required="True")
 
-    fiscal_position_id = fields.Many2one(compute="_compute_fiscal_position_id", readonly=False, domain="[('company_id','=',company_id)]")
+    #fiscal_position_id = fields.Many2one(compute="_compute_fiscal_position_id", readonly=False, domain="[('company_id','=',company_id)]")
 
     pricelist_id = fields.Many2one(default=lambda self: self.env['product.pricelist'].search([('name','=',"PRIX PUBLIQUE")]))
 
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
-    @api.onchange('partner_shipping_id', 'partner_id', 'company_id')
-    def onchange_partner_shipping_id(self):
-        SaleOrder._compute_fiscal_position_id(self);
-        return {}
+    #@api.onchange('partner_shipping_id', 'partner_id', 'company_id')
+    #def onchange_partner_shipping_id(self):
+#        SaleOrder._compute_fiscal_position_id(self);
+#        return {}
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
@@ -49,6 +49,7 @@ class SaleOrder(models.Model):
         else:
             self.x_sinergis_sale_order_client_suspect = False
 
+"""
     @api.depends('fiscal_position_id')
     def _compute_fiscal_position_id (self):
         if self.partner_id :
@@ -67,7 +68,7 @@ class SaleOrder(models.Model):
                         self.partner_id.property_account_position_id = self.fiscal_position_id
         for order in self:
             order.order_line._compute_tax_id()
-
+"""
     @api.onchange("order_line")
     def on_change_order_line(self):
         for line in self.order_line:
@@ -89,5 +90,5 @@ class SaleOrder(models.Model):
 
 
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
-    payment_term_id = fields.Many2one(
-        'account.payment.term', string='Payment Terms', check_company=True,domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",default=lambda self: self.env['account.payment.term'].search([('name','ilike',"100% des logiciels")]))
+    #payment_term_id = fields.Many2one(
+    #    'account.payment.term', string='Payment Terms', check_company=True,domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",default=lambda self: self.env['account.payment.term'].search([('name','ilike',"100% des logiciels")]))
