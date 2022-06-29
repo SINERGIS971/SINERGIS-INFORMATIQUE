@@ -95,7 +95,7 @@
             <xpath expr="//page[@name='contact_addresses']" position="after">
                 <page string="Contrats Annuels" name="x_sinergis_societe_contrats_annuels_page">
                 </page>
-            </path>
+            </xpath>
             <notebook position="inside">
                 <page string="Litige" name="x_sinergis_societe_litige_page" attrs="{'invisible':[('x_sinergis_societe_suspect','=',True)]}">
                     <group>
