@@ -308,6 +308,9 @@
                         </div>
                     </group>
                 </group>
+                <group>
+                  <field name="x_sinergis_societe_contact_inactive"/>
+                </group>
             </xpath>
 
             <xpath expr="//field[@name='child_ids']/form/sheet//field[@name='email']" position="attributes">

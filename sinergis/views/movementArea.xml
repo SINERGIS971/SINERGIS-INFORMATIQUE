@@ -6,7 +6,7 @@
             <field name="model">sinergis.movementcountry</field>
             <field name="arch" type="xml">
                 <tree string="Pays de déplacement">
-                    <field name="x_sinergis_movement_country_name"/>
+                    <field name="name"/>
                 </tree>
             </field>
     </record>
@@ -23,7 +23,7 @@
             <field name="model">sinergis.movementarea</field>
             <field name="arch" type="xml">
                 <tree string="Zone des pays de déplacement">
-                    <field name="x_sinergis_movement_area_name"/>
+                    <field name="name"/>
                     <field name="x_sinergis_movement_area_country"/>
                 </tree>
             </field>
