@@ -171,7 +171,7 @@
 
                 <div class="row mt32 mb32" id="condition_mention">
                     <div class="col-auto col-3 mw-100 mb-2">
-                        <p class="m-0"><strong>Condition de paiement:</strong></p>
+                        <p class="m-0"><strong>Modalités de règlement: </strong><span t-field="doc.payment_term_id"/></p>
                         <br/>
                         <p class="m-0"><strong>IBAN:</strong> <span t-if="doc.company_id.x_sinergis_res_company_iban" t-field="doc.company_id.x_sinergis_res_company_iban"/></p>
                         <p class="m-0"><strong>BIC:</strong> <span t-if="doc.company_id.x_sinergis_res_company_bic" t-field="doc.company_id.x_sinergis_res_company_bic"/></p>
