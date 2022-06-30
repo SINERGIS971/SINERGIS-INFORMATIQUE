@@ -169,7 +169,9 @@
 	                <span t-if="doc.x_sinergis_calendar_event_trip == False" class="h3">
 	                	Non
 	                </span>
+									<br/>
 									<span t-field="doc.x_sinergis_calendar_event_trip_movementcountry" class="h3"/>
+									<br/>
 									<span t-field="doc.x_sinergis_calendar_event_trip_movementarea" class="h3"/>
 								</div>
 								<div class="col-3 h3 o_bold">
