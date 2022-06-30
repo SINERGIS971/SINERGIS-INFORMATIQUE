@@ -80,7 +80,8 @@ class CalendarEvent(models.Model):
 
     @api.depends('x_sinergis_calendar_event_intervention_count')
     def _compute_x_sinergis_calendar_event_intervention_count (self):
-        self.x_sinergis_calendar_event_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_event_id', '=', self.id)])
+        for rec in self:
+            rec.x_sinergis_calendar_event_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_event_id', '=', rec.id)])
 
     @api.depends('x_sinergis_calendar_event_temps_cumule')
     def _compute_x_sinergis_calendar_event_temps_cumule (self):
