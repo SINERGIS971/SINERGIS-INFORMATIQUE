@@ -65,9 +65,9 @@
                             </div>
                             <field name="x_sinergis_calendar_event_desc_intervention"/>
                             <field name="x_sinergis_calendar_event_trip"/>
-                            <field name="x_sinergis_calendar_event_trip_movementcountry"/>
-                            <field name="x_sinergis_calendar_event_trip_movementarea"/>
-
+                            <!-- Affiché uniquement si il y a eu un déplacement -->
+                            <field name="x_sinergis_calendar_event_trip_movementcountry" attrs="{'invisible': [('x_sinergis_calendar_event_trip', '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="x_sinergis_calendar_event_trip_movementarea" attrs="{'invisible': [('x_sinergis_calendar_event_trip', '=', False)], 'readonly': [('x_sinergis_calendar_event_trip_movementcountry', '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
                             <br/>
                             <br/>
                             <br/>

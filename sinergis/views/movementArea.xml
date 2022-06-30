@@ -38,13 +38,13 @@
 
 
 <menuitem id="sinergis_movementcountry"
-          parent="helpdesk.helpdesk_menu_config"
+          parent="calendar.calendar_menu_config"
           name="Pays de déplacement"
           action="sinergis_movementcountry_action"
           sequence="15"/>
 
 <menuitem id="sinergis_movementarea"
-          parent="helpdesk.helpdesk_menu_config"
+          parent="calendar.calendar_menu_config"
           name="Zone des pays de déplacement"
           action="sinergis_movementarea_action"
           sequence="20"/>
