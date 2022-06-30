@@ -67,7 +67,7 @@
                             <field name="x_sinergis_calendar_event_trip"/>
                             <!-- Affiché uniquement si il y a eu un déplacement -->
                             <field name="x_sinergis_calendar_event_trip_movementcountry" attrs="{'invisible': [('x_sinergis_calendar_event_trip', '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
-                            <field name="x_sinergis_calendar_event_trip_movementarea" attrs="{'invisible': [('x_sinergis_calendar_event_trip', '=', False)], 'readonly': [('x_sinergis_calendar_event_trip_movementcountry', '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="x_sinergis_calendar_event_trip_movementarea" attrs="{'invisible': [('x_sinergis_calendar_event_trip', '=', False)], 'readonly': [('x_sinergis_calendar_event_trip_movementcountry', '=', False)]}" options="{'no_create': True, 'no_create_edit':True}" domain="[('x_sinergis_movement_area_country','=',x_sinergis_calendar_event_trip_movementcountry)]"/>
                             <br/>
                             <br/>
                             <br/>
