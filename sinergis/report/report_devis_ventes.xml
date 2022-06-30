@@ -7,12 +7,11 @@
 		<field name="report_type">qweb-pdf</field>
 		<field name="report_name">sinergis.sinergis_devis_ventes</field>
 		<field name="report_file">sinergis.sinergis_devis_ventes</field>
-		<field name="binding_model_id" ref="model_calendar_event"/>
+		<field name="binding_model_id" ref="model_sale_order"/>
 		<field name="binding_type">report</field>
 	</record>
 	<!-- Enregistrement des données du rapport -->
 	<template id="sinergis.sinergis_devis_ventes">
-    <t t-name="sinergis.devis_ventes">
       <t t-call="web.html_container">
   			<t t-foreach="docs" t-as="doc">
         <t t-call="web.external_layout">
@@ -209,7 +208,6 @@
                     <span t-field="doc.fiscal_position_id.sudo().note"/>
                 </p>
             </div>
-        </t>
     </t>
   </t>
 	</t>
