@@ -92,7 +92,7 @@
                             <th name="th_quantity" class="text-right">Quantité</th>
                             <th name="th_priceunit" class="text-right">Prix unitaire</th>
                             <th name="th_discount" t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
-                                <span>Disc.%</span>
+                                <span>Remise.%</span>
                             </th>
                             <th name="th_taxes" class="text-right">Taxes</th>
                             <th name="th_subtotal" class="text-right">
