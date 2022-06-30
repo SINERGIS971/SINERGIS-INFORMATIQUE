@@ -307,7 +307,7 @@ class CalendarEvent(models.Model):
     def send_rapport_intervention(self):
         if not self.x_sinergis_calendar_event_contact:
             raise UserError(_("Il vous faut un contact pour envoyer le rapport d'intervention."))
-        template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis.sinergis_intervention_report_calendar', raise_if_not_found=False)
+        template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis_intervention_report_calendar', raise_if_not_found=False)
         composition_mode = self.env.context.get('composition_mode', 'comment')
         compose_ctx = dict(
             default_composition_mode=composition_mode,
