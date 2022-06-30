@@ -72,7 +72,7 @@
 
                 <xpath expr="//field[@name='partner_phone']" position="after">
                     <br/>
-                    <field name="x_sinergis_helpdesk_ticket_contact" domain="[('parent_id','=',partner_id)]" attrs="{'readonly': ['|',('partner_id',  '=', False),('x_sinergis_helpdesk_ticket_is_facturee','=',True)]}" options="{'no_create': True, 'no_create_edit':True}" required="True"/>
+                    <field name="x_sinergis_helpdesk_ticket_contact" domain="[('parent_id','=',partner_id),('x_sinergis_societe_contact_inactive','=',False)]" attrs="{'readonly': ['|',('partner_id',  '=', False),('x_sinergis_helpdesk_ticket_is_facturee','=',True)]}" options="{'no_create': True, 'no_create_edit':True}" required="True"/>
                     <field name="x_sinergis_helpdesk_ticket_contact_fixe" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_contact',  '=', False), ('x_sinergis_helpdesk_ticket_contact_fixe',  '=', False)]}" force_save="1" widget="phone"/>
                     <field name="x_sinergis_helpdesk_ticket_contact_mobile" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_contact',  '=', False), ('x_sinergis_helpdesk_ticket_contact_mobile',  '=', False)]}" force_save="1" widget="phone"/>
                     <field name="x_sinergis_helpdesk_ticket_contact_mail" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_contact',  '=', False), ('x_sinergis_helpdesk_ticket_contact_mail',  '=', False)]}" force_save="1"/>
