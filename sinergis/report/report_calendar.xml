@@ -287,7 +287,7 @@
 									<br/>Description de l'intervention:
 
 								</strong>
-								<span t-field="doc.x_sinergis_calendar_event_desc_intervention" style="font-size: 17px;"/>
+								<span t-field="doc.x_sinergis_calendar_event_desc_intervention" style="display:inline-block" class="h3"/>
 							</div>
 							<div class="col-0"/></div>
 						<div class="row">
