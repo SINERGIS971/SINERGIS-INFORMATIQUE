@@ -287,7 +287,6 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
-        self.x_sinergis_helpdesk_ticket_temps_passe = (self.x_sinergis_helpdesk_ticket_end_time - self.x_sinergis_helpdesk_ticket_start_time).total_seconds() / 3600
 
     def x_sinergis_helpdesk_ticket_duree_button(self):
         if self.x_sinergis_helpdesk_ticket_temps_passe <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
@@ -307,7 +306,7 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_stop_time_button (self):
         self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
-
+        self.x_sinergis_helpdesk_ticket_temps_passe = (self.x_sinergis_helpdesk_ticket_end_time - self.x_sinergis_helpdesk_ticket_start_time).total_seconds() / 3600
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
 
