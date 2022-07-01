@@ -12,6 +12,7 @@
 	</record>
 	<!-- Enregistrement des données du rapport -->
 	<template id="sinergis.intervention_report_calendar">
+<t t-name="sinergis.intervention_report_calendar">
 		<t t-call="web.html_container">
 			<t t-foreach="docs" t-as="doc">
 					<t t-call="web.external_layout">
@@ -32,7 +33,7 @@
 											<p style="margin:0;padding: 0;"><strong>Client :</strong> <span t-field="doc.x_sinergis_calendar_event_client"/></p>
 										</th>
 										 <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
-											<p style="margin:0;padding: 0;" ><strong>Consultant :</strong> <span t-field="doc.user_id"/></p>
+											<p style="margin:0;padding: 0;"><strong>Consultant :</strong> <span t-field="doc.user_id"/></p>
 										</th>
 									</tr>
 							</tbody>
@@ -47,7 +48,7 @@
 											<p style="margin:0;padding: 0;"><strong>Dates d'intervention :</strong> <span t-field="doc.x_sinergis_calendar_event_start_time"/> au <span t-field="doc.x_sinergis_calendar_event_end_time"/></p>
 										</th>
 										 <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
-											<p style="margin:0;padding: 0;" ><strong>Durée :</strong> <span t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_event_temps_cumule), doc.x_sinergis_calendar_event_temps_cumule % 1 * 60)"/></p>
+											<p style="margin:0;padding: 0;"><strong>Durée :</strong> <span t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_event_temps_cumule), doc.x_sinergis_calendar_event_temps_cumule % 1 * 60)"/></p>
 										</th>
 									</tr>
 							</tbody>
@@ -60,7 +61,7 @@
 										<th rowspan="5" style="width: 70%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
 										</th>
 										 <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
-											<p style="margin:0;padding: 0;" ><strong>Durée cumulée :</strong><span t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_event_temps_cumule), doc.x_sinergis_calendar_event_temps_cumule % 1 * 60)"/></p>
+											<p style="margin:0;padding: 0;"><strong>Durée cumulée :</strong><span t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_event_temps_cumule), doc.x_sinergis_calendar_event_temps_cumule % 1 * 60)"/></p>
 										</th>
 									</tr>
 							</tbody>
@@ -91,7 +92,7 @@
 							</tbody>
 							</table>-->
 						<p style="margin:0;padding: 0;"><strong>Logiciel :</strong> <span t-field="doc.x_sinergis_calendar_event_produit_nom_complet"/></p>
-						<p style="margin:0;padding: 0;"><strong>Objet de l'intervention :</strong> <span t-field="doc.x_sinergis_calendar_event_object"/></p>
+						<p style="margin:0;padding: 0;"><strong>Objet de l'intervention :</strong> <span t-esc="doc.x_sinergis_calendar_event_object.replace('\n', '')"/></p>
 						</div>
 						<br/>
 						<t t-if="doc.x_sinergis_calendar_event_intervention_count &gt; 1">
@@ -104,7 +105,7 @@
 								</tr>
 								<t t-if="doc.x_sinergis_calendar_event_tache2">
 									<t t-foreach="doc.x_sinergis_calendar_event_tache2.timesheet_ids" t-as="line">
-										<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
+										<t t-if="line.x_sinergis_account_analytic_line_event_id == doc">
 											<tr>
 												<td><span t-field="line.x_sinergis_account_analytic_line_start_time"/></td>
 												<td><span t-field="line.x_sinergis_account_analytic_line_end_time"/></td>
@@ -116,7 +117,7 @@
 								</t>
 								<t t-if="doc.x_sinergis_calendar_event_tache">
 									<t t-foreach="doc.x_sinergis_calendar_event_tache.timesheet_ids" t-as="line">
-										<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
+										<t t-if="line.x_sinergis_account_analytic_line_event_id == doc">
 											<tr>
 												<td><span t-field="line.x_sinergis_account_analytic_line_start_time"/></td>
 												<td><span t-field="line.x_sinergis_account_analytic_line_end_time"/></td>
