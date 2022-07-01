@@ -92,9 +92,8 @@ class HelpdeskTicket(models.Model):
 
     @api.onchange("user_id")
     def on_change_user_id(self):
-        if self.x_sinergis_helpdesk_ticket_start_time == False and self.x_sinergis_helpdesk_ticket_end_time == False :
-            self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
-            self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
+        self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
+        self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
 
 
     @api.onchange("stage_id")
