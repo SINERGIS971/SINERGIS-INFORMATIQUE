@@ -14,323 +14,152 @@
 	<template id="sinergis.intervention_report_calendar">
 		<t t-call="web.html_container">
 			<t t-foreach="docs" t-as="doc">
-                <t t-call="web.external_layout">
-						<div class="row"></div>
-						<div class="row text-center o_bold h1">
-							<div class="col o_bold h1">
-								<span style="font-size:55px">Rapport d'intervention</span>
-							</div>
-						</div>
-						<div class="row o_bold h3">
-                            <t t-if="doc.x_sinergis_calendar_event_facturation == 'Devis'">
-                                <t t-if="doc.x_sinergis_calendar_event_tache != False">
-                                <div style="margin-left:10px">
-                                    <span>
-                                        <strong>
-                                            <br/>Nom de la tâche:
-
-                                        </strong>
-                                        <span t-field="doc.x_sinergis_calendar_event_tache" class="h3"/>
-                                        <br/>
-                                    </span>
-                                </div>
-                                <div class="col-3"/>
-                                <div class="col-3"/>
-                                <div class="col-3"/>
-                                </t>
-                            </t>
-                        </div>
-						<div class="row o_bold h3">
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row">
-							<div class="col-0 o_bold h3" style="margin-left:10px">
-								<span>
-									<strong>
-										<br/>Objet:
-
-									</strong>
-									<br/>
-								</span>
-								<span t-field="doc.x_sinergis_calendar_event_object" style="width:900px;display:inline-block" class="h3"/>
-							</div>
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row">
-                            <div class="col-0 o_bold h3" style="margin-left:10px">
-								<span>
-									<strong>
-										<br/>Client:
-
-									</strong>
-									<br/>
-								</span>
-								<span t-field="doc.x_sinergis_calendar_event_client" class="h3"/>
-							</div>
-                        </div>
-						<div class="row">
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row">
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row text-left h4 o_bold">
-							<div class="col-4 h3 o_bold">
-								<span>
-									<strong>
-										<br/>Contact:
-
-									</strong>
-									<br/>
-								</span>
-								<span t-field="doc.x_sinergis_calendar_event_contact.name" style="width:900px;display:inline-block" class="h3"/>
-							</div>
-							<div class="col-4 h3 o_bold">
-								<span>
-									<strong>
-										<br/>Assigné à:
-
-									</strong>
-									<br/>
-								</span>
-								<span t-field="doc.user_id" class="h3"/>
-							</div>
-							<div class="col-3 h3 o_bold">
-								<span>
-									<strong>
-										<br/>Facturation:
-
-									</strong>
-									<br/>
-								</span>
-								<span t-field="doc.x_sinergis_calendar_event_facturation" class="h3"/>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row">
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row">
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-							<div class="row text-left h4 o_bold">
-								<div class="col-4 h3 o_bold">
-									<t t-if="doc.x_sinergis_calendar_event_intervention_count &lt;= 1">
-										<span>
-											<strong>
-												<br/>Temps passé:
-
-											</strong>
-											<br/>
-										</span>
-		                <t t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_duree_facturee), doc.x_sinergis_calendar_duree_facturee % 1 * 60)" class="h3"/>
-		                <span class="h3"> h</span>
-	                </t>
-									<t t-if="doc.x_sinergis_calendar_event_intervention_count &gt; 1">
-										<span>
-											<strong>
-												<br/>Temps total cumulé :
-
-											</strong>
-											<br/>
-										</span>
-										<t t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_event_temps_cumule), doc.x_sinergis_calendar_event_temps_cumule % 1 * 60)" class="h3"/>
-		                <span class="h3"> h</span>
-	                </t>
-								<t t-if="doc.x_sinergis_calendar_event_tache2">
-                <br/>
-										<strong style="font-size: 26px">
-											<br/>Solde restant sur le contrat d'heures:
-											<br/>
-										</strong>
-		                <span class="h3" style="font-size: 26px;"><t t-esc="'%02d:%02d h' % (int(doc.x_sinergis_calendar_event_tache2.remaining_hours), floor(abs(doc.x_sinergis_calendar_event_tache2.remaining_hours) % 1 * 60))" class="h3"/></span>
-						  </t>
-								</div>
-								<div class="col-4 h3 o_bold">
-									<span>
-										<strong>
-											<br/>Déplacement:
-
-										</strong>
-										<br/>
-									</span>
-									<span t-if="doc.x_sinergis_calendar_event_trip == True" class="h3">
-	                	Oui
-										<br/>
-										<span t-field="doc.x_sinergis_calendar_event_trip_movementcountry" class="h3"/>
-										<br/>
-										<span t-field="doc.x_sinergis_calendar_event_trip_movementarea" class="h3"/>
-	                </span>
-	                <span t-if="doc.x_sinergis_calendar_event_trip == False" class="h3">
-	                	Non
-	                </span>
-								</div>
-								<div class="col-3 h3 o_bold">
-								</div>
-						</div>
-						<!--GENERATION TABLEAU -->
-
-						<t t-if="doc.x_sinergis_calendar_event_intervention_count &gt; 1">
-						<br/>
-						<br/>
-						<br/>
-						<div class="row text-center o_bold h1">
-							<div class="col o_bold h1">
-								<span style="font-size:30px">Dates et heures d'intervention:</span>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-4 h3 o_bold"/>
-						</div>
-					<div class="row">
-						<table border="1" style="width:90%;border-collapse: collapse;margin: auto; font-size: 25px;">
-							<tr style="font-weight:bold;border: 1px solid black;">
-								<th style="text-align:center;"><strong>Début</strong></th>
-								<th style="text-align:center;"><strong>Fin</strong></th>
-								<th style="text-align:center;"><strong>Intervenant</strong></th>
-								<th style="text-align:center;"><strong>Durée facturée</strong></th>
-							</tr>
-							<t t-if="doc.x_sinergis_calendar_event_tache2">
-								<t t-foreach="doc.x_sinergis_calendar_event_tache2.timesheet_ids" t-as="line">
-									<t t-if="line.x_sinergis_account_analytic_line_event_id == doc">
-										<tr>
-											<td><span t-field="line.x_sinergis_account_analytic_line_start_time"/></td>
-											<td><span t-field="line.x_sinergis_account_analytic_line_end_time"/></td>
-											<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
-											<td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
-										</tr>
-									</t>
-								</t>
-							</t>
-							<t t-if="doc.x_sinergis_calendar_event_tache">
-								<t t-foreach="doc.x_sinergis_calendar_event_tache.timesheet_ids" t-as="line">
-									<t t-if="line.x_sinergis_account_analytic_line_event_id == doc">
-										<tr>
-											<td><span t-field="line.x_sinergis_account_analytic_line_start_time"/></td>
-											<td><span t-field="line.x_sinergis_account_analytic_line_end_time"/></td>
-											<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
-											<td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
-										</tr>
-									</t>
-								</t>
-							</t>
+					<t t-call="web.external_layout">
+						<table style="border-collapse:collapse;border:none;width: 100%;margin:0;padding:0;">
+								<tr style="margin:0;padding:0;">
+									<th style="width: 50%;padding: 0;margin:0;font-weight: normal;">
+									</th>
+									 <th style="width: 50%;padding: 0;font-size:30px;text-align:center;margin:0;">
+									Rapport d'intervention
+									</th>
+								</tr>
 						</table>
-						<div class="col-3"/></div>
-					</t>
-						<div class="row">
-                            <div class="col-3 h3 o_bold">
-								<span>
-									<strong>
-										<br/>
-										<br/>Statut de l'intervention:
-
-									</strong>
-									<br/>
-								</span>
-								<span t-if="doc.x_sinergis_calendar_event_is_solved == True" class="h3">
-                                    Résolu
-                                </span>
-                                <span t-if="doc.x_sinergis_calendar_event_is_solved == False" class="h3">
-                                    En cours
-                                </span>
-							</div>
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row">
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row address">
-							<div class="col-5 offset-2"/></div>
-						<div class="row">
-							<div class="col-3"/></div>
-						<div class="row">
-							<div class="col-3">
-								<!--<span t-field="doc.sale_order_id.name"/>-->
-							</div>
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row">
-							<div class="col-3"/>
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row o_bold"></div>
-						<div class="row">
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row address">
-							<div class="col-5 offset-2"/></div>
-						<div class="row"></div>
-						<div class="row h5">
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row address">
-							<div class="col-5 offset-2"/></div>
-
-						<div class="row o_bold h3">
-							<div class="col-0 h4"></div>
-							<div style="margin-left:10px">
-								<strong>
-									<br/>
-									<br/>Description de l'intervention:
-
-								</strong>
-								<span t-field="doc.x_sinergis_calendar_event_desc_intervention" style="display:inline-block" class="h3"/>
-							</div>
-							<div class="col-0"/></div>
-						<div class="row">
-							<div class="col-3"/>
-							<div class="col-3"/></div>
-						<div class="row o_bold">
-							<div class="col h3 o_bold">
-								<strong>
-									<br/>Cadre réservé au client:
-
-								</strong>
-							</div>
+						<div style="border: 1px solid black;">
+							<table style="border-collapse:collapse;border:none;width: 100%;">
+							<tbody>
+									<tr>
+										<th rowspan="5" style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+											<p style="margin:0;padding: 0;"><strong>Client :</strong> <span t-field="doc.x_sinergis_calendar_event_client"/></p>
+										</th>
+										 <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+											<p style="margin:0;padding: 0;" ><strong>Consultant :</strong> <span t-field="doc.user_id"/></p>
+										</th>
+									</tr>
+							</tbody>
+							</table>
+							<p style="margin:0;padding: 0;"><strong>Contact : </strong><span t-field="doc.x_sinergis_calendar_event_contact.name"/></p>
+							<!-- HORAIRES D'INTERVENTION -->
+							<t t-if="doc.x_sinergis_calendar_event_intervention_count &lt;= 1">
+							<table style="border-collapse:collapse;border:none;width: 100%;">
+							<tbody>
+									<tr>
+										<th rowspan="5" style="width: 70%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+											<p style="margin:0;padding: 0;"><strong>Dates d'intervention :</strong> <span t-field="doc.x_sinergis_calendar_event_start_time"/> au <span t-field="doc.x_sinergis_calendar_event_end_time"/></p>
+										</th>
+										 <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+											<p style="margin:0;padding: 0;" ><strong>Durée :</strong> <span t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_event_temps_cumule), doc.x_sinergis_calendar_event_temps_cumule % 1 * 60)"/></p>
+										</th>
+									</tr>
+							</tbody>
+							</table>
+							</t>
+							<t t-if="doc.x_sinergis_calendar_event_intervention_count &gt; 1">
+							<table style="border-collapse:collapse;border:none;width: 100%;">
+							<tbody>
+									<tr>
+										<th rowspan="5" style="width: 70%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+										</th>
+										 <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+											<p style="margin:0;padding: 0;" ><strong>Durée cumulée :</strong><span t-esc="'%02d:%02d' % (int(doc.x_sinergis_calendar_event_temps_cumule), doc.x_sinergis_calendar_event_temps_cumule % 1 * 60)"/></p>
+										</th>
+									</tr>
+							</tbody>
+							</table>
+							</t>
+							<table style="border-collapse:collapse;border:none;width: 100%;">
+							<tbody>
+									<tr>
+										<th rowspan="5" style="width: 70%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+											<p style="margin:0;padding: 0;"><strong>Facturation :</strong> <span t-field="doc.x_sinergis_calendar_event_facturation"/></p>
+										</th>
+										 <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+											<p t-if="doc.x_sinergis_calendar_event_tache2" style="margin:0;padding: 0;"><strong>Solde restant :</strong> <span t-esc="'%02d:%02d h' % (int(doc.x_sinergis_calendar_event_tache2.remaining_hours), floor(abs(doc.x_sinergis_calendar_event_tache2.remaining_hours) % 1 * 60))"/></p>
+										</th>
+									</tr>
+							</tbody>
+							</table>
+							<!--<table style="border-collapse:collapse;border:none;width: 100%;">
+							<tbody>
+									<tr>
+										<th rowspan="5" style="width: 50%;padding: 0;vertical-align: top;">
+											<p>Déplacement : </p>
+										</th>
+										 <th style="width: 50%;padding: 0;vertical-align: top;">
+											<p>Ville d'intervention </p>
+										</th>
+									</tr>
+							</tbody>
+							</table>-->
+						<p style="margin:0;padding: 0;"><strong>Logiciel :</strong> <span t-field="doc.x_sinergis_calendar_event_produit_nom_complet"/></p>
+						<p style="margin:0;padding: 0;"><strong>Objet de l'intervention :</strong> <span t-field="doc.x_sinergis_calendar_event_object"/></p>
 						</div>
-						<div class="row">
-							<div class="col h3">
-								<span> - L'intervention à t'elle répondu à vos attentes ? Oui - non</span>
-							</div>
+						<br/>
+						<t t-if="doc.x_sinergis_calendar_event_intervention_count &gt; 1">
+						<table border="1" style="width:100%;border-collapse: collapse;margin: auto;">
+								<tr style="font-weight:bold;border: 1px solid black;">
+									<th style="text-align:center;padding: 0;margin:0;"><strong>Début</strong></th>
+									<th style="text-align:center;padding: 0;margin:0;"><strong>Fin</strong></th>
+									<th style="text-align:center;padding: 0;margin:0;"><strong>Intervenant</strong></th>
+									<th style="text-align:center;padding: 0;margin:0;"><strong>Durée facturée</strong></th>
+								</tr>
+								<t t-if="doc.x_sinergis_calendar_event_tache2">
+									<t t-foreach="doc.x_sinergis_calendar_event_tache2.timesheet_ids" t-as="line">
+										<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
+											<tr>
+												<td><span t-field="line.x_sinergis_account_analytic_line_start_time"/></td>
+												<td><span t-field="line.x_sinergis_account_analytic_line_end_time"/></td>
+												<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
+												<td><span t-esc="'%02d:%02d' % (int(line.unit_amount), floor(abs(line.unit_amount) % 1 * 60))"/></td>
+											</tr>
+										</t>
+									</t>
+								</t>
+								<t t-if="doc.x_sinergis_calendar_event_tache">
+									<t t-foreach="doc.x_sinergis_calendar_event_tache.timesheet_ids" t-as="line">
+										<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
+											<tr>
+												<td><span t-field="line.x_sinergis_account_analytic_line_start_time"/></td>
+												<td><span t-field="line.x_sinergis_account_analytic_line_end_time"/></td>
+												<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
+												<td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
+											</tr>
+										</t>
+									</t>
+								</t>
+							</table><br/></t>
+						<p style="margin:0;padding: 0;"><strong>Réalisé :</strong></p>
+						<p style="margin:0;padding: 0;"><span t-field="doc.x_sinergis_calendar_event_desc_intervention" style="display:inline-block;margin:0;" class="h3"/></p>
+						<br/>
+						<p><strong>Intervention terminée :</strong><span t-if="doc.x_sinergis_calendar_event_is_solved == True">Oui</span><span t-if="doc.x_sinergis_calendar_event_is_solved == False">Non</span></p>
+						<hr/>
+						<p><strong><br/>Cadre réservé au client:</strong></p>
+						<div style="border: 1px solid black;">
+						<p style="margin:0;padding: 0;">L'intervention à t'elle répondu à vos attentes ? Oui - Non</p>
+						<p style="margin:0;padding: 0;">Si non - Veuillez préciser vos remarques :</p>
+						<br/>
+						<br/>
 						</div>
-						<div class="row"></div>
-						<div class="row">
-							<div class="col h3">
-								<span>- Si non - Veuillez préciser vos remarques :</span>
-							</div>
-						</div>
-						<img class="img" src="/sinergis/static/src/img/zone_1.png"/>
-						<div class="row h3">
-							<div class="col h3">
-								<span>
-									<br/>N.B: Sans retour signé de votre part dans les 48 heures, ce rapport sera considéré comme a accepté pour son contenu et sa durée d'exécution.
-
-									<br/>
-									<br/>Consultant:
-
-								</span>
-							</div>
-						</div>
-						<div class="row">
+						<br/>
+						<p>N.B: Sans retour signé de votre part dans les 48 heures, ce rapport sera considéré comme a accepté pour son contenu et sa durée d'exécution.</p>
+						<table style="border-collapse:collapse;border:none;width: 100%;">
+							<tbody>
+									<tr>
+										<th rowspan="5" style="width: 33.3%;padding: 0;vertical-align: top;">
+											Le consultant
+										</th>
+										 <th style="width: 33.3%;padding: 0;vertical-align: top;">
+											Le client
+										</th>
+										<th style="width: 33.3%;padding: 0;vertical-align: top;">
+											Tampon de la société facturée et signature
+										</th>
+									</tr>
+							</tbody>
+							</table>
 							<div class="col">
-								<img t-if="doc.env.user.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.env.user.x_sinergis_res_users_tampon_signature)" class="float-left" alt="Signature" style="width: 300px; height: auto;"/>
+							<img t-if="doc.env.user.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.env.user.x_sinergis_res_users_tampon_signature)" alt="Signature" style="width: 200px; height: auto;"/>
 							</div>
-						</div>
-						<div class="row h4"></div>
-				</t>
+					</t>
 			</t>
 		</t>
 	</template>

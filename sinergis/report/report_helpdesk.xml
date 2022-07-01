@@ -37,6 +37,7 @@
                   </tr>
               </tbody>
               </table>
+							<p style="margin:0;padding: 0;"><strong>Contact : </strong><span t-field="doc.x_sinergis_helpdesk_ticket_contact.name"/></p>
               <!-- HORAIRES D'INTERVENTION -->
               <t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &lt;= 1">
               <table style="border-collapse:collapse;border:none;width: 100%;">
