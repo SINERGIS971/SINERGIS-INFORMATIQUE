@@ -1,14 +1,14 @@
 <?xml version="1.0" ?>
 <odoo>
     <data>
-       <record id="sinergis_mail_helpdesk_ticket_rapport_intervention" model="mail.template">
+       <record id="sinergis_mail_calendar_rapport_intervention" model="mail.template">
             <field name="name">Rapport d'intervention</field>
-            <field name="model_id" ref="sinergis.model_helpdesk_ticket"/>
+            <field name="model_id" ref="sinergis.model_calendar_event"/>
             <field name="email_from">support@sinergis.odoo.com</field>
-            <field name="email_to">{{ (object.x_sinergis_helpdesk_ticket_contact.email or '') }}</field>
+            <field name="email_to">{{ (object.x_sinergis_calendar_event_contact.email or '') }}</field>
             <field name="subject">Rapport d'intervention</field>
-            <field name="report_template" ref="report_e"/>
-            <field name="report_name">RI-{{ (object.user_id.x_sinergis_res_users_initials or '') }}-{{ (object.create_date.strftime('%d/%m/%Y') or '') }}-{{ (object.partner_id.name or '') }}-{{ (object.x_sinergis_helpdesk_ticket_facturation.replace(" ","_") or '') }}</field>
+            <field name="report_template" ref="sinergis_intervention_report_calendar"/>
+            <field name="report_name">RI-{{ (object.user_id.x_sinergis_res_users_initials or '') }}-{{ (object.create_date.strftime('%d/%m/%Y') or '') }}-{{ (object.partner_id.name or '') }}-{{ (object.x_sinergis_calendar_event_facturation.replace(" ","_") or '') }}</field>
             <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
               <p>Bonjour,</p>

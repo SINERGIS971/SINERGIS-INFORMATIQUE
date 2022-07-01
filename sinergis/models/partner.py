@@ -152,6 +152,9 @@ class ResPartner(models.Model):
     x_sinergis_societe_contact_facturation_zip = fields.Char(string='Code postal')
     x_sinergis_societe_contact_facturation_country_id = fields.Many2one('res.country',string='Pays')
 
+    x_sinergis_societe_contact_inactive = fields.Boolean(string="Contact inactif")
+    x_sinergis_societe_contact_inactive_reason = fields.Html(string="Raison de l'inactivité")
+
 
     @api.onchange("x_sinergis_societe_contact_firstname")
     def on_change_x_sinergis_societe_contact_firstname(self):

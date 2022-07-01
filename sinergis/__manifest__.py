@@ -23,7 +23,7 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/partner.xml',
         'views/helpdesk.xml',
         'views/calendar.xml',
@@ -32,11 +32,13 @@
         'views/users.xml',
         'views/company.xml',
         'views/mail.xml',
+        'views/movementArea.xml',
         'report/report_helpdesk.xml',
         'report/report_calendar.xml',
         'report/report_devis_ventes.xml',
         'data/mail_template.xml',
         'data/mail_helpdesk_ticket.xml',
+        'data/mail_calendar_event_intervention.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

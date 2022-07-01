@@ -49,6 +49,9 @@ class CalendarEvent(models.Model):
 
     x_sinergis_calendar_event_desc_intervention = fields.Html(string="Description d'intervention")
     x_sinergis_calendar_event_trip = fields.Boolean(string="Déplacement")
+    x_sinergis_calendar_event_trip_movementcountry = fields.Many2one("sinergis.movementcountry", string="Pays de déplacement")
+    x_sinergis_calendar_event_trip_movementarea = fields.Many2one("sinergis.movementarea", string="Zone du pays")
+
     x_sinergis_calendar_event_facturation = fields.Selection([("Contrat heure", "Contrat d'heures"),("Temps passé", "Temps passé"),("Devis", "Devis"),("Non facturable", "Non facturable")], string="Facturation")
     x_sinergis_calendar_event_project = fields.Many2one("project.project", string="Projet")
     x_sinergis_calendar_event_project_transfered = fields.Many2one("project.project",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
@@ -77,12 +80,13 @@ class CalendarEvent(models.Model):
 
     @api.depends('x_sinergis_calendar_event_intervention_count')
     def _compute_x_sinergis_calendar_event_intervention_count (self):
-        self.x_sinergis_calendar_event_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_event_id', '=', self.id)])
+        for rec in self:
+            rec.x_sinergis_calendar_event_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_event_id', '=', rec.id)])
 
     @api.depends('x_sinergis_calendar_event_temps_cumule')
     def _compute_x_sinergis_calendar_event_temps_cumule (self):
         for rec in self:
-            if rec.x_sinergis_calendar_event_facturation == "Contrat heures" or rec.x_sinergis_calendar_event_facturation == "Devis":
+            if rec.x_sinergis_calendar_event_facturation == "Contrat heure" or rec.x_sinergis_calendar_event_facturation == "Devis":
                 rec.x_sinergis_calendar_event_temps_cumule = sum(rec.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_event_id', '=', rec.id)]).mapped('unit_amount'))
             else :
                 rec.x_sinergis_calendar_event_temps_cumule = rec.x_sinergis_calendar_duree_facturee
@@ -299,6 +303,31 @@ class CalendarEvent(models.Model):
 
     def generer_rapport_intervention(self):
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self)
+
+    def send_rapport_intervention(self):
+        if not self.x_sinergis_calendar_event_contact:
+            raise UserError("Il vous faut un contact pour envoyer le rapport d'intervention.")
+        template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis.sinergis_mail_calendar_rapport_intervention', raise_if_not_found=False)
+        composition_mode = self.env.context.get('composition_mode', 'comment')
+        compose_ctx = dict(
+            default_composition_mode=composition_mode,
+            default_model='calendar.event',
+            default_res_ids=self.ids,
+            default_use_template=bool(template_id),
+            default_template_id=template_id,
+            default_partner_ids=self.partner_ids.ids,
+            mail_tz=self.env.user.tz,
+        )
+        return {
+            'type': 'ir.actions.act_window',
+            'name': "Rapport d'intervention",
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': compose_ctx,
+        }
 
     def x_sinergis_calendar_event_reset_button (self):
         if self.x_sinergis_calendar_event_is_facturee:

@@ -1,0 +1,53 @@
+<odoo>
+  <data>
+
+    <record id="sinergis_movementcountry_tree" model="ir.ui.view">
+            <field name="name">Pays de déplacement</field>
+            <field name="model">sinergis.movementcountry</field>
+            <field name="arch" type="xml">
+                <tree string="Pays de déplacement">
+                    <field name="name"/>
+                </tree>
+            </field>
+    </record>
+
+    <record id="sinergis_movementcountry_action" model="ir.actions.act_window">
+        <field name="name">Pays de déplacement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sinergis.movementcountry</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <record id="sinergis_movementarea_tree" model="ir.ui.view">
+            <field name="name">Zone des pays de déplacement</field>
+            <field name="model">sinergis.movementarea</field>
+            <field name="arch" type="xml">
+                <tree string="Zone des pays de déplacement">
+                    <field name="name"/>
+                    <field name="x_sinergis_movement_area_country"/>
+                </tree>
+            </field>
+    </record>
+
+    <record id="sinergis_movementarea_action" model="ir.actions.act_window">
+        <field name="name">Zone des pays de déplacement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sinergis.movementarea</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+
+<menuitem id="sinergis_movementcountry"
+          parent="calendar.calendar_menu_config"
+          name="Pays de déplacement"
+          action="sinergis_movementcountry_action"
+          sequence="15"/>
+
+<menuitem id="sinergis_movementarea"
+          parent="calendar.calendar_menu_config"
+          name="Zone des pays de déplacement"
+          action="sinergis_movementarea_action"
+          sequence="20"/>
+
+  </data>
+</odoo>
