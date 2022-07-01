@@ -1,5 +1,17 @@
 <odoo>
   <data>
+    <!-- TO REMOVE-->
+    <record id="sinergis_inherited_view_base_document" model="ir.ui.view">
+        <field name="name">sinergis.inherited.view.base.document</field>
+        <field name="model">base.document.layout</field>
+        <field name="inherit_id" ref="web.view_base_document_layout"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='report_footer']" position="attributes">
+              <attribute name="options">{'codeview': true}</attribute>
+            </xpath>
+        </field>
+    </record>
 
     <record id="sinergis_inherited_res_users" model="ir.ui.view">
         <field name="name">sinergis.inherited.res.users</field>
