@@ -99,6 +99,7 @@
                           <field name="x_sinergis_helpdesk_ticket_start_time" class="oe_inline"/>
                           <label for="x_sinergis_helpdesk_ticket_end_time" string=" --> " nolabel="1" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_start_time', '=', False),('x_sinergis_helpdesk_ticket_end_time', '=', False)]}" />
                           <field name="x_sinergis_helpdesk_ticket_end_time" class="oe_inline"/>
+                          <button name="x_sinergis_helpdesk_ticket_stop_time_button" string="Fin" type="object" class="oe_inline btn-primary" readonly="True" style="background-color:grey;"/>
                       </div>
                         <field name="x_sinergis_helpdesk_ticket_ticket_resolution" class="field_description" placeholder="Description de la résolution du ticket..." string="Description de l'intervention"/>
                     <field name="x_sinergis_helpdesk_ticket_facturation" attrs="{'readonly': [('x_sinergis_helpdesk_ticket_is_facturee','=',True)]}"/>

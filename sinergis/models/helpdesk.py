@@ -90,6 +90,13 @@ class HelpdeskTicket(models.Model):
                 rec.x_sinergis_helpdesk_ticket_temps_cumule = rec.x_sinergis_helpdesk_ticket_temps_passe
 
 
+    @api.onchange("user_id")
+    def on_change_user_id(self):
+        if self.x_sinergis_helpdesk_ticket_start_time == False and self.x_sinergis_helpdesk_ticket_end_time == False :
+            self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
+            self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
+
+
     @api.onchange("stage_id")
     def on_change_stage_id_sinergis(self):
         if self.stage_id.name == "En cours":
@@ -281,9 +288,6 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
-        if self.x_sinergis_helpdesk_ticket_start_time == False and self.x_sinergis_helpdesk_ticket_end_time == False :
-            self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
-            self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
 
     def x_sinergis_helpdesk_ticket_duree_button(self):
         if self.x_sinergis_helpdesk_ticket_temps_passe <= 0 and self.x_sinergis_helpdesk_ticket_is_facturee == False:
@@ -300,6 +304,10 @@ class HelpdeskTicket(models.Model):
         if self.x_sinergis_helpdesk_ticket_is_facturee:
             self.env["account.analytic.line"].search([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)]).unlink()
             self.x_sinergis_helpdesk_ticket_is_facturee = not self.x_sinergis_helpdesk_ticket_is_facturee
+
+    def x_sinergis_helpdesk_ticket_stop_time_button (self):
+        self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
+
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
 
