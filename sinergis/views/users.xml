@@ -7,6 +7,9 @@
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
+          <xpath expr="//field[@name='signature']" position="attributes">
+            <attribute name="options">{'collaborative': True}</attribute>
+          </xpath>
             <xpath expr="//field[@name='signature']" position="after">
               <field name="x_sinergis_res_users_initials"/>
               <field name="x_sinergis_res_users_tampon_signature"/>
