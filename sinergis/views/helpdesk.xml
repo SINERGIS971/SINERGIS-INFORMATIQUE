@@ -7,6 +7,8 @@
           <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_search"/>
           <field name="arch" type="xml">
               <xpath expr="//filter[@name='my_ticket']" position="before">
+                <field name="x_sinergis_helpdesk_ticket_produit_nom_complet" invisible="True"/>
+                <field name="x_sinergis_helpdesk_ticket_produits" invisible="True"/>
                 <filter string="PAIE" name="filter_paie" domain="[('x_sinergis_helpdesk_ticket_produit_nom_complet', '=', 'SAGE 100 PAI')]"/>
                 <filter string="SAGE X3" name="filter_sage_x3" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'X3')]"/>
                 <filter string="HRM" name="filter_hrm" domain="[('x_sinergis_helpdesk_ticket_produit_nom_complet', '=', 'SAGE X3 HRM')]"/>
