@@ -1,6 +1,26 @@
 <odoo>
     <data>
 
+      <record id="sinergis_inherited_helpdesk_ticket_select" model="ir.ui.view">
+          <field name="name">sinergis.inherited.helpdesk.ticket.select</field>
+          <field name="model">helpdesk.ticket</field>
+          <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+          <field name="arch" type="xml">
+              <xpath expr="//filter[@name='my_ticket']" position="before">
+                <field name="x_sinergis_helpdesk_ticket_produit_nom_complet" invisible="True"/>
+                <field name="x_sinergis_helpdesk_ticket_produits" invisible="True"/>
+                <filter string="PAIE" name="filter_paie" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'SAGE 100'),('x_sinergis_helpdesk_ticket_produits_sage100', '=', 'PAI')]"/>
+                <filter string="SAGE X3" name="filter_sage_x3" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'X3')]"/>
+                <filter string="HRM" name="filter_hrm" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'HRM'),('x_sinergis_helpdesk_ticket_produits_x3', '=', 'HRM')]"/>
+                <filter string="E2TIME" name="filter_e2time" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'E2TIME')]"/>
+                <filter string="XLSOFT" name="filter_xlsoft" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'XLSOFT')]"/>
+                <filter string="SAP" name="filter_sap" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'SAP')]"/>
+                <filter string="VIF" name="filter_vif" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'VIF')]"/>
+                <separator/>
+              </xpath>
+          </field>
+      </record>
+
         <record id="sinergis_inherited_helpdesk_ticket_tree" model="ir.ui.view">
             <field name="name">sinergis.inherited.helpdesk.ticket.tree</field>
             <field name="model">helpdesk.ticket</field>
@@ -99,6 +119,7 @@
                           <field name="x_sinergis_helpdesk_ticket_start_time" class="oe_inline"/>
                           <label for="x_sinergis_helpdesk_ticket_end_time" string=" --> " nolabel="1" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_start_time', '=', False),('x_sinergis_helpdesk_ticket_end_time', '=', False)]}" />
                           <field name="x_sinergis_helpdesk_ticket_end_time" class="oe_inline"/>
+                          <button name="x_sinergis_helpdesk_ticket_stop_time_button" string="Fin" type="object" class="oe_inline btn-primary" readonly="True" style="background-color:grey;margin-left:30px;"/>
                       </div>
                         <field name="x_sinergis_helpdesk_ticket_ticket_resolution" class="field_description" placeholder="Description de la résolution du ticket..." string="Description de l'intervention"/>
                     <field name="x_sinergis_helpdesk_ticket_facturation" attrs="{'readonly': [('x_sinergis_helpdesk_ticket_is_facturee','=',True)]}"/>
