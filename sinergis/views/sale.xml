@@ -56,7 +56,7 @@
             </xpath>
 
             <!-- MODIFICATION DE LA LISTE -->
-            <xpath expr="//field[@name='product_id']" position="attributes">
+            <xpath expr="//field[@name='order_id']/field[@name='product_id'][0]" position="attributes">
                 <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
             </xpath>
 
@@ -121,6 +121,19 @@
                 <field name="company_id" optional="show" readonly="1" on_change="1" can_create="true" can_write="true" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
             </xpath>
 
+        </field>
+    </record>
+
+    <!-- DANS LA LISTE DES ELEMENTS DU DEVIS, METTRE LE COUT PAR DEFAUT -->
+    <record id="sinergis_inherited_margin_sale_order_line_form" model="ir.ui.view">
+        <field name="name">sinergis.inherited.margin.sale.order.line.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='purchase_price']" position="attributes">
+            <attribute name="optional"></attribute>
+          </xpath>
         </field>
     </record>
 
