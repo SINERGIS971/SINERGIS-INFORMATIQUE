@@ -34,7 +34,8 @@
 
 
             <xpath expr="//field[@name='partner_id']" position="before">
-                <field name="x_sinergis_sale_order_objet" placeholder="Objet du devis..."/>
+                <field name="sale_order_id" readonly="True" string="Devis associé" />
+                <field name="x_sinergis_sale_order_objet" placeholder="Objet du devis..." attrs="{'invisible': [('x_sinergis_sale_order_objet',  '=', False)]}"/>
             </xpath>
 
             <xpath expr="//field[@name='partner_id']" position="attributes">
