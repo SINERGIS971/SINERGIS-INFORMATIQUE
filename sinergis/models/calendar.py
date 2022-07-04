@@ -44,7 +44,7 @@ class CalendarEvent(models.Model):
     #PAGE FACTURATION
     x_sinergis_calendar_event_object = fields.Char(string="Objet")
 
-    x_sinergis_calendar_event_start_time = fields.Datetime(string="Début et fin de l'intervention")
+    x_sinergis_calendar_event_start_time = fields.Datetime(string="Début et fin de l'intervention",compute="_compute_calendar_event_start_time")
     x_sinergis_calendar_event_end_time = fields.Datetime(string='')
 
     x_sinergis_calendar_event_desc_intervention = fields.Html(string="Description d'intervention")
@@ -77,6 +77,12 @@ class CalendarEvent(models.Model):
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
         CalendarEvent.updateTasks(self)
+
+    @api.depends('x_sinergis_calendar_event_start_time')
+    def _compute_x_sinergis_calendar_event_start_time (self):
+        if self.x_sinergis_calendar_event_start_time == False and self.x_sinergis_calendar_event_end_time == False:
+            self.x_sinergis_calendar_event_start_time = self.start
+            self.x_sinergis_calendar_event_end_time = self.stop
 
     @api.depends('x_sinergis_calendar_event_intervention_count')
     def _compute_x_sinergis_calendar_event_intervention_count (self):
