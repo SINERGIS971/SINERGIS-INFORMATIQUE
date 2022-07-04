@@ -46,7 +46,7 @@
                 <!-- Ajout client/contact/participants -->
                 <xpath expr="//field[@name='start']" position="before">
                     <field name="x_sinergis_calendar_event_client" domain="[('is_company','=',True)]" options="{'no_create': True, 'no_create_edit':True}" force_save="1" attrs="{'readonly': [('x_sinergis_calendar_event_is_facturee','=',True)]}"/>
-                    <field name="x_sinergis_calendar_event_contact" domain="[('parent_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': ['|',('x_sinergis_calendar_event_client',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
+                    <field name="x_sinergis_calendar_event_contact" domain="[('parent_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
                     <field name="x_sinergis_calendar_event_contact_transfered" invisible="True"/>
                     <field name="partner_ids" widget="many2manyattendee" placeholder="Selectionnez des participants..." context="{'force_email':True}" class="oe_inline o_calendar_attendees" string="Autres participants"/>
                 </xpath>
