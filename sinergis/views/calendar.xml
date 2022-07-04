@@ -1,6 +1,19 @@
 <odoo>
     <data>
 
+        <!-- =======CALENDAR CALENDAR VIEW=======-->
+        <!-- Nous allons retirer le système de création rapide de RDV-->
+
+        <record id="sinergis_inherited_calendar_event_calendar" model="ir.ui.view">
+            <field name="name">sinergis.inherited.calendar.event.calendar</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_calendar"/>
+            <field name="arch" type="xml">
+              <xpath expr="//calendar[@name='attendee_calendar']" position="attributes">
+                <attribute name="quick_add">False</attribute>
+              </xpath>
+            </field>
+        </record>
 
         <!-- =======CALENDAR TREE VIEW=======-->
 

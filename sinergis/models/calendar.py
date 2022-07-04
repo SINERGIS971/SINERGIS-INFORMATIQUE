@@ -250,7 +250,7 @@ class CalendarEvent(models.Model):
             raise ValidationError("Vous devez assigner une personne pour décompter des heures.")
         if self.x_sinergis_calendar_event_taches :
             self.x_sinergis_calendar_event_is_facturee = True
-            self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : 'Enregistrement depuis le calendrier', 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee,'x_sinergis_account_analytic_line_event_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_calendar_event_start_time ,'x_sinergis_account_analytic_line_end_time' : self.x_sinergis_calendar_event_end_time})]
+            self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : self.x_sinergis_calendar_event_object, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee,'x_sinergis_account_analytic_line_event_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_calendar_event_start_time ,'x_sinergis_account_analytic_line_end_time' : self.x_sinergis_calendar_event_end_time})]
             CalendarEvent.setTacheInformation(self)
 
         #OVERRIDE WRITE & CREATE
