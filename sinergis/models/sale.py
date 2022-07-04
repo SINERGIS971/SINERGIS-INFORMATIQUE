@@ -27,6 +27,10 @@ class SaleOrder(models.Model):
         self.x_sinergis_sale_order_contact = False
         self.partner_invoice_id = self.partner_id
         self.partner_shipping_id = self.partner_id
+        if self.partner_id and self.partner_id.company_id:
+            self.company_id = self.partner_id.company_id
+        else:
+            self.company_id = self.env.company.id
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):

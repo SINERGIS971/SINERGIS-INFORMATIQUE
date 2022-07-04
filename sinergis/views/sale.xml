@@ -56,7 +56,10 @@
             </xpath>
 
             <!-- MODIFICATION DE LA LISTE -->
-            <xpath expr="//field[@name='order_id']/field[@name='product_id'][0]" position="attributes">
+            <xpath expr="//field[@name='order_line']//field[@name='product_id'][1]" position="attributes">
+                <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
+            </xpath>
+            <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='product_id'][1]" position="attributes">
                 <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
             </xpath>
 
