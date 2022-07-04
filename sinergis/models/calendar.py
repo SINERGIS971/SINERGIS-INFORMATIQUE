@@ -2,8 +2,6 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import datetime
 
-import re
-
 
 class CalendarEvent(models.Model):
     _inherit = "calendar.event"
