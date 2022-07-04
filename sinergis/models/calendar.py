@@ -193,7 +193,10 @@ class CalendarEvent(models.Model):
     @api.onchange("x_sinergis_calendar_event_project")
     def on_change_x_sinergis_calendar_event_project(self):
         if self.x_sinergis_calendar_event_tache_transfered :
-            self.x_sinergis_calendar_event_tache = self.x_sinergis_calendar_event_tache_transfered
+            if self.x_sinergis_calendar_event_facturation == "Devis":
+                self.x_sinergis_calendar_event_tache = self.x_sinergis_calendar_event_tache_transfered
+            elif self.x_sinergis_calendar_event_facturation == "Contrat heure":
+                self.x_sinergis_calendar_event_tache2 = self.x_sinergis_calendar_event_tache_transfered
             self.x_sinergis_calendar_event_tache_transfered = False
         else :
             self.x_sinergis_calendar_event_tache = False
