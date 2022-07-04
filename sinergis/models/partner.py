@@ -207,5 +207,5 @@ class ResPartner(models.Model):
     #Supprimer les contacts de la société
     def unlink (self):
         for societe in self:
-            societe.search([('parent_id', '=', rec.id)]).unlink()
+            societe.search([('parent_id', '=', societe.id)]).unlink()
         return super(ResPartner,self).unlink()
