@@ -9,7 +9,7 @@
             <field name="model">calendar.event</field>
             <field name="inherit_id" ref="calendar.view_calendar_event_calendar"/>
             <field name="arch" type="xml">
-              <xpath expr="//calendar[@name='attendee_calendar']" position="attributes">
+              <xpath expr="//calendar[@js_class='attendee_calendar']" position="attributes">
                 <attribute name="quick_add">False</attribute>
               </xpath>
             </field>
