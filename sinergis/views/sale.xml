@@ -98,6 +98,9 @@
           <xpath expr="//page[@name='other_information']" position="after">
               <xpath expr="//page[@name='optional_products']" position="move"/>
           </xpath>
+          <xpath expr="//page[@name='optional_products']" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
         </field>
       </record>
 
