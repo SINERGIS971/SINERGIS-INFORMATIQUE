@@ -262,11 +262,11 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_send_intervention_report_mail(self):
         if not self.x_sinergis_helpdesk_ticket_contact:
-            raise UserError(_("Il vous faut un contact pour envoyer le rapport d'intervention."))
+            raise ValidationError("Il vous faut un contact pour envoyer le rapport d'intervention.")
         if not self.x_sinergis_helpdesk_ticket_facturation:
-            raise UserError(_("Il vous faut sélectionner un type de facturation pour générer un rapport d'intervention"))
+            raise ValidationError("Il vous faut sélectionner un type de facturation pour générer un rapport d'intervention")
         if not self.partner_id:
-            raise UserError(_("Il vous faut sélectionner une société pour générer un rapport d'intervention"))
+            raise ValidationError("Il vous faut sélectionner une société pour générer un rapport d'intervention")
         template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis.sinergis_mail_helpdesk_ticket_rapport_intervention', raise_if_not_found=False)
         # The mail is sent with datetime corresponding to the sending user TZ
         composition_mode = self.env.context.get('composition_mode', 'comment')
