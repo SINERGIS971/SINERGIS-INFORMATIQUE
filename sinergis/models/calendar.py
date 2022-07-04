@@ -2,6 +2,8 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import datetime
 
+import re
+
 
 class CalendarEvent(models.Model):
     _inherit = "calendar.event"
@@ -42,7 +44,7 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client")
 
     #PAGE FACTURATION
-    x_sinergis_calendar_event_object = fields.Html(string="Objet")
+    x_sinergis_calendar_event_object = fields.Char(string="Objet")
 
     x_sinergis_calendar_event_start_time = fields.Datetime(string="Début et fin de l'intervention")
     x_sinergis_calendar_event_end_time = fields.Datetime(string='')
@@ -181,7 +183,8 @@ class CalendarEvent(models.Model):
     @api.onchange("x_sinergis_calendar_event_facturation")
     def on_change_x_sinergis_calendar_event_facturation(self):
         if self.x_sinergis_calendar_event_project_transfered :
-            self.x_sinergis_calendar_event_project = self.x_sinergis_calendar_event_project_transfered
+            if self.x_sinergis_calendar_event_facturation == "Devis":
+                self.x_sinergis_calendar_event_project = self.x_sinergis_calendar_event_project_transfered
             self.x_sinergis_calendar_event_project_transfered = False
         else :
             self.x_sinergis_calendar_event_project = False
