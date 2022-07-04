@@ -76,9 +76,6 @@ class CalendarEvent(models.Model):
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
-        if not self.x_sinergis_calendar_event_start_time and not self.x_sinergis_calendar_event_end_time:
-            self.x_sinergis_calendar_event_start_time = self.start
-            self.x_sinergis_calendar_event_end_time = self.stop
         CalendarEvent.updateTasks(self)
 
     @api.depends('x_sinergis_calendar_event_intervention_count')
@@ -192,6 +189,9 @@ class CalendarEvent(models.Model):
             self.x_sinergis_calendar_event_tache = False
             self.x_sinergis_calendar_event_tache2 = False
             self.x_sinergis_calendar_event_tache_information = False
+        if self.x_sinergis_calendar_event_start_time == False and self.x_sinergis_calendar_event_end_time == False :
+            self.x_sinergis_calendar_event_start_time = self.start
+            self.x_sinergis_calendar_event_end_time = self.stop
         CalendarEvent.updateTasks(self)
 
     @api.onchange("x_sinergis_calendar_event_project")
