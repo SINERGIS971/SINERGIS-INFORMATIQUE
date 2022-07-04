@@ -55,6 +55,12 @@
                 <field name="x_sinergis_societe_suspect_text" display="full" bold="True" widget="badge" attrs="{'invisible':[('x_sinergis_societe_suspect','=',False)]}"/>
                 <br/>
             </xpath>
+            <xpath expr="//div[@class='o_kanban_tags_section oe_kanban_partner_categories']" position="before">
+                <div t-if="record.x_sinergis_societe_contact_inactive.raw_value" style="color:red;">CONTACT INACTIF !</div>
+            </xpath>
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="x_sinergis_societe_contact_inactive"/>
+            </xpath>
         </field>
     </record>
 
@@ -318,6 +324,13 @@
                 </group>
             </xpath>
 
+            <xpath expr="//field[@name='child_ids']/kanban/field[@name='display_name']" position="after">
+                <field name="x_sinergis_societe_contact_inactive"/>
+            </xpath>
+            <xpath expr="//field[@name='child_ids']/kanban/templates/t/div/div[2]/field[@name='name']" position="after">
+                <div t-if="record.x_sinergis_societe_contact_inactive.raw_value" style="color:red;">CONTACT INACTIF !</div>
+            </xpath>
+
             <xpath expr="//field[@name='child_ids']/form/sheet//field[@name='email']" position="attributes">
                 <attribute name="required">True</attribute>
             </xpath>
@@ -510,7 +523,7 @@
         </field>
     </record>
 
-    
+
 
   </data>
 </odoo>
