@@ -11,7 +11,7 @@
           <field name="planned_hours"/>
         </xpath>
         <xpath expr="//filter[@name='my_tasks']" position="before">
-              <filter string="Contrats de mes projets" name="contract_of_my_projects" domain="[('project_id.user_id', '=', uid)]"/>
+              <filter string="Contrats de mes projets" name="contract_of_my_projects" domain="[('project_id.user_id', '=', uid)]" context="{'group_by': 'project_id'}"/>
               <separator/>
         </xpath>
       </field>
