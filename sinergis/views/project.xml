@@ -143,6 +143,9 @@
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="x_sinergis_project_project_etat_projet"/>
             </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="x_sinergis_project_project_technical_manager" string="Responsable technique du projet" widget="many2one_avatar_users"/>
+            </xpath>
         </field>
     </record>
 

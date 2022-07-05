@@ -72,3 +72,4 @@ class ProjectProject(models.Model):
     _inherit = "project.project"
 
     x_sinergis_project_project_etat_projet = fields.Selection([("Projet en cours", "Projet en cours"),('Projet terminé', 'Projet terminé')], string="Etat du projet")
+    x_sinergis_project_project_technical_manager = fields.Many2one("res.users")
