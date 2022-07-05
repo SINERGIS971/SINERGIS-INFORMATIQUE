@@ -26,6 +26,7 @@ class MailActivity(models.Model):
             self.ensure_one()
             action = self.env["ir.actions.actions"]._for_xml_id("calendar.action_calendar_event")
             res_id = self.env.context.get('default_res_id')
+            facturation = "Contrat heure" if ("HEURES" in self.env['project.task'].search([('id','=',res_id)]).name) else "Devis"
             action['context'] = {
                 'default_activity_type_id': self.activity_type_id.id,
                 'default_res_id': res_id,
@@ -34,7 +35,7 @@ class MailActivity(models.Model):
                 'default_description': self.note if not is_html_empty(self.note) else '',
                 'default_activity_ids': [(6, 0, self.ids)],
                 'default_x_sinergis_calendar_event_client': self.env['project.task'].search([('id','=',res_id)]).partner_id.id,
-                'default_x_sinergis_calendar_event_facturation': 'Devis',
+                'default_x_sinergis_calendar_event_facturation': facturation,
                 'default_x_sinergis_calendar_event_project_transfered': self.env['project.task'].search([('id','=',res_id)]).project_id.id,
                 'default_x_sinergis_calendar_event_tache_transfered': self.env['project.task'].search([('id','=',res_id)]).id,
             }

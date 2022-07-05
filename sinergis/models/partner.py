@@ -2,6 +2,7 @@
 
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError
 
 
 class ResPartner(models.Model):
@@ -202,3 +203,9 @@ class ResPartner(models.Model):
         }
         action['domain'] = ['|', ('id', 'in', self._compute_meeting()[self.id]), ('partner_ids', 'in', self.ids)]
         return action
+
+    #Supprimer les contacts de la société
+    def unlink (self):
+        for societe in self:
+            societe.search([('parent_id', '=', societe.id)]).unlink()
+        return super(ResPartner,self).unlink()

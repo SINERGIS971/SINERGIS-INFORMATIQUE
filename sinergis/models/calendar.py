@@ -42,7 +42,7 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client")
 
     #PAGE FACTURATION
-    x_sinergis_calendar_event_object = fields.Html(string="Objet")
+    x_sinergis_calendar_event_object = fields.Char(string="Objet")
 
     x_sinergis_calendar_event_start_time = fields.Datetime(string="Début et fin de l'intervention")
     x_sinergis_calendar_event_end_time = fields.Datetime(string='')
@@ -181,19 +181,26 @@ class CalendarEvent(models.Model):
     @api.onchange("x_sinergis_calendar_event_facturation")
     def on_change_x_sinergis_calendar_event_facturation(self):
         if self.x_sinergis_calendar_event_project_transfered :
-            self.x_sinergis_calendar_event_project = self.x_sinergis_calendar_event_project_transfered
+            if self.x_sinergis_calendar_event_facturation == "Devis":
+                self.x_sinergis_calendar_event_project = self.x_sinergis_calendar_event_project_transfered
             self.x_sinergis_calendar_event_project_transfered = False
         else :
             self.x_sinergis_calendar_event_project = False
             self.x_sinergis_calendar_event_tache = False
             self.x_sinergis_calendar_event_tache2 = False
             self.x_sinergis_calendar_event_tache_information = False
+        if self.x_sinergis_calendar_event_start_time == False and self.x_sinergis_calendar_event_end_time == False :
+            self.x_sinergis_calendar_event_start_time = self.start
+            self.x_sinergis_calendar_event_end_time = self.stop
         CalendarEvent.updateTasks(self)
 
     @api.onchange("x_sinergis_calendar_event_project")
     def on_change_x_sinergis_calendar_event_project(self):
         if self.x_sinergis_calendar_event_tache_transfered :
-            self.x_sinergis_calendar_event_tache = self.x_sinergis_calendar_event_tache_transfered
+            if self.x_sinergis_calendar_event_facturation == "Devis":
+                self.x_sinergis_calendar_event_tache = self.x_sinergis_calendar_event_tache_transfered
+            elif self.x_sinergis_calendar_event_facturation == "Contrat heure":
+                self.x_sinergis_calendar_event_tache2 = self.x_sinergis_calendar_event_tache_transfered
             self.x_sinergis_calendar_event_tache_transfered = False
         else :
             self.x_sinergis_calendar_event_tache = False
@@ -250,7 +257,7 @@ class CalendarEvent(models.Model):
             raise ValidationError("Vous devez assigner une personne pour décompter des heures.")
         if self.x_sinergis_calendar_event_taches :
             self.x_sinergis_calendar_event_is_facturee = True
-            self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : 'Enregistrement depuis le calendrier', 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee,'x_sinergis_account_analytic_line_event_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_calendar_event_start_time ,'x_sinergis_account_analytic_line_end_time' : self.x_sinergis_calendar_event_end_time})]
+            self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : self.x_sinergis_calendar_event_object, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee,'x_sinergis_account_analytic_line_event_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_calendar_event_start_time ,'x_sinergis_account_analytic_line_end_time' : self.x_sinergis_calendar_event_end_time})]
             CalendarEvent.setTacheInformation(self)
 
         #OVERRIDE WRITE & CREATE

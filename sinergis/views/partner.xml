@@ -20,8 +20,8 @@
 
             <xpath expr="//filter[@name='type_person']" position="before">
               <filter string="Clients sans contact" name="without_contact" domain="[('child_ids', '=', False)]"/>
-              <filter string="Client SAP" name="old_client_sap" domain="[('x_sinergis_societe_ancien_code_sap', '!=', False)]"/>
-              <filter string="Client X3" name="old_client_x3" domain="[('x_sinergis_societe_ancien_code_x3', '!=', False)]"/>
+              <filter string="Ancien client SAP" name="old_client_sap" domain="[('x_sinergis_societe_ancien_code_sap', '!=', False)]"/>
+              <filter string="Ancien client X3" name="old_client_x3" domain="[('x_sinergis_societe_ancien_code_x3', '!=', False)]"/>
               <filter string="En cours d'immatriculation" name="in_process_of_registration" domain="[('x_sinergis_societe_en_cours_immatriculation', '=', True)]"/>
               <filter string="Suspects" name="is_suspect_filter" domain="[('x_sinergis_societe_suspect', '=', True)]"/>
               <separator/>
@@ -54,6 +54,12 @@
                 <field name="x_sinergis_societe_suspect" invisible="1"/>
                 <field name="x_sinergis_societe_suspect_text" display="full" bold="True" widget="badge" attrs="{'invisible':[('x_sinergis_societe_suspect','=',False)]}"/>
                 <br/>
+            </xpath>
+            <xpath expr="//div[@class='o_kanban_tags_section oe_kanban_partner_categories']" position="before">
+                <div t-if="record.x_sinergis_societe_contact_inactive.raw_value" style="color:red;">CONTACT INACTIF !</div>
+            </xpath>
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="x_sinergis_societe_contact_inactive"/>
             </xpath>
         </field>
     </record>
@@ -318,6 +324,13 @@
                 </group>
             </xpath>
 
+            <xpath expr="//field[@name='child_ids']/kanban/field[@name='display_name']" position="after">
+                <field name="x_sinergis_societe_contact_inactive"/>
+            </xpath>
+            <xpath expr="//field[@name='child_ids']/kanban/templates/t/div/div[2]/field[@name='name']" position="after">
+                <div t-if="record.x_sinergis_societe_contact_inactive.raw_value" style="color:red;">CONTACT INACTIF !</div>
+            </xpath>
+
             <xpath expr="//field[@name='child_ids']/form/sheet//field[@name='email']" position="attributes">
                 <attribute name="required">True</attribute>
             </xpath>
@@ -509,6 +522,8 @@
             </xpath>
         </field>
     </record>
+
+
 
   </data>
 </odoo>
