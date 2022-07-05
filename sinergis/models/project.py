@@ -15,9 +15,6 @@ class ProjectTask(models.Model):
     x_sinergis_project_task_done = fields.Boolean(default=False,compute="_compute_x_sinergis_project_task_done", store=False)
     x_sinergis_project_task_soon_done = fields.Boolean(default=False,compute="_compute_x_sinergis_project_task_soon_done", store=False)
 
-    #Tags lié au projet
-    x_sinergis_project_task_tag_ids = fields.Many2many(related="project_id.tag_ids", string="Tags du projet")
-
     @api.depends('x_sinergis_project_task_done')
     def _compute_x_sinergis_project_task_done (self):
         for rec in self :
