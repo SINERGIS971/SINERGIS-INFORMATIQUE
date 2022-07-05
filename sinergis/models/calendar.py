@@ -169,7 +169,7 @@ class CalendarEvent(models.Model):
             elif value == "XRT":
                 self.x_sinergis_calendar_event_type_client = "MGE"
             elif value == "DIVERS":
-                if subvalue :
+                if self.x_sinergis_calendar_event_produits_divers :
                     subvalue = self.x_sinergis_calendar_event_produits_divers
                     if subvalue == "SCANFACT":
                         self.x_sinergis_calendar_event_type_client = "PME"
