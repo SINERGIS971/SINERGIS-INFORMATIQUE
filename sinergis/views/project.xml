@@ -11,7 +11,9 @@
           <field name="planned_hours"/>
         </xpath>
         <xpath expr="//filter[@name='my_tasks']" position="before">
-              <filter string="Contrats de mes projets" name="contract_of_my_projects" domain="[('project_id.user_id', '=', uid)]" context="{'group_by': 'project_id'}"/>
+              <filter string="Contrats de mes projets" name="contract_of_my_projects" domain="[('project_id.user_id', '=', uid)]"/>
+              <filter string="Tâches projets PME" name="filter_task_pme" domain="[('x_sinergis_project_task_tag_ids','ilike','PROJET PME')]"/>
+              <filter string="Tâches projets MGE" name="filter_task_mge" domain="[('x_sinergis_project_task_tag_ids','ilike','PROJET MGE')]"/>
               <separator/>
         </xpath>
       </field>
@@ -84,6 +86,12 @@
             <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/div[1]/div[1]/div[1]/field[@name='tag_ids']" position="after">
                 <field name="x_sinergis_project_project_etat_projet" display="full" bold="True" widget="badge" attrs="{'invisible': [['x_sinergis_project_project_etat_projet','=',False]]}"/>
             </xpath>
+            <xpath expr="/kanban/field[@name='tag_ids']" position="after">
+              <field name="x_sinergis_project_project_technical_manager"/>
+            </xpath>
+            <xpath expr="//div[@groups='project.group_project_rating']" position="after">
+              <div t-if="record.x_sinergis_project_project_technical_manager.raw_value">Responsable technique : <field name="x_sinergis_project_project_technical_manager" widget="many2one_avatar_user"/></div>
+            </xpath>
         </field>
     </record>
 
@@ -142,6 +150,9 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="x_sinergis_project_project_etat_projet"/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="x_sinergis_project_project_technical_manager" string="Responsable technique du projet" widget="many2one_avatar_user"/>
             </xpath>
         </field>
     </record>

@@ -141,13 +141,14 @@ class HelpdeskTicket(models.Model):
         elif value == "XRT":
             self.x_sinergis_helpdesk_ticket_type_client = "MGE"
         elif value == "DIVERS":
-            subvalue = self.x_sinergis_helpdesk_ticket_produits_divers
-            if subvalue == "SCANFACT":
-                self.x_sinergis_helpdesk_ticket_type_client = "PME"
-            elif subvalue == "WINDEV":
-                self.x_sinergis_helpdesk_ticket_type_client = "PME"
-            elif subvalue == "AUTRE":
-                self.x_sinergis_helpdesk_ticket_type_client = "PME"
+            if self.x_sinergis_helpdesk_ticket_produits_divers:
+                subvalue = self.x_sinergis_helpdesk_ticket_produits_divers
+                if subvalue == "SCANFACT":
+                    self.x_sinergis_helpdesk_ticket_type_client = "PME"
+                elif subvalue == "WINDEV":
+                    self.x_sinergis_helpdesk_ticket_type_client = "PME"
+                elif subvalue == "AUTRE":
+                    self.x_sinergis_helpdesk_ticket_type_client = "PME"
 
     @api.onchange("x_sinergis_helpdesk_ticket_contact")
     def on_change_x_sinergis_helpdesk_ticket_contact(self):

@@ -15,6 +15,9 @@ class ProjectTask(models.Model):
     x_sinergis_project_task_done = fields.Boolean(default=False,compute="_compute_x_sinergis_project_task_done", store=False)
     x_sinergis_project_task_soon_done = fields.Boolean(default=False,compute="_compute_x_sinergis_project_task_soon_done", store=False)
 
+    #Tags lié au projet
+    x_sinergis_project_task_tag_ids = fields.Many2many(related="project_id.tag_ids", string="Tags du projet")
+
     @api.depends('x_sinergis_project_task_done')
     def _compute_x_sinergis_project_task_done (self):
         for rec in self :
@@ -69,3 +72,4 @@ class ProjectProject(models.Model):
     _inherit = "project.project"
 
     x_sinergis_project_project_etat_projet = fields.Selection([("Projet en cours", "Projet en cours"),('Projet terminé', 'Projet terminé')], string="Etat du projet")
+    x_sinergis_project_project_technical_manager = fields.Many2one("res.users")

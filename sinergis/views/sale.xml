@@ -120,6 +120,9 @@
             </xpath>
             <xpath expr="//field[@name='company_id']" position="replace">
             </xpath>
+            <xpath expr="//field[@name='amount_total']" position="after">
+              <field name="margin"/>
+            </xpath>
             <xpath expr="//field[@name='state']" position="after">
                 <field name="company_id" optional="show" readonly="1" on_change="1" can_create="true" can_write="true" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
             </xpath>
