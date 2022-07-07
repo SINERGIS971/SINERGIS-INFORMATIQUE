@@ -95,7 +95,7 @@
               </xpath>
 
                 <xpath expr="//field[@name='team_id']" position="before">
-                    <li t-if="record.create_date.raw_value" t-attf-style="color:green;font-weight:bold;">HELLO WORLD</li>
+                    <p t-if="record.create_date.raw_value" t-attf-style="color:green;font-weight:bold;text-align:center;border: solid 2px green;font-size:16px;">Intervention à planifier</p>
                     <field name="create_date"/>
                 </xpath>
 
