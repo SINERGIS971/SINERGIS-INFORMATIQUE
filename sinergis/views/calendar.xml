@@ -9,7 +9,7 @@
           <field name="model">calendar.event</field>
           <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
           <field name="arch" type="xml">
-            <xpath expr="//filter[@name='name']" position="before">
+            <xpath expr="//filter[@name='mymeetings']" position="before">
               <field name="start"/>
               <filter string="Date" name="start_date_group_by" context="{'group_by':'start'}"/>
               <filter string="Facturation" name="facturation_group_by" context="{'group_by':'x_sinergis_calendar_event_facturation'}"/>
