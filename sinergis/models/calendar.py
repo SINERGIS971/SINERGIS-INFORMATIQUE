@@ -31,7 +31,7 @@ class CalendarEvent(models.Model):
         for rec in self:
             if len(self.env['mail.activity'].search([('id', '=', rec.id),('activity_type_id.name', '=', "RDV Commercial")])) > 0:
                 rec.x_sinergis_calendar_event_is_commercial_appointment = True
-            else
+            else:
                 rec.x_sinergis_calendar_event_is_commercial_appointment = False
 
     @api.depends('x_sinergis_calendar_event_is_technical_appointment')
@@ -39,7 +39,7 @@ class CalendarEvent(models.Model):
         for rec in self:
             if len(self.env['mail.activity'].search([('id', '=', rec.id),('activity_type_id.name', '=', "RDV Technique")])) > 0:
                 rec.x_sinergis_calendar_event_is_technical_appointment = True
-            else
+            else:
                 rec.x_sinergis_calendar_event_is_technical_appointment = False
 
     @api.depends('x_sinergis_calendar_event_produit_nom_complet')
