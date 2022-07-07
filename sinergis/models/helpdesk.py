@@ -290,6 +290,12 @@ class HelpdeskTicket(models.Model):
             'context': compose_ctx,
         }
 
+    def x_sinergis_intervention_planned(self):
+        print("YO")
+
+    def x_sinergis_intervention_unplanned(self):
+        print("UNPLANNED")
+
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
 
