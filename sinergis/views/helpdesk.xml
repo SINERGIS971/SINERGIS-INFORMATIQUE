@@ -63,7 +63,7 @@
                   <field name="activity_ids" position="move"/>
                   <field name="company_id" position="move"/>
                   <field name="stage_id" position="move"/>
-                  <p>TEST</p>
+                  <field name="x_sinergis_helpdesk_ticket_planned_intervention_text"/>
                 </xpath>
 
                 <xpath expr="//field[@name='display_name']" position="attributes">
@@ -89,6 +89,7 @@
 
               <xpath expr="//button[@name='assign_ticket_to_self']" position="after">
                   <button name="x_sinergis_send_intervention_report_mail" string="Envoyer le rapport d'intervention" type="object" class="oe_highlight"/>
+                  <field name="x_sinergis_helpdesk_ticket_planned_intervention" invisible="True"/>
                   <button name="x_sinergis_intervention_planned" string="Intervention à planifier" type="object" class="oe_highlight" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}"/>
                   <button name="x_sinergis_intervention_unplanned" string="Ne plus planifier d'intervention" type="object" class="oe_highlight" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', True)]}"/>
               </xpath>

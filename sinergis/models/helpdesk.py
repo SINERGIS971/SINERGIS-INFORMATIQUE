@@ -15,6 +15,7 @@ class HelpdeskTicket(models.Model):
     stage_id = fields.Many2one(domain=False)
 
     x_sinergis_helpdesk_ticket_planned_intervention = fields.Boolean(default=0)
+    x_sinergis_helpdesk_ticket_planned_intervention_text = fields.Char(string=" ", compute="_compute_x_sinergis_helpdesk_ticket_planned_intervention_text")
 
     #Colonne de gauche
     x_sinergis_helpdesk_ticket_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('DIVERS', 'DIVERS')], string="Produits")
@@ -58,6 +59,14 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_fixe = fields.Char(string="Fixe contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
+
+    @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
+    def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):
+        if self.x_sinergis_helpdesk_ticket_planned_intervention:
+            self.x_sinergis_helpdesk_ticket_planned_intervention_text = "Intervention à planifier"
+        else:
+            self.x_sinergis_helpdesk_ticket_planned_intervention_text = False
+
 
     @api.depends('x_sinergis_helpdesk_ticket_produit_nom_complet')
     def _compute_x_sinergis_helpdesk_ticket_produit_nom_complet (self):
