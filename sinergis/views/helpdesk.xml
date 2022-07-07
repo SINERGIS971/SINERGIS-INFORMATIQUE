@@ -9,13 +9,33 @@
               <xpath expr="//filter[@name='my_ticket']" position="before">
                 <field name="x_sinergis_helpdesk_ticket_produit_nom_complet" invisible="True"/>
                 <field name="x_sinergis_helpdesk_ticket_produits" invisible="True"/>
-                <filter string="PAIE" name="filter_paie" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'SAGE 100'),('x_sinergis_helpdesk_ticket_produits_sage100', '=', 'PAI')]"/>
-                <filter string="SAGE X3" name="filter_sage_x3" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'X3')]"/>
-                <filter string="HRM" name="filter_hrm" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'HRM'),('x_sinergis_helpdesk_ticket_produits_x3', '=', 'HRM')]"/>
+                <filter string="CEGID" name="filter_cegid" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'CEGID')]"/>
+                <separator/>
                 <filter string="E2TIME" name="filter_e2time" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'E2TIME')]"/>
-                <filter string="XLSOFT" name="filter_xlsoft" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'XLSOFT')]"/>
+                <separator/>
+                <filter string="MESBANQUES" name="filter_mesbanques" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'MESBANQUES')]"/>
+                <separator/>
+                <filter string="OPEN BEE" name="filter_openbee" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'OPEN BEE')]"/>
+                <separator/>
+                <filter string="QUARKSUP" name="filter_quarksup" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'QUARKSUP')]"/>
+                <separator/>
+                <filter string="SAGE 100" name="filter_sage100" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'SAGE 100')]"/>
+                <filter string="SAGE 100 - PAIE" name="filter_sage100_paie" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'SAGE 100'),('x_sinergis_helpdesk_ticket_produits_sage100', '=', 'PAI')]"/>
+                <separator/>
+                <filter string="SAGE 1000" name="filter_sage1000" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'SAGE 1000')]"/>
+                <separator/>
                 <filter string="SAP" name="filter_sap" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'SAP')]"/>
-                <filter string="VIF" name="filter_vif" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'VIF')]"/>
+                <separator/>
+                <filter string="SAP" name="filter_sap" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'VIF')]"/>
+                <separator/>
+                <filter string="SAGE X3" name="filter_sagex3" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'X3')]"/>
+                <filter string="SAGE X3 - HRM" name="filter_sagex3_hrm" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'X3'),('x_sinergis_helpdesk_ticket_produits_x3', '=', 'HRM')]"/>
+                <separator/>
+                <filter string="XLSOFT" name="filter_xlsoft" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'XLSOFT')]"/>
+                <separator/>
+                <filter string="XRT" name="filter_xrt" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'XRT')]"/>
+                <separator/>
+                <filter string="DIVERS" name="filter_divers" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'DIVERS')]"/>
                 <separator/>
               </xpath>
           </field>
