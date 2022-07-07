@@ -50,11 +50,13 @@
                 <attribute name="t-attf-class">#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban</attribute>
             </xpath>
             <xpath expr="//span[@class='oe_kanban_partner_links']" position="after">
-                <field name="x_sinergis_societe_type" bold="True"/>
-                <br/>
-                <field name="x_sinergis_societe_suspect" invisible="1"/>
-                <field name="x_sinergis_societe_suspect_text" display="full" bold="True" widget="badge" attrs="{'invisible':[('x_sinergis_societe_suspect','=',False)]}"/>
-                <br/>
+                <ul>
+                  <li t-if="record.x_sinergis_societe_type.raw_value" t-attf-style="color:red;font-weight:bold;"><field name="x_sinergis_societe_type"/></li>
+                  <br/>
+                  <field name="x_sinergis_societe_suspect" invisible="1"/>
+                  <li t-if="record.x_sinergis_societe_suspect_text.raw_value"/><field name="x_sinergis_societe_suspect_text" display="full" bold="True" widget="badge" attrs="{'invisible':[('x_sinergis_societe_suspect','=',False)]}"/></li>
+                  <br/>
+                </ul>
             </xpath>
             <xpath expr="//div[@class='o_kanban_tags_section oe_kanban_partner_categories']" position="before">
                 <div t-if="record.x_sinergis_societe_contact_inactive.raw_value" style="color:red;">CONTACT INACTIF !</div>
