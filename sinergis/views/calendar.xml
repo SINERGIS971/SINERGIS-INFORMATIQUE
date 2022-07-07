@@ -1,6 +1,21 @@
 <odoo>
     <data>
 
+      <!-- =======CALENDAR SEARCH VIEW=======-->
+      <!-- Nous allons retirer le système de création rapide de RDV-->
+
+      <record id="sinergis_inherited_calendar_event_search" model="ir.ui.view">
+          <field name="name">sinergis.inherited.calendar.event.search</field>
+          <field name="model">calendar.event</field>
+          <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+          <field name="arch" type="xml">
+            <xpath expr="//filter[@name='name']" position="before">
+              <field name="start"/>
+              <filter string="Date" name="start_date_group_by" context="{'group_by':'start'}"/>
+            </xpath>
+          </field>
+      </record>
+
         <!-- =======CALENDAR CALENDAR VIEW=======-->
         <!-- Nous allons retirer le système de création rapide de RDV-->
 
