@@ -95,7 +95,7 @@
               </xpath>
 
                 <xpath expr="//field[@name='team_id']" position="before">
-                     <p t-if="record.x_sinergis_helpdesk_ticket_planned_intervention.raw_value" style="color:green;font-weight:bold;text-align:center;border: solid 2px green;font-size:16px;">Intervention à planifier</p>
+                     <p attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}" style="color:green;font-weight:bold;text-align:center;border: solid 2px green;font-size:16px;">Intervention à planifier</p>
                     <field name="create_date"/>
                 </xpath>
 
