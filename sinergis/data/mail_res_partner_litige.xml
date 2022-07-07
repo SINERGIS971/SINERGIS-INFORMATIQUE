@@ -10,10 +10,25 @@
             <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
               <p>Bonjour,</p>
-              <p>Nous vous informons que la société ${object.name} vient d'être bloquée por la raison suivante :</p>
-              <p>${object.x_sinergis_societe_litige_bloque_remarques}</p>
+              <p>Nous vous informons que la société <t t-value="object.name" data-oe-t-inline="true"></t> vient d'être bloquée pour la raison suivante :</p>
+              <t t-value="object.x_sinergis_societe_litige_bloque_remarques"></t>
               <p>- Sinergis Odoo BOT -</p>
             </field>
         </record>
+
+        <record id="sinergis_mail_res_partner_litige_debloque" model="mail.template">
+             <field name="name">Client débloqué</field>
+             <field name="model_id" ref="sinergis.model_res_partner"/>
+             <field name="email_from">support@sinergis.odoo.com</field>
+             <field name="email_to">este.developpeur@gmail.com</field>
+             <field name="subject">Odoo - La société {{ (object.name) }} vient d'être débloquée</field>
+             <field name="auto_delete" eval="False"/>
+             <field name="body_html" type="html">
+               <p>Bonjour,</p>
+               <p>Nous vous informons que la société <t t-value="object.name" data-oe-t-inline="true"></t> vient d'être débloquée</p>
+               <t t-value="object.x_sinergis_societe_litige_bloque_remarques"></t>
+               <p>- Sinergis Odoo BOT -</p>
+             </field>
+         </record>
     </data>
 </odoo>
