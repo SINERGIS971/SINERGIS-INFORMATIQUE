@@ -26,7 +26,7 @@
                 <separator/>
                 <filter string="SAP" name="filter_sap" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'SAP')]"/>
                 <separator/>
-                <filter string="SAP" name="filter_sap" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'VIF')]"/>
+                <filter string="VIF" name="filter_vif" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'VIF')]"/>
                 <separator/>
                 <filter string="SAGE X3" name="filter_sagex3" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'X3')]"/>
                 <filter string="SAGE X3 - HRM" name="filter_sagex3_hrm" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'X3'),('x_sinergis_helpdesk_ticket_produits_x3', '=', 'HRM')]"/>
