@@ -7,8 +7,8 @@ class CalendarEvent(models.Model):
     _inherit = "calendar.event"
 
     #Provenance de l'evenement
-    x_sinergis_calendar_event_is_commercial_appointment = fields.Boolean(compute="_compute_x_sinergis_calendar_event_is_commercial_appointment")
-    x_sinergis_calendar_event_is_technical_appointment = fields.Boolean(compute="_compute_x_sinergis_calendar_event_is_technical_appointment")
+    x_sinergis_calendar_event_is_commercial_appointment = fields.Boolean()
+    x_sinergis_calendar_event_is_technical_appointment = fields.Boolean()
 
     x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client")
     x_sinergis_calendar_event_contact = fields.Many2one("res.partner",string="Contact")
