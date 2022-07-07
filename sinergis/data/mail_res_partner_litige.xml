@@ -5,13 +5,13 @@
             <field name="name">Client bloqué</field>
             <field name="model_id" ref="sinergis.model_res_partner"/>
             <field name="email_from">support@sinergis.odoo.com</field>
-            <field name="email_to">este.developpeur@gmail.com</field>
+            <field name="email_to">este.developpeur@gmail.com,esteban.antonio-mota@outlook.fr,</field>
             <field name="subject">Odoo - La société {{ (object.name) }} vient d'être bloquée</field>
             <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
               <p>Bonjour,</p>
               <p>Nous vous informons que la société <t t-out="object.name"/> vient d'être bloquée pour la raison suivante :</p>
-              <p><t t-out="object.x_sinergis_societe_litige_bloque_remarques"/></p>
+              <p><t t-out="ctx['reason']"/></p>
               <p>- Sinergis Odoo BOT -</p>
             </field>
         </record>
@@ -20,7 +20,7 @@
              <field name="name">Client débloqué</field>
              <field name="model_id" ref="sinergis.model_res_partner"/>
              <field name="email_from">support@sinergis.odoo.com</field>
-             <field name="email_to">este.developpeur@gmail.com</field>
+             <field name="email_to">acarrere@groupesfpr.fr,pkeclard@groupesfpr.fr,lnavismonpierre@groupesfpr.fr,</field>
              <field name="subject">Odoo - La société {{ (object.name) }} vient d'être débloquée</field>
              <field name="auto_delete" eval="False"/>
              <field name="body_html" type="html">

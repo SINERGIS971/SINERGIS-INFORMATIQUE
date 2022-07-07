@@ -212,7 +212,11 @@ class ResPartner(models.Model):
 
 
     def write(self, values):
+        #Envoyer un mail si la société est bloquée ou débloquée
         if self.x_sinergis_societe_litige_bloque == False and values["x_sinergis_societe_litige_bloque"] == True:
             template_id = self.env.ref('sinergis.sinergis_mail_res_partner_litige_bloque').id
+            self.env["mail.template"].browse(template_id).with_context(reason=values["x_sinergis_societe_litige_bloque_remarques"]).send_mail(self.id, force_send=True)
+        elif self.x_sinergis_societe_litige_bloque == True and values["x_sinergis_societe_litige_bloque"] == False:
+            template_id = self.env.ref('sinergis.sinergis_mail_res_partner_litige_debloque').id
             self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
         return super(ResPartner, self).write(values)
