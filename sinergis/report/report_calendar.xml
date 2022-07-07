@@ -80,7 +80,7 @@
 									</table>
 								<p t-if="doc.x_sinergis_calendar_event_trip == True" style="margin:0;padding: 0;"><strong>Déplacement : </strong><span t-field="doc.x_sinergis_calendar_event_trip_movementcountry" t-if="doc.x_sinergis_calendar_event_trip_movementcountry"/> <span t-field="doc.x_sinergis_calendar_event_trip_movementarea" t-if="doc.x_sinergis_calendar_event_trip_movementarea"/></p>
 								<p style="margin:0;padding: 0;"><strong>Logiciel :</strong> <span t-field="doc.x_sinergis_calendar_event_produit_nom_complet"/></p>
-								<p style="margin:0;padding: 0;"><strong>Objet de l'intervention :</strong> <span t-if="doc.x_sinergis_calendar_event_object" t-esc="doc.x_sinergis_calendar_event_object"/></p>
+								<p style="margin:0;padding: 0;" t-if="doc.x_sinergis_calendar_event_object"><strong>Objet de l'intervention :</strong> <span t-esc="doc.x_sinergis_calendar_event_object"/></p>
 								</div>
 								<br/>
 								<t t-if="doc.x_sinergis_calendar_event_intervention_count &gt; 1">

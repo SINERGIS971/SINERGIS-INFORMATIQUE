@@ -270,6 +270,8 @@ class CalendarEvent(models.Model):
         else : self.x_sinergis_calendar_event_tache_information = False
 
     def x_sinergis_calendar_event_duree_button(self):
+        if self.x_sinergis_calendar_event_object == False:
+            raise ValidationError("Vous devez entrer un objet pour pouvoir décompter des heures.")
         if self.x_sinergis_calendar_duree_facturee <= 0 and self.x_sinergis_calendar_event_is_facturee == False:
             raise ValidationError("Le temps passé doit être supérieur à 0")
         if not self.user_id:
@@ -328,9 +330,13 @@ class CalendarEvent(models.Model):
     """
 
     def generer_rapport_intervention(self):
+        if self.x_sinergis_calendar_event_object == False:
+            raise ValidationError("Vous devez entrer un objet pour pouvoir générer le rapport.")
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self)
 
     def send_rapport_intervention(self):
+        if self.x_sinergis_calendar_event_object == False:
+            raise ValidationError("Vous devez entrer un objet pour pouvoir générer le rapport.")
         if not self.x_sinergis_calendar_event_contact:
             raise UserError("Il vous faut un contact pour envoyer le rapport d'intervention.")
         template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis.sinergis_mail_calendar_rapport_intervention', raise_if_not_found=False)

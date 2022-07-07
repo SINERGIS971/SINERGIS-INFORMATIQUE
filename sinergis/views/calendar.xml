@@ -52,6 +52,7 @@
             <field name="arch" type="xml">
                 <!-- Ajout d'un bouton pour générer un rapport d'intervention -->
                 <xpath expr="//button[@name='action_open_composer']" position="after">
+                    <button name="send_rapport_intervention" help="Envoyer le rapport d'intervention" type="object" string="Envoyer le rapport d'intervention"/>
                     <button name="generer_rapport_intervention" help="Génerer un rapport d'intervention au format PDF" type="object" string=" Rapport d'intervention (PDF)" icon="fa-download"/>
                 </xpath>
 
