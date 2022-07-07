@@ -14,6 +14,8 @@ class HelpdeskTicket(models.Model):
 
     stage_id = fields.Many2one(domain=False)
 
+    x_sinergis_helpdesk_ticket_planned_intervention = fields.Boolean(default=0)
+
     #Colonne de gauche
     x_sinergis_helpdesk_ticket_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('DIVERS', 'DIVERS')], string="Produits")
 
@@ -291,10 +293,10 @@ class HelpdeskTicket(models.Model):
         }
 
     def x_sinergis_intervention_planned(self):
-        print("YO")
+        self.x_sinergis_helpdesk_ticket_planned_intervention = True
 
     def x_sinergis_intervention_unplanned(self):
-        print("UNPLANNED")
+        self.x_sinergis_helpdesk_ticket_planned_intervention = False
 
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation

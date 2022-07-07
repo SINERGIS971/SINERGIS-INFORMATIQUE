@@ -52,7 +52,7 @@
             </xpath>
             <xpath expr="//span[@class='oe_kanban_partner_links']" position="after">
                 <ul>
-                  <li t-if="record.x_sinergis_societe_type.raw_value" t-attf-style="color:red;font-weight:bold;"><field name="x_sinergis_societe_type"/><br/></li>
+                  <p t-if="record.create_date.raw_value" style="color:green;font-weight:bold;font-size:15px; border: 2px solid green; text-align:center;">Une intervention est à planifier</p>
                   <li><field name="x_sinergis_societe_suspect" invisible="1"/></li>
                   <li t-if="record.x_sinergis_societe_suspect_text.raw_value"><field name="x_sinergis_societe_suspect_text" display="full" bold="True" widget="badge" attrs="{'invisible':[('x_sinergis_societe_suspect','=',False)]}"/><br/></li>
                 </ul>
