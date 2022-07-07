@@ -53,7 +53,7 @@
                 <ul>
                   <li t-if="record.x_sinergis_societe_type.raw_value" t-attf-style="color:red;font-weight:bold;"><field name="x_sinergis_societe_type"/><br/></li>
                   <li><field name="x_sinergis_societe_suspect" invisible="1"/></li>
-                  <li t-if="record.x_sinergis_societe_suspect_text.raw_value"/><field name="x_sinergis_societe_suspect_text" display="full" bold="True" widget="badge" attrs="{'invisible':[('x_sinergis_societe_suspect','=',False)]}"/><br/></li>
+                  <li t-if="record.x_sinergis_societe_suspect_text.raw_value"><field name="x_sinergis_societe_suspect_text" display="full" bold="True" widget="badge" attrs="{'invisible':[('x_sinergis_societe_suspect','=',False)]}"/><br/></li>
                 </ul>
             </xpath>
             <xpath expr="//div[@class='o_kanban_tags_section oe_kanban_partner_categories']" position="before">
