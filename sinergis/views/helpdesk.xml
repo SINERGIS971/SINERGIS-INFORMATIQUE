@@ -119,6 +119,7 @@
                     <group>
                       <label for="x_sinergis_helpdesk_ticket_start_time"/>
                       <div>
+                          <button name="x_sinergis_helpdesk_ticket_start_time_button" string="Début" type="object" class="oe_inline btn-primary" readonly="True" style="background-color:grey;margin-right:30px;"/>
                           <field name="x_sinergis_helpdesk_ticket_start_time" class="oe_inline"/>
                           <label for="x_sinergis_helpdesk_ticket_end_time" string=" --> " nolabel="1" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_start_time', '=', False),('x_sinergis_helpdesk_ticket_end_time', '=', False)]}" />
                           <field name="x_sinergis_helpdesk_ticket_end_time" class="oe_inline"/>

@@ -309,6 +309,9 @@ class HelpdeskTicket(models.Model):
             self.env["account.analytic.line"].search([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)]).unlink()
             self.x_sinergis_helpdesk_ticket_is_facturee = not self.x_sinergis_helpdesk_ticket_is_facturee
 
+    def x_sinergis_helpdesk_ticket_start_time_button (self):
+        self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
+
     def x_sinergis_helpdesk_ticket_stop_time_button (self):
         self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
         self.x_sinergis_helpdesk_ticket_temps_passe = (self.x_sinergis_helpdesk_ticket_end_time - self.x_sinergis_helpdesk_ticket_start_time).total_seconds() / 3600
