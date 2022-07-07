@@ -25,8 +25,7 @@ class CalendarEvent(models.Model):
     def _compute_x_sinergis_calendar_event_produit_nom_complet (self):
         for rec in self:
             if rec.x_sinergis_calendar_event_produits == "CEGID":
-                rec.x_sinergis_calendar_event_produit_nom_complet =
-                rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_cegid if rec.x_sinergis_calendar_event_produits_cegid else rec.x_sinergis_calendar_event_produits
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_cegid if rec.x_sinergis_calendar_event_produits_cegid else rec.x_sinergis_calendar_event_produits
             elif rec.x_sinergis_calendar_event_produits == "SAGE 100":
                 rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sage100 if rec.x_sinergis_calendar_event_produits_sage100 else rec.x_sinergis_calendar_event_produits
             elif rec.x_sinergis_calendar_event_produits == "SAGE 1000":
