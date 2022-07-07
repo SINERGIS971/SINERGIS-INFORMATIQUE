@@ -213,6 +213,6 @@ class ResPartner(models.Model):
 
     def write(self, values):
         if self.x_sinergis_societe_litige_bloque == False and values["x_sinergis_societe_litige_bloque"] == True:
-            template_id = self.env.ref('sinergis.template_id').id
+            template_id = self.env.ref('sinergis.sinergis_mail_res_partner_litige_bloque').id
             self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
         return super(ResPartner, self).write(values)
