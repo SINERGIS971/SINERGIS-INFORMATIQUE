@@ -20,6 +20,7 @@
 
             <xpath expr="//filter[@name='type_person']" position="before">
               <filter string="Clients sans contact" name="without_contact" domain="[('child_ids', '=', False)]"/>
+              <separator/>
               <filter string="Ancien client SAP" name="old_client_sap" domain="[('x_sinergis_societe_ancien_code_sap', '!=', False)]"/>
               <filter string="Ancien client X3" name="old_client_x3" domain="[('x_sinergis_societe_ancien_code_x3', '!=', False)]"/>
               <filter string="En cours d'immatriculation" name="in_process_of_registration" domain="[('x_sinergis_societe_en_cours_immatriculation', '=', True)]"/>

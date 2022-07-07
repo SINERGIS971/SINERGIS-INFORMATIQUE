@@ -209,3 +209,10 @@ class ResPartner(models.Model):
         for societe in self:
             societe.search([('parent_id', '=', societe.id)]).unlink()
         return super(ResPartner,self).unlink()
+
+
+    def write(self, values):
+        if self.x_sinergis_societe_litige_bloque == False and values["x_sinergis_societe_litige_bloque"] == True:
+            template_id = self.env.ref('sinergis.template_id').id
+            self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
+        return super(ResPartner, self).write(values)

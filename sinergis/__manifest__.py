@@ -39,10 +39,11 @@
         'data/mail_template.xml',
         'data/mail_helpdesk_ticket.xml',
         'data/mail_calendar_event_intervention.xml',
+        'data/mail_res_partner_litige.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
-    
+
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+       <record id="sinergis_mail_res_partner_litige_bloque" model="mail.template">
+            <field name="name">Client bloqué</field>
+            <field name="model_id" ref="sinergis.model_res_partner"/>
+            <field name="email_from">support@sinergis.odoo.com</field>
+            <field name="email_to">este.developpeur@gmail.com</field>
+            <field name="subject">Odoo - Une société vient d'être bloquée</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+              <p>Bonjour,</p>
+              <p>Nous vous informons que la société {{ (object.name) }} vient d'être bloquée.</p>
+              <p>- Sinergis Odoo BOT -</p>
+            </field>
+        </record>
+    </data>
+</odoo>
