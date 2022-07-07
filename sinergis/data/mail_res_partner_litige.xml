@@ -10,8 +10,8 @@
             <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
               <p>Bonjour,</p>
-              <p>Nous vous informons que la société <t t-field="object.name" data-oe-t-inline="true"></t> vient d'être bloquée pour la raison suivante :</p>
-              <t t-field="object.x_sinergis_societe_litige_bloque_remarques"></t>
+              <p>Nous vous informons que la société <t t-out="object.name"/> vient d'être bloquée pour la raison suivante :</p>
+              <p>${object.x_sinergis_societe_litige_bloque_remarques}</p>
               <p>- Sinergis Odoo BOT -</p>
             </field>
         </record>
@@ -25,8 +25,8 @@
              <field name="auto_delete" eval="False"/>
              <field name="body_html" type="html">
                <p>Bonjour,</p>
-               <p>Nous vous informons que la société <t t-field="object.name" data-oe-t-inline="true"></t> vient d'être débloquée</p>
-               <t t-field="object.x_sinergis_societe_litige_bloque_remarques"></t>
+               <p>Nous vous informons que la société ${object.name} vient d'être débloquée</p>
+               <p>${object.x_sinergis_societe_litige_bloque_remarques}</p>
                <p>- Sinergis Odoo BOT -</p>
              </field>
          </record>
