@@ -7,8 +7,8 @@ class CalendarEvent(models.Model):
     _inherit = "calendar.event"
 
     #Provenance de l'evenement
-    x_sinergis_calendar_event_is_commercial_appointment = fields.Boolean(default=0, compute="_compute_x_sinergis_calendar_event_is_commercial_appointment")
-    x_sinergis_calendar_event_is_technical_appointment = fields.Boolean(default=0, compute="_compute_x_sinergis_calendar_event_is_technical_appointment")
+    x_sinergis_calendar_event_is_commercial_appointment = fields.Boolean(compute="_compute_x_sinergis_calendar_event_is_commercial_appointment")
+    x_sinergis_calendar_event_is_technical_appointment = fields.Boolean(compute="_compute_x_sinergis_calendar_event_is_technical_appointment")
 
     x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client")
     x_sinergis_calendar_event_contact = fields.Many2one("res.partner",string="Contact")
@@ -25,22 +25,6 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_produits_divers = fields.Selection([('SCANFACT', 'SCANFACT'),('WINDEV', 'WINDEV'),('AUTRE', 'AUTRE')], string="Module Divers")
 
     x_sinergis_calendar_event_produit_nom_complet = fields.Char(string="Produit", readonly=True, compute="_compute_x_sinergis_calendar_event_produit_nom_complet")
-
-    @api.depends('x_sinergis_calendar_event_is_commercial_appointment')
-    def _compute_x_sinergis_calendar_event_is_commercial_appointment (self):
-        for rec in self:
-            if len(self.env['mail.activity'].search([('id', '=', rec.id),('activity_type_id.name', '=', "RDV Commercial")])) > 0:
-                rec.x_sinergis_calendar_event_is_commercial_appointment = True
-            else:
-                rec.x_sinergis_calendar_event_is_commercial_appointment = False
-
-    @api.depends('x_sinergis_calendar_event_is_technical_appointment')
-    def _compute_x_sinergis_calendar_event_is_technical_appointment (self):
-        for rec in self:
-            if len(self.env['mail.activity'].search([('id', '=', rec.id),('activity_type_id.name', '=', "RDV Technique")])) > 0:
-                rec.x_sinergis_calendar_event_is_technical_appointment = True
-            else:
-                rec.x_sinergis_calendar_event_is_technical_appointment = False
 
     @api.depends('x_sinergis_calendar_event_produit_nom_complet')
     def _compute_x_sinergis_calendar_event_produit_nom_complet (self):
@@ -130,6 +114,20 @@ class CalendarEvent(models.Model):
                     if self.x_sinergis_calendar_event_tache2:
                             domain.append(('id', '=', self.x_sinergis_calendar_event_tache2.id))
             self.x_sinergis_calendar_event_taches = self.env["project.task"].search(domain)
+
+    @api.onchange("x_sinergis_calendar_event_is_commercial_appointment")
+    def on_change_x_sinergis_calendar_event_is_commercial_appointment(self):
+        is_commercial = False
+        for line in self.activity_ids:
+            if line.activity_type_id.name == "RDV Commercial":
+                is_commercial = True
+        self.x_sinergis_calendar_event_is_commercial_appointment = is_commercial
+        is_technical = False
+        for line in self.activity_ids:
+            if line.activity_type_id.name == "RDV Technique":
+                is_technical = True
+        self.x_sinergis_calendar_event_is_technical_appointment = is_technical
+
 
     @api.onchange("x_sinergis_calendar_event_client")
     def on_change_x_sinergis_calendar_event_client(self):
