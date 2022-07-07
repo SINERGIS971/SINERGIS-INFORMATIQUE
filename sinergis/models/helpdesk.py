@@ -62,10 +62,11 @@ class HelpdeskTicket(models.Model):
 
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
     def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):
-        if self.x_sinergis_helpdesk_ticket_planned_intervention:
-            self.x_sinergis_helpdesk_ticket_planned_intervention_text = "Intervention à planifier"
-        else:
-            self.x_sinergis_helpdesk_ticket_planned_intervention_text = False
+        for rec in self:
+            if rec.x_sinergis_helpdesk_ticket_planned_intervention:
+                rec.x_sinergis_helpdesk_ticket_planned_intervention_text = "Intervention à planifier"
+            else:
+                rec.x_sinergis_helpdesk_ticket_planned_intervention_text = False
 
 
     @api.depends('x_sinergis_helpdesk_ticket_produit_nom_complet')
