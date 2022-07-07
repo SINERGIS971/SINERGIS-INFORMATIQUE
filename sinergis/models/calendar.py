@@ -5,6 +5,11 @@ from datetime import datetime
 
 class CalendarEvent(models.Model):
     _inherit = "calendar.event"
+
+    #Provenance de l'evenement
+    x_sinergis_calendar_event_is_commercial_appointment = fields.Boolean(default=0, compute="_compute_x_sinergis_calendar_event_is_commercial_appointment")
+    x_sinergis_calendar_event_is_technical_appointment = fields.Boolean(default=0, compute="_compute_x_sinergis_calendar_event_is_technical_appointment")
+
     x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client")
     x_sinergis_calendar_event_contact = fields.Many2one("res.partner",string="Contact")
     x_sinergis_calendar_event_contact_transfered = fields.Many2one("res.partner",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
@@ -20,6 +25,22 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_produits_divers = fields.Selection([('SCANFACT', 'SCANFACT'),('WINDEV', 'WINDEV'),('AUTRE', 'AUTRE')], string="Module Divers")
 
     x_sinergis_calendar_event_produit_nom_complet = fields.Char(string="Produit", readonly=True, compute="_compute_x_sinergis_calendar_event_produit_nom_complet")
+
+    @api.depends('x_sinergis_calendar_event_is_commercial_appointment')
+    def _compute_x_sinergis_calendar_event_is_commercial_appointment (self):
+        for rec in self:
+            if len(self.env['mail.activity'].search([('id', '=', rec.id),('activity_type_id.name', '=', "RDV Commercial")])) > 0:
+                rec.x_sinergis_calendar_event_is_commercial_appointment = True
+            else
+                rec.x_sinergis_calendar_event_is_commercial_appointment = False
+
+    @api.depends('x_sinergis_calendar_event_is_technical_appointment')
+    def _compute_x_sinergis_calendar_event_is_technical_appointment (self):
+        for rec in self:
+            if len(self.env['mail.activity'].search([('id', '=', rec.id),('activity_type_id.name', '=', "RDV Technique")])) > 0:
+                rec.x_sinergis_calendar_event_is_technical_appointment = True
+            else
+                rec.x_sinergis_calendar_event_is_technical_appointment = False
 
     @api.depends('x_sinergis_calendar_event_produit_nom_complet')
     def _compute_x_sinergis_calendar_event_produit_nom_complet (self):
@@ -112,7 +133,7 @@ class CalendarEvent(models.Model):
 
     @api.onchange("x_sinergis_calendar_event_client")
     def on_change_x_sinergis_calendar_event_client(self):
-        if self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque:
+        if self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque and self.x_sinergis_calendar_event_is_technical_appointment:
             raise ValidationError("Le client est bloqué pour la raison suivante : "+ self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque_remarques +". Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
             self.x_sinergis_calendar_event_client = False
         if self.x_sinergis_calendar_event_contact_transfered :
