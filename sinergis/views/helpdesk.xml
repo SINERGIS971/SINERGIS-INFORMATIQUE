@@ -68,6 +68,8 @@
 
               <xpath expr="//button[@name='assign_ticket_to_self']" position="after">
                   <button name="x_sinergis_send_intervention_report_mail" string="Envoyer le rapport d'intervention" type="object" class="oe_highlight"/>
+                  <button name="x_sinergis_intervention_planned" string="Intervention à planifier" type="object" class="oe_highlight"/>
+                  <button name="x_sinergis_intervention_planned" string="Déplanifier l'intervention" type="object" class="oe_highlight"/>
               </xpath>
 
                 <xpath expr="//field[@name='team_id']" position="before">
