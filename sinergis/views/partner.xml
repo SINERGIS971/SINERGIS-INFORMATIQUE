@@ -14,7 +14,7 @@
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
               <field name="siret" filter_domain="[('siret', 'ilike', self)]"/>
-              <field name="societe_mere_et_fille" filter_domain="['|','|','|', '|',('display_name', 'ilike', self),('x_sinergis_societe_autre_nom', 'ilike', self),('x_sinergis_societe_nom_juridique', 'ilike', self),('x_sinergis_societe_mere.name', 'ilike', self),('name', '=', x_sinergis_societe_mere.name)]"/>
+              <field name="x_sinergis_societe_mere" filter_domain="['|','|','|', '|',('display_name', 'ilike', self),('x_sinergis_societe_autre_nom', 'ilike', self),('x_sinergis_societe_nom_juridique', 'ilike', self),('x_sinergis_societe_mere.name', 'ilike', self),('name', '=', x_sinergis_societe_mere.name)]"/>
             </xpath>
 
             <!-- Ajout de filtres -->
