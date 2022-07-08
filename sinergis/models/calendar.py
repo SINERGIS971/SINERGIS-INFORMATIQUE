@@ -125,7 +125,7 @@ class CalendarEvent(models.Model):
         self.x_sinergis_calendar_event_is_commercial_appointment = is_commercial
         is_technical = False
         for line in self.activity_ids:
-            if line.activity_type_id.name == "RDV Technique":
+            if line.activity_type_id.name == "RDV Intervention":
                 is_technical = True
         self.x_sinergis_calendar_event_is_technical_appointment = is_technical
 
