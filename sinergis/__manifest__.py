@@ -47,7 +47,7 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'static/src/js/button_confirm.js',
+            'sinergis/static/src/js/button_confirm.js',
         ],
     },
 
