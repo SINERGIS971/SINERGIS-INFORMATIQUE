@@ -45,5 +45,10 @@
     'demo': [
         'demo/demo.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'pos_address/static/src/js/yourjs.js',
+        ],
+    },
 
 }
