@@ -1,5 +1,11 @@
 <odoo>
     <data>
+      <!-- AJOUTER LE FICHIER JAVASCRIPT POUR NE PAS DECOMPTER PLUSIEURS FOIS LES HEURES SI DOUBLE CLICK ET AUTRE -->
+      <template id="assets_backend" name="js_assets" inherit_id="web.assets_backend">
+          <xpath expr="." position="inside">
+              <script type="text/javascript" src="../static/js/button_confirm.js"></script>
+          </xpath>
+      </template>
 
       <!-- =======CALENDAR SEARCH VIEW=======-->
       <!-- Nous allons retirer le système de création rapide de RDV-->
