@@ -54,7 +54,7 @@
 		                </h2>
 
 										<div t-if="doc.x_sinergis_sale_order_objet" class="row mt32 mb32">
-												<strong style="font-size:19px;">Objet: <span style="font-size:19px;" t-field="doc.x_sinergis_sale_order_objet"/></strong>
+												<strong style="font-size:19px;" class="col-auto col-3 mw-100 mb-2">Objet: <span style="font-size:19px;" t-field="doc.x_sinergis_sale_order_objet"/></strong>
 										</div>
 
 		                <div class="row mt32 mb32" id="informations">
