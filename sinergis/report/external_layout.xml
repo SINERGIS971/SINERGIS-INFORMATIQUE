@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+  <record id="report_layout" model="report.layout">
+              <field name="name">Sinergis report layout</field>
+              <field name="sequence">3</field>
+              <field name="view_id" ref="sinergis.custom_external_layout"/>
+  </record>
+
 <template id="custom_external_layout">
   <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
               <div class="o_boxed_header">
