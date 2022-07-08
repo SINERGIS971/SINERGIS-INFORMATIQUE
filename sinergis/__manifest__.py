@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['mail','contacts','base','project','l10n_fr','l10n_fr_siret','hr','sale','project','account'],
+    'depends': ['web','mail','contacts','base','project','l10n_fr','l10n_fr_siret','hr','sale','project','account'],
 
     # always loaded
     'data': [
