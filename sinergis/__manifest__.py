@@ -47,7 +47,7 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'pos_address/static/src/js/yourjs.js',
+            'static/src/js/button_confirm.js',
         ],
     },
 
