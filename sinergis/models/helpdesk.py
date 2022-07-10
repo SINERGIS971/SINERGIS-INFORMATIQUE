@@ -14,6 +14,9 @@ class HelpdeskTicket(models.Model):
 
     stage_id = fields.Many2one(domain=False)
 
+    x_sinergis_helpdesk_ticket_planned_intervention = fields.Boolean(default=0)
+    x_sinergis_helpdesk_ticket_planned_intervention_text = fields.Char(string=" ", compute="_compute_x_sinergis_helpdesk_ticket_planned_intervention_text")
+
     #Colonne de gauche
     x_sinergis_helpdesk_ticket_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('DIVERS', 'DIVERS')], string="Produits")
 
@@ -35,7 +38,7 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_ticket_resolution = fields.Html(string="Description de l'intervention")
 
-    x_sinergis_helpdesk_ticket_facturation = fields.Selection([("Contrat heures", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable', 'Non facturable')], string="Facturation")
+    x_sinergis_helpdesk_ticket_facturation = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heures", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable', 'Non facturable')], string="Facturation")
     x_sinergis_helpdesk_ticket_project = fields.Many2one("project.project", string="Projet")
     x_sinergis_helpdesk_ticket_tache = fields.Many2one("project.task", string="Tâche")
     x_sinergis_helpdesk_ticket_tache2 = fields.Many2one("project.task", string="Contrat d'heures")
@@ -56,6 +59,15 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_fixe = fields.Char(string="Fixe contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
+
+    @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
+    def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):
+        for rec in self:
+            if rec.x_sinergis_helpdesk_ticket_planned_intervention:
+                rec.x_sinergis_helpdesk_ticket_planned_intervention_text = "Intervention à planifier"
+            else:
+                rec.x_sinergis_helpdesk_ticket_planned_intervention_text = False
+
 
     @api.depends('x_sinergis_helpdesk_ticket_produit_nom_complet')
     def _compute_x_sinergis_helpdesk_ticket_produit_nom_complet (self):
@@ -290,6 +302,12 @@ class HelpdeskTicket(models.Model):
             'context': compose_ctx,
         }
 
+    def x_sinergis_intervention_planned(self):
+        self.x_sinergis_helpdesk_ticket_planned_intervention = True
+
+    def x_sinergis_intervention_unplanned(self):
+        self.x_sinergis_helpdesk_ticket_planned_intervention = False
+
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
 
@@ -308,6 +326,9 @@ class HelpdeskTicket(models.Model):
         if self.x_sinergis_helpdesk_ticket_is_facturee:
             self.env["account.analytic.line"].search([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)]).unlink()
             self.x_sinergis_helpdesk_ticket_is_facturee = not self.x_sinergis_helpdesk_ticket_is_facturee
+
+    def x_sinergis_helpdesk_ticket_start_time_button (self):
+        self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
 
     def x_sinergis_helpdesk_ticket_stop_time_button (self):
         self.x_sinergis_helpdesk_ticket_end_time = datetime.now()

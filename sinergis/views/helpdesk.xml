@@ -9,13 +9,33 @@
               <xpath expr="//filter[@name='my_ticket']" position="before">
                 <field name="x_sinergis_helpdesk_ticket_produit_nom_complet" invisible="True"/>
                 <field name="x_sinergis_helpdesk_ticket_produits" invisible="True"/>
-                <filter string="PAIE" name="filter_paie" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'SAGE 100'),('x_sinergis_helpdesk_ticket_produits_sage100', '=', 'PAI')]"/>
-                <filter string="SAGE X3" name="filter_sage_x3" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'X3')]"/>
-                <filter string="HRM" name="filter_hrm" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'HRM'),('x_sinergis_helpdesk_ticket_produits_x3', '=', 'HRM')]"/>
+                <filter string="CEGID" name="filter_cegid" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'CEGID')]"/>
+                <separator/>
                 <filter string="E2TIME" name="filter_e2time" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'E2TIME')]"/>
-                <filter string="XLSOFT" name="filter_xlsoft" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'XLSOFT')]"/>
+                <separator/>
+                <filter string="MESBANQUES" name="filter_mesbanques" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'MESBANQUES')]"/>
+                <separator/>
+                <filter string="OPEN BEE" name="filter_openbee" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'OPEN BEE')]"/>
+                <separator/>
+                <filter string="QUARKSUP" name="filter_quarksup" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'QUARKSUP')]"/>
+                <separator/>
+                <filter string="SAGE 100" name="filter_sage100" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'SAGE 100')]"/>
+                <filter string="SAGE 100 - PAIE" name="filter_sage100_paie" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'SAGE 100'),('x_sinergis_helpdesk_ticket_produits_sage100', '=', 'PAI')]"/>
+                <separator/>
+                <filter string="SAGE 1000" name="filter_sage1000" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'SAGE 1000')]"/>
+                <separator/>
                 <filter string="SAP" name="filter_sap" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'SAP')]"/>
+                <separator/>
                 <filter string="VIF" name="filter_vif" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'VIF')]"/>
+                <separator/>
+                <filter string="SAGE X3" name="filter_sagex3" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'X3')]"/>
+                <filter string="SAGE X3 - HRM" name="filter_sagex3_hrm" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits', '=', 'X3'),('x_sinergis_helpdesk_ticket_produits_x3', '=', 'HRM')]"/>
+                <separator/>
+                <filter string="XLSOFT" name="filter_xlsoft" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'XLSOFT')]"/>
+                <separator/>
+                <filter string="XRT" name="filter_xrt" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'XRT')]"/>
+                <separator/>
+                <filter string="DIVERS" name="filter_divers" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'DIVERS')]"/>
                 <separator/>
               </xpath>
           </field>
@@ -43,8 +63,12 @@
                   <field name="activity_ids" position="move"/>
                   <field name="company_id" position="move"/>
                   <field name="stage_id" position="move"/>
+                  <field name="x_sinergis_helpdesk_ticket_planned_intervention_text"/>
                 </xpath>
 
+                <xpath expr="//field[@name='display_name']" position="attributes">
+                  <attribute name="string">Sujet</attribute>
+                </xpath>
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                   <attribute name="options">{"no_open": True}</attribute>
                 </xpath>
@@ -65,9 +89,13 @@
 
               <xpath expr="//button[@name='assign_ticket_to_self']" position="after">
                   <button name="x_sinergis_send_intervention_report_mail" string="Envoyer le rapport d'intervention" type="object" class="oe_highlight"/>
+                  <field name="x_sinergis_helpdesk_ticket_planned_intervention" invisible="True"/>
+                  <button name="x_sinergis_intervention_planned" string="Intervention à planifier" type="object" class="oe_highlight" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', True)]}"/>
+                  <button name="x_sinergis_intervention_unplanned" string="Ne plus planifier d'intervention" type="object" class="oe_highlight" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}"/>
               </xpath>
 
                 <xpath expr="//field[@name='team_id']" position="before">
+                     <p attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}" style="color:green;font-weight:bold;text-align:center;border: solid 2px green;font-size:16px;">Intervention à planifier</p>
                     <field name="create_date"/>
                 </xpath>
 
@@ -116,16 +144,17 @@
                     <group>
                       <label for="x_sinergis_helpdesk_ticket_start_time"/>
                       <div>
+                          <button name="x_sinergis_helpdesk_ticket_start_time_button" string="Début" type="object" class="oe_inline btn-primary" readonly="True" style="background-color:grey;margin-right:30px;"/>
                           <field name="x_sinergis_helpdesk_ticket_start_time" class="oe_inline"/>
                           <label for="x_sinergis_helpdesk_ticket_end_time" string=" --> " nolabel="1" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_start_time', '=', False),('x_sinergis_helpdesk_ticket_end_time', '=', False)]}" />
                           <field name="x_sinergis_helpdesk_ticket_end_time" class="oe_inline"/>
                           <button name="x_sinergis_helpdesk_ticket_stop_time_button" string="Fin" type="object" class="oe_inline btn-primary" readonly="True" style="background-color:grey;margin-left:30px;"/>
                       </div>
                         <field name="x_sinergis_helpdesk_ticket_ticket_resolution" class="field_description" placeholder="Description de la résolution du ticket..." string="Description de l'intervention"/>
-                    <field name="x_sinergis_helpdesk_ticket_facturation" attrs="{'readonly': [('x_sinergis_helpdesk_ticket_is_facturee','=',True)]}"/>
-                    <field name="x_sinergis_helpdesk_ticket_project" domain="[('partner_id','=',partner_id)]" attrs="{'readonly': ['|',('partner_id',  '=', False),('x_sinergis_helpdesk_ticket_is_facturee','=',True)], 'invisible': ['|','|','|',('x_sinergis_helpdesk_ticket_facturation',  '=', False),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Temps passé'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Contrat heures'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Non facturable')]}" options="{'no_create': True, 'no_create_edit':True}"/>
-                    <field name="x_sinergis_helpdesk_ticket_tache" domain="[('project_id','=',x_sinergis_helpdesk_ticket_project),('name','not ilike','HEURES')]" attrs="{'readonly': [('x_sinergis_helpdesk_ticket_is_facturee','=',True)], 'invisible' : ['|','|',('x_sinergis_helpdesk_ticket_project',  '=', False),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Contrat heures'),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Non facturable')]}" options="{'no_create': True, 'no_create_edit':True}"/>
-                    <field name="x_sinergis_helpdesk_ticket_tache2" domain="[('partner_id','=',partner_id),('name','ilike','HEURES')]" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': ['|',('partner_id',  '=', False),('x_sinergis_helpdesk_ticket_is_facturee','=',True)],'invisible' : [('x_sinergis_helpdesk_ticket_facturation',  '!=', 'Contrat heures')]}"/>
+                    <field name="x_sinergis_helpdesk_ticket_facturation" attrs="{'readonly': [('x_sinergis_helpdesk_ticket_is_facturee','=',True)], 'required': [('x_sinergis_helpdesk_ticket_show_facturation',  '=', True)]}"/>
+                    <field name="x_sinergis_helpdesk_ticket_project" domain="[('partner_id','=',partner_id)]" attrs="{'readonly': ['|',('partner_id',  '=', False),('x_sinergis_helpdesk_ticket_is_facturee','=',True)], 'invisible': [('x_sinergis_helpdesk_ticket_facturation',  '!=', 'Devis')],'required': ['&amp;',('x_sinergis_helpdesk_ticket_show_facturation',  '=', True),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Devis')]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                    <field name="x_sinergis_helpdesk_ticket_tache" domain="[('project_id','=',x_sinergis_helpdesk_ticket_project),('name','not ilike','HEURES')]" attrs="{'readonly': [('x_sinergis_helpdesk_ticket_is_facturee','=',True)], 'invisible' : ['|',('x_sinergis_helpdesk_ticket_project',  '=', False),('x_sinergis_helpdesk_ticket_facturation',  '!=', 'Devis')],'required': ['&amp;',('x_sinergis_helpdesk_ticket_show_facturation',  '=', True),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Devis')]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                    <field name="x_sinergis_helpdesk_ticket_tache2" domain="[('partner_id','=',partner_id),('name','ilike','HEURES')]" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': ['|',('partner_id',  '=', False),('x_sinergis_helpdesk_ticket_is_facturee','=',True)],'invisible' : [('x_sinergis_helpdesk_ticket_facturation',  '!=', 'Contrat heures')],'required': ['&amp;',('x_sinergis_helpdesk_ticket_show_facturation',  '=', True),('x_sinergis_helpdesk_ticket_facturation',  '=', 'Contrat heures')]}"/>
                     <field name="x_sinergis_helpdesk_ticket_tache_information" force_save="1" attrs="{'invisible' : [('x_sinergis_helpdesk_ticket_tache_information',  '=', False)]}" readonly="True" string=""/>
                 </group>
                 <br/>
@@ -142,7 +171,7 @@
                     </tree>
                 </field>
                 <group>
-                <field name="x_sinergis_helpdesk_ticket_temps_passe" widget="float_time" style="font-size:13pt;"/>
+                <field name="x_sinergis_helpdesk_ticket_temps_passe" widget="float_time" style="font-size:13pt;" attrs="{'required': [('x_sinergis_helpdesk_ticket_show_facturation',  '=', True)]}"/>
                 <field name="x_sinergis_helpdesk_ticket_is_solved"/>
                 <br/>
                 <field name="x_sinergis_helpdesk_ticket_intervention_count" attrs="{'invisible': ['&amp;',('x_sinergis_helpdesk_ticket_facturation', '!=', 'Contrat heures'),('x_sinergis_helpdesk_ticket_facturation', '!=', 'Devis')]}"/>

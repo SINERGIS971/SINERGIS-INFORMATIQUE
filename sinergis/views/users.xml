@@ -7,6 +7,9 @@
         <field name="inherit_id" ref="web.view_base_document_layout"/>
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
+          <xpath expr="//field[@name='company_details']" position="attributes">
+            <attribute name="options">{'codeview': true}</attribute>
+          </xpath>
             <xpath expr="//field[@name='report_footer']" position="attributes">
               <attribute name="options">{'codeview': true}</attribute>
             </xpath>

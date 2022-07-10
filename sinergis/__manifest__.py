@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['mail','contacts','base','project','l10n_fr','l10n_fr_siret','hr','sale','project','account'],
+    'depends': ['web','mail','contacts','base','project','l10n_fr','l10n_fr_siret','hr','sale','project','account'],
 
     # always loaded
     'data': [
@@ -39,10 +39,16 @@
         'data/mail_template.xml',
         'data/mail_helpdesk_ticket.xml',
         'data/mail_calendar_event_intervention.xml',
+        'data/mail_res_partner_litige.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
-    
+    'assets': {
+        'web.assets_backend': [
+            'sinergis/static/src/js/button_confirm.js',
+        ],
+    },
+
 }

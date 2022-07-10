@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+       <record id="sinergis_mail_res_partner_litige_bloque" model="mail.template">
+            <field name="name">Client bloqué</field>
+            <field name="model_id" ref="sinergis.model_res_partner"/>
+            <field name="email_from">support@sinergis.odoo.com</field>
+            <field name="email_to">acarrere@groupesfpr.fr,pkeclard@groupesfpr.fr,lnavismonpierre@groupesfpr.fr,{{ (object.user_id.email or '') }}</field>
+            <field name="subject">Odoo - La société {{ (object.name) }} vient d'être bloquée</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+              <p>Bonjour,</p>
+              <p>Nous vous informons que la société <t t-out="object.name"/> vient d'être bloquée pour la raison suivante :</p>
+              <p><t t-out="ctx['reason']"/></p>
+              <p>- Sinergis Odoo BOT -</p>
+            </field>
+        </record>
+
+        <record id="sinergis_mail_res_partner_litige_debloque" model="mail.template">
+             <field name="name">Client débloqué</field>
+             <field name="model_id" ref="sinergis.model_res_partner"/>
+             <field name="email_from">support@sinergis.odoo.com</field>
+             <field name="email_to">acarrere@groupesfpr.fr,pkeclard@groupesfpr.fr,lnavismonpierre@groupesfpr.fr,{{ (object.user_id.email or '') }}</field>
+             <field name="subject">Odoo - La société {{ (object.name) }} vient d'être débloquée</field>
+             <field name="auto_delete" eval="False"/>
+             <field name="body_html" type="html">
+               <p>Bonjour,</p>
+               <p>Nous vous informons que la société <t t-out="object.name"/> vient d'être débloquée</p>
+               <p>- Sinergis Odoo BOT -</p>
+             </field>
+         </record>
+    </data>
+</odoo>

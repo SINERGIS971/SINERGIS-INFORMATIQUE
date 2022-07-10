@@ -1,10 +1,16 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError
 from datetime import datetime
 
 
 class CalendarEvent(models.Model):
     _inherit = "calendar.event"
+
+    #Provenance de l'evenement
+    x_sinergis_calendar_event_is_commercial_appointment = fields.Boolean()
+    x_sinergis_calendar_event_is_technical_appointment = fields.Boolean()
+
     x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client")
     x_sinergis_calendar_event_contact = fields.Many2one("res.partner",string="Contact")
     x_sinergis_calendar_event_contact_transfered = fields.Many2one("res.partner",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
@@ -25,19 +31,19 @@ class CalendarEvent(models.Model):
     def _compute_x_sinergis_calendar_event_produit_nom_complet (self):
         for rec in self:
             if rec.x_sinergis_calendar_event_produits == "CEGID":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_cegid
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_cegid if rec.x_sinergis_calendar_event_produits_cegid else rec.x_sinergis_calendar_event_produits
             elif rec.x_sinergis_calendar_event_produits == "SAGE 100":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sage100
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sage100 if rec.x_sinergis_calendar_event_produits_sage100 else rec.x_sinergis_calendar_event_produits
             elif rec.x_sinergis_calendar_event_produits == "SAGE 1000":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sage1000
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sage1000 if rec.x_sinergis_calendar_event_produits_sage1000 else rec.x_sinergis_calendar_event_produits
             elif rec.x_sinergis_calendar_event_produits == "SAP":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sap
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sap if rec.x_sinergis_calendar_event_produits_sap else rec.x_sinergis_calendar_event_produits
             elif rec.x_sinergis_calendar_event_produits == "X3":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_x3
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_x3 if rec.x_sinergis_calendar_event_produits_x3 else rec.x_sinergis_calendar_event_produits
             elif rec.x_sinergis_calendar_event_produits == "DIVERS":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits_divers
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits_divers if rec.x_sinergis_calendar_event_produits_divers else ''
             else:
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits if rec.x_sinergis_calendar_event_produits else ''
 
     x_sinergis_calendar_event_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client")
 
@@ -110,9 +116,23 @@ class CalendarEvent(models.Model):
                             domain.append(('id', '=', self.x_sinergis_calendar_event_tache2.id))
             self.x_sinergis_calendar_event_taches = self.env["project.task"].search(domain)
 
+    @api.onchange("x_sinergis_calendar_event_is_commercial_appointment")
+    def on_change_x_sinergis_calendar_event_is_commercial_appointment(self):
+        is_commercial = False
+        for line in self.activity_ids:
+            if line.activity_type_id.name == "RDV Commercial":
+                is_commercial = True
+        self.x_sinergis_calendar_event_is_commercial_appointment = is_commercial
+        is_technical = False
+        for line in self.activity_ids:
+            if line.activity_type_id.name == "RDV Intervention":
+                is_technical = True
+        self.x_sinergis_calendar_event_is_technical_appointment = is_technical
+
+
     @api.onchange("x_sinergis_calendar_event_client")
     def on_change_x_sinergis_calendar_event_client(self):
-        if self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque:
+        if self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque and self.x_sinergis_calendar_event_is_technical_appointment:
             raise ValidationError("Le client est bloqué pour la raison suivante : "+ self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque_remarques +". Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
             self.x_sinergis_calendar_event_client = False
         if self.x_sinergis_calendar_event_contact_transfered :
@@ -251,6 +271,8 @@ class CalendarEvent(models.Model):
         else : self.x_sinergis_calendar_event_tache_information = False
 
     def x_sinergis_calendar_event_duree_button(self):
+        if self.x_sinergis_calendar_event_object == False:
+            raise ValidationError("Vous devez entrer un objet pour pouvoir décompter des heures.")
         if self.x_sinergis_calendar_duree_facturee <= 0 and self.x_sinergis_calendar_event_is_facturee == False:
             raise ValidationError("Le temps passé doit être supérieur à 0")
         if not self.user_id:
@@ -309,9 +331,13 @@ class CalendarEvent(models.Model):
     """
 
     def generer_rapport_intervention(self):
+        if self.x_sinergis_calendar_event_object == False:
+            raise ValidationError("Vous devez entrer un objet pour pouvoir générer le rapport.")
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self)
 
     def send_rapport_intervention(self):
+        if self.x_sinergis_calendar_event_object == False:
+            raise ValidationError("Vous devez entrer un objet pour pouvoir générer le rapport.")
         if not self.x_sinergis_calendar_event_contact:
             raise UserError("Il vous faut un contact pour envoyer le rapport d'intervention.")
         template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis.sinergis_mail_calendar_rapport_intervention', raise_if_not_found=False)

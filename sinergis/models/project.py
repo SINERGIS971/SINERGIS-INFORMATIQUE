@@ -73,3 +73,10 @@ class ProjectProject(models.Model):
 
     x_sinergis_project_project_etat_projet = fields.Selection([("Projet en cours", "Projet en cours"),('Projet terminé', 'Projet terminé')], string="Etat du projet")
     x_sinergis_project_project_technical_manager = fields.Many2one("res.users")
+
+    x_sinergis_project_project_planned_hours = fields.Float(compute="_compute_x_sinergis_project_project_planned_hours")
+
+    @api.depends('x_sinergis_project_project_planned_hours')
+    def _compute_x_sinergis_project_project_planned_hours (self):
+        for rec in self:
+            rec.x_sinergis_project_project_planned_hours = sum(rec.env['project.task'].search([('project_id', '=', rec.id),('activity_calendar_event_id.start', '>=', datetime.now())]).mapped('activity_calendar_event_id.duration'))

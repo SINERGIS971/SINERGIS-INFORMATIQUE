@@ -1,6 +1,23 @@
 <odoo>
     <data>
 
+      <!-- =======CALENDAR SEARCH VIEW=======-->
+      <!-- Nous allons retirer le système de création rapide de RDV-->
+
+      <record id="sinergis_inherited_calendar_event_search" model="ir.ui.view">
+          <field name="name">sinergis.inherited.calendar.event.search</field>
+          <field name="model">calendar.event</field>
+          <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+          <field name="arch" type="xml">
+            <xpath expr="//filter[@name='mymeetings']" position="before">
+              <field name="start"/>
+              <field name="x_sinergis_calendar_event_facturation"/>
+              <filter string="Date" name="start_date_group_by" context="{'group_by':'start'}"/>
+              <filter string="Facturation" name="facturation_group_by" context="{'group_by':'x_sinergis_calendar_event_facturation'}"/>
+            </xpath>
+          </field>
+      </record>
+
         <!-- =======CALENDAR CALENDAR VIEW=======-->
         <!-- Nous allons retirer le système de création rapide de RDV-->
 
@@ -52,12 +69,15 @@
             <field name="arch" type="xml">
                 <!-- Ajout d'un bouton pour générer un rapport d'intervention -->
                 <xpath expr="//button[@name='action_open_composer']" position="after">
+                    <button name="send_rapport_intervention" help="Envoyer le rapport d'intervention" type="object" string="Envoyer le rapport d'intervention"/>
                     <button name="generer_rapport_intervention" help="Génerer un rapport d'intervention au format PDF" type="object" string=" Rapport d'intervention (PDF)" icon="fa-download"/>
                 </xpath>
 
 
                 <!-- Ajout client/contact/participants -->
                 <xpath expr="//field[@name='start']" position="before">
+                    <field name="x_sinergis_calendar_event_is_commercial_appointment" invisible="True"/>
+                    <field name="x_sinergis_calendar_event_is_technical_appointment" invisible="True"/>
                     <field name="x_sinergis_calendar_event_client" domain="[('is_company','=',True)]" options="{'no_create': True, 'no_create_edit':True}" force_save="1" attrs="{'readonly': [('x_sinergis_calendar_event_is_facturee','=',True)]}"/>
                     <field name="x_sinergis_calendar_event_contact" domain="[('parent_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
                     <field name="x_sinergis_calendar_event_contact_transfered" invisible="True"/>
@@ -66,7 +86,7 @@
 
                 <!-- Creation de la page du notebook de facturation -->
                 <xpath expr="//page[@name='page_invitations']" position="after">
-                    <page name="x_sinergis_facturation_page" string="Facturation">
+                    <page name="x_sinergis_facturation_page" string="Facturation" attrs="{'invisible': [('x_sinergis_calendar_event_is_commercial_appointment',  '=', True)]}">
                         <group>
                             <field name="x_sinergis_calendar_event_object"/>
 
