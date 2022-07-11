@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+
+    <record id="sinergis_inherited_crm_lead_form_quick_create" model="ir.ui.view">
+        <field name="name">sinergis.inherited.crm.lead.form.quick_create</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('is_company','=',True)]</attribute>
+                <attribute name="string">Société</attribute>
+            </xpath>
+        </field>
+    </record>
+
+  </data>
+</odoo>
