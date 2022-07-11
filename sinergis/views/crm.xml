@@ -20,6 +20,10 @@
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
+          <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="attributes">
+              <attribute name="domain">[('is_company','=',True)]</attribute>
+              <attribute name="string">Société</attribute>
+          </xpath>
             <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="after">
                 <field name="x_sinergis_crm_lead_contact" domain="[('parent_id','=',partner_id)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
             </xpath>
