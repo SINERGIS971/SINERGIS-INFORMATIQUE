@@ -150,7 +150,8 @@
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="x_sinergis_project_project_sale_order_contact"/>
+                <field name="x_sinergis_project_project_sale_order_contact" attrs="{'invisible': [['x_sinergis_project_project_sale_order_contact','=',False]]}"/>
+                <field name="x_sinergis_project_project_sale_order_contact_phone" widget="phone" attrs="{'invisible': [['x_sinergis_project_project_sale_order_contact','=',False]]}"/>
             </xpath>
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="x_sinergis_project_project_etat_projet"/>
