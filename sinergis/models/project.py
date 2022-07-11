@@ -91,6 +91,8 @@ class ProjectProject(models.Model):
     def _compute_x_sinergis_project_project_sale_order_contact_phone (self):
         if self.x_sinergis_project_project_sale_order_contact:
             self.x_sinergis_project_project_sale_order_contact_phone = self.x_sinergis_project_project_sale_order_contact.phone
+        else :
+            self.x_sinergis_project_project_sale_order_contact_phone = self.x_sinergis_project_project_sale_order_contact_phone
 
     @api.depends('x_sinergis_project_project_planned_hours')
     def _compute_x_sinergis_project_project_planned_hours (self):
