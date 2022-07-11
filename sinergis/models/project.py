@@ -71,10 +71,20 @@ class ProjectTask(models.Model):
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
+    x_sinergis_project_project_sale_order_contact = fields.Many2one("res.partner", string="Contact de la vente",compute="_compute_x_sinergis_project_project_sale_order_contact")
+    #x_sinergis_project_project_sale_order_contact_phone = fields.Char(string="Téléphone du contact",compute="_compute_x_sinergis_project_project_sale_order_contact_phone")
+
     x_sinergis_project_project_etat_projet = fields.Selection([("Projet en cours", "Projet en cours"),('Projet terminé', 'Projet terminé')], string="Etat du projet")
     x_sinergis_project_project_technical_manager = fields.Many2one("res.users")
 
     x_sinergis_project_project_planned_hours = fields.Float(compute="_compute_x_sinergis_project_project_planned_hours")
+
+    @api.depends('x_sinergis_project_project_sale_order_contact')
+    def _compute_x_sinergis_project_project_sale_order_contact (self):
+        if (self.sale_order_id):
+            order_id = self.sale_order_id
+            if (order_id.x_sinergis_sale_order_contact):
+                self.x_sinergis_project_project_sale_order_contact = order_id.x_sinergis_sale_order_contact
 
     @api.depends('x_sinergis_project_project_planned_hours')
     def _compute_x_sinergis_project_project_planned_hours (self):

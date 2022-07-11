@@ -20,7 +20,10 @@ var ConfirmClickOnce = Dialog.include({
                 var def;
                 if (buttonData.click) {
                     def = buttonData.click.call(self, e);
-                    $button.attr('disabled', "true");
+                    if (this.firstChild.innerHTML == "Ok")
+                    {
+                        $button.attr('disabled', "true");
+                    }
                 }
                 if (buttonData.close) {
                     $.when(def).always(self.close.bind(self));

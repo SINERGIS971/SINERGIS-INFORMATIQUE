@@ -149,6 +149,9 @@
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="x_sinergis_project_project_sale_order_contact"/>
+            </xpath>
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="x_sinergis_project_project_etat_projet"/>
             </xpath>
