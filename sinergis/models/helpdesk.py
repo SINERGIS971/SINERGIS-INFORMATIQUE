@@ -342,7 +342,7 @@ class HelpdeskTicket(models.Model):
         return super(HelpdeskTicket, self).write(values)
 
     #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
-    @api.model_create_multi
+    @api.model
     def create(self, list_value):
         now = fields.Datetime.now()
         # determine user_id and stage_id if not given. Done in batch.
@@ -365,13 +365,13 @@ class HelpdeskTicket(models.Model):
                 if not parsed_name:
                     parsed_name = partner_name
                 try:
-                    vals['x_sinergis_helpdesk_ticket_contact'] = self.env['res.partner'].find_or_create(
+                    vals['partner_id'] = self.env['res.partner'].find_or_create(
                         tools.formataddr((partner_name, parsed_email))
                     ).id
                 except UnicodeEncodeError:
                     # 'formataddr' doesn't support non-ascii characters in email. Therefore, we fall
                     # back on a simple partner creation.
-                    vals['x_sinergis_helpdesk_ticket_contact'] = self.env['res.partner'].create({
+                    vals['partner_id'] = self.env['res.partner'].create({
                         'name': partner_name,
                         'email': partner_email,
                     }).id
@@ -411,4 +411,10 @@ class HelpdeskTicket(models.Model):
             ticket._portal_ensure_token()
         # apply SLA
         tickets.sudo()._sla_apply()
+
+        if ticket.partner_id:
+            if ticket.partner_id.is_company == False:
+                ticket.x_sinergis_helpdesk_ticket_contact = ticket.partner_id
+                ticket.partner_id = ticket.x_sinergis_helpdesk_ticket_contact.parent_id
+
         return tickets
