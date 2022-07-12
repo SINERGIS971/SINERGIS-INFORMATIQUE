@@ -180,7 +180,11 @@ class HelpdeskTicket(models.Model):
 
     @api.onchange("partner_id")
     def on_change_partner_id(self):
-        self.x_sinergis_helpdesk_ticket_contact = False
+        if self.partner_id.is_company == False:
+            self.x_sinergis_helpdesk_ticket_contact = self.partner_id
+            self.partner_id = self.x_sinergis_helpdesk_ticket_contact.parent_id
+        else :
+            self.x_sinergis_helpdesk_ticket_contact = False
         self.x_sinergis_helpdesk_ticket_type_client = False
         self.x_sinergis_helpdesk_ticket_project = False
         self.x_sinergis_helpdesk_ticket_tache = False
