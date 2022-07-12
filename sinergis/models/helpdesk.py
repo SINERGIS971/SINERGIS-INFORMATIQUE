@@ -180,11 +180,7 @@ class HelpdeskTicket(models.Model):
 
     @api.onchange("partner_id")
     def on_change_partner_id(self):
-        if self.partner_id.is_company == False:
-            self.x_sinergis_helpdesk_ticket_contact = self.partner_id
-            self.partner_id = self.x_sinergis_helpdesk_ticket_contact.parent_id
-        else :
-            self.x_sinergis_helpdesk_ticket_contact = False
+        self.x_sinergis_helpdesk_ticket_contact = False
         self.x_sinergis_helpdesk_ticket_type_client = False
         self.x_sinergis_helpdesk_ticket_project = False
         self.x_sinergis_helpdesk_ticket_tache = False
@@ -344,3 +340,13 @@ class HelpdeskTicket(models.Model):
         if user_id != self.env.user and self.stage_id.name == "Résolu":
             raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
         return super(HelpdeskTicket, self).write(values)
+
+    #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
+    @api.model_create_multi
+    def create(self, list_value):
+        for vals in list_value:
+            if self.env['res.partner'].search([('id','=',vals["partner_id"])]).is_company == False:
+                vals["x_sinergis_helpdesk_ticket_contact"] = vals["partner_id"]
+                vals["partner_id"] = self.env['res.partner'].search([('id','=',vals["partner_id"])]).parent_id.id
+        tickets = super(HelpdeskTicket, self).create(list_value)
+        return tickets
