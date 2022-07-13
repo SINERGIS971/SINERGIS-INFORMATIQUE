@@ -232,8 +232,8 @@ class CalendarEvent(models.Model):
     @api.onchange("x_sinergis_calendar_event_tache")
     def on_change_x_sinergis_calendar_event_tache(self):
         if self.x_sinergis_calendar_event_tache:
-            if "ACOMPTE VERSE (A PLANIFIER)" not in self.x_sinergis_calendar_event_tache.project_id.tag_ids.mapped('name'):
-                raise ValidationError("Vous ne pouvez rien planifier sur cette tâche si l'acompte n'est pas versé.")
+            if not self.x_sinergis_calendar_event_tache.project_id.x_sinergis_project_project_acompte_verse :
+                raise ValidationError("Vous ne pouvez rien planifier sur cette tâche si l'acompte n'a pas encore été versé. Il faut ajouter le tag 'ACOMPTE VERSE (A PLANIFIER)' dans la page du projet une fois celui-ci reçu.")
         CalendarEvent.updateTasks(self)
         CalendarEvent.setTacheInformation(self)
 
