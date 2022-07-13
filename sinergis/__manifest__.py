@@ -49,7 +49,9 @@
     'assets': {
         'web.assets_backend': [
             'sinergis/static/src/js/button_confirm.js',
-            'sinergis/static/src/js/menu_company.js',
+        ],
+        'web.assets_qweb': [
+            'sinergis/static/src/xml/menu_company.xml',
         ],
     },
 

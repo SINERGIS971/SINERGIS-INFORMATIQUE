@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<template xml:space="preserve" owl="1">
+    <t t-name="bcc_mail.SwitchCompanyItem" t-inherit="web.SwitchCompanyItem" t-inherit-mode="extension">
+      <xpath expr="//div[@role='menuitemcheckbox']" position="attributes">
+        <attribute name="t-att-title">(isCompanySelected ? 'Hide ' : toggleCompany(company.id)) + company.name + ' content.'</attribute>
+      </xpath>
+    </t>
+</template>
