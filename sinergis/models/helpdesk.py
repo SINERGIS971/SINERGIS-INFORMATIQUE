@@ -335,9 +335,18 @@ class HelpdeskTicket(models.Model):
         self.x_sinergis_helpdesk_ticket_temps_passe = (self.x_sinergis_helpdesk_ticket_end_time - self.x_sinergis_helpdesk_ticket_start_time).total_seconds() / 3600
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
-
     def write(self, values):
         user_id = self.user_id
         if user_id != self.env.user and self.stage_id.name == "Résolu":
             raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
         return super(HelpdeskTicket, self).write(values)
+
+    #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
+    @api.model_create_multi
+    def create(self, list_value):
+        for vals in list_value:
+            if self.env['res.partner'].search([('id','=',vals["partner_id"])]).is_company == False:
+                vals["x_sinergis_helpdesk_ticket_contact"] = vals["partner_id"]
+                vals["partner_id"] = self.env['res.partner'].search([('id','=',vals["partner_id"])]).parent_id.id
+        tickets = super(HelpdeskTicket, self).create(list_value)
+        return tickets

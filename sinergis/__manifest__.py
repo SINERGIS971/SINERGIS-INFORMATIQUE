@@ -29,6 +29,7 @@
         'views/calendar.xml',
         'views/sale.xml',
         'views/project.xml',
+        'views/crm.xml',
         'views/users.xml',
         'views/company.xml',
         'views/mail.xml',
@@ -48,6 +49,9 @@
     'assets': {
         'web.assets_backend': [
             'sinergis/static/src/js/button_confirm.js',
+        ],
+        'web.assets_qweb': [
+            'sinergis/static/src/xml/menu_company.xml',
         ],
     },
 

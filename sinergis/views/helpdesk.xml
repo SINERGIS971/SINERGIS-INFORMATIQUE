@@ -38,6 +38,11 @@
                 <filter string="DIVERS" name="filter_divers" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'DIVERS')]"/>
                 <separator/>
               </xpath>
+              <xpath expr="//filter[@name='unassigned']" position="after">
+                <separator/>
+                <filter name="is_open" position="move"/>
+                <filter name="is_close" position="move"/>
+              </xpath>
           </field>
       </record>
 
@@ -111,7 +116,7 @@
                 </xpath>
 
                 <field name="company_id" position="replace">
-                    <field name="company_id" string="Société SINERGIS"/>
+                    <field name="company_id" string="Société SINERGIS" invisible="True"/>
                 </field>
 
                 <xpath expr="//field[@name='partner_id']" position="attributes">
