@@ -232,6 +232,8 @@ class CalendarEvent(models.Model):
     @api.onchange("x_sinergis_calendar_event_tache")
     def on_change_x_sinergis_calendar_event_tache(self):
         if self.x_sinergis_calendar_event_tache:
+            if self.x_sinergis_calendar_event_is_commercial_appointment:
+                self.x_sinergis_calendar_event_tache = False
             if not self.x_sinergis_calendar_event_tache.project_id.x_sinergis_project_project_acompte_verse and not self.x_sinergis_calendar_event_is_commercial_appointment:
                 raise ValidationError("Vous ne pouvez rien planifier sur cette tâche si l'acompte n'a pas encore été versé. Il faut cocher 'Acompte verse' dans la page du projet.")
         CalendarEvent.updateTasks(self)
