@@ -71,7 +71,7 @@ class ProjectTask(models.Model):
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
-    x_sinergis_project_project_acompte_verse = fields.Boolean(default=0)
+    x_sinergis_project_project_acompte_verse = fields.Boolean(default=0, string="Acompte versé")
 
     x_sinergis_project_project_sale_order_contact = fields.Many2one("res.partner", string="Contact de la vente",compute="_compute_x_sinergis_project_project_sale_order_contact")
     x_sinergis_project_project_sale_order_contact_phone = fields.Char(string="Téléphone du contact",compute="_compute_x_sinergis_project_project_sale_order_contact_phone")
@@ -101,7 +101,7 @@ class ProjectProject(models.Model):
         for rec in self:
             rec.x_sinergis_project_project_planned_hours = sum(rec.env['project.task'].search([('project_id', '=', rec.id),('activity_calendar_event_id.start', '>=', datetime.now())]).mapped('activity_calendar_event_id.duration'))
 
-    api.onchange("tag_ids")
+    @api.onchange("tag_ids")
     def on_change_tag_ids (self):
         if "ACOMPTE VERSE (A PLANIFIER)" in self.tag_ids.mapped('name'):
             self.x_sinergis_project_project_acompte_verse = True

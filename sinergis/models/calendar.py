@@ -132,7 +132,7 @@ class CalendarEvent(models.Model):
 
     @api.onchange("x_sinergis_calendar_event_client")
     def on_change_x_sinergis_calendar_event_client(self):
-        if self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque and self.x_sinergis_calendar_event_is_technical_appointment:
+        if self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque and not self.x_sinergis_calendar_event_is_commercial_appointment:
             raise ValidationError("Le client est bloqué pour la raison suivante : "+ self.x_sinergis_calendar_event_client.x_sinergis_societe_litige_bloque_remarques +". Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
             self.x_sinergis_calendar_event_client = False
         if self.x_sinergis_calendar_event_contact_transfered :
@@ -233,7 +233,7 @@ class CalendarEvent(models.Model):
     def on_change_x_sinergis_calendar_event_tache(self):
         if self.x_sinergis_calendar_event_tache:
             if not self.x_sinergis_calendar_event_tache.project_id.x_sinergis_project_project_acompte_verse :
-                raise ValidationError("Vous ne pouvez rien planifier sur cette tâche si l'acompte n'a pas encore été versé. Il faut ajouter le tag 'ACOMPTE VERSE (A PLANIFIER)' dans la page du projet une fois celui-ci reçu.")
+                raise ValidationError("Vous ne pouvez rien planifier sur cette tâche si l'acompte n'a pas encore été versé. Il faut cocher 'Acompte verse' dans la page du projet.")
         CalendarEvent.updateTasks(self)
         CalendarEvent.setTacheInformation(self)
 
