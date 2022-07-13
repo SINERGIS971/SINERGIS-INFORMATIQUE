@@ -175,30 +175,7 @@
 									</div>
 							</div>
 							<br/>
-							<div class="row mt32 mb32" id="condition_mention">
-									<div class="col-auto col-3 mw-100 mb-2">
-											<p class="m-0"><strong>Condition de paiement:</strong> <span t-field="doc.payment_term_id"/></p>
-									</div>
-									<div class="col-auto col-3 mw-100 mb-2">
-										<div t-if="(doc.payment_term_id.name == '100% des logiciels et des contrats d\'heures et 50% des prestations et formations. Le solde à livraison.')">
-											<p class="m-0"><strong>Détail des conditions:</strong></p>
-											<table style="border-collapse:collapse;border:none;">
-											<tr t-if="current_subtotal_policy_prepaid">
-												<th style="font-weight: normal;">100% des logiciels:</th>
-												<th style="font-weight: normal;">&#8239;&#8239;<span t-esc="current_subtotal_policy_prepaid"/> €</th>
-											</tr>
-											<tr t-if="current_subtotal_policy_timesheet">
-												<th style="font-weight: normal;">50% des prestations et formations:</th>
-												<th style="font-weight: normal;">&#8239;&#8239;<span t-esc="round(0.5*current_subtotal_policy_timesheet,2)"/> €</th>
-											</tr>
-											<tr t-if="current_subtotal_policy_prepaid or current_subtotal_policy_timesheet">
-												<th style="font-weight: normal;">SOLDE À LA RECETTE</th>
-												<th style="font-weight: normal;">&#8239;&#8239;<span t-esc="round(current_subtotal-current_subtotal_policy_prepaid-0.5*current_subtotal_policy_timesheet,0.5)"/> €</th>
-											</tr>
-										</table>
-										</div>
-									</div>
-							</div>
+
 
 							<div class="row mt32 mb32" id="condition_mention">
 									<div class="col-auto col-3 mw-100 mb-2">
