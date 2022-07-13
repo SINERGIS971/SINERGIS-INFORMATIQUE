@@ -189,7 +189,11 @@
 											</tr>
 											<tr t-if="current_subtotal_policy_timesheet">
 												<th style="font-weight: normal;">50% des prestations et formations:</th>
-												<th style="font-weight: normal;">&#8239;&#8239;<span t-esc="0.5*current_subtotal_policy_timesheet"/> €</th>
+												<th style="font-weight: normal;">&#8239;&#8239;<span t-esc="round(0.5*current_subtotal_policy_timesheet,2)"/> €</th>
+											</tr>
+											<tr t-if="current_subtotal_policy_prepaid or current_subtotal_policy_timesheet">
+												<th style="font-weight: normal;">SOLDE À LA RECETTE</th>
+												<th style="font-weight: normal;">&#8239;&#8239;<span t-esc="round(current_subtotal-current_subtotal_policy_prepaid-0.5*current_subtotal_policy_timesheet,0.5)"/> €</th>
 											</tr>
 										</table>
 										</div>
