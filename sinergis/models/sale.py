@@ -38,6 +38,8 @@ class SaleOrder(models.Model):
     def onchange_x_sinergis_sale_order_model(self):
         if self.x_sinergis_sale_order_model:
             self.order_line = self.x_sinergis_sale_order_model.order_line
+            for line in self.order_line:
+                line.product_uom_qty = 0
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):

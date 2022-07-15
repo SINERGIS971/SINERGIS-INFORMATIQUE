@@ -55,10 +55,10 @@
                 <br/>
             </xpath>
 
-            <xpath expr="//field[@name='partner_invoice_id']" position="before">
-                <field name="x_sinergis_sale_order_model"/>
-                <br/>
-                <br/>
+            <xpath expr="//notebook" position="after">
+                <group>
+                    <field name="x_sinergis_sale_order_model" attrs="{'invisible': [('state',  '!=', 'draft')]}"/>
+                </group>
             </xpath>
 
             <!-- MODIFICATION DE LA LISTE -->
