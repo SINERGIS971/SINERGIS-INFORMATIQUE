@@ -55,6 +55,12 @@
                 <br/>
             </xpath>
 
+            <xpath expr="//notebook" position="after">
+                <group>
+                    <field name="x_sinergis_sale_order_model" attrs="{'invisible': [('state',  '!=', 'draft')]}"/>
+                </group>
+            </xpath>
+
             <!-- MODIFICATION DE LA LISTE -->
             <xpath expr="//field[@name='order_line']//field[@name='product_id'][1]" position="attributes">
                 <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>

@@ -34,6 +34,7 @@
         'views/company.xml',
         'views/mail.xml',
         'views/movementArea.xml',
+        'views/sentmail.xml',
         'report/report_helpdesk.xml',
         'report/report_calendar.xml',
         'report/report_devis_ventes.xml',
