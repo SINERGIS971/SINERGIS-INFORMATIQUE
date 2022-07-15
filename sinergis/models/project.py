@@ -99,7 +99,7 @@ class ProjectProject(models.Model):
     @api.depends('x_sinergis_project_project_planned_hours')
     def _compute_x_sinergis_project_project_planned_hours (self):
         for rec in self:
-            rec.x_sinergis_project_project_planned_hours = sum(rec.env['project.task'].search([('project_id', '=', rec.id),('activity_calendar_event_id.start', '>=', datetime.now())]).mapped('activity_calendar_event_id.duration'))
+            rec.x_sinergis_project_project_planned_hours = sum(rec.env['calendar.event'].search([('x_sinergis_calendar_event_project', '=', rec.id)]).mapped('duration'))
 
     @api.onchange("tag_ids")
     def on_change_tag_ids (self):
