@@ -37,8 +37,8 @@
 
 <menuitem id="email_sent"
           name="Emails envoyés"
-          parent="sinergis_training_training_root"
-          action="training_action"
+          parent="sinergis_email_sent_root"
+          action="sinergis_email_sent_action"
           sequence="10"/>
 
   </data>
