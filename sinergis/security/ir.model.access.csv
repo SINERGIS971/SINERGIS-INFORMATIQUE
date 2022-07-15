@@ -1,4 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_sinergis_movementcountry,sinergis.movementcountry,model_sinergis_movementcountry,,1,1,1,1
 access_sinergis_movementarea,sinergis.movementarea,model_sinergis_movementarea,,1,1,1,1
-access_sinergis_sentmail,sinergis.sentmail,model_sinergis_sentmail,,1,1,1,1
+mail.access_mail_mail_all,mail.mail.sinergis,mail.model_mail_mail,,1,0,0,0
+mail.access_mail_mail_user,mail.mail.user,mail.model_mail_mail,base.group_user,1,0,0,0
+mail.access_mail_mail_portal,mail.mail.portal,mail.model_mail_mail,base.group_portal,1,0,0,0
