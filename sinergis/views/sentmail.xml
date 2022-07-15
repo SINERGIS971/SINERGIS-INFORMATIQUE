@@ -76,6 +76,7 @@
 
 <menuitem id="sinergis_email_sent_root"
           name="Emails envoyés"
+          web_icon="sinergis,static/description/icon.png"
           sequence="100"/>
 
 <menuitem id="sinergis_email_sent_root_root"

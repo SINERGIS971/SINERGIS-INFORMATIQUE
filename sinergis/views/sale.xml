@@ -55,6 +55,12 @@
                 <br/>
             </xpath>
 
+            <xpath expr="//field[@name='partner_invoice_id']" position="before">
+                <field name="x_sinergis_sale_order_contact" domain="[('parent_id','=',partner_id),('x_sinergis_societe_contact_inactive','=',False)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                <br/>
+                <br/>
+            </xpath>
+
             <!-- MODIFICATION DE LA LISTE -->
             <xpath expr="//field[@name='order_line']//field[@name='product_id'][1]" position="attributes">
                 <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
