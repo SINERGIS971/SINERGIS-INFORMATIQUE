@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <record id="group_myactions_admin" model="res.groups">
-    <field name="name">Administrateur des activités</field>
+  <record id="group_myactions_employee" model="res.groups">
+    <field name="name">Utilisateurs restreints des activités</field>
   </record>
 </odoo>

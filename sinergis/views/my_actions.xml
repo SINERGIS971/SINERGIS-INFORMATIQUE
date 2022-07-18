@@ -84,6 +84,7 @@
           parent="sinergis_my_actions_root"
           action="sinergis_my_actions_action"
           name="Mes activités"
+          web_icon="sinergis,static/description/myactions/icon.png"
           sequence="100"/>
 
   </data>
