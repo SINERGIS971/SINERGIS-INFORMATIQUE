@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Enregistrement des informations du rapport -->
+	<record id="sinergis_report_myactions" model="ir.actions.report">
+		<field name="name">Rapport d'intervention SINERGIS - Mes activités</field>
+		<field name="model">sinergis.myactions</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">sinergis.myactions_report</field>
+		<field name="report_file">sinergis.myactions_report</field>
+		<field name="binding_model_id" ref="model_sinergis_myactions"/>
+		<field name="binding_type">report</field>
+	</record>
+	<!-- Enregistrement des données du rapport -->
+	<template id="sinergis.myactions_report">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="doc">
+			  	<t t-call="web.external_layout">
+            <t t-if="doc._name == 'helpdesk.ticket'">
+					  <table style="border-collapse:collapse;border:none;width: 100%;margin:0;padding:0;">
+                <tr style="margin:0;padding:0;">
+                  <th style="width: 50%;padding: 0;margin:0;font-weight: normal;">
+                  </th>
+                   <th style="width: 50%;padding: 0;font-size:30px;text-align:center;margin:0;">
+                  Rapport d'intervention n°<span t-field="doc.id"/>
+                  </th>
+                </tr>
+            </table>
+            <div style="border: 1px solid black;">
+              <table style="border-collapse:collapse;border:none;width: 100%;">
+              <tbody>
+                  <tr>
+                    <th rowspan="5" style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+                      <p style="margin:0;padding: 0;"><strong>Client :</strong> <span t-field="doc.partner_id"/></p>
+                    </th>
+                     <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+                      <p style="margin:0;padding: 0;" ><strong>Consultant :</strong> <span t-field="doc.user_id"/></p>
+                    </th>
+                  </tr>
+              </tbody>
+              </table>
+							<p style="margin:0;padding: 0;"><strong>Contact : </strong><span t-field="doc.x_sinergis_helpdesk_ticket_contact.name"/></p>
+              <!-- HORAIRES D'INTERVENTION -->
+              <t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &lt;= 1">
+              <table style="border-collapse:collapse;border:none;width: 100%;">
+              <tbody>
+                  <tr>
+                    <th rowspan="5" style="width: 70%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+                      <p style="margin:0;padding: 0;"><strong>Dates d'intervention :</strong> <span t-field="doc.x_sinergis_helpdesk_ticket_start_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/> au <span t-field="doc.x_sinergis_helpdesk_ticket_end_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/></p>
+                    </th>
+                     <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+                      <p style="margin:0;padding: 0;" ><strong>Durée :</strong> <span t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/></p>
+                    </th>
+                  </tr>
+              </tbody>
+              </table>
+              </t>
+              <t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &gt; 1">
+              <table style="border-collapse:collapse;border:none;width: 100%;">
+              <tbody>
+                  <tr>
+                    <th rowspan="5" style="width: 70%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+                    </th>
+                     <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+                      <p style="margin:0;padding: 0;" ><strong>Durée cumulée :</strong><span t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/></p>
+                    </th>
+                  </tr>
+              </tbody>
+              </table>
+              </t>
+              <table style="border-collapse:collapse;border:none;width: 100%;">
+              <tbody>
+                  <tr>
+                    <th rowspan="5" style="width: 70%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+                      <p style="margin:0;padding: 0;"><strong>Facturation :</strong> <span t-field="doc.x_sinergis_helpdesk_ticket_facturation"/></p>
+                    </th>
+                     <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+                      <p t-if="doc.x_sinergis_helpdesk_ticket_tache2" style="margin:0;padding: 0;"><strong>Solde restant :</strong> <span t-esc="'%02d:%02d h' % (int(doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours), floor(abs(doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours) % 1 * 60))"/></p>
+                    </th>
+                  </tr>
+              </tbody>
+              </table>
+              <!--<table style="border-collapse:collapse;border:none;width: 100%;">
+              <tbody>
+                  <tr>
+                    <th rowspan="5" style="width: 50%;padding: 0;vertical-align: top;">
+                      <p>Déplacement : </p>
+                    </th>
+                     <th style="width: 50%;padding: 0;vertical-align: top;">
+                      <p>Ville d'intervention </p>
+                    </th>
+                  </tr>
+              </tbody>
+              </table>-->
+            <p style="margin:0;padding: 0;"><strong>Logiciel :</strong> <span t-field="doc.x_sinergis_helpdesk_ticket_produit_nom_complet"/></p>
+            <p style="margin:0;padding: 0;"><strong>Objet de l'intervention :</strong> <span t-field="doc.name"/></p>
+            </div>
+						<br/>
+						<t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &gt; 1">
+						<table border="1" style="width:100%;border-collapse: collapse;margin: auto;">
+							  <tr style="font-weight:bold;border: 1px solid black;">
+									<th style="text-align:center;padding: 0;margin:0;"><strong>Début</strong></th>
+									<th style="text-align:center;padding: 0;margin:0;"><strong>Fin</strong></th>
+									<th style="text-align:center;padding: 0;margin:0;"><strong>Intervenant</strong></th>
+							    <th style="text-align:center;padding: 0;margin:0;"><strong>Durée facturée</strong></th>
+							  </tr>
+								<t t-if="doc.x_sinergis_helpdesk_ticket_tache2">
+									<t t-foreach="doc.x_sinergis_helpdesk_ticket_tache2.timesheet_ids" t-as="line">
+										<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
+											<tr>
+												<td><span t-field="line.x_sinergis_account_analytic_line_start_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/></td>
+												<td><span t-field="line.x_sinergis_account_analytic_line_end_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/></td>
+												<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
+										    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), floor(abs(line.unit_amount) % 1 * 60))"/></td>
+										  </tr>
+										</t>
+									</t>
+								</t>
+								<t t-if="doc.x_sinergis_helpdesk_ticket_tache">
+									<t t-foreach="doc.x_sinergis_helpdesk_ticket_tache.timesheet_ids" t-as="line">
+										<t t-if="line.x_sinergis_account_analytic_line_ticket_id == doc">
+											<tr>
+												<td><span t-field="line.x_sinergis_account_analytic_line_start_time"/></td>
+												<td><span t-field="line.x_sinergis_account_analytic_line_end_time"/></td>
+												<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
+										    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
+										  </tr>
+										</t>
+									</t>
+								</t>
+							</table><br/></t>
+						<p style="margin:0;padding: 0;"><strong>Réalisé :</strong></p>
+						<p style="margin:0;padding: 0;"><span t-field="doc.x_sinergis_helpdesk_ticket_ticket_resolution" style="display:inline-block;margin:0;" class="h3"/></p>
+						<br/>
+						<p><strong>Intervention terminée :</strong><span t-if="doc.x_sinergis_helpdesk_ticket_is_solved == True">Oui</span><span t-if="doc.x_sinergis_helpdesk_ticket_is_solved == False">Non</span></p>
+						<hr/>
+						<p><strong><br/>Cadre réservé au client:</strong></p>
+						<div style="border: 1px solid black;">
+						<p style="margin:0;padding: 0;">L'intervention à t'elle répondu à vos attentes ? Oui - Non</p>
+						<p style="margin:0;padding: 0;">Si non - Veuillez préciser vos remarques :</p>
+						<br/>
+						<br/>
+						</div>
+            <br/>
+            <p>N.B: Sans retour signé de votre part dans les 48 heures, ce rapport sera considéré comme accepté pour son contenu et sa durée d'exécution.</p>
+						<table style="border-collapse:collapse;border:none;width: 100%;">
+              <tbody>
+                  <tr>
+                    <th rowspan="5" style="width: 33.3%;padding: 0;vertical-align: top;">
+                      Le consultant
+                    </th>
+                     <th style="width: 33.3%;padding: 0;vertical-align: top;">
+                      Le client
+                    </th>
+                    <th style="width: 33.3%;padding: 0;vertical-align: top;">
+                      Tampon de la société facturée et signature
+                    </th>
+                  </tr>
+              </tbody>
+              </table>
+              <div class="col">
+              <img t-if="doc.env.user.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.env.user.x_sinergis_res_users_tampon_signature)" alt="Signature" style="width: 200px; height: auto;"/>
+						  </div>
+            </t>
+					</t>
+			</t>
+		</t>
+	</template>
+</odoo>

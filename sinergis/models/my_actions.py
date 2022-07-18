@@ -127,3 +127,7 @@ class MyActions(models.Model):
             'res_id': self.env['calendar.event'].search([('id', '=', self.link_id)]).id,
             'target': 'new',
             }
+
+    def print_report(self):
+        _temp = ""
+        print(self._name)
