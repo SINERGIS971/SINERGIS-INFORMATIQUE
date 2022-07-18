@@ -319,10 +319,10 @@
                 </group>
                 <group>
                   <group>
-                    <field name="x_sinergis_societe_contact_inactive"/>
+                    <field name="x_sinergis_societe_contact_inactive" attrs="{'invisible':[('is_company','=',True)]}"/>
                   </group>
                   <group>
-                    <field name="x_sinergis_societe_contact_inactive_reason" attrs="{'invisible':[('x_sinergis_societe_contact_inactive','=',False)]}"/>
+                    <field name="x_sinergis_societe_contact_inactive_reason" attrs="{'invisible':['|',('x_sinergis_societe_contact_inactive','=',False),('is_company','=',True)]}"/>
                   </group>
                 </group>
             </xpath>
