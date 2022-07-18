@@ -1,13 +1,48 @@
 <odoo>
   <data>
 
+    <record id="sinergis_myactions_rule" model="ir.rule">
+            <field name="name">sinergis_myactions.rule</field>
+            <field name="model_id" ref="sinergis.model_sinergis_myactions"/>
+            <!--<field name="groups" eval="[Command.link(ref('base.group_user'))]"/>-->
+            <field name="domain_force">[('consultant', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="sinergis_my_actions_search" model="ir.ui.view">
+        <field name="name">sinergis_myactions.search</field>
+        <field name="model">sinergis.myactions</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="billing" invisible="1"/>
+                <group expand="0" string="Group By">
+                    <filter string="Facturation" name="group_by_billing" context="{'group_by':'billing'}"/>
+                    <filter string="Client" name="group_by_client" context="{'group_by':'client'}"/>
+                    <filter string="Date" name="group_by_date" context="{'group_by':'date'}"/>
+                    <filter string="Consultant" name="group_by_consultant" context="{'group_by':'consultant'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="sinergis_my_actions_tree" model="ir.ui.view">
-        <field name="name">sinergis_email_sent.tree</field>
+        <field name="name">sinergis_myactions.tree</field>
         <field name="type">tree</field>
         <field name="model">sinergis.myactions</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="origin"/>
+                <field name="date"/>
+                <field name="client"/>
+                <field name="product"/>
                 <field name="name"/>
+                <field name="billing"/>
+                <field name="time" widget="float_time" sum="Temps total"/>
+                <field name="consultant" widget="many2one_avatar_user"/>
+                <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
             </tree>
         </field>
     </record>
