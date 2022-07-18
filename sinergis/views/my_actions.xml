@@ -1,6 +1,17 @@
 <odoo>
   <data>
 
+    <record id="sinergis_my_actions_tree" model="ir.ui.view">
+        <field name="name">sinergis_email_sent.tree</field>
+        <field name="type">tree</field>
+        <field name="model">sinergis.myactions</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="sinergis_my_actions_action" model="ir.actions.act_window">
         <field name="name">Mes activités</field>
         <field name="type">ir.actions.act_window</field>
@@ -24,7 +35,6 @@
 
 <menuitem id="sinergis_my_actions_root"
           name="Mes activités"
-          web_icon="sinergis,static/description/icon.png"
           sequence="100"/>
 
 <menuitem id="sinergis_my_actions_root_root"

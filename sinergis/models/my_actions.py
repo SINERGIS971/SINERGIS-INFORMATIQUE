@@ -7,15 +7,15 @@ class MyActions(models.Model):
 
     name = fields.Char(string="Nom")
 
-    @api.model.cr
+    #@api.model_cr
     def init(self):
         tools.drop_view_if_exists(self._cr, 'sinergis_myactions')
         query = """
-        CREATE VIEW sinergis_myactions AS (
+        CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT
-                id as id,
-                name as name
+                ht.id as id,
+                ht.name as name
             FROM
-                helpdesk_ticket
+                helpdesk_ticket as ht
         )
         """
