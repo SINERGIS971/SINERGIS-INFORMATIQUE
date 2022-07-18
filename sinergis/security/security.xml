@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+  <!-- MES ACTIVITES -->
   <record model="ir.module.category" id="module_category_myactions">
     <field name="name">Mes activités</field>
     <field name="description">Contient les intervention et hotlines des employés</field>
-  </record>
-  <record id="group_myactions_consultant" model="res.groups">
-    <field name="name">Utilisateur classique</field>
-    <field name="category_id" ref="module_category_myactions"/>
   </record>
   <record id="group_myactions_admin" model="res.groups">
     <field name="name">Administrateur des activités</field>
