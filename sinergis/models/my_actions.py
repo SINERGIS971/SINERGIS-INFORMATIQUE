@@ -17,13 +17,30 @@ class MyActions(models.Model):
     time = fields.Float(string = "Temps",compute="_compute_time")
     consultant = fields.Many2one('res.users',string="Consultant")
 
+    #Uniquement pour rapport
+
+    contact = fields.Many2one("res.partner",string="")
+    intervention_count = fields.Integer(string="",compute="_compute_intervention_count")
+    start_time = fields.Datetime(string="")
+    end_time = fields.Datetime(string="")
+    task = fields.Many2one("project.task", string="")
+    task2 = fields.Many2one("project.task", string="")
+    resolution = fields.Html(string="")
+    is_solved = fields.Boolean(string="")
+    event_trip = fields.Boolean(string="")
+    movement_country = fields.Many2one("sinergis.movementcountry", string="")
+    movement_area = fields.Many2one("sinergis.movementarea", string="")
+
+
+
+
     #@api.model_cr
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
         query = """
         CREATE OR REPLACE VIEW sinergis_myactions AS (
         SELECT row_number() OVER (ORDER BY 1) AS id,T.origin,T.link_id,
-        T.name,T.date,T.client,T.billing,T.consultant FROM
+        T.name,T.date,T.client,T.billing,T.consultant,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area FROM
             (SELECT
                 'helpdesk' as origin,
                 ht.id as id,
@@ -32,7 +49,17 @@ class MyActions(models.Model):
                 ht.create_date as date,
                 ht.partner_id as client,
                 REPLACE(ht.x_sinergis_helpdesk_ticket_facturation,'heures','heure') as billing,
-                ht.user_id as consultant
+                ht.user_id as consultant,
+                ht.x_sinergis_helpdesk_ticket_contact as contact,
+                ht.x_sinergis_helpdesk_ticket_start_time as start_time,
+                ht.x_sinergis_helpdesk_ticket_end_time as end_time,
+                ht.x_sinergis_helpdesk_ticket_tache as task,
+                ht.x_sinergis_helpdesk_ticket_tache2 as task2,
+                ht.x_sinergis_helpdesk_ticket_ticket_resolution as resolution,
+                ht.x_sinergis_helpdesk_ticket_is_solved as is_solved,
+                NULL as event_trip,
+                NULL as movement_country,
+                NULL as movement_area
             FROM
                 helpdesk_ticket as ht
             WHERE
@@ -46,7 +73,17 @@ class MyActions(models.Model):
                 ce.start as date,
                 ce.x_sinergis_calendar_event_client as client,
                 REPLACE(ce.x_sinergis_calendar_event_facturation,'heures','heure') as billing,
-                ce.user_id as consultant
+                ce.user_id as consultant,
+                ce.x_sinergis_calendar_event_contact as contact,
+                ce.x_sinergis_calendar_event_start_time as start_time,
+                ce.x_sinergis_calendar_event_end_time as end_time,
+                ce.x_sinergis_calendar_event_tache as task,
+                ce.x_sinergis_calendar_event_tache2 as task2,
+                ce.x_sinergis_calendar_event_desc_intervention as resolution,
+                ce.x_sinergis_calendar_event_is_solved as is_solved,
+                ce.x_sinergis_calendar_event_trip as event_trip,
+                ce.x_sinergis_calendar_event_trip_movementcountry as movement_country,
+                ce.x_sinergis_calendar_event_trip_movementarea as movement_area
             FROM
                 calendar_event as ce
             WHERE
@@ -108,6 +145,14 @@ class MyActions(models.Model):
                 else :
                     rec.time = calendar.x_sinergis_calendar_duree_facturee
 
+    @api.depends('intervention_count')
+    def _compute_intervention_count (self):
+        for rec in self:
+            if rec.origin == "helpdesk":
+                rec.intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_ticket_id', '=', rec.link_id)])
+            elif rec.origin == "calendar":
+                rec.intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_event_id', '=', rec.link_id)])
+
     def open(self):
         if self.origin == "helpdesk":
             return {
@@ -129,5 +174,7 @@ class MyActions(models.Model):
             }
 
     def print_report(self):
-        _temp = ""
-        print(self._name)
+        ids = []
+        for rec in self:
+            ids.append(rec.id)
+        return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', ids)]))

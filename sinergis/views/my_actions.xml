@@ -18,6 +18,9 @@
         <field name="arch" type="xml">
             <search>
                 <field name="billing" invisible="1"/>
+                <field name="client" invisible="1"/>
+                <field name="date" invisible="1"/>
+                <field name="consultant" invisible="1"/>
                 <group expand="0" string="Group By">
                     <filter string="Facturation" name="group_by_billing" context="{'group_by':'billing'}"/>
                     <filter string="Client" name="group_by_client" context="{'group_by':'client'}"/>
