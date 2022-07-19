@@ -13,30 +13,75 @@
 	<!-- Enregistrement des données du rapport -->
 	<template id="sinergis.report_timesheet">
 		<t t-call="web.html_container">
-            <t t-call="web.external_layout">
-                <t t-set="company" t-value="docs.company_id[0] if len(docs) == 1 else docs.env.company"/>
-                <t t-set="show_task" t-value="bool(docs.task_ids)"/>
-                <t t-set="show_project" t-value="len(docs) > 1"/>
-
-                <div class="page">
-                    <div class="oe_structure"/>
-                    <div class="row" style="margin-top:10px;">
-                        <div class="col-lg-12">
-                            <h2>
-                                <span>Feuille de temps
-                                    <t t-if="not show_project">
-                                        pour <t t-esc="docs.name"/>
-                                    </t>
-                                </span>
-                            </h2>
-                        </div>
-                    </div>
-                    <t t-set="is_uom_day" t-value="docs.timesheet_ids and docs.timesheet_ids[0]._is_timesheet_encode_uom_day()"/>
-                    <t t-set="lines" t-value="docs.timesheet_ids"/>
-                    <t t-call="hr_timesheet.timesheet_table"/>
-                    <div class="oe_structure"/>
-                </div>
-            </t>
-        </t>
+		            <t t-call="web.external_layout">
+		                <div class="page">
+		                    <t t-foreach="docs" t-as="doc">
+		                        <div class="oe_structure"/>
+		                        <div class="row" style="margin-top:10px;">
+		                            <div class="" style="width:100%;">
+		                                <t t-if="doc.allow_timesheets and doc.timesheet_ids">
+		                                    <h2>
+		                                        <span>Feuille de temps
+		                                            <t t-if="show_Task">
+		                                                pour <t t-esc="doc.name"/>
+		                                            </t>
+		                                        </span>
+		                                    </h2>
+		                                    <div style="border: 1px solid black;">
+		                                    <p style="margin:0;padding: 0;"><strong>Société/Client : </strong><span t-field="doc.partner_id.name"/></p>
+		                                    <table style="border-collapse:collapse;border:none;width: 100%;">
+		                  									<tbody>
+		                  											<tr>
+		                  												<th rowspan="5" style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+		                  													<p style="margin:0;padding: 0;"><strong>Date de début :</strong> <span t-field="doc.create_date" t-options="{'format': 'dd/MM/yyyy'}"/></p>
+		                  												</th>
+		                  												 <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+		                  													<p style="margin:0;padding: 0;"><strong>Nombre d'heures :</strong> <span t-esc="'%02d:%02d' % (int(doc.planned_hours), floor(abs(doc.planned_hours) % 1 * 60))"/></p>
+		                  												</th>
+		                  											</tr>
+		                  									</tbody>
+		                  									</table>
+		                                    </div>
+		                                    <br/>
+		                                    <t t-set='is_uom_day' t-value='doc.encode_uom_in_days'/>
+		                                    <t t-set='lines' t-value='doc.timesheet_ids'/>
+		                                    <table border="1" style="width:100%;border-collapse: collapse;margin: auto;font-size:14px;">
+		                      							  <tr style="font-weight:bold;border: 1px solid black;">
+		                      									<th style="text-align:center;padding: 0;margin:0;"><strong>Début</strong></th>
+		                      									<th style="text-align:center;padding: 0;margin:0;"><strong>Fin</strong></th>
+		                      									<th style="text-align:center;padding: 0;margin:0;"><strong>Durée</strong></th>
+		                      									<th style="text-align:center;padding: 0;margin:0;"><strong>Objet</strong></th>
+		                      									<th style="text-align:center;padding: 0;margin:0;"><strong>Intervenant</strong></th>
+		                      							    <th style="text-align:center;padding: 0;margin:0;"><strong>Cumul</strong></th>
+		                      							  </tr>
+		                      							  <t t-set='cumul' t-value='0'/>
+		                      									<t t-foreach="doc.timesheet_ids" t-as="line">
+		                      									  <t t-set='cumul' t-value='cumul+line.unit_amount'/>
+		                      											<tr>
+		                      												<td style="text-align:center;"><span t-field="line.x_sinergis_account_analytic_line_start_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/></td>
+		                      												<td style="text-align:center;"><span t-field="line.x_sinergis_account_analytic_line_end_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/></td>
+		                      												<td style="text-align:center;"><span t-esc="'%02d:%02d' % (int(line.unit_amount), floor(abs(line.unit_amount) % 1 * 60))"/></td>
+		                      												<td style="text-align:center;"><span t-field="line.name"/></td>
+		                      												<td style="text-align:center;"><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
+		                      										    <td style="text-align:center;"><span t-esc="'%02d:%02d' % (int(cumul), floor(abs(cumul) % 1 * 60))"/></td>
+		                      										  </tr>
+		                      									</t>
+		                      									<tr>
+		                      												<td></td>
+		                      												<td></td>
+		                      												<td style="text-align:center;"><span t-esc="'%02d:%02d' % (int(cumul), floor(abs(cumul) % 1 * 60))"/></td>
+		                      												<td></td>
+		                      												<td></td>
+		                      										    <td></td>
+		                      									</tr>
+		                      							</table>
+		                                    <!--<t t-call="hr_timesheet.timesheet_table"/>-->
+		                                </t>
+		                            </div>
+		                        </div>
+		                    </t>
+		                </div>
+		            </t>
+		        </t>
 	</template>
 </odoo>
