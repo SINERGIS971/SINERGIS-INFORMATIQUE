@@ -35,13 +35,17 @@
         'views/mail.xml',
         'views/movementArea.xml',
         'views/sentmail.xml',
+        'views/my_actions.xml',
         'report/report_helpdesk.xml',
         'report/report_calendar.xml',
         'report/report_devis_ventes.xml',
+        'report/report_myactions.xml',
+        'report/report_timesheet.xml',
         'data/mail_template.xml',
         'data/mail_helpdesk_ticket.xml',
         'data/mail_calendar_event_intervention.xml',
         'data/mail_res_partner_litige.xml',
+        'security/security.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

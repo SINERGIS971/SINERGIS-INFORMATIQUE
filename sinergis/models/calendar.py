@@ -371,3 +371,10 @@ class CalendarEvent(models.Model):
         if self.x_sinergis_calendar_event_is_facturee:
             self.env["account.analytic.line"].search([('x_sinergis_account_analytic_line_event_id', '=', self.id)]).unlink()
             self.x_sinergis_calendar_event_is_facturee = not self.x_sinergis_calendar_event_is_facturee
+
+    def x_sinergis_calendar_event_start_time_button (self):
+        self.x_sinergis_calendar_event_start_time = datetime.now()
+
+    def x_sinergis_calendar_event_stop_time_button (self):
+        self.x_sinergis_calendar_event_end_time = datetime.now()
+        self.x_sinergis_calendar_duree_facturee = (self.x_sinergis_calendar_event_end_time - self.x_sinergis_calendar_event_start_time).total_seconds() / 3600

@@ -96,6 +96,8 @@
                                 <label for="x_sinergis_calendar_event_end_time" string=" --> " nolabel="1" attrs="{'invisible': ['|',('x_sinergis_calendar_event_start_time', '=', False),('x_sinergis_calendar_event_end_time', '=', False)]}" />
                                 <field name="x_sinergis_calendar_event_end_time" class="oe_inline"/>
                             </div>
+                            <button name="x_sinergis_calendar_event_start_time_button" string="Début" type="object" class="oe_inline btn-primary oe_right" readonly="True" style="background-color:grey;margin-right:15px;"/>
+                            <button name="x_sinergis_calendar_event_stop_time_button" string="Fin" type="object" class="oe_inline btn-primary oe_right" readonly="True" style="background-color:grey;margin-left:15px;"/>
                             <field name="x_sinergis_calendar_event_desc_intervention"/>
                             <field name="x_sinergis_calendar_event_trip"/>
                             <field name="x_sinergis_calendar_event_trip_movementcountry" attrs="{'invisible': [('x_sinergis_calendar_event_trip',  '=', False)]}"/>
@@ -142,8 +144,8 @@
                             <br/>
                             <field name="x_sinergis_calendar_duree_facturee" widget="float_time" style="font-size:13pt;"/>
                             <field name="x_sinergis_calendar_event_is_solved"/>
-                            <field name="x_sinergis_calendar_event_intervention_count" readonly="True" attrs="{'invisible': ['&amp;',('x_sinergis_calendar_event_facturation', '!=', 'Contrat heures'),('x_sinergis_calendar_event_facturation', '!=', 'Devis')]}"/>
-                            <field name="x_sinergis_calendar_event_temps_cumule" widget="float_time" readonly="True" attrs="{'invisible': ['&amp;',('x_sinergis_calendar_event_facturation', '!=', 'Contrat heures'),('x_sinergis_calendar_event_facturation', '!=', 'Devis')]}"/>
+                            <field name="x_sinergis_calendar_event_intervention_count" readonly="True" attrs="{'invisible': ['&amp;',('x_sinergis_calendar_event_facturation', '!=', 'Contrat heure'),('x_sinergis_calendar_event_facturation', '!=', 'Devis')]}"/>
+                            <field name="x_sinergis_calendar_event_temps_cumule" widget="float_time" readonly="True" attrs="{'invisible': ['&amp;',('x_sinergis_calendar_event_facturation', '!=', 'Contrat heure'),('x_sinergis_calendar_event_facturation', '!=', 'Devis')]}"/>
                         </group>
                         <!-- BOUTTON POUR DECOMPTER LES HEURES DU CONTRAT D'HEURE-->
                         <field name="x_sinergis_calendar_event_is_facturee" invisible="True"/>
