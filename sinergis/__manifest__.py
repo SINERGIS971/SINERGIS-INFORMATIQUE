@@ -40,6 +40,7 @@
         'report/report_calendar.xml',
         'report/report_devis_ventes.xml',
         'report/report_myactions.xml',
+        'report/report_timesheet.xml',
         'data/mail_template.xml',
         'data/mail_helpdesk_ticket.xml',
         'data/mail_calendar_event_intervention.xml',

@@ -22,6 +22,9 @@
                 <field name="date" invisible="1"/>
                 <field name="consultant" invisible="1"/>
                 <group expand="0" string="Group By">
+                    <filter string="Assistance" name="filter_helpdesk" domain="[('origin', '=', 'helpdesk')]"/>
+                    <filter string="Intervention calendrier" name="filter_calendar" domain="[('origin', '=', 'calendar')]"/>
+                    <separator/>
                     <filter string="Facturation" name="group_by_billing" context="{'group_by':'billing'}"/>
                     <filter string="Client" name="group_by_client" context="{'group_by':'client'}"/>
                     <filter string="Date" name="group_by_date" context="{'group_by':'date'}"/>
