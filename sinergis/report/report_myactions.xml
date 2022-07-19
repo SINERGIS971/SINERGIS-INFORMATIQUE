@@ -146,7 +146,7 @@
               </tbody>
               </table>
               <div class="col">
-              <img t-if="doc.consultant.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.env.user.x_sinergis_res_users_tampon_signature)" alt="Signature" style="width: 200px; height: auto;"/>
+              <img t-if="doc.consultant.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.consultant.x_sinergis_res_users_tampon_signature)" alt="Signature" style="width: 200px; height: auto;"/>
 						  </div>
 					</t>
 			</t>
