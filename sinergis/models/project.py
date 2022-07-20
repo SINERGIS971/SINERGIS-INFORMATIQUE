@@ -90,7 +90,7 @@ class ProjectProject(models.Model):
                 else :
                     rec.x_sinergis_project_project_sale_order_contact = False
             else:
-                rec.x_sinergis_project_project_sale_order_contact = Fals
+                rec.x_sinergis_project_project_sale_order_contact = False
 
     @api.depends('x_sinergis_project_project_sale_order_contact_phone')
     def _compute_x_sinergis_project_project_sale_order_contact_phone (self):
