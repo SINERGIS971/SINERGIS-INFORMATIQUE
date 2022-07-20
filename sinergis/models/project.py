@@ -83,18 +83,20 @@ class ProjectProject(models.Model):
 
     @api.depends('x_sinergis_project_project_sale_order_contact')
     def _compute_x_sinergis_project_project_sale_order_contact (self):
-        if self.sale_order_id:
-            if self.sale_order_id.x_sinergis_sale_order_contact:
-                self.x_sinergis_project_project_sale_order_contact = self.sale_order_id.x_sinergis_sale_order_contact.id
-            else :
-                self.x_sinergis_project_project_sale_order_contact = False
+        for rec in self:
+            if rec.sale_order_id:
+                if rec.sale_order_id.x_sinergis_sale_order_contact:
+                    rec.x_sinergis_project_project_sale_order_contact = rec.sale_order_id.x_sinergis_sale_order_contact.id
+                else :
+                    rec.x_sinergis_project_project_sale_order_contact = False
 
     @api.depends('x_sinergis_project_project_sale_order_contact_phone')
     def _compute_x_sinergis_project_project_sale_order_contact_phone (self):
-        if self.x_sinergis_project_project_sale_order_contact:
-            self.x_sinergis_project_project_sale_order_contact_phone = self.x_sinergis_project_project_sale_order_contact.phone
-        else :
-            self.x_sinergis_project_project_sale_order_contact_phone = self.x_sinergis_project_project_sale_order_contact_phone
+        for rec in self:
+            if rec.x_sinergis_project_project_sale_order_contact:
+                rec.x_sinergis_project_project_sale_order_contact_phone = rec.x_sinergis_project_project_sale_order_contact.phone
+            else :
+                rec.x_sinergis_project_project_sale_order_contact_phone = rec.x_sinergis_project_project_sale_order_contact_phone
 
     @api.depends('x_sinergis_project_project_planned_hours')
     def _compute_x_sinergis_project_project_planned_hours (self):
