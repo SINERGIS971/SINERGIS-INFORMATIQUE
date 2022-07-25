@@ -27,7 +27,7 @@
 		                                            </t>
 		                                        </span>
 		                                    </h2>
-		                                    <div style="border: 1px solid black;">
+																				<div style="border: 1px solid black;">
 		                                    <p style="margin:0;padding: 0;"><strong>Société/Client : </strong><span t-field="doc.partner_id.name"/></p>
 		                                    <table style="border-collapse:collapse;border:none;width: 100%;">
 		                  									<tbody>
@@ -36,7 +36,7 @@
 		                  													<p style="margin:0;padding: 0;"><strong>Date de début :</strong> <span t-field="doc.create_date" t-options="{'format': 'dd/MM/yyyy'}"/></p>
 		                  												</th>
 		                  												 <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
-		                  													<p style="margin:0;padding: 0;"><strong>Nombre d'heures :</strong> <span t-esc="'%02d:%02d' % (int(doc.planned_hours), floor(abs(doc.planned_hours) % 1 * 60))"/></p>
+		                  													<p style="margin:0;padding: 0;"><strong>Nombre d'heures :</strong> <span t-field="doc.planned_hours"  t-options="{'widget': 'float_time'}"/></p>
 		                  												</th>
 		                  											</tr>
 		                  									</tbody>
@@ -47,7 +47,7 @@
 		                  												<th rowspan="5" style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
 		                  												</th>
 		                  												 <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
-		                  												   <p><strong>Heures restantes :</strong><span t-esc="'%02d:%02d' % (int(doc.remaining_hours), floor(abs(doc.remaining_hours) % 1 * 60))"/></p>
+		                  												   <p><strong>Heures restantes :</strong><span t-field="doc.remaining_hours"  t-options="{'widget': 'float_time'}"/></p>
 		                  												</th>
 		                  											</tr>
 		                  									</tbody>
