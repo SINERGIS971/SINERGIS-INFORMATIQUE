@@ -43,6 +43,7 @@
                 <header>
                     <button name="print_report" string="Imprimer les rapports d'intervention" class="oe_highlight" type="object"/>
                 </header>
+                <field name="is_printed" invisible="True"/>
                 <field name="origin"/>
                 <field name="date"/>
                 <field name="client"/>

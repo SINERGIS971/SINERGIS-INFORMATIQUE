@@ -96,7 +96,7 @@ class MyActions(models.Model):
     @api.depends('is_printed')
     def _compute_is_printed (self):
         for rec in self:
-            if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) == 0:
+            if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) > 0:
                 rec.is_printed = True
             else:
                 rec.is_printed = False
@@ -186,9 +186,9 @@ class MyActions(models.Model):
         for rec in self:
             ids.append(rec.id)
             #Fonctionnalité "a été imprimé"
-            if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) == 0:
+            if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) == 0:
                 data = {
-                    'user_id': self.env.user,
+                    'user_id': self.env.user.id,
                     'model_type': rec.origin,
                     'model_id': rec.link_id,
                 }
