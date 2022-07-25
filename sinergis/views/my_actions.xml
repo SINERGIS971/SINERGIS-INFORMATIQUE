@@ -59,6 +59,7 @@
 
     <record id="sinergis_my_actions_pivot" model="ir.ui.view">
         <field name="name">sinergis_myactions.pivot</field>
+        <field name="type">pivot</field
         <field name="model">sinergis.myactions</field>
         <field name="arch" type="xml">
             <pivot string="Activités">
@@ -85,6 +86,13 @@
         <field name="sequence" eval="1"/>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="sinergis_my_actions_tree"/>
+        <field name="act_window_id" ref="sinergis_my_actions_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sinergis_my_actions_action_pivot">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="sinergis_my_actions_pivot"/>
         <field name="act_window_id" ref="sinergis_my_actions_action"/>
     </record>
 
