@@ -69,6 +69,7 @@
             </pivot>
         </field>
     </record>
+    
 
     <record id="sinergis_my_actions_action" model="ir.actions.act_window">
         <field name="name">Mes activités</field>
