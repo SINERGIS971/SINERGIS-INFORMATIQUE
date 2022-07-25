@@ -31,7 +31,7 @@ class MyActions(models.Model):
     movement_country = fields.Many2one("sinergis.movementcountry", string="")
     movement_area = fields.Many2one("sinergis.movementarea", string="")
 
-
+    is_printed = fields.Boolean(string="",compute="_compute_is_printed")
 
 
     #@api.model_cr
@@ -92,6 +92,14 @@ class MyActions(models.Model):
         )
         """
         self._cr.execute(query)
+
+    @api.depends('is_printed')
+    def _compute_is_printed (self):
+        for rec in self:
+            if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) == 0:
+                rec.is_printed = True
+            else:
+                rec.is_printed = False
 
     @api.depends('product')
     def _compute_product (self):
@@ -177,4 +185,19 @@ class MyActions(models.Model):
         ids = []
         for rec in self:
             ids.append(rec.id)
+            #Fonctionnalité "a été imprimé"
+            if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) == 0:
+                data = {
+                    'user_id': self.env.user,
+                    'model_type': rec.origin,
+                    'model_id': rec.link_id,
+                }
+                self.env['sinergis.myactions.printed'].create(data)
         return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', ids)]))
+
+class MyActionsPrinted(models.Model):
+    _name = "sinergis.myactions.printed"
+    _description = "Activités imprimées"
+    user_id = fields.Many2one("res.users")
+    model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
+    model_id = fields.Integer(string="")
