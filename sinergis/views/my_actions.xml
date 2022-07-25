@@ -58,7 +58,7 @@
     </record>
 
     <record id="sinergis_my_actions_pivot" model="ir.ui.view">
-        <field name="name">sinergis_myactions.pivot</field>d>
+        <field name="name">sinergis_myactions.pivot</field>
         <field name="model">sinergis.myactions</field>
         <field name="arch" type="xml">
             <pivot string="Activités">
