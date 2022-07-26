@@ -29,6 +29,7 @@
                     <filter string="Client" name="group_by_client" context="{'group_by':'client'}"/>
                     <filter string="Date" name="group_by_date" context="{'group_by':'date'}"/>
                     <filter string="Consultant" name="group_by_consultant" context="{'group_by':'consultant'}"/>
+                    <filter string="Société SINERGIS" name="group_by_company" context="{'group_by':'consultant_company_id'}"/>
                 </group>
             </search>
         </field>
