@@ -16,6 +16,7 @@ class MyActions(models.Model):
     billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable', 'Non facturable')], string="Facturation")
     time = fields.Float(string = "Temps")
     consultant = fields.Many2one('res.users',string="Consultant")
+    consultant_company_id = fields.Many2one("res.company",string="Société SINERGIS")
 
     #Uniquement pour rapport
 
@@ -40,7 +41,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT row_number() OVER (ORDER BY 1) AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,CAST(T.time AS float),T.consultant,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area FROM
+            T.name,T.date,T.client,T.billing,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area FROM
                 ((SELECT
                     'helpdesk' as origin,
                     ht.id as id,
@@ -57,6 +58,7 @@ class MyActions(models.Model):
                     END AS time,
 
                     ht.user_id as consultant,
+                    ru.company_id as consultant_company_id,
                     ht.x_sinergis_helpdesk_ticket_contact as contact,
                     ht.x_sinergis_helpdesk_ticket_start_time as start_time,
                     ht.x_sinergis_helpdesk_ticket_end_time as end_time,
@@ -73,10 +75,14 @@ class MyActions(models.Model):
                     account_analytic_line AS aal
                 ON
                     aal.x_sinergis_account_analytic_line_ticket_id = ht.id
+                FULL JOIN
+                    res_users AS ru
+                ON
+                    ht.user_id = ru.id
                 WHERE
                     ht.x_sinergis_helpdesk_ticket_facturation != ''
                 GROUP BY
-                    ht.id)
+                    ht.id,ru.id)
                 UNION ALL
                 (
                 SELECT
@@ -93,6 +99,7 @@ class MyActions(models.Model):
                             ELSE ce.x_sinergis_calendar_duree_facturee::TEXT
                     END AS time,
                     ce.user_id as consultant,
+                    ru.company_id as consultant_company_id,
                     ce.x_sinergis_calendar_event_contact as contact,
                     ce.x_sinergis_calendar_event_start_time as start_time,
                     ce.x_sinergis_calendar_event_end_time as end_time,
@@ -109,10 +116,14 @@ class MyActions(models.Model):
                     account_analytic_line AS aal
                 ON
                     aal.x_sinergis_account_analytic_line_event_id = ce.id
+                FULL JOIN
+                    res_users AS ru
+                ON
+                    ru.id = ce.user_id
                 WHERE
                     ce.x_sinergis_calendar_event_facturation != ''
                 GROUP BY
-                    ce.id
+                    ce.id,ru.id
                     )
                 ) AS T
             )
