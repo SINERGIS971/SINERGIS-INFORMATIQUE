@@ -10,7 +10,7 @@ class HelpdeskTicket(models.Model):
 
     #Override
     #company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company, readonly=True,related='')
-    #team_id = fields.Many2one('helpdesk.team', string='Helpdesk Team', default=lambda self: self.env['helpdesk.team'].search([('name','=',"Service Clientèle")]), index=True)
+    team_id = fields.Many2one(default=lambda self: self.env['helpdesk.team'].search([('name','=',"Service Clientèle")]))
 
     stage_id = fields.Many2one(domain=False)
 
@@ -335,11 +335,11 @@ class HelpdeskTicket(models.Model):
         self.x_sinergis_helpdesk_ticket_temps_passe = (self.x_sinergis_helpdesk_ticket_end_time - self.x_sinergis_helpdesk_ticket_start_time).total_seconds() / 3600
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
-    #def write(self, values):
-    #    user_id = self.user_id
-    #    if user_id != self.env.user and self.stage_id.name == "Résolu":
-    #        raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
-    #    return super(HelpdeskTicket, self).write(values)
+    def write(self, values):
+        user_id = self.user_id
+        if user_id != self.env.user and self.stage_id.name == "Résolu":
+            raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
+        return super(HelpdeskTicket, self).write(values)
 
     #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
     @api.model_create_multi
