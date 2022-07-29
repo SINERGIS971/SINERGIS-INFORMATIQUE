@@ -53,6 +53,7 @@
                 <field name="name"/>
                 <field name="time" widget="float_time" sum="Temps total"/>
                 <field name="consultant" widget="many2one_avatar_user"/>
+                <field name="country_name"/>
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
             </tree>
         </field>

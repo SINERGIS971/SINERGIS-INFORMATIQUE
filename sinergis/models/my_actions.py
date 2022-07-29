@@ -17,6 +17,7 @@ class MyActions(models.Model):
     time = fields.Float(string = "Temps")
     consultant = fields.Many2one('res.users',string="Consultant")
     consultant_company_id = fields.Many2one("res.company",string="Société SINERGIS")
+    country_name = fields.Char(string="Pays du client")
 
     #Uniquement pour rapport
 
@@ -41,7 +42,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT row_number() OVER (ORDER BY 1) AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area FROM
+            T.name,T.date,T.client,T.billing,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_name FROM
                 ((SELECT
                     'helpdesk' as origin,
                     ht.id as id,
@@ -68,7 +69,8 @@ class MyActions(models.Model):
                     ht.x_sinergis_helpdesk_ticket_is_solved as is_solved,
                     NULL as event_trip,
                     NULL as movement_country,
-                    NULL as movement_area
+                    NULL as movement_area,
+                    rp.country_id.name as country_name
                 FROM
                     helpdesk_ticket as ht
                 FULL JOIN
@@ -79,10 +81,14 @@ class MyActions(models.Model):
                     res_users AS ru
                 ON
                     ht.user_id = ru.id
+                FULL JOIN
+                    res_partner AS rp
+                ON
+                    ht.partner_id = rp.id
                 WHERE
                     ht.x_sinergis_helpdesk_ticket_facturation != ''
                 GROUP BY
-                    ht.id,ru.id)
+                    ht.id,ru.id,ht.partner_id)
                 UNION ALL
                 (
                 SELECT
@@ -109,7 +115,8 @@ class MyActions(models.Model):
                     ce.x_sinergis_calendar_event_is_solved as is_solved,
                     ce.x_sinergis_calendar_event_trip as event_trip,
                     ce.x_sinergis_calendar_event_trip_movementcountry as movement_country,
-                    ce.x_sinergis_calendar_event_trip_movementarea as movement_area
+                    ce.x_sinergis_calendar_event_trip_movementarea as movement_area,
+                    rp.country_id.name as country_name
                 FROM
                     calendar_event as ce
                 FULL JOIN
@@ -120,10 +127,14 @@ class MyActions(models.Model):
                     res_users AS ru
                 ON
                     ru.id = ce.user_id
+                FULL JOIN
+                    res_partner AS rp
+                ON
+                    ce.x_sinergis_calendar_event_client = rp.id
                 WHERE
                     ce.x_sinergis_calendar_event_facturation != ''
                 GROUP BY
-                    ce.id,ru.id
+                    ce.id,ru.id,ce.x_sinergis_calendar_event_client
                     )
                 ) AS T
             )
