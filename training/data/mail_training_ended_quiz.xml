@@ -1,0 +1,141 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+       <record id="training_ended_quiz_mail" model="mail.template">
+            <field name="name">Fin de formation</field>
+            <field name="model_id" ref="training.model_training_participants"/>
+            <field name="email_from">support@sinergis.odoo.com</field>
+            <field name="email_to">{{ (object.email or '') }}</field>
+            <field name="subject">Fin de formation</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+
+              <body style="background-color: #f6f6f6;
+                  font-family: sans-serif;
+                  -webkit-font-smoothing: antialiased;
+                  font-size: 14px;
+                  line-height: 1.4;
+                  margin: 0;
+                  padding: 0;
+                  -ms-text-size-adjust: 100%;
+                  -webkit-text-size-adjust: 100%;">
+                  <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate;
+                      mso-table-lspace: 0pt;
+                      mso-table-rspace: 0pt;
+                      width: 100%;
+                      background-color: #f6f6f6;">
+                    <tr>
+                      <td>&#160;</td>
+                      <td class="container" style="display: block;
+                      margin: 0 auto !important;
+                      max-width: 580px;
+                      padding: 10px;
+                      width: 580px;">
+                        <div class="content" style="box-sizing: border-box;
+                                display: block;
+                                margin: 0 auto;
+                                max-width: 750px;
+                                padding: 10px;">
+
+                          <!-- START CENTERED WHITE CONTAINER -->
+                          <table role="presentation" style="background-color: #ffffff;
+                          border-radius: 3px;">
+                            <tr></tr>
+                            <!-- START MAIN CONTENT AREA -->
+                            <tr>
+                              <td class="wrapper" style="box-sizing: border-box;
+                              padding: 20px;">
+                                <table style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;" border="0" cellpadding="0" cellspacing="0">
+                                  <tr>
+                                    <td style="font-family: sans-serif;font-size: 14px;vertical-align: top; ">
+                                      <p>Bonjour,</p>
+                                      <p>Merci d'avoir participé à cette formation.</p>
+                                      <p>Veuillez compléter les questionnaires d'évaluation des acquis et d'évaluation de la formation en cliquant sur les boutons ci-dessous.</p>
+                                      <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box;
+                      width: 100%;" >
+                                        <tbody>
+                                          <tr>
+                                            <td align="center" style="">
+                                              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: auto;">
+                                                <tbody>
+                                                  <tr>
+                                                    <td style=" background-color: #ffffff;
+                        border-radius: 5px;
+                        text-align: center; "> <a t-attf-href="training/training?token={{ object.token_quiz_prior_learning }}" target="_blank" style="
+                                                    border-color: #3498db;
+                                                    color: #ffffff;
+               background-color: #ffffff;
+                        border: solid 1px #3498db;
+                        border-radius: 5px;
+                        box-sizing: border-box;
+                        color: #3498db;
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 14px;
+                        font-weight: bold;
+                        margin: 0;
+                        padding: 12px 25px;
+                        text-decoration: none;
+                        text-transform: capitalize; ">Questionnaire d'évaluation des acquis</a> </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                      <br/>
+                                      <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box;
+                      width: 100%;" >
+                                        <tbody>
+                                          <tr>
+                                            <td align="center" style="">
+                                              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: auto;">
+                                                <tbody>
+                                                  <tr>
+                                                    <td style=" background-color: #ffffff;
+                        border-radius: 5px;
+                        text-align: center; "> <a t-attf-href="training/training?token={{ object.token_quiz_training_evaluation }}" target="_blank" style="
+                                                    border-color: #3498db;
+                                                    color: #ffffff;
+               background-color: #ffffff;
+                        border: solid 1px #3498db;
+                        border-radius: 5px;
+                        box-sizing: border-box;
+                        color: #3498db;
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 14px;
+                        font-weight: bold;
+                        margin: 0;
+                        padding: 12px 25px;
+                        text-decoration: none;
+                        text-transform: capitalize; ">Questionnaire d'évaluation de la formation</a> </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+
+
+                                      <p>Bien cordialement,</p>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+
+                          <!-- END MAIN CONTENT AREA -->
+                          </table>
+                        </div>
+                      </td>
+                      <td>&#160;</td>
+                    </tr>
+                  </table>
+                </body>
+            </field>
+        </record>
+    </data>
+</odoo>

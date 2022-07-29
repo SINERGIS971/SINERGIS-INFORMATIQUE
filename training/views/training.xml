@@ -1,0 +1,374 @@
+<odoo>
+  <data>
+
+    <record id="training_tree" model="ir.ui.view">
+        <field name="name">training.tree</field>
+        <field name="model">training</field>
+        <field name="arch" type="xml">
+            <tree>
+              <field name="name"/>
+              <field name="sales_manager"/>
+              <field name="partner_id"/>
+              <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="training_action" model="ir.actions.act_window">
+        <field name="name">Formations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">training</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Il n'y a pas de formation
+            </p>
+        </field>
+    </record>
+
+    <record id="training_form" model="ir.ui.view">
+        <field name="name">training.form</field>
+        <field name="model">training</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                  <field name="state" widget="statusbar" statusbar_visible="unassigned,commercial_part,consultant_part,training_in_progress,training_ended,training_closed"/>
+                  <button name="button_switch_commercial_part" string="Passer à la partie: commerciale" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'unassigned')]}"/>
+                  <button name="button_return_unassigned" string="Revenir à la partie: non assigné" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}"/>
+                  <button name="button_switch_consultant_part" string="Passer à la partie: consultant" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}"/>
+                  <button name="button_return_commercial_part" string="Revenir à la partie: commerciale" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
+                  <button name="button_switch_training_in_progress_part" string="Passer à la partie: formation en cours" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
+                  <button name="button_return_consultant_part" string="Revenir à la partie: consultant" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
+                  <button name="button_switch_training_ended_part" string="Passer à la partie: formation terminée" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
+                  <button name="button_return_training_in_progress_part" string="Revenir à la partie: formation en cours" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
+                  <button name="button_switch_training_closed_part" string="Passer à la partie: formation cloturée" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
+                  <button name="button_return_training_ended_part" string="Revenir à la partie: formation terminée" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>
+
+                  <button name="button_download_attendance_sheet" string="Télécharger la feuille d'émargement" type="object"  icon="fa-download" attrs="{'invisible': ['|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part')]}"/>
+                </header>
+                <sheet>
+                  <div class="oe_button_box" name="button_box">
+                    <field name="sale_id" invisible="True"/>
+                    <button name="action_open_sale_id" string="Ouvrir le devis" type="object" class="oe_link" icon="fa-file-text-o" attrs="{'invisible': [('sale_id', '=', False)]}"/>
+                  </div>
+                  <group>
+                    <field name="name" required="True"/>
+                  </group>
+                  <!-- Partie non assigné -->
+                  <div>
+                    <separator string="Non assigné"/>
+                    <group>
+                      <field name="sales_manager" widget="many2one_avatar_user"/>
+                      <field name="signed_quote"/>
+                    </group>
+                  </div>
+                  <!-- Partie commerciale -->
+                  <div attrs="{'invisible': [('state',  '==', 'unassigned')]}">
+                    <separator string="Partie commerciale"/>
+                    <group>
+                      <group>
+                        <field name="partner_id"/>
+                      </group>
+                      <group>
+                        <field name="partner_manager_id" domain="[('parent_id','=',partner_id)]" attrs="{'readonly': [('partner_id',  '=', False)]}"/>
+                      </group>
+                    </group>
+                    <group>
+                      <group>
+                        <field name="company_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                      </group>
+                      <group>
+                        <field name="type_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                      </group>
+                      <group>
+                        <field name="type_product_id" domain="[('type_id','=',type_id)]" attrs="{'readonly': [('type_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                      </group>
+                      <group>
+                        <field name="type_product_plan_id" domain="['&amp;',('type_id','=',type_id),('product_id','=',type_product_id)]" attrs="{'readonly': [('type_product_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                      </group>
+                      <group>
+                        <field name="opco_id"/>
+                      </group>
+                      <group>
+                        <field name="opco_file"/>
+                      </group>
+                    </group>
+                    <group>
+                      <field name="training_participants" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}" readonly="False">
+                      </field>
+                    </group>
+                    <div style="margin-left:30px;" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
+                      <separator string="Rédaction de le convention" style="color:red;"/>
+                      <group>
+                      <field name="course_title"/>
+                      <field name="location" options="{'no_create': True, 'no_create_edit':True}"/>
+                      </group>
+                      <group>
+                        <group>
+                          <field name="start"/>
+                        </group>
+                        <group>
+                          <field name="end"/>
+                        </group>
+                      </group>
+                      <button name="download_training_agreement" string="Télécharger la convention de formation" type="object" class="oe_highlight"/>
+                      <button name="send_training_agreement" string="Envoyer la convention de formation au responsable" type="object" class="oe_highlight oe_right"/>
+                    </div>
+                    <br/>
+                    <group>
+                      <field name="signed_agreement"/>
+                    </group>
+                  </div>
+                  <!-- Partie consultant -->
+                  <div attrs="{'invisible': ['|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part')]}">
+                    <separator string="Partie consultant"/>
+                    <group>
+                      <field name="consultant_id"/>
+                    </group>
+                    <group>
+                      <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
+                      </field>
+                    </group>
+                    <button name="send_invitation_participants" string="Envoyer les invitations aux participants" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les invitations à tous les participants où l'invitation n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
+                  </div>
+                  <!-- Formation en cours -->
+                  <div attrs="{'invisible': ['|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part')]}">
+                  <separator string="Formation en cours"/>
+                  <group>
+                    <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}">
+                    </field>
+                  </group>
+                  <button name="send_positioning_quiz_participants" string="Envoyer les quiz de positionnement" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les quiz à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
+                </div>
+                <!-- Formation terminée -->
+                <div attrs="{'invisible': ['|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress')]}">
+                <separator string="Formation terminée"/>
+                <field name="training_participants" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
+                    <tree string="Liste des participants">
+                          <field name="name"/>
+                          <field name="email"/>
+                          <!--Partie consultant-->
+                          <field name="invitation_sent" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'consultant_part')]}"/>
+                          <field name="diagnostic_received" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'consultant_part')]}"/>
+                          <button name="send_invitation_individual" string="Envoyer une invitation" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer une invitation, souhaitez-vous continuer" attrs="{'column_invisible': [('parent.state',  '!=', 'consultant_part')]}"/>
+                          <!--Formation en cours-->
+                          <field name="positioning_quiz_sent" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'training_in_progress')]}"/>
+                          <field name="positioning_quiz_received" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'training_in_progress')]}"/>
+                          <button name="send_positioning_quiz_individual" string="Envoyer le quiz de positionnement" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer un quiz de positionnement, souhaitez-vous continuer" attrs="{'column_invisible': [('parent.state',  '!=', 'training_in_progress')]}"/>
+                          <!--Formation terminée-->
+                          <field name="training_ended_sent" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                          <field name="prior_learning_quiz_received" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                          <field name="training_evaluation_received" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                          <field name="is_rated" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                          <button name="send_training_ended_individual" string="Envoyer les quiz" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les quiz d'évaluation, souhaitez-vous continuer ?" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                    </tree>
+                  </field>
+                  <button name="send_training_ended_participants" string="Envoyer les mails aux participants" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les mails à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer ?" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
+                  <div style="margin-left:30px;">
+                    <separator string="Évaluation de la formation par le consultant" style="color:red;"/>
+                    <group>
+                      <group>
+                        <field name="evaluating_training_course"/>
+                      </group>
+                      <group>
+                        <field name="difficulties_training_course"/>
+                      </group>
+                    </group>
+                    <button name="download_training_evaluation" string="Télécharger l'évaluation de formation" type="object" class="oe_highlight oe_right"/>
+                  </div>
+                  <div style="margin-left:30px;">
+                    <separator string="Feuille d'émargement" style="color:red;"/>
+                      <group>
+                        <field name="signed_attendance_sheet"/>
+                      </group>
+                  </div>
+                </div>
+                <!-- Formation cloturée -->
+                <div attrs="{'invisible': ['|','|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress'),('state',  '==', 'training_ended')]}">
+                  <separator string="Formation cloturée"/>
+                  <group>
+                    <field name="training_closed_date"/>
+                  </group>
+                  <div style="margin-left:30px;">
+                    <p>Les quiz seront envoyé automatiquement 30 jours et 60 jours après la clôture de la formation, vous pouvez forcer l'envoi via les boutons "Envoyer l'évaluation maintenant" et "Envoyer le quiz maintenant".</p>
+                    <separator string="Évaluation à froid du client (J+30)" style="color:red;"/>
+                    <group>
+                      <group>
+                        <field name="delayed_assessment_sent"/>
+                      </group>
+                      <group>
+                        <field name="delayed_assessment_received"/>
+                      </group>
+                    </group>
+                    <button name="send_delayed_assessment_client" string="Envoyer l'évaluation maintenant" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer l'évaluation au client. Cette tâche est normalement effectuée automatiquement 30 jours après la fin de la formation. Souhaitez-vous continuer ?" attrs="{'invisible': [('delayed_assessment_received',  '=', True)]}"/>
+                  </div>
+                  <div style="margin-left:30px;">
+                    <separator string="Évaluation de l'OPCO (J+60)" style="color:red;"/>
+                    <group>
+                      <group>
+                        <field name="opco_quiz_sent"/>
+                      </group>
+                      <group>
+                        <field name="opco_quiz_received"/>
+                      </group>
+                    </group>
+                    <button name="send_opco_quiz" string="Envoyer le quiz maintenant" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer le quiz à l'OPCO maintenant. Cette tâche est normalement effectuée automatiquement 60 jours après la fin de la formation. Souhaitez-vous continuer ?" attrs="{'invisible': [('opco_quiz_received',  '=', True)]}"/>
+                  </div>
+                  <div style="margin-left:30px;" attrs="{'invisible': ['&amp;',('answer_delayed_assessment',  '==', False),('answer_opco_quiz',  '==', False)]}">
+                    <separator string="Réponses aux quiz" style="color:green;"/>
+                    <group>
+                      <field name="answer_delayed_assessment"/>
+                      <field name="answer_opco_quiz"/>
+                    </group>
+                    <button name="send_opco_quiz" string="Envoyer le quiz maintenant" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer le quiz à l'OPCO maintenant. Cette tâche est normalement effectuée automatiquement 60 jours après la fin de la formation. Souhaitez-vous continuer ?" attrs="{'invisible': [('opco_quiz_received',  '=', True)]}"/>
+                  </div>
+                </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="training_participants_form" model="ir.ui.view">
+        <field name="name">training.participants.form</field>
+        <field name="model">training.participants</field>
+        <field name="arch" type="xml">
+          <form>
+            <group>
+              <field name="training_id" invisible="True"/>
+              <field name="name"/>
+              <field name="position"/>
+              <field name="email"/>
+              <field name="phone"/>
+              <separator string="Utiliser un contact existant"/>
+              <field name="partner_contact_id"/>
+            </group>
+            <separator string="Évaluation"/>
+            <group>
+                <group>
+                  <field name="evaluation_engagment_mark"/>
+                </group>
+                <group>
+                  <field name="training_end_mark"/>
+                </group>
+            </group>
+            <separator string="Réponses aux quiz"/>
+            <field name="answer_quiz_diagnostic" attrs="{'invisible': [('answer_quiz_diagnostic',  '=', False)]}"/>
+            <field name="answer_positioning_quiz" attrs="{'invisible': [('answer_positioning_quiz',  '=', False)]}"/>
+            <field name="answer_prior_learning_quiz" attrs="{'invisible': [('answer_prior_learning_quiz',  '=', False)]}"/>
+            <field name="answer_training_evaluation" attrs="{'invisible': [('answer_training_evaluation',  '=', False)]}"/>
+          </form>
+        </field>
+    </record>
+
+    <!--Configuration Type/Produit/Plan de formation-->
+    <record id="training_type_action" model="ir.actions.act_window">
+        <field name="name">Type de formation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">training.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="training_type_product_action" model="ir.actions.act_window">
+        <field name="name">Produit</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">training.type.product</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="training_type_product_plan_action" model="ir.actions.act_window">
+        <field name="name">Plan de formation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">training.type.product.plan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="training_type_product_plan_form" model="ir.ui.view">
+        <field name="name">training.type.product.plan.form</field>
+        <field name="model">training.type.product.plan</field>
+        <field name="arch" type="xml">
+          <form>
+            <sheet>
+              <group>
+                <field name="type_id"/>
+                <field name="product_id" attrs="{'readonly': [('type_id',  '=', False)]}" domain="[('type_id','=',type_id)]"/>
+                <field name="name"/>
+                <field name="training_plan_file"/>
+              </group>
+            </sheet>
+          </form>
+        </field>
+    </record>
+
+    <!--Configuration localisation de la formation-->
+    <record id="training_location_action" model="ir.actions.act_window">
+        <field name="name">Localisation de la formation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">training.location</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!--Configuration OPCO-->
+    <record id="training_opco_action" model="ir.actions.act_window">
+        <field name="name">Liste des OPCO</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">training.opco</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!--==========MENU==========-->
+
+    <!--Training-->
+    <menuitem id="training_root"
+              name="Formations"
+              web_icon="training,static/description/icon.png"
+              sequence="10"/>
+
+    <menuitem id="training_training_root"
+              parent="training_root"
+              name="Formations"
+              action="training_action"
+              sequence="10"/>
+    <!--Configuration-->
+    <menuitem id="training_configuration_root"
+              parent="training_root"
+              name="Configuration"
+              sequence="20"/>
+    <!--Configuration Type/Produit/Plan de formation-->
+    <menuitem id="training_configuration_type"
+              parent="training_configuration_root"
+              name="Type de formation"
+              action="training_type_action"
+              sequence="5"/>
+    <menuitem id="training_configuration_type_product"
+              parent="training_configuration_root"
+              name="Produit"
+              action="training_type_product_action"
+              sequence="5"/>
+    <menuitem id="training_configuration_type_product_plan"
+              parent="training_configuration_root"
+              name="Plan de formation"
+              action="training_type_product_plan_action"
+              sequence="5"/>
+    <!--Configuration Localisation de la formation-->
+    <menuitem id="training_configuration_location"
+              parent="training_configuration_root"
+              name="Localisation"
+              action="training_location_action"
+              sequence="10"/>
+
+
+    <!--Configuration - OPCO-->
+
+    <menuitem id="training_configuration_opco"
+              parent="training_configuration_root"
+              name="OPCO"
+              action="training_opco_action"
+              sequence="10"/>
+
+
+
+  </data>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="quiz_page" name="Quiz">
+    <link rel="stylesheet" href="static/web/quiz_template.css"/>
+    <script src="static/web/quiz_template.js"></script>
+    <div id="content">
+      <!--<img src='/web/binary/company_logo'/>-->
+        <h1><t t-esc="quiz.name"/></h1>
+        <h3><t t-esc="company_name"/> - <t t-esc="user_name"/></h3>
+        <form action="" method="POST" id="training_form">
+        <input type="hidden" name="token" t-att-value="str(token)"/>
+        <t t-foreach="quiz.questions_ids" t-as="question">
+          <label t-att-for="str(question.id)"><t t-esc="question.name"/></label>
+          <br/>
+          <!-- INPUT LIST -->
+          <input t-if="question.type == 'text1'" type="text" t-att-name="str(question.id)" id="name"/>
+
+          <textarea t-if="question.type == 'text2'" id="Name" t-att-name="str(question.id)" rows="5" cols="33"></textarea>
+
+          <div class="rate-box">
+            <div class="rate" t-if="question.type == 'note1'">
+              <input type="radio" t-att-id="'star5-'+str(question.id)" t-att-name="question.id" value="5" />
+              <label t-att-for="'star5-'+str(question.id)" title="text"></label>
+              <input type="radio" t-att-id="'star4-'+str(question.id)" t-att-name="question.id" value="4" />
+              <label t-att-for="'star4-'+str(question.id)" title="text"></label>
+              <input type="radio" t-att-id="'star3-'+str(question.id)" t-att-name="question.id" value="3" />
+              <label t-att-for="'star3-'+str(question.id)" title="text"></label>
+              <input type="radio" t-att-id="'star2-'+str(question.id)" t-att-name="question.id" value="2" />
+              <label t-att-for="'star2-'+str(question.id)" title="text"></label>
+              <input type="radio" t-att-id="'star1-'+str(question.id)" t-att-name="question.id" value="1" />
+              <label t-att-for="'star1-'+str(question.id)" title="text"></label>
+            </div>
+          </div>
+
+          <br/><br/>
+        </t>
+        <input type="submit" value="Envoyer"/>
+        </form>
+    </div>
+  </template>
+
+  <template id="quiz_page_message" name="Quiz_End">
+    <link rel="stylesheet" href="static/web/quiz_template.css"/>
+    <div id="content">
+      <!--<img src='/web/binary/company_logo'/>-->
+      <h3><t t-esc="message"/></h3>
+    </div>
+  </template>
+</odoo>

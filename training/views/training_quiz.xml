@@ -1,0 +1,46 @@
+<odoo>
+  <data>
+
+<record id="training_quiz_action" model="ir.actions.act_window">
+    <field name="name">Quiz</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">training.quiz</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<record id="training_quiz_form" model="ir.ui.view">
+        <field name="name">Quiz</field>
+        <field name="model">training.quiz</field>
+        <field name="arch" type="xml">
+          <form>
+            <group>
+              <field name="name"/>
+              <field name="questions_ids">
+                <tree string="Liste des questions">
+                        <field name="name"/>
+                        <field name="type"/>
+                </tree>
+                <form string="Éditer une question" >
+                  <group>
+                        <field name="name"/>
+                        <field name="type"/>
+                  </group>
+                </form>
+              </field>
+              <field name="training_type_id" attrs="{'invisible': ['|','|',('quiz_type',  '=', 'training_evaluation'),('quiz_type',  '=', 'delayed_assessment'),('quiz_type',  '=', 'opco')], 'required': ['&amp;','&amp;',('quiz_type',  '!=', 'training_evaluation'),('quiz_type',  '!=', 'delayed_assessment'),('quiz_type',  '!=', 'opco')]}"/>
+              <field name="training_type_product" attrs="{'readonly': [('training_type_id',  '=', False)], 'invisible': ['|','|',('quiz_type',  '=', 'training_evaluation'),('quiz_type',  '=', 'delayed_assessment'),('quiz_type',  '=', 'opco')], 'required': ['&amp;','&amp;',('quiz_type',  '!=', 'training_evaluation'),('quiz_type',  '!=', 'delayed_assessment'),('quiz_type',  '!=', 'opco')]}" domain="[('type_id','=',training_type_id)]"/>
+              <field name="training_type_product_plan" attrs="{'readonly': [('training_type_product',  '=', False)], 'invisible': ['|','|',('quiz_type',  '=', 'training_evaluation'),('quiz_type',  '=', 'delayed_assessment'),('quiz_type',  '=', 'opco')], 'required': ['&amp;','&amp;',('quiz_type',  '!=', 'training_evaluation'),('quiz_type',  '!=', 'delayed_assessment'),('quiz_type',  '!=', 'opco')]}" domain="['&amp;',('type_id','=',training_type_id),('product_id','=',training_type_product)]"/>
+              <field name="quiz_type"/>
+            </group>
+          </form>
+        </field>
+</record>
+
+<menuitem id="training_quiz_root"
+          parent="training_root"
+          name="Quiz"
+          action="training_quiz_action"
+          sequence="10"/>
+
+  </data>
+</odoo>

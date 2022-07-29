@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Enregistrement des informations du rapport -->
+	<record id="training_consultant_evaluation_report" model="ir.actions.report">
+		<field name="name">Evaluation de la formation</field>
+		<field name="model">training</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">training.consultant_evaluation_report</field>
+		<field name="report_file">training.consultant_evaluation_report</field>
+		<field name="binding_model_id" ref="model_training"/>
+		<field name="binding_type">report</field>
+	</record>
+	<!-- Enregistrement des données du rapport -->
+	<template id="consultant_evaluation_report">
+		<t t-call="web.html_container">
+			<div class="page">
+			<t t-foreach="docs" t-as="doc">
+				<div class="oe_structure"/>
+			  	<t t-call="web.external_layout">
+						<h1 style="font-size:20px;text-align:center;">Evaluation de la formation par le consultant</h1>
+            <table style="border-collapse:collapse;border:none;width: 100%;">
+            <tbody>
+                <tr>
+                  <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+                    <p>Formateur: <span t-field="doc.consultant_id"/></p>
+                  </th>
+                   <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+                    <p>Date(s) Formation: Du <span t-field="doc.start"/> au <span t-field="doc.end"/></p>
+                  </th>
+                </tr>
+                <tr>
+                  <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+                    <p>Entreprise: <span t-field="doc.partner_id"/></p>
+                  </th>
+                   <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+                    <p>Titre Formation: <span t-field="doc.course_title"/></p>
+                  </th>
+                </tr>
+            </tbody>
+            </table>
+            <h5>1. La formation se déroule :</h5>
+            <p><span t-field="doc.location"/></p>
+            <h5>2. Evaluation du niveau d’engagement de l’apprenant :</h5>
+						<table style="width: 100%;">
+							<tbody>
+									<tr style="border: 1px solid black;">
+										<th style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><strong>Nom</strong></th>
+										<th style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><strong>Note</strong></th>
+									</tr>
+									<t t-foreach="doc.training_participants" t-as="line">
+									<tr>
+										<td style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><span t-field="line.name"/></td>
+										<td style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><span t-field="line.evaluation_engagment_mark"/></td>
+									</tr>
+									</t>
+							</tbody>
+						</table>
+            <h5>3. Evaluation du stagiaire à l’issue de la formation :</h5>
+						<table style="width: 100%;">
+							<tbody>
+									<tr style="border: 1px solid black;">
+										<th style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><strong>Nom</strong></th>
+										<th style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><strong>Note</strong></th>
+									</tr>
+									<t t-foreach="doc.training_participants" t-as="line">
+									<tr>
+										<td style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><span t-field="line.name"/></td>
+										<td style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><span t-field="line.training_end_mark"/></td>
+									</tr>
+									</t>
+							</tbody>
+						</table>
+            <h5>4. Evaluation du déroulement de l’action de formation :</h5>
+            <p>Le consultant a trouvé la formation : <span t-field="doc.evaluating_training_course"/></p>
+            <br/>
+            <p>Précisez si difficultés rencontrées :</p>
+            <p><span t-field="doc.difficulties_training_course"/></p>
+					</t>
+			</t>
+			</div>
+</t>
+	</template>
+</odoo>

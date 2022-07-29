@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Enregistrement des informations du rapport -->
+	<record id="training_agreement_report" model="ir.actions.report">
+		<field name="name">Convention de formation</field>
+		<field name="model">training</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">training.agreement_report</field>
+		<field name="report_file">training.agreement_report</field>
+		<field name="binding_model_id" ref="model_training"/>
+		<field name="binding_type">report</field>
+	</record>
+	<!-- Enregistrement des données du rapport -->
+	<template id="agreement_report">
+		<t t-call="web.html_container">
+			<div class="page">
+			<t t-foreach="docs" t-as="doc">
+				<div class="oe_structure"/>
+			  	<t t-call="web.external_layout">
+						<h1>Convention de formation</h1>
+						<p>Entre les soussignés</p>
+						<div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+						<p><br/>Et</p>
+						<p>La société : <span t-field="doc.partner_id.name"/></p>
+						<p>Est conclue la convention suivante, en application de l’article L. 6353-1 du Code du travail de la sixième partie du Code du Travail.</p>
+						<h5>Article 1 : Objet de la convention</h5>
+						<p>L’organisme SINERGIS organisera l’action de formation à distance/ en présentiel suivant : </p>
+						<p>Intitulé du stage : <span t-field="doc.course_title"/></p>
+						<ul>
+						  <li>Objectif : Voir le diagnostic initial</li>
+						  <li>Programme et méthodes : A REMPLIR</li>
+						  <li>Durée : <span t-field="doc.sale_order_line_id.product_uom_qty"/> jours</li>
+							<li>Lieu : <span t-field="doc.location.name"/></li>
+							<li>Dates : <span t-field="doc.start"/> au <span t-field="doc.end"/></li>
+						</ul>
+						<h5>Article 2: Descriptif de la convention</h5>
+						<p>L’organisme dispensera un enseignement aux stagiaires indiqué en  Annexe 1</p>
+						<h5>Article 3 : Dispositions financières</h5>
+						<p>En contrepartie de cette action de formation, l’employeur s’acquittera des coûts suivants :</p>
+						<p>Frais pédagogiques : <strong>côut unitaire de <span t-field="doc.sale_order_line_id.price_unit"/>€ / jour</strong></p>
+						<table style="border-collapse:collapse;border:none;width: 50%;">
+              <tbody>
+                  <tr>
+                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">Soit un total de :</th>
+                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><span t-field="doc.sale_order_line_id.price_subtotal"/> HT</th>
+                  </tr>
+									<tr>
+                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">TVA</th>
+                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><span t-field="doc.sale_order_line_id.price_tax"/> €</th>
+                  </tr>
+									<tr>
+                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">Total Général :</th>
+                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><span t-field="doc.sale_order_line_id.price_total"/></th>
+                  </tr>
+              </tbody>
+              </table>
+							<br/>
+							<h5>Article 2 – Modalités de règlement</h5>
+							<p>Quel que soit le type de session, les factures sont envoyées dès la fin de la session de formation et sont payables à trente (30) jours net et sans escompte date de facture. Le règlement se fera par chèque bancaire ou par virement.</p>
+							<p>Toute formation à laquelle un participant a commencé à assister est due en totalité.</p>
+							<p>En cas de retard de paiement, conformément aux dispositions de l’article L.441-6 du Code de commerce, SINERGIS  appliquera de plein droit un intérêt de retard égal au taux de la Banque Centrale Européenne à son opération de refinancement la plus récente majoré de 7 points de pourcentage sans que ce taux ne soit inférieur à 1,5 fois le taux d’intérêt légal, sur les montants facturés qui seraient échus. En cas de non-paiement, SINERGIS se réserve le droit de refuser toute nouvelle inscription de participants du Client et de résilier les inscriptions en cours de participants du Client.</p>
+							<h5>Article 3: Moyens pédagogiques et techniques</h5>
+							<p>Toute session de formation est organisée en une succession de parties théoriques et de mises en application pratiques sous forme d’exercices réalisés sur des solutions SINERGIS.
+							Les sessions de formation sont dispensées par des formateurs sélectionnés pour leurs connaissances sur des solutions proposées par SINERGIS, connaissances qu’ils ont acquises dans le cadre de la mise en œuvre de ces solutions.
+							Les compétences pédagogiques des formateurs proviennent :
+							d’un processus de formation continue, organisé par SINERGIS, durant lequel sont abordées les principales techniques d’animation de sessions de formation ou de formations à la pédagogie suivies précédemment par le Formateur.
+							En considération des demandes et du niveau des participants du Client, SINERGIS dispose de moyens nécessaires afin de dispenser des sessions de formation, objet de la présente Convention et accomplira sa mission de formation en professionnel diligent.</p>
+							<h5>Article 4 : Dispositif permettant de suivre l’exécution du programme</h5>
+							<p>Chaque stagiaire signera une feuille d’émargement et une attestation de présence.</p>
+							<h5>Article 5 : Dispositif permettant d’apprécier les résultats</h5>
+							<p>A l’issue de la formation, le formateur fera remplir une évaluation de la formation en ligne à toutes les personnes formées. Le formateur évaluera lors de la prestation de formation, non seulement les acquis des personnes formées mais également leur engagement et leur assiduité. Ces informations pourront être remise au commanditaire sur demande.</p>
+							<h5>Article 6 : Nature de la sanction de la formation dispensée</h5>
+							<p>Une attestation individualisée de suivi de stage sera remise à chaque stagiaire en fin de formation.</p>
+							<h5>Article 7 : Annulation - Report</h5>
+							<p>A compter de l’inscription définitive, pour une annulation reçue moins de 10 Jours ouvrés avant la date de prestation 50 % du prix des journées de formation et déplacements restent dus. Pour toute annulation reçue moins de 5 jours ouvrés avant la date de prestation, le prix des journées de formation reste acquis dans son intégralité. Seules les conditions de report ou d’annulation écrites et faxées sont prises en considération.</p>
+							<h5>Article 8 : Différends éventuels</h5>
+							<p>Si une contestation ou un différend ne peut être réglé à l’amiable, le Tribunal de Fort-de-France sera compétent pour régler le litige.</p>
+							<br/>
+							<p>Fait en deux exemplaires originaux, à Fort de France, le 12/10/2021</p>
+							<div style="page-break-inside: avoid;">
+							<table style="border-collapse:collapse;border:none;width: 100%;">
+								<tbody>
+										<tr>
+											<th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><p>Pour l’entreprise,<br/>(Nom et qualité du signataire)<br/>(Cachet de la société)</p></th>
+											<th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><p>Pour SINERGIS<br/>Alain CASIMIRO, Directeur</p></th>
+										</tr>
+								</tbody>
+							</table>
+							<br/><br/><br/><br/>
+						</div>
+						<t style="font-weight:bold;text-decoration: underline;">ANNEXES A LA CONVENTION :</t>
+						<ul>
+						  <li>Annexe 1: Programme, objectifs et méthodes de l’action réalisée</li>
+						  <li>Annexe 2 : Liste des stagiaires (noms et fonctions) </li>
+						</ul>
+						<div style="page-break-before:always;">
+							<h4 style="text-align:center;">ANNEXE 2</h4>
+							<br/>
+							<h5 style="text-align:center;">LISTE DES PARTICIPANTS A LA FORMATION </h5>
+							<br/>
+							<p>SOCIETE : <span t-field="doc.partner_id.name"/></p>
+							<table style="width: 100%;">
+								<tbody>
+										<tr style="border: 1px solid black;">
+											<th style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><strong>Nom</strong></th>
+											<th style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><strong>Fonction</strong></th>
+										</tr>
+										<t t-foreach="doc.training_participants" t-as="line">
+										<tr>
+											<td style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><span t-field="line.name"/></td>
+											<td style="width: 50%;padding: 0;margin:0;vertical-align: top;text-align:center;"><span t-field="line.position"/></td>
+										</tr>
+										</t>
+								</tbody>
+							</table>
+							<p>Merci de nous préciser si l’un de vos stagiaires doit bénéficier d’un aménagement spécifique lors de la formation (personnes en situation de handicap notamment)</p>
+						</div>
+					</t>
+			</t>
+			</div>
+</t>
+	</template>
+</odoo>

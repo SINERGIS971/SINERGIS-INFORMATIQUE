@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+	<!-- Enregistrement des informations du rapport -->
+	<record id="training_attendance_sheet_report" model="ir.actions.report">
+		<field name="name">Feuille d'émargement</field>
+		<field name="model">training</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="paperformat_id" ref="training.paperformat_attendance_sheet_report"/>
+		<field name="report_name">training.attendance_sheet_report</field>
+		<field name="report_file">training.attendance_sheet_report</field>
+		<field name="binding_model_id" ref="model_training"/>
+		<field name="binding_type">report</field>
+	</record>
+
+	<record id="paperformat_attendance_sheet_report" model="report.paperformat">
+    <field name="name">Paperformat feuille d'émargement</field>
+    <field name="default" eval="False"/>
+    <field name="disable_shrinking" eval="True"/>
+    <field name="format">A4</field>
+    <field name="page_height">0</field>
+    <field name="page_width">0</field>
+    <field name="orientation">Landscape</field>
+    <field name="margin_top">0</field>
+    <field name="margin_bottom">0</field>
+    <field name="margin_left">7</field>
+    <field name="margin_right">7</field>
+    <field name="dpi">96</field>
+	</record>
+
+
+	<template id="attendance_sheet_report">
+		<t t-call="web.html_container">
+			<t t-call="web.external_layout">
+			<div class="page">
+			<t t-foreach="docs" t-as="doc">
+				<t t-set="i" t-value="0"/>
+				<t t-set="n" t-value="ceil(len(doc.training_participants)/6)"/>
+				<t t-foreach="n" t-as="l">
+						<h1 style="font-size:20px;padding-top:40px;">Feuille d'émargement <span t-esc="i+1"/>/<span t-esc="n"/></h1>
+
+						<table style="border-collapse:collapse;border:none;width: 100%;">
+            <tbody>
+                <tr>
+                  <th style="width: 33.3%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+                    <p style="font-size:13px; margin:3px;">Intitulé de la formation : <span t-field="doc.course_title"/></p>
+                  </th>
+                   <th style="width: 33.3%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+                    <p style="font-size:13px; margin:3px;">Horaires de la formation : ................................</p>
+                  </th>
+									<th style="width: 33.3%;padding: 0;vertical-align: top;margin:0;font-weight: normal;" rowspan="2">
+										<img src='/web/binary/company_logo' style="max-height: 150px; vertical-align: top; margin-top:20px;" alt="Logo"/>
+									</th>
+                </tr>
+                <tr>
+                  <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+                    <p style="font-size:13px; margin:3px;">Date(s) de la formation : Du <span t-field="doc.start"/> au <span t-field="doc.end"/></p>
+                  </th>
+                   <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+                    <p style="font-size:13px; margin:3px;">Lieu de la formation : <span t-field="doc.location"/></p>
+                  </th>
+                </tr>
+            </tbody>
+            </table>
+
+						<table style="border-collapse:collapse;border:none;width: 100%;">
+            <tbody>
+                <tr>
+                  <th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: top;" colspan="2">
+                  </th>
+									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #c6d9f1;" colspan="2">
+										Date: ................................................
+									</th>
+									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #c6d9f1;" colspan="2">
+										Date: ................................................
+									</th>
+									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #c6d9f1;" colspan="2">
+										Date: ................................................
+									</th>
+									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #c6d9f1;" colspan="2">
+										Date: ................................................
+									</th>
+                </tr>
+								<tr>
+                  <th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2" rowspan="2">
+										<t t-if="i==0">Nom et prénom du formateur</t>
+                  </th>
+									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2">
+										Signatures
+									</th>
+									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2">
+										Signatures
+									</th>
+									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2">
+										Signatures
+									</th>
+									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2">
+										Signatures
+									</th>
+                </tr>
+								<tr>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Matin</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Après-midi</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Matin</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Après-midi</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Matin</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Après-midi</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Matin</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Après-midi</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+                </tr>
+								<tr t-if="i==0">
+									<th style="width: 20%;height:50px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;" colspan="2"><span t-field="doc.consultant_id.name"/></th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+                </tr>
+								<tr t-if="i==0">
+									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2">
+										Stagiaire
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Matin</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Après-midi</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Matin</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Après-midi</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Matin</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Après-midi</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Matin</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+										<p style="font-size:13px; margin:2px;">Après-midi</p>
+										<p style="font-size:13px; margin:2px;">....... h</p>
+									</th>
+                </tr>
+								<t t-foreach="doc.training_participants[6*i:6*i+6]" t-as="participant">
+									<tr>
+										<th style="width: 20%;height:50px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;" colspan="2"><span t-field="participant.name"/></th>
+										<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+										<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+										<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+										<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+										<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+										<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+										<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+										<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
+	                </tr>
+								</t>
+            </tbody>
+            </table>
+						<p style="page-break-before:always;"> </p>
+						<t t-set="i" t-value="i+1"/>
+						</t>
+			</t>
+			</div>
+		</t>
+</t>
+</template>
+
+</data>
+</odoo>
