@@ -100,7 +100,7 @@ class MyActions(models.Model):
                     ce.x_sinergis_calendar_event_client as client,
                     REPLACE(ce.x_sinergis_calendar_event_facturation,'heures','heure') as billing,
                     CASE
-                        WHEN ce.x_sinergis_calendar_event_facturation = 'Contrat heures' OR ce.x_sinergis_calendar_event_facturation = 'Devis'
+                        WHEN ce.x_sinergis_calendar_event_facturation = 'Contrat heure' OR ce.x_sinergis_calendar_event_facturation = 'Devis'
                             THEN SUM(aal.unit_amount)::TEXT
                             ELSE ce.x_sinergis_calendar_duree_facturee::TEXT
                     END AS time,
