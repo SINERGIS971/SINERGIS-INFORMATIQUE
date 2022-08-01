@@ -24,6 +24,7 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'views/partner.xml',
         'views/helpdesk.xml',
         'views/calendar.xml',
@@ -45,7 +46,6 @@
         'data/mail_helpdesk_ticket.xml',
         'data/mail_calendar_event_intervention.xml',
         'data/mail_res_partner_litige.xml',
-        'security/security.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
