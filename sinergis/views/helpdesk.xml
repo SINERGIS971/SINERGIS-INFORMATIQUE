@@ -6,6 +6,10 @@
           <field name="model">helpdesk.ticket</field>
           <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_search"/>
           <field name="arch" type="xml">
+              <xpath expr="//field[@name='id']">
+                <field name="x_sinergis_helpdesk_ticket_ticket_resolution" filter_domain="['|', '|' ('x_sinergis_helpdesk_ticket_ticket_resolution', 'ilike', self),('description', 'ilike', self), ('name', 'ilike', self)]"/>
+              </xpath>
+
               <xpath expr="//filter[@name='my_ticket']" position="before">
                 <field name="x_sinergis_helpdesk_ticket_produit_nom_complet" invisible="True"/>
                 <field name="x_sinergis_helpdesk_ticket_produits" invisible="True"/>
