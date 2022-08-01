@@ -12,6 +12,17 @@
             <field name="perm_unlink" eval="False"/>
     </record>
 
+    <record id="sinergis_myactions_rule_x3_only" model="ir.rule">
+            <field name="name">sinergis_myactions.rule_x3_only</field>
+            <field name="model_id" ref="sinergis.model_sinergis_myactions"/>
+            <field name="domain_force">['|','|','|','|','|',('consultant.name', '=', 'LARISSE Alexandra'),('consultant.name', '=', 'DEVAUX Bernard'),('consultant.name', '=', 'BOLIVARD Joris'),('consultant.name', '=', 'RIGELO Olivier'),('consultant.name', '=', 'ANELKA Annick'),('consultant.name', '=', 'PINEAU Laurent')]</field>
+            <field name="groups" eval="[Command.link(ref('sinergis.group_myactions_x3_only'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+    </record>
+
     <record id="sinergis_my_actions_search" model="ir.ui.view">
         <field name="name">sinergis_myactions.search</field>
         <field name="model">sinergis.myactions</field>

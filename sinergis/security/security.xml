@@ -3,4 +3,7 @@
   <record id="group_myactions_employee" model="res.groups">
     <field name="name">Utilisateurs restreints des activités</field>
   </record>
+  <record id="group_myactions_x3_only" model="res.groups">
+    <field name="name">Utilisateurs restreints à l'équipe X3</field>
+  </record>
 </odoo>
