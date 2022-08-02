@@ -99,7 +99,7 @@ class SaleOrder(models.Model):
 
     @api.onchange("x_sinergis_sale_order_amount_charged")
     def on_change_x_sinergis_sale_order_amount_charged (self):
-        self.x_sinergis_sale_order_amount_charged = floor(100*self.x_sinergis_sale_order_amount_charged)/100
+        self.x_sinergis_sale_order_amount_charged = math.floor(100*self.x_sinergis_sale_order_amount_charged)/100
         if self.x_sinergis_sale_order_amount_charged < 0:
             self.x_sinergis_sale_order_amount_charged = 0
         elif self.x_sinergis_sale_order_amount_charged > self.amount_total:
