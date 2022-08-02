@@ -54,7 +54,7 @@
             <field name="progress"/>
             <field name="activity_ids" position="move"/>
             <field name="tag_ids" position="move"/>
-            <field name="stage_id" position="move"/>
+            <field name="x_sinergis_project_task_etat_tache" position="move"/>
             <field name="company_id" position="move"/>
         </xpath>
     </field>
