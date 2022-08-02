@@ -47,24 +47,27 @@ class SaleOrder(models.Model):
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
-        if self.partner_id:
-            self.x_sinergis_sale_order_client_bloque = self.partner_id.x_sinergis_societe_litige_bloque
-        else:
-            self.x_sinergis_sale_order_client_bloque = False
+        for rec in self:
+            if rec.partner_id:
+                rec.x_sinergis_sale_order_client_bloque = rec.partner_id.x_sinergis_societe_litige_bloque
+            else:
+                rec.x_sinergis_sale_order_client_bloque = False
 
     @api.depends('x_sinergis_sale_order_client_douteux')
     def _compute_x_sinergis_sale_order_client_douteux (self):
-        if self.partner_id:
-            self.x_sinergis_sale_order_client_douteux = self.partner_id.x_sinergis_societe_litige_douteux
-        else:
-            self.x_sinergis_sale_order_client_douteux = False
+        for rec in self:
+            if rec.partner_id:
+                rec.x_sinergis_sale_order_client_douteux = rec.partner_id.x_sinergis_societe_litige_douteux
+            else:
+                rec.x_sinergis_sale_order_client_douteux = False
 
     @api.depends('x_sinergis_sale_order_client_suspect')
     def _compute_x_sinergis_sale_order_client_suspect (self):
-        if self.partner_id:
-            self.x_sinergis_sale_order_client_suspect = self.partner_id.x_sinergis_societe_suspect
-        else:
-            self.x_sinergis_sale_order_client_suspect = False
+        for rec in self:
+            if rec.partner_id:
+                rec.x_sinergis_sale_order_client_suspect = rec.partner_id.x_sinergis_societe_suspect
+            else:
+                rec.x_sinergis_sale_order_client_suspect = False
 
     @api.depends('fiscal_position_id')
     def _compute_fiscal_position_id (self):
@@ -88,7 +91,7 @@ class SaleOrder(models.Model):
     @api.depends('x_sinergis_sale_order_amount_remaining')
     def _compute_x_sinergis_sale_order_amount_remaining (self):
         for rec in self:
-            self.x_sinergis_sale_order_amount_remaining = self.amount_total - self.x_sinergis_sale_order_amount_charged
+            rec.x_sinergis_sale_order_amount_remaining = rec.amount_total - rec.x_sinergis_sale_order_amount_charged
 
     @api.onchange("order_line")
     def on_change_order_line(self):
