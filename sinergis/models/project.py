@@ -18,6 +18,9 @@ class ProjectTask(models.Model):
     #Tags lié au projet
     x_sinergis_project_task_tag_ids = fields.Many2many(related="project_id.tag_ids", string="Tags du projet")
 
+
+    x_sinergis_project_task_planned_hours = fields.Float(compute="_compute_x_sinergis_project_task_planned_hours")
+
     @api.depends('x_sinergis_project_task_done')
     def _compute_x_sinergis_project_task_done (self):
         for rec in self :
@@ -53,6 +56,11 @@ class ProjectTask(models.Model):
             minutes = math.ceil((tache.remaining_hours - hours)*60)
             self.x_sinergis_project_task_alerte = "Attention ! Il reste uniquement " + str(hours) + " heures et " + str(minutes) + " minutes sur le contrat"
         else : self.x_sinergis_project_task_alerte = False
+
+    @api.depends('x_sinergis_project_task_planned_hours')
+    def _compute_x_sinergis_project_task_planned_hours (self):
+        for rec in self:
+            rec.x_sinergis_project_task_planned_hours = sum(rec.env['calendar.event'].search(['|',('x_sinergis_calendar_event_tache', '=', rec.id),('x_sinergis_calendar_event_tache2', '=', rec.id)]).mapped('duration'))
 
     @api.onchange("x_sinergis_project_task_etat_tache")
     def on_change_x_sinergis_project_task_etat_tache(self):
