@@ -87,7 +87,8 @@ class SaleOrder(models.Model):
 
     @api.depends('x_sinergis_sale_order_amount_remaining')
     def _compute_x_sinergis_sale_order_amount_remaining (self):
-        self.x_sinergis_sale_order_amount_remaining = self.amount_total - self.x_sinergis_sale_order_amount_charged
+        for rec in self:
+            self.x_sinergis_sale_order_amount_remaining = self.amount_total - self.x_sinergis_sale_order_amount_charged
 
     @api.onchange("order_line")
     def on_change_order_line(self):
