@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
+import math
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -16,7 +17,8 @@ class SaleOrder(models.Model):
 
     pricelist_id = fields.Many2one(default=lambda self: self.env['product.pricelist'].search([('name','=',"PRIX PUBLIC")]))
 
-    x_sinergis_sale_order_amount_charged = fields.Float(string="Montant facturé")
+    x_sinergis_sale_order_amount_charged = fields.Monetary(string="Montant facturé")
+    x_sinergis_sale_order_amount_remaining = fields.Monetary(string="Restant à facturer",compute="_compute_x_sinergis_sale_order_amount_remaining")
 
     x_sinergis_sale_order_model = fields.Many2one("sale.order",string="Modele de devis")
 
@@ -82,6 +84,10 @@ class SaleOrder(models.Model):
                         self.partner_id.property_account_position_id = self.fiscal_position_id
         for order in self:
             order.order_line._compute_tax_id()
+
+    @api.depends('x_sinergis_sale_order_amount_remaining')
+    def _compute_x_sinergis_sale_order_amount_remaining (self):
+        self.x_sinergis_sale_order_amount_remaining = self.amount_total - self.x_sinergis_sale_order_amount_charged
 
     @api.onchange("order_line")
     def on_change_order_line(self):
