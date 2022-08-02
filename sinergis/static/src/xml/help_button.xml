@@ -2,8 +2,8 @@
 
 <template xml:space="preserve" owl="1">
     <t t-name="sinergis.MessagingMenu" t-inherit="mail.MessagingMenu" t-inherit-mode="extension">
-      <xpath expr="//div[@class='o_MessagingMenu dropdown']" position="before">
-        <p>Hello world</p>
+      <xpath expr="//a[@title='Conversations']" position="before">
+        <a href="https://groupesfpr.sharepoint.com/:f:/s/ODOO/EnQMMHxSfIFGqQt_JMUd_7kBgja8jRwAs5nhhZoO5wGn0A?e=X8BpGL" style="padding-left:20px;padding-right:20px;"><i role="img" class="fa fa-info"></i></a>
       </xpath>
     </t>
 </template>
