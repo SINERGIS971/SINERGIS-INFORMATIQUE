@@ -17,9 +17,22 @@
               <separator/>
               <filter string="Contrat d'heures" name="filter_contrat_heures" domain="['&amp;'('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')]"/>
               <separator/>
+              <filter string="Tâches terminées" name="filter_ended_task" domain="[('x_sinergis_project_task_etat_tache','=','Tâche terminée')]"/>
         </xpath>
       </field>
   </record>
+
+
+  <record id="sinergis_inherited_project_view_project_search_form" model="ir.ui.view">
+    <field name="name">sinergis.inherited.project.view.project.search.form</field>
+    <field name="model">project.project</field>
+    <field name="inherit_id" ref="project.view_project_project_filter"/>
+    <field name="arch" type="xml">
+      <xpath expr="//filter[@name='open']" position="after">
+        <filter string="Projets terminés" name="filter_ended_project" domain="[('x_sinergis_project_project_etat_projet','=','Projet terminé')]"/>
+      </xpath>
+    </field>
+</record>
 
   <!-- ============ TREE ============ -->
 
