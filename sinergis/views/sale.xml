@@ -55,6 +55,10 @@
                 <br/>
             </xpath>
 
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="x_sinergis_sale_order_amount_charged"/>
+            </xpath>
+
             <xpath expr="//notebook" position="after">
                 <group>
                     <field name="x_sinergis_sale_order_model" attrs="{'invisible': [('state',  '!=', 'draft')]}"/>
@@ -127,7 +131,7 @@
             <xpath expr="//field[@name='company_id']" position="replace">
             </xpath>
             <xpath expr="//field[@name='amount_total']" position="after">
-              <field name="margin"/>
+              <field name="margin" sum="Marge Totale"/>
             </xpath>
             <xpath expr="//field[@name='state']" position="after">
                 <field name="company_id" optional="show" readonly="1" on_change="1" can_create="true" can_write="true" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>

@@ -16,6 +16,8 @@ class SaleOrder(models.Model):
 
     pricelist_id = fields.Many2one(default=lambda self: self.env['product.pricelist'].search([('name','=',"PRIX PUBLIC")]))
 
+    x_sinergis_sale_order_amount_charged = fields.Float(string="Montant facturé")
+
     x_sinergis_sale_order_model = fields.Many2one("sale.order",string="Modele de devis")
 
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
@@ -94,6 +96,14 @@ class SaleOrder(models.Model):
         SaleOrder._compute_x_sinergis_sale_order_client_bloque(self)
         SaleOrder._compute_x_sinergis_sale_order_client_douteux(self)
         SaleOrder._compute_x_sinergis_sale_order_client_suspect(self)
+
+    @api.onchange("x_sinergis_sale_order_amount_charged")
+    def on_change_x_sinergis_sale_order_amount_charged (self):
+        self.x_sinergis_sale_order_amount_charged = floor(100*self.x_sinergis_sale_order_amount_charged)/100
+        if self.x_sinergis_sale_order_amount_charged < 0:
+            self.x_sinergis_sale_order_amount_charged = 0
+        elif self.x_sinergis_sale_order_amount_charged > self.amount_total:
+            self.x_sinergis_sale_order_amount_charged = self.amount_total
 
     #@api.onchange("fiscal_position_id")
     #def on_change_fiscal_position_id(self):
