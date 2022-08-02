@@ -28,6 +28,10 @@
         <field name="model">sinergis.myactions</field>
         <field name="arch" type="xml">
             <search>
+                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="client" filter_domain="[('client', 'ilike', self)]"/>
+                <field name="product" filter_domain="[('product', 'ilike', self)]"/>
+
                 <field name="billing" invisible="1"/>
                 <field name="client" invisible="1"/>
                 <field name="date" invisible="1"/>
