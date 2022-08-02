@@ -7,7 +7,7 @@ class MyActions(models.Model):
 
     link_id = fields.Integer()
 
-    name = fields.Char(string="Sujet")
+    name = fields.Char(string="Sujet" , search='_search_name')
 
     origin = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')], string="Origine")
     date = fields.Datetime(readonly=True, string="Date")
@@ -35,6 +35,8 @@ class MyActions(models.Model):
 
     is_printed = fields.Boolean(string="",compute="_compute_is_printed")
 
+    def _search_name(self, operator, value):
+    return []
 
     #@api.model_cr
     def init(self):
