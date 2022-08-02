@@ -58,7 +58,7 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_trip_movementcountry = fields.Many2one("sinergis.movementcountry", string="Pays de déplacement")
     x_sinergis_calendar_event_trip_movementarea = fields.Many2one("sinergis.movementarea", string="Zone du pays")
 
-    x_sinergis_calendar_event_facturation = fields.Selection([("Contrat heure", "Contrat d'heures"),("Temps passé", "Temps passé"),("Devis", "Devis"),("Non facturable", "Non facturable")], string="Facturation")
+    x_sinergis_calendar_event_facturation = fields.Selection([("Contrat heure", "Contrat d'heures"),("Temps passé", "Temps passé"),("Devis", "Devis"),('Non facturable interne', 'Non facturable interne'),("Non facturable", "Non facturable")], string="Facturation")
     x_sinergis_calendar_event_project = fields.Many2one("project.project", string="Projet")
     x_sinergis_calendar_event_project_transfered = fields.Many2one("project.project",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
 
