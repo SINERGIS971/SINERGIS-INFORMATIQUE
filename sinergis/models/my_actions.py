@@ -7,7 +7,7 @@ class MyActions(models.Model):
 
     link_id = fields.Integer()
 
-    name = fields.Char(string="Sujet" , search='_search_name')
+    name = fields.Char(string="Sujet")
 
     origin = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')], string="Origine")
     date = fields.Datetime(readonly=True, string="Date")
@@ -34,9 +34,6 @@ class MyActions(models.Model):
     movement_area = fields.Many2one("sinergis.movementarea", string="")
 
     is_printed = fields.Boolean(string="",compute="_compute_is_printed")
-
-    def _search_name(self, operator, value):
-    return []
 
     #@api.model_cr
     def init(self):
