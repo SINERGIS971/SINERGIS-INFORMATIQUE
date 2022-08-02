@@ -9,6 +9,7 @@
 		<field name="report_file">sinergis.intervention_report_calendar</field>
 		<field name="binding_model_id" ref="model_calendar_event"/>
 		<field name="binding_type">report</field>
+		<field name="print_report_name">"RI-"+(object.x_sinergis_calendar_event_end_time.strftime('%d%m%Y') or '')+"-"+(object.user_id.x_sinergis_res_users_initials or '')+"-"+(object.x_sinergis_calendar_event_client.name.replace(" ","") or '')</field>
 	</record>
 	<!-- Enregistrement des données du rapport -->
 	<template id="sinergis.intervention_report_calendar">

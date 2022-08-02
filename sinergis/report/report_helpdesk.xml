@@ -9,6 +9,7 @@
 		<field name="report_file">sinergis.report</field>
 		<field name="binding_model_id" ref="model_helpdesk_ticket"/>
 		<field name="binding_type">report</field>
+    <field name="print_report_name">"RI-"+(object.x_sinergis_helpdesk_ticket_end_time.strftime('%d%m%Y') or '')+"-"+(object.user_id.x_sinergis_res_users_initials or '')+"-"+(object.partner_id.name.replace(" ","") or '')</field>
 	</record>
 	<!-- Enregistrement des données du rapport -->
 	<template id="sinergis.report">

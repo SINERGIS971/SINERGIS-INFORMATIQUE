@@ -8,7 +8,7 @@
             <field name="email_to">{{ (object.x_sinergis_calendar_event_contact.email or '') }}</field>
             <field name="subject">Rapport d'intervention - {{(object.x_sinergis_calendar_event_object)}}</field>
             <field name="report_template" ref="sinergis_intervention_report_calendar"/>
-            <field name="report_name">RI-{{ (object.user_id.x_sinergis_res_users_initials or '') }}-{{ (object.x_sinergis_calendar_event_end_time.strftime('%d/%m/%Y') or '') }}-{{ (object.partner_id.name or '') }}-{{ (object.x_sinergis_calendar_event_facturation.replace(" ","_") or '') }}</field>
+            <field name="report_name">RI-{{ (object.x_sinergis_calendar_event_end_time.strftime('%d%m%Y') or '') }}-{{ (object.user_id.x_sinergis_res_users_initials or '') }}-{{ (object.partner_id.name.replace(" ","") or '') }}</field>
             <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
               <p>Bonjour,</p>
