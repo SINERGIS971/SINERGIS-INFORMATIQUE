@@ -338,6 +338,8 @@ class CalendarEvent(models.Model):
     def generer_rapport_intervention(self):
         if self.x_sinergis_calendar_event_object == False:
             raise ValidationError("Vous devez entrer un objet pour pouvoir générer le rapport.")
+        if not self.x_sinergis_calendar_event_contact:
+            raise UserError("Il vous faut un contact pour envoyer le rapport d'intervention.")
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self)
 
     def send_rapport_intervention(self):
