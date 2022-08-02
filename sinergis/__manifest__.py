@@ -55,9 +55,10 @@
         'web.assets_backend': [
             'sinergis/static/src/js/button_confirm.js',
         ],
-        #'web.assets_qweb': [
-        #    'sinergis/static/src/xml/menu_company.xml',
-        #],
+        'web.assets_qweb': [
+            #'sinergis/static/src/xml/menu_company.xml',
+            'sinergis/static/src/xml/help_button.xml',
+        ],
     },
 
 }

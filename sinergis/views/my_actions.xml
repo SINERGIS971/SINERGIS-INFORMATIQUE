@@ -28,7 +28,6 @@
         <field name="model">sinergis.myactions</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
                 <field name="billing" invisible="1"/>
                 <field name="client" invisible="1"/>
                 <field name="date" invisible="1"/>
