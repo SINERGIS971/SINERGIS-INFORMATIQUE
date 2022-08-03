@@ -101,35 +101,35 @@
 								<tr>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
                 </tr>
 								<tr t-if="i==0">
@@ -149,35 +149,35 @@
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
-										<p style="font-size:13px; margin:2px;">....... h</p>
+										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
                 </tr>
 								<t t-foreach="doc.training_participants[6*i:6*i+6]" t-as="participant">

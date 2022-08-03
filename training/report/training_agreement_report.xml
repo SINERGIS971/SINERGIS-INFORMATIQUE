@@ -28,7 +28,7 @@
 						<p>Intitulé du stage : <span t-field="doc.course_title"/></p>
 						<ul>
 						  <li>Objectif : Voir le diagnostic initial</li>
-						  <li>Programme et méthodes : A REMPLIR</li>
+						  <li>Programme et méthodes : <span t-field="doc.type_product_plan_id.name"/> (voir le plan de formation)</li>
 						  <li>Durée : <span t-field="doc.sale_order_line_id.product_uom_qty"/> jours</li>
 							<li>Lieu : <span t-field="doc.location.name"/></li>
 							<li>Dates : <span t-field="doc.start"/> au <span t-field="doc.end"/></li>
@@ -82,7 +82,7 @@
 								<tbody>
 										<tr>
 											<th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><p>Pour l’entreprise,<br/>(Nom et qualité du signataire)<br/>(Cachet de la société)</p></th>
-											<th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><p>Pour SINERGIS<br/>Alain CASIMIRO, Directeur</p></th>
+											<th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><p>Pour SINERGIS<br/><span t-field="doc.agreement_internal_signer"/></p></th>
 										</tr>
 								</tbody>
 							</table>

@@ -31,6 +31,7 @@ class SaleOrder(models.Model):
                         vals = {'sale_id': self.id,
                                 'sale_order_line_id': line.id,
                                 'name': 'FORMATION',
+                                'company_id': self.company_id.id,
                                 'partner_id': self.partner_id.id}
                         self.env['training'].create(vals)
 

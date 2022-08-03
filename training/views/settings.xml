@@ -13,9 +13,6 @@
             <h2>Paramètres de formations</h2>
             <div class="row mt16 o_settings_container">
               <div class="o_setting_left_pane">
-                <label for="training_cgv" string="CGV: "/>
-                <field name="training_cgv"/>
-                <br/>
                 <label for="training_booklet" string="Livret de formation: "/>
                 <field name="training_booklet"/>
               </div>

@@ -1,14 +1,14 @@
 <?xml version="1.0" ?>
 <odoo>
     <data>
-       <record id="training_positioning_quiz_mail" model="mail.template">
-            <field name="name">Quiz de positionnement</field>
+       <record id="training_diagnostic_quiz_mail" model="mail.template">
+            <field name="name">Quiz de diagnostic</field>
             <field name="model_id" ref="training.model_training_participants"/>
             <field name="email_from">support@sinergis.odoo.com</field>
             <field name="email_to">{{ (object.email or '') }}</field>
-            <field name="subject">Quiz de positionnement</field>
+            <field name="subject">Quiz de diagnostic</field>
             <!--<field name="report_template" ref="training_agreement_report"/>-->
-            <field name="report_name">Quiz de positionnement</field>
+            <field name="report_name">Quiz de diagnostic</field>
             <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
               <body style="background-color: #f6f6f6;
@@ -51,7 +51,7 @@
                       <td style="font-family: sans-serif;font-size: 14px;vertical-align: top; ">
                         <p>Bonjour,</p>
                         <p>Bienvenue dans cette formation.</p>
-                        <p>Veuillez compléter le questionnaire de positionnement en cliquant sur le bouton ci-dessous.</p>
+                        <p>Veuillez compléter le questionnaire de diagnostic en cliquant sur le bouton ci-dessous.</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box;
         width: 100%;" >
                           <tbody>
@@ -62,7 +62,7 @@
                                     <tr>
                                       <td style=" background-color: #ffffff;
           border-radius: 5px;
-          text-align: center; "> <a t-attf-href="training/training?token={{ object.token_quiz_positioning }}" target="_blank" style="
+          text-align: center; "> <a t-attf-href="training/training?token={{ object.token_quiz_diagnostic }}" target="_blank" style="
                                       border-color: #3498db;
                                       color: #ffffff;
  background-color: #ffffff;
@@ -77,7 +77,7 @@
           margin: 0;
           padding: 12px 25px;
           text-decoration: none;
-          text-transform: capitalize; ">Questionnaire de positionnement</a> </td>
+          text-transform: capitalize; ">Questionnaire de diagnostic</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>

@@ -22,8 +22,21 @@
                 </tree>
                 <form string="Éditer une question" >
                   <group>
-                        <field name="name"/>
-                        <field name="type"/>
+                        <field name="name" required="True"/>
+                        <field name="type" required="True"/>
+                        <field name="choice_ids" attrs="{'invisible': [('type',  '!=', 'multiple_choice')]}">
+                          <tree>
+                            <field name="name"/>
+                            <field name="count"/>
+                          </tree>
+                          <form>
+                            <group>
+                            <field name="name" required="True"/>
+                            <field name="count" readonly="True"/>
+                          </group>
+                          </form>
+                        </field>
+                        <field name="required" required="True"/>
                   </group>
                 </form>
               </field>

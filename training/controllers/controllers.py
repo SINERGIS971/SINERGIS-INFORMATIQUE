@@ -185,9 +185,14 @@ class Training(http.Controller):
         questions = http.request.env['training.quiz.questions'].search([('id', '=', list(kw.keys()))])
         i = 0
         for question in questions:
+            questions_name.append(question.name)
             if question.type == "note1":
                 questions_answer[i] = questions_answer[i] + " sur 5"
-            questions_name.append(question.name)
+            #Si c'est une question à choix multiple
+            if question.type == "multiple_choice":
+                question_choice = http.request.env['training.quiz.questions.multiple_choice'].search([('question_id', '=',question.id),('name','=',questions_answer[i])])
+                if question_choice:
+                    question_choice.count += 1
             i += 1
 
         if (len(questions_name) != len(questions_answer)):
@@ -196,7 +201,7 @@ class Training(http.Controller):
 
         #Construction de la réponse
         TAG_RE = re.compile(r'<[^>]+>') #Retirer les balises des réponses
-        body = "<table style='border-collapse: collapse;border: 1px solid;'><tr><th style='width:50%;border: 1px solid;'>Question</th><th style='border: 1px solid;'>Réponse</th></tr>"
+        body = "<table style='border-collapse: collapse;border: 1px solid;'><tr><th style='width:100%;border: 1px solid;'>Question</th><th style='border: 1px solid;'>Réponse</th></tr>"
         for i in range(0,n):
             questions_answer[i] = TAG_RE.sub('', questions_answer[i])
             body += "<tr style='margin-top:10px;'><td style='border: 1px solid;'>"+questions_name[i]+"</td><td style='border: 1px solid;'>"+questions_answer[i]+"</td></tr>"

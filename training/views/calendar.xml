@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+
+    <record id="training_inherited_calendar_event_form" model="ir.ui.view">
+        <field name="name">training.inherited.calendar.event.form</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="is_training"/>
+                <field name="training_id" attrs="{'invisible': [('is_training',  '=', False)]}" domain="['|','&amp;',('sales_manager',  '=', uid),('consultant_id',  '=', uid),('state',  '!=', 'training_closed')]"/>
+            </xpath>
+        </field>
+    </record>
+
+  </data>
+</odoo>

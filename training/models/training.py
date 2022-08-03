@@ -4,6 +4,9 @@ from datetime import date
 import secrets
 import base64
 
+#Pour le téléchargement de tous les documents
+import os, shutil
+
 
 class Training(models.Model):
     _name = "training"
@@ -24,7 +27,7 @@ class Training(models.Model):
     signed_quote = fields.Binary(string='Devis signé')
     #Commercial part
     partner_id = fields.Many2one("res.partner", string="Client")
-    partner_manager_id = fields.Many2one("res.partner", string="Responsable du projet")
+    partner_manager_id = fields.Many2one("res.partner", string="Référent client")
     company_id = fields.Many2one("res.company", string="Société Sinergis")
     type_id = fields.Many2one("training.type", string="Type de formation")
     type_product_id = fields.Many2one("training.type.product", string="Produit")
@@ -37,12 +40,14 @@ class Training(models.Model):
     location = fields.Many2one("training.location", string="Localisation de la formation")
     start = fields.Date(string="Début de la formation")
     end = fields.Date(string="Fin de la formation")
+    agreement_internal_signer = fields.Char(string="Signataire interne de la convention",default="Alain CASIMIRO, Directeur")
 
     signed_agreement = fields.Binary(string='Convention de formation signée')
 
     #Consultant part
 
     consultant_id = fields.Many2one("res.users",string='Consultant')
+    planned_hours_ids = fields.One2many("calendar.event","training_id",string="Heures de formation planifiées",readonly=True)
 
     #Training ended part
 
@@ -100,7 +105,7 @@ class Training(models.Model):
             if not self.partner_id :
                 missing_elements.append("Client")
             if not self.partner_manager_id :
-                missing_elements.append("Responsable du projet")
+                missing_elements.append("Référent client")
             if not self.company_id :
                 missing_elements.append("Société Sinergis")
             if not self.type_id :
@@ -123,6 +128,15 @@ class Training(models.Model):
         if self.state == "consultant_part":
             if not self.consultant_id :
                 missing_elements.append("Consultant")
+            if not self.planned_hours_ids :
+                missing_elements.append("Heures de formation planifiées")
+
+        if self.state == "training_ended":
+            if not self.signed_attendance_sheet :
+                missing_elements.append("Feuille d'émargement remplie")
+            if not self.evaluating_training_course :
+                missing_elements.append("Evaluation du déroulement")
+
 
         if len(missing_elements) != 0 :
             raise ValidationError("Il vous manque les éléments suivants : "+', '.join(missing_elements)+" pour passer à la partie suivante.")
@@ -190,14 +204,14 @@ class Training(models.Model):
         if not self.partner_id :
             missing_elements.append("Client")
         if not self.partner_manager_id :
-            missing_elements.append("Responsable du projet")
+            missing_elements.append("Référent client")
         if not self.company_id :
             missing_elements.append("Société SINERGIS")
-        if not self.company_id :
+        if not self.type_id :
             missing_elements.append("Type de formation")
-        if not self.company_id :
+        if not self.type_product_id :
             missing_elements.append("Produit")
-        if not self.company_id :
+        if not self.type_product_plan_id :
             missing_elements.append("Plan de formation")
         if not self.training_participants :
             missing_elements.append("Participants à la formation")
@@ -218,99 +232,80 @@ class Training(models.Model):
             return self.env.ref('training.training_agreement_report').report_action(self)
 
     def send_training_agreement(self):
-        self.ensure_one()
-        #ir_model_data = self.env['ir.model.data']
-        temp_id = self.env.ref('training.training_agreement_name')
-        attach_obj = self.env['ir.attachment']
+        if Training.verification_training_agreement(self):
+            self.ensure_one()
+            #ir_model_data = self.env['ir.model.data']
+            temp_id = self.env.ref('training.training_agreement_name')
+            attach_obj = self.env['ir.attachment']
 
-        attachment_ids = []
-        #CGV (PDF)
-        result_cfv = self.env['ir.config_parameter'].sudo().get_param('training.training_cgv')
-        attach_data = {
-            'name': 'CGV.pdf',
-            'datas': result_cfv,
-            'res_model': 'ir.ui.view',
-        }
-        attach_id = attach_obj.create(attach_data)
-        attachment_ids.append(attach_id.id)
-        #Training plan (PDF)
-        if self.type_product_plan_id:
-            if self.type_product_plan_id.training_plan_file:
-                result_training_plan = self.type_product_plan_id.training_plan_file
-                attach_data = {
-                    'name': self.type_product_plan_id.name+'.pdf',
-                    'datas': result_training_plan,
-                    'res_model': 'ir.ui.view',
-                }
-                attach_id = attach_obj.create(attach_data)
-                attachment_ids.append(attach_id.id)
-        temp_id.write({'attachment_ids': [(6, 0, attachment_ids)]})
-        ctx = dict(self.env.context or {})
-        ctx.update({
-            'default_model': 'training',
-            'default_res_id': self.ids[0],
-            'default_use_template': bool(temp_id.id),
-            'default_template_id': temp_id.id,
-            'default_composition_mode': 'comment',
-        })
-        return {
-            'name': 'Compose Email',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'mail.compose.message',
-            'views': [(False, 'form')],
-            'view_id': False,
-            'target': 'new',
-            'context': ctx,
-        }
-
-    def send_invitation_participants(self):
-        if Training.verifiation_fields(self):
-            for participant in self.training_participants:
-                if participant.email and not participant.invitation_sent:
-                    #Create the diagnostic quiz token
-                    if not participant.token_quiz_diagnostic:
-                        participant.token_quiz_diagnostic = "diag-"+str(participant.id)+secrets.token_urlsafe(40)
-                    attach_obj = self.env['ir.attachment']
-                    attachment_ids = []
-                    result_binary = self.env['ir.config_parameter'].sudo().get_param('training.training_booklet')
+            attachment_ids = []
+            #Training plan (PDF)
+            if self.type_product_plan_id:
+                if self.type_product_plan_id.training_plan_file:
+                    result_training_plan = self.type_product_plan_id.training_plan_file
                     attach_data = {
-                        'name': 'Livret de formation.pdf',
-                        'datas': result_binary,
+                        'name': self.type_product_plan_id.name+'.pdf',
+                        'datas': result_training_plan,
                         'res_model': 'ir.ui.view',
                     }
                     attach_id = attach_obj.create(attach_data)
                     attachment_ids.append(attach_id.id)
-                    values = {'attachment_ids':attachment_ids}
+            temp_id.write({'attachment_ids': [(6, 0, attachment_ids)]})
+            ctx = dict(self.env.context or {})
+            ctx.update({
+                'default_model': 'training',
+                'default_res_id': self.ids[0],
+                'default_use_template': bool(temp_id.id),
+                'default_template_id': temp_id.id,
+                'default_composition_mode': 'comment',
+            })
+            return {
+                'name': 'Compose Email',
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'mail.compose.message',
+                'views': [(False, 'form')],
+                'view_id': False,
+                'target': 'new',
+                'context': ctx,
+            }
 
-                    template_id = self.env.ref('training.training_invitation_mail').id
-                    self.env["mail.template"].browse(template_id).send_mail(participant.id, force_send=True,email_values=values)
-                    participant.invitation_sent = True
-
-    def send_positioning_quiz_participants (self):
+    def button_plan_training_slot(self):
+        if self.partner_id:
+            self.ensure_one()
+            action = self.env["ir.actions.actions"]._for_xml_id("calendar.action_calendar_event")
+            action['context'] = {
+                'default_res_id': self.id,
+                'default_res_model': "training",
+                'default_name': "Formation - " + self.partner_id.name,
+                'default_is_training': True,
+                'default_training_id': self.id,
+            }
+            return action
+        else:
+            raise ValidationError("Veuillez enrer un client avant de planifier des heures")
+    def send_invitation_participants(self):
         if Training.verifiation_fields(self):
             for participant in self.training_participants:
-                if participant.email and not participant.positioning_quiz_sent:
-                    if not participant.token_quiz_positioning:
-                        participant.token_quiz_positioning = "posi-"+str(participant.id)+secrets.token_urlsafe(40)
-                    template_id = self.env.ref('training.training_positioning_quiz_mail').id
-                    self.env["mail.template"].browse(template_id).send_mail(participant.id, force_send=True)
-                    participant.positioning_quiz_sent = True
+                if not participant.invitation_sent:
+                    TrainingParticipants.send_invitation_individual(participant)
+
+    def send_diagnostic_quiz_participants (self):
+        if Training.verifiation_fields(self):
+            for participant in self.training_participants:
+                if not participant.diagnostic_quiz_sent:
+                    TrainingParticipants.send_diagnostic_quiz_individual(participant)
 
     def download_training_evaluation (self):
         return self.env.ref('training.training_consultant_evaluation_report').report_action(self)
 
     def send_training_ended_participants (self):
+        if not self.type_product_plan_id:
+            raise ValidationError("Il vous faut un plan de formation pour envoyer les mails")
         for participant in self.training_participants:
-            if participant.email and not participant.training_ended_sent:
-                if not participant.token_quiz_prior_learning:
-                    participant.token_quiz_prior_learning = "prio-"+str(participant.id)+secrets.token_urlsafe(40)
-                if not participant.token_quiz_training_evaluation:
-                    participant.token_quiz_training_evaluation = "eval-"+str(participant.id)+secrets.token_urlsafe(40)
-                template_id = self.env.ref('training.training_ended_quiz_mail').id
-                self.env["mail.template"].browse(template_id).send_mail(participant.id, force_send=True)
-                participant.training_ended_sent = True
+            if not participant.training_ended_sent:
+                TrainingParticipants.send_training_ended_individual(participant)
 
     def send_delayed_assessment_client (self):
         if Training.verifiation_fields(self):
@@ -324,19 +319,32 @@ class Training(models.Model):
 
     def send_opco_quiz (self):
         if Training.verifiation_fields(self):
-            if self.partner_manager_id:
-                if self.partner_manager_id.email:
+            if self.opco_id:
+                if self.opco_id.email:
                     if not self.token_opco_quiz:
                         self.token_opco_quiz = "dela-"+str(self.id)+secrets.token_urlsafe(40)
                     template_id = self.env.ref('training.training_opco_quiz_mail').id
                     self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
                     self.opco_quiz_sent = True
+            else:
+                raise ValidationError("Vous devez renseigner un OPCO (partie commerciale) afin d'envoyer le questionnaire OPCO")
+
+    # def button_download_all_documents (self):
+    #     path = os.path.dirname(os.path.realpath(__file__))
+    #     with open(path+"/../static/src/zip/to_zip/signed_quote.pdf", "wb+") as binary_file:
+    #         binary_file.write(base64.b64decode(self.signed_quote))
+    #     with open(path+"/../static/src/zip/to_zip/signed_agreement.pdf", "wb+") as binary_file:
+    #         binary_file.write(base64.b64decode(self.signed_agreement))
+    #     with open(path+"/../static/src/zip/to_zip/signed_attendance_sheet.pdf", "wb+") as binary_file:
+    #         binary_file.write(base64.b64decode(self.signed_attendance_sheet))
+    #     shutil.make_archive(path+"/../static/src/zip/all_documents", 'zip', path+"/../static/src/zip/to_zip")
 
 class TrainingParticipants(models.Model):
     _name = "training.participants"
     _description = "Participants aux formations"
 
     training_id = fields.Many2one("training")
+    training_state = fields.Selection(related="training_id.state")
     name = fields.Char(string="Nom")
     position = fields.Char(string="Fonction")
     email = fields.Char(string="Email")
@@ -345,19 +353,21 @@ class TrainingParticipants(models.Model):
     partner_contact_id = fields.Many2one("res.partner", string="Référence du contact")
 
     #Quiz tokens
-    token_quiz_diagnostic = fields.Char(default="")
     token_quiz_positioning = fields.Char(default="")
+    token_quiz_diagnostic = fields.Char(default="")
+
     token_quiz_prior_learning = fields.Char(default="")
     token_quiz_training_evaluation = fields.Char(default="")
 
     #Consultant part
     invitation_sent = fields.Boolean(string="Invitation envoyée",default=False)
-    positioning_quiz_sent = fields.Boolean(string="Quiz de positionnement envoyé",default=False)
+    diagnostic_quiz_sent = fields.Boolean(string="Quiz de diagnostic envoyé",default=False)
 
-    answer_quiz_diagnostic = fields.Html(default="",readonly=True, string="Réponse au diagnostique")
-    diagnostic_received = fields.Boolean(string="Diagnostique reçu",default=False,compute="_compute_diagnostic_received")
     answer_positioning_quiz = fields.Html(default="",readonly=True, string="Réponse au quiz de positionnement")
     positioning_quiz_received = fields.Boolean(string="Quiz de positionnement reçu",default=False,compute="_compute_positioning_quiz_received")
+
+    answer_quiz_diagnostic = fields.Html(default="",readonly=True, string="Réponse au diagnostic")
+    diagnostic_received = fields.Boolean(string="Diagnostic reçu",default=False,compute="_compute_diagnostic_received")
 
     #Training ended part
     is_rated = fields.Boolean(string="Évalué",default=False, compute="_compute_is_rated")
@@ -369,7 +379,7 @@ class TrainingParticipants(models.Model):
     prior_learning_quiz_received = fields.Boolean(string="Quiz évaluation acquis reçu",default=False,compute="_compute_prior_learning_quiz_received")
 
     answer_training_evaluation = fields.Html(default="",readonly=True, string="Réponse au quiz d'évaluation de la formation")
-    training_evaluation_received = fields.Boolean(string="Quiz évaluation de la formation reçu",default=False,compute="_compute_training_evaluation_received")
+    training_evaluation_received = fields.Boolean(string="Quiz évaluation consultant",default=False,compute="_compute_training_evaluation_received")
 
     @api.depends("is_rated")
     def _compute_is_rated (self):
@@ -379,14 +389,6 @@ class TrainingParticipants(models.Model):
             else:
                 rec.is_rated = False
 
-    @api.depends('diagnostic_received')
-    def _compute_diagnostic_received (self):
-        for rec in self:
-            if rec.answer_quiz_diagnostic:
-                rec.diagnostic_received = True
-            else:
-                rec.diagnostic_received = False
-
     @api.depends('positioning_quiz_received')
     def _compute_positioning_quiz_received (self):
         for rec in self:
@@ -394,6 +396,14 @@ class TrainingParticipants(models.Model):
                 rec.positioning_quiz_received = True
             else:
                 rec.positioning_quiz_received = False
+
+    @api.depends('diagnostic_received')
+    def _compute_diagnostic_received (self):
+        for rec in self:
+            if rec.answer_quiz_diagnostic:
+                rec.diagnostic_received = True
+            else:
+                rec.diagnostic_received = False
 
     @api.depends('prior_learning_quiz_received')
     def _compute_prior_learning_quiz_received (self):
@@ -420,10 +430,12 @@ class TrainingParticipants(models.Model):
 
     def send_invitation_individual(self):
         if Training.verifiation_fields(self.training_id):
+            if not self.training_id.planned_hours_ids :
+                raise ValidationError("Veuillez planifier des heures avant d'envoyer les invitations.")
             if self.email:
                 #Create the diagnostic quiz token
-                if not self.token_quiz_diagnostic:
-                    self.token_quiz_diagnostic = "diag-"+str(self.id)+secrets.token_urlsafe(40)
+                if not self.token_quiz_positioning:
+                    self.token_quiz_positioning = "posi-"+str(self.id)+secrets.token_urlsafe(40)
                 attach_obj = self.env['ir.attachment']
                 attachment_ids = []
                 result_binary = self.env['ir.config_parameter'].sudo().get_param('training.training_booklet')
@@ -442,28 +454,31 @@ class TrainingParticipants(models.Model):
             else :
                 raise ValidationError("Ce participant n'a pas de mail, veuillez le renseigner en revenant à la partie commerciale.")
 
-    def send_positioning_quiz_individual(self):
+    def send_diagnostic_quiz_individual(self):
         if Training.verifiation_fields(self.training_id):
             if self.email:
-                if not self.token_quiz_positioning:
-                    self.token_quiz_positioning = "posi-"+str(self.id)+secrets.token_urlsafe(40)
-                template_id = self.env.ref('training.training_positioning_quiz_mail').id
+                if not self.token_quiz_diagnostic:
+                    self.token_quiz_diagnostic = "diag-"+str(self.id)+secrets.token_urlsafe(40)
+                template_id = self.env.ref('training.training_diagnostic_quiz_mail').id
                 self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
-                self.positioning_quiz_sent = True
+                self.diagnostic_quiz_sent = True
             else :
                 raise ValidationError("Ce participant n'a pas de mail, veuillez le renseigner en revenant à la partie commerciale.")
 
     def send_training_ended_individual(self):
-        if self.email:
-            if not self.token_quiz_prior_learning:
-                self.token_quiz_prior_learning = "prio-"+str(self.id)+secrets.token_urlsafe(40)
-            if not self.token_quiz_training_evaluation:
-                self.token_quiz_training_evaluation = "eval-"+str(self.id)+secrets.token_urlsafe(40)
-            template_id = self.env.ref('training.training_ended_quiz_mail').id
-            self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
-            self.training_ended_sent = True
-        else :
-            raise ValidationError("Ce participant n'a pas de mail, veuillez le renseigner en revenant à la partie commerciale.")
+        if self.training_id:
+            if not self.training_id.type_product_plan_id:
+                raise ValidationError("Il vous faut un plan de formation pour envoyer le mail")
+            if self.email:
+                if not self.token_quiz_prior_learning:
+                    self.token_quiz_prior_learning = "prio-"+str(self.id)+secrets.token_urlsafe(40)
+                if not self.token_quiz_training_evaluation:
+                    self.token_quiz_training_evaluation = "eval-"+str(self.id)+secrets.token_urlsafe(40)
+                template_id = self.env.ref('training.training_ended_quiz_mail').id
+                self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
+                self.training_ended_sent = True
+            else :
+                raise ValidationError("Ce participant n'a pas de mail, veuillez le renseigner en revenant à la partie commerciale.")
 
 #===TRAINING TYPE===
 
@@ -497,3 +512,4 @@ class TrainingOpco(models.Model):
     _name = "training.opco"
     _description = "Opérateurs de compétences"
     name = fields.Char(string="Nom",required=True)
+    email = fields.Char(string="Email",required=True)

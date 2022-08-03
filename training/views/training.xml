@@ -44,7 +44,9 @@
                   <button name="button_switch_training_closed_part" string="Passer à la partie: formation cloturée" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
                   <button name="button_return_training_ended_part" string="Revenir à la partie: formation terminée" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>
 
-                  <button name="button_download_attendance_sheet" string="Télécharger la feuille d'émargement" type="object"  icon="fa-download" attrs="{'invisible': ['|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part')]}"/>
+                  <button name="button_download_attendance_sheet" string="Télécharger la feuille d'émargement" type="object"  icon="fa-download" attrs="{'invisible': ['|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'training_closed')]}"/>
+
+                  <!--<button name="button_download_all_documents" string="Télécharger les documents de cette formation" type="object"  icon="fa-download" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>-->
                 </header>
                 <sheet>
                   <div class="oe_button_box" name="button_box">
@@ -110,9 +112,12 @@
                         <group>
                           <field name="end"/>
                         </group>
+                        <group>
+                          <field name="agreement_internal_signer"/>
+                        </group>
                       </group>
                       <button name="download_training_agreement" string="Télécharger la convention de formation" type="object" class="oe_highlight"/>
-                      <button name="send_training_agreement" string="Envoyer la convention de formation au responsable" type="object" class="oe_highlight oe_right"/>
+                      <button name="send_training_agreement" string="Envoyer la convention de formation au référent client" type="object" class="oe_highlight oe_right"/>
                     </div>
                     <br/>
                     <group>
@@ -126,6 +131,18 @@
                       <field name="consultant_id"/>
                     </group>
                     <group>
+                      <field name="planned_hours_ids">
+                        <tree string="Heures planifiées" default_order="start asc">
+                          <field name="user_id" string="Organisateur"/>
+                          <field name="start" string="Début"/>
+                          <field name="stop" string="Fin"/>
+                          <field name="duration" widget="float_time"/>
+                        </tree>
+                      </field>
+                    </group>
+                    <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">Aide : Pour planifier des heures veuillez cliquer sur "Planifier un créneau de formation" ci-dessous et placer vos créneaux ou passer directement via l'application "Calendrier". Veillez à ce que la coche "Est une formation" soit cochée et que la bonne formation soit sélectionnée.</p>
+                    <button name="button_plan_training_slot" string="Planifier un créneau de formation" type="object" icon="fa-plus-square" class="oe_highlight oe_right" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
+                    <group>
                       <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
                       </field>
                     </group>
@@ -138,31 +155,13 @@
                     <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}">
                     </field>
                   </group>
-                  <button name="send_positioning_quiz_participants" string="Envoyer les quiz de positionnement" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les quiz à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
+                  <button name="send_diagnostic_quiz_participants" string="Envoyer les quiz de diagnostic" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les quiz à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
                 </div>
                 <!-- Formation terminée -->
                 <div attrs="{'invisible': ['|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress')]}">
                 <separator string="Formation terminée"/>
                 <field name="training_participants" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
-                    <tree string="Liste des participants">
-                          <field name="name"/>
-                          <field name="email"/>
-                          <!--Partie consultant-->
-                          <field name="invitation_sent" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'consultant_part')]}"/>
-                          <field name="diagnostic_received" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'consultant_part')]}"/>
-                          <button name="send_invitation_individual" string="Envoyer une invitation" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer une invitation, souhaitez-vous continuer" attrs="{'column_invisible': [('parent.state',  '!=', 'consultant_part')]}"/>
-                          <!--Formation en cours-->
-                          <field name="positioning_quiz_sent" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'training_in_progress')]}"/>
-                          <field name="positioning_quiz_received" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'training_in_progress')]}"/>
-                          <button name="send_positioning_quiz_individual" string="Envoyer le quiz de positionnement" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer un quiz de positionnement, souhaitez-vous continuer" attrs="{'column_invisible': [('parent.state',  '!=', 'training_in_progress')]}"/>
-                          <!--Formation terminée-->
-                          <field name="training_ended_sent" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
-                          <field name="prior_learning_quiz_received" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
-                          <field name="training_evaluation_received" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
-                          <field name="is_rated" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
-                          <button name="send_training_ended_individual" string="Envoyer les quiz" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les quiz d'évaluation, souhaitez-vous continuer ?" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
-                    </tree>
-                  </field>
+                </field>
                   <button name="send_training_ended_participants" string="Envoyer les mails aux participants" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les mails à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer ?" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
                   <div style="margin-left:30px;">
                     <separator string="Évaluation de la formation par le consultant" style="color:red;"/>
@@ -186,6 +185,28 @@
                 <!-- Formation cloturée -->
                 <div attrs="{'invisible': ['|','|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress'),('state',  '==', 'training_ended')]}">
                   <separator string="Formation cloturée"/>
+                  <group>
+                    <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_closed')]}">
+                      <tree string="Liste des participants">
+                            <field name="name"/>
+                            <field name="email"/>
+                            <!--Partie consultant-->
+                            <field name="invitation_sent" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'consultant_part')]}"/>
+                            <field name="positioning_quiz_received" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'consultant_part')]}"/>
+                            <button name="send_invitation_individual" string="Envoyer une invitation" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer une invitation, souhaitez-vous continuer" attrs="{'column_invisible': [('parent.state',  '!=', 'consultant_part')]}"/>
+                            <!--Formation en cours-->
+                            <field name="diagnostic_quiz_sent" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'training_in_progress')]}"/>
+                            <field name="diagnostic_received" readonly="True" attrs="{'column_invisible': [('parent.state',  '!=', 'training_in_progress')]}"/>
+                            <button name="send_diagnostic_quiz_individual" string="Envoyer le quiz de diagnostic" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer un quiz de diagnostic, souhaitez-vous continuer" attrs="{'column_invisible': [('parent.state',  '!=', 'training_in_progress')]}"/>
+                            <!--Formation terminée-->
+                            <field name="training_ended_sent" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                            <field name="prior_learning_quiz_received" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                            <field name="training_evaluation_received" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                            <field name="is_rated" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                            <button name="send_training_ended_individual" string="Envoyer les quiz" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les quiz d'évaluation, souhaitez-vous continuer ?" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                      </tree>
+                    </field>
+                </group>
                   <group>
                     <field name="training_closed_date"/>
                   </group>
@@ -220,7 +241,6 @@
                       <field name="answer_delayed_assessment"/>
                       <field name="answer_opco_quiz"/>
                     </group>
-                    <button name="send_opco_quiz" string="Envoyer le quiz maintenant" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer le quiz à l'OPCO maintenant. Cette tâche est normalement effectuée automatiquement 60 jours après la fin de la formation. Souhaitez-vous continuer ?" attrs="{'invisible': [('opco_quiz_received',  '=', True)]}"/>
                   </div>
                 </div>
                 </sheet>
@@ -239,13 +259,15 @@
           <form>
             <group>
               <field name="training_id" invisible="True"/>
-              <field name="name"/>
-              <field name="position"/>
-              <field name="email"/>
+              <field name="training_state" invisible="True"/>
+              <field name="name" required="True"/>
+              <field name="position" required="True"/>
+              <field name="email" required="True"/>
               <field name="phone"/>
               <separator string="Utiliser un contact existant"/>
               <field name="partner_contact_id"/>
             </group>
+            <div style="margin-left:30px;" attrs="{'invisible': ['&amp;',('training_state',  '!=', 'training_ended'),('training_state',  '!=', 'training_closed')]}">
             <separator string="Évaluation"/>
             <group>
                 <group>
@@ -255,11 +277,30 @@
                   <field name="training_end_mark"/>
                 </group>
             </group>
-            <separator string="Réponses aux quiz"/>
-            <field name="answer_quiz_diagnostic" attrs="{'invisible': [('answer_quiz_diagnostic',  '=', False)]}"/>
-            <field name="answer_positioning_quiz" attrs="{'invisible': [('answer_positioning_quiz',  '=', False)]}"/>
-            <field name="answer_prior_learning_quiz" attrs="{'invisible': [('answer_prior_learning_quiz',  '=', False)]}"/>
-            <field name="answer_training_evaluation" attrs="{'invisible': [('answer_training_evaluation',  '=', False)]}"/>
+            </div>
+            <div attrs="{'invisible': ['|',('training_state',  '=', 'unassigned'),('training_state',  '=', 'commercial_part')]}">
+              <separator string="Réponses aux quiz"/>
+              <field name="diagnostic_received" invisible="True"/>
+              <field name="positioning_quiz_received" invisible="True"/>
+              <field name="prior_learning_quiz_received" invisible="True"/>
+              <field name="training_evaluation_received" invisible="True"/>
+              <div attrs="{'invisible': [('positioning_quiz_received',  '=', False)]}" style="margin-left:20px;">
+                <separator string="Quiz de positionnement"/>
+                <field name="answer_positioning_quiz"/>
+              </div>
+              <div attrs="{'invisible': [('diagnostic_received',  '=', False)]}" style="margin-left:20px;">
+                <separator string="Quiz diagnostic"/>
+                <field name="answer_quiz_diagnostic"/>
+              </div>
+              <div attrs="{'invisible': [('prior_learning_quiz_received',  '=', False)]}" style="margin-left:20px;">
+                <separator string="Quiz de validation des acquis"/>
+                <field name="answer_prior_learning_quiz"/>
+              </div>
+              <div attrs="{'invisible': [('training_evaluation_received',  '=', False)]}" style="margin-left:20px;">
+                <separator string="Quiz évaluation consultant"/>
+                <field name="answer_training_evaluation"/>
+              </div>
+            </div>
           </form>
         </field>
     </record>
