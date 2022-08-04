@@ -72,7 +72,7 @@ class SaleOrder(models.Model):
     @api.depends('fiscal_position_id')
     def _compute_fiscal_position_id (self):
         if self.partner_id :
-            if self.state == "draft" or self.state == "sale":
+            if self.state == "draft":
                 company_id = self.company_id
                 country_id = self.partner_id.country_id.name
                 if company_id and country_id :
