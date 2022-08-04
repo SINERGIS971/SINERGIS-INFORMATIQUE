@@ -60,6 +60,10 @@
                 <field name="x_sinergis_sale_order_amount_remaining" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
             </xpath>
 
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="opportunity_id"/>
+            </xpath>
+
             <xpath expr="//notebook" position="after">
                 <group>
                     <field name="x_sinergis_sale_order_model" attrs="{'invisible': [('state',  '!=', 'draft')]}"/>

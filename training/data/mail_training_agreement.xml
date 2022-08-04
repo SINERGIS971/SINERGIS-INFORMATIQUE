@@ -167,6 +167,7 @@
         </td>
       </tr>
     </table>
+    <p style="text-align:center;color:grey;">Dossier formation n°<span t-out="object.id"/></p>
   </div>
             </field>
         </record>

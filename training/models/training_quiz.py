@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-
+from datetime import date
+from dateutil.relativedelta import relativedelta
 
 class TrainingQuiz(models.Model):
     _name = "training.quiz"
@@ -57,4 +58,27 @@ class TrainingQuizQuestionsMultipleChoice(models.Model):
     _description = "Questions à choix multiple"
     name = fields.Char(string="Choix")
     question_id = fields.Many2one("training.quiz.questions", string="")
-    count = fields.Integer(string="Nombre de sélections", readonly=True, default=0)
+    actual_month_count = fields.Integer(string="Sélections ce mois", compute="_compute_actual_month_count")
+    last_month_count = fields.Integer(string="Sélections le mois dernier", compute="_compute_last_month_count")
+    actual_year_count = fields.Integer(string="Sélections cette année", compute="_compute_actual_year_count")
+
+    @api.depends("actual_month_count")
+    def _compute_actual_month_count (self):
+        for rec in self:
+            rec.actual_month_count = self.env['training.quiz.questions.multiple_choice.record'].search_count([('multiple_choice_id', '=', rec.id),('date','<',(date.today()+relativedelta(months=1)).replace(day=1)),('date','>=',(date.today()).replace(day=1))])
+
+    @api.depends("last_month_count")
+    def _compute_last_month_count (self):
+        for rec in self:
+            rec.last_month_count = self.env['training.quiz.questions.multiple_choice.record'].search_count([('multiple_choice_id', '=', rec.id),('date','>=',(date.today()-relativedelta(months=1)).replace(day=1)),('date','<',(date.today()).replace(day=1))])
+
+    @api.depends("actual_year_count")
+    def _compute_actual_year_count (self):
+        for rec in self:
+            rec.actual_year_count = self.env['training.quiz.questions.multiple_choice.record'].search_count([('multiple_choice_id', '=', rec.id),('date','<',(date.today()+relativedelta(years=1)).replace(day=1,month=1)),('date','>=',(date.today()).replace(day=1,month=1))])
+
+class TrainingQuizQuestionsMultipleChoiceRecord(models.Model):
+    _name = "training.quiz.questions.multiple_choice.record"
+    _description = "Réponse à une question à choix multiple"
+    date = fields.Date(string="",readonly=True)
+    multiple_choice_id = fields.Many2one("training.quiz.questions.multiple_choice", string="",readonly=True)

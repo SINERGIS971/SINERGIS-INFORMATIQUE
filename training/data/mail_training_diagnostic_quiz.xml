@@ -62,7 +62,7 @@
                                     <tr>
                                       <td style=" background-color: #ffffff;
           border-radius: 5px;
-          text-align: center; "> <a t-attf-href="training/training?token={{ object.token_quiz_diagnostic }}" target="_blank" style="
+          text-align: center; "> <a t-attf-href="{{ base_url }}/training/training?token={{ object.token_quiz_diagnostic }}" target="_blank" style="
                                       border-color: #3498db;
                                       color: #ffffff;
  background-color: #ffffff;
@@ -100,6 +100,7 @@
         <td>&#160;</td>
       </tr>
     </table>
+    <p style="text-align:center;color:grey;">Dossier formation n°<span t-out="object.training_id.id"/></p>
   </body>
             </field>
         </record>

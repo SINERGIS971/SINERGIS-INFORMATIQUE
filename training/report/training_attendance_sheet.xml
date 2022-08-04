@@ -37,9 +37,20 @@
 				<t t-set="i" t-value="0"/>
 				<t t-set="n" t-value="ceil(len(doc.training_participants)/6)"/>
 				<t t-foreach="n" t-as="l">
-						<h1 style="font-size:20px;padding-top:40px;">Feuille d'émargement <span t-esc="i+1"/>/<span t-esc="n"/></h1>
+					<table style="border-collapse:collapse;border:none;width: 100%;">
+					<tbody>
+							<tr>
+								<th style="width: 85%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+									<h1 style="font-size:20px;padding-top:40px;">Feuille d'émargement <span t-esc="i+1"/>/<span t-esc="n"/></h1>
+								</th>
+								 <th style="width: 15%;padding: 0;margin:0;font-weight: normal;">
+									<img src='/web/binary/company_logo' style="max-height: 150px; margin-bottom:0px;" alt="Logo"/>
+								</th>
+							</tr>
+					</tbody>
+					</table>
 
-						<table style="border-collapse:collapse;border:none;width: 100%;">
+						<table style="border-collapse:collapse;border:none;width: 100%;margin-bottom:15px;">
             <tbody>
                 <tr>
                   <th style="width: 33.3%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
@@ -49,7 +60,7 @@
                     <p style="font-size:13px; margin:3px;">Horaires de la formation : ................................</p>
                   </th>
 									<th style="width: 33.3%;padding: 0;vertical-align: top;margin:0;font-weight: normal;" rowspan="2">
-										<img src='/web/binary/company_logo' style="max-height: 150px; vertical-align: top; margin-top:20px;" alt="Logo"/>
+
 									</th>
                 </tr>
                 <tr>
@@ -68,66 +79,66 @@
                 <tr>
                   <th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: top;" colspan="2">
                   </th>
-									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #c6d9f1;" colspan="2">
+									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #F7CC80;" colspan="2">
 										Date: ................................................
 									</th>
-									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #c6d9f1;" colspan="2">
+									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #F7CC80;" colspan="2">
 										Date: ................................................
 									</th>
-									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #c6d9f1;" colspan="2">
+									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #F7CC80;" colspan="2">
 										Date: ................................................
 									</th>
-									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #c6d9f1;" colspan="2">
+									<th style="width: 20%;height:30px;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:left;background-color: #F7CC80;" colspan="2">
 										Date: ................................................
 									</th>
                 </tr>
 								<tr>
-                  <th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2" rowspan="2">
+                  <th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #F7CC80;" colspan="2" rowspan="2">
 										<t t-if="i==0">Nom et prénom du formateur</t>
                   </th>
-									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2">
+									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #F7CC80;" colspan="2">
 										Signatures
 									</th>
-									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2">
+									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #F7CC80;" colspan="2">
 										Signatures
 									</th>
-									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2">
+									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #F7CC80;" colspan="2">
 										Signatures
 									</th>
-									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2">
+									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #F7CC80;" colspan="2">
 										Signatures
 									</th>
                 </tr>
 								<tr>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
@@ -144,38 +155,38 @@
 									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;"></th>
                 </tr>
 								<tr t-if="i==0">
-									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #c6d9f1;" colspan="2">
+									<th style="width: 20%;padding: 0;margin:0;vertical-align: middle; border: 1px solid black;text-align:center;background-color: #F7CC80;" colspan="2">
 										Stagiaire
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Matin</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>
-									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #c6d9f1;">
+									<th style="width: 10%;padding: 0;margin:0;vertical-align: top; border: 1px solid black;text-align:center;background-color: #F7CC80;">
 										<p style="font-size:13px; margin:2px;">Après-midi</p>
 										<p style="font-size:13px; margin:2px;">....... à .......</p>
 									</th>

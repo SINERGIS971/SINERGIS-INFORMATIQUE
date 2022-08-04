@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_training,training,model_training,,1,1,1,1
+access_training,training,model_training,,1,1,0,1
 access_training_participants,training.participants,model_training_participants,,1,1,1,1
 access_training_type,training.type,model_training_type,,1,1,1,1
 access_training_type_product,training.type.product,model_training_type_product,,1,1,1,1
@@ -9,3 +9,5 @@ access_training_opco,training.opco,model_training_opco,,1,1,1,1
 access_training_quiz,training.quiz,model_training_quiz,,1,1,1,1
 access_training_quiz_questions,training.quiz.questions,model_training_quiz_questions,,1,1,1,1
 access_training_quiz_questions_multiple_choice,training.quiz.questions.multiple_choice,model_training_quiz_questions_multiple_choice,,1,1,1,1
+access_training_quiz_questions_multiple_choice,training.quiz.questions.multiple_choice,model_training_quiz_questions_multiple_choice,,1,1,1,1
+access_training_quiz_questions_multiple_choice_record,training.quiz.questions.multiple_choice.record,model_training_quiz_questions_multiple_choice_record,,1,0,0,1

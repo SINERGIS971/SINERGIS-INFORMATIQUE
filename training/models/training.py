@@ -40,6 +40,7 @@ class Training(models.Model):
     location = fields.Many2one("training.location", string="Localisation de la formation")
     start = fields.Date(string="Début de la formation")
     end = fields.Date(string="Fin de la formation")
+    duration = fields.Float(string="Durée (jours)")
     agreement_internal_signer = fields.Char(string="Signataire interne de la convention",default="Alain CASIMIRO, Directeur")
 
     signed_agreement = fields.Binary(string='Convention de formation signée')
@@ -313,8 +314,9 @@ class Training(models.Model):
                 if self.partner_manager_id.email:
                     if not self.token_delayed_assessment:
                         self.token_delayed_assessment = "dela-"+str(self.id)+secrets.token_urlsafe(40)
+                    base_url = self.env['ir.config_parameter'].get_param('web.base.url')
                     template_id = self.env.ref('training.training_delayed_assessment_mail').id
-                    self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
+                    self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                     self.delayed_assessment_sent = True
 
     def send_opco_quiz (self):
@@ -323,8 +325,9 @@ class Training(models.Model):
                 if self.opco_id.email:
                     if not self.token_opco_quiz:
                         self.token_opco_quiz = "dela-"+str(self.id)+secrets.token_urlsafe(40)
+                    base_url = self.env['ir.config_parameter'].get_param('web.base.url')
                     template_id = self.env.ref('training.training_opco_quiz_mail').id
-                    self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
+                    self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                     self.opco_quiz_sent = True
             else:
                 raise ValidationError("Vous devez renseigner un OPCO (partie commerciale) afin d'envoyer le questionnaire OPCO")
@@ -338,6 +341,18 @@ class Training(models.Model):
     #     with open(path+"/../static/src/zip/to_zip/signed_attendance_sheet.pdf", "wb+") as binary_file:
     #         binary_file.write(base64.b64decode(self.signed_attendance_sheet))
     #     shutil.make_archive(path+"/../static/src/zip/all_documents", 'zip', path+"/../static/src/zip/to_zip")
+
+    #=======AUTOMATISATIONS=======
+
+    def automating_closed_training (self):
+        for rec in self:
+            today = date.today()
+            if (today - self.training_closed_date).days >= 30:
+                if self.delayed_assessment_sent == False:
+                    Training.send_delayed_assessment_client(self)
+            if (today - self.training_closed_date).days >= 60:
+                if self.opco_quiz_sent == False:
+                    Training.send_opco_quiz(self)
 
 class TrainingParticipants(models.Model):
     _name = "training.participants"
@@ -447,9 +462,10 @@ class TrainingParticipants(models.Model):
                 attach_id = attach_obj.create(attach_data)
                 attachment_ids.append(attach_id.id)
                 values = {'attachment_ids':attachment_ids}
+                base_url = self.env['ir.config_parameter'].get_param('web.base.url')
 
                 template_id = self.env.ref('training.training_invitation_mail').id
-                self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True,email_values=values)
+                self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True,email_values=values)
                 self.invitation_sent = True
             else :
                 raise ValidationError("Ce participant n'a pas de mail, veuillez le renseigner en revenant à la partie commerciale.")
@@ -459,8 +475,9 @@ class TrainingParticipants(models.Model):
             if self.email:
                 if not self.token_quiz_diagnostic:
                     self.token_quiz_diagnostic = "diag-"+str(self.id)+secrets.token_urlsafe(40)
+                base_url = self.env['ir.config_parameter'].get_param('web.base.url')
                 template_id = self.env.ref('training.training_diagnostic_quiz_mail').id
-                self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
+                self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                 self.diagnostic_quiz_sent = True
             else :
                 raise ValidationError("Ce participant n'a pas de mail, veuillez le renseigner en revenant à la partie commerciale.")
@@ -474,8 +491,9 @@ class TrainingParticipants(models.Model):
                     self.token_quiz_prior_learning = "prio-"+str(self.id)+secrets.token_urlsafe(40)
                 if not self.token_quiz_training_evaluation:
                     self.token_quiz_training_evaluation = "eval-"+str(self.id)+secrets.token_urlsafe(40)
+                base_url = self.env['ir.config_parameter'].get_param('web.base.url')
                 template_id = self.env.ref('training.training_ended_quiz_mail').id
-                self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
+                self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                 self.training_ended_sent = True
             else :
                 raise ValidationError("Ce participant n'a pas de mail, veuillez le renseigner en revenant à la partie commerciale.")
