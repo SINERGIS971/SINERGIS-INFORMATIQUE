@@ -10,7 +10,7 @@ class TrainingQuiz(models.Model):
     training_type_id = fields.Many2one("training.type", string="Type de formation")
     training_type_product = fields.Many2one("training.type.product", string="Produit")
     training_type_product_plan = fields.Many2one("training.type.product.plan",string="Plan de formation")
-    quiz_type = fields.Selection([('diagnostic', 'Diagnostique'),('positioning', 'Positionnement'),('prior_learning', 'Évaluation des acquis'),('training_evaluation', 'Évaluation de la formation'),('delayed_assessment', 'Évaluation à froid du client'),('opco', "Quiz de l'OPCO")],required="True")
+    quiz_type = fields.Selection([('positioning', 'Positionnement'),('diagnostic', 'Diagnostic'),('prior_learning', 'Évaluation des acquis'),('training_evaluation', 'Évaluation de la formation'),('delayed_assessment', 'Évaluation à froid du client'),('opco', "Quiz de l'OPCO")],required="True")
 
     @api.onchange("training_type_id")
     def on_change_type_id(self):
@@ -46,4 +46,15 @@ class TrainingQuizQuestions(models.Model):
     _description = "Questions Quiz"
     name = fields.Char(string="Question")
     quiz_id = fields.Many2one("training.quiz")
-    type = fields.Selection([ ('text1', 'Texte court'),('text2', 'Texte long'),('note1', 'Note sur 5')], string="Type de question" )
+    type = fields.Selection([ ('text1', 'Texte court'),('text2', 'Texte long'),('note1', 'Note sur 5'),('multiple_choice', 'Choix multiple')], string="Type de question" )
+    #Pour les réponses à choix multiple
+    choice_ids = fields.One2many("training.quiz.questions.multiple_choice","question_id",string="Réponses possibles")
+
+    required = fields.Boolean(string="Requis",default=False)
+
+class TrainingQuizQuestionsMultipleChoice(models.Model):
+    _name = "training.quiz.questions.multiple_choice"
+    _description = "Questions à choix multiple"
+    name = fields.Char(string="Choix")
+    question_id = fields.Many2one("training.quiz.questions", string="")
+    count = fields.Integer(string="Nombre de sélections", readonly=True, default=0)

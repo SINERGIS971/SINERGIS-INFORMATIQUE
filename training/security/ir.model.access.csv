@@ -8,3 +8,4 @@ access_training_location,training.location,model_training_location,,1,1,1,1
 access_training_opco,training.opco,model_training_opco,,1,1,1,1
 access_training_quiz,training.quiz,model_training_quiz,,1,1,1,1
 access_training_quiz_questions,training.quiz.questions,model_training_quiz_questions,,1,1,1,1
+access_training_quiz_questions_multiple_choice,training.quiz.questions.multiple_choice,model_training_quiz_questions_multiple_choice,,1,1,1,1

@@ -5,7 +5,7 @@
             <field name="name">Quiz OPCO</field>
             <field name="model_id" ref="training.model_training"/>
             <field name="email_from">support@sinergis.odoo.com</field>
-            <field name="email_to">{{ (object.partner_manager_id.email or '') }}</field>
+            <field name="email_to">{{ (object.opco_id.email or '') }}</field>
             <field name="subject">Quiz de formation - SINERGIS</field>
             <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">

@@ -52,6 +52,12 @@
                         <p>Vous allez suivre dans quelques jours une session de formation organisée par SINERGIS, dont vous trouverez le programme ci-joint : </p>
                         <p>Intitulé : <span t-out="object.training_id.course_title"/></p>
                         <p>Date : Du <span t-out="object.training_id.start"/> au <span t-out="object.training_id.end"/></p>
+                        <p>Dates et horaires de la formation (UTC−4) :</p>
+                        <ul>
+                          	<t t-foreach="object.training_id.planned_hours_ids.sorted(key=lambda x: x.start)" t-as="line">
+                              <li>Du <span t-out="line.start"/> au <span t-out="line.stop"/></li>
+                            </t>
+                        </ul>
                         <p>Durée totale : <span t-out="object.training_id.sale_order_line_id.product_uom_qty"/> jours</p>
                         <p><span t-out="object.training_id.consultant_id.name"/> sera votre formateur / formatrice.</p>
                         <p>Afin de préparer au mieux votre formation, merci de compléter impérativement ce questionnaire dès réception de votre convocation en cliquant sur le bouton :</p>
@@ -65,7 +71,7 @@
                                     <tr>
                                       <td style=" background-color: #ffffff;
           border-radius: 5px;
-          text-align: center; "> <a t-attf-href="training/training?token={{ object.token_quiz_diagnostic }}" target="_blank" style="
+          text-align: center; "> <a t-attf-href="training/training?token={{ object.token_quiz_positioning }}" target="_blank" style="
                                       border-color: #3498db;
                                       color: #ffffff;
  background-color: #ffffff;
@@ -80,7 +86,7 @@
           margin: 0;
           padding: 12px 25px;
           text-decoration: none;
-          text-transform: capitalize; ">Questionnaire diagnostique</a> </td>
+          text-transform: capitalize; ">Questionnaire de positionnement</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
