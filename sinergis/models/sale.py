@@ -72,7 +72,7 @@ class SaleOrder(models.Model):
     @api.depends('fiscal_position_id')
     def _compute_fiscal_position_id (self):
         if self.partner_id :
-            if self.state == "draft":
+            if self.state == "draft" or self.state == "sale":
                 company_id = self.company_id
                 country_id = self.partner_id.country_id.name
                 if company_id and country_id :
@@ -85,8 +85,8 @@ class SaleOrder(models.Model):
                     elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
                         self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO"),('company_id.name', '=', company_id.name)])[0].id
                         self.partner_id.property_account_position_id = self.fiscal_position_id
-        for order in self:
-            order.order_line._compute_tax_id()
+                    for order in self:
+                        order.order_line._compute_tax_id()
 
     @api.depends('x_sinergis_sale_order_amount_remaining')
     def _compute_x_sinergis_sale_order_amount_remaining (self):
