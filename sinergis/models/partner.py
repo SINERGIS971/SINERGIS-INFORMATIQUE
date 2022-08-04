@@ -57,6 +57,8 @@ class ResPartner(models.Model):
 
     x_sinergis_societe_suivi_activite = fields.One2many('project.task', 'commercial_partner_id',related="commercial_partner_id.task_ids",readonly=True)
 
+    x_sinergis_societe_annual_contracts = fields.One2many('sinergis.annual_contracts', 'partner_id', string="Contrats annuels")
+
 
     #Gestion des contraintes supplémentaires
 
@@ -221,3 +223,27 @@ class ResPartner(models.Model):
                 template_id = self.env.ref('sinergis.sinergis_mail_res_partner_litige_debloque').id
                 self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
         return super(ResPartner, self).write(values)
+
+class SinergisAnnualContracts(models.Model):
+    _name = "sinergis.annual_contracts"
+    _description = "Contrats Annuels"
+
+    partner_id = fields.Many2one("res.partner",string="Client",required=True)
+
+    company_id = fields.Many2one("res.company",string="Société",required=True)
+    order_type = fields.Selection([('NEW', 'NEW'), ('REAB', 'REAB')], string="Type commande")
+    order_number = fields.Integer(string="Numéro de commande",required=True)
+    order_ref = fields.Char(string="Rèf commande",required=True)
+    bill_before_fusion = fields.Char(string="Facture avt fusion")
+    order_date = fields.Date(string="Date commande",required=True)
+    doc_origin = fields.Char(string="Doc Origine")
+    name = fields.Char(string="Désignation",required=True)
+    gross_price = fields.Float(string="Prix brut",default=0,required=True)
+    cost_price = fields.Float(string="Prix revient", default=0,required=True)
+    serial_number = fields.Integer(string="Numéro de série")
+    starting_date_validity = fields.Date(string="Date début de validité",required=True)
+    end_date_validity = fields.Date(string="Date fin de validité",required=True)
+    statistical_family_1 = fields.Char(string="Famille statistique 1",required=True)
+    statistical_family_2 = fields.Char(string="Famille statistique 2",required=True)
+    statistical_family_3 = fields.Char(string="Famille statistique 3",required=True)
+    order_state = fields.Selection([('Non soldée', 'Non soldée'), ('Soldée', 'Soldée')], string="État commande")

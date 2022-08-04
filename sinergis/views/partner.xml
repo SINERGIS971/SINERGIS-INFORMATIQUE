@@ -193,6 +193,9 @@
                         </tree>
                       </field>
                 </page>
+                <page string="Constrats annuels">
+                    <field name="x_sinergis_societe_annual_contracts"/>
+                </page>
             </notebook>
 
             <!-- MODIFICATIONS - FORM ORIGINAL -->
