@@ -58,7 +58,7 @@
                               <li>Du <span t-out="line.start"/> au <span t-out="line.stop"/></li>
                             </t>
                         </ul>
-                        <p>Durée totale : <span t-out="object.training_id.sale_order_line_id.product_uom_qty"/> jours</p>
+                        <p>Durée totale : <span t-out="object.training_id.duration"/> jours</p>
                         <p><span t-out="object.training_id.consultant_id.name"/> sera votre formateur / formatrice.</p>
                         <p>Afin de préparer au mieux votre formation, merci de compléter impérativement ce questionnaire dès réception de votre convocation en cliquant sur le bouton :</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box;
@@ -71,7 +71,7 @@
                                     <tr>
                                       <td style=" background-color: #ffffff;
           border-radius: 5px;
-          text-align: center; "> <a t-attf-href="training/training?token={{ object.token_quiz_positioning }}" target="_blank" style="
+          text-align: center; "> <a t-attf-href="{{ base_url }}/training/training?token={{ object.token_quiz_positioning }}" target="_blank" style="
                                       border-color: #3498db;
                                       color: #ffffff;
  background-color: #ffffff;
@@ -116,6 +116,7 @@
         <td>&#160;</td>
       </tr>
     </table>
+    <p style="text-align:center;color:grey;">Dossier formation n°<span t-out="object.training_id.id"/></p>
   </body>
 
             </field>

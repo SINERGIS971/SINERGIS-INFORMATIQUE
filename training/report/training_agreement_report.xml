@@ -19,7 +19,14 @@
 			  	<t t-call="web.external_layout">
 						<h1>Convention de formation</h1>
 						<p>Entre les soussignés</p>
-						<div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}"/>
+						<div>
+							<p style="margin:5px;"><span t-field="doc.company_id.name"/></p>
+							<p style="margin:5px;"><span t-field="doc.company_id.street"/></p>
+							<p style="margin:5px;"><span t-field="doc.company_id.street2"/></p>
+							<p style="margin:5px;"><span t-field="doc.company_id.city"/> - <span t-field="doc.company_id.zip"/></p>
+							<p style="margin:5px;"><span t-field="doc.company_id.country_id"/></p>
+
+						</div>
 						<p><br/>Et</p>
 						<p>La société : <span t-field="doc.partner_id.name"/></p>
 						<p>Est conclue la convention suivante, en application de l’article L. 6353-1 du Code du travail de la sixième partie du Code du Travail.</p>
@@ -29,7 +36,7 @@
 						<ul>
 						  <li>Objectif : Voir le diagnostic initial</li>
 						  <li>Programme et méthodes : <span t-field="doc.type_product_plan_id.name"/> (voir le plan de formation)</li>
-						  <li>Durée : <span t-field="doc.sale_order_line_id.product_uom_qty"/> jours</li>
+						  <li>Durée : <span t-field="doc.duration"/> jours</li>
 							<li>Lieu : <span t-field="doc.location.name"/></li>
 							<li>Dates : <span t-field="doc.start"/> au <span t-field="doc.end"/></li>
 						</ul>

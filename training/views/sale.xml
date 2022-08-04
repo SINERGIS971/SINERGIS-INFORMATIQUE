@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+
+    <record id="training_inherited_sale_order_form" model="ir.ui.view">
+        <field name="name">training.inherited.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//button[@name='action_view_invoice']" position="before">
+              <button type="object" name="action_view_training" class="oe_stat_button" icon="fa-tasks">
+                <field name="training_count" widget="statinfo" string="Formation"/>
+              </button>
+          </xpath>
+        </field>
+    </record>
+
+  </data>
+</odoo>

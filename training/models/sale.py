@@ -3,6 +3,8 @@ from odoo import models, fields, api
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    training_count = fields.Integer(compute="_compute_training_count")
+
     def action_confirm(self):
         if self._get_forbidden_state_confirm() & set(self.mapped('state')):
             raise UserError(_(
@@ -32,7 +34,27 @@ class SaleOrder(models.Model):
                                 'sale_order_line_id': line.id,
                                 'name': 'FORMATION',
                                 'company_id': self.company_id.id,
-                                'partner_id': self.partner_id.id}
-                        self.env['training'].create(vals)
+                                'partner_id': self.partner_id.id,
+                                'duration': line.product_uom_qty}
+                        self.env['training'].sudo().create(vals)
 
         return True
+
+    #ACCES AUX FORMATIONS LIES AU DEVIS
+    def action_view_training(self):
+        training_ids = self.env["training"].sudo().search([("sale_id", "=", self.id)])
+        ids_list = []
+        for training_id in training_ids:
+            ids_list.append(training_id.id)
+        return {
+            'name': ('Formations'),
+            'type': 'ir.actions.act_window',
+            "views": [[False, "tree"],[False, "form"]],
+            'res_model': 'training',
+            'domain': "[('id', 'in', %s)]" % ids_list,
+        }
+
+    @api.depends("training_count")
+    def _compute_training_count(self):
+        for rec in self:
+            rec.training_count = self.env['training'].search_count([('sale_id', '=', rec.id)])

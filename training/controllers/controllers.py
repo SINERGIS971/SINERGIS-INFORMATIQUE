@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import http
 import re
+from datetime import date
 
 
 class Training(http.Controller):
@@ -190,9 +191,13 @@ class Training(http.Controller):
                 questions_answer[i] = questions_answer[i] + " sur 5"
             #Si c'est une question à choix multiple
             if question.type == "multiple_choice":
-                question_choice = http.request.env['training.quiz.questions.multiple_choice'].search([('question_id', '=',question.id),('name','=',questions_answer[i])])
+                question_choice = http.request.env['training.quiz.questions.multiple_choice'].search(['&',('question_id', '=',question.id),('name','=',questions_answer[i])])
                 if question_choice:
-                    question_choice.count += 1
+                    vals = {'date': date.today(),
+                            'multiple_choice_id': question_choice.id
+                            }
+                    http.request.env['training.quiz.questions.multiple_choice.record'].sudo().create(vals)
+                    print("RECORD!")
             i += 1
 
         if (len(questions_name) != len(questions_answer)):

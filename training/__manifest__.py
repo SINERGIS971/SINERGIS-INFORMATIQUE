@@ -23,6 +23,7 @@
         'views/training_quiz.xml',
         'views/product.xml',
         'views/calendar.xml',
+        'views/sale.xml',
         'views/settings.xml',
         'report/training_agreement_report.xml',
         'report/training_consultant_evaluation_report.xml',
