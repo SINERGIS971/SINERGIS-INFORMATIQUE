@@ -6,7 +6,7 @@
 		<field name="name">Feuille d'émargement</field>
 		<field name="model">training</field>
 		<field name="report_type">qweb-pdf</field>
-		<!--<field name="paperformat_id" ref="training.paperformat_attendance_sheet_report"/>-->
+		<field name="paperformat_id" ref="training.paperformat_attendance_sheet_report"/>
 		<field name="report_name">training.attendance_sheet_report</field>
 		<field name="report_file">training.attendance_sheet_report</field>
 		<field name="binding_model_id" ref="model_training"/>
