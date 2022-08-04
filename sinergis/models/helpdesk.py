@@ -186,13 +186,14 @@ class HelpdeskTicket(models.Model):
         self.x_sinergis_helpdesk_ticket_tache = False
         self.x_sinergis_helpdesk_ticket_tache2 = False
         self.x_sinergis_helpdesk_ticket_tache_information = False
-        if self.partner_id.x_sinergis_societe_litige_bloque:
-            raise ValidationError("Le client est bloqué pour la raison suivante : "+ self.partner_id.x_sinergis_societe_litige_bloque_remarques +". Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
-        if self.partner_id.x_sinergis_societe_suspect:
-            raise ValidationError("Le client est un suspect. Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
-        for tag in self.category_id:
-            if tag.name == "PROSPECT":
-                raise ValidationError("Le client est un prospect. Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
+        if self.partner_id:
+            if self.partner_id.x_sinergis_societe_litige_bloque:
+                raise ValidationError("Le client est bloqué pour la raison suivante : "+ self.partner_id.x_sinergis_societe_litige_bloque_remarques +". Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
+            if self.partner_id.x_sinergis_societe_suspect:
+                raise ValidationError("Le client est un suspect. Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
+            for tag in self.partner_id.category_id:
+                if tag.name == "PROSPECT":
+                    raise ValidationError("Le client est un prospect. Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
         HelpdeskTicket.updateTasks(self)
 
     @api.onchange("x_sinergis_helpdesk_ticket_facturation")
