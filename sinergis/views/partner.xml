@@ -193,7 +193,7 @@
                         </tree>
                       </field>
                 </page>
-                <page string="Constrats annuels">
+                <page string="Contrats annuels">
                     <field name="x_sinergis_societe_annual_contracts">
                       <tree>
                         <field name="company_id"/>
