@@ -41,11 +41,8 @@ class SaleOrder(models.Model):
     @api.onchange('x_sinergis_sale_order_model')
     def onchange_x_sinergis_sale_order_model(self):
         if self.x_sinergis_sale_order_model:
-            self.order_line = self.x_sinergis_sale_order_model.order_line
-            for line in self.order_line:
-                line.product_uom_qty = 0
+            for line in self.x_sinergis_sale_order_model.order_line:
                 data = {
-                    'customer_lead': line.customer_lead,
                     'name': line.name,
                     'order_id': self.id,
                     'price_unit': line.price_unit,
@@ -54,6 +51,7 @@ class SaleOrder(models.Model):
                     'product_uom_category_id': line.product_uom_category_id.id,
                     'product_uom_qty': 0,
                     'purchase_price': line.purchase_price,
+                    'customer_lead': line.customer_lead,
                 }
                 self.env['sale.order.line'].create(data)
 
