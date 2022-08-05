@@ -42,7 +42,6 @@ class SaleOrder(models.Model):
     def onchange_x_sinergis_sale_order_model(self):
         if self.x_sinergis_sale_order_model:
             #self.env['sale.order.line'].search([('order_id', '=', self.id)]).unlink()
-            self.x_sinergis_sale_order_model = False
             for line in self.x_sinergis_sale_order_model.order_line:
                 data = {
                     'order_id': self.id,
@@ -53,6 +52,7 @@ class SaleOrder(models.Model):
                     'product_uom_qty': 0
                 }
                 self.order_line = [(0, 0,data)]
+            self.x_sinergis_sale_order_model = False
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
