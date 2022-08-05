@@ -80,6 +80,11 @@ class CalendarEvent(models.Model):
 
     x_sinergis_calendar_event_is_facturee = fields.Boolean(string="",default=False)
 
+    #Pour la vue list
+    x_sinergis_calendar_event_is_downloaded = fields.Boolean(string="",default=False,readonly=True, string="Téléchargé")
+    x_sinergis_calendar_event_is_sent = fields.Boolean(string="",default=False,readonly=True, string="Téléchargé")
+    x_sinergis_calendar_event_is_deducted = fields.Boolean(string="",compute="_compute_x_sinergis_calendar_event_is_deducted")
+
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
         CalendarEvent.updateTasks(self)
@@ -96,6 +101,14 @@ class CalendarEvent(models.Model):
                 rec.x_sinergis_calendar_event_temps_cumule = sum(rec.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_event_id', '=', rec.id)]).mapped('unit_amount'))
             else :
                 rec.x_sinergis_calendar_event_temps_cumule = rec.x_sinergis_calendar_duree_facturee
+
+    @api.depends('x_sinergis_calendar_event_is_deducted')
+    def _compute_x_sinergis_calendar_event_is_deducted (self):
+        for rec in self:
+            state = False
+            if rec.x_sinergis_calendar_event_facturation and rec.x_sinergis_calendar_event_temps_cumule:
+                state = True
+            rec.x_sinergis_calendar_event_is_deducted = state
 
     def updateTasks (self):
         for event in self:
@@ -340,6 +353,7 @@ class CalendarEvent(models.Model):
             raise ValidationError("Vous devez entrer un objet pour pouvoir générer le rapport.")
         if not self.x_sinergis_calendar_event_contact:
             raise UserError("Il vous faut un contact pour envoyer le rapport d'intervention.")
+        self.x_sinergis_calendar_event_is_downloaded = True
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self)
 
     def send_rapport_intervention(self):
@@ -349,6 +363,7 @@ class CalendarEvent(models.Model):
             raise UserError("Il vous faut un contact pour envoyer le rapport d'intervention.")
         template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis.sinergis_mail_calendar_rapport_intervention', raise_if_not_found=False)
         composition_mode = self.env.context.get('composition_mode', 'comment')
+        self.x_sinergis_calendar_event_is_sent = True
         compose_ctx = dict(
             default_composition_mode=composition_mode,
             default_model='calendar.event',
