@@ -41,10 +41,11 @@ class SaleOrder(models.Model):
     @api.onchange('x_sinergis_sale_order_model')
     def onchange_x_sinergis_sale_order_model(self):
         if self.x_sinergis_sale_order_model:
+            self.search([('order_id', '=', self.id)]).unlink()
             for line in self.x_sinergis_sale_order_model.order_line:
                 data = {
                     'order_id': self.id,
-                    #'customer_lead': 1,
+                    'customer_lead': line.customer_lead,
                     'name': line.name,
                     'product_id': line.product_id,
                     'price_unit': line.price_unit,
