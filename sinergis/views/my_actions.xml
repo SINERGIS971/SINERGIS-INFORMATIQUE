@@ -70,8 +70,8 @@
                 <field name="country_id"/>
                 <field name="printed_datetime"/>
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
-                <button name="invoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': [('is_billed',  '=', False)]}"/>
-                <button name="no_invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': [('is_billed',  '=', True)]}"/>
+                <button name="no_invoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': [('is_billed',  '=', False)]}"/>
+                <button name="invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': [('is_billed',  '=', True)]}"/>
             </tree>
         </field>
     </record>
