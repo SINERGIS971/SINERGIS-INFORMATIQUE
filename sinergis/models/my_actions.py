@@ -154,7 +154,7 @@ class MyActions(models.Model):
     def _compute_printed_datetime (self):
         for rec in self:
             if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) > 0:
-                rec.printed_datetime = rec.env['sinergis.myactions.printed'].search([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]).last_date = datetime.now()
+                rec.printed_datetime = rec.env['sinergis.myactions.printed'].search([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]).last_date
             else:
                 rec.printed_datetime = False
 
