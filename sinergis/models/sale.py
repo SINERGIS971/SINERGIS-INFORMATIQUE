@@ -49,9 +49,9 @@ class SaleOrder(models.Model):
                     'name': line.name,
                     'order_id': self.id,
                     'price_unit': line.price_unit,
-                    'product_id': line.product_id,
-                    'product_uom': line.product_uom,
-                    'product_uom_category_id': line.product_uom_category_id,
+                    'product_id': line.product_id.id,
+                    'product_uom': line.product_uom.id,
+                    'product_uom_category_id': line.product_uom_category_id.id,
                     'product_uom_qty': 0,
                     'purchase_price': line.purchase_price,
                 }
