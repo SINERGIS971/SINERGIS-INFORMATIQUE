@@ -58,6 +58,7 @@
                     <button name="print_report" string="Imprimer les rapports d'intervention" class="oe_highlight" type="object"/>
                 </header>
                 <field name="is_printed" invisible="True"/>
+                <field name="is_billed" invisible="True"/>
                 <field name="origin"/>
                 <field name="date"/>
                 <field name="billing"/>
@@ -69,7 +70,7 @@
                 <field name="country_id"/>
                 <field name="printed_datetime"/>
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
-                <button name="to_invoice_button" string="Facturer" class="oe_highlight" type="object" style="background-color: orange;" attrs="{'invisible': [('is_billed',  '=', True)]}"/>
+                <button name="invoiced_button" string="Facturer" class="oe_highlight" type="object" style="background-color: orange;" attrs="{'invisible': [('is_billed',  '=', True)]}"/>
             </tree>
         </field>
     </record>

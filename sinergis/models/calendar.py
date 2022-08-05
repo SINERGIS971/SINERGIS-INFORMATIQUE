@@ -80,9 +80,6 @@ class CalendarEvent(models.Model):
 
     x_sinergis_calendar_event_is_facturee = fields.Boolean(string="",default=False)
 
-    #Champs pour "Mes activités"
-    x_sinergis_calendar_event_is_billed = fields.Boolean(string="",default=False)
-
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
         CalendarEvent.updateTasks(self)
