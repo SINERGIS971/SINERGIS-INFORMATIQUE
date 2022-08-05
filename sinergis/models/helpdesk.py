@@ -17,6 +17,8 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_planned_intervention = fields.Boolean(default=0)
     x_sinergis_helpdesk_ticket_planned_intervention_text = fields.Char(string=" ", compute="_compute_x_sinergis_helpdesk_ticket_planned_intervention_text")
 
+    x_sinergis_helpdesk_ticket_client_douteux = fiels.Boolean(related="partner_id.x_sinergis_societe_litige_douteux",default=False)
+
     #Colonne de gauche
     x_sinergis_helpdesk_ticket_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('DIVERS', 'DIVERS')], string="Produits")
 
@@ -61,6 +63,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
 
     x_sinergis_helpdesk_ticket_has_contrat_heures = fields.Boolean(string="",compute="_compute_x_sinergis_helpdesk_ticket_has_contrat_heures")
+
 
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
     def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):

@@ -6,6 +6,13 @@
           <field name="model">helpdesk.ticket</field>
           <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_search"/>
           <field name="arch" type="xml">
+
+              <xpath expr="//header" position="after">
+                <field name="x_sinergis_helpdesk_ticket_client_douteux" invisible="True"/>
+                <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#875053;color:white;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_douteux',  '=', False)]}">
+                      Attention! Le client est <strong>douteux</strong>!.
+                </div>
+              </xpath>
               <xpath expr="//field[@name='id']" position="after">
                 <field name="x_sinergis_helpdesk_ticket_ticket_resolution" filter_domain="['|', '|',('x_sinergis_helpdesk_ticket_ticket_resolution', 'ilike', self),('description', 'ilike', self), ('name', 'ilike', self)]"/>
               </xpath>
