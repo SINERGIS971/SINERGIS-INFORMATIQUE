@@ -38,10 +38,14 @@
                             <field name="actual_month_count" readonly="True"/>
                             <field name="last_month_count" readonly="True"/>
                             <field name="actual_year_count" readonly="True"/>
-                          </group>
+                            </group>
                           </form>
                         </field>
                         <field name="required" required="True"/>
+                  </group>
+                  <group>
+                      <field name="put_title"/>
+                      <field name="title" attrs="{'invisible': [('put_title',  '=', False)]}"/>
                   </group>
                 </form>
               </field>

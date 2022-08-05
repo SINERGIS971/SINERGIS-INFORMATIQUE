@@ -1,15 +1,16 @@
 <?xml version="1.0" ?>
 <odoo>
     <data>
-       <record id="training_delayed_assessment_mail" model="mail.template">
-            <field name="name">Évaluation de la formation par le client</field>
-            <field name="model_id" ref="training.model_training"/>
+       <record id="training_invitation_mail_remote" model="mail.template">
+            <field name="name">Invitation à la formation à distance</field>
+            <field name="model_id" ref="training.model_training_participants"/>
             <field name="email_from">support@sinergis.odoo.com</field>
-            <field name="email_to">{{ (object.partner_manager_id.email or '') }}</field>
-            <field name="subject">Évaluation de la formation - Sinergis</field>
+            <field name="email_to">{{ (object.email or '') }}</field>
+            <field name="subject">Invitation à la formation à distance</field>
             <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
-              <body style="background-color: #f6f6f6;
+
+    <body style="background-color: #f6f6f6;
     font-family: sans-serif;
     -webkit-font-smoothing: antialiased;
     font-size: 14px;
@@ -35,9 +36,11 @@
                   margin: 0 auto;
                   max-width: 750px;
                   padding: 10px;">
+
+            <!-- START CENTERED WHITE CONTAINER -->
             <table role="presentation" style="background-color: #ffffff;
             border-radius: 3px;">
-              <tr></tr>
+
               <!-- START MAIN CONTENT AREA -->
               <tr>
                 <td class="wrapper" style="box-sizing: border-box;
@@ -46,16 +49,19 @@
                     <tr>
                       <td style="font-family: sans-serif;font-size: 14px;vertical-align: top; ">
                         <p>Bonjour,</p>
-                        <p>Vous nous avez fait confiance en pour assurer une formation aux dates ci-dessous :</p>
+                        <p>Vous allez suivre dans quelques jours une session de formation organisée par SINERGIS, dont vous trouverez le programme ci-joint : </p>
+                        <p>Intitulé : <span t-out="object.training_id.course_title"/></p>
+                        <p>Date : Du <span t-out="object.training_id.start"/> au <span t-out="object.training_id.end"/></p>
+                        <p>Durée totale : <span t-out="object.training_id.duration"/> jours</p>
+                        <p><span t-out="object.training_id.consultant_id.name"/> sera votre formateur / formatrice.</p>
+                        <p>La formation se déroulera en ligne, aux jours et horaires suivants (UTC−4) :</p>
                         <ul>
-                          	<t t-foreach="object.planned_hours_ids.sorted(key=lambda x: x.start)" t-as="line">
+                            <t t-foreach="object.training_id.planned_hours_ids.sorted(key=lambda x: x.start)" t-as="line">
                               <li>Du <span t-out="line.start"/> au <span t-out="line.stop"/></li>
                             </t>
                         </ul>
-                        <p>Nous espérons qu’elle a répondu à vos attentes.</p>
-                        <p>Merci de remplir le questionnaire d’évaluation en cliquant sur le bouton ci-dessous.</p>
-
-                        <br/>
+                        <p t-if="object.training_id.remote_learning_link">Vous êtes invité à vous connecter, 5 minutes avant chaque séquence, en cliquant sur le lien suivant : <a t-attf-href="{{ object.training_id.remote_learning_link }}" target="_blank" style="width:100%;text-align:center;font-size:17px;">Cliquez ici pour accéder à la formation</a></p>
+                        <p>Afin de préparer au mieux votre formation, merci de compléter impérativement ce questionnaire dès réception de votre convocation :</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box;
         width: 100%;" >
                           <tbody>
@@ -66,7 +72,7 @@
                                     <tr>
                                       <td style=" background-color: #ffffff;
           border-radius: 5px;
-          text-align: center; "> <a t-attf-href="{{ base_url }}/training/training?token={{ object.token_delayed_assessment }}" target="_blank" style="
+          text-align: center; "> <a t-attf-href="{{ base_url }}/training/training?token={{ object.token_quiz_positioning }}" target="_blank" style="
                                       border-color: #3498db;
                                       color: #ffffff;
  background-color: #ffffff;
@@ -81,7 +87,7 @@
           margin: 0;
           padding: 12px 25px;
           text-decoration: none;
-          text-transform: capitalize; ">Questionnaire d'évaluation de la formation</a> </td>
+          text-transform: capitalize; ">Questionnaire de positionnement</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -89,23 +95,36 @@
                             </tr>
                           </tbody>
                         </table>
+                        <p><strong>Informations pratiques :</strong></p>
+                        <ul>
+                          <li>En suivant cette formation, vous acceptez les termes du règlement intérieur de notre organisme, ci-joint dans le livret de formation</li>
+                          <li>Si vous êtes en situation de handicap, veuillez contacter notre référent handicap : Alice CARRERE 06 96 91 34 50 acarrere@groupesfpr.fr</li>
+                        </ul>
+                        <p>Merci de nous prévenir de tout empêchement ou retard au 05 96 56 00 34.</p>
+                        <p><strong>Nos conseils techniques</strong></p>
+                        <p>Nous vous conseillons de tester, dès à présent, votre accès à la plateforme, pour éviter les dysfonctionnements de dernière minute.</p>
+                        <p>Testez également votre micro et installez-vous dans un endroit calme pour éviter d’être déconcentrés.</p>
+                        <p>Allumez votre caméra pour une meilleure interaction pendant la formation.</p>
                         <br/>
-
-                        <p>Cordialement,</p>
+                        <p>Nous sommes à votre disposition pour toute autre précision et vous souhaitons une bonne formation !</p>
+                        <p>Bien cordialement,</p>
                         <p>L’équipe SINERGIS</p>
                       </td>
                     </tr>
                   </table>
                 </td>
               </tr>
+
+            <!-- END MAIN CONTENT AREA -->
             </table>
           </div>
         </td>
         <td>&#160;</td>
       </tr>
     </table>
-    <p style="text-align:center;color:grey;">Dossier formation n°<span t-out="object.id"/></p>
+    <p style="text-align:center;color:grey;">Dossier formation n°<span t-out="object.training_id.id"/></p>
   </body>
+
             </field>
         </record>
     </data>

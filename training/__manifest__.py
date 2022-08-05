@@ -30,6 +30,7 @@
         'report/training_attendance_sheet.xml',
         'data/mail_training_agreement.xml',
         'data/mail_training_invitation.xml',
+        'data/mail_training_invitation_remote.xml',
         'data/mail_training_diagnostic_quiz.xml',
         'data/mail_training_ended_quiz.xml',
         'data/mail_training_delayed_assessment.xml',

@@ -46,8 +46,17 @@
                     <tr>
                       <td style="font-family: sans-serif;font-size: 14px;vertical-align: top; ">
                         <p>Bonjour,</p>
-                        <p>En raison de la formation avec la société <span t-out="object.partner_id.name"/> nous vous communiquons un questionnaire.</p>
-                        <p>Vous pouvez y accéder en cliquant sur le bouton ci-dessous.</p>
+                        <p>Vous avez financée une de nos formations :</p>
+                        <p>Société : <span t-out="object.partner_id.name"/></p>
+                        <p>Intitulé : <span t-out="object.course_title"/></p>
+                        <p>Dates :</p>
+                        <ul>
+                          	<t t-foreach="object.planned_hours_ids.sorted(key=lambda x: x.start)" t-as="line">
+                              <li>Du <span t-out="line.start"/> au <span t-out="line.stop"/></li>
+                            </t>
+                        </ul>
+                        <p>Nous avons besoin de recueillir votre appréciation sur le traitement du dossier.</p>
+                        <p>Merci de remplir le questionnaire d’évaluation en cliquant sur le bouton ci-dessous.</p>
 
                         <br/>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box;
@@ -85,7 +94,8 @@
                         </table>
                         <br/>
 
-                        <p>Bien cordialement,</p>
+                        <p>Cordialement,</p>
+                        <p>L’équipe SINERGIS</p>
                       </td>
                     </tr>
                   </table>

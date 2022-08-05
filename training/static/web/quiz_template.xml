@@ -11,6 +11,10 @@
         <input type="hidden" name="token" t-att-value="str(token)"/>
         <p style="font-size:12px;"><span style="color:red;">* </span>: Champ requis</p>
         <t t-foreach="quiz.questions_ids" t-as="question">
+          <t t-if="question.put_title">
+            <h3><t t-esc="question.title"/></h3>
+          </t>
+
           <label t-att-for="str(question.id)"><t t-esc="question.name"/><t t-if="question.required"><span style="color:red;"> *</span></t></label>
           <br/>
           <!-- INPUT LIST -->

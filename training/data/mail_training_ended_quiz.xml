@@ -48,9 +48,9 @@
                                 <table style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;" border="0" cellpadding="0" cellspacing="0">
                                   <tr>
                                     <td style="font-family: sans-serif;font-size: 14px;vertical-align: top; ">
-                                      <p>Bonjour,</p>
-                                      <p>Merci d'avoir participé à cette formation.</p>
-                                      <p>Veuillez compléter les questionnaires d'évaluation des acquis et d'évaluation de la formation en cliquant sur les boutons ci-dessous.</p>
+                                      <p>Merci d’avoir participé à cette formation SINERGIS.</p>
+                                      <p>Afin d’évaluer l’efficacité et la qualité de nos formations, nous avons besoin de vous !</p>
+                                      <p>Nous vous remercions de renseigner les questionnaires en cliquant sur les boutons ci-dessous:</p>
                                       <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box;
                       width: 100%;" >
                                         <tbody>
@@ -110,7 +110,7 @@
                         margin: 0;
                         padding: 12px 25px;
                         text-decoration: none;
-                        text-transform: capitalize; ">Quiz d'évaluation du consultant</a> </td>
+                        text-transform: capitalize; ">Quiz d'évaluation du consultant et de la formation</a> </td>
                                                   </tr>
                                                 </tbody>
                                               </table>
@@ -120,7 +120,8 @@
                                       </table>
 
 
-                                      <p>Bien cordialement,</p>
+                                      <p>Cordialement,</p>
+                                      <p>L’équipe SINERGIS</p>
                                     </td>
                                   </tr>
                                 </table>

@@ -48,6 +48,8 @@ class Training(models.Model):
     #Consultant part
 
     consultant_id = fields.Many2one("res.users",string='Consultant')
+    remote_learning = fields.Boolean(string='Formation à distance ?', default=False)
+    remote_learning_link = fields.Char(string="Lien de la formation")
     planned_hours_ids = fields.One2many("calendar.event","training_id",string="Heures de formation planifiées",readonly=True)
 
     #Training ended part
@@ -129,6 +131,8 @@ class Training(models.Model):
         if self.state == "consultant_part":
             if not self.consultant_id :
                 missing_elements.append("Consultant")
+            if not self.remote_learning_link and self.remote_learning == True :
+                missing_elements.append("Lien de la formation")
             if not self.planned_hours_ids :
                 missing_elements.append("Heures de formation planifiées")
 
@@ -464,7 +468,10 @@ class TrainingParticipants(models.Model):
                 values = {'attachment_ids':attachment_ids}
                 base_url = self.env['ir.config_parameter'].get_param('web.base.url')
 
-                template_id = self.env.ref('training.training_invitation_mail').id
+                if self.training_id.remote_learning:
+                    template_id = self.env.ref('training.training_invitation_mail_remote').id
+                else :
+                    template_id = self.env.ref('training.training_invitation_mail').id
                 self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True,email_values=values)
                 self.invitation_sent = True
             else :

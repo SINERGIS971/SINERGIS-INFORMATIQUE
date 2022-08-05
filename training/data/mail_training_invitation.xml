@@ -60,7 +60,7 @@
                         </ul>
                         <p>Durée totale : <span t-out="object.training_id.duration"/> jours</p>
                         <p><span t-out="object.training_id.consultant_id.name"/> sera votre formateur / formatrice.</p>
-                        <p>Afin de préparer au mieux votre formation, merci de compléter impérativement ce questionnaire dès réception de votre convocation en cliquant sur le bouton :</p>
+                        <p>Afin de préparer au mieux votre formation, merci de compléter impérativement ce questionnaire dès réception de votre convocation :</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box;
         width: 100%;" >
                           <tbody>
@@ -97,12 +97,13 @@
                         <p><strong>Informations pratiques :</strong></p>
                         <ul>
                           <li>En suivant cette formation, vous acceptez les termes du règlement intérieur de notre organisme, ci-joint dans le livret de formation</li>
-                          <li>Si vous êtes en situation de handicap, veuillez contacter notre référent handicap : Alice CARRERE 06 96 91 34 50 acarrere@groupesfpr.fr</li>
+                          <li>Si vous êtes en situation de handicap, veuillez contacter notre référent handicap : Alice CARRERE 06 96 91 34 50 acarrere@groupesfpr.fr</li>
                         </ul>
-                        <p>Merci de nous prévenir de tout empêchement ou retard au 05 96 50 74 64.</p>
+                        <p>Merci de nous prévenir de tout empêchement ou retard au 05 96 56 00 34.</p>
                         <br/>
-                        <p>Nous sommes à votre disposition pour toute autre précision et vous souhaitons une bonne formation !</p>
+                        <p>Nous sommes à votre disposition pour toute autre précision et vous souhaitons une bonne formation !</p>
                         <p>Bien cordialement,</p>
+                        <p>L’équipe SINERGIS</p>
                       </td>
                     </tr>
                   </table>

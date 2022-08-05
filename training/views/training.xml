@@ -159,6 +159,14 @@
                       <field name="consultant_id"/>
                     </group>
                     <group>
+                      <group>
+                        <field name="remote_learning"/>
+                      </group>
+                      <group>
+                        <field name="remote_learning_link" attrs="{'invisible': [('remote_learning',  '==', False)]}"/>
+                      </group>
+                    </group>
+                    <group>
                       <field name="planned_hours_ids">
                         <tree string="Heures planifiées" default_order="start asc">
                           <field name="user_id" string="Organisateur"/>

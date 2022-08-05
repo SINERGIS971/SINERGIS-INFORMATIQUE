@@ -53,6 +53,9 @@ class TrainingQuizQuestions(models.Model):
 
     required = fields.Boolean(string="Requis",default=False)
 
+    put_title = fields.Boolean(string="Mettre un titre de partie au dessus ?", default=False)
+    title = fields.Char(string="Titre de partie")
+
 class TrainingQuizQuestionsMultipleChoice(models.Model):
     _name = "training.quiz.questions.multiple_choice"
     _description = "Questions à choix multiple"
