@@ -74,13 +74,13 @@
 		                      												<td style="text-align:center;"><span t-field="line.unit_amount"  t-options="{'widget': 'float_time'}"/></td>
 		                      												<td style="text-align:center;"><span t-field="line.name"/></td>
 		                      												<td style="text-align:center;"><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
-		                      										    <td style="text-align:center;"><span t-field="cumul"  t-options="{'widget': 'float_time'}"/></td>
+		                      										    <td style="text-align:center;"><span t-esc="cumul"  t-options="{'widget': 'float_time'}"/></td>
 		                      										  </tr>
 		                      									</t>
 		                      									<tr>
 		                      												<td/>
 		                      												<td/>
-		                      												<td style="text-align:center;"><span t-field="cumul"  t-options="{'widget': 'float_time'}"/></td>
+		                      												<td style="text-align:center;"><span t-esc="cumul"  t-options="{'widget': 'float_time'}"/></td>
 		                      												<td/>
 		                      												<td/>
 		                      										    <td/>
