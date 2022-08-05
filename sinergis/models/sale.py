@@ -43,15 +43,11 @@ class SaleOrder(models.Model):
         if self.x_sinergis_sale_order_model:
             for line in self.x_sinergis_sale_order_model.order_line:
                 data = {
+                    'customer_lead': 1,
                     'name': line.name,
-                    'order_id': self.id,
+                    'order_id': self,
                     'price_unit': line.price_unit,
-                    'product_id': line.product_id.id,
-                    'product_uom': line.product_uom.id,
-                    'product_uom_category_id': line.product_uom_category_id.id,
-                    'product_uom_qty': 0,
-                    'purchase_price': line.purchase_price,
-                    'customer_lead': line.customer_lead,
+                    'product_uom_qty': 0
                 }
                 self.env['sale.order.line'].create(data)
 
