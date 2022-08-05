@@ -1,5 +1,6 @@
 from odoo import api, fields, models, tools
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 class MyActions(models.Model):
     _name = "sinergis.myactions"
@@ -34,6 +35,7 @@ class MyActions(models.Model):
     movement_area = fields.Many2one("sinergis.movementarea", string="")
 
     is_printed = fields.Boolean(string="",compute="_compute_is_printed")
+    printed_datetime = fields.Datetime(string='Dernière édition',compute="_compute_printed_datetime")
 
     #@api.model_cr
     def init(self):
@@ -148,6 +150,14 @@ class MyActions(models.Model):
             else:
                 rec.is_printed = False
 
+    @api.depends('printed_datetime')
+    def _compute_printed_datetime (self):
+        for rec in self:
+            if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) > 0:
+                rec.printed_datetime = rec.env['sinergis.myactions.printed'].search([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]).last_date = datetime.now()
+            else:
+                rec.printed_datetime = False
+
     @api.depends('product')
     def _compute_product (self):
         for rec in self:
@@ -222,8 +232,13 @@ class MyActions(models.Model):
                     'user_id': self.env.user.id,
                     'model_type': rec.origin,
                     'model_id': rec.link_id,
+                    'last_date': datetime.now(),
                 }
                 self.env['sinergis.myactions.printed'].create(data)
+            else:
+                ticket = rec.env['sinergis.myactions.printed'].search([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)])
+                ticket.last_date = datetime.now()
+
         return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', ids)]))
 
 class MyActionsPrinted(models.Model):
@@ -232,3 +247,4 @@ class MyActionsPrinted(models.Model):
     user_id = fields.Many2one("res.users")
     model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
     model_id = fields.Integer(string="")
+    last_date = fields.Datetime(string='Dernière édition')
