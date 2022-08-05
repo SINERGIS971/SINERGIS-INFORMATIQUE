@@ -41,7 +41,8 @@ class SaleOrder(models.Model):
     @api.onchange('x_sinergis_sale_order_model')
     def onchange_x_sinergis_sale_order_model(self):
         if self.x_sinergis_sale_order_model:
-            self.env['sale.order.line'].search([('order_id', '=', self.id)]).unlink()
+            #self.env['sale.order.line'].search([('order_id', '=', self.id)]).unlink()
+            self.x_sinergis_sale_order_model = False
             for line in self.x_sinergis_sale_order_model.order_line:
                 data = {
                     'order_id': self.id,
