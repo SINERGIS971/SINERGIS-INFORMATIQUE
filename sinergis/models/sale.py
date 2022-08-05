@@ -38,12 +38,24 @@ class SaleOrder(models.Model):
         else:
             self.company_id = self.env.company.id
 
-    #@api.onchange('x_sinergis_sale_order_model')
-    #def onchange_x_sinergis_sale_order_model(self):
-    #    if self.x_sinergis_sale_order_model:
-    #        self.order_line = self.x_sinergis_sale_order_model.order_line
-    #        for line in self.order_line:
-    #            line.product_uom_qty = 0
+    @api.onchange('x_sinergis_sale_order_model')
+    def onchange_x_sinergis_sale_order_model(self):
+        if self.x_sinergis_sale_order_model:
+            self.order_line = self.x_sinergis_sale_order_model.order_line
+            for line in self.order_line:
+                line.product_uom_qty = 0
+                data = {
+                    'customer_lead': line.customer_lead,
+                    'name': line.name,
+                    'order_id': self.id,
+                    'price_unit': line.price_unit,
+                    'product_id': line.product_uom,
+                    'product_uom': line.product_uom,
+                    'product_uom_category_id': line.product_uom_category_id,
+                    'product_uom_qty': 0,
+                    'pruchase_price': line.pruchase_price,
+                }
+                self.env['sale.order.line'].create(data)
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
