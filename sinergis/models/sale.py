@@ -50,7 +50,12 @@ class SaleOrder(models.Model):
                     'price_unit': line.price_unit,
                     'product_uom_qty': 0
                 }
-                self.order_line = (0, 0,  { data })
+                self.order_line = (0, 0,{
+                    'name': line.name,
+                    'product_id': line.product_id,
+                    'price_unit': line.price_unit,
+                    'product_uom_qty': 0
+                })
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
