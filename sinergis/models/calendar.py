@@ -110,6 +110,7 @@ class CalendarEvent(models.Model):
                 state = True
             rec.x_sinergis_calendar_event_is_deducted = state
 
+
     def updateTasks (self):
         for event in self:
             domain = []
