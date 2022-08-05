@@ -106,7 +106,7 @@ class CalendarEvent(models.Model):
     def _compute_x_sinergis_calendar_event_is_deducted (self):
         for rec in self:
             state = False
-            if rec.x_sinergis_calendar_event_facturation and rec.x_sinergis_calendar_event_temps_cumule:
+            if rec.x_sinergis_calendar_event_facturation and rec.x_sinergis_calendar_event_temps_cumule > 0:
                 state = True
             rec.x_sinergis_calendar_event_is_deducted = state
 
