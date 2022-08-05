@@ -141,6 +141,7 @@
                 <xpath expr="//form/sheet/group[1]" position="after">
                     <group>
                         <field name="description" class="field_description" placeholder="Description du problème..." string="Description du problème" required="True"/>
+                        <t t-if="x_sinergis_helpdesk_ticket_has_contrat_heures"><p>Le client a un contrat d'heures</p></t>
                     </group>
                         <br/>
                         <br/>
