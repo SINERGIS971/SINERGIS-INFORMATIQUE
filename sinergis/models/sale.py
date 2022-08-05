@@ -53,7 +53,7 @@ class SaleOrder(models.Model):
                     'product_uom': line.product_uom,
                     'product_uom_category_id': line.product_uom_category_id,
                     'product_uom_qty': 0,
-                    'pruchase_price': line.pruchase_price,
+                    'purchase_price': line.purchase_price,
                 }
                 self.env['sale.order.line'].create(data)
 
