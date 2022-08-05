@@ -81,7 +81,7 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_is_facturee = fields.Boolean(string="",default=False)
 
     #Pour la vue list
-    x_sinergis_calendar_event_is_downloaded = fields.Boolean(string="",default=False,readonly=True, string="Téléchargé")
+    x_sinergis_calendar_event_is_downloaded = fields.Boolean(string="Téléchargé",default=False,readonly=True)
     x_sinergis_calendar_event_is_sent = fields.Boolean(string="",default=False,readonly=True, string="Téléchargé")
     x_sinergis_calendar_event_is_deducted = fields.Boolean(string="",compute="_compute_x_sinergis_calendar_event_is_deducted")
 
