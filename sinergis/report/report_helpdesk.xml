@@ -48,7 +48,7 @@
                       <p style="margin:0;padding: 0;"><strong>Dates d'intervention :</strong> <span t-field="doc.x_sinergis_helpdesk_ticket_start_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/> au <span t-field="doc.x_sinergis_helpdesk_ticket_end_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/></p>
                     </th>
                      <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
-                      <p style="margin:0;padding: 0;" ><strong>Durée :</strong> <span t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/></p>
+                      <p style="margin:0;padding: 0;" ><strong>Durée :</strong> <span t-field="doc.x_sinergis_helpdesk_ticket_temps_cumule"  t-options="{'widget': 'float_time'}"/></p>
                     </th>
                   </tr>
               </tbody>
@@ -61,7 +61,7 @@
                     <th rowspan="5" style="width: 70%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
                     </th>
                      <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
-                      <p style="margin:0;padding: 0;" ><strong>Durée cumulée :</strong><span t-esc="'%02d:%02d' % (int(doc.x_sinergis_helpdesk_ticket_temps_cumule), doc.x_sinergis_helpdesk_ticket_temps_cumule % 1 * 60)"/></p>
+                      <p style="margin:0;padding: 0;" ><strong>Durée cumulée :</strong><span t-field="doc.x_sinergis_helpdesk_ticket_temps_cumule"  t-options="{'widget': 'float_time'}"/></p>
                     </th>
                   </tr>
               </tbody>
@@ -74,7 +74,7 @@
                       <p style="margin:0;padding: 0;"><strong>Facturation :</strong> <span t-field="doc.x_sinergis_helpdesk_ticket_facturation"/></p>
                     </th>
                      <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
-                      <p t-if="doc.x_sinergis_helpdesk_ticket_tache2" style="margin:0;padding: 0;"><strong>Solde restant :</strong> <span t-esc="'%02d:%02d h' % (int(doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours), floor(abs(doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours) % 1 * 60))"/></p>
+                      <p t-if="doc.x_sinergis_helpdesk_ticket_tache2" style="margin:0;padding: 0;"><strong>Solde restant :</strong> <span t-field="doc.x_sinergis_helpdesk_ticket_tache2.remaining_hours"  t-options="{'widget': 'float_time'}"/></p>
                     </th>
                   </tr>
               </tbody>
@@ -110,7 +110,7 @@
 												<td><span t-field="line.x_sinergis_account_analytic_line_start_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/></td>
 												<td><span t-field="line.x_sinergis_account_analytic_line_end_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/></td>
 												<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
-										    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), floor(abs(line.unit_amount) % 1 * 60))"/></td>
+										    <td><span t-field="line.unit_amount"  t-options="{'widget': 'float_time'}"/></td>
 										  </tr>
 										</t>
 									</t>
@@ -122,7 +122,7 @@
 												<td><span t-field="line.x_sinergis_account_analytic_line_start_time"/></td>
 												<td><span t-field="line.x_sinergis_account_analytic_line_end_time"/></td>
 												<td><span t-field="line.x_sinergis_account_analytic_line_user_id"/></td>
-										    <td><span t-esc="'%02d:%02d' % (int(line.unit_amount), line.unit_amount % 1 * 60)"/></td>
+										    <td><span t-field="line.unit_amount"  t-options="{'widget': 'float_time'}"/></td>
 										  </tr>
 										</t>
 									</t>

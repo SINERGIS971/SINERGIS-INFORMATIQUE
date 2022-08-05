@@ -58,6 +58,7 @@
                     <button name="print_report" string="Imprimer les rapports d'intervention" class="oe_highlight" type="object"/>
                 </header>
                 <field name="is_printed" invisible="True"/>
+                <field name="is_billed" invisible="True"/>
                 <field name="origin"/>
                 <field name="date"/>
                 <field name="billing"/>
@@ -67,7 +68,10 @@
                 <field name="time" widget="float_time" sum="Temps total"/>
                 <field name="consultant" widget="many2one_avatar_user"/>
                 <field name="country_id"/>
+                <field name="printed_datetime"/>
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
+                <!--<button name="invoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': [('is_billed',  '=', False)]}"/>
+                <button name="no_invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': [('is_billed',  '=', True)]}"/>-->
             </tree>
         </field>
     </record>

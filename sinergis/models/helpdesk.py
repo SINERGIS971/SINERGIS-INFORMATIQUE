@@ -51,7 +51,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_intervention_count = fields.Integer(string="Nombre d'interventions", compute="_compute_x_sinergis_helpdesk_ticket_intervention_count", group_operator="sum")
     x_sinergis_helpdesk_ticket_temps_cumule = fields.Float(string="Temps cumulé", compute="_compute_x_sinergis_helpdesk_ticket_temps_cumule")
 
-    x_sinergis_helpdesk_ticket_is_facturee = fields.Boolean(string="",default=False)
+    x_sinergis_helpdesk_ticket_is_facturee = fields.Boolean(string="Présence d'un contrat d'heures chez le client :",default=False)
 
 
     #Colonne de droite
@@ -59,6 +59,8 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_fixe = fields.Char(string="Fixe contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
+
+    x_sinergis_helpdesk_ticket_has_contrat_heures = fields.Boolean(string="",compute="_compute_x_sinergis_helpdesk_ticket_has_contrat_heures")
 
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
     def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):
@@ -100,6 +102,17 @@ class HelpdeskTicket(models.Model):
                 rec.x_sinergis_helpdesk_ticket_temps_cumule = sum(rec.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_ticket_id', '=', rec.id)]).mapped('unit_amount'))
             else :
                 rec.x_sinergis_helpdesk_ticket_temps_cumule = rec.x_sinergis_helpdesk_ticket_temps_passe
+
+    @api.depends("x_sinergis_helpdesk_ticket_has_contrat_heures")
+    def _compute_x_sinergis_helpdesk_ticket_has_contrat_heures(self):
+        for rec in self:
+            if rec.partner_id:
+                if self.env["project.task"].search([('name','not ilike','HEURES'),('partner_id', '=', rec.partner_id.id)]):
+                    rec.x_sinergis_helpdesk_ticket_has_contrat_heures = True
+                else:
+                    rec.x_sinergis_helpdesk_ticket_has_contrat_heures = False
+            else:
+                rec.x_sinergis_helpdesk_ticket_has_contrat_heures = False
 
 
     @api.onchange("user_id")

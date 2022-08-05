@@ -1,5 +1,6 @@
 from odoo import api, fields, models, tools
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 class MyActions(models.Model):
     _name = "sinergis.myactions"
@@ -34,6 +35,8 @@ class MyActions(models.Model):
     movement_area = fields.Many2one("sinergis.movementarea", string="")
 
     is_printed = fields.Boolean(string="",compute="_compute_is_printed")
+    printed_datetime = fields.Datetime(string='Dernière édition',compute="_compute_printed_datetime")
+    is_billed = fields.Boolean(string="",compute="_compute_is_billed")
 
     #@api.model_cr
     def init(self):
@@ -148,6 +151,22 @@ class MyActions(models.Model):
             else:
                 rec.is_printed = False
 
+    @api.depends('printed_datetime')
+    def _compute_printed_datetime (self):
+        for rec in self:
+            if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) > 0:
+                rec.printed_datetime = rec.env['sinergis.myactions.printed'].search([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]).last_date
+            else:
+                rec.printed_datetime = False
+
+    @api.depends('is_billed')
+    def _compute_is_billed (self):
+        for rec in self:
+            if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) == 1:
+                rec.is_billed = True
+            else:
+                rec.is_billed = False
+
     @api.depends('product')
     def _compute_product (self):
         for rec in self:
@@ -212,6 +231,24 @@ class MyActions(models.Model):
             'target': 'new',
             }
 
+    def invoiced_button (self):
+        if self.env.user.has_group('sinergis.group_myactions_employee') == False:
+            if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
+                data = {
+                    'model_type': self.origin,
+                    'model_id': self.link_id,
+                }
+                self.env['sinergis.myactions.billed'].create(data)
+        else:
+            raise ValidationError("Vous n'avez pas l'accès pour changer le statut de la facturation. Merci de vous rapprocher de la direction.")
+
+    def no_invoiced_button (self):
+        if self.env.user.has_group('sinergis.group_myactions_employee') == False:
+            if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 1:
+                self.env["sinergis.myactions.billed"].search([('model_type', '=', self.origin),('model_id', '=', self.link_id)]).unlink()
+        else:
+            raise ValidationError("Vous n'avez pas l'accès pour changer le statut de la facturation. Merci de vous rapprocher de la direction.")
+
     def print_report(self):
         ids = []
         for rec in self:
@@ -222,13 +259,25 @@ class MyActions(models.Model):
                     'user_id': self.env.user.id,
                     'model_type': rec.origin,
                     'model_id': rec.link_id,
+                    'last_date': datetime.now(),
                 }
                 self.env['sinergis.myactions.printed'].create(data)
+            else:
+                ticket = rec.env['sinergis.myactions.printed'].search([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)])
+                ticket.last_date = datetime.now()
+
         return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', ids)]))
 
 class MyActionsPrinted(models.Model):
     _name = "sinergis.myactions.printed"
     _description = "Activités imprimées"
     user_id = fields.Many2one("res.users")
+    model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
+    model_id = fields.Integer(string="")
+    last_date = fields.Datetime(string='Dernière édition')
+
+class MyActionsBilled(models.Model):
+    _name = "sinergis.myactions.billed"
+    _description = "Interventions facturées"
     model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
     model_id = fields.Integer(string="")
