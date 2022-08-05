@@ -33,6 +33,7 @@ class MyActions(models.Model):
     event_trip = fields.Boolean(string="")
     movement_country = fields.Many2one("sinergis.movementcountry", string="")
     movement_area = fields.Many2one("sinergis.movementarea", string="")
+    is_billed = fields.Boolean(string="")
 
     is_printed = fields.Boolean(string="",compute="_compute_is_printed")
     printed_datetime = fields.Datetime(string='Dernière édition',compute="_compute_printed_datetime")
@@ -43,7 +44,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT row_number() OVER (ORDER BY 1) AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id FROM
+            T.name,T.date,T.client,T.billing,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed FROM
                 ((SELECT
                     'helpdesk' as origin,
                     ht.id as id,
@@ -71,7 +72,8 @@ class MyActions(models.Model):
                     NULL as event_trip,
                     NULL as movement_country,
                     NULL as movement_area,
-                    rp.country_id as country_id
+                    rp.country_id as country_id,
+                    ht.x_sinergis_helpdesk_ticket_is_billed as is_billed
                 FROM
                     helpdesk_ticket as ht
                 FULL JOIN
@@ -117,7 +119,8 @@ class MyActions(models.Model):
                     ce.x_sinergis_calendar_event_trip as event_trip,
                     ce.x_sinergis_calendar_event_trip_movementcountry as movement_country,
                     ce.x_sinergis_calendar_event_trip_movementarea as movement_area,
-                    rp.country_id as country_id
+                    rp.country_id as country_id,
+                    ht.x_sinergis_calendar_event_is_billed as is_billed
                 FROM
                     calendar_event as ce
                 FULL JOIN
@@ -221,6 +224,12 @@ class MyActions(models.Model):
             'res_id': self.env['calendar.event'].search([('id', '=', self.link_id)]).id,
             'target': 'new',
             }
+
+    def to_invoice_button (self):
+        if self.origin == "helpdesk":
+            self.env['helpdesk.ticket'].search([('id', '=', self.link_id)]).x_sinergis_helpdesk_ticket_is_billed = True
+        elif self.origin == "calendar":
+            rec.intervention_count = self.env['calendar.event'].search([('id', '=', self.link_id)]).x_sinergis_calendar_event_is_billed = True
 
     def print_report(self):
         ids = []

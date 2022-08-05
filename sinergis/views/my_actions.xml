@@ -69,6 +69,7 @@
                 <field name="country_id"/>
                 <field name="printed_datetime"/>
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
+                <button name="to_invoice_button" string="Facturer" class="oe_highlight" type="object" style="background-color: orange;" attrs="{'invisible': [('is_billed',  '=', True)]}"/>
             </tree>
         </field>
     </record>
