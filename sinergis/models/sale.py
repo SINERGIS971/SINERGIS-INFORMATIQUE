@@ -43,13 +43,14 @@ class SaleOrder(models.Model):
         if self.x_sinergis_sale_order_model:
             for line in self.x_sinergis_sale_order_model.order_line:
                 data = {
-                    'customer_lead': 1,
+                    #'order_id': self.id,
+                    #'customer_lead': 1,
                     'name': line.name,
-                    'order_id': self,
+                    'product_id': line.product_id,
                     'price_unit': line.price_unit,
                     'product_uom_qty': 0
                 }
-                self.env['sale.order.line'].create(data)
+                self.order_line = (0, 0,  { data })
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
