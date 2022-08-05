@@ -3,6 +3,7 @@ access_sinergis_movementcountry,sinergis.movementcountry,model_sinergis_movement
 access_sinergis_movementarea,sinergis.movementarea,model_sinergis_movementarea,,1,1,1,1
 access_sinergis_myactions,sinergis.myactions,model_sinergis_myactions,,1,0,0,0
 access_sinergis_myactions_printed,sinergis.myactions.printed,model_sinergis_myactions_printed,,1,1,1,1
+access_sinergis_myactions_billed,sinergis.myactions.billed,model_sinergis_myactions_billed,,1,1,1,1
 mail.access_mail_mail_all,mail.mail.sinergis,mail.model_mail_mail,,1,0,0,0
 mail.access_mail_mail_user,mail.mail.user,mail.model_mail_mail,base.group_user,1,0,0,0
 mail.access_mail_mail_portal,mail.mail.portal,mail.model_mail_mail,base.group_portal,1,0,0,0

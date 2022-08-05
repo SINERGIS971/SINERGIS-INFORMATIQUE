@@ -165,7 +165,7 @@ class MyActions(models.Model):
             if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) == 1:
                 rec.is_billed = True
             else:
-                rec.is_billed = True
+                rec.is_billed = False
 
     @api.depends('product')
     def _compute_product (self):
@@ -232,16 +232,22 @@ class MyActions(models.Model):
             }
 
     def invoiced_button (self):
-        if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
-            data = {
-                'model_type': self.origin,
-                'model_id': self.link_id,
-            }
-            self.env['sinergis.myactions.billed'].create(data)
+        if self.env.user.has_group('sinergis.group_myactions_employee') == False:
+            if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
+                data = {
+                    'model_type': self.origin,
+                    'model_id': self.link_id,
+                }
+                self.env['sinergis.myactions.billed'].create(data)
+        else:
+            raise ValidationError("Vous n'avez pas l'accès pour changer le statut de la facturation. Merci de vous rapprocher de la direction.")
 
     def no_invoiced_button (self):
-        if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 1:
-            self.env["sinergis.myactions.billed"].search([('model_type', '=', self.origin),('model_id', '=', self.link_id)]).unlink()
+        if self.env.user.has_group('sinergis.group_myactions_employee') == False:
+            if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 1:
+                self.env["sinergis.myactions.billed"].search([('model_type', '=', self.origin),('model_id', '=', self.link_id)]).unlink()
+        else:
+            raise ValidationError("Vous n'avez pas l'accès pour changer le statut de la facturation. Merci de vous rapprocher de la direction.")
 
     def print_report(self):
         ids = []
