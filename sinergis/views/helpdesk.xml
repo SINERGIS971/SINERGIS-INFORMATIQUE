@@ -41,6 +41,8 @@
                 <separator/>
                 <filter string="DIVERS" name="filter_divers" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'DIVERS')]"/>
                 <separator/>
+                <filter string="Appels sans réponse" name="filter_last_call" domain="[('x_sinergis_helpdesk_last_call', '!=', False)]"/>
+                <separator/>
               </xpath>
               <xpath expr="//filter[@name='unassigned']" position="after">
                 <separator/>
@@ -72,6 +74,7 @@
                   <field name="activity_ids" position="move"/>
                   <field name="company_id" position="move"/>
                   <field name="stage_id" position="move"/>
+                  <field name="x_sinergis_helpdesk_last_call"/>
                   <field name="x_sinergis_helpdesk_ticket_planned_intervention_text"/>
                 </xpath>
 
@@ -138,6 +141,8 @@
                     <field name="x_sinergis_helpdesk_ticket_contact_fixe" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_contact',  '=', False), ('x_sinergis_helpdesk_ticket_contact_fixe',  '=', False)]}" force_save="1" widget="phone"/>
                     <field name="x_sinergis_helpdesk_ticket_contact_mobile" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_contact',  '=', False), ('x_sinergis_helpdesk_ticket_contact_mobile',  '=', False)]}" force_save="1" widget="phone"/>
                     <field name="x_sinergis_helpdesk_ticket_contact_mail" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_contact',  '=', False), ('x_sinergis_helpdesk_ticket_contact_mail',  '=', False)]}" force_save="1"/>
+                    <field name="x_sinergis_helpdesk_last_call"/>
+                    <button name="x_sinergis_helpdesk_ticket_last_call_button" string="Le client n'a pas répondu" type="object"/>
                 </xpath>
 
                 <!-- CREATION DU NOTEBOOK EN BAS DE PAGE -->

@@ -64,6 +64,7 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_has_contrat_heures = fields.Boolean(string="Le client a un contrat d'heures ?",compute="_compute_x_sinergis_helpdesk_ticket_has_contrat_heures")
 
+    x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
 
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
     def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):
@@ -357,6 +358,9 @@ class HelpdeskTicket(models.Model):
     def x_sinergis_helpdesk_ticket_stop_time_button (self):
         self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
         self.x_sinergis_helpdesk_ticket_temps_passe = (self.x_sinergis_helpdesk_ticket_end_time - self.x_sinergis_helpdesk_ticket_start_time).total_seconds() / 3600
+
+    def x_sinergis_helpdesk_ticket_last_call_button (self):
+        self.x_sinergis_helpdesk_last_call = datetime.now()
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
     def write(self, values):
