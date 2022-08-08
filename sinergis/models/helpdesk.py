@@ -62,7 +62,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
 
-    x_sinergis_helpdesk_ticket_has_contrat_heures = fields.Boolean(string="",compute="_compute_x_sinergis_helpdesk_ticket_has_contrat_heures")
+    x_sinergis_helpdesk_ticket_has_contrat_heures = fields.Boolean(string="Le client a un contrat d'heures ?",compute="_compute_x_sinergis_helpdesk_ticket_has_contrat_heures")
 
 
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
