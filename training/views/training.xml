@@ -28,11 +28,14 @@
                 <field name="sales_manager" filter_domain="[('sales_manager', 'ilike', self)]"/>
                 <field name="consultant_id" filter_domain="[('consultant_id', 'ilike', self)]"/>
                 <filter string="Formations ouvertes" name="filter_open_training" domain="[('state', '!=', 'training_closed')]"/>
+                <separator/>
+                <filter string="Formations OPCO" name="filter_opco" domain="[('opco_file', '!=', False)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Client" name="group_by_partner_id" context="{'group_by':'partner_id'}"/>
                     <filter string="Date de début" name="group_by_start" context="{'group_by':'start'}"/>
                     <filter string="Commercial" name="group_by_sales_manager" context="{'group_by':'sales_manager'}"/>
                     <filter string="Consultant" name="group_by_consultant_id" context="{'group_by':'consultant_id'}"/>
+                    <filter string="Produit" name="group_by_type_product_id" context="{'group_by':'type_product_id'}"/>
                 </group>
             </search>
         </field>
@@ -42,7 +45,7 @@
         <field name="name">Formations</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">training</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">tree,kanban,form,pivot</field>
         <field name="context">{"search_default_filter_open_training":1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -79,6 +82,7 @@
                     <button name="action_open_sale_id" string="Ouvrir le devis" type="object" class="oe_link" icon="fa-file-text-o" attrs="{'invisible': [('sale_id', '=', False)]}"/>
                   </div>
                   <group>
+                    <field name="sale_id" required="True" readonly="True"/>
                     <field name="name" required="True"/>
                   </group>
                   <!-- Partie non assigné -->
@@ -287,6 +291,105 @@
             </form>
         </field>
     </record>
+
+    <!--=====PIVOT VIEW=====-->
+
+    <!-- _TEMP TO REMOVE -->
+    <!--<record id="training_pivot" model="ir.ui.view">
+        <field name="name">training.pivot</field>
+        <field name="type">pivot</field>
+        <field name="model">training</field>
+        <field name="arch" type="xml">
+            <pivot string="Formations">
+
+            </pivot>
+        </field>
+    </record>-->
+
+    <!--===============Stats filters=============== -->
+
+    <!--Pivot filters-->
+    <record id="filter_all_time" model="ir.filters">
+        <field name="name">Temps total [OPCO]</field>
+        <field name="model_id">training</field>
+        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': []}</field>
+    </record>
+
+    <record id="filter_all_amount" model="ir.filters">
+        <field name="name">Montant total [OPCO]</field>
+        <field name="model_id">training</field>
+        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': [], 'pivot_measures': ['sale_price_total'], 'pivot_column_groupby': [], 'pivot_row_groupby': []}</field>
+    </record>
+
+    <record id="filter_product_participant" model="ir.filters">
+        <field name="name">Participants par produit [OPCO]</field>
+        <field name="model_id">training</field>
+        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': [], 'pivot_measures': ['participants_count'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['type_product_id']}</field>
+    </record>
+
+    <record id="filter_product_time" model="ir.filters">
+        <field name="name">Temps par produit [OPCO]</field>
+        <field name="model_id">training</field>
+        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['type_product_id']}</field>
+    </record>
+
+    <record id="filter_all_participants" model="ir.filters">
+        <field name="name">Total des participants [OPCO]</field>
+        <field name="model_id">training</field>
+        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': [], 'pivot_measures': ['participants_count'], 'pivot_column_groupby': [], 'pivot_row_groupby': []}</field>
+    </record>
+
+    <record id="filter_all_participants" model="ir.filters">
+        <field name="name">Total des participants [OPCO]</field>
+        <field name="model_id">training</field>
+        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': [], 'pivot_measures': ['participants_count'], 'pivot_column_groupby': [], 'pivot_row_groupby': []}</field>
+    </record>
+
+    <record id="filter_consultants_list" model="ir.filters">
+        <field name="name">Liste des consultants [OPCO]</field>
+        <field name="model_id">training</field>
+        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['consultant_id']}</field>
+    </record>
+
+    <record id="filter_consultants_list" model="ir.filters">
+        <field name="name">Liste des consultants [OPCO]</field>
+        <field name="model_id">training</field>
+        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['consultant_id']}</field>
+    </record>
+
+    <record id="filter_consultants_year" model="ir.filters">
+        <field name="name">Liste des consultants par année [OPCO]</field>
+        <field name="model_id">training</field>
+        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['start:year', 'consultant_id']}</field>
+    </record>
+
+    <record id="filter_consultants_product" model="ir.filters">
+        <field name="name">Liste des consultants par produit [OPCO]</field>
+        <field name="model_id">training</field>
+        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="user_id" eval="False"/>
+        <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['type_product_id', 'consultant_id']}</field>
+    </record>
+
+
 
     <record id="training_participants_form" model="ir.ui.view">
         <field name="name">training.participants.form</field>

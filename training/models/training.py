@@ -69,6 +69,13 @@ class Training(models.Model):
     answer_opco_quiz = fields.Html(default="",readonly=True, string="Réponses du quiz OPCO")
     opco_quiz_received = fields.Boolean(string="Quiz OPCO reçu",default=False,compute="_compute_opco_quiz_received")
 
+    #Stats part
+
+    sale_price_total = fields.Float(string="Prix de la formation",compute="_compute_sale_price_total",store=True)
+    participants_count = fields.Integer(string="Nombre de participants",store=True,compute="_compute_participants_count")
+    
+
+
     @api.onchange("type_id")
     def on_change_type_id(self):
         self.type_product_id = False
@@ -93,6 +100,19 @@ class Training(models.Model):
                 rec.opco_quiz_received = True
             else:
                 rec.opco_quiz_received = False
+
+    @api.depends('sale_price_total')
+    def _compute_sale_price_total (self):
+        for rec in self:
+            if rec.sale_order_line_id:
+                rec.sale_price_total = rec.sale_order_line_id.price_total
+            else:
+                rec.sale_price_total = 0
+
+    @api.depends("participants_count")
+    def _compute_participants_count (self):
+        for rec in self:
+            rec.participants_count = len(rec.training_participants)
 
     #Header buttons
 
