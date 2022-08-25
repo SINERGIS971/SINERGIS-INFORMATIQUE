@@ -43,11 +43,11 @@ class MyActions(models.Model):
         tools.drop_view_if_exists(self._cr, self._table)
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
-            SELECT row_number() OVER (ORDER BY 1) AS id,T.origin,T.link_id,
+            SELECT T.id AS id,T.origin,T.link_id,
             T.name,T.date,T.client,T.billing,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id FROM
                 ((SELECT
                     'helpdesk' as origin,
-                    ht.id as id,
+                    2*ht.id as id,
                     ht.id as link_id,
                     ht.name as name,
                     ht.create_date as date,
@@ -95,7 +95,7 @@ class MyActions(models.Model):
                 (
                 SELECT
                     'calendar' as origin,
-                    ce.id as id,
+                    2*ce.id+1 as id,
                     ce.id as link_id,
                     ce.name as name,
                     ce.start as date,
