@@ -14,7 +14,7 @@ class MyActions(models.Model):
     date = fields.Datetime(readonly=True, string="Date")
     client = fields.Many2one("res.partner",string="Client")
     product = fields.Char(string = "Produit",compute="_compute_product")
-    billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable', 'Non facturable')], string="Facturation")
+    billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable', 'Non facturable'),('Non facturable interne', 'Non facturable interne')], string="Facturation")
     time = fields.Float(string = "Temps")
     consultant = fields.Many2one('res.users',string="Consultant")
     consultant_company_id = fields.Many2one("res.company",string="Société SINERGIS")
