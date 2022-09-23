@@ -29,7 +29,7 @@ class SaleOrder(models.Model):
             for line in self.order_line:
                 if line.product_id.is_training:
                     #Verify if the training does not exists
-                    if self.env['training'].search_count([('sale_id', '=', self.id)]) == 0 and self.env['training'].search_count([('sale_order_line_id', '=', line.id)]) == 0 :
+                    if self.env['training'].search_count(['&',('sale_id', '=', self.id),('sale_order_line_id', '=', line.id)]) == 0:
                         vals = {'sale_id': self.id,
                                 'sale_order_line_id': line.id,
                                 'name': 'FORMATION',
