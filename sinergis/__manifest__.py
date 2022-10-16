@@ -39,6 +39,7 @@
         'views/my_actions.xml',
         'report/report_helpdesk.xml',
         'report/report_calendar.xml',
+        'report/layout_devis_ventes.xml',
         'report/report_devis_ventes.xml',
         'report/report_myactions.xml',
         'report/report_timesheet.xml',
