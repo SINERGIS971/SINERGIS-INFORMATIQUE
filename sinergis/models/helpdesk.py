@@ -64,6 +64,8 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_has_contrat_heures = fields.Boolean(string="Le client a un contrat d'heures ?",compute="_compute_x_sinergis_helpdesk_ticket_has_contrat_heures")
 
+    x_sinergis_helpdesk_ticket_contrat_heures = fields.One2many('project.task',compute="_compute_x_sinergis_helpdesk_ticket_contrat_heures",readonly=True)
+
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
 
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
@@ -117,6 +119,14 @@ class HelpdeskTicket(models.Model):
                     rec.x_sinergis_helpdesk_ticket_has_contrat_heures = False
             else:
                 rec.x_sinergis_helpdesk_ticket_has_contrat_heures = False
+
+    @api.depends("x_sinergis_helpdesk_ticket_contrat_heures")
+    def _compute_x_sinergis_helpdesk_ticket_contrat_heures(self):
+        for task in self:
+            domain = []
+            domain.append(('name','ilike','HEURES'))
+            domain.append(('partner_id', '=', task.partner_id.id))
+            task.x_sinergis_helpdesk_ticket_taches = self.env["project.task"].search(domain)
 
 
     @api.onchange("user_id")

@@ -39,6 +39,7 @@ class MyActions(models.Model):
     is_billed = fields.Boolean(string="",compute="_compute_is_billed")
 
     #@api.model_cr
+    #[16/10/22] Helpdesk : Variable 'date' fixée à 'start_time' pour ne pas voir la date de création mais la date de traitement du ticket
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
         query = """
@@ -50,7 +51,7 @@ class MyActions(models.Model):
                     2*ht.id as id,
                     ht.id as link_id,
                     ht.name as name,
-                    ht.create_date as date,
+                    ht.x_sinergis_helpdesk_ticket_start_time as date,
                     ht.partner_id as client,
                     REPLACE(ht.x_sinergis_helpdesk_ticket_facturation,'heures','heure') as billing,
 
