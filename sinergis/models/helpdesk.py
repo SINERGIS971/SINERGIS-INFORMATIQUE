@@ -62,9 +62,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
 
-    x_sinergis_helpdesk_ticket_has_contrat_heures = fields.Boolean(string="Le client a un contrat d'heures ?",compute="_compute_x_sinergis_helpdesk_ticket_has_contrat_heures")
-
-    x_sinergis_helpdesk_ticket_contrat_heures = fields.One2many('project.task',compute="_compute_x_sinergis_helpdesk_ticket_contrat_heures",readonly=True)
+    x_sinergis_helpdesk_ticket_contrat_heures = fields.One2many(string="Contrats d'heures du client :",'project.task',compute="_compute_x_sinergis_helpdesk_ticket_contrat_heures",readonly=True)
 
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
 
@@ -109,24 +107,13 @@ class HelpdeskTicket(models.Model):
             else :
                 rec.x_sinergis_helpdesk_ticket_temps_cumule = rec.x_sinergis_helpdesk_ticket_temps_passe
 
-    @api.depends("x_sinergis_helpdesk_ticket_has_contrat_heures")
-    def _compute_x_sinergis_helpdesk_ticket_has_contrat_heures(self):
-        for rec in self:
-            if rec.partner_id:
-                if self.env["project.task"].search([('name','not ilike','HEURES'),('partner_id', '=', rec.partner_id.id)]):
-                    rec.x_sinergis_helpdesk_ticket_has_contrat_heures = True
-                else:
-                    rec.x_sinergis_helpdesk_ticket_has_contrat_heures = False
-            else:
-                rec.x_sinergis_helpdesk_ticket_has_contrat_heures = False
-
     @api.depends("x_sinergis_helpdesk_ticket_contrat_heures")
     def _compute_x_sinergis_helpdesk_ticket_contrat_heures(self):
         for task in self:
             domain = []
             domain.append(('name','ilike','HEURES'))
             domain.append(('partner_id', '=', task.partner_id.id))
-            task.x_sinergis_helpdesk_ticket_taches = self.env["project.task"].search(domain)
+            task.x_sinergis_helpdesk_ticket_contrat_heures = self.env["project.task"].search(domain)
 
 
     @api.onchange("user_id")
