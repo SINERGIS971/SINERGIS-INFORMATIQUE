@@ -62,7 +62,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
 
-    x_sinergis_helpdesk_ticket_contrat_heures = fields.One2many(string="Contrats d'heures du client :",'project.task',compute="_compute_x_sinergis_helpdesk_ticket_contrat_heures",readonly=True)
+    x_sinergis_helpdesk_ticket_contrat_heures = fields.One2many('project.task',compute="_compute_x_sinergis_helpdesk_ticket_contrat_heures",readonly=True,string="Contrats d'heures du client :")
 
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
 
