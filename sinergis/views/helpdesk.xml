@@ -151,9 +151,17 @@
                 <xpath expr="//form/sheet/group[1]" position="after">
                     <group>
                         <field name="description" class="field_description" placeholder="Description du problème..." string="Description du problème" required="True"/>
-                        <div>
-                          <field name="x_sinergis_helpdesk_ticket_contrat_heures"/>
-                        </div>
+                    </group>
+                    <group>
+                      <field name="x_sinergis_helpdesk_ticket_contrat_heures">
+                        <tree>
+                            <field name="project_id"/>
+                            <field name="name"/>
+                            <field name="planned_hours" string="Heures prévues" widget="float_time"/>
+                            <field name="effective_hours" widget="float_time"/>
+                            <field name="remaining_hours" widget="float_time"/>
+                        </tree>
+                      </field>
                     </group>
                         <br/>
                         <br/>
