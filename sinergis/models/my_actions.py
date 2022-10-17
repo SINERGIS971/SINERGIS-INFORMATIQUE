@@ -74,7 +74,7 @@ class MyActions(models.Model):
                     NULL as movement_country,
                     NULL as movement_area,
                     rp.country_id as country_id,
-                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='helpdesk' and bld.model_id=ht.id) > 0 THEN True else False END as is_billed,
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='helpdesk' and bld.model_id=ht.id) > 0 THEN True else False END as is_billed
                 FROM
                     helpdesk_ticket as ht
                 FULL JOIN
@@ -121,7 +121,7 @@ class MyActions(models.Model):
                     ce.x_sinergis_calendar_event_trip_movementcountry as movement_country,
                     ce.x_sinergis_calendar_event_trip_movementarea as movement_area,
                     rp.country_id as country_id,
-                    Case WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='calendar' and bld.model_id=ce.id) > 0 THEN True else False END as is_billed,
+                    Case WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='calendar' and bld.model_id=ce.id) > 0 THEN True else False END as is_billed
                 FROM
                     calendar_event as ce
                 FULL JOIN
