@@ -258,6 +258,11 @@ class CalendarEvent(models.Model):
         CalendarEvent.updateTasks(self)
         CalendarEvent.setTacheInformation(self)
 
+    @api.onchange("name")
+    def on_change_name (self):
+        if self.x_sinergis_calendar_event_object == self.name or self.name == "":
+            self.x_sinergis_calendar_event_object = self.name
+
     def setTacheInformation(self):
         if self.x_sinergis_calendar_event_tache :
             tache = self.x_sinergis_calendar_event_tache
