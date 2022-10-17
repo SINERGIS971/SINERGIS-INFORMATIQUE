@@ -1,0 +1,13 @@
+<!-- MODIFY THE CALENDAR VIEX -->
+<!-- 17/10/22 ADD BILLED INFORMATION -->
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<template xml:space="preserve" owl="1">
+    <t t-name="sinergis.calendar-box" t-inherit="Calendar.calendar-box" t-inherit-mode="extension">
+      <xpath expr="//t[@t-esc='record.display_name']" position="after">
+        <br/>
+        <i role="img" class="fa fa-check-circle-o" style="color:green;"><strong>FACTURÉ</strong></i>
+      </xpath>
+    </t>
+</template>

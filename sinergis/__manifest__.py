@@ -59,6 +59,7 @@
         'web.assets_qweb': [
             #'sinergis/static/src/xml/menu_company.xml',
             'sinergis/static/src/xml/help_button.xml',
+            'sinergis/static/src/xml/base_calendar.xml',
         ],
     },
 
