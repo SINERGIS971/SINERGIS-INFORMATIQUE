@@ -362,7 +362,7 @@ class HelpdeskTicket(models.Model):
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
     def write(self, values):
         user_id = self.user_id
-        if not self.env.user.has_group('group_helpdesk_admin'): #Si l'utilisateur n'est pas dans le groupe des administrateurs de tickets
+        if not self.env.user.has_group('sinergis.group_helpdesk_admin'): #Si l'utilisateur n'est pas dans le groupe des administrateurs de tickets
             if user_id != self.env.user and self.stage_id.name == "Résolu":
                 raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
         return super(HelpdeskTicket, self).write(values)
