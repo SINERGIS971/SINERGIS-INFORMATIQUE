@@ -10,3 +10,7 @@
       </xpath>
     </t>
 </template>
+
+<template id="assets_common" inherit_id="web.assets_common">
+    <xpath expr="script[@src='calendar/static/src/js/calendar_model.js']" position="replace"/>
+</template>
