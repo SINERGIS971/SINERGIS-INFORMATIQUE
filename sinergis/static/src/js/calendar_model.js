@@ -1,5 +1,8 @@
 /** @odoo-module alias=calendar.CalendarModel **/
 
+odoo.define("confirm_click_once", function (require) {
+"use strict";
+
     import Model from 'web.CalendarModel';
 
     const CalendarModel = Model.extend({
@@ -136,3 +139,4 @@
     });
 
     export default CalendarModel;
+});
