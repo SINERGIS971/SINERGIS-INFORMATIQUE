@@ -401,3 +401,9 @@ class CalendarEvent(models.Model):
     def x_sinergis_calendar_event_stop_time_button (self):
         self.x_sinergis_calendar_event_end_time = datetime.now()
         self.x_sinergis_calendar_duree_facturee = (self.x_sinergis_calendar_event_end_time - self.x_sinergis_calendar_event_start_time).total_seconds() / 3600
+
+    #RPC Functions
+
+    def get_x_sinergis_calendar_event_is_deducted(self, meeting_ids):
+        meeting = self.env['calendar.event'].browse(meeting_ids)[0]
+        return meeting.x_sinergis_calendar_event_is_deducted

@@ -3,9 +3,9 @@
 <template xml:space="preserve" owl="1">
     <t t-name="sinergis.calendar-box" t-inherit="calendar.Calendar.calendar-box" t-inherit-mode="extension">
       <xpath expr="//t[@t-esc='record.display_name']" position="after">
-        <t t-if="record.x_sinergis_calendar_event_is_facturee">
+        <t t-if="record.billed">
           <br/>
-          <i role="img" class="fa fa-check-circle-o" style="color:green;"><strong>FACTURÉ</strong></i>
+          <i role="img" class="fa fa-check-circle-o" style="color:green;"><t t-esc="record.billed"/><strong>FACTURÉ</strong></i>
         </t>
       </xpath>
     </t>
