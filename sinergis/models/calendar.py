@@ -262,6 +262,8 @@ class CalendarEvent(models.Model):
     def on_change_name (self):
         if self.x_sinergis_calendar_event_object == self.name or self.x_sinergis_calendar_event_object == False:
             self.x_sinergis_calendar_event_object = self.name
+        if self.x_sinergis_calendar_event_desc_intervention == self.name or self.x_sinergis_calendar_event_desc_intervention == False:
+            self.x_sinergis_calendar_event_desc_intervention = self.name
 
     def setTacheInformation(self):
         if self.x_sinergis_calendar_event_tache :
