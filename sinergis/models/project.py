@@ -117,3 +117,12 @@ class ProjectProject(models.Model):
     def on_change_tag_ids (self):
         if "ACOMPTE VERSE (A PLANIFIER)" in self.tag_ids.mapped('name'):
             self.x_sinergis_project_project_acompte_verse = True
+
+    def write(self, values):
+        #Si on change le responsable technique du projet, mettre les assignés des tâches associées au même utilisateur si la tâche n'a pas d'assigné.
+        if "x_sinergis_project_project_technical_manager" in values:
+            task_ids = self.env['project.task'].search([('project_id','=',self.id)])
+            for task in task_ids:
+                if not task.user_ids:
+                    task.user_ids = [(4,values["x_sinergis_project_project_technical_manager"])]
+        return super(ProjectProject, self).write(values)
