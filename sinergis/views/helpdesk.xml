@@ -110,6 +110,10 @@
                 <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#875053;color:white;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_douteux',  '=', False)]}">
                       Attention! Le client est <strong>douteux</strong>!.
                 </div>
+                <field name="x_sinergis_helpdesk_ticket_client_bloque" invisible="True"/>
+                <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#875053;color:white;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_bloque',  '=', False)]}">
+                      Attention! Le client est <strong>bloqué</strong>!.
+                </div>
               </xpath>
                 <xpath expr="//field[@name='team_id']" position="before">
                      <p attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}" style="color:green;font-weight:bold;text-align:center;border: solid 2px green;font-size:16px;">Intervention à planifier</p>

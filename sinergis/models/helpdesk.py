@@ -18,6 +18,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_planned_intervention_text = fields.Char(string=" ", compute="_compute_x_sinergis_helpdesk_ticket_planned_intervention_text")
 
     x_sinergis_helpdesk_ticket_client_douteux = fields.Boolean(related="partner_id.x_sinergis_societe_litige_douteux",default=False)
+    x_sinergis_helpdesk_ticket_client_bloque = fields.Boolean(related="partner_id.x_sinergis_societe_litige_bloque",default=False)
 
     #Colonne de gauche
     x_sinergis_helpdesk_ticket_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('DIVERS', 'DIVERS')], string="Produits")
