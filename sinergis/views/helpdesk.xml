@@ -59,6 +59,7 @@
             <field name="arch" type="xml">
                 <!-- Couleur orange lorsque le temps cumulé sur le ticket est supérieur à 1h00 -->
                 <xpath expr="//tree" position="attributes">
+                  <field name="x_sinergis_helpdesk_ticket_client_bloque" invisible="True"/>
                   <attribute name="decoration-warning">x_sinergis_helpdesk_ticket_temps_cumule>=1</attribute>
                   <attribute name="decoration-primary">x_sinergis_helpdesk_ticket_client_bloque==1</attribute>
                   <attribute name="decoration-bf">x_sinergis_helpdesk_ticket_client_bloque==1</attribute>
