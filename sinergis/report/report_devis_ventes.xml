@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<!-- Enregistrement des informations du rapport -->
-	<record id="sinergis_sale_order_devis" model="ir.actions.report">
+	<record id="sinergis_sale_order_devis_report" model="ir.actions.report">
 		<field name="name">Devis SINERGIS</field>
 		<field name="model">sale.order</field>
 		<field name="report_type">qweb-pdf</field>
