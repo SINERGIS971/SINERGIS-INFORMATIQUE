@@ -23,7 +23,7 @@ class ProjectTask(models.Model):
 
     #Onglet "SUIVI" -  Boutton télécharger la feuille de temps
     def print_timesheet_button(self):
-        self.env.ref('sinergis.sinergis_report_timesheet').report_action(self)
+        return self.env.ref('sinergis.sinergis_report_timesheet').report_action(self)
 
     @api.depends('x_sinergis_project_task_done')
     def _compute_x_sinergis_project_task_done (self):

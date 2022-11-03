@@ -55,7 +55,7 @@
                 <br/>
             </xpath>
 
-            <xpath expr="//field[@name='date_order']" position="after">
+            <xpath expr="//field[@name='pricelist_id']" position="before">
               <field name="x_sinergis_sale_order_product"/>
             </xpath>
 
