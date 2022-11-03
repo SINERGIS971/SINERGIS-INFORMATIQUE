@@ -190,6 +190,7 @@
                             <field name="remaining_hours" widget="float_time"/>
                             <field name="progress" widget="progressbar"/>
                             <field name="company_id"/>
+                            <button name="print_timesheet_button" string="Feuille de temps" class="oe_highlight" type="object"/>
                         </tree>
                       </field>
                 </page>

@@ -206,6 +206,10 @@ class ResPartner(models.Model):
         action['domain'] = ['|', ('id', 'in', self._compute_meeting()[self.id]), ('partner_ids', 'in', self.ids)]
         return action
 
+    #Onglet "SUIVI" -  Boutton télécharger la feuille de temps
+    def print_timesheet_button(self):
+        self.env.ref('sinergis.sinergis_report_timesheet').report_action(self))
+
     #Supprimer les contacts de la société
     def unlink (self):
         for societe in self:
