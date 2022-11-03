@@ -51,12 +51,9 @@
 
             <xpath expr="//field[@name='partner_invoice_id']" position="before">
                 <field name="x_sinergis_sale_order_contact" domain="[('parent_id','=',partner_id),('x_sinergis_societe_contact_inactive','=',False)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="x_sinergis_sale_order_product"/>
                 <br/>
                 <br/>
-            </xpath>
-
-            <xpath expr="//field[@name='pricelist_id']" position="before">
-              <field name="x_sinergis_sale_order_product"/>
             </xpath>
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
@@ -144,6 +141,7 @@
               <field name="x_sinergis_sale_order_amount_remaining" sum="Total restant à facturer" widget="monetary"/>
             </xpath>
             <xpath expr="//field[@name='state']" position="after">
+                <field name="x_sinergis_sale_order_product"/>
                 <field name="company_id" optional="show" readonly="1" on_change="1" can_create="true" can_write="true" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
             </xpath>
 
