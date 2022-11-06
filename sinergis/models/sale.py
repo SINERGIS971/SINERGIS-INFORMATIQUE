@@ -24,6 +24,8 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_product = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('DIVERS', 'DIVERS')], required=True, string="Produit")
 
+    x_sinergis_sale_order_projects_ended = fields.Boolean(string="Projets terminés", compute="_compute_x_sinergis_sale_order_projects_ended")
+
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
     @api.onchange('partner_shipping_id', 'partner_id', 'company_id')
     def onchange_partner_shipping_id(self):
@@ -105,6 +107,17 @@ class SaleOrder(models.Model):
         for rec in self:
             rec.x_sinergis_sale_order_amount_remaining = rec.amount_total - rec.x_sinergis_sale_order_amount_charged
 
+
+    @api.depends('x_sinergis_sale_order_projects_ended')
+    def _compute_x_sinergis_sale_order_projects_ended (self):
+        for rec in self:
+            project_ids = rec.env['project.project'].search([('sale_order_id', '=', rec.id)])
+            projectEnded = True
+            for project_id in project_ids:
+                if project_id.x_sinergis_project_project_etat_projet != "Projet terminé":
+                    projectEnded = False
+            rec.x_sinergis_sale_order_projects_ended = projectEnded
+
     @api.onchange("order_line")
     def on_change_order_line(self):
         for line in self.order_line:
@@ -135,7 +148,7 @@ class SaleOrder(models.Model):
 
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
     payment_term_id = fields.Many2one(
-        'account.payment.term', string='Payment Terms', check_company=True,domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",default=lambda self: self.env['account.payment.term'].search([('name','ilike',"100% des logiciels")]))
+        'account.payment.term', string='Payment Terms', check_company=True,domain="[ ('company_id', '=', False), ('company_id', '=', company_id)]",default=lambda self: self.env['account.payment.term'].search([('name','ilike',"100% des logiciels")]))
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"

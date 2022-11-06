@@ -115,7 +115,7 @@
                 </div>
                 <field name="x_sinergis_helpdesk_ticket_client_bloque" invisible="True"/>
                 <div class="alert alert-info" role="alert" style="height: 80px; margin-bottom:0px;background-color:#875053;color:white;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_bloque',  '=', False)]}">
-                      Le client est bloqué pour la raison suivante : <field name="x_sinergis_helpdesk_ticket_client_bloque_remarques"/>. Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.
+                      Le client est bloqué pour la raison suivante : <field name="x_sinergis_helpdesk_ticket_client_bloque_remarques"/>Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.
                 </div>
               </xpath>
                 <xpath expr="//field[@name='team_id']" position="before">
