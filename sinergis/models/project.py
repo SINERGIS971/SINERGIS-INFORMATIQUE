@@ -18,8 +18,10 @@ class ProjectTask(models.Model):
     #Tags lié au projet
     x_sinergis_project_task_tag_ids = fields.Many2many(related="project_id.tag_ids", string="Tags du projet")
 
-
     x_sinergis_project_task_planned_hours = fields.Float(compute="_compute_x_sinergis_project_task_planned_hours")
+
+    x_sinergis_project_task_first_date = fields.Datetime(compute="_compute_x_sinergis_project_task_first_date")
+    x_sinergis_project_task_first_date_user_id = fields.Many2one("res.users", compute="_compute_x_sinergis_project_task_first_date_user_id")
 
     #Onglet "SUIVI" -  Boutton télécharger la feuille de temps
     def print_timesheet_button(self):
@@ -65,6 +67,26 @@ class ProjectTask(models.Model):
     def _compute_x_sinergis_project_task_planned_hours (self):
         for rec in self:
             rec.x_sinergis_project_task_planned_hours = sum(rec.env['calendar.event'].search(['|',('x_sinergis_calendar_event_tache', '=', rec.id),('x_sinergis_calendar_event_tache2', '=', rec.id)]).mapped('duration'))
+
+    @api.depends('x_sinergis_project_task_first_date')
+    def _compute_x_sinergis_project_task_first_date (self):
+        for rec in self:
+            firstDate = rec.env['calendar.event'].search(['|',('x_sinergis_calendar_event_tache', '=', rec.id),('x_sinergis_calendar_event_tache2', '=', rec.id)], order='start asc')
+            if firstDate :
+                rec.x_sinergis_project_task_first_date = firstDate[0]
+            else:
+                rec.x_sinergis_project_task_first_date = False
+
+    @api.depends('x_sinergis_project_task_first_date_user_id')
+    def _compute_x_sinergis_project_task_first_date_user_id (self):
+        for rec in self:
+            firstDate = rec.env['calendar.event'].search(['|',('x_sinergis_calendar_event_tache', '=', rec.id),('x_sinergis_calendar_event_tache2', '=', rec.id)], order='start asc')
+            if firstDate :
+                rec.x_sinergis_project_task_first_date_user_id = firstDate[0].user_id
+            else:
+                rec.x_sinergis_project_task_first_date_user_id = False
+
+
 
     @api.onchange("x_sinergis_project_task_etat_tache")
     def on_change_x_sinergis_project_task_etat_tache(self):
