@@ -59,6 +59,8 @@
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <field name="x_sinergis_sale_order_amount_remaining" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}">
+                <p>Attention: Si vous indiquez que l'acompte est versé (ou non versé) alors l'acompte sur chacun des projets du devis sera marqué comme versé (ou non versé).</p>
             </xpath>
 
             <xpath expr="//field[@name='user_id']" position="after">
