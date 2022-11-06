@@ -367,6 +367,8 @@ class HelpdeskTicket(models.Model):
         if not self.env.user.has_group('sinergis.group_helpdesk_admin'): #Si l'utilisateur n'est pas dans le groupe des administrateurs de tickets
             if user_id != self.env.user and self.stage_id.name == "Résolu":
                 raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
+            if self.x_sinergis_helpdesk_ticket_client_bloque :
+                raise ValidationError("Vous ne pouvez pas modifier le ticket d'un client bloqué. Merci de contacter un commercial ou un administrateur des tickets.")
         return super(HelpdeskTicket, self).write(values)
 
     #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
