@@ -1,6 +1,17 @@
 <odoo>
   <data>
 
+    <record id="sinergis_inherited_sale_order_list_select" model="ir.ui.view">
+        <field name="name">sinergis.inherited.sale.order.list.select</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+          <xpath expr="//filter[@name='order_month']" position="after">
+          <separator/>
+          <filter string="Produit" name="group_by_product" context="{'group_by':'x_sinergis_sale_order_product'}"/>
+        </field>
+    </record>
+
     <record id="sinergis_inherited_saler_order" model="ir.ui.view">
         <field name="name">sinergis.inherited.sale.order</field>
         <field name="model">sale.order</field>

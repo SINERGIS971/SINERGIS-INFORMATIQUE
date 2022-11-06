@@ -143,7 +143,7 @@ class SaleOrder(models.Model):
 
     @api.onchange("x_sinergis_sale_order_acompte_verse")
     def on_change_x_sinergis_sale_order_acompte_verse (self):
-        project_ids = self.env['project.project'].search([('sale_order_id', '=', rec.id)])
+        project_ids = self.env['project.project'].search([('sale_order_id', '=', self.id)])
         for project_id in project_ids:
             project_id.x_sinergis_project_project_acompte_verse = self.x_sinergis_sale_order_acompte_verse
 
