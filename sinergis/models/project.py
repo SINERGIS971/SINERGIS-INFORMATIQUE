@@ -73,7 +73,7 @@ class ProjectTask(models.Model):
         for rec in self:
             firstDate = rec.env['calendar.event'].search(['|',('x_sinergis_calendar_event_tache', '=', rec.id),('x_sinergis_calendar_event_tache2', '=', rec.id)], order='start asc')
             if firstDate :
-                rec.x_sinergis_project_task_first_date = firstDate[0]
+                rec.x_sinergis_project_task_first_date = firstDate[0].start
             else:
                 rec.x_sinergis_project_task_first_date = False
 
