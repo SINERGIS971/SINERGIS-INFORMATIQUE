@@ -90,9 +90,10 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@class='o_kanban_record_headings']" position="inside">
               <br/>
+              <br/>
               <div t-if="record.x_sinergis_project_task_first_date.raw_value">Première date : <field name="x_sinergis_project_task_first_date" widget="date"/><br/></div>
               <div t-if="record.x_sinergis_project_task_first_date.raw_value">Par : <field name="x_sinergis_project_task_first_date_user_id"/><br/></div>
-
+              <br/>
               <div t-if="record.x_sinergis_project_task_planned_hours.raw_value">Temps planifié : <field name="x_sinergis_project_task_planned_hours" widget="timesheet_uom"/></div>
             </xpath>
             <xpath expr="//field[@name='tag_ids']" position="after">

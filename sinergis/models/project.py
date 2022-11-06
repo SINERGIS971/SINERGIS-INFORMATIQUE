@@ -20,7 +20,9 @@ class ProjectTask(models.Model):
 
     x_sinergis_project_task_planned_hours = fields.Float(compute="_compute_x_sinergis_project_task_planned_hours")
 
+    #Date du premier évènement du calendrier associé à la tâche
     x_sinergis_project_task_first_date = fields.Datetime(compute="_compute_x_sinergis_project_task_first_date")
+    #Employé du premier évènement du calendrier associé à la tâche
     x_sinergis_project_task_first_date_user_id = fields.Many2one("res.users", compute="_compute_x_sinergis_project_task_first_date_user_id")
 
     #Onglet "SUIVI" -  Boutton télécharger la feuille de temps
