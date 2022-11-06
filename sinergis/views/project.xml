@@ -208,6 +208,7 @@
             </xpath>
             <xpath expr="//field[@name='unit_amount']" position="after">
                 <field name="x_sinergis_account_analytic_line_ticket_id"/>
+                <field name="x_sinergis_account_analytic_line_event_id"/>
             </xpath>
 
             <!-- FEUILLE DE TEMPS PAR DEFAUT -->
