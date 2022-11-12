@@ -8,7 +8,7 @@ import logging
 from werkzeug import urls
 
 from odoo import fields
-from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_event import MicrosoftEvent
+from odoo.addons.microsoft_calendar.utils.microsoft_event import MicrosoftEvent
 from odoo.addons.microsoft_account.models.microsoft_service import TIMEOUT, RESOURCE_NOT_FOUND_STATUSES
 
 _logger = logging.getLogger(__name__)
@@ -57,7 +57,7 @@ class MicrosoftCalendarService():
         }
         if not params:
             params = {
-                'startDateTime': fields.Datetime.now().strftime("%Y-%m-%dT00:00:00Z"), #START DATE CHANGE : YEARS 2 TO 0
+                'startDateTime': fields.Datetime.subtract(fields.Datetime.now(), years=2).strftime("%Y-%m-%dT00:00:00Z"),
                 'endDateTime': fields.Datetime.add(fields.Datetime.now(), years=2).strftime("%Y-%m-%dT00:00:00Z"),
             }
 
