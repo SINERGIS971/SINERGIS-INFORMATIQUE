@@ -57,7 +57,7 @@ class MicrosoftCalendarService():
         }
         if not params:
             params = {
-                'startDateTime': fields.Datetime.subtract(fields.Datetime.now(), years=0).strftime("%Y-%m-%dT00:00:00Z"), #START DATE CHANGE : YEARS 2 TO 0
+                'startDateTime': fields.Datetime.now().strftime("%Y-%m-%dT00:00:00Z"), #START DATE CHANGE : YEARS 2 TO 0
                 'endDateTime': fields.Datetime.add(fields.Datetime.now(), years=2).strftime("%Y-%m-%dT00:00:00Z"),
             }
 
