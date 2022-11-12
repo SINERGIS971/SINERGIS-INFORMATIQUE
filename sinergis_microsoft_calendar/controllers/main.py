@@ -7,7 +7,7 @@ from odoo.http import request
 
 class MicrosoftCalendarController(http.Controller):
 
-    @http.route('/microsoft_calendar/sync_data', type='json', auth='user')
+    @http.route('/sinergis_microsoft_calendar/sync_data', type='json', auth='user')
     def sync_data(self, model, **kw):
         """ This route/function is called when we want to synchronize Odoo
             calendar with Microsoft Calendar.

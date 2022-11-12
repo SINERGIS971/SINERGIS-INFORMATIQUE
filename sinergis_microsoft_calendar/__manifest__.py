@@ -6,7 +6,7 @@
     'version': '1.0',
     'category': 'Productivity',
     'description': "",
-    'depends': ['sinergis_microsoft_account', 'calendar'],
+    'depends': ['microsoft_account', 'calendar'],
     'data': [
         'data/microsoft_calendar_data.xml',
         'security/ir.model.access.csv',

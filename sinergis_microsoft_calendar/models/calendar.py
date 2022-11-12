@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import is_html_empty, email_normalize
-from odoo.addons.microsoft_calendar.utils.event_id_storage import combine_ids
+from odoo.addons.sinergis_microsoft_calendar.utils.event_id_storage import combine_ids
 
 ATTENDEE_CONVERTER_O2M = {
     'needsAction': 'notresponded',
@@ -124,7 +124,7 @@ class Meeting(models.Model):
     def _get_microsoft_sync_domain(self):
         # in case of full sync, limit to a range of 1y in past and 1y in the future by default
         ICP = self.env['ir.config_parameter'].sudo()
-        day_range = int(ICP.get_param('microsoft_calendar.sync.range_days', default=365))
+        day_range = int(ICP.get_param('sinergis_microsoft_calendar.sync.range_days', default=365))
         lower_bound = fields.Datetime.subtract(fields.Datetime.now(), days=day_range)
         upper_bound = fields.Datetime.add(fields.Datetime.now(), days=day_range)
         return [
@@ -314,7 +314,7 @@ class Meeting(models.Model):
         if not fields_to_sync:
             return values
 
-        microsoft_guid = self.env['ir.config_parameter'].sudo().get_param('microsoft_calendar.microsoft_guid', False)
+        microsoft_guid = self.env['ir.config_parameter'].sudo().get_param('sinergis_microsoft_calendar.microsoft_guid', False)
 
         if self.microsoft_recurrence_master_id and 'type' not in values:
             values['seriesMasterId'] = self.microsoft_recurrence_master_id

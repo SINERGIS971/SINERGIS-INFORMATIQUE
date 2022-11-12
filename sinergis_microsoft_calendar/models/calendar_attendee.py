@@ -3,8 +3,8 @@
 
 from odoo import models
 
-from odoo.addons.microsoft_calendar.models.microsoft_sync import microsoft_calendar_token
-from odoo.addons.microsoft_calendar.utils.microsoft_calendar import MicrosoftCalendarService
+from odoo.addons.sinergis_microsoft_calendar.models.microsoft_sync import microsoft_calendar_token
+from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_calendar import MicrosoftCalendarService
 
 
 class Attendee(models.Model):

@@ -12,9 +12,9 @@ from odoo.tools import ormcache_context
 from odoo.exceptions import UserError
 from odoo.osv import expression
 
-from odoo.addons.microsoft_calendar.utils.microsoft_event import MicrosoftEvent
-from odoo.addons.microsoft_calendar.utils.microsoft_calendar import MicrosoftCalendarService
-from odoo.addons.microsoft_calendar.utils.event_id_storage import IDS_SEPARATOR, combine_ids, split_ids
+from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_event import MicrosoftEvent
+from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_calendar import MicrosoftCalendarService
+from odoo.addons.sinergis_microsoft_calendar.utils.event_id_storage import IDS_SEPARATOR, combine_ids, split_ids
 from odoo.addons.microsoft_account.models.microsoft_service import TIMEOUT
 
 _logger = logging.getLogger(__name__)
