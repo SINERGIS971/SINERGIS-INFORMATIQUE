@@ -1,9 +1,9 @@
 from unittest.mock import patch
 
-from odoo.addons.microsoft_calendar.utils.microsoft_calendar import MicrosoftCalendarService
-from odoo.addons.microsoft_calendar.utils.microsoft_event import MicrosoftEvent
-from odoo.addons.microsoft_calendar.models.res_users import User
-from odoo.addons.microsoft_calendar.tests.common import TestCommon, mock_get_token
+from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_calendar import MicrosoftCalendarService
+from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_event import MicrosoftEvent
+from odoo.addons.sinergis_microsoft_calendar.models.res_users import User
+from odoo.addons.sinergis_microsoft_calendar.tests.common import TestCommon, mock_get_token
 from odoo.exceptions import ValidationError
 
 @patch.object(User, '_get_microsoft_calendar_token', mock_get_token)

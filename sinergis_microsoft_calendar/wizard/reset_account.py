@@ -3,7 +3,7 @@
 
 from odoo import fields, models
 
-from odoo.addons.microsoft_calendar.models.microsoft_sync import microsoft_calendar_token
+from odoo.addons.sinergis_microsoft_calendar.models.microsoft_sync import microsoft_calendar_token
 
 
 class ResetMicrosoftAccount(models.TransientModel):

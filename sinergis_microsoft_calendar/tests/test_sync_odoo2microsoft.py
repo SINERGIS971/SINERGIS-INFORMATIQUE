@@ -6,9 +6,9 @@ from dateutil.relativedelta import relativedelta
 from unittest.mock import MagicMock, patch
 
 from odoo.tests.common import TransactionCase
-from odoo.addons.microsoft_calendar.utils.microsoft_calendar import MicrosoftCalendarService
-from odoo.addons.microsoft_calendar.models.res_users import User
-from odoo.addons.microsoft_calendar.models.microsoft_sync import MicrosoftSync
+from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_calendar import MicrosoftCalendarService
+from odoo.addons.sinergis_microsoft_calendar.models.res_users import User
+from odoo.addons.sinergis_microsoft_calendar.models.microsoft_sync import MicrosoftSync
 from odoo.modules.registry import Registry
 from odoo.addons.microsoft_account.models.microsoft_service import TIMEOUT
 

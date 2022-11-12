@@ -5,8 +5,8 @@ from unittest.mock import patch, MagicMock
 
 from odoo.tests.common import HttpCase
 
-from odoo.addons.microsoft_calendar.models.microsoft_sync import MicrosoftSync
-from odoo.addons.microsoft_calendar.utils.event_id_storage import combine_ids
+from odoo.addons.sinergis_microsoft_calendar.models.microsoft_sync import MicrosoftSync
+from odoo.addons.sinergis_microsoft_calendar.utils.event_id_storage import combine_ids
 
 def mock_get_token(user):
     return f"TOKEN_FOR_USER_{user.id}"
@@ -422,6 +422,18 @@ class TestCommon(HttpCase):
                     microsoft_id=combine_ids("123", "456"),
                 )
             )
+
+        # a group of events
+        self.several_events = self.env["calendar.event"].search([("name", "like", "event%")])
+        if not self.several_events:
+            self.several_events = self.env["calendar.event"].with_user(self.organizer_user).create([
+                dict(
+                    self.simple_event_values,
+                    name=f"event{i}",
+                    microsoft_id=combine_ids(f"e{i}", f"u{i}"),
+                )
+                for i in range(1, 4)
+            ])
 
         # a recurrent event with 7 occurrences
         self.recurrent_base_event = self.env["calendar.event"].search(

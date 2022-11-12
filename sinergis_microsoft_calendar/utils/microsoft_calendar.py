@@ -8,7 +8,7 @@ import logging
 from werkzeug import urls
 
 from odoo import fields
-from odoo.addons.microsoft_calendar.utils.microsoft_event import MicrosoftEvent
+from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_event import MicrosoftEvent
 from odoo.addons.microsoft_account.models.microsoft_service import TIMEOUT, RESOURCE_NOT_FOUND_STATUSES
 
 _logger = logging.getLogger(__name__)

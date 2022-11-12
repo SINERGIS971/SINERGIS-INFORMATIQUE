@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo.addons.microsoft_calendar.utils.microsoft_calendar import MicrosoftCalendarService, MicrosoftEvent
+from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_calendar import MicrosoftCalendarService, MicrosoftEvent
 from odoo.exceptions import ValidationError
 import pytz
 from datetime import datetime, date

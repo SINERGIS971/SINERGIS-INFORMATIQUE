@@ -1,5 +1,5 @@
-from odoo.addons.microsoft_calendar.utils.microsoft_event import MicrosoftEvent
-from odoo.addons.microsoft_calendar.tests.common import TestCommon, patch_api
+from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_event import MicrosoftEvent
+from odoo.addons.sinergis_microsoft_calendar.tests.common import TestCommon, patch_api
 
 class TestMicrosoftEvent(TestCommon):
 
