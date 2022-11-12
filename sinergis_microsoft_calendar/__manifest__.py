@@ -6,7 +6,7 @@
     'version': '1.0',
     'category': 'Productivity',
     'description': "",
-    'depends': ['microsoft_account', 'calendar'],
+    'depends': ['sinergis_microsoft_account', 'calendar'],
     'data': [
         'data/microsoft_calendar_data.xml',
         'security/ir.model.access.csv',
@@ -21,12 +21,12 @@
     'post_init_hook': 'init_initiating_microsoft_uuid',
     'assets': {
         'web.assets_backend': [
-            'microsoft_calendar/static/src/js/microsoft_calendar_popover.js',
-            'microsoft_calendar/static/src/js/microsoft_calendar.js',
-            'microsoft_calendar/static/src/scss/microsoft_calendar.scss',
+            'sinergis_microsoft_calendar/static/src/js/microsoft_calendar_popover.js',
+            'sinergis_microsoft_calendar/static/src/js/microsoft_calendar.js',
+            'sinergis_microsoft_calendar/static/src/scss/microsoft_calendar.scss',
         ],
         'web.assets_qweb': [
-            'microsoft_calendar/static/src/xml/*.xml',
+            'sinergis_microsoft_calendar/static/src/xml/*.xml',
         ],
     },
     'license': 'LGPL-3',
