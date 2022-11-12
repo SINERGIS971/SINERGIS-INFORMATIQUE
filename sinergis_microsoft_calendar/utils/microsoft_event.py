@@ -3,7 +3,7 @@
 from odoo.api import model
 from typing import Iterator, Mapping
 from collections import abc
-from odoo.addons.microsoft_calendar.utils.event_id_storage import combine_ids
+from odoo.addons.sinergis_microsoft_calendar.utils.event_id_storage import combine_ids
 
 
 class MicrosoftEvent(abc.Set):
