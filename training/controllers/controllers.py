@@ -17,10 +17,10 @@ class Training(http.Controller):
             return ("Nous n'avions pas réussi à vous authentifier, veuillez contacter Sinergis.")
         #Vérification du type de quiz
         TrainingQuiz = http.request.env['training.quiz']
-        if participant:
+        if participant:  # Si plusieurs participants peuvent accéder au même quiz
             training_id = participant.training_id
             training_plan_id = participant.training_id.type_product_plan_id
-        elif training:
+        elif training:  # Si c'est un quiz de formation non destiné à chaque participant
             training_id = training
             training_plan_id = training_id.type_product_plan_id
 
@@ -49,7 +49,7 @@ class Training(http.Controller):
                         "message": "Vous avez déjà rempli ce questionnaire"
                     })
                 if training_plan_id:
-                    training_quiz = TrainingQuiz.search([('training_type_product_plan', '=', training_plan_id.id),('quiz_type', '=', 'positioning')])
+                    training_quiz = TrainingQuiz.search([('quiz_type', '=', 'positioning')])
                     if training_quiz:
                         return http.request.render("training.quiz_page", {
                             "token" : token,
@@ -184,6 +184,10 @@ class Training(http.Controller):
                         "message": "Vous avez déjà rempli ce questionnaire"
                     })
         questions = http.request.env['training.quiz.questions'].search([('id', '=', list(kw.keys()))])
+        #Score variables
+        total_answers = 0
+        right_answers = 0
+
         i = 0
         for question in questions:
             questions_name.append(question.name)
@@ -197,7 +201,11 @@ class Training(http.Controller):
                             'multiple_choice_id': question_choice.id
                             }
                     http.request.env['training.quiz.questions.multiple_choice.record'].sudo().create(vals)
-                    print("RECORD!")
+                    question_right_answers = http.request.env['training.quiz.questions.multiple_choice'].search(['&',('question_id', '=',question.id),('right_answer','=',True)])
+                    if question_right_answers :  # If question have right answer
+                        total_answers += 1  # Increment the number of rated answers answered
+                        if question_choice.right_answer == True :
+                            right_answers += 1  # If it's a good answer : Add 1 to score
             i += 1
 
         if (len(questions_name) != len(questions_answer)):
@@ -211,6 +219,9 @@ class Training(http.Controller):
             questions_answer[i] = TAG_RE.sub('', questions_answer[i])
             body += "<tr style='margin-top:10px;'><td style='border: 1px solid;'>"+questions_name[i]+"</td><td style='border: 1px solid;'>"+questions_answer[i]+"</td></tr>"
         body+="</table>"
+        if total_answers != 0 :  # If the quiz have rated answers
+            mark = right_answers/total_answers * 20
+            body += f"<p>Note aux réponses : {mark}/20</p>"
 
         if participant: #Si c'est une réponse d'un participant
             if participant.token_quiz_diagnostic == token: #C'est un quiz diagnostic

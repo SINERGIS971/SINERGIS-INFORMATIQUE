@@ -4,6 +4,8 @@ from datetime import date
 import secrets
 import base64
 
+# We write "Specificity for Sinergis" if the line is only adapted and functional with the sinergis module
+
 #Pour le téléchargement de tous les documents
 import os, shutil
 
@@ -32,6 +34,7 @@ class Training(models.Model):
     type_id = fields.Many2one("training.type", string="Type de formation")
     type_product_id = fields.Many2one("training.type.product", string="Produit")
     type_product_plan_id = fields.Many2one("training.type.product.plan",string="Plan de formation")
+    diagnosis_file = fields.Binary(string="Diagnostic initial")
     opco_id = fields.Many2one("training.opco", string="OPCO")
     opco_file = fields.Binary(string="Document OPCO")
     training_participants = fields.One2many("training.participants","training_id",string="Participants à la formation")
@@ -48,6 +51,11 @@ class Training(models.Model):
     #Consultant part
 
     consultant_id = fields.Many2one("res.users",string='Consultant')
+    location_street = fields.Char(string='Rue')
+    location_street2 = fields.Char(string='Rue 2')
+    location_city = fields.Char(string='Ville')
+    location_zip = fields.Char(string='Code postal')
+    location_country_id = fields.Many2one('res.country',string='Pays')
     remote_learning = fields.Boolean(string='Formation à distance ?', default=False)
     remote_learning_link = fields.Char(string="Lien de la formation")
     planned_hours_ids = fields.One2many("calendar.event","training_id",string="Heures de formation planifiées",readonly=True)
@@ -84,6 +92,15 @@ class Training(models.Model):
     @api.onchange("type_product_id")
     def on_change_type_product_id(self):
         self.type_product_plan_id = False
+
+    @api.onchange("company_id")
+    def on_change_company_id(self):
+        if self.location_street == False and self.company_id != False:
+            self.location_street = self.company_id.street
+            self.location_street2 = self.company_id.street2
+            self.location_city = self.company_id.city
+            self.location_zip = self.company_id.zip
+            self.location_country_id = self.company_id.country_id
 
     @api.depends('delayed_assessment_received')
     def _compute_delayed_assessment_received (self):
@@ -137,6 +154,8 @@ class Training(models.Model):
                 missing_elements.append("Produit")
             if not self.type_product_plan_id :
                 missing_elements.append("Plan de formation")
+            if not self.diagnosis_file :
+                missing_elements.append("Diagnostic initial")
             if not self.course_title :
                 missing_elements.append("Intitulé du stage")
             if not self.location :
@@ -153,6 +172,14 @@ class Training(models.Model):
                 missing_elements.append("Consultant")
             if not self.remote_learning_link and self.remote_learning == True :
                 missing_elements.append("Lien de la formation")
+            if not self.location_street :
+                missing_elements.append("Adresse de localisation (Rue)")
+            if not self.location_city :
+                missing_elements.append("Adresse de localisation (Ville)")
+            if not self.location_zip :
+                missing_elements.append("Adresse de localisation (Code Postal)")
+            if not self.location_country_id :
+                missing_elements.append("Adresse de localisation (Pays)")
             if not self.planned_hours_ids :
                 missing_elements.append("Heures de formation planifiées")
 
@@ -207,7 +234,23 @@ class Training(models.Model):
         self.state = "training_ended"
 
     def button_download_attendance_sheet (self):
-        return self.env.ref('training.training_attendance_sheet_report').report_action(self)
+        if Training.verification_training_attendance_sheet(self):
+            return self.env.ref('training.training_attendance_sheet_report').report_action(self)
+
+    def verification_training_attendance_sheet(self):
+        missing_elements = []
+        if not self.company_id :
+            missing_elements.append("Société SINERGIS")
+        if not self.start :
+            missing_elements.append("Début de la formation")
+        if not self.end :
+            missing_elements.append("Fin de la formation")
+        if not self.consultant_id :
+            missing_elements.append("Consultant")
+        if len(missing_elements) != 0 :
+            raise ValidationError("Il vous manque les éléments suivants : "+', '.join(missing_elements)+" pour générer la feuille d'émargement")
+        else :
+            return True
 
     #Button box
 
@@ -242,6 +285,8 @@ class Training(models.Model):
             missing_elements.append("Participants à la formation")
         if not self.course_title :
             missing_elements.append("Intitulé du stage")
+        if not self.location :
+            missing_elements.append("Localisation de la formation")
         if not self.start :
             missing_elements.append("Début de la formation")
         if not self.end :
@@ -304,12 +349,14 @@ class Training(models.Model):
                 'default_res_id': self.id,
                 'default_res_model': "training",
                 'default_name': "Formation - " + self.partner_id.name,
+                'default_x_sinergis_calendar_event_client': self.partner_id.id, # Specificity for Sinergis
+                'x_sinergis_calendar_event_contact': self.partner_manager_id.id, # Specificity for Sinergis
                 'default_is_training': True,
                 'default_training_id': self.id,
             }
             return action
         else:
-            raise ValidationError("Veuillez enrer un client avant de planifier des heures")
+            raise ValidationError("Veuillez entrer un client avant de planifier des heures")
     def send_invitation_participants(self):
         if Training.verifiation_fields(self):
             for participant in self.training_participants:
@@ -338,7 +385,7 @@ class Training(models.Model):
                 if self.partner_manager_id.email:
                     if not self.token_delayed_assessment:
                         self.token_delayed_assessment = "dela-"+str(self.id)+secrets.token_urlsafe(40)
-                    base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                    base_url = self.env['ir.config_parameter'].get_param('web.base.url')
                     template_id = self.env.ref('training.training_delayed_assessment_mail').id
                     self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                     self.delayed_assessment_sent = True
@@ -349,7 +396,7 @@ class Training(models.Model):
                 if self.opco_id.email:
                     if not self.token_opco_quiz:
                         self.token_opco_quiz = "dela-"+str(self.id)+secrets.token_urlsafe(40)
-                    base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                    base_url = self.env['ir.config_parameter'].get_param('web.base.url')
                     template_id = self.env.ref('training.training_opco_quiz_mail').id
                     self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                     self.opco_quiz_sent = True
@@ -471,6 +518,8 @@ class TrainingParticipants(models.Model):
         if Training.verifiation_fields(self.training_id):
             if not self.training_id.planned_hours_ids :
                 raise ValidationError("Veuillez planifier des heures avant d'envoyer les invitations.")
+            if not self.training_id.location_street or not self.training_id.location_city or not self.training_id.location_zip or not self.training_id.location_country_id:
+                raise ValidationError("Veuillez remplir entièrement l'adresse de localisation avant d'envoyer les invitations.")
             if self.email:
                 #Create the diagnostic quiz token
                 if not self.token_quiz_positioning:
@@ -486,7 +535,7 @@ class TrainingParticipants(models.Model):
                 attach_id = attach_obj.create(attach_data)
                 attachment_ids.append(attach_id.id)
                 values = {'attachment_ids':attachment_ids}
-                base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                base_url = self.env['ir.config_parameter'].get_param('web.base.url')
 
                 if self.training_id.remote_learning:
                     template_id = self.env.ref('training.training_invitation_mail_remote').id
@@ -502,7 +551,7 @@ class TrainingParticipants(models.Model):
             if self.email:
                 if not self.token_quiz_diagnostic:
                     self.token_quiz_diagnostic = "diag-"+str(self.id)+secrets.token_urlsafe(40)
-                base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                base_url = self.env['ir.config_parameter'].get_param('web.base.url')
                 template_id = self.env.ref('training.training_diagnostic_quiz_mail').id
                 self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                 self.diagnostic_quiz_sent = True
@@ -518,7 +567,7 @@ class TrainingParticipants(models.Model):
                     self.token_quiz_prior_learning = "prio-"+str(self.id)+secrets.token_urlsafe(40)
                 if not self.token_quiz_training_evaluation:
                     self.token_quiz_training_evaluation = "eval-"+str(self.id)+secrets.token_urlsafe(40)
-                base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                base_url = self.env['ir.config_parameter'].get_param('web.base.url')
                 template_id = self.env.ref('training.training_ended_quiz_mail').id
                 self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                 self.training_ended_sent = True

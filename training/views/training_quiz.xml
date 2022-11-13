@@ -28,6 +28,7 @@
                         <field name="choice_ids" attrs="{'invisible': [('type',  '!=', 'multiple_choice')]}">
                           <tree>
                             <field name="name"/>
+                            <field name="right_answer"/>
                             <field name="actual_month_count"/>
                             <field name="last_month_count"/>
                             <field name="actual_year_count"/>
@@ -35,6 +36,7 @@
                           <form>
                             <group>
                             <field name="name" required="True"/>
+                            <field name="right_answer"/>
                             <field name="actual_month_count" readonly="True"/>
                             <field name="last_month_count" readonly="True"/>
                             <field name="actual_year_count" readonly="True"/>
@@ -49,9 +51,9 @@
                   </group>
                 </form>
               </field>
-              <field name="training_type_id" attrs="{'invisible': ['|','|',('quiz_type',  '=', 'training_evaluation'),('quiz_type',  '=', 'delayed_assessment'),('quiz_type',  '=', 'opco')], 'required': ['&amp;','&amp;',('quiz_type',  '!=', 'training_evaluation'),('quiz_type',  '!=', 'delayed_assessment'),('quiz_type',  '!=', 'opco')]}"/>
-              <field name="training_type_product" attrs="{'readonly': [('training_type_id',  '=', False)], 'invisible': ['|','|',('quiz_type',  '=', 'training_evaluation'),('quiz_type',  '=', 'delayed_assessment'),('quiz_type',  '=', 'opco')], 'required': ['&amp;','&amp;',('quiz_type',  '!=', 'training_evaluation'),('quiz_type',  '!=', 'delayed_assessment'),('quiz_type',  '!=', 'opco')]}" domain="[('type_id','=',training_type_id)]"/>
-              <field name="training_type_product_plan" attrs="{'readonly': [('training_type_product',  '=', False)], 'invisible': ['|','|',('quiz_type',  '=', 'training_evaluation'),('quiz_type',  '=', 'delayed_assessment'),('quiz_type',  '=', 'opco')], 'required': ['&amp;','&amp;',('quiz_type',  '!=', 'training_evaluation'),('quiz_type',  '!=', 'delayed_assessment'),('quiz_type',  '!=', 'opco')]}" domain="['&amp;',('type_id','=',training_type_id),('product_id','=',training_type_product)]"/>
+              <field name="training_type_id" attrs="{'invisible': ['|','|','|',('quiz_type',  '=', 'positioning'),('quiz_type',  '=', 'training_evaluation'),('quiz_type',  '=', 'delayed_assessment'),('quiz_type',  '=', 'opco')], 'required': ['&amp;','&amp;',('quiz_type',  '!=', 'training_evaluation'),('quiz_type',  '!=', 'delayed_assessment'),('quiz_type',  '!=', 'opco')]}"/>
+              <field name="training_type_product" attrs="{'readonly': [('training_type_id',  '=', False)], 'invisible': ['|','|','|',('quiz_type',  '=', 'positioning'),('quiz_type',  '=', 'training_evaluation'),('quiz_type',  '=', 'delayed_assessment'),('quiz_type',  '=', 'opco')], 'required': ['&amp;','&amp;',('quiz_type',  '!=', 'training_evaluation'),('quiz_type',  '!=', 'delayed_assessment'),('quiz_type',  '!=', 'opco')]}" domain="[('type_id','=',training_type_id)]"/>
+              <field name="training_type_product_plan" attrs="{'readonly': [('training_type_product',  '=', False)], 'invisible': ['|','|','|',('quiz_type',  '=', 'positioning'),('quiz_type',  '=', 'training_evaluation'),('quiz_type',  '=', 'delayed_assessment'),('quiz_type',  '=', 'opco')], 'required': ['&amp;','&amp;',('quiz_type',  '!=', 'training_evaluation'),('quiz_type',  '!=', 'delayed_assessment'),('quiz_type',  '!=', 'opco')]}" domain="['&amp;',('type_id','=',training_type_id),('product_id','=',training_type_product)]"/>
               <field name="quiz_type"/>
             </group>
           </form>

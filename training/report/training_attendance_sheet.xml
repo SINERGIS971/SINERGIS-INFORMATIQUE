@@ -31,20 +31,26 @@
 
 	<template id="attendance_sheet_report">
 		<t t-call="web.html_container">
-			<t t-call="web.external_layout">
+			<t t-call="training.layout_training_attendance_sheet">
 			<div class="page">
 			<t t-foreach="docs" t-as="doc">
 				<t t-set="i" t-value="0"/>
 				<t t-set="n" t-value="ceil(len(doc.training_participants)/6)"/>
 				<t t-foreach="n" t-as="l">
+					<br/>
 					<table style="border-collapse:collapse;border:none;width: 100%;">
 					<tbody>
 							<tr>
-								<th style="width: 85%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+								<th style="width: 75%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
 									<h1 style="font-size:20px;padding-top:40px;">Feuille d'émargement <span t-esc="i+1"/>/<span t-esc="n"/></h1>
 								</th>
-								 <th style="width: 15%;padding: 0;margin:0;font-weight: normal;">
+								 <th style="width: 25%;padding: 0;margin:0;font-weight: normal;">
 									<img src='/web/binary/company_logo' style="max-height: 150px; margin-bottom:0px;" alt="Logo"/>
+									<p style="padding: 0;margin:0;font-size:11px;"><span t-field="doc.company_id.name"/></p>
+									<p style="padding: 0;margin:0;font-size:11px;"><span t-field="doc.company_id.street"/></p>
+									<p style="padding: 0;margin:0;font-size:11px;" t-if="doc.company_id.street2"><span t-field="doc.company_id.street2"/></p>
+									<p style="padding: 0;margin:0;font-size:11px;"><span t-field="doc.company_id.zip"/> <span t-field="doc.company_id.city"/></p>
+									<p style="padding: 0;margin:0;font-size:11px;"><span t-field="doc.company_id.country_id"/></p>
 								</th>
 							</tr>
 					</tbody>

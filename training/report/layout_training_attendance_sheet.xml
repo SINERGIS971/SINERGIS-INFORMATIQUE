@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="layout_training_attendance_sheet">
+      <t t-if="not o" t-set="o" t-value="doc"/>
+
+      <t t-if="not company">
+          <!-- Multicompany -->
+          <t t-if="company_id">
+              <t t-set="company" t-value="company_id"/>
+          </t>
+          <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+              <t t-set="company" t-value="o.company_id.sudo()"/>
+          </t>
+          <t t-else="else">
+              <t t-set="company" t-value="res_company"/>
+          </t>
+      </t>
+          <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+              <div class="o_boxed_header">
+              <div class="row mb8">
+                  <div class="col-6">
+
+                  </div>
+                  <div class="col-6 text-right mb4">
+
+                  </div>
+              </div>
+              </div>
+          </div>
+
+          <div t-attf-class="article o_report_layout_boxed o_company_#{company.id}_layout {{  'o_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' }});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-out="0"/>
+          </div>
+
+</template>
+
+<record id="report_layout_training_attendance_sheet" model="report.layout">
+            <field name="name">Training Attendance Sheet</field>
+            <field name="sequence">3</field>
+            <field name="view_id" ref="training.layout_training_attendance_sheet"/>
+            <field name="image">/web/static/img/preview_boxed.png</field>
+            <field name="pdf">/web/static/pdf/preview_boxed.pdf</field>
+</record>
+</odoo>

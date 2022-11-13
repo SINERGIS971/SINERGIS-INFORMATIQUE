@@ -24,10 +24,14 @@ class TrainingQuiz(models.Model):
 
     @api.onchange("quiz_type")
     def on_change_quiz_type(self):
-        if self.quiz_type == "training_evaluation" or self.quiz_type == "delayed_assessment" or self.quiz_type == "opco":
+        if self.quiz_type == "positioning" or self.quiz_type == "training_evaluation" or self.quiz_type == "delayed_assessment" or self.quiz_type == "opco":
             self.training_type_id = False
             self.training_type_product = False
             self.training_type_product_plan = False
+            if self.quiz_type == "positioning":
+                if self.env['training.quiz'].search_count([('quiz_type', '=', 'positioning')]) >= 1:
+                    self.quiz_type = False
+                    raise ValidationError("Vous avez déjà un quiz attribué au positionnement. Veuillez le supprimer afin d'en réaffecter un nouveau.")
             if self.quiz_type == "training_evaluation":
                 if self.env['training.quiz'].search_count([('quiz_type', '=', 'training_evaluation')]) >= 1:
                     self.quiz_type = False
@@ -61,6 +65,7 @@ class TrainingQuizQuestionsMultipleChoice(models.Model):
     _description = "Questions à choix multiple"
     name = fields.Char(string="Choix")
     question_id = fields.Many2one("training.quiz.questions", string="")
+    right_answer = fields.Boolean(string="Bonne réponse ?", default = False)
     actual_month_count = fields.Integer(string="Sélections ce mois", compute="_compute_actual_month_count")
     last_month_count = fields.Integer(string="Sélections le mois dernier", compute="_compute_last_month_count")
     actual_year_count = fields.Integer(string="Sélections cette année", compute="_compute_actual_year_count")

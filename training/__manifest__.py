@@ -27,6 +27,7 @@
         'views/settings.xml',
         'report/training_agreement_report.xml',
         'report/training_consultant_evaluation_report.xml',
+        'report/layout_training_attendance_sheet.xml',
         'report/training_attendance_sheet.xml',
         'data/mail_training_agreement.xml',
         'data/mail_training_invitation.xml',

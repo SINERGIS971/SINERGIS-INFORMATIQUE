@@ -32,7 +32,7 @@ class SaleOrder(models.Model):
                     if self.env['training'].search_count(['&',('sale_id', '=', self.id),('sale_order_line_id', '=', line.id)]) == 0:
                         vals = {'sale_id': self.id,
                                 'sale_order_line_id': line.id,
-                                'name': 'FORMATION',
+                                'name': line.name, #Formation name equal to the description of the order line
                                 'company_id': self.company_id.id,
                                 'partner_id': self.partner_id.id,
                                 'duration': line.product_uom_qty}
