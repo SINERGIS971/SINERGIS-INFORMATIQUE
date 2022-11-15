@@ -83,7 +83,7 @@
 							<h5>Article 8 : Différends éventuels</h5>
 							<p>Si une contestation ou un différend ne peut être réglé à l’amiable, le Tribunal de Fort-de-France sera compétent pour régler le litige.</p>
 							<br/>
-							<p>Fait en deux exemplaires originaux, à Fort de France, le 12/10/2021</p>
+							<p>Fait en deux exemplaires originaux, à Fort de France, le <span t-esc="datetime.datetime.now().strftime('%d/%m/%Y')"/></p>
 							<div style="page-break-inside: avoid;">
 							<table style="border-collapse:collapse;border:none;width: 100%;">
 								<tbody>
