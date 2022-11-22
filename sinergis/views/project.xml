@@ -55,7 +55,6 @@
             <field name="activity_ids" position="move"/>
             <field name="x_sinergis_project_task_first_date" widget="date"/>
             <field name="x_sinergis_project_task_first_date_user_id"/>
-            <field name=""/>
             <field name="tag_ids" position="move"/>
             <field name="x_sinergis_project_task_etat_tache"/>
             <field name="company_id" position="move"/>
