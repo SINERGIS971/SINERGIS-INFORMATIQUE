@@ -114,6 +114,8 @@ class SaleOrder(models.Model):
         for rec in self:
             project_ids = rec.env['project.project'].search([('sale_order_id', '=', rec.id)])
             projectEnded = True
+            if not project_ids:
+                projectEnded = False
             for project_id in project_ids:
                 if project_id.x_sinergis_project_project_etat_projet != "Projet terminé":
                     projectEnded = False

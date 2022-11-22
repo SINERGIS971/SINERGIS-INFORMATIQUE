@@ -62,6 +62,7 @@
                   <attribute name="decoration-warning">x_sinergis_helpdesk_ticket_temps_cumule>=1</attribute>
                   <attribute name="decoration-danger">x_sinergis_helpdesk_ticket_client_bloque==True</attribute>
                   <attribute name="decoration-bf">x_sinergis_helpdesk_ticket_client_bloque==True</attribute>
+                  <attribute name="default_order">create_date desc</attribute>
                 </xpath>
                 <xpath expr="//field[@name='display_name']" position="before">
                   <field name="create_date"/>
