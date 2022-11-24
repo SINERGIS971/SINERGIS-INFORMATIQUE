@@ -244,6 +244,12 @@ class MyActions(models.Model):
         else:
             raise ValidationError("Vous n'avez pas l'accès pour changer le statut de la facturation. Merci de vous rapprocher de la direction.")
 
+    def no_invoiced_button_default(self):
+        raise ValidationError("Vous ne pouvez pas modifier l'état de cette facturation avec ce mode de facturation.")
+
+    def invoiced_button_default(self):
+        raise ValidationError("Vous ne pouvez pas modifier l'état de cette facturation avec ce mode de facturation.")
+
     def print_report(self):
         ids = []
         for rec in self:
