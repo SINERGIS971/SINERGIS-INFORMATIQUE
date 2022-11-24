@@ -31,7 +31,7 @@
                 <field name="name" filter_domain="[('name', 'ilike', self)]"/>
                 <field name="consultant" filter_domain="[('consultant', 'ilike', self)]"/>
                 <field name="client" filter_domain="[('client', 'ilike', self)]"/>
-                
+
                 <field name="billing" invisible="1"/>
                 <field name="client" invisible="1"/>
                 <field name="date" invisible="1"/>
@@ -40,8 +40,8 @@
                     <filter string="Assistance" name="filter_helpdesk" domain="[('origin', '=', 'helpdesk')]"/>
                     <filter string="Intervention calendrier" name="filter_calendar" domain="[('origin', '=', 'calendar')]"/>
                     <separator/>
-                    <filter string="Facturée" name="filter_is_billed" domain="[('is_billed', '=', True)]"/>
-                    <filter string="Non facturée" name="filter_is_not_billed" domain="[('is_billed', '=', False)]"/>
+                    <filter string="Facturée" name="filter_is_billed" domain="['|',('is_billed', '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]"/>
+                    <filter string="Non facturée" name="filter_is_not_billed" domain="['&amp;',('is_billed',  '=', False),'|',('billing',  '=', 'Devis'),('billing',  '=', 'Temps passé')]"/>
                     <separator/>
                     <filter string="Facturation" name="group_by_billing" context="{'group_by':'billing'}"/>
                     <filter string="Client" name="group_by_client" context="{'group_by':'client'}"/>
@@ -77,8 +77,8 @@
                 <field name="country_id"/>
                 <field name="printed_datetime"/>
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
-                <button name="no_invoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': [('is_billed',  '=', False)]}"/>
-                <button name="invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': [('is_billed',  '=', True)]}"/>
+                <button name="no_invoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', False),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
+                <button name="invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
             </tree>
         </field>
     </record>
