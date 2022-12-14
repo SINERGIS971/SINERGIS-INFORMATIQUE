@@ -30,6 +30,7 @@
                 <filter string="Formations ouvertes" name="filter_open_training" domain="[('state', '!=', 'training_closed')]"/>
                 <separator/>
                 <filter string="Formations OPCO" name="filter_opco" domain="[('opco_file', '!=', False)]"/>
+                <filter string="Formations non OPCO" name="filter_non_opco" domain="[('opco_file', '=', False)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Client" name="group_by_partner_id" context="{'group_by':'partner_id'}"/>
                     <filter string="Date de début" name="group_by_start" context="{'group_by':'start'}"/>
@@ -72,7 +73,8 @@
                   <button name="button_switch_training_closed_part" string="Passer à la partie: formation cloturée" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
                   <button name="button_return_training_ended_part" string="Revenir à la partie: formation terminée" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>
 
-                  <button name="button_download_attendance_sheet" string="Télécharger la feuille d'émargement" type="object"  icon="fa-download" attrs="{'invisible': ['|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'training_closed')]}"/>
+                  <button name="button_download_attendance_sheet" string="Feuille d'émargement" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': ['|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'training_closed')]}"/>
+                  <button name="button_download_certificate_of_attendance" string="Attestation de présence au stage" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': ['|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'training_closed')]}"/>
 
                   <!--<button name="button_download_all_documents" string="Télécharger les documents de cette formation" type="object"  icon="fa-download" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>-->
                 </header>
@@ -170,22 +172,28 @@
                         <field name="remote_learning"/>
                       </group>
                       <group>
-                        <field name="remote_learning_link" attrs="{'invisible': [('remote_learning',  '==', False)]}"/>
+                        <field name="remote_learning_link" attrs="{'invisible': [('remote_learning',  '==', False)], 'required': [('remote_learning',  '=', True)]}"/>
                       </group>
                     </group>
-                    <group>
-                        <label for="location_street" string="Adresse de localisation"/>
-                        <div>
-                            <div class="o_address_format" name="div_address">
-                                <field name="location_street" placeholder="Rue..." class="o_address_street"/>
-                                <field name="location_street2" placeholder="Rue 2..." class="o_address_street"/>
-                                <field name="location_city" placeholder="Ville" class="o_address_city"/>
-                                <field name="location_zip" placeholder="Code postal" class="o_address_zip"/>
-                                <field name="location_country_id" placeholder="Pays" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                    <div attrs="{'invisible': [('remote_learning',  '=', True)]}">
+                      <group>
+                        <group>
+                          <field name="location_selection"/>
+                        </group>
+                        <group>
+                            <div attrs="{'invisible': [('location_selection',  '!=', 'other')]}">
+                                  <div class="o_address_format" name="div_address">
+                                      <field name="location_street" placeholder="Rue..." class="o_address_street"/>
+                                      <field name="location_street2" placeholder="Rue 2..." class="o_address_street"/>
+                                      <field name="location_city" placeholder="Ville" class="o_address_city"/>
+                                      <field name="location_zip" placeholder="Code postal" class="o_address_zip"/>
+                                      <field name="location_country_id" placeholder="Pays" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                  </div>
                             </div>
-                        </div>
-                    </group>
-                    <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">Aide : Cette adresse correspond au lieu où se déroulera la formation. Merci de bien vérifier son exactitude!</p>
+                        </group>
+                      </group>
+                      <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">Aide : Cette adresse correspond au lieu où se déroulera la formation. Merci de bien vérifier son exactitude!</p>
+                    </div>
                     <group>
                       <field name="planned_hours_ids">
                         <tree string="Heures planifiées" default_order="start asc">
@@ -294,8 +302,10 @@
                   <div style="margin-left:30px;" attrs="{'invisible': ['&amp;',('answer_delayed_assessment',  '==', False),('answer_opco_quiz',  '==', False)]}">
                     <separator string="Réponses aux quiz" style="color:green;"/>
                     <group>
-                      <field name="answer_delayed_assessment"/>
-                      <field name="answer_opco_quiz"/>
+                      <field name="mark_delayed_assessment"/>
+                      <div attrs="{'invisible': [('answer_delayed_assessment',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="answer_delayed_assessment"/></div>
+                      <field name="mark_opco_quiz"/>
+                      <div attrs="{'invisible': [('answer_opco_quiz',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="answer_opco_quiz"/></div>
                     </group>
                   </div>
                 </div>
@@ -326,81 +336,65 @@
 
     <!--Pivot filters-->
     <record id="filter_all_time" model="ir.filters">
-        <field name="name">Temps total [OPCO]</field>
+        <field name="name">Temps total</field>
         <field name="model_id">training</field>
-        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="domain"></field>
         <field name="user_id" eval="False"/>
         <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': []}</field>
     </record>
 
     <record id="filter_all_amount" model="ir.filters">
-        <field name="name">Montant total [OPCO]</field>
+        <field name="name">Montant total</field>
         <field name="model_id">training</field>
-        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="domain"></field>
         <field name="user_id" eval="False"/>
         <field name="context">{'group_by': [], 'pivot_measures': ['sale_price_total'], 'pivot_column_groupby': [], 'pivot_row_groupby': []}</field>
     </record>
 
     <record id="filter_product_participant" model="ir.filters">
-        <field name="name">Participants par produit [OPCO]</field>
+        <field name="name">Participants par produit</field>
         <field name="model_id">training</field>
-        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="domain"></field>
         <field name="user_id" eval="False"/>
         <field name="context">{'group_by': [], 'pivot_measures': ['participants_count'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['type_product_id']}</field>
     </record>
 
     <record id="filter_product_time" model="ir.filters">
-        <field name="name">Temps par produit [OPCO]</field>
+        <field name="name">Temps par produit</field>
         <field name="model_id">training</field>
-        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="domain"></field>
         <field name="user_id" eval="False"/>
         <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['type_product_id']}</field>
     </record>
 
     <record id="filter_all_participants" model="ir.filters">
-        <field name="name">Total des participants [OPCO]</field>
+        <field name="name">Total des participants</field>
         <field name="model_id">training</field>
-        <field name="domain">[("opco_file", "!=", False)]</field>
-        <field name="user_id" eval="False"/>
-        <field name="context">{'group_by': [], 'pivot_measures': ['participants_count'], 'pivot_column_groupby': [], 'pivot_row_groupby': []}</field>
-    </record>
-
-    <record id="filter_all_participants" model="ir.filters">
-        <field name="name">Total des participants [OPCO]</field>
-        <field name="model_id">training</field>
-        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="domain"></field>
         <field name="user_id" eval="False"/>
         <field name="context">{'group_by': [], 'pivot_measures': ['participants_count'], 'pivot_column_groupby': [], 'pivot_row_groupby': []}</field>
     </record>
 
     <record id="filter_consultants_list" model="ir.filters">
-        <field name="name">Liste des consultants [OPCO]</field>
+        <field name="name">Liste des consultants</field>
         <field name="model_id">training</field>
-        <field name="domain">[("opco_file", "!=", False)]</field>
-        <field name="user_id" eval="False"/>
-        <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['consultant_id']}</field>
-    </record>
-
-    <record id="filter_consultants_list" model="ir.filters">
-        <field name="name">Liste des consultants [OPCO]</field>
-        <field name="model_id">training</field>
-        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="domain"></field>
         <field name="user_id" eval="False"/>
         <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['consultant_id']}</field>
     </record>
 
     <record id="filter_consultants_year" model="ir.filters">
-        <field name="name">Liste des consultants par année [OPCO]</field>
+        <field name="name">Liste des consultants par année</field>
         <field name="model_id">training</field>
-        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="domain"></field>
         <field name="user_id" eval="False"/>
         <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['start:year', 'consultant_id']}</field>
     </record>
 
     <record id="filter_consultants_product" model="ir.filters">
-        <field name="name">Liste des consultants par produit [OPCO]</field>
+        <field name="name">Liste des consultants par produit</field>
         <field name="model_id">training</field>
-        <field name="domain">[("opco_file", "!=", False)]</field>
+        <field name="domain"></field>
         <field name="user_id" eval="False"/>
         <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['type_product_id', 'consultant_id']}</field>
     </record>
@@ -441,18 +435,22 @@
               <field name="training_evaluation_received" invisible="True"/>
               <div attrs="{'invisible': [('positioning_quiz_received',  '=', False)]}" style="margin-left:20px;">
                 <separator string="Quiz de positionnement"/>
+                <div attrs="{'invisible': [('mark_positioning_quiz',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_positioning_quiz"/></div>
                 <field name="answer_positioning_quiz"/>
               </div>
               <div attrs="{'invisible': [('diagnostic_received',  '=', False)]}" style="margin-left:20px;">
                 <separator string="Quiz diagnostic"/>
+                <div attrs="{'invisible': [('mark_quiz_diagnostic',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_quiz_diagnostic"/></div>
                 <field name="answer_quiz_diagnostic"/>
               </div>
               <div attrs="{'invisible': [('prior_learning_quiz_received',  '=', False)]}" style="margin-left:20px;">
                 <separator string="Quiz de validation des acquis"/>
+                <div attrs="{'invisible': [('mark_prior_learning_quiz',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_prior_learning_quiz"/></div>
                 <field name="answer_prior_learning_quiz"/>
               </div>
               <div attrs="{'invisible': [('training_evaluation_received',  '=', False)]}" style="margin-left:20px;">
                 <separator string="Quiz évaluation consultant"/>
+                <div attrs="{'invisible': [('mark_training_evaluation',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_training_evaluation"/></div>
                 <field name="answer_training_evaluation"/>
               </div>
             </div>

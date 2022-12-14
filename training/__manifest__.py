@@ -29,6 +29,7 @@
         'report/training_consultant_evaluation_report.xml',
         'report/layout_training_attendance_sheet.xml',
         'report/training_attendance_sheet.xml',
+        'report/training_certificate_of_attendance.xml',
         'data/mail_training_agreement.xml',
         'data/mail_training_invitation.xml',
         'data/mail_training_invitation_remote.xml',

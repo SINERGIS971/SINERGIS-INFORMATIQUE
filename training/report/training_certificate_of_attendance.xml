@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Enregistrement des informations du rapport -->
+	<record id="training_certificate_of_attendance" model="ir.actions.report">
+		<field name="name">Attestation de presence au stage</field>
+		<field name="model">training</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">training.certificate_of_attendance</field>
+		<field name="report_file">training.certificate_of_attendance</field>
+		<field name="binding_model_id" ref="model_training"/>
+		<field name="binding_type">report</field>
+	</record>
+	<!-- Enregistrement des données du rapport -->
+	<template id="certificate_of_attendance">
+		<t t-call="web.html_container">
+			<div class="page">
+			<t t-foreach="docs" t-as="doc">
+				<div class="oe_structure"/>
+			  	<t t-call="web.external_layout">
+						<style>
+							h1 {font-size: 24px;}
+						</style>
+						<h1>ATTESTATION DE PRESENCE AU STAGE</h1>
+						<div style="border: 1px solid #ff8a23;padding:10px;">
+							<p>Nous, soussignés, SINERGIS, organisme de Formation enregistré sous le n° 97970211197 auprès du Préfet de la Région Martinique, dont le siège social est situé au 11 rue des Arts et Métiers Lotissement Dillon Stade 97200 FORT DE FRANCE (Martinique), représenté par Alain CASIMIRO attestons que la Société :</p>
+							<p>Société : <span t-field="doc.partner_id.name"/></p>
+							<p>Noms des participants :
+								<t t-foreach="doc.training_participants" t-as="line"><span t-field="line.name"/> /</t>
+							</p>
+							<p>Adresse: <span t-field="doc.partner_id.street"/> <span t-field="doc.partner_id.street2"/></p>
+							<p>Code Postal - Ville : <span t-field="doc.partner_id.zip"/> <span t-field="doc.partner_id.city"/>, <span t-field="doc.partner_id.country_id.name"/></p>
+							<table style="border-collapse:collapse;border:none;width: 100%;">
+							<tbody>
+	                <tr>
+	                  <th style="width: 33.3%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><p>Téléphone: <span t-field="doc.partner_id.phone"/></p></th>
+	                  <th style="width: 33.3%;padding: 0;vertical-align: top;margin:0;font-weight: normal;"><p>▢ Moins de 10 salariés</p></th>
+										<th style="width: 33.3%;padding: 0;vertical-align: top;margin:0;font-weight: normal;"><p>▢ Plus de 10 salariés</p></th>
+	                </tr>
+	            </tbody>
+							</table>
+							<p>A bien suivi la formation suivante :</p>
+							<p>Prestation de Formation : <span t-field="doc.type_product_plan_id.name"/></p>
+							<p>Date(s) de formation : <span t-field="doc.start"/> au <span t-field="doc.end"/></p>
+							<table style="border-collapse:collapse;border:none;width: 100%;">
+							<tbody>
+	                <tr>
+	                  <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><p>Intervenant : <span t-field="doc.consultant_id.name"/></p></th>
+	                  <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;"><p>Signature consultant :</p></th>
+	                </tr>
+	            </tbody>
+							</table>
+							<br/><br/>
+							<table style="border-collapse:collapse;border:none;width: 100%;">
+	            <tbody>
+	                <tr>
+	                  <th style="width: 25%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">Lieu:</th>
+	                  <th style="width: 25%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">▢ Site client</th>
+										<th style="width: 25%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">▢ Site Sinergis</th>
+										<th style="width: 25%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">▢ À distance</th>
+	                </tr>
+	            </tbody>
+	            </table>
+							<br/>
+							<table style="border-collapse:collapse;border:none;width: 100%;">
+	            <tbody>
+	                <tr>
+	                  <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><p>Signature du client :</p></th>
+	                  <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;"><p>Cachet de la société :</p></th>
+	                </tr>
+	            </tbody>
+	            </table>
+							<br/><br/><br/><br/><br/><br/>
+							<p>Les frais de déplacement et d'hébergement sont à la charge du Client et sont facturés soit sous forme forfaitaire, soit au frais réel.</p>
+						</div>
+					</t>
+				</t>
+		</div>
+	</t>
+	</template>
+</odoo>

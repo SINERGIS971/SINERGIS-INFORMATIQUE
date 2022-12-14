@@ -51,6 +51,7 @@ class Training(models.Model):
     #Consultant part
 
     consultant_id = fields.Many2one("res.users",string='Consultant')
+    location_selection = fields.Selection([('company', 'Agence SINERGIS'),('client','Chez le client'),('other','Autre')], string="Localisation")
     location_street = fields.Char(string='Rue')
     location_street2 = fields.Char(string='Rue 2')
     location_city = fields.Char(string='Ville')
@@ -71,9 +72,11 @@ class Training(models.Model):
 
     delayed_assessment_sent = fields.Boolean(string="Évaluation à froid envoyée",default=False,readonly=True)
     answer_delayed_assessment = fields.Html(default="",readonly=True, string="Réponses de l'évaluation à froid")
+    mark_delayed_assessment = fields.Float(string="Note de l'évaluation à froid")
     delayed_assessment_received = fields.Boolean(string="Évaluation à froid reçue",default=False,compute="_compute_delayed_assessment_received")
 
     opco_quiz_sent = fields.Boolean(string="Quiz OPCO envoyé",default=False,readonly=True)
+    mark_opco_quiz = fields.Float(string="Note du quiz OPCO")
     answer_opco_quiz = fields.Html(default="",readonly=True, string="Réponses du quiz OPCO")
     opco_quiz_received = fields.Boolean(string="Quiz OPCO reçu",default=False,compute="_compute_opco_quiz_received")
 
@@ -93,14 +96,27 @@ class Training(models.Model):
     def on_change_type_product_id(self):
         self.type_product_plan_id = False
 
-    @api.onchange("company_id")
-    def on_change_company_id(self):
-        if self.location_street == False and self.company_id != False:
+    @api.onchange("location_selection")
+    def on_change_location_selection(self):
+        if self.location_selection == "company":
             self.location_street = self.company_id.street
             self.location_street2 = self.company_id.street2
             self.location_city = self.company_id.city
             self.location_zip = self.company_id.zip
             self.location_country_id = self.company_id.country_id
+        elif self.location_selection == "client":
+            self.location_street = self.partner_id.street
+            self.location_street2 = self.partner_id.street2
+            self.location_city = self.partner_id.city
+            self.location_zip = self.partner_id.zip
+            self.location_country_id = self.partner_id.country_id
+        elif self.location_selection == "other":
+            self.location_street = False
+            self.location_street2 = False
+            self.location_city = False
+            self.location_zip = False
+            self.location_country_id = False
+
 
     @api.depends('delayed_assessment_received')
     def _compute_delayed_assessment_received (self):
@@ -172,14 +188,18 @@ class Training(models.Model):
                 missing_elements.append("Consultant")
             if not self.remote_learning_link and self.remote_learning == True :
                 missing_elements.append("Lien de la formation")
-            if not self.location_street :
-                missing_elements.append("Adresse de localisation (Rue)")
-            if not self.location_city :
-                missing_elements.append("Adresse de localisation (Ville)")
-            if not self.location_zip :
-                missing_elements.append("Adresse de localisation (Code Postal)")
-            if not self.location_country_id :
-                missing_elements.append("Adresse de localisation (Pays)")
+            if self.remote_learning == False:
+                if not self.location_selection :
+                    missing_elements.append("Localisation")
+                if self.location_selection == "other":
+                    if not self.location_street :
+                        missing_elements.append("Adresse de localisation (Rue)")
+                    if not self.location_city :
+                        missing_elements.append("Adresse de localisation (Ville)")
+                    if not self.location_zip :
+                        missing_elements.append("Adresse de localisation (Code Postal)")
+                    if not self.location_country_id :
+                        missing_elements.append("Adresse de localisation (Pays)")
             if not self.planned_hours_ids :
                 missing_elements.append("Heures de formation planifiées")
 
@@ -236,6 +256,9 @@ class Training(models.Model):
     def button_download_attendance_sheet (self):
         if Training.verification_training_attendance_sheet(self):
             return self.env.ref('training.training_attendance_sheet_report').report_action(self)
+    def button_download_certificate_of_attendance (self):
+        if Training.verification_training_attendance_sheet(self):
+            return self.env.ref('training.training_certificate_of_attendance').report_action(self)
 
     def verification_training_attendance_sheet(self):
         missing_elements = []
@@ -450,9 +473,11 @@ class TrainingParticipants(models.Model):
     diagnostic_quiz_sent = fields.Boolean(string="Quiz de diagnostic envoyé",default=False)
 
     answer_positioning_quiz = fields.Html(default="",readonly=True, string="Réponse au quiz de positionnement")
+    mark_positioning_quiz = fields.Float(string="Note du quiz de positionnement")
     positioning_quiz_received = fields.Boolean(string="Quiz de positionnement reçu",default=False,compute="_compute_positioning_quiz_received")
 
     answer_quiz_diagnostic = fields.Html(default="",readonly=True, string="Réponse au diagnostic")
+    mark_quiz_diagnostic = fields.Float(string="Note du quiz de diagnostic")
     diagnostic_received = fields.Boolean(string="Diagnostic reçu",default=False,compute="_compute_diagnostic_received")
 
     #Training ended part
@@ -462,9 +487,11 @@ class TrainingParticipants(models.Model):
 
     training_ended_sent = fields.Boolean(string="Mail envoyé",default=False)
     answer_prior_learning_quiz = fields.Html(default="",readonly=True, string="Réponse au quiz d'évaluation des acquis")
+    mark_prior_learning_quiz = fields.Float(string="Note du quiz d'évaluation des acquis")
     prior_learning_quiz_received = fields.Boolean(string="Quiz évaluation acquis reçu",default=False,compute="_compute_prior_learning_quiz_received")
 
     answer_training_evaluation = fields.Html(default="",readonly=True, string="Réponse au quiz d'évaluation de la formation")
+    mark_training_evaluation = fields.Float(string="Note du quiz d'évaluation de la formation")
     training_evaluation_received = fields.Boolean(string="Quiz évaluation consultant",default=False,compute="_compute_training_evaluation_received")
 
     @api.depends("is_rated")

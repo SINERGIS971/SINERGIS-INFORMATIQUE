@@ -6,7 +6,7 @@
             <field name="model_id" ref="training.model_training_participants"/>
             <field name="email_from">support@sinergis.odoo.com</field>
             <field name="email_to">{{ (object.email or '') }}</field>
-            <field name="subject">Invitation à la formation à distance</field>
+            <field name="subject">Invitation à la formation à distance : {{ object.training_id.type_product_plan_id.name }} SINERGIS</field>
             <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
 
@@ -110,6 +110,9 @@
                         <p>Nous sommes à votre disposition pour toute autre précision et vous souhaitons une bonne formation !</p>
                         <p>Bien cordialement,</p>
                         <p>L’équipe SINERGIS</p>
+                        <br/>
+                        <p style="text-align:center;">Agence Guadeloupe: 05 90 26 62 73</p>
+                        <p style="text-align:center;">Agence Martinique: 05 96 56 00 34</p>
                       </td>
                     </tr>
                   </table>

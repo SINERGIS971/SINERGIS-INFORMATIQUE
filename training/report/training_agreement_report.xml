@@ -17,71 +17,111 @@
 			<t t-foreach="docs" t-as="doc">
 				<div class="oe_structure"/>
 			  	<t t-call="web.external_layout">
+						<style>
+							p, th, li {font-size: 14px;}
+							h1 {font-size: 24px;}
+							h5 {font-size: 18px;font-weight:bold;}
+						</style>
 						<h1>Convention de formation</h1>
-						<p>Entre les soussignés</p>
-						<div>
-							<p style="margin:5px;"><span t-field="doc.company_id.name"/></p>
-							<p style="margin:5px;"><span t-field="doc.company_id.street"/></p>
-							<p style="margin:5px;"><span t-field="doc.company_id.street2"/></p>
-							<p style="margin:5px;"><span t-field="doc.company_id.city"/> - <span t-field="doc.company_id.zip"/></p>
-							<p style="margin:5px;"><span t-field="doc.company_id.country_id"/></p>
-
-						</div>
-						<p><br/>Et</p>
-						<p>La société : <span t-field="doc.partner_id.name"/></p>
+						<table style="width: 100%;border: none;" cellspacing="0" cellpadding="0">
+							<tbody>
+									<tr>
+										<th style="width: 50%;padding: 0;margin:0;vertical-align: top;">
+											<p>Entre les soussignés</p>
+											<div>
+												<p style="margin:5px;"><span t-field="doc.company_id.name"/></p>
+												<p style="margin:5px;"><span t-field="doc.company_id.street"/></p>
+												<p style="margin:5px;"><span t-field="doc.company_id.street2"/></p>
+												<p style="margin:5px;"><span t-field="doc.company_id.city"/> - <span t-field="doc.company_id.zip"/></p>
+												<p style="margin:5px;"><span t-field="doc.company_id.country_id"/></p>
+											</div>
+										</th>
+										<th style="width: 50%;padding: 0;margin:0;vertical-align: top;">
+											<p>Et la société :</p>
+											<div>
+												<p style="margin:5px;"><span t-field="doc.partner_id.name"/></p>
+												<p style="margin:5px;"><span t-field="doc.partner_id.street"/></p>
+												<p style="margin:5px;"><span t-field="doc.partner_id.street2"/></p>
+												<p style="margin:5px;"><span t-field="doc.partner_id.city"/> - <span t-field="doc.partner_id.zip"/></p>
+												<p style="margin:5px;"><span t-field="doc.partner_id.country_id"/></p>
+											</div>
+										</th>
+									</tr>
+							</tbody>
+						</table>
 						<p>Est conclue la convention suivante, en application de l’article L. 6353-1 du Code du travail de la sixième partie du Code du Travail.</p>
-						<h5>Article 1 : Objet de la convention</h5>
-						<p>L’organisme SINERGIS organisera l’action de formation à distance/ en présentiel suivant : </p>
-						<p>Intitulé du stage : <span t-field="doc.course_title"/></p>
-						<ul>
-						  <li>Objectif : Voir le diagnostic initial</li>
-						  <li>Programme et méthodes : <span t-field="doc.type_product_plan_id.name"/> (voir le plan de formation)</li>
-						  <li>Durée : <span t-field="doc.duration"/> jours</li>
-							<li>Lieu : <span t-field="doc.location.name"/></li>
-							<li>Dates : <span t-field="doc.start"/> au <span t-field="doc.end"/></li>
-						</ul>
-						<h5>Article 2: Descriptif de la convention</h5>
-						<p>L’organisme dispensera un enseignement aux stagiaires indiqué en  Annexe 1</p>
-						<h5>Article 3 : Dispositions financières</h5>
-						<p>En contrepartie de cette action de formation, l’employeur s’acquittera des coûts suivants :</p>
-						<p>Frais pédagogiques : <strong>côut unitaire de <span t-field="doc.sale_order_line_id.price_unit"/>€ / jour</strong></p>
-						<table style="border-collapse:collapse;border:none;width: 50%;">
-              <tbody>
-                  <tr>
-                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">Soit un total de :</th>
-                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><span t-field="doc.sale_order_line_id.price_subtotal"/> HT</th>
-                  </tr>
-									<tr>
-                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">TVA</th>
-                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><span t-field="doc.sale_order_line_id.price_tax"/> €</th>
-                  </tr>
-									<tr>
-                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">Total Général :</th>
-                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><span t-field="doc.sale_order_line_id.price_total"/></th>
-                  </tr>
-              </tbody>
-              </table>
-							<br/>
-							<h5>Article 2 – Modalités de règlement</h5>
-							<p>Quel que soit le type de session, les factures sont envoyées dès la fin de la session de formation et sont payables à trente (30) jours net et sans escompte date de facture. Le règlement se fera par chèque bancaire ou par virement.</p>
-							<p>Toute formation à laquelle un participant a commencé à assister est due en totalité.</p>
-							<p>En cas de retard de paiement, conformément aux dispositions de l’article L.441-6 du Code de commerce, SINERGIS  appliquera de plein droit un intérêt de retard égal au taux de la Banque Centrale Européenne à son opération de refinancement la plus récente majoré de 7 points de pourcentage sans que ce taux ne soit inférieur à 1,5 fois le taux d’intérêt légal, sur les montants facturés qui seraient échus. En cas de non-paiement, SINERGIS se réserve le droit de refuser toute nouvelle inscription de participants du Client et de résilier les inscriptions en cours de participants du Client.</p>
-							<h5>Article 3: Moyens pédagogiques et techniques</h5>
-							<p>Toute session de formation est organisée en une succession de parties théoriques et de mises en application pratiques sous forme d’exercices réalisés sur des solutions SINERGIS.
-							Les sessions de formation sont dispensées par des formateurs sélectionnés pour leurs connaissances sur des solutions proposées par SINERGIS, connaissances qu’ils ont acquises dans le cadre de la mise en œuvre de ces solutions.
-							Les compétences pédagogiques des formateurs proviennent :
-							d’un processus de formation continue, organisé par SINERGIS, durant lequel sont abordées les principales techniques d’animation de sessions de formation ou de formations à la pédagogie suivies précédemment par le Formateur.
-							En considération des demandes et du niveau des participants du Client, SINERGIS dispose de moyens nécessaires afin de dispenser des sessions de formation, objet de la présente Convention et accomplira sa mission de formation en professionnel diligent.</p>
-							<h5>Article 4 : Dispositif permettant de suivre l’exécution du programme</h5>
-							<p>Chaque stagiaire signera une feuille d’émargement et une attestation de présence.</p>
-							<h5>Article 5 : Dispositif permettant d’apprécier les résultats</h5>
-							<p>A l’issue de la formation, le formateur fera remplir une évaluation de la formation en ligne à toutes les personnes formées. Le formateur évaluera lors de la prestation de formation, non seulement les acquis des personnes formées mais également leur engagement et leur assiduité. Ces informations pourront être remise au commanditaire sur demande.</p>
-							<h5>Article 6 : Nature de la sanction de la formation dispensée</h5>
-							<p>Une attestation individualisée de suivi de stage sera remise à chaque stagiaire en fin de formation.</p>
-							<h5>Article 7 : Annulation - Report</h5>
-							<p>A compter de l’inscription définitive, pour une annulation reçue moins de 10 Jours ouvrés avant la date de prestation 50 % du prix des journées de formation et déplacements restent dus. Pour toute annulation reçue moins de 5 jours ouvrés avant la date de prestation, le prix des journées de formation reste acquis dans son intégralité. Seules les conditions de report ou d’annulation écrites et faxées sont prises en considération.</p>
-							<h5>Article 8 : Différends éventuels</h5>
-							<p>Si une contestation ou un différend ne peut être réglé à l’amiable, le Tribunal de Fort-de-France sera compétent pour régler le litige.</p>
+						<div style="page-break-inside: avoid;">
+							<h5>Article 1 : Objet de la convention</h5>
+							<p>L’organisme SINERGIS organisera l’action de formation à distance et/ou en présentiel : </p>
+							<p>Intitulé du stage : <span t-field="doc.course_title"/></p>
+							<ul>
+							  <li>Objectif : Voir le diagnostic initial</li>
+							  <li>Programme et méthodes : <span t-field="doc.type_product_plan_id.name"/> (voir le plan de formation)</li>
+							  <li>Durée : <span t-field="doc.duration"/> jours</li>
+								<li>Lieu : <span t-field="doc.location.name"/></li>
+								<li>Dates : <span t-field="doc.start"/> au <span t-field="doc.end"/></li>
+							</ul>
+						</div>
+						<div style="page-break-inside: avoid;">
+							<h5>Article 2: Descriptif de la convention</h5>
+							<p>L’organisme dispensera un enseignement aux stagiaires indiqué en  Annexe 1</p>
+						</div>
+						<div style="page-break-inside: avoid;">
+							<h5>Article 3 : Dispositions financières</h5>
+							<p>En contrepartie de cette action de formation, l’employeur s’acquittera des coûts suivants :</p>
+							<p>Frais pédagogiques : <strong>côut unitaire de <span t-field="doc.sale_order_line_id.price_unit"/>€ / jour</strong></p>
+							<table style="border-collapse:collapse;border:none;width: 50%;">
+	              <tbody>
+	                  <tr>
+	                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">Soit un total de :</th>
+	                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><span t-field="doc.sale_order_line_id.price_subtotal"/> HT</th>
+	                  </tr>
+										<tr>
+	                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">TVA</th>
+	                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><span t-field="doc.sale_order_line_id.price_tax"/> €</th>
+	                  </tr>
+										<tr>
+	                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">Total Général :</th>
+	                    <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><span t-field="doc.sale_order_line_id.price_total"/> TTC</th>
+	                  </tr>
+	              </tbody>
+	              </table>
+								<br/>
+							</div>
+							<div style="page-break-inside: avoid;">
+								<h5>Article 4 – Modalités de règlement</h5>
+								<p>Quel que soit le type de session, les factures sont envoyées dès la fin de la session de formation et sont payables à trente (30) jours net et sans escompte date de facture. Le règlement se fera par chèque bancaire ou par virement.</p>
+								<p>Toute formation à laquelle un participant a commencé à assister est due en totalité.</p>
+								<p>En cas de retard de paiement, conformément aux dispositions de l’article L.441-6 du Code de commerce, SINERGIS  appliquera de plein droit un intérêt de retard égal au taux de la Banque Centrale Européenne à son opération de refinancement la plus récente majoré de 7 points de pourcentage sans que ce taux ne soit inférieur à 1,5 fois le taux d’intérêt légal, sur les montants facturés qui seraient échus. En cas de non-paiement, SINERGIS se réserve le droit de refuser toute nouvelle inscription de participants du Client et de résilier les inscriptions en cours de participants du Client.</p>
+							</div>
+							<div style="page-break-inside: avoid;">
+								<h5>Article 5: Moyens pédagogiques et techniques</h5>
+								<p>Toute session de formation est organisée en une succession de parties théoriques et de mises en application pratiques sous forme d’exercices réalisés sur des solutions SINERGIS.
+								Les sessions de formation sont dispensées par des formateurs sélectionnés pour leurs connaissances sur des solutions proposées par SINERGIS, connaissances qu’ils ont acquises dans le cadre de la mise en œuvre de ces solutions.
+								Les compétences pédagogiques des formateurs proviennent :
+								d’un processus de formation continue, organisé par SINERGIS, durant lequel sont abordées les principales techniques d’animation de sessions de formation ou de formations à la pédagogie suivies précédemment par le Formateur.
+								En considération des demandes et du niveau des participants du Client, SINERGIS dispose de moyens nécessaires afin de dispenser des sessions de formation, objet de la présente Convention et accomplira sa mission de formation en professionnel diligent.</p>
+							</div>
+							<div style="page-break-inside: avoid;">
+								<h5>Article 6 : Dispositif permettant de suivre l’exécution du programme</h5>
+								<p>Chaque stagiaire signera une feuille d’émargement et une attestation de présence.</p>
+							</div>
+							<div style="page-break-inside: avoid;">
+							<h5>Article 7 : Dispositif permettant d’apprécier les résultats</h5>
+								<p>A l’issue de la formation, le formateur fera remplir une évaluation de la formation en ligne à toutes les personnes formées. Le formateur évaluera lors de la prestation de formation, non seulement les acquis des personnes formées mais également leur engagement et leur assiduité. Ces informations pourront être remise au commanditaire sur demande.</p>
+							</div>
+							<div style="page-break-inside: avoid;">
+								<h5>Article 8 : Nature de la sanction de la formation dispensée</h5>
+								<p>Une attestation individualisée de suivi de stage sera remise à chaque stagiaire en fin de formation.</p>
+							</div>
+							<div style="page-break-inside: avoid;">
+								<h5>Article 9 : Annulation - Report</h5>
+								<p>A compter de l’inscription définitive, pour une annulation reçue moins de 10 Jours ouvrés avant la date de prestation 50 % du prix des journées de formation et déplacements restent dus. Pour toute annulation reçue moins de 5 jours ouvrés avant la date de prestation, le prix des journées de formation reste acquis dans son intégralité. Seules les conditions de report ou d’annulation écrites et faxées sont prises en considération.</p>
+							</div>
+							<div style="page-break-inside: avoid;">
+								<h5>Article 10 : Différends éventuels</h5>
+								<p>Si une contestation ou un différend ne peut être réglé à l’amiable, le Tribunal de Fort-de-France sera compétent pour régler le litige.</p>
+							</div>
 							<br/>
 							<p>Fait en deux exemplaires originaux, à Fort de France, le <span t-esc="datetime.datetime.now().strftime('%d/%m/%Y')"/></p>
 							<div style="page-break-inside: avoid;">

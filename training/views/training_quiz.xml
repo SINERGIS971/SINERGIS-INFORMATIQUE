@@ -12,7 +12,7 @@
         <field name="name">Quiz</field>
         <field name="model">training.quiz</field>
         <field name="arch" type="xml">
-          <form>
+          <form duplicate="false">
             <group>
               <field name="name"/>
               <field name="questions_ids">
@@ -20,11 +20,13 @@
                         <field name="name"/>
                         <field name="type"/>
                         <field name="required"/>
+                        <field name="average_rate" attrs="{'invisible': [('average_rate',  '=', -1)]}"/>
                 </tree>
                 <form string="Éditer une question" >
                   <group>
+                        <field name="average_rate" invisible="True"/>
                         <field name="name" required="True"/>
-                        <field name="type" required="True"/>
+                        <field name="type" required="True" attrs="{'readonly': [('average_rate',  '!=', -1)]}"/>
                         <field name="choice_ids" attrs="{'invisible': [('type',  '!=', 'multiple_choice')]}">
                           <tree>
                             <field name="name"/>

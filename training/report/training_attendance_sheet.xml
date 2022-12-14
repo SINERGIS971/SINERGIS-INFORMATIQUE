@@ -62,19 +62,15 @@
                   <th style="width: 33.3%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
                     <p style="font-size:13px; margin:3px;">Intitulé de la formation : <span t-field="doc.course_title"/></p>
                   </th>
-                   <th style="width: 33.3%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
-                    <p style="font-size:13px; margin:3px;">Horaires de la formation : ................................</p>
+                   <th style="width: 66.6%;padding: 0;vertical-align: top;margin:0;font-weight: normal;" rowspan="2">
+										 <p style="font-size:13px; margin:3px;">Lieu de la formation : <span t-field="doc.location_street"/>,</p>
+										 <p style="font-size:13px; margin:3px;" t-if="doc.location_street2"><span t-field="doc.location_street2"/>,</p>
+										 <p style="font-size:13px; margin:3px;"><span t-field="doc.location_zip"/> <span t-field="doc.location_city"/>, <span t-field="doc.location_country_id"/></p>
                   </th>
-									<th style="width: 33.3%;padding: 0;vertical-align: top;margin:0;font-weight: normal;" rowspan="2">
-
-									</th>
                 </tr>
                 <tr>
                   <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
                     <p style="font-size:13px; margin:3px;">Date(s) de la formation : Du <span t-field="doc.start"/> au <span t-field="doc.end"/></p>
-                  </th>
-                   <th style="width: 50%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
-                    <p style="font-size:13px; margin:3px;">Lieu de la formation : <span t-field="doc.location"/></p>
                   </th>
                 </tr>
             </tbody>

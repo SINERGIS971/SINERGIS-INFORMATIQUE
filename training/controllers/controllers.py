@@ -192,6 +192,10 @@ class Training(http.Controller):
         for question in questions:
             questions_name.append(question.name)
             if question.type == "note1":
+                vals = {'rate': int(questions_answer[i]),
+                        'question_id': question.id
+                        }
+                http.request.env['training.quiz.questions.rate.record'].sudo().create(vals)
                 questions_answer[i] = questions_answer[i] + " sur 5"
             #Si c'est une question à choix multiple
             if question.type == "multiple_choice":
@@ -214,29 +218,37 @@ class Training(http.Controller):
 
         #Construction de la réponse
         TAG_RE = re.compile(r'<[^>]+>') #Retirer les balises des réponses
-        body = "<table style='border-collapse: collapse;border: 1px solid;'><tr><th style='width:100%;border: 1px solid;'>Question</th><th style='border: 1px solid;'>Réponse</th></tr>"
+        body = ""
+        mark = -1
+        if total_answers != 0 :  # If the quiz have rated answers
+            mark = right_answers/total_answers * 20
+        mark = float("{:.2f}".format(mark)) # Limit to 2 digits
+        body += "<table style='border-collapse: collapse;border: 1px solid;'><tr><th style='width:100%;border: 1px solid;'>Question</th><th style='border: 1px solid;'>Réponse</th></tr>"
         for i in range(0,n):
             questions_answer[i] = TAG_RE.sub('', questions_answer[i])
             body += "<tr style='margin-top:10px;'><td style='border: 1px solid;'>"+questions_name[i]+"</td><td style='border: 1px solid;'>"+questions_answer[i]+"</td></tr>"
         body+="</table>"
-        if total_answers != 0 :  # If the quiz have rated answers
-            mark = right_answers/total_answers * 20
-            body += f"<p>Note aux réponses : {mark}/20</p>"
 
         if participant: #Si c'est une réponse d'un participant
             if participant.token_quiz_diagnostic == token: #C'est un quiz diagnostic
                 participant.answer_quiz_diagnostic = body
+                participant.mark_quiz_diagnostic = mark
             elif participant.token_quiz_positioning == token: #C'est un quiz de positionnement
                 participant.answer_positioning_quiz = body
+                participant.mark_positioning_quiz = mark
             if participant.token_quiz_prior_learning == token: #C'est un quiz d'évaluation des acquis
                 participant.answer_prior_learning_quiz = body
+                participant.mark_prior_learning_quiz = mark
             if participant.token_quiz_training_evaluation == token: #C'est un quiz d'évaluation de la formation
                 participant.answer_training_evaluation = body
+                participant.mark_training_evaluation = mark
         if training: #Si c'est une réponse du client
             if training.token_delayed_assessment == token: #C'est un quiz diagnostic
                 training.answer_delayed_assessment = body
+                training.mark_delayed_assessment = mark
             if training.token_opco_quiz == token: #C'est un quiz opco
                 training.answer_opco_quiz = body
+                training.mark_opco_quiz = mark
 
 
         return http.request.render("training.quiz_page_message", {

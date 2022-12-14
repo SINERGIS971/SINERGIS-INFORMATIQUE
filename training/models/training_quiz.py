@@ -60,6 +60,24 @@ class TrainingQuizQuestions(models.Model):
     put_title = fields.Boolean(string="Mettre un titre de partie au dessus ?", default=False)
     title = fields.Char(string="Titre de partie")
 
+    average_rate = fields.Float(string="Note moyenne", compute="_compute_average_rate")
+
+    @api.depends("average_rate")
+    def _compute_average_rate (self):
+        for rec in self:
+            if rec.type == "note1":
+                elements = self.env['training.quiz.questions.rate.record'].sudo().search([('question_id', '=', rec.id)])
+                n = len(elements)
+                if n > 0:
+                    s = 0
+                    for element in elements:
+                        s += element.rate
+                    rec.average_rate = s/n
+                else :
+                    rec.average_rate = -1
+            else :
+                rec.average_rate = -1
+
 class TrainingQuizQuestionsMultipleChoice(models.Model):
     _name = "training.quiz.questions.multiple_choice"
     _description = "Questions à choix multiple"
@@ -84,6 +102,12 @@ class TrainingQuizQuestionsMultipleChoice(models.Model):
     def _compute_actual_year_count (self):
         for rec in self:
             rec.actual_year_count = self.env['training.quiz.questions.multiple_choice.record'].search_count([('multiple_choice_id', '=', rec.id),('date','<',(date.today()+relativedelta(years=1)).replace(day=1,month=1)),('date','>=',(date.today()).replace(day=1,month=1))])
+
+class TrainingQuizQuestionsRateRecord(models.Model):
+    _name = "training.quiz.questions.rate.record"
+    _description = "Réponse à une question notée"
+    rate = fields.Integer(string="Note")
+    question_id = fields.Many2one("training.quiz.questions", string="",readonly=True)
 
 class TrainingQuizQuestionsMultipleChoiceRecord(models.Model):
     _name = "training.quiz.questions.multiple_choice.record"
