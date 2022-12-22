@@ -382,15 +382,23 @@ class Training(models.Model):
             raise ValidationError("Veuillez entrer un client avant de planifier des heures")
     def send_invitation_participants(self):
         if Training.verifiation_fields(self):
+            mail_count = 0
             for participant in self.training_participants:
                 if not participant.invitation_sent:
                     TrainingParticipants.send_invitation_individual(participant)
+                    mail_count += 1
+            if mail_count == 0:
+                raise ValidationError("Vous avez déjà envoyé l'invitation à tous les participants, si un des participants n'a pas reçu le mail, veuillez lui envoyer individuellement grace bouton situé sur sa ligne.")
 
     def send_diagnostic_quiz_participants (self):
         if Training.verifiation_fields(self):
+            mail_count = 0
             for participant in self.training_participants:
                 if not participant.diagnostic_quiz_sent:
                     TrainingParticipants.send_diagnostic_quiz_individual(participant)
+                    mail_count += 1
+            if mail_count == 0:
+                raise ValidationError("Vous avez déjà envoyé le diagnostic à tous les participants, si un des participants n'a pas reçu le mail, veuillez lui envoyer individuellement grace bouton situé sur sa ligne.")
 
     def download_training_evaluation (self):
         return self.env.ref('training.training_consultant_evaluation_report').report_action(self)
@@ -398,9 +406,13 @@ class Training(models.Model):
     def send_training_ended_participants (self):
         if not self.type_product_plan_id:
             raise ValidationError("Il vous faut un plan de formation pour envoyer les mails")
+        mail_count = 0
         for participant in self.training_participants:
             if not participant.training_ended_sent:
                 TrainingParticipants.send_training_ended_individual(participant)
+                mail_count += 1
+        if mail_count == 0:
+                raise ValidationError("Vous avez déjà envoyé le mail à tous les participants, si un des participants ne l'a pas reçu, veuillez lui envoyer individuellement grace bouton situé sur sa ligne.")
 
     def send_delayed_assessment_client (self):
         if Training.verifiation_fields(self):

@@ -16,9 +16,11 @@ class Attendee(models.Model):
         If not synced with Microsoft Outlook, let Odoo in charge of sending emails
         Otherwise, Microsoft Outlook will send them
         """
-        with microsoft_calendar_token(self.env.user.sudo()) as token:
-            if not token:
-                super()._send_mail_to_attendees(mail_template, force_send)
+        """MODIFICATION IN SINERGIS VERSION : IMPOSSIBLE TO SEND MAIL | TO TEST"""
+        pass
+        #with microsoft_calendar_token(self.env.user.sudo()) as token:
+        #    if not token:
+        #        super()._send_mail_to_attendees(mail_template, force_send)
 
     def do_tentative(self):
         # Synchronize event after state change
