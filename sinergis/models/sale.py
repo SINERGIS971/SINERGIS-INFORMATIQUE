@@ -168,12 +168,12 @@ class SaleOrderLine(models.Model):
 
 #SINERGIS PRODUCTS AND SUB-PRODUCTS
 class Products (models.Model):
-    _name = "sale.sinergis.products"
+    _name = "sale.products"
     _description = "Produits"
     name = fields.Char(string="Product Name",required=True)
 
 class SubProducts (models.Model):
-    _name = "sale.sinergis.products.subproducts"
+    _name = "sale.products.subproducts"
     _description = "Sous-Produits"
     product_id = fields.Many2one("sale.products",string="Produit",required=True)
     name = fields.Char(string="Sub-Product Name",required=True)
