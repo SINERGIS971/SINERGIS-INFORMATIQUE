@@ -7,3 +7,4 @@ class ResUsers(models.Model):
 
     x_sinergis_res_users_initials = fields.Char(string="Initiales")
     x_sinergis_res_users_tampon_signature = fields.Image(string="Signature document")
+    x_sinergis_res_users_job = fields.Selection([('CONSULTANT', 'CONSULTANT'), ('COMMERCIAL', 'COMMERCIAL')], string="Type de travail")
