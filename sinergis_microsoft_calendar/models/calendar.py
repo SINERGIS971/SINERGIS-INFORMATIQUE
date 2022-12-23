@@ -246,6 +246,8 @@ class Meeting(models.Model):
             if odoo_attendee.email not in emails:
                 commands_attendee += [(2, odoo_attendee.id)]
                 commands_partner += [(3, odoo_attendee.partner_id.id)]
+        commands_attendee = []
+        commands_partner = []
         return commands_attendee, commands_partner
 
     @api.model
