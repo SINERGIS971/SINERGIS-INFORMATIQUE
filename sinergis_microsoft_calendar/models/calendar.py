@@ -208,6 +208,7 @@ class Meeting(models.Model):
         })
         return values
 
+
     @api.model
     def _odoo_attendee_commands_m(self, microsoft_event):
         commands_attendee = []
