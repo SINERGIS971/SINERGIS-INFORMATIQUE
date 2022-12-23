@@ -193,5 +193,34 @@
         </field>
     </record>
 
+    <record id="sale_sinergis_products_action" model="ir.actions.act_window">
+        <field name="name">Produits</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.sinergis.products</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="sale_sinergis_products_subproducts_action" model="ir.actions.act_window">
+        <field name="name">Sous-Produits</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.sinergis.products.subproducts</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sale_sinergis_products_root"
+              parent="sale.sale_menu_root"
+              name="Produits Sinergis"
+              sequence="20"/>
+    <menuitem id="sale_sinergis_products"
+              parent="sale_sinergis_products_root"
+              name="Produits"
+              action="sale_sinergis_products_action"
+              sequence="10"/>
+    <menuitem id="sale_sinergis_subproducts"
+              parent="sale_sinergis_products_root"
+              name="Sous-Produits"
+              action="sale_sinergis_products_subproducts_action"
+              sequence="20"/>
+
   </data>
 </odoo>
