@@ -208,7 +208,7 @@ class Meeting(models.Model):
         })
         return values
 
-
+    #NEW COMMANDS
     @api.model
     def _odoo_attendee_commands_m(self, microsoft_event):
         commands_attendee = []
@@ -247,6 +247,8 @@ class Meeting(models.Model):
             if odoo_attendee.email not in emails:
                 commands_attendee += [(2, odoo_attendee.id)]
                 commands_partner += [(3, odoo_attendee.partner_id.id)]
+        #commands_attendee = []
+        #commands_partner = []
         commands_attendee = []
         commands_partner = []
         return commands_attendee, commands_partner
