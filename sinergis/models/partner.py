@@ -52,6 +52,7 @@ class ResPartner(models.Model):
     x_sinergis_societe_litige_bloque_remarques = fields.Text(string="Remarques")
 
     x_sinergis_societe_notes_techniques = fields.Text(string="Notes techniques")
+    x_sinergis_societe_fichier_notes_techniques = fields.One2many('sinergis.technical_note_files', 'partner_id', string="Fichiers notes techniques")
 
     x_sinergis_societe_societe_fille = fields.One2many('res.partner', 'x_sinergis_societe_mere', string='Contact', domain=[('active', '=', True)]) #EN TEST
 
@@ -250,3 +251,12 @@ class SinergisAnnualContracts(models.Model):
     statistical_family_4 = fields.Char(string="Famille statistique 4",required=True)
     statistical_family_5 = fields.Char(string="Famille statistique 5",required=True)
     order_state = fields.Selection([('Non soldée', 'Non soldée'), ('Soldée', 'Soldée')], string="État commande")
+
+class SinergisTechnicalNoteFiles(models.Model):
+    _name = "sinergis.technical_note_files"
+    _description = "Fichiers Note Technique"
+
+    partner_id = fields.Many2one("res.partner",string="Client",required=True)
+
+    name = fields.Char(string="Nom",required=True)
+    file = fields.Binary(string="File")

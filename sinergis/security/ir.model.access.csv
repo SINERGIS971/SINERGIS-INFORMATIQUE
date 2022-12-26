@@ -8,5 +8,6 @@ mail.access_mail_mail_all,mail.mail.sinergis,mail.model_mail_mail,,1,0,0,0
 mail.access_mail_mail_user,mail.mail.user,mail.model_mail_mail,base.group_user,1,0,0,0
 mail.access_mail_mail_portal,mail.mail.portal,mail.model_mail_mail,base.group_portal,1,0,0,0
 access_sinergis_annual_contracts,sinergis.annual_contracts,model_sinergis_annual_contracts,,1,1,1,1
+sinergis_technical_note_files,sinergis.technical_note_files,model_sinergis_technical_note_files,,1,1,1,1
 sale_products,sale.products,model_sale_products,,1,1,1,1
 sale_products_subproducts,sale.products.subproducts,model_sale_products_subproducts,,1,1,1,1

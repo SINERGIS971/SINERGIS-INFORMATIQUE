@@ -124,6 +124,17 @@
                 </page>
                 <page string="Notes techniques" name="x_sinergis_societe_notes_techniques_page">
                     <field name="x_sinergis_societe_notes_techniques" string="Notes techniques" options="{'height': 70}" />
+                    <field name="x_sinergis_societe_fichier_notes_techniques">
+                       <tree>
+                        <field name="file" filename="name" widget="binary"/>
+                      </tree>
+                      <form>
+                        <group>
+                            <field name="name"/>
+                            <field name="file" filename="name"/>
+                        </group>
+                      </form>
+                    </field>
                 </page>
                 <page string="Société(s) fille(s)" name="x_sinergis_societe_societe_fille_page">
                     <!-- EN TEST -->
