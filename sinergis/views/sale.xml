@@ -195,14 +195,13 @@
     </record>
 
     <record id="sinergis_inherited_view_order_line_tree" model="ir.ui.view">
-        <field name="name">sinergis.inherited.view_order_line_tree</field>
-        <field name="model">sale.order.line</field>
-        <field name="inherit_id" ref="sale.view_order_line_tree"/>
-        <field name="priority" eval="10"/>
+        <field name="name">sinergis.sale.order.line.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-          <xpath expr="//field[@name='price_subtotal']" position="after">
-            <field name="x_sinergis_sale_order_line_subproduct_id"/>
-          </xpath>
+           <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="before">
+                <field name="x_sinergis_sale_order_line_subproduct_id"/>
+            </xpath>
         </field>
     </record>
 
