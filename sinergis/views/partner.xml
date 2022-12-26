@@ -130,7 +130,7 @@
                       </tree>
                       <form>
                         <group>
-                            <field name="name"/>
+                            <field name="name" invisible="True"/>
                             <field name="file" filename="name"/>
                         </group>
                       </form>
