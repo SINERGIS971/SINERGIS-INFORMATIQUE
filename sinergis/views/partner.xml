@@ -126,6 +126,7 @@
                     <field name="x_sinergis_societe_notes_techniques" string="Notes techniques" options="{'height': 70}" />
                     <field name="x_sinergis_societe_fichier_notes_techniques">
                        <tree>
+                        <field name="name" invisible="True"/>
                         <field name="file" filename="name" widget="binary"/>
                       </tree>
                       <form>
