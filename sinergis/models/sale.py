@@ -166,6 +166,7 @@ class SaleOrderLine(models.Model):
     string='Cost', compute=False,
     digits='Product Price', store=True, readonly=False,
     groups="base.group_user")
+    x_sinergis_sale_order_line_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-Produit")
 
 #SINERGIS PRODUCTS AND SUB-PRODUCTS
 class Products (models.Model):
