@@ -28,6 +28,9 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_projects_ended = fields.Boolean(string="Projets terminés", compute="_compute_x_sinergis_sale_order_projects_ended")
 
+    # 3 Janvier 2023 : Pouvoir modifier la date de commande
+    date_order = fields.Datetime(readonly=False)
+
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
     @api.onchange('partner_shipping_id', 'partner_id', 'company_id')
     def onchange_partner_shipping_id(self):
