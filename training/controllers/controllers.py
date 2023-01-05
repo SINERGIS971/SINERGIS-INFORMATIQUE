@@ -35,7 +35,7 @@ class Training(http.Controller):
                     if training_quiz:
                         return http.request.render("training.quiz_page", {
                             "token" : token,
-                            "company_name" : training_id.partner_id.name,
+                            "company_name" : training_id.partner_id.sudo().name,
                             "user_name" : participant.name,
                             "quiz" : training_quiz
                         })

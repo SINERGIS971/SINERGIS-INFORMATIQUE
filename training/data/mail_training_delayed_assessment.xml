@@ -46,7 +46,7 @@
                   <table style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td style="font-family: sans-serif;font-size: 14px;vertical-align: top; ">
-                        <p>Bonjour,</p>
+                        <!--<p>Bonjour,</p>
                         <p>Vous nous avez fait confiance en pour assurer une formation aux dates ci-dessous :</p>
                         <ul>
                           	<t t-foreach="object.planned_hours_ids.sorted(key=lambda x: x.start)" t-as="line">
@@ -54,7 +54,10 @@
                             </t>
                         </ul>
                         <p>Nous espérons qu’elle a répondu à vos attentes.</p>
-                        <p>Merci de remplir le questionnaire d’évaluation en cliquant sur le bouton ci-dessous.</p>
+                        <p>Merci de remplir le questionnaire d’évaluation en cliquant sur le bouton ci-dessous.</p>-->
+                        <p>Bonjour,</p>
+                        <p>Cela fait maintenant 1 mois que la formation <span t-out="object.name"/>  a été réalisée par SINERGIS; nous espérons qu’elle a répondu à vos attentes.</p>
+                        <p>Nous souhaitons connaitre l’impact de cette formation dans votre organisation, et vous invitons à compléter le questionnaire d’évaluation en cliquant sur le bouton ci-dessous.</p>
 
                         <br/>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box;

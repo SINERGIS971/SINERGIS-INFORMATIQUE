@@ -52,13 +52,13 @@
                         <p>Bonjour,</p>
                         <p>Vous allez suivre dans quelques jours une session de formation organisée par SINERGIS, dont vous trouverez le programme ci-joint : </p>
                         <p>Intitulé : <span t-out="object.training_id.course_title"/></p>
-                        <p>Date : Du <span t-out="object.training_id.start"/> au <span t-out="object.training_id.end"/></p>
+                        <p>Date : Du <span t-out="object.training_id.start" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/> au <span t-out="object.training_id.end" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/></p>
                         <p>Durée totale : <span t-out="object.training_id.duration"/> jours</p>
                         <p><span t-out="object.training_id.consultant_id.name"/> sera votre formateur / formatrice.</p>
                         <p>La formation se déroulera en ligne, aux jours et horaires suivants (UTC−4) :</p>
                         <ul>
                             <t t-foreach="object.training_id.planned_hours_ids.sorted(key=lambda x: x.start)" t-as="line">
-                              <li>Du <span t-out="line.start"/> au <span t-out="line.stop"/></li>
+                              <li>Du <span t-out="line.start" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/> au <span t-out="line.stop" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/></li>
                             </t>
                         </ul>
                         <p t-if="object.training_id.remote_learning_link">Vous êtes invité à vous connecter, 5 minutes avant chaque séquence, en cliquant sur le lien suivant : <a t-attf-href="{{ object.training_id.remote_learning_link }}" target="_blank" style="width:100%;text-align:center;font-size:17px;">Cliquez ici pour accéder à la formation</a></p>

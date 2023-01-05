@@ -43,7 +43,7 @@ class Training(models.Model):
     location = fields.Many2one("training.location", string="Localisation de la formation")
     start = fields.Date(string="Début de la formation")
     end = fields.Date(string="Fin de la formation")
-    duration = fields.Float(string="Durée (jours)")
+    duration = fields.Float(string="Durée (jours)",compute="_compute_duration")
     agreement_internal_signer = fields.Char(string="Signataire interne de la convention",default="Alain CASIMIRO, Directeur")
 
     signed_agreement = fields.Binary(string='Convention de formation signée')
@@ -146,6 +146,11 @@ class Training(models.Model):
     def _compute_participants_count (self):
         for rec in self:
             rec.participants_count = len(rec.training_participants)
+
+    @api.depends("duration")
+    def _compute_duration (self):
+        for rec in self:
+            rec.duration = rec.sale_order_line_id.product_uom_qty
 
     #Header buttons
 
@@ -504,7 +509,7 @@ class TrainingParticipants(models.Model):
 
     answer_training_evaluation = fields.Html(default="",readonly=True, string="Réponse au quiz d'évaluation de la formation")
     mark_training_evaluation = fields.Float(string="Note du quiz d'évaluation de la formation")
-    training_evaluation_received = fields.Boolean(string="Quiz évaluation consultant",default=False,compute="_compute_training_evaluation_received")
+    training_evaluation_received = fields.Boolean(string="Quiz évaluation formation",default=False,compute="_compute_training_evaluation_received")
 
     @api.depends("is_rated")
     def _compute_is_rated (self):
