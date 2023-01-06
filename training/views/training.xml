@@ -342,13 +342,13 @@
         <field name="context">{'group_by': [], 'pivot_measures': ['duration'], 'pivot_column_groupby': [], 'pivot_row_groupby': []}</field>
     </record>
 
-    <record id="filter_all_amount" model="ir.filters">
+    <!--<record id="filter_all_amount" model="ir.filters">
         <field name="name">Montant total</field>
         <field name="model_id">training</field>
         <field name="domain"></field>
         <field name="user_id" eval="False"/>
         <field name="context">{'group_by': [], 'pivot_measures': ['sale_price_total'], 'pivot_column_groupby': [], 'pivot_row_groupby': []}</field>
-    </record>
+    </record>-->
 
     <!--<record id="filter_product_participant" model="ir.filters">
         <field name="name">Participants par produit</field>
