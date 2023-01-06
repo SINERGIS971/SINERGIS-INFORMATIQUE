@@ -29,6 +29,9 @@
     <field name="inherit_id" ref="project.view_project_project_filter"/>
     <field name="arch" type="xml">
       <xpath expr="//filter[@name='open']" position="after">
+        <filter string="Consultant" domain="[('x_sinergis_project_res_users_job', '=', 'CONSULTANT')]" name="user_type_consultant"/>
+        <filter string="Commercial" domain="[('x_sinergis_project_res_users_job', '=', 'COMMERCIAL')]" name="user_type_commercial"/>
+        <separator/>
         <filter string="Projets terminés" name="filter_ended_project" domain="[('x_sinergis_project_project_etat_projet','=','Projet terminé')]"/>
       </xpath>
     </field>

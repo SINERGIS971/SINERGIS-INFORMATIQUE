@@ -117,6 +117,8 @@ class ProjectProject(models.Model):
 
     x_sinergis_project_project_planned_hours = fields.Float(compute="_compute_x_sinergis_project_project_planned_hours")
 
+    x_sinergis_project_res_users_job = fields.Selection(related="user_id.x_sinergis_res_users_job") #Type du vendeur : Consultant ou commercial
+
     @api.depends('x_sinergis_project_project_sale_order_contact')
     def _compute_x_sinergis_project_project_sale_order_contact (self):
         for rec in self:
