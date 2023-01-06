@@ -176,6 +176,8 @@
                 <field name="company_id" optional="show" readonly="1" on_change="1" can_create="true" can_write="true" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
                 <field name="x_sinergis_sale_order_projects_ended"/>
                 <field name="x_sinergis_sale_order_acompte_verse"/>
+
+                <field name="x_sinergis_sale_res_users_job"/>
             </xpath>
 
         </field>
