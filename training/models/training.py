@@ -43,7 +43,7 @@ class Training(models.Model):
     location = fields.Many2one("training.location", string="Localisation de la formation")
     start = fields.Date(string="Début de la formation")
     end = fields.Date(string="Fin de la formation")
-    duration = fields.Float(string="Durée (jours)",compute="_compute_duration")
+    duration = fields.Float(string="Durée (jours)",compute="_compute_duration", store="True")
     agreement_internal_signer = fields.Char(string="Signataire interne de la convention",default="Alain CASIMIRO, Directeur")
 
     signed_agreement = fields.Binary(string='Convention de formation signée')
