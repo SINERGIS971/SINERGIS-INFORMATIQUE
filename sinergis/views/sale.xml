@@ -12,6 +12,9 @@
           </xpath>
           <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
             <separator/>
+            <filter string="Consultant" domain="[('x_sinergis_sale_res_users_job', '=', 'CONSULTANT')]" name="user_type_consultant"/>
+            <filter string="Commercial" domain="[('x_sinergis_sale_res_users_job', '=', 'COMMERCIAL')]" name="user_type_commercial"/>
+            <separator/>
             <filter string="CEGID" domain="[('x_sinergis_sale_order_product', '=', 'CEGID')]" name="product_cegid_filter"/>
             <filter string="E2TIME" domain="[('x_sinergis_sale_order_product', '=', 'E2TIME')]" name="product_e2time_filter"/>
             <filter string="MESBANQUES" domain="[('x_sinergis_sale_order_product', '=', 'MESBANQUES')]" name="product_mesbanques_filter"/>
@@ -176,8 +179,6 @@
                 <field name="company_id" optional="show" readonly="1" on_change="1" can_create="true" can_write="true" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
                 <field name="x_sinergis_sale_order_projects_ended"/>
                 <field name="x_sinergis_sale_order_acompte_verse"/>
-
-                <field name="x_sinergis_sale_res_users_job"/>
             </xpath>
 
         </field>
