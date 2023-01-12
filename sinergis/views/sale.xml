@@ -8,6 +8,8 @@
         <field name="arch" type="xml">
           <xpath expr="//filter[@name='order_month']" position="after">
             <separator/>
+            <filter string="Produit" name="group_by_user_job" context="{'group_by':'x_sinergis_sale_res_users_job'}"/>
+            <separator/>
             <filter string="Produit" name="group_by_product" context="{'group_by':'x_sinergis_sale_order_product'}"/>
           </xpath>
           <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
