@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_projects_ended = fields.Boolean(string="Projets terminés", compute="_compute_x_sinergis_sale_order_projects_ended")
 
-    x_sinergis_sale_res_users_job = fields.Selection(related="user_id.x_sinergis_res_users_job") #Type du vendeur : Consultant ou commercial
+    x_sinergis_sale_res_users_job = fields.Selection(related="user_id.x_sinergis_res_users_job", store="True") #Type du vendeur : Consultant ou commercial
 
     # 3 Janvier 2023 : Pouvoir modifier la date de commande
     date_order = fields.Datetime(readonly=False)
