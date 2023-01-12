@@ -40,7 +40,7 @@ class Training(models.Model):
     training_participants = fields.One2many("training.participants","training_id",string="Participants à la formation")
     #Commercial part - Drafting of the agreement
     course_title = fields.Text(string="Intitulé du stage")
-    location = fields.Many2one("training.location", string="Localisation de la formation")
+    location = fields.Many2one("training.location", string="Localisation de la formation (département)")
     start = fields.Date(string="Début de la formation")
     end = fields.Date(string="Fin de la formation")
     duration = fields.Float(string="Durée (jours)",compute="_compute_duration", store="True")
@@ -617,6 +617,16 @@ class TrainingParticipants(models.Model):
                 self.training_ended_sent = True
             else :
                 raise ValidationError("Ce participant n'a pas de mail, veuillez le renseigner en revenant à la partie commerciale.")
+
+    def open_participant_button (self):
+        return {
+            "name": "Participant",
+            "type": "ir.actions.act_window",
+            "res_model": "training.participants",
+            "view_mode": "form",
+            "res_id": self.id,
+            "target": "new",
+            }
 
 #===TRAINING TYPE===
 

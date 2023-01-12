@@ -224,7 +224,7 @@
                 <!-- Formation terminée -->
                 <div attrs="{'invisible': ['|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress')]}">
                 <separator style="font-size:20px;" string="Formation terminée"/>
-                <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
+                <field name="training_participants" readonly="False" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
                 </field>
                   <button name="send_training_ended_participants" string="Envoyer les mails aux participants" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les mails à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer ?" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
                   <div style="margin-left:30px;">
@@ -268,6 +268,7 @@
                             <field name="training_evaluation_received" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
                             <field name="is_rated" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
                             <button name="send_training_ended_individual" string="Envoyer les quiz" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les quiz d'évaluation, souhaitez-vous continuer ?" attrs="{'column_invisible': [('parent.state',  '!=', 'training_ended')]}"/>
+                            <button name="open_participant_button" string="Voir" type="object"  icon="fa-eye" class="btn-warning" attrs="{'invisible': [('parent.state',  '=', 'commercial_part')]}"/>
                       </tree>
                     </field>
                 </group>
