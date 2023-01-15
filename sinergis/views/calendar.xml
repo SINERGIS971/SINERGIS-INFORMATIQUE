@@ -29,6 +29,9 @@
               <xpath expr="//calendar[@js_class='attendee_calendar']" position="attributes">
                 <attribute name="quick_add">False</attribute>
               </xpath>
+              <xpath expr="//field[@name='partner_id']" position="after">
+                  <field name="x_sinergis_calendar_event_is_facturee"/>
+              </xpath>
             </field>
         </record>
 
