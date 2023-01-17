@@ -132,8 +132,9 @@ class SaleOrder(models.Model):
     def _compute_x_sinergis_sale_order_product_new_have_subproduct (self):
         for rec in self:
             state = False
-            if self.env['sale.products.subproducts'].search([('product_id','=',rec.id)]):
-                state = True
+            if rec.x_sinergis_sale_order_product_new:
+                if self.env['sale.products.subproducts'].search([('product_id','=',rec.x_sinergis_sale_order_product_new.id)]):
+                    state = True
             rec.x_sinergis_sale_order_product_new_have_subproduct = state
 
     @api.onchange("order_line")
