@@ -6,6 +6,7 @@
         <t t-if="record.x_sinergis_calendar_event_is_facturee">
           <br/>
           <i role="img" class="fa fa-check-circle-o" style="color:green;"><strong>Décompté</strong></i>
+          <i role="img" class="fa fa-sheet-plastic" style="color:green;"><t t-esc="record.x_sinergis_calendar_event_facturation"></t></i>
         </t>
       </xpath>
     </t>
