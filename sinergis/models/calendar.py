@@ -78,7 +78,11 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_intervention_count = fields.Integer(string="Nombre d'interventions", compute="_compute_x_sinergis_calendar_event_intervention_count")
     x_sinergis_calendar_event_temps_cumule = fields.Float(string="Temps cumulé", compute="_compute_x_sinergis_calendar_event_temps_cumule", group_operator='sum')
 
+    # Prise en compte uniquement de la facturation CH ou devis
     x_sinergis_calendar_event_is_facturee = fields.Boolean(string="",default=False)
+    # Prise en compte de chaque type de facturation.
+    # Pour valider cette facturation : Soit on décompt, soit on renseigne un type de facturation sans décomptage et on regarde si il y a du temps passé présent
+    x_sinergis_calendar_event_is_facturee_total = fields.Boolean(string="",compute="_compute_x_sinergis_calendar_event_is_facturee_total")
 
     #Pour la vue list
     x_sinergis_calendar_event_is_downloaded = fields.Boolean(string="Téléchargé",default=False,readonly=True)
@@ -109,6 +113,20 @@ class CalendarEvent(models.Model):
             if rec.x_sinergis_calendar_event_facturation and rec.x_sinergis_calendar_event_temps_cumule > 0:
                 state = True
             rec.x_sinergis_calendar_event_is_deducted = state
+
+    @api.depends('x_sinergis_calendar_event_is_facturee_total')
+    def _compute_x_sinergis_calendar_event_is_facturee_total (self):
+        for rec in self:
+            state = False
+            #Si décomptage sur CH ou devis
+            if rec.x_sinergis_calendar_event_is_facturee:
+                state = True
+            elif rec.x_sinergis_calendar_event_facturation:
+                if rec.x_sinergis_calendar_event_facturation != "Contrat heure" and rec.x_sinergis_calendar_event_facturation != "Devis":
+                    if rec.x_sinergis_calendar_duree_facturee:
+                        state = True
+            rec.x_sinergis_calendar_event_is_facturee_total = state
+
 
 
     def updateTasks (self):
