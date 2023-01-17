@@ -85,7 +85,9 @@
             <xpath expr="//field[@name='partner_invoice_id']" position="before">
                 <field name="x_sinergis_sale_order_contact" domain="[('parent_id','=',partner_id),('x_sinergis_societe_contact_inactive','=',False)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
                 <field name="x_sinergis_sale_order_product"/>
-                <!--<field name="x_sinergis_sale_order_product_new"/>-->
+                <field name="x_sinergis_sale_order_product_new"/>
+                <!-- Pour voir si un sous-produit existe pour ce produit, afin de bloquer la sélection des sous-produits -->
+                <field name="x_sinergis_sale_order_product_new_have_subproduct" invisible="1"/>
                 <br/>
                 <br/>
             </xpath>
@@ -205,7 +207,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
            <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="before">
-                <field name="x_sinergis_sale_order_line_subproduct_id"/>
+                <field name="x_sinergis_sale_order_line_subproduct_id" ttrs="{'readonly': [('x_sinergis_sale_order_product_new_have_subproduct',  '=', False)]}"/>
             </xpath>
         </field>
     </record>

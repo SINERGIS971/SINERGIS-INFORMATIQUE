@@ -25,6 +25,7 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_product = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('SILAE','SILAE'), ('DIVERS', 'DIVERS')], required=True, string="Produit")
     x_sinergis_sale_order_product_new = fields.Many2one("sale.products",string="Produit")
+    x_sinergis_sale_order_product_new_have_subproduct = fields.Boolean(compute="_compute_x_sinergis_sale_order_product_new_have_subproduct")
 
     x_sinergis_sale_order_projects_ended = fields.Boolean(string="Projets terminés", compute="_compute_x_sinergis_sale_order_projects_ended")
 
@@ -126,6 +127,14 @@ class SaleOrder(models.Model):
                 if project_id.x_sinergis_project_project_etat_projet != "Projet terminé":
                     projectEnded = False
             rec.x_sinergis_sale_order_projects_ended = projectEnded
+
+    @api.depends('x_sinergis_sale_order_product_new_have_subproduct')
+    def _compute_x_sinergis_sale_order_product_new_have_subproduct (self):
+        for rec in self:
+            state = False
+            if self.env['sale.products.subproducts'].search([('product_id','=',rec.id)]):
+                state = True
+            rec.x_sinergis_sale_order_product_new_have_subproduct = state
 
     @api.onchange("order_line")
     def on_change_order_line(self):
