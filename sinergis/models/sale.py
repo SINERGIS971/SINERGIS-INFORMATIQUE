@@ -66,6 +66,11 @@ class SaleOrder(models.Model):
                 }
                 self.order_line = [(0, 0,data)]
 
+    @api.onchange('x_sinergis_sale_order_product_new')
+    def onchange_x_sinergis_sale_order_product_new(self):
+        for line in self.order_line :
+            line.x_sinergis_sale_order_line_subproduct_id = False
+
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
