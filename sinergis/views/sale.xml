@@ -97,7 +97,6 @@
                 <field name="x_sinergis_sale_order_amount_remaining" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <p style="font-size:8pt;">Attention: Si vous indiquez que l'acompte est versé (ou non versé) alors l'acompte sur chacun des projets du devis sera marqué comme versé (ou non versé).</p>
-                <button name="sudo_update_product" string="MAJ PRODUITS" type="object" class="oe_highlight"/>
             </xpath>
 
             <xpath expr="//field[@name='user_id']" position="after">
@@ -219,12 +218,31 @@
         <field name="res_model">sale.products</field>
         <field name="view_mode">tree,form</field>
     </record>
+    <record id="sale_sinergis_products_tree" model="ir.ui.view">
+        <field name="name">sale.sinergis.products.tree</field>
+        <field name="model">sale.products</field>
+        <field name="arch" type="xml">
+        <tree>
+            <field name="name" string="Nom"/>
+        </tree>
+        </field>
+    </record>
 
     <record id="sale_products_subproducts_action" model="ir.actions.act_window">
         <field name="name">Sous-Produits</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sale.products.subproducts</field>
         <field name="view_mode">tree,form</field>
+    </record>
+    <record id="sale_sinergis_subproducts_tree" model="ir.ui.view">
+        <field name="name">sale.sinergis.subproducts.tree</field>
+        <field name="model">sale.products.subproducts</field>
+        <field name="arch" type="xml">
+        <tree>
+            <field name="product_id" string="Produit"/>
+            <field name="name" string="Nom du sous-produit"/>
+        </tree>
+        </field>
     </record>
 
     <menuitem id="sale_sinergis_products_root"
@@ -241,6 +259,7 @@
               name="Sous-Produits"
               action="sale_products_subproducts_action"
               sequence="20"/>
+
 
   </data>
 </odoo>

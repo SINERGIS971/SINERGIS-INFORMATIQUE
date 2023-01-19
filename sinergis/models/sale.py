@@ -23,8 +23,8 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_model = fields.Many2one("sale.order",string="Modele de devis")
 
-    x_sinergis_sale_order_product = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('SILAE','SILAE'), ('DIVERS', 'DIVERS')], required=True, string="Produit")
-    x_sinergis_sale_order_product_new = fields.Many2one("sale.products",string="Produit")
+    x_sinergis_sale_order_product = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('SILAE','SILAE'), ('DIVERS', 'DIVERS')], required=False, string="Produit")
+    x_sinergis_sale_order_product_new = fields.Many2one("sale.products",string="Produit", required=True)
     x_sinergis_sale_order_product_new_have_subproduct = fields.Boolean(compute="_compute_x_sinergis_sale_order_product_new_have_subproduct")
 
     x_sinergis_sale_order_projects_ended = fields.Boolean(string="Projets terminés", compute="_compute_x_sinergis_sale_order_projects_ended")
@@ -178,15 +178,6 @@ class SaleOrder(models.Model):
 
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
     payment_term_id = fields.Many2one(default=lambda self: self.env['account.payment.term'].search([('name','ilike',"100% des logiciels")]))
-
-    #MAJ - A RETIRER
-    def sudo_update_product (self):
-        sales = self.env['sale.order'].sudo().search([])
-        for sale in sales:
-            if sale.x_sinergis_sale_order_product:
-                name = sale.x_sinergis_sale_order_product
-                element = self.env['sale.products'].sudo().search([('name', '=', name)])
-                sale.x_sinergis_sale_order_product_new = element
 
 
 class SaleOrderLine(models.Model):
