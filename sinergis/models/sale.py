@@ -179,6 +179,10 @@ class SaleOrder(models.Model):
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
     payment_term_id = fields.Many2one(default=lambda self: self.env['account.payment.term'].search([('name','ilike',"100% des logiciels")]))
 
+    #MAJ - A RETIRER
+    def sudo_update_product (self):
+        raise ValidationError("Hello!")
+
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
     purchase_price = fields.Float(
