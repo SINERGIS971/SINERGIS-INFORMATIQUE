@@ -181,7 +181,7 @@ class SaleOrder(models.Model):
 
     #MAJ - A RETIRER
     def sudo_update_product (self):
-        sales = self.env['sale.order'].sudo().search([('x_sinergis_sale_order_product_new', '=', 'False')])
+        sales = self.env['sale.order'].sudo().search([])
         for sale in sales:
             if sale.x_sinergis_sale_order_product:
                 name = sale.x_sinergis_sale_order_product
