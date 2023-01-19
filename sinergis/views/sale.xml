@@ -10,26 +10,26 @@
             <separator/>
             <filter string="Profil" name="group_by_user_job" context="{'group_by':'x_sinergis_sale_res_users_job'}"/>
             <separator/>
-            <filter string="Produit" name="group_by_product" context="{'group_by':'x_sinergis_sale_order_product'}"/>
+            <filter string="Produit" name="group_by_product" context="{'group_by':'x_sinergis_sale_order_product_new'}"/>
           </xpath>
           <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
             <separator/>
             <filter string="Consultant" domain="[('x_sinergis_sale_res_users_job', '=', 'CONSULTANT')]" name="user_type_consultant"/>
             <filter string="Commercial" domain="[('x_sinergis_sale_res_users_job', '=', 'COMMERCIAL')]" name="user_type_commercial"/>
             <separator/>
-            <filter string="CEGID" domain="[('x_sinergis_sale_order_product', '=', 'CEGID')]" name="product_cegid_filter"/>
-            <filter string="E2TIME" domain="[('x_sinergis_sale_order_product', '=', 'E2TIME')]" name="product_e2time_filter"/>
-            <filter string="MESBANQUES" domain="[('x_sinergis_sale_order_product', '=', 'MESBANQUES')]" name="product_mesbanques_filter"/>
-            <filter string="OPEN BEE" domain="[('x_sinergis_sale_order_product', '=', 'OPEN BEE')]" name="product_openbee_filter"/>
-            <filter string="QUARKSUP" domain="[('x_sinergis_sale_order_product', '=', 'QUARKSUP')]" name="product_quarksup_filter"/>
-            <filter string="SAGE 100" domain="[('x_sinergis_sale_order_product', '=', 'SAGE 100')]" name="product_sage100_filter"/>
-            <filter string="SAGE 1000" domain="[('x_sinergis_sale_order_product', '=', 'SAGE 1000')]" name="product_sage1000_filter"/>
-            <filter string="SAP" domain="[('x_sinergis_sale_order_product', '=', 'SAP')]" name="product_sap_filter"/>
-            <filter string="VIF" domain="[('x_sinergis_sale_order_product', '=', 'VIF')]" name="product_vif_filter"/>
-            <filter string="SAGE X3" domain="[('x_sinergis_sale_order_product', '=', 'X3')]" name="product_x3_filter"/>
-            <filter string="XLSOFT" domain="[('x_sinergis_sale_order_product', '=', 'XLSOFT')]" name="product_xlsoft_filter"/>
-            <filter string="XRT" domain="[('x_sinergis_sale_order_product', '=', 'XRT')]" name="product_xrt_filter"/>
-            <filter string="DIVERS" domain="[('x_sinergis_sale_order_product', '=', 'DIVERS')]" name="product_divers_filter"/>
+            <filter string="CEGID" domain="[('x_sinergis_sale_order_product_new.name', '=', 'CEGID')]" name="product_cegid_filter"/>
+            <filter string="E2TIME" domain="[('x_sinergis_sale_order_product_new.name', '=', 'E2TIME')]" name="product_e2time_filter"/>
+            <filter string="MESBANQUES" domain="[('x_sinergis_sale_order_product_new.name', '=', 'MESBANQUES')]" name="product_mesbanques_filter"/>
+            <filter string="OPEN BEE" domain="[('x_sinergis_sale_order_product_new.name', '=', 'OPEN BEE')]" name="product_openbee_filter"/>
+            <filter string="QUARKSUP" domain="[('x_sinergis_sale_order_product_new.name', '=', 'QUARKSUP')]" name="product_quarksup_filter"/>
+            <filter string="SAGE 100" domain="[('x_sinergis_sale_order_product_new.name', '=', 'SAGE 100')]" name="product_sage100_filter"/>
+            <filter string="SAGE 1000" domain="[('x_sinergis_sale_order_product_new.name', '=', 'SAGE 1000')]" name="product_sage1000_filter"/>
+            <filter string="SAP" domain="[('x_sinergis_sale_order_product_new.name', '=', 'SAP')]" name="product_sap_filter"/>
+            <filter string="VIF" domain="[('x_sinergis_sale_order_product_new.name', '=', 'VIF')]" name="product_vif_filter"/>
+            <filter string="SAGE X3" domain="[('x_sinergis_sale_order_product_new.name', '=', 'X3')]" name="product_x3_filter"/>
+            <filter string="XLSOFT" domain="[('x_sinergis_sale_order_product_new.name', '=', 'XLSOFT')]" name="product_xlsoft_filter"/>
+            <filter string="XRT" domain="[('x_sinergis_sale_order_product_new.name', '=', 'XRT')]" name="product_xrt_filter"/>
+            <filter string="DIVERS" domain="[('x_sinergis_sale_order_product_new.name', '=', 'DIVERS')]" name="product_divers_filter"/>
           </xpath>
         </field>
     </record>
@@ -84,7 +84,7 @@
 
             <xpath expr="//field[@name='partner_invoice_id']" position="before">
                 <field name="x_sinergis_sale_order_contact" domain="[('parent_id','=',partner_id),('x_sinergis_societe_contact_inactive','=',False)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
-                <field name="x_sinergis_sale_order_product"/>
+                <field name="x_sinergis_sale_order_product" invisible="1"/>
                 <field name="x_sinergis_sale_order_product_new"/>
                 <!-- Pour voir si un sous-produit existe pour ce produit, afin de bloquer la sélection des sous-produits -->
                 <field name="x_sinergis_sale_order_product_new_have_subproduct" invisible="1"/>
@@ -180,7 +180,7 @@
               <field name="x_sinergis_sale_order_amount_remaining" sum="Total restant à facturer" widget="monetary"/>
             </xpath>
             <xpath expr="//field[@name='state']" position="after">
-                <field name="x_sinergis_sale_order_product"/>
+                <field name="x_sinergis_sale_order_product_new"/>
                 <field name="company_id" optional="show" readonly="1" on_change="1" can_create="true" can_write="true" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
                 <field name="x_sinergis_sale_order_projects_ended"/>
                 <field name="x_sinergis_sale_order_acompte_verse"/>
