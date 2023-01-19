@@ -207,7 +207,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
            <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="before">
-                <field name="x_sinergis_sale_order_line_subproduct_id" attrs="{'readonly': [('parent.x_sinergis_sale_order_product_new_have_subproduct', '=', False)]}" domain="[('product_id','=',parent.x_sinergis_sale_order_product_new)]"/>
+                <field name="x_sinergis_sale_order_line_subproduct_id" domain="[('product_id','=',parent.x_sinergis_sale_order_product_new)]" options="{'no_create': True, 'no_create_edit':True}"/>
             </xpath>
         </field>
     </record>
