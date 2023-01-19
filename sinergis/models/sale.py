@@ -181,7 +181,13 @@ class SaleOrder(models.Model):
 
     #MAJ - A RETIRER
     def sudo_update_product (self):
-        raise ValidationError("Hello!")
+        sales = self.env['sale.order'].sudo().search([('x_sinergis_sale_order_product_new', '=', 'False')])
+        for sale in sales:
+            if sale.x_sinergis_sale_order_product:
+                name = sale.x_sinergis_sale_order_product
+                element = self.env['sale.products'].sudo().search([('name', '=', name)])
+                sale.x_sinergis_sale_order_product_new = element
+
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
