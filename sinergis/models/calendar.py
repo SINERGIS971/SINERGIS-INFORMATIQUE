@@ -122,7 +122,7 @@ class CalendarEvent(models.Model):
             if rec.x_sinergis_calendar_event_is_facturee:
                 state = True
             elif rec.x_sinergis_calendar_event_facturation:
-                if rec.x_sinergis_calendar_event_facturation != "Contrat heure" and rec.x_sinergis_calendar_event_facturation != "Devis":
+                if rec.x_sinergis_calendar_event_facturation != "Contrat heure" and rec.x_sinergis_calendar_event_facturation != "Devis" and rec.x_sinergis_calendar_event_facturation != "À définir ultérieurement":
                     if rec.x_sinergis_calendar_duree_facturee:
                         state = True
             rec.x_sinergis_calendar_event_is_facturee_total = state

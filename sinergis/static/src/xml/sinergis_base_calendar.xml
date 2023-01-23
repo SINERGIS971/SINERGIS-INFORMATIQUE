@@ -9,6 +9,9 @@
           <br/>
           <i role="img" class="fa fa-file-text-o" style="color:green;"><t t-esc="record.x_sinergis_calendar_event_facturation"></t></i>
         </t>
+        <t t-if="record.x_sinergis_calendar_event_facturation == 'À définir ultérieurement'">
+          <i role="img" class="fa fa-file-text-o" style="color:orange;"><t t-esc="record.x_sinergis_calendar_event_facturation"></t></i>
+        </t>
       </xpath>
     </t>
 </template>
