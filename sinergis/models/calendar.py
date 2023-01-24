@@ -389,7 +389,7 @@ class CalendarEvent(models.Model):
         return {
             'name': 'Rapport',
             'type': 'ir.actions.act_url',
-            'url': '/web/content/?model=calendar.event&id={}&field=x_sinergis_calendar_event_rapport_intervention_valide&filename_field=name&download=true'.format(
+            'url': '/web/content/?model=calendar.event&id={}&field=x_sinergis_calendar_event_rapport_intervention_valide&download=true'.format(
                 self.id
             ),
             'target': 'self',
