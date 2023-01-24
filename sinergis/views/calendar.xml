@@ -78,7 +78,6 @@
                 <xpath expr="//button[@name='action_open_composer']" position="after">
                     <button name="send_rapport_intervention" help="Envoyer le rapport d'intervention" type="object" string="Envoyer le rapport d'intervention"/>
                     <button name="generer_rapport_intervention" help="Génerer un rapport d'intervention au format PDF" type="object" string=" Rapport d'intervention (PDF)" icon="fa-download"/>
-                    <field name="x_sinergis_calendar_event_rapport_intervention_valide"/>
                 </xpath>
 
 
@@ -90,6 +89,11 @@
                     <field name="x_sinergis_calendar_event_contact" domain="[('parent_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
                     <field name="x_sinergis_calendar_event_contact_transfered" invisible="True"/>
                     <field name="partner_ids" widget="many2manyattendee" placeholder="Selectionnez des participants..." context="{'force_email':True}" class="oe_inline o_calendar_attendees" string="Autres participants"/>
+                </xpath>
+
+                <!-- Ajout du champ pour le rapport d'intervention validé -->
+                <xpath expr="//field[@name='alarm_ids']" position="before">
+                  <field name="x_sinergis_calendar_event_rapport_intervention_valide" filename="name" widget="binary"/>
                 </xpath>
 
                 <!-- Creation de la page du notebook de facturation -->
