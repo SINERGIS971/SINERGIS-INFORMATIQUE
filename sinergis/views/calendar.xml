@@ -92,9 +92,13 @@
                 </xpath>
 
                 <!-- Ajout du champ pour le rapport d'intervention validé -->
-                <xpath expr="//field[@name='alarm_ids']" position="before">
-                  <field name="x_sinergis_calendar_event_rapport_intervention_valide" widget="binary"/>
-                  <button name="download_rapport_intervention_valide" help="Télécharger le rapport d'intervention validé" class="oe_highlight" type="object" string="Rapport validé" attrs="{'invisible': [('x_sinergis_calendar_event_rapport_intervention_valide', '=', False)]}" icon="fa-download"/>
+                <xpath expr="//field[@name='description']" position="after">
+                  <group>
+                    <field name="x_sinergis_calendar_event_rapport_intervention_valide" widget="binary"/>
+                  </group>
+                  <group>
+                    <button name="download_rapport_intervention_valide" help="Télécharger le rapport d'intervention validé" class="oe_highlight" type="object" string="Rapport validé" attrs="{'invisible': [('x_sinergis_calendar_event_rapport_intervention_valide', '=', False)]}" icon="fa-download"/>
+                  </group>
                 </xpath>
 
                 <!-- Creation de la page du notebook de facturation -->
