@@ -89,6 +89,9 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_is_sent = fields.Boolean(string="Envoyé",default=False,readonly=True)
     x_sinergis_calendar_event_is_deducted = fields.Boolean(string="Décompté",compute="_compute_x_sinergis_calendar_event_is_deducted")
 
+    # Rapport d'intervention validé :
+    x_sinergis_calendar_event_rapport_intervention_valide = fields.Binary(string="Rapport d'intervention validé")
+
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
         CalendarEvent.updateTasks(self)

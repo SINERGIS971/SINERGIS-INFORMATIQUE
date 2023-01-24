@@ -78,6 +78,7 @@
                 <xpath expr="//button[@name='action_open_composer']" position="after">
                     <button name="send_rapport_intervention" help="Envoyer le rapport d'intervention" type="object" string="Envoyer le rapport d'intervention"/>
                     <button name="generer_rapport_intervention" help="Génerer un rapport d'intervention au format PDF" type="object" string=" Rapport d'intervention (PDF)" icon="fa-download"/>
+                    <field name="x_sinergis_calendar_event_rapport_intervention_valide"/>
                 </xpath>
 
 
