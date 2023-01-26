@@ -18,7 +18,6 @@ class ProjectTask(models.Model):
     #Tags lié au projet
     x_sinergis_project_task_tag_ids = fields.Many2many(related="project_id.tag_ids", string="Tags du projet")
 
-    # x_sinergis_sale_order_planned_days dépend des jours plannifiés
     x_sinergis_project_task_planned_hours = fields.Float(compute="_compute_x_sinergis_project_task_planned_hours")
 
     #Date du premier évènement du calendrier associé à la tâche
@@ -69,7 +68,7 @@ class ProjectTask(models.Model):
     @api.depends('x_sinergis_project_task_planned_hours')
     def _compute_x_sinergis_project_task_planned_hours (self):
         for rec in self:
-            rec.x_sinergis_project_task_planned_hours = sum(rec.env['calendar.event'].search(['|',('x_sinergis_calendar_event_tache', '=', rec.id),('x_sinergis_calendar_event_tache2', '=', rec.id)]).mapped('x_sinergis_calendar_event_temps_cumule'))
+            rec.x_sinergis_project_task_planned_hours = sum(rec.env['calendar.event'].search(['|',('x_sinergis_calendar_event_tache', '=', rec.id),('x_sinergis_calendar_event_tache2', '=', rec.id)]).mapped('duration'))
 
     @api.depends('x_sinergis_project_task_first_date')
     def _compute_x_sinergis_project_task_first_date (self):
