@@ -34,6 +34,11 @@ class SaleOrder(models.Model):
     # 3 Janvier 2023 : Pouvoir modifier la date de commande
     date_order = fields.Datetime(readonly=False)
 
+    # 26 Janvier 2023 : Ajout du nombre de jours prévus / réalisés / restants / (planifiés) dans la vue liste
+    #Nous prenons en compte qu'une journée dure 8h
+    x_sinergis_sale_order_scheduled_days = fields.Float(string="Jours prévus", compute="_compute_x_sinergis_sale_order_scheduled_days")
+
+
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
     @api.onchange('partner_shipping_id', 'partner_id', 'company_id')
     def onchange_partner_shipping_id(self):
@@ -141,6 +146,17 @@ class SaleOrder(models.Model):
                 if self.env['sale.products.subproducts'].search([('product_id','=',rec.x_sinergis_sale_order_product_new.id)]):
                     state = True
             rec.x_sinergis_sale_order_product_new_have_subproduct = state
+
+    @api.depends("x_sinergis_sale_order_scheduled_days")
+    def _compute_x_sinergis_sale_order_scheduled_days (self):
+        for rec in self:
+            scheduled_days = 0
+            tasks = self.env['project.task'].search([('sale_order_id','=',rec.id)])
+            for task in tasks:
+                # Une journée correspond à 8 heures
+                scheduled_days += task.planned_hours / 8
+            scheduled_days = round(scheduled_days,2)
+            rec.x_sinergis_sale_order_scheduled_days = scheduled_days
 
     @api.onchange("order_line")
     def on_change_order_line(self):
