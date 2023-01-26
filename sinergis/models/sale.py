@@ -39,6 +39,7 @@ class SaleOrder(models.Model):
     x_sinergis_sale_order_scheduled_days = fields.Float(string="Jours prévus", compute="_compute_x_sinergis_sale_order_scheduled_days")
     x_sinergis_sale_order_completed_days = fields.Float(string="Jours réalisés", compute="_compute_x_sinergis_sale_order_completed_days")
     x_sinergis_sale_order_remaining_days = fields.Float(string="Jours restants", compute="_compute_x_sinergis_sale_order_remaining_days")
+    x_sinergis_sale_order_planned_days = fields.Float(string="Jours planifiés", compute="_compute_x_sinergis_sale_order_planned_days")
 
 
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
@@ -182,6 +183,16 @@ class SaleOrder(models.Model):
             completed_days = round(remaining_days,2)
             rec.x_sinergis_sale_order_remaining_days = remaining_days
 
+    @api.depends("x_sinergis_sale_order_planned_days")
+    def _compute_x_sinergis_sale_order_planned_days (self):
+        for rec in self:
+            planned_days = 0
+            tasks = self.env['project.task'].search([('sale_order_id','=',rec.id)])
+            for task in tasks:
+                # Une journée correspond à 8 heures
+                planned_days += task.x_sinergis_project_task_planned_hours / 8
+            planned_days = round(planned_days,2)
+            rec.x_sinergis_sale_order_planned_days = planned_days
 
     @api.onchange("order_line")
     def on_change_order_line(self):
