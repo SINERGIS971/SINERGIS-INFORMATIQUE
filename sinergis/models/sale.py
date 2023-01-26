@@ -37,6 +37,8 @@ class SaleOrder(models.Model):
     # 26 Janvier 2023 : Ajout du nombre de jours prévus / réalisés / restants / (planifiés) dans la vue liste
     #Nous prenons en compte qu'une journée dure 8h
     x_sinergis_sale_order_scheduled_days = fields.Float(string="Jours prévus", compute="_compute_x_sinergis_sale_order_scheduled_days")
+    x_sinergis_sale_order_completed_days = fields.Float(string="Jours réalisés", compute="_compute_x_sinergis_sale_order_completed_days")
+    x_sinergis_sale_order_remaining_days = fields.Float(string="Jours restants", compute="_compute_x_sinergis_sale_order_remaining_days")
 
 
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
@@ -157,6 +159,29 @@ class SaleOrder(models.Model):
                 scheduled_days += task.planned_hours / 8
             scheduled_days = round(scheduled_days,2)
             rec.x_sinergis_sale_order_scheduled_days = scheduled_days
+
+    @api.depends("x_sinergis_sale_order_completed_days")
+    def _compute_x_sinergis_sale_order_completed_days (self):
+        for rec in self:
+            completed_days = 0
+            tasks = self.env['project.task'].search([('sale_order_id','=',rec.id)])
+            for task in tasks:
+                # Une journée correspond à 8 heures
+                completed_days += task.effective_hours / 8
+            completed_days = round(completed_days,2)
+            rec.x_sinergis_sale_order_completed_days = completed_days
+
+    @api.depends("x_sinergis_sale_order_remaining_days")
+    def _compute_x_sinergis_sale_order_remaining_days (self):
+        for rec in self:
+            remaining_days = 0
+            tasks = self.env['project.task'].search([('sale_order_id','=',rec.id)])
+            for task in tasks:
+                # Une journée correspond à 8 heures
+                remaining_days += task.remaining_hours / 8
+            completed_days = round(remaining_days,2)
+            rec.x_sinergis_sale_order_remaining_days = remaining_days
+
 
     @api.onchange("order_line")
     def on_change_order_line(self):
