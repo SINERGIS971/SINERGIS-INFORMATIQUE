@@ -103,6 +103,19 @@
                 <field name="opportunity_id"/>
             </xpath>
 
+            <notebook position="inside">
+                <page string="Suivi" name="x_sinergis_sale_order_monitoring_page">
+                  <group>
+                    <field name="x_sinergis_sale_order_scheduled_days"/>
+                    <field name="x_sinergis_sale_order_completed_days"/>
+                    <field name="x_sinergis_sale_order_remaining_days"/>
+                    <field name="x_sinergis_sale_order_planned_days"/>
+                  </group>
+                  <group>
+                  </group>
+                </page>
+            </notebook>
+
             <xpath expr="//notebook" position="after">
                 <group>
                     <field name="x_sinergis_sale_order_model" attrs="{'invisible': [('state',  '!=', 'draft')]}"/>
