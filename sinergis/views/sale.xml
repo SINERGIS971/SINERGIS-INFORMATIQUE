@@ -110,6 +110,7 @@
                     <field name="x_sinergis_sale_order_completed_days"/>
                     <field name="x_sinergis_sale_order_remaining_days"/>
                     <field name="x_sinergis_sale_order_planned_days"/>
+                    <p style="font-size:8pt;">Attention: Les jours planifiés correspondent à la somme de tous les évènements du calendrier qui ont comme élément sélectionné: un projet rattaché à ce devis.</p>
                   </group>
                   <group>
                   </group>
