@@ -41,6 +41,11 @@ class SaleOrder(models.Model):
     x_sinergis_sale_order_remaining_days = fields.Float(string="Jours restants", compute="_compute_x_sinergis_sale_order_remaining_days")
     x_sinergis_sale_order_planned_days = fields.Float(string="Jours planifiés", compute="_compute_x_sinergis_sale_order_planned_days")
 
+    # 27 Janvier 2023 : Ajout d'une case 'Commande fournisseur' qui permet de savoir si les licences sont déjà commandées.
+
+    x_sinergis_sale_order_supplier_order = fields.Boolean(string="Commande fournisseur", default=False)
+
+
 
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
     @api.onchange('partner_shipping_id', 'partner_id', 'company_id')
