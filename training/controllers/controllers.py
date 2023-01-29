@@ -4,6 +4,8 @@ import re
 from datetime import date
 
 
+
+
 class Training(http.Controller):
     @http.route('/training/training', auth='public', methods=['GET'])
     def index(self, **kw):
