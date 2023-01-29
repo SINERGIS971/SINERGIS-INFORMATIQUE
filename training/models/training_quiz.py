@@ -22,6 +22,12 @@ class TrainingQuiz(models.Model):
     def on_change_type_product_id(self):
         self.training_type_product_plan = False
 
+    @api.onchange("training_type_product_plan")
+    def on_change_training_type_product_plan (self):
+        if self.env['training.quiz'].search_count([('quiz_type', '=', self.quiz_type), ('training_type_product_plan', '=', self.training_type_product_plan.id)]) >= 1:
+            self.quiz_type = False
+            raise ValidationError("Vous avez déjà un quiz attribué à cette formation avec le même type. Veuillez le supprimer afin d'en réaffecter un nouveau.")
+
     @api.onchange("quiz_type")
     def on_change_quiz_type(self):
         if self.quiz_type == "positioning" or self.quiz_type == "training_evaluation" or self.quiz_type == "delayed_assessment" or self.quiz_type == "opco":
@@ -32,18 +38,23 @@ class TrainingQuiz(models.Model):
                 if self.env['training.quiz'].search_count([('quiz_type', '=', 'positioning')]) >= 1:
                     self.quiz_type = False
                     raise ValidationError("Vous avez déjà un quiz attribué au positionnement. Veuillez le supprimer afin d'en réaffecter un nouveau.")
-            if self.quiz_type == "training_evaluation":
+            elif self.quiz_type == "training_evaluation":
                 if self.env['training.quiz'].search_count([('quiz_type', '=', 'training_evaluation')]) >= 1:
                     self.quiz_type = False
                     raise ValidationError("Vous avez déjà un quiz attribué à l'évaluation des formations. Veuillez le supprimer afin d'en réaffecter un nouveau.")
-            if self.quiz_type == "delayed_assessment":
+            elif self.quiz_type == "delayed_assessment":
                 if self.env['training.quiz'].search_count([('quiz_type', '=', 'delayed_assessment')]) >= 1:
                     self.quiz_type = False
                     raise ValidationError("Vous avez déjà un quiz attribué à l'évaluation à froid. Veuillez le supprimer afin d'en réaffecter un nouveau.")
-            if self.quiz_type == "opco":
+            elif self.quiz_type == "opco":
                 if self.env['training.quiz'].search_count([('quiz_type', '=', 'opco')]) >= 1:
                     self.quiz_type = False
                     raise ValidationError("Vous avez déjà un quiz attribué à l'évaluation des OPCO. Veuillez le supprimer afin d'en réaffecter un nouveau.")
+        else :
+            if self.env['training.quiz'].search_count([('quiz_type', '=', self.quiz_type), ('training_type_product_plan', '=', self.training_type_product_plan.id)]) >= 1:
+                self.quiz_type = False
+                raise ValidationError("Vous avez déjà un quiz attribué à cette formation avec le même type. Veuillez le supprimer afin d'en réaffecter un nouveau.")
+
 
 
 class TrainingQuizQuestions(models.Model):
@@ -62,6 +73,7 @@ class TrainingQuizQuestions(models.Model):
 
     average_rate = fields.Float(string="Note moyenne", compute="_compute_average_rate")
 
+    # -1 if no exists
     @api.depends("average_rate")
     def _compute_average_rate (self):
         for rec in self:

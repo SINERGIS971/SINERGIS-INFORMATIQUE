@@ -562,8 +562,9 @@ class TrainingParticipants(models.Model):
         if Training.verifiation_fields(self.training_id):
             if not self.training_id.planned_hours_ids :
                 raise ValidationError("Veuillez planifier des heures avant d'envoyer les invitations.")
-            if not self.training_id.location_street or not self.training_id.location_city or not self.training_id.location_zip or not self.training_id.location_country_id:
-                raise ValidationError("Veuillez remplir entièrement l'adresse de localisation avant d'envoyer les invitations.")
+            if self.training_id.location_selection == "other":
+                if not self.training_id.location_street or not self.training_id.location_city or not self.training_id.location_zip or not self.training_id.location_country_id:
+                    raise ValidationError("Veuillez remplir entièrement l'adresse de localisation avant d'envoyer les invitations.")
             if self.email:
                 #Create the diagnostic quiz token
                 if not self.token_quiz_positioning:

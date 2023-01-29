@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
-	<!-- Enregistrement des informations du rapport -->
-	<record id="training_attendance_sheet_report" model="ir.actions.report">
-		<field name="name">Feuille d'émargement</field>
-		<field name="model">training</field>
-		<field name="report_type">qweb-pdf</field>
-		<field name="paperformat_id" ref="training.paperformat_attendance_sheet_report"/>
-		<field name="report_name">training.attendance_sheet_report</field>
-		<field name="report_file">training.attendance_sheet_report</field>
-		<field name="binding_model_id" ref="model_training"/>
-		<field name="binding_type">report</field>
-	</record>
 
 	<record id="paperformat_attendance_sheet_report" model="report.paperformat">
     <field name="name">Paperformat feuille d'émargement</field>
@@ -26,6 +15,18 @@
     <field name="margin_left">7</field>
     <field name="margin_right">7</field>
     <field name="dpi">96</field>
+	</record>
+
+	<!-- Enregistrement des informations du rapport -->
+	<record id="training_attendance_sheet_report" model="ir.actions.report">
+		<field name="name">Feuille d'émargement</field>
+		<field name="model">training</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="paperformat_id" ref="training.paperformat_attendance_sheet_report"/>
+		<field name="report_name">training.attendance_sheet_report</field>
+		<field name="report_file">training.attendance_sheet_report</field>
+		<field name="binding_model_id" ref="model_training"/>
+		<field name="binding_type">report</field>
 	</record>
 
 

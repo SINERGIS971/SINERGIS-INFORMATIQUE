@@ -20,7 +20,7 @@
                         <field name="name"/>
                         <field name="type"/>
                         <field name="required"/>
-                        <field name="average_rate"/>
+                        <field name="average_rate" attrs="{'invisible': [('average_rate',  '==', -1)]}"/>
                 </tree>
                 <form string="Éditer une question" >
                   <group>

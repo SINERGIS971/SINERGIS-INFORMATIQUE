@@ -5,7 +5,7 @@
         <field name="name">training.tree</field>
         <field name="model">training</field>
         <field name="arch" type="xml">
-            <tree decoration-success="state=='training_closed'">
+            <tree decoration-success="state=='training_closed'" default_order="id desc">
               <field name="id" string="ID"/>
               <field name="start"/>
               <field name="partner_id"/>
@@ -251,7 +251,7 @@
                   <separator style="font-size:20px;" string="Formation cloturée"/>
                   <group>
                     <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_closed')]}">
-                      <tree string="Liste des participants">
+                      <tree string="Liste des participants" decoration-success="is_rated==True">
                             <field name="name"/>
                             <field name="email"/>
                             <!--Partie consultant-->
