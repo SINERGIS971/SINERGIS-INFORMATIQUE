@@ -215,7 +215,7 @@ class MyActions(models.Model):
     def _compute_rapport_intervention_valide (self):
         for rec in self:
             if rec.origin == "calendar":
-                if self.env['calendar.event'].search([('id', '=', self.link_id)]).x_sinergis_calendar_event_rapport_intervention_valide =
+                if self.env['calendar.event'].search([('id', '=', self.link_id)]).x_sinergis_calendar_event_rapport_intervention_valide:
                     rec.rapport_intervention_valide_id = True
             rec.rapport_intervention_valide = False
 
