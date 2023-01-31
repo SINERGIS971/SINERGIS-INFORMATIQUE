@@ -64,6 +64,7 @@
                 </header>
                 <field name="is_printed" invisible="True"/>
                 <field name="is_billed" invisible="True"/>
+                <field name="rapport_intervention_valide" invisible="True"/>
                 <field name="origin"/>
                 <field name="date"/>
                 <field name="billing"/>
