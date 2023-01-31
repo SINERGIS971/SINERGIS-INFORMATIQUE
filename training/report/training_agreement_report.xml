@@ -96,6 +96,7 @@
 								<p>En cas de retard de paiement, conformément aux dispositions de l’article L.441-6 du Code de commerce, SINERGIS  appliquera de plein droit un intérêt de retard égal au taux de la Banque Centrale Européenne à son opération de refinancement la plus récente majoré de 7 points de pourcentage sans que ce taux ne soit inférieur à 1,5 fois le taux d’intérêt légal, sur les montants facturés qui seraient échus. En cas de non-paiement, SINERGIS se réserve le droit de refuser toute nouvelle inscription de participants du Client et de résilier les inscriptions en cours de participants du Client.</p>
 							</div>
 							<div style="page-break-inside: avoid;">
+								<br/>
 								<h5>Article 5: Moyens pédagogiques et techniques</h5>
 								<p>Toute session de formation est organisée en une succession de parties théoriques et de mises en application pratiques sous forme d’exercices réalisés sur des solutions SINERGIS.
 								Les sessions de formation sont dispensées par des formateurs sélectionnés pour leurs connaissances sur des solutions proposées par SINERGIS, connaissances qu’ils ont acquises dans le cadre de la mise en œuvre de ces solutions.
@@ -123,7 +124,6 @@
 								<h5>Article 10 : Différends éventuels</h5>
 								<p>Si une contestation ou un différend ne peut être réglé à l’amiable, le Tribunal de Fort-de-France sera compétent pour régler le litige.</p>
 							</div>
-							<br/>
 							<p>Fait en deux exemplaires originaux, à Fort de France, le <span t-esc="datetime.datetime.now().strftime('%d/%m/%Y')"/></p>
 							<div style="page-break-inside: avoid;">
 							<table style="border-collapse:collapse;border:none;width: 100%;">
