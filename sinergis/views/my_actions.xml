@@ -75,7 +75,7 @@
                 <field name="consultant" widget="many2one_avatar_user"/>
                 <field name="country_id"/>
                 <field name="printed_datetime"/>
-                <button name="download_rapport_intervention_valide" string="" type="object" class="btn-primary oe_right" readonly="True" style="background-color:orange;" attrs="{'invisible': [('rapport_intervention_valide',  '=', False)]}" icon="fa-paperclip"/>
+                <button name="download_rapport_intervention_valide" string="" type="object" class="btn-primary oe_right" readonly="True" attrs="{'invisible': [('rapport_intervention_valide',  '=', False)]}" icon="fa-paperclip"/>
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
                 <button name="no_invoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', False),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
                 <button name="invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
