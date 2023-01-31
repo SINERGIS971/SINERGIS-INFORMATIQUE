@@ -143,9 +143,9 @@
 							<li>Annexe 2: Programme, objectifs et méthodes de l’action réalisée</li>
 						</ul>
 						<div style="page-break-before:always;">
-							<h4 style="text-align:center;">ANNEXE 1</h4>
+							<h4 style="text-align:center;"></h4>
 							<br/>
-							<h5 style="text-align:center;">LISTE DES PARTICIPANTS A LA FORMATION </h5>
+							<h5 style="text-align:center;">ANNEXE 1 : LISTE DES PARTICIPANTS A LA FORMATION </h5>
 							<br/>
 							<p>SOCIETE : <span t-field="doc.partner_id.name"/></p>
 							<table style="width: 100%;">

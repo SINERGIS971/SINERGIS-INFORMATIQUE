@@ -6,3 +6,4 @@ from . import product
 from . import sale
 from . import calendar
 from . import settings
+from . import company
