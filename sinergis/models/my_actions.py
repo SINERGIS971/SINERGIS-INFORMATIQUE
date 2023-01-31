@@ -20,6 +20,9 @@ class MyActions(models.Model):
     consultant_company_id = fields.Many2one("res.company",string="Société SINERGIS")
     country_id = fields.Many2one("res.country",readonly=True,string="Pays du client")
 
+    #Uniquement pour les activités du calendrier
+    rapport_intervention_valide = fields.Boolean(compute="_compute_rapport_intervention_valide")
+
     #Uniquement pour rapport
 
     contact = fields.Many2one("res.partner",string="")
@@ -206,6 +209,17 @@ class MyActions(models.Model):
             elif rec.origin == "calendar":
                 rec.intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_event_id', '=', rec.link_id)])
 
+
+    # Vrai si l'évènement vient du calendrier et qu'il y a un rapport d'intervention valide sur celui-ci
+    @api.depends('rapport_intervention_valide')
+    def _compute_rapport_intervention_valide (self):
+        for rec in self:
+            if rec.origin == "calendar":
+                if self.env['calendar.event'].search([('id', '=', self.link_id)]).x_sinergis_calendar_event_rapport_intervention_valide =
+                    rec.rapport_intervention_valide_id = True
+            rec.rapport_intervention_valide = False
+
+
     def open(self):
         if self.origin == "helpdesk":
             return {
@@ -268,6 +282,16 @@ class MyActions(models.Model):
                 ticket.last_date = datetime.now()
 
         return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', ids)]))
+
+    def download_rapport_intervention_valide (self):
+        return {
+            'name': 'Rapport',
+            'type': 'ir.actions.act_url',
+            'url': '/web/content/?model=calendar.event&id={}&field=x_sinergis_calendar_event_rapport_intervention_valide&download=true'.format(
+                self.link_id
+            ),
+            'target': 'self',
+        }
 
 class MyActionsPrinted(models.Model):
     _name = "sinergis.myactions.printed"

@@ -3,11 +3,11 @@
 <template xml:space="preserve" owl="1">
     <t t-name="sinergis.calendar-box" t-inherit="calendar.Calendar.calendar-box" t-inherit-mode="extension">
       <xpath expr="//t[@t-esc='record.display_name']" position="after">
+        <br/>
+        <t t-if="record.x_sinergis_calendar_event_rapport_intervention_valide">
+          <i role="img" class="fa fa-paperclip" style="color:green;"></i>
+        </t>
         <t t-if="record.x_sinergis_calendar_event_is_facturee_total">
-          <br/>
-          <t t-if="record.x_sinergis_calendar_event_rapport_intervention_valide">
-            <i role="img" class="fa fa-paperclip" style="color:green;"></i>
-          </t>
           <i role="img" class="fa fa-check-circle-o" style="color:green;"><strong>Décompté</strong></i>
           <br/>
           <i role="img" class="fa fa-file-text-o" style="color:green;"><t t-esc="record.x_sinergis_calendar_event_facturation"></t></i>
