@@ -196,15 +196,16 @@ class Training(models.Model):
             if self.remote_learning == False:
                 if not self.location_selection :
                     missing_elements.append("Localisation")
-                if self.location_selection == "other":
-                    if not self.location_street :
-                        missing_elements.append("Adresse de localisation (Rue)")
-                    if not self.location_city :
-                        missing_elements.append("Adresse de localisation (Ville)")
-                    if not self.location_zip :
-                        missing_elements.append("Adresse de localisation (Code Postal)")
-                    if not self.location_country_id :
-                        missing_elements.append("Adresse de localisation (Pays)")
+                if not self.remote_learning:
+                    if self.location_selection == "other":
+                        if not self.location_street :
+                            missing_elements.append("Adresse de localisation (Rue)")
+                        if not self.location_city :
+                            missing_elements.append("Adresse de localisation (Ville)")
+                        if not self.location_zip :
+                            missing_elements.append("Adresse de localisation (Code Postal)")
+                        if not self.location_country_id :
+                            missing_elements.append("Adresse de localisation (Pays)")
             if not self.planned_hours_ids :
                 missing_elements.append("Heures de formation planifiées")
 
@@ -562,9 +563,10 @@ class TrainingParticipants(models.Model):
         if Training.verifiation_fields(self.training_id):
             if not self.training_id.planned_hours_ids :
                 raise ValidationError("Veuillez planifier des heures avant d'envoyer les invitations.")
-            if self.training_id.location_selection == "other":
-                if not self.training_id.location_street or not self.training_id.location_city or not self.training_id.location_zip or not self.training_id.location_country_id:
-                    raise ValidationError("Veuillez remplir entièrement l'adresse de localisation avant d'envoyer les invitations.")
+            if not self.remote_learning:
+                if self.training_id.location_selection == "other":
+                    if not self.training_id.location_street or not self.training_id.location_city or not self.training_id.location_zip or not self.training_id.location_country_id:
+                        raise ValidationError("Veuillez remplir entièrement l'adresse de localisation avant d'envoyer les invitations.")
             if self.email:
                 #Create the diagnostic quiz token
                 if not self.token_quiz_positioning:

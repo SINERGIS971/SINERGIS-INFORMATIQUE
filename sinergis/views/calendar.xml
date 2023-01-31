@@ -91,18 +91,6 @@
                     <field name="partner_ids" widget="many2manyattendee" placeholder="Selectionnez des participants..." context="{'force_email':True}" class="oe_inline o_calendar_attendees" string="Autres participants"/>
                 </xpath>
 
-                <!-- Ajout du champ pour le rapport d'intervention validé -->
-                <xpath expr="//field[@name='description']/parent::group" position="after">
-                  <group>
-                      <group>
-                        <field name="x_sinergis_calendar_event_rapport_intervention_valide" widget="binary"/>
-                      </group>
-                      <group>
-                        <button name="download_rapport_intervention_valide" help="Télécharger le rapport d'intervention validé" class="oe_highlight" type="object" string="Rapport validé" attrs="{'invisible': [('x_sinergis_calendar_event_rapport_intervention_valide', '=', False)]}" icon="fa-download"/>
-                      </group>
-                  </group>
-                </xpath>
-
                 <!-- Creation de la page du notebook de facturation -->
                 <xpath expr="//page[@name='page_invitations']" position="after">
                     <page name="x_sinergis_facturation_page" string="Facturation" attrs="{'invisible': [('x_sinergis_calendar_event_is_commercial_appointment',  '=', True)]}">
@@ -175,6 +163,17 @@
                         <group>
                           <button name="x_sinergis_calendar_event_reset_button" string="Réinitialiser" type="object" class="btn-primary" readonly="True" confirm="Souhaitez-vous vraiment réinitialiser les heures décomptées ?" attrs="{'invisible': [('x_sinergis_calendar_event_is_facturee', '=', False)]}" style="background-color:grey;"/>
                         </group>
+                    </page>
+                    <!-- Ajout d'une page pour ajouter le rapport d'intervention validé -->
+                    <page name="x_sinergis_rapport_intervention_valide_page" string="Rapport validé" attrs="{'invisible': [('x_sinergis_calendar_event_is_commercial_appointment',  '=', True)]}">
+                      <group>
+                          <group>
+                            <field name="x_sinergis_calendar_event_rapport_intervention_valide" widget="binary"/>
+                          </group>
+                          <group>
+                            <button name="download_rapport_intervention_valide" help="Télécharger le rapport d'intervention validé" class="oe_highlight" type="object" string="Rapport validé" attrs="{'invisible': [('x_sinergis_calendar_event_rapport_intervention_valide', '=', False)]}" icon="fa-download"/>
+                          </group>
+                      </group>
                     </page>
                 </xpath>
 
