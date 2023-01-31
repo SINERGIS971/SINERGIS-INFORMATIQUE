@@ -60,7 +60,7 @@
                         <p>Aux jours et horaires suivants (UTC−4) :</p>
                         <ul>
                           	<t t-foreach="object.training_id.planned_hours_ids.sorted(key=lambda x: x.start)" t-as="line">
-                              <li>Du <span t-out="line.start" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/> au <span t-out="line.stop" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/></li>
+                              <li>Du <span t-out="line.start" t-options='{"widget": "datetime","format": "dd/MM/yyyy HH:mm"}'/> au <span t-out="line.stop" t-options='{"widget": "datetime","format": "dd/MM/yyyy HH:mm"}'/></li>
                             </t>
                         </ul>
                         <p>Durée totale : <span t-out="object.training_id.duration"/> jours</p>
