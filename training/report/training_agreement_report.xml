@@ -34,6 +34,7 @@
 												<p style="margin:5px;"><span t-field="doc.company_id.street2"/></p>
 												<p style="margin:5px;"><span t-field="doc.company_id.city"/> - <span t-field="doc.company_id.zip"/></p>
 												<p style="margin:5px;"><span t-field="doc.company_id.country_id"/></p>
+												<p style="margin:5px;">NDA : <span t-field="doc.company_id.nda_number"/></p>
 											</div>
 										</th>
 										<th style="width: 50%;padding: 0;margin:0;vertical-align: top;">
