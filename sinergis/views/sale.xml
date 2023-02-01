@@ -31,11 +31,14 @@
             <filter string="XRT" domain="[('x_sinergis_sale_order_product_new.name', '=', 'XRT')]" name="product_xrt_filter"/>
             <filter string="DIVERS" domain="[('x_sinergis_sale_order_product_new.name', '=', 'DIVERS')]" name="product_divers_filter"/>
             <separator/>
+            <filter string="Projet terminé" name="filter_ended_project" domain="[('x_sinergis_sale_order_projects_ended','=',True)]"/>
+            <filter string="Projet non terminé" name="filter_not_ended_project" domain="[('x_sinergis_sale_order_acompte_verse','=',False)]"/>
+            <separator/>
             <filter string="Acompte versé" name="filter_acompte_verse" domain="[('x_sinergis_sale_order_acompte_verse','=',True)]"/>
             <filter string="Acompte non versé" name="filter_acompte_non_verse" domain="[('x_sinergis_sale_order_acompte_verse','=',False)]"/>
             <separator/>
-            <filter string="Acompte versé" name="filter_supplier_order" domain="[('x_sinergis_sale_order_supplier_order','=',True)]"/>
-            <filter string="Acompte non versé" name="filter_not_supplier_order" domain="[('x_sinergis_sale_order_supplier_order','=',False)]"/>
+            <filter string="Commande fournisseur" name="filter_supplier_order" domain="[('x_sinergis_sale_order_supplier_order','=',True)]"/>
+            <filter string="Pas de commande fournisseur" name="filter_not_supplier_order" domain="[('x_sinergis_sale_order_supplier_order','=',False)]"/>
           </xpath>
         </field>
     </record>
