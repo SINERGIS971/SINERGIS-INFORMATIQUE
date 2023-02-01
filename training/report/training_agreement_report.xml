@@ -131,12 +131,12 @@
 										<tr>
 											<th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><p>Pour l’entreprise,<br/>(Nom et qualité du signataire)<br/>(Cachet de la société)</p></th>
 											<th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;"><p>Pour SINERGIS<br/><span t-field="doc.agreement_internal_signer.name"/></p>
-											<img t-if="doc.agreement_internal_signer.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.agreement_internal_signer.x_sinergis_res_users_tampon_signature)" alt="Signature" style="height: 150px;width: auto;"/>
+											<img style="height: 85px;width: auto;" t-if="doc.agreement_internal_signer.x_sinergis_res_users_tampon_signature" t-att-src="image_data_uri(doc.agreement_internal_signer.x_sinergis_res_users_tampon_signature)" alt="Signature"/>
 										</th>
 										</tr>
 								</tbody>
 							</table>
-							<br/><br/>
+							<br/>
 						</div>
 						<t style="font-weight:bold;text-decoration: underline;">ANNEXES A LA CONVENTION :</t>
 						<ul>
