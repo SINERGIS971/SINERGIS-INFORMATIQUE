@@ -183,11 +183,11 @@
                         <group>
                             <div attrs="{'invisible': [('location_selection',  '=', 'company')]}">
                                   <div class="o_address_format" name="div_address">
-                                      <field name="location_street" placeholder="Rue..." class="o_address_street" attrs="{'readonly': [('location_selection',  '=', 'client')]}"/>
-                                      <field name="location_street2" placeholder="Rue 2..." class="o_address_street" attrs="{'readonly': [('location_selection',  '=', 'client')]}"/>
-                                      <field name="location_city" placeholder="Ville" class="o_address_city" attrs="{'readonly': [('location_selection',  '=', 'client')]}"/>
-                                      <field name="location_zip" placeholder="Code postal" class="o_address_zip" attrs="{'readonly': [('location_selection',  '=', 'client')]}"/>
-                                      <field name="location_country_id" placeholder="Pays" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" attrs="{'readonly': [('location_selection',  '=', 'client')]}"/>
+                                      <field name="location_street" placeholder="Rue..." class="o_address_street" attrs="{'readonly': [('location_selection',  '=', 'client')]}" force_save="1"/>
+                                      <field name="location_street2" placeholder="Rue 2..." class="o_address_street" attrs="{'readonly': [('location_selection',  '=', 'client')]}" force_save="1"/>
+                                      <field name="location_city" placeholder="Ville" class="o_address_city" attrs="{'readonly': [('location_selection',  '=', 'client')]}" force_save="1"/>
+                                      <field name="location_zip" placeholder="Code postal" class="o_address_zip" attrs="{'readonly': [('location_selection',  '=', 'client')]}" force_save="1"/>
+                                      <field name="location_country_id" placeholder="Pays" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" attrs="{'readonly': [('location_selection',  '=', 'client')]}" force_save="1"/>
                                   </div>
                             </div>
                         </group>
@@ -420,10 +420,10 @@
             <separator string="Évaluation"/>
             <group>
                 <group>
-                  <field name="evaluation_engagment_mark"/>
+                  <field name="evaluation_engagment_mark" style="color:orange;"/>
                 </group>
                 <group>
-                  <field name="training_end_mark"/>
+                  <field name="training_end_mark" style="color:orange;"/>
                 </group>
             </group>
             </div>
