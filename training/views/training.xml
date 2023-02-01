@@ -420,10 +420,10 @@
             <separator string="Évaluation"/>
             <group>
                 <group>
-                  <field name="evaluation_engagment_mark" style="color:orange;"/>
+                  <field name="evaluation_engagment_mark" style="background:orange;"/>
                 </group>
                 <group>
-                  <field name="training_end_mark" style="color:orange;"/>
+                  <field name="training_end_mark" style="background:orange;"/>
                 </group>
             </group>
             </div>
