@@ -213,10 +213,10 @@
                     <button name="send_invitation_participants" string="Envoyer les invitations aux participants" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les invitations à tous les participants où l'invitation n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
                   </div>
                   <!-- Formation en cours -->
-                  <div attrs="{'invisible': ['|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part')]}">
-                  <separator style="font-size:20px;" string="Formation en cours"/>
+                  <div attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}">
+                  <separator style="font-size:20px;" string="Formation en cours" />
                   <group>
-                    <field name="training_participants" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}">
+                    <field name="training_participants" force_save="1">
                     </field>
                   </group>
                   <button name="send_diagnostic_quiz_participants" string="Envoyer les quiz de diagnostic" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les quiz à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
