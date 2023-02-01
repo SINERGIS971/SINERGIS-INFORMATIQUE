@@ -33,6 +33,7 @@
         <filter string="Commercial" domain="[('x_sinergis_project_res_users_job', '=', 'COMMERCIAL')]" name="user_type_commercial"/>
         <separator/>
         <filter string="Projets terminés" name="filter_ended_project" domain="[('x_sinergis_project_project_etat_projet','=','Projet terminé')]"/>
+        <filter string="Projets non terminés" name="filter_not_ended_project" domain="[('x_sinergis_project_project_etat_projet','!=','Projet terminé')]"/>
       </xpath>
     </field>
 </record>
