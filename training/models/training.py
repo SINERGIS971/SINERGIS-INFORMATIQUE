@@ -45,7 +45,7 @@ class Training(models.Model):
     end = fields.Date(string="Fin de la formation")
     duration = fields.Float(string="Durée (jours)",compute="_compute_duration", store="True")
     #agreement_internal_signer = fields.Char(string="Signataire interne de la convention",default="Alain CASIMIRO, Directeur")
-    agreement_internal_signer = ields.Many2one("res.users",string='Signataire interne de la convention', default=lambda self: self.env['res.users'].search([('name','=','Administrator')]))
+    agreement_internal_signer = fields.Many2one("res.users",string='Signataire interne de la convention', default=lambda self: self.env['res.users'].search([('name','=','CASIMIRO Alain')]))
 
     signed_agreement = fields.Binary(string='Convention de formation signée')
 
@@ -185,6 +185,8 @@ class Training(models.Model):
                 missing_elements.append("Début de la formation")
             if not self.end :
                 missing_elements.append("Fin de la formation")
+            if not self.agreement_internal_signer:
+                missing_elements.append("Signataire interne de la convention")
             if not self.signed_agreement :
                 missing_elements.append("Convention de formation signée")
 
@@ -320,6 +322,8 @@ class Training(models.Model):
             missing_elements.append("Début de la formation")
         if not self.end :
             missing_elements.append("Fin de la formation")
+        if not self.agreement_internal_signer:
+            missing_elements.append("Signataire interne de la convention")
 
         if len(missing_elements) != 0 :
             raise ValidationError("Il vous manque les éléments suivants : "+', '.join(missing_elements)+" pour passer à la partie suivante.")
