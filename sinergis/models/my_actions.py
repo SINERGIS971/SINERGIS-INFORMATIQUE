@@ -21,7 +21,7 @@ class MyActions(models.Model):
     country_id = fields.Many2one("res.country",readonly=True,string="Pays du client")
 
     #Uniquement pour les activités du calendrier
-    rapport_intervention_valide = fields.Boolean()
+    rapport_intervention_valide = fields.Boolean(compute="_compute_rapport_intervention_valide")
 
     #Uniquement pour rapport
 
@@ -48,7 +48,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.rapport_intervention_valide FROM
+            T.name,T.date,T.client,T.billing,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -77,8 +77,7 @@ class MyActions(models.Model):
                     NULL as movement_country,
                     NULL as movement_area,
                     rp.country_id as country_id,
-                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='helpdesk' and bld.model_id=ht.id) > 0 THEN True else False END as is_billed,
-                    false as rapport_intervention_valide
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='helpdesk' and bld.model_id=ht.id) > 0 THEN True else False END as is_billed
                 FROM
                     helpdesk_ticket as ht
                 FULL JOIN
@@ -125,8 +124,7 @@ class MyActions(models.Model):
                     ce.x_sinergis_calendar_event_trip_movementcountry as movement_country,
                     ce.x_sinergis_calendar_event_trip_movementarea as movement_area,
                     rp.country_id as country_id,
-                    Case WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='calendar' and bld.model_id=ce.id) > 0 THEN True else False END as is_billed,
-                    true as rapport_intervention_valide
+                    Case WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='calendar' and bld.model_id=ce.id) > 0 THEN True else False END as is_billed
                 FROM
                     calendar_event as ce
                 FULL JOIN
