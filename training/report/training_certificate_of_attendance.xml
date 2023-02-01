@@ -40,7 +40,7 @@
 							</table>
 							<p>A bien suivi la formation suivante :</p>
 							<p>Prestation de Formation : <span t-field="doc.type_product_plan_id.name"/></p>
-							<p>Date(s) de formation : <span t-field="doc.start"/> au <span t-field="doc.end"/></p>
+							<p>Date(s) de formation : .................... au ....................</p>
 							<table style="border-collapse:collapse;border:none;width: 100%;">
 							<tbody>
 	                <tr>

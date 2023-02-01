@@ -6,7 +6,7 @@
             <field name="model_id" ref="training.model_training_participants"/>
             <field name="email_from">support@sinergis.odoo.com</field>
             <field name="email_to">{{ (object.email or '') }}</field>
-            <field name="subject">Fin de formation</field>
+            <field name="subject">Fin de formation : {{ object.training_id.type_product_plan_id.name }} SINERGIS</field>
             <field name="auto_delete" eval="False"/>
             <field name="body_html" type="html">
 
