@@ -231,10 +231,10 @@
                     <separator string="Évaluation de la formation par le consultant" style="color:red;"/>
                     <group>
                       <group>
-                        <field name="evaluating_training_course"/>
+                        <field name="evaluating_training_course" attrs="{'readonly': [('state',  '!=', 'training_ended')]}"/>
                       </group>
                       <group>
-                        <field name="difficulties_training_course"/>
+                        <field name="difficulties_training_course" attrs="{'readonly': [('state',  '!=', 'training_ended')]}"/>
                       </group>
                     </group>
                     <button name="download_training_evaluation" string="Télécharger l'évaluation du consultant" type="object" class="oe_highlight oe_right"/>
@@ -242,7 +242,7 @@
                   <div style="margin-left:30px;">
                     <separator string="Feuille d'émargement" style="color:red;"/>
                       <group>
-                        <field name="signed_attendance_sheet"/>
+                        <field name="signed_attendance_sheet" attrs="{'readonly': [('state',  '!=', 'training_ended')]}"/>
                       </group>
                   </div>
                 </div>
@@ -420,10 +420,10 @@
             <separator string="Évaluation"/>
             <group>
                 <group>
-                  <field name="evaluation_engagment_mark" style="background:orange;"/>
+                  <field name="evaluation_engagment_mark" style="background:orange;color:black;"/>
                 </group>
                 <group>
-                  <field name="training_end_mark" style="background:orange;"/>
+                  <field name="training_end_mark" style="background:orange;color:black;"/>
                 </group>
             </group>
             </div>
@@ -439,17 +439,17 @@
                 <field name="answer_positioning_quiz"/>
               </div>
               <div attrs="{'invisible': [('diagnostic_received',  '=', False)]}" style="margin-left:20px;">
-                <separator string="Quiz diagnostic"/>
+                <separator string="Quiz diagnostic" style="font-size: 16px;"/>
                 <div attrs="{'invisible': [('mark_quiz_diagnostic',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_quiz_diagnostic" readonly="True"/></div>
                 <field name="answer_quiz_diagnostic"/>
               </div>
               <div attrs="{'invisible': [('prior_learning_quiz_received',  '=', False)]}" style="margin-left:20px;">
-                <separator string="Quiz de validation des acquis"/>
+                <separator string="Quiz de validation des acquis" style="font-size: 16px;"/>
                 <div attrs="{'invisible': [('mark_prior_learning_quiz',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_prior_learning_quiz" readonly="True"/></div>
                 <field name="answer_prior_learning_quiz"/>
               </div>
               <div attrs="{'invisible': [('training_evaluation_received',  '=', False)]}" style="margin-left:20px;">
-                <separator string="Quiz évaluation formation"/>
+                <separator string="Quiz évaluation formation" style="font-size: 16px;"/>
                 <div attrs="{'invisible': [('mark_training_evaluation',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_training_evaluation" readonly="True"/></div>
                 <field name="answer_training_evaluation"/>
               </div>
