@@ -181,7 +181,7 @@
                           <field name="location_selection" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}"/>
                         </group>
                         <group>
-                            <div attrs="{'invisible': ['|',('location_selection',  '!=', 'other'),('state',  '!=', 'consultant_part')]}">
+                            <div attrs="{'invisible': ['|','|',('location_selection',  '!=', 'other'),('location_selection',  '!=', 'client'),('state',  '!=', 'consultant_part')], 'readonly': [('location_selection',  '=', 'client')]}">
                                   <div class="o_address_format" name="div_address">
                                       <field name="location_street" placeholder="Rue..." class="o_address_street"/>
                                       <field name="location_street2" placeholder="Rue 2..." class="o_address_street"/>

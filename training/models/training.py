@@ -117,7 +117,6 @@ class Training(models.Model):
             self.location_zip = False
             self.location_country_id = False
 
-
     @api.depends('delayed_assessment_received')
     def _compute_delayed_assessment_received (self):
         for rec in self:
