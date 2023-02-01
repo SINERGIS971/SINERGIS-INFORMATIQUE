@@ -1,6 +1,20 @@
 <odoo>
   <data>
 
+    <!-- Tree view -->
+
+    <record id="sinergis_inherited_res_partner_tree" model="ir.ui.view">
+        <field name="name">sinergis.inherited.res.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='display_name']" position="after">
+              <field name="x_sinergis_societe_mere" optional="hide"/>
+              <field name="x_sinergis_societe_autre_nom" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
     <!-- KANBAN FILTRE -->
     <!-- Dans la fonction recherche, ajouter la reconnaissance de 'autre nom' et 'nom juridique' -->
 
