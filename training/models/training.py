@@ -500,7 +500,7 @@ class TrainingParticipants(models.Model):
     #Training ended part
     is_rated = fields.Boolean(string="Évalué",default=False, compute="_compute_is_rated")
     evaluation_engagment_mark = fields.Selection([('A', 'A'),('B','B'),('C','C'),('D','D')], string="Note de l'engagement")
-    training_end_mark = fields.Selection([('A', 'A'),('B','B'),('C','C'),('D','D')], string="Note fin de formation")
+    training_end_mark = fields.Selection([('A', 'A'),('B','B'),('C','C'),('D','D')], string="Note compétences formation")
 
     training_ended_sent = fields.Boolean(string="Mail envoyé",default=False)
     answer_prior_learning_quiz = fields.Html(default="",readonly=True, string="Réponse au quiz d'évaluation des acquis")
