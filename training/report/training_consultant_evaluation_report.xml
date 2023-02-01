@@ -55,6 +55,8 @@
 									</t>
 							</tbody>
 						</table>
+						<br/>
+						<br/>
             <h5>3. Evaluation du stagiaire à l’issue de la formation :</h5>
 						<table style="width: 100%;">
 							<tbody>
@@ -70,6 +72,8 @@
 									</t>
 							</tbody>
 						</table>
+						<br/>
+						<br/>
             <h5>4. Evaluation du déroulement de l’action de formation :</h5>
             <p>Le consultant a trouvé la formation : <span t-field="doc.evaluating_training_course"/></p>
             <br/>

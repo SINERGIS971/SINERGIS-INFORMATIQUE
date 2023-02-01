@@ -434,7 +434,7 @@
               <field name="prior_learning_quiz_received" invisible="True"/>
               <field name="training_evaluation_received" invisible="True"/>
               <div attrs="{'invisible': [('positioning_quiz_received',  '=', False)]}" style="margin-left:20px;">
-                <separator string="Quiz de positionnement"/>
+                <separator string="Quiz de positionnement" style="font-size: 16px;"/>
                 <div attrs="{'invisible': [('mark_positioning_quiz',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_positioning_quiz" readonly="True"/></div>
                 <field name="answer_positioning_quiz"/>
               </div>
