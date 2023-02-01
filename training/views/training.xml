@@ -28,6 +28,7 @@
                 <field name="sales_manager" filter_domain="[('sales_manager', 'ilike', self)]"/>
                 <field name="consultant_id" filter_domain="[('consultant_id', 'ilike', self)]"/>
                 <filter string="Formations ouvertes" name="filter_open_training" domain="[('state', '!=', 'training_closed')]"/>
+                <filter string="Formations cloturées" name="filter_closed_training" domain="[('state', '=', 'training_closed')]"/>
                 <separator/>
                 <filter string="Formations OPCO" name="filter_opco" domain="[('opco_file', '!=', False)]"/>
                 <filter string="Formations non OPCO" name="filter_non_opco" domain="[('opco_file', '=', False)]"/>
