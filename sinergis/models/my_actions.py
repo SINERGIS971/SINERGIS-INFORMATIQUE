@@ -21,7 +21,7 @@ class MyActions(models.Model):
     country_id = fields.Many2one("res.country",readonly=True,string="Pays du client")
 
     #Uniquement pour les activités du calendrier
-    rapport_intervention_valide = fields.Boolean(compute="_compute_rapport_intervention_valide")
+    rapport_intervention_valide = fields.Boolean(compute="_compute_rapport_intervention_valide", store=True)
 
     #Uniquement pour rapport
 
