@@ -82,6 +82,7 @@
                   <!--<button name="button_download_all_documents" string="Télécharger les documents de cette formation" type="object"  icon="fa-download" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>-->
                 </header>
                 <sheet>
+                  <field name="active" invisible="True"/>
                   <div class="oe_button_box" name="button_box">
                     <field name="sale_id" invisible="True"/>
                     <button name="action_open_sale_id" string="Ouvrir le devis" type="object" class="oe_link" icon="fa-file-text-o" attrs="{'invisible': [('sale_id', '=', False)]}"/>
