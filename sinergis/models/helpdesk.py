@@ -71,7 +71,7 @@ class HelpdeskTicket(models.Model):
 
     # 3 Février 2023 : Ajout de l'alerte si le client a répondu après avoir envoyé le ticket
     x_sinergis_helpdesk_ticket_client_answer = fields.Boolean(string="Réponse client", compute="_compute_x_sinergis_helpdesk_ticket_client_answer")
-    x_sinergis_helpdesk_ticket_client_answer_date = fields.Datetime(string="Dernier message le")
+    x_sinergis_helpdesk_ticket_client_answer_date = fields.Datetime(string="Dernier mail le")
 
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
 
