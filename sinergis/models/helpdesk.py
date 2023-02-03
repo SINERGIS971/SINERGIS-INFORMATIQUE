@@ -71,6 +71,7 @@ class HelpdeskTicket(models.Model):
 
     # 3 Février 2023 : Ajout de l'alerte si le client a répondu après avoir envoyé le ticket
     x_sinergis_helpdesk_ticket_client_answer = fields.Boolean(string="Réponse client", compute="_compute_x_sinergis_helpdesk_ticket_client_answer")
+    x_sinergis_helpdesk_ticket_client_answer_date = fields.Datetime(string="Dernier message le")
 
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
 
@@ -122,7 +123,6 @@ class HelpdeskTicket(models.Model):
             domain.append(('name','ilike','HEURES'))
             domain.append(('partner_id', '=', task.partner_id.id))
             task.x_sinergis_helpdesk_ticket_contrat_heures = self.env["project.task"].search(domain)
-
 
     @api.onchange("user_id")
     def on_change_user_id(self):
@@ -205,9 +205,10 @@ class HelpdeskTicket(models.Model):
                     email_count += 1
             if email_count >= 2 :
                 rec.x_sinergis_helpdesk_ticket_client_answer = True
+                rec.x_sinergis_helpdesk_ticket_client_answer_date = message.date
             else:
                 rec.x_sinergis_helpdesk_ticket_client_answer = False
-
+                rec.x_sinergis_helpdesk_ticket_client_answer_date = False
 
 
 
@@ -380,7 +381,7 @@ class HelpdeskTicket(models.Model):
         self.x_sinergis_helpdesk_last_call = datetime.now()
 
     def button_x_sinergis_helpdesk_ticket_client_answer (self):
-        pass
+        raise ValidationError("Le client a envoyé au moins deux mails concernant ce ticket.")
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
     def write(self, values):
