@@ -209,7 +209,7 @@ class HelpdeskTicket(models.Model):
                     rec.x_sinergis_helpdesk_ticket_client_answer_date = all_messages[0].date
                 else:
                     rec.x_sinergis_helpdesk_ticket_client_answer = False
-                    rec.x_sinergis_helpdesk_ticket_client_answer_date = False
+                    rec.x_sinergis_helpdesk_ticket_client_answer_date = all_messages[0].date
             else:
                 rec.x_sinergis_helpdesk_ticket_client_answer = False
                 rec.x_sinergis_helpdesk_ticket_client_answer_date = False
