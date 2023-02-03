@@ -201,11 +201,12 @@ class HelpdeskTicket(models.Model):
             all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
             email_count = 0
             for message in all_messages:
-                email_count += 1 if message.message_type = "email"
+                if message.message_type == "email":
+                    email_count += 1
             if email_count >= 2 :
-                x_sinergis_helpdesk_ticket_client_answer = True
+                rec.x_sinergis_helpdesk_ticket_client_answer = True
             else:
-                x_sinergis_helpdesk_ticket_client_answer = False
+                rec.x_sinergis_helpdesk_ticket_client_answer = False
 
 
 
@@ -377,6 +378,9 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_last_call_button (self):
         self.x_sinergis_helpdesk_last_call = datetime.now()
+
+    def button_x_sinergis_helpdesk_ticket_client_answer (self):
+        pass
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
     def write(self, values):
