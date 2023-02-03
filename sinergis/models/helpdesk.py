@@ -200,15 +200,20 @@ class HelpdeskTicket(models.Model):
         for rec in self:
             all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
             email_count = 0
-            for message in all_messages:
-                if message.message_type == "email":
-                    email_count += 1
-            if email_count >= 2 :
-                rec.x_sinergis_helpdesk_ticket_client_answer = True
-                rec.x_sinergis_helpdesk_ticket_client_answer_date = message.date
+            if all_messages:
+                for message in all_messages:
+                    if message.message_type == "email":
+                        email_count += 1
+                if email_count >= 2 :
+                    rec.x_sinergis_helpdesk_ticket_client_answer = True
+                    rec.x_sinergis_helpdesk_ticket_client_answer_date = all_messages[0].date
+                else:
+                    rec.x_sinergis_helpdesk_ticket_client_answer = False
+                    rec.x_sinergis_helpdesk_ticket_client_answer_date = False
             else:
                 rec.x_sinergis_helpdesk_ticket_client_answer = False
                 rec.x_sinergis_helpdesk_ticket_client_answer_date = False
+
 
 
 
