@@ -66,6 +66,12 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_contrat_heures = fields.One2many('project.task',compute="_compute_x_sinergis_helpdesk_ticket_contrat_heures",readonly=True,string="Contrats d'heures du client :")
 
+    #Taches
+    x_sinergis_helpdesk_ticket_taches = fields.One2many('project.task',compute="_compute_tasks",readonly=True)
+
+    # 3 Février 2023 : Ajout de l'alerte si le client a répondu après avoir envoyé le ticket
+     x_sinergis_helpdesk_ticket_client_answer = fields.Boolean(string="Réponse client", compute="_compute_x_sinergis_helpdesk_ticket_client_answer")
+
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
 
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
@@ -185,13 +191,24 @@ class HelpdeskTicket(models.Model):
             self.x_sinergis_helpdesk_ticket_contact_mobile = self.x_sinergis_helpdesk_ticket_contact.mobile
             self.x_sinergis_helpdesk_ticket_contact_mail = self.x_sinergis_helpdesk_ticket_contact.email
 
-
-    #Taches
-    x_sinergis_helpdesk_ticket_taches = fields.One2many('project.task',compute="_compute_tasks",readonly=True)
-
     @api.depends('x_sinergis_helpdesk_ticket_taches')
     def _compute_tasks (self):
         HelpdeskTicket.updateTasks(self)
+
+    @api.depends('x_sinergis_helpdesk_ticket_client_answer')
+    def _compute_x_sinergis_helpdesk_ticket_client_answer (self):
+        for rec in self:
+            all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
+            email_count = 0
+            for message in all_messages:
+                email_count += 1 if message.message_type = "email"
+            if email_count >= 2 :
+                x_sinergis_helpdesk_ticket_client_answer = True
+            else:
+                x_sinergis_helpdesk_ticket_client_answer = False
+
+
+
 
 
     @api.onchange("partner_id")
