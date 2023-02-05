@@ -66,6 +66,13 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_contrat_heures = fields.One2many('project.task',compute="_compute_x_sinergis_helpdesk_ticket_contrat_heures",readonly=True,string="Contrats d'heures du client :")
 
+    #Taches
+    x_sinergis_helpdesk_ticket_taches = fields.One2many('project.task',compute="_compute_tasks",readonly=True)
+
+    # 3 Février 2023 : Ajout de l'alerte si le client a répondu après avoir envoyé le ticket
+    x_sinergis_helpdesk_ticket_client_answer = fields.Boolean(string="Réponse client", compute="_compute_x_sinergis_helpdesk_ticket_client_answer")
+    x_sinergis_helpdesk_ticket_client_answer_date = fields.Datetime(string="Dernier mail le")
+
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
 
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
@@ -116,7 +123,6 @@ class HelpdeskTicket(models.Model):
             domain.append(('name','ilike','HEURES'))
             domain.append(('partner_id', '=', task.partner_id.id))
             task.x_sinergis_helpdesk_ticket_contrat_heures = self.env["project.task"].search(domain)
-
 
     @api.onchange("user_id")
     def on_change_user_id(self):
@@ -185,13 +191,34 @@ class HelpdeskTicket(models.Model):
             self.x_sinergis_helpdesk_ticket_contact_mobile = self.x_sinergis_helpdesk_ticket_contact.mobile
             self.x_sinergis_helpdesk_ticket_contact_mail = self.x_sinergis_helpdesk_ticket_contact.email
 
-
-    #Taches
-    x_sinergis_helpdesk_ticket_taches = fields.One2many('project.task',compute="_compute_tasks",readonly=True)
-
     @api.depends('x_sinergis_helpdesk_ticket_taches')
     def _compute_tasks (self):
         HelpdeskTicket.updateTasks(self)
+
+    @api.depends('x_sinergis_helpdesk_ticket_client_answer')
+    def _compute_x_sinergis_helpdesk_ticket_client_answer (self):
+        for rec in self:
+            all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
+            email_count = 0
+            last_mail_date = False
+            if all_messages:
+                for message in all_messages:
+                    if message.message_type == "email":
+                        email_count += 1
+                        if not last_mail_date:
+                            last_mail_date = message.date
+                if email_count >= 2 :
+                    rec.x_sinergis_helpdesk_ticket_client_answer = True
+                    rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
+                else:
+                    rec.x_sinergis_helpdesk_ticket_client_answer = False
+                    rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
+            else:
+                rec.x_sinergis_helpdesk_ticket_client_answer = False
+                rec.x_sinergis_helpdesk_ticket_client_answer_date = False
+
+
+
 
 
     @api.onchange("partner_id")
@@ -360,6 +387,9 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_last_call_button (self):
         self.x_sinergis_helpdesk_last_call = datetime.now()
+
+    def button_x_sinergis_helpdesk_ticket_client_answer (self):
+        raise ValidationError("Le client a envoyé au moins deux mails concernant ce ticket.")
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
     def write(self, values):

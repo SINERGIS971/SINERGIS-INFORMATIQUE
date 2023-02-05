@@ -32,6 +32,8 @@
                 <separator/>
                 <filter string="Formations OPCO" name="filter_opco" domain="[('opco_file', '!=', False)]"/>
                 <filter string="Formations non OPCO" name="filter_non_opco" domain="[('opco_file', '=', False)]"/>
+                <separator/>
+                <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
                 <group expand="0" string="Group By">
                     <filter string="Client" name="group_by_partner_id" context="{'group_by':'partner_id'}"/>
                     <filter string="Date de début" name="group_by_start" context="{'group_by':'start'}"/>
@@ -80,6 +82,7 @@
                   <!--<button name="button_download_all_documents" string="Télécharger les documents de cette formation" type="object"  icon="fa-download" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>-->
                 </header>
                 <sheet>
+                  <field name="active" invisible="True"/>
                   <div class="oe_button_box" name="button_box">
                     <field name="sale_id" invisible="True"/>
                     <button name="action_open_sale_id" string="Ouvrir le devis" type="object" class="oe_link" icon="fa-file-text-o" attrs="{'invisible': [('sale_id', '=', False)]}"/>

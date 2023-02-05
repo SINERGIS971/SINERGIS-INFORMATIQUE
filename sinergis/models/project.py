@@ -107,7 +107,7 @@ class ProjectTask(models.Model):
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
-    x_sinergis_project_project_acompte_verse = fields.Boolean(default=0, string="Acompte versé")
+    x_sinergis_project_project_acompte_verse = fields.Boolean(string="Acompte versé", related="sale_order_id.x_sinergis_sale_order_acompte_verse")
 
     x_sinergis_project_project_sale_order_contact = fields.Many2one("res.partner", string="Contact de la vente",compute="_compute_x_sinergis_project_project_sale_order_contact")
     x_sinergis_project_project_sale_order_contact_phone = fields.Char(string="Téléphone du contact",compute="_compute_x_sinergis_project_project_sale_order_contact_phone")

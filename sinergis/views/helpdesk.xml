@@ -65,7 +65,10 @@
                   <attribute name="default_order">create_date desc</attribute>
                 </xpath>
                 <xpath expr="//field[@name='display_name']" position="before">
+                  <field name="x_sinergis_helpdesk_ticket_client_answer" invisible="True"/>
+                  <button name="button_x_sinergis_helpdesk_ticket_client_answer" readonly="True" type="object"  icon="fa-bell" class="btn-danger" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_answer', '=', False)]}"/>
                   <field name="create_date"/>
+                  <field name="x_sinergis_helpdesk_ticket_client_answer_date"/>
                   <field name="priority" position="move"/>
                   <field name="partner_id" position="move"/>
                   <field name="x_sinergis_helpdesk_ticket_produit_nom_complet" string="Produit"/>

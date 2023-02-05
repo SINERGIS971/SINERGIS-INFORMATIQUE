@@ -15,6 +15,8 @@ class Training(models.Model):
     _inherit = ["mail.thread"]
     _description = "Formations"
 
+    active = fields.Boolean(string='Active', default=True)
+
     sale_id = fields.Many2one("sale.order", string="Devis")
     sale_order_line_id = fields.Many2one("sale.order.line")
 
