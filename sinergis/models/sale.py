@@ -236,12 +236,6 @@ class SaleOrder(models.Model):
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
     payment_term_id = fields.Many2one(default=lambda self: self.env['account.payment.term'].search([('name','ilike',"100% des logiciels")]))
 
-    def debug_acompte_verse_loading(self):
-        projects = self.env['project.project'].search([], limit=10000,order="id desc")
-        for project in projects:
-            if project.x_sinergis_project_project_acompte_verse:
-                project.sale_order_id.x_sinergis_sale_order_acompte_verse = True
-
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
