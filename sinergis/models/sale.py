@@ -221,11 +221,12 @@ class SaleOrder(models.Model):
         elif self.x_sinergis_sale_order_amount_charged > self.amount_total:
             self.x_sinergis_sale_order_amount_charged = self.amount_total
 
-    @api.onchange("x_sinergis_sale_order_acompte_verse")
-    def on_change_x_sinergis_sale_order_acompte_verse (self):
-        project_ids = self.env['project.project'].search([('sale_order_id', '=', self._origin.id)])
-        for project_id in project_ids:
-            project_id.x_sinergis_project_project_acompte_verse = self.x_sinergis_sale_order_acompte_verse
+    # Code de l'ancien système d'acompte versé avec les projets
+    #@api.onchange("x_sinergis_sale_order_acompte_verse")
+    #def on_change_x_sinergis_sale_order_acompte_verse (self):
+    #    project_ids = self.env['project.project'].search([('sale_order_id', '=', self._origin.id)])
+    #    for project_id in project_ids:
+    #        project_id.x_sinergis_project_project_acompte_verse = self.x_sinergis_sale_order_acompte_verse
 
     #@api.onchange("fiscal_position_id")
     #def on_change_fiscal_position_id(self):
