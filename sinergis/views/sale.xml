@@ -131,6 +131,7 @@
                 <group>
                     <field name="x_sinergis_sale_order_model" attrs="{'invisible': [('state',  '!=', 'draft')]}"/>
                 </group>
+                <button name="debug_acompte_verse_loading" string="DEBUG : MAJ ACOMPTE VERSE" type="object" class="oe_highlight"/>
             </xpath>
 
             <!-- MODIFICATION DE LA LISTE -->
