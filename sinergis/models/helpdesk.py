@@ -201,6 +201,7 @@ class HelpdeskTicket(models.Model):
             #all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
             email_count = 0
             last_mail_date = False
+            rec.x_sinergis_helpdesk_ticket_client_answer = False
             #if all_messages:
             #    for message in all_messages:
             #        if message.message_type == "email":
