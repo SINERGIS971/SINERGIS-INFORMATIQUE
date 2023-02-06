@@ -198,24 +198,24 @@ class HelpdeskTicket(models.Model):
     @api.depends('x_sinergis_helpdesk_ticket_client_answer')
     def _compute_x_sinergis_helpdesk_ticket_client_answer (self):
         for rec in self:
-            all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
+            #all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
             email_count = 0
             last_mail_date = False
-            if all_messages:
-                for message in all_messages:
-                    if message.message_type == "email":
-                        email_count += 1
-                        if not last_mail_date:
-                            last_mail_date = message.date
-                if email_count >= 2 :
-                    rec.x_sinergis_helpdesk_ticket_client_answer = True
-                    rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
-                else:
-                    rec.x_sinergis_helpdesk_ticket_client_answer = False
-                    rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
-            else:
-                rec.x_sinergis_helpdesk_ticket_client_answer = False
-                rec.x_sinergis_helpdesk_ticket_client_answer_date = False
+            #if all_messages:
+            #    for message in all_messages:
+            #        if message.message_type == "email":
+            #            email_count += 1
+            #            if not last_mail_date:
+            #                last_mail_date = message.date
+            #    if email_count >= 2 :
+            #        rec.x_sinergis_helpdesk_ticket_client_answer = True
+            #        rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
+            #    else:
+            #        rec.x_sinergis_helpdesk_ticket_client_answer = False
+            #        rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
+            #else:
+            #    rec.x_sinergis_helpdesk_ticket_client_answer = False
+            #    rec.x_sinergis_helpdesk_ticket_client_answer_date = False
 
 
 
