@@ -13,6 +13,7 @@
               <xpath expr="//filter[@name='my_ticket']" position="before">
                 <field name="x_sinergis_helpdesk_ticket_produit_nom_complet" invisible="True"/>
                 <field name="x_sinergis_helpdesk_ticket_produits" invisible="True"/>
+                <field name="x_sinergis_helpdesk_ticket_client_answer" invisible="True"/>
                 <filter string="CEGID" name="filter_cegid" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'CEGID')]"/>
                 <separator/>
                 <filter string="E2TIME" name="filter_e2time" domain="[('x_sinergis_helpdesk_ticket_produits', '=', 'E2TIME')]"/>
