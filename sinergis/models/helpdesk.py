@@ -209,13 +209,10 @@ class HelpdeskTicket(models.Model):
                             last_mail_date = message.date
                 if email_count >= 2 :
                     rec.x_sinergis_helpdesk_ticket_client_answer = True
-                    #rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
                 else:
                     rec.x_sinergis_helpdesk_ticket_client_answer = False
-                    #rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
             else:
                 rec.x_sinergis_helpdesk_ticket_client_answer = False
-                #rec.x_sinergis_helpdesk_ticket_client_answer_date = False
 
     @api.depends('x_sinergis_helpdesk_ticket_client_answer_date')
     def _compute_x_sinergis_helpdesk_ticket_client_answer_date (self):
@@ -230,13 +227,6 @@ class HelpdeskTicket(models.Model):
                 rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
             else:
                 rec.x_sinergis_helpdesk_ticket_client_answer_date = False
-                
-
-            
-
-
-
-
 
     @api.onchange("partner_id")
     def on_change_partner_id(self):
