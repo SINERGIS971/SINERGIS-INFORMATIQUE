@@ -58,7 +58,7 @@
             <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E30000;color:white;font-size:17px;padding:15px;" attrs="{'invisible': [('x_sinergis_sale_order_client_bloque',  '=', False)]}">
                   Attention! Le client est <strong>bloqué</strong>!. Vous ne pouvez pas confirmer le devis.
             </div>
-            <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E30000;color:white;font-size:17px;padding:15px;" attrs="{'invisible': ['|',('x_sinergis_sale_order_client_douteux',  '=', False),('x_sinergis_sale_order_client_bloque',  '=', True)]}">
+            <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E45600;color:white;font-size:17px;padding:15px;" attrs="{'invisible': ['|',('x_sinergis_sale_order_client_douteux',  '=', False),('x_sinergis_sale_order_client_bloque',  '=', True)]}">
                   Attention! Le client est <strong>douteux</strong>!.
             </div>
             <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#A7A7A7;color:white;" attrs="{'invisible': [('x_sinergis_sale_order_client_suspect',  '=', False)]}">
