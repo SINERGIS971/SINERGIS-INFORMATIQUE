@@ -199,5 +199,12 @@
             </field>
         </record>
 
+        <!--CSS template-->
+        <template id="calendar_css_asset" name="Calendat CSS Asset" inherit_id="web.assets_backend">
+          <xpath expr="." position="inside">     
+                 <link rel="stylesheet" href="/sinergis/static/src/css/calendar.css"/>
+            </xpath> 
+        </template>
+
     </data>
 </odoo>
