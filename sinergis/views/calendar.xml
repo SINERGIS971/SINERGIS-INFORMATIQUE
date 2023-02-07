@@ -137,7 +137,7 @@
                             <field name="x_sinergis_calendar_event_tache_transfered" invisible="True"/>
                             <field name="x_sinergis_calendar_event_tache2" domain="[('partner_id','=',x_sinergis_calendar_event_client),('name','ilike','HEURES')]" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': ['|',('x_sinergis_calendar_event_client',  '=', False),('x_sinergis_calendar_event_is_facturee','=',True)],'invisible' : [('x_sinergis_calendar_event_facturation',  '!=', 'Contrat heure')]}"/>
                             <field name="x_sinergis_calendar_event_tache_information" force_save="1" attrs="{'invisible' : [('x_sinergis_calendar_event_tache_information',  '=', False)]}" readonly="True" string=""/>
-
+                            </group>
                             <field name="x_sinergis_calendar_event_taches" attrs="{'invisible': ['|',('x_sinergis_calendar_event_client',  '=', False),'&amp;',('x_sinergis_calendar_event_facturation',  '!=', 'Devis'),('x_sinergis_calendar_event_facturation',  '!=', 'Contrat heure')]}" string="Prestations en cours">
                                 <tree decoration-warning="effective_hours>0.9*planned_hours" decoration-danger="effective_hours>=planned_hours">
                                     <field name="project_id"/>
@@ -150,7 +150,7 @@
                                     <field name="company_id"/>
                                 </tree>
                             </field>
-
+                            <group>
                             <br/>
                             <field name="x_sinergis_calendar_duree_facturee" widget="float_time" style="font-size:13pt;"/>
                             <field name="x_sinergis_calendar_event_is_solved"/>
@@ -198,13 +198,5 @@
                 </xpath>
             </field>
         </record>
-
-        <!--CSS template-->
-        <template id="calendar_css_asset" name="Calendat CSS Asset" inherit_id="web.assets_backend">
-          <xpath expr="." position="inside">     
-                 <link rel="stylesheet" href="/sinergis/static/src/css/calendar.css"/>
-            </xpath> 
-        </template>
-
     </data>
 </odoo>
