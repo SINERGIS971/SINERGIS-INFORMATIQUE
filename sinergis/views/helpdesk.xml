@@ -33,8 +33,8 @@
                 <separator/>
                 <filter string="VIF" name="filter_vif" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'VIF')]"/>
                 <separator/>
-                <filter string="SAGE X3" name="filter_sagex3" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'X3')]"/>
-                <filter string="SAGE X3 - HRM" name="filter_sagex3_hrm" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits_new', '=', 'X3'),('x_sinergis_helpdesk_ticket_sous_produits_new', '=', 'HRM')]"/>
+                <filter string="SAGE X3" name="filter_sagex3" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'SAGE X3')]"/>
+                <filter string="SAGE X3 - HRM" name="filter_sagex3_hrm" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits_new', '=', 'SAGE X3'),('x_sinergis_helpdesk_ticket_sous_produits_new', '=', 'HRM')]"/>
                 <separator/>
                 <filter string="XLSOFT" name="filter_xlsoft" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'XLSOFT')]"/>
                 <separator/>
