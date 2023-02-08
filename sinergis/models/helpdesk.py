@@ -91,7 +91,13 @@ class HelpdeskTicket(models.Model):
     @api.depends('x_sinergis_helpdesk_ticket_produit_nom_complet')
     def _compute_x_sinergis_helpdesk_ticket_produit_nom_complet (self):
         for rec in self:
-            rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_new.name + " " + rec.x_sinergis_helpdesk_ticket_sous_produits_new.name
+            if rec.x_sinergis_helpdesk_ticket_produits_new and rec.x_sinergis_helpdesk_ticket_sous_produits_new:
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_new.name + " " + rec.x_sinergis_helpdesk_ticket_sous_produits_new.name
+            elif rec.x_sinergis_helpdesk_ticket_produits_new:
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_new.name
+            else: 
+                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = ""
+
             #if rec.x_sinergis_helpdesk_ticket_produits == "CEGID":
             #    rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_cegid if rec.x_sinergis_helpdesk_ticket_produits_cegid else rec.x_sinergis_helpdesk_ticket_produits
             # elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 100":
@@ -144,8 +150,8 @@ class HelpdeskTicket(models.Model):
             if user_id != self.env.user and not self.env.user.has_group('sinergis.group_helpdesk_admin'):
                 raise ValidationError("Vous ne pouvez pas marquer un ticket que ne vous est pas assigné comme résolu.")
 
-    @api.onchange("x_sinergis_helpdesk_ticket_sous_produits_new")
-    def on_change_x_sinergis_helpdesk_ticket_sous_produits_new(self):
+    @api.onchange("x_sinergis_helpdesk_ticket_produits_new")
+    def on_change_x_sinergis_helpdesk_ticket_produits_new(self):
         HelpdeskTicket.update_type_client(self)
 
     #@api.onchange("x_sinergis_helpdesk_ticket_produits_divers")
