@@ -170,20 +170,26 @@ class MyActions(models.Model):
         for rec in self:
             if rec.origin == "helpdesk":
                 ticket = rec.env['helpdesk.ticket'].search([('id', '=', rec.link_id)])
-                if ticket.x_sinergis_helpdesk_ticket_produits == "CEGID":
-                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits + " " + ticket.x_sinergis_helpdesk_ticket_produits_cegid if ticket.x_sinergis_helpdesk_ticket_produits_cegid else ticket.x_sinergis_helpdesk_ticket_produits
-                elif ticket.x_sinergis_helpdesk_ticket_produits == "SAGE 100":
-                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits + " " + ticket.x_sinergis_helpdesk_ticket_produits_sage100 if ticket.x_sinergis_helpdesk_ticket_produits_sage100 else ticket.x_sinergis_helpdesk_ticket_produits
-                elif ticket.x_sinergis_helpdesk_ticket_produits == "SAGE 1000":
-                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits + " " + ticket.x_sinergis_helpdesk_ticket_produits_sage1000 if ticket.x_sinergis_helpdesk_ticket_produits_sage1000 else ticket.x_sinergis_helpdesk_ticket_produits
-                elif ticket.x_sinergis_helpdesk_ticket_produits == "SAP":
-                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits + " " + ticket.x_sinergis_helpdesk_ticket_produits_sap if ticket.x_sinergis_helpdesk_ticket_produits_sap else ticket.x_sinergis_helpdesk_ticket_produits
-                elif ticket.x_sinergis_helpdesk_ticket_produits == "X3":
-                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits + " " + ticket.x_sinergis_helpdesk_ticket_produits_x3 if ticket.x_sinergis_helpdesk_ticket_produits_x3 else ticket.x_sinergis_helpdesk_ticket_produits
-                elif ticket.x_sinergis_helpdesk_ticket_produits == "DIVERS":
-                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits_divers if ticket.x_sinergis_helpdesk_ticket_produits_divers else ''
-                else:
-                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits if ticket.x_sinergis_helpdesk_ticket_produits else ''
+                if ticket.x_sinergis_helpdesk_ticket_produits_new and ticket.x_sinergis_helpdesk_ticket_sous_produits_new:
+                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits_new.name + " " + ticket.x_sinergis_helpdesk_ticket_sous_produits_new.name
+                elif ticket.x_sinergis_helpdesk_ticket_produits_new:
+                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits_new.name
+                else: 
+                    rec.product = ""
+                #if ticket.x_sinergis_helpdesk_ticket_produits == "CEGID":
+                #    rec.product = ticket.x_sinergis_helpdesk_ticket_produits + " " + ticket.x_sinergis_helpdesk_ticket_produits_cegid if ticket.x_sinergis_helpdesk_ticket_produits_cegid else ticket.x_sinergis_helpdesk_ticket_produits
+                #elif ticket.x_sinergis_helpdesk_ticket_produits == "SAGE 100":
+                #    rec.product = ticket.x_sinergis_helpdesk_ticket_produits + " " + ticket.x_sinergis_helpdesk_ticket_produits_sage100 if ticket.x_sinergis_helpdesk_ticket_produits_sage100 else ticket.x_sinergis_helpdesk_ticket_produits
+                #elif ticket.x_sinergis_helpdesk_ticket_produits == "SAGE 1000":
+                #    rec.product = ticket.x_sinergis_helpdesk_ticket_produits + " " + ticket.x_sinergis_helpdesk_ticket_produits_sage1000 if ticket.x_sinergis_helpdesk_ticket_produits_sage1000 else ticket.x_sinergis_helpdesk_ticket_produits
+                #elif ticket.x_sinergis_helpdesk_ticket_produits == "SAP":
+                #    rec.product = ticket.x_sinergis_helpdesk_ticket_produits + " " + ticket.x_sinergis_helpdesk_ticket_produits_sap if ticket.x_sinergis_helpdesk_ticket_produits_sap else ticket.x_sinergis_helpdesk_ticket_produits
+                #elif ticket.x_sinergis_helpdesk_ticket_produits == "X3":
+                #    rec.product = ticket.x_sinergis_helpdesk_ticket_produits + " " + ticket.x_sinergis_helpdesk_ticket_produits_x3 if ticket.x_sinergis_helpdesk_ticket_produits_x3 else ticket.x_sinergis_helpdesk_ticket_produits
+                #elif ticket.x_sinergis_helpdesk_ticket_produits == "DIVERS":
+                #    rec.product = ticket.x_sinergis_helpdesk_ticket_produits_divers if ticket.x_sinergis_helpdesk_ticket_produits_divers else ''
+                #else:
+                #    rec.product = ticket.x_sinergis_helpdesk_ticket_produits if ticket.x_sinergis_helpdesk_ticket_produits else ''
             else:
                 calendar = rec.env['calendar.event'].search([('id', '=', rec.link_id)])
                 if calendar.x_sinergis_calendar_event_produits == "CEGID":
