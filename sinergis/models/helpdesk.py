@@ -91,20 +91,21 @@ class HelpdeskTicket(models.Model):
     @api.depends('x_sinergis_helpdesk_ticket_produit_nom_complet')
     def _compute_x_sinergis_helpdesk_ticket_produit_nom_complet (self):
         for rec in self:
-            if rec.x_sinergis_helpdesk_ticket_produits == "CEGID":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_cegid if rec.x_sinergis_helpdesk_ticket_produits_cegid else rec.x_sinergis_helpdesk_ticket_produits
-            elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 100":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage100 if rec.x_sinergis_helpdesk_ticket_produits_sage100 else rec.x_sinergis_helpdesk_ticket_produits
-            elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 1000":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage1000 if rec.x_sinergis_helpdesk_ticket_produits_sage1000 else rec.x_sinergis_helpdesk_ticket_produits
-            elif rec.x_sinergis_helpdesk_ticket_produits == "SAP":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sap if rec.x_sinergis_helpdesk_ticket_produits_sap else rec.x_sinergis_helpdesk_ticket_produits
-            elif rec.x_sinergis_helpdesk_ticket_produits == "X3":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_x3 if rec.x_sinergis_helpdesk_ticket_produits_x3 else rec.x_sinergis_helpdesk_ticket_produits
-            elif rec.x_sinergis_helpdesk_ticket_produits == "DIVERS":
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_divers if rec.x_sinergis_helpdesk_ticket_produits_divers else ''
-            else:
-                rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits if rec.x_sinergis_helpdesk_ticket_produits else ''
+            rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_new.name + " " + rec.x_sinergis_helpdesk_ticket_sous_produits_new.name
+            #if rec.x_sinergis_helpdesk_ticket_produits == "CEGID":
+            #    rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_cegid if rec.x_sinergis_helpdesk_ticket_produits_cegid else rec.x_sinergis_helpdesk_ticket_produits
+            # elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 100":
+            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage100 if rec.x_sinergis_helpdesk_ticket_produits_sage100 else rec.x_sinergis_helpdesk_ticket_produits
+            # elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 1000":
+            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage1000 if rec.x_sinergis_helpdesk_ticket_produits_sage1000 else rec.x_sinergis_helpdesk_ticket_produits
+            # elif rec.x_sinergis_helpdesk_ticket_produits == "SAP":
+            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sap if rec.x_sinergis_helpdesk_ticket_produits_sap else rec.x_sinergis_helpdesk_ticket_produits
+            # elif rec.x_sinergis_helpdesk_ticket_produits == "X3":
+            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_x3 if rec.x_sinergis_helpdesk_ticket_produits_x3 else rec.x_sinergis_helpdesk_ticket_produits
+            # elif rec.x_sinergis_helpdesk_ticket_produits == "DIVERS":
+            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_divers if rec.x_sinergis_helpdesk_ticket_produits_divers else ''
+            # else:
+            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits if rec.x_sinergis_helpdesk_ticket_produits else ''
 
 
     @api.depends('x_sinergis_helpdesk_ticket_intervention_count')
@@ -143,17 +144,17 @@ class HelpdeskTicket(models.Model):
             if user_id != self.env.user and not self.env.user.has_group('sinergis.group_helpdesk_admin'):
                 raise ValidationError("Vous ne pouvez pas marquer un ticket que ne vous est pas assigné comme résolu.")
 
-    @api.onchange("x_sinergis_helpdesk_ticket_produits")
-    def on_change_x_sinergis_helpdesk_ticket_produits(self):
+    @api.onchange("x_sinergis_helpdesk_ticket_sous_produits_new")
+    def on_change_x_sinergis_helpdesk_ticket_sous_produits_new(self):
         HelpdeskTicket.update_type_client(self)
 
-    @api.onchange("x_sinergis_helpdesk_ticket_produits_divers")
-    def on_change_x_sinergis_helpdesk_ticket_produits_divers(self):
-        HelpdeskTicket.update_type_client(self)
+    #@api.onchange("x_sinergis_helpdesk_ticket_produits_divers")
+    #def on_change_x_sinergis_helpdesk_ticket_produits_divers(self):
+    #    HelpdeskTicket.update_type_client(self)
 
 
     def update_type_client (self):
-        value = self.x_sinergis_helpdesk_ticket_produits
+        value = self.x_sinergis_helpdesk_ticket_sous_produits_new.name
         if value == "CEGID":
             self.x_sinergis_helpdesk_ticket_type_client = "MGE"
         elif value == "E2TIME":
@@ -179,8 +180,8 @@ class HelpdeskTicket(models.Model):
         elif value == "XRT":
             self.x_sinergis_helpdesk_ticket_type_client = "MGE"
         elif value == "DIVERS":
-            if self.x_sinergis_helpdesk_ticket_produits_divers:
-                subvalue = self.x_sinergis_helpdesk_ticket_produits_divers
+            if self.x_sinergis_helpdesk_ticket_sous_produits_new:
+                subvalue = self.x_sinergis_helpdesk_ticket_sous_produits_new.name
                 if subvalue == "SCANFACT":
                     self.x_sinergis_helpdesk_ticket_type_client = "PME"
                 elif subvalue == "WINDEV":
