@@ -23,7 +23,9 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_model = fields.Many2one("sale.order",string="Modele de devis")
 
+    #Ancienne version des produits avec anciennes données présentes. À retirer après avoir pleinement adopté le nouveau système.
     x_sinergis_sale_order_product = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('SILAE','SILAE'), ('DIVERS', 'DIVERS')], required=False, string="Produit")
+    #Nouvelle version des produits rattaché au model de produits
     x_sinergis_sale_order_product_new = fields.Many2one("sale.products",string="Produit", required=True)
     x_sinergis_sale_order_product_new_have_subproduct = fields.Boolean(compute="_compute_x_sinergis_sale_order_product_new_have_subproduct") # À actualiser pour pouvoir update la valeur à chaqe chargement de page. Pour le moment, le readonly des subproducts est désactivé
 
