@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+  <!-- VENTES -->
+  <record id="group_sale_product" model="res.groups">
+    <field name="name">Administrateur des Produits et Sous-produits</field>
+  </record>
   <!-- MES ACTIVITES -->
   <record id="group_myactions_employee" model="res.groups">
     <field name="name">Utilisateurs restreints des activités</field>
