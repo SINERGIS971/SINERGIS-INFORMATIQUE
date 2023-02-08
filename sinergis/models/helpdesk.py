@@ -420,3 +420,12 @@ class HelpdeskTicket(models.Model):
                 vals["partner_id"] = self.env['res.partner'].search([('id','=',vals["partner_id"])]).parent_id.id
         tickets = super(HelpdeskTicket, self).create(list_value)
         return tickets
+
+        #BUTTON FOR UPDATE | TO REMOVE :
+    def button_update_products (self):
+        tickets = self.env['helpdesk.tickets'].sudo().search([])
+        for ticket in tickets:
+            if ticket.x_sinergis_helpdesk_ticket_produits:
+                name = ticket.x_sinergis_helpdesk_ticket_produits
+                element = self.env['sale.product'].sudo().search(['name', '=', name])
+                ticket.x_sinergis_helpdesk_ticket_produits_new = element
