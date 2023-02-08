@@ -98,21 +98,6 @@ class HelpdeskTicket(models.Model):
             else: 
                 rec.x_sinergis_helpdesk_ticket_produit_nom_complet = ""
 
-            #if rec.x_sinergis_helpdesk_ticket_produits == "CEGID":
-            #    rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_cegid if rec.x_sinergis_helpdesk_ticket_produits_cegid else rec.x_sinergis_helpdesk_ticket_produits
-            # elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 100":
-            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage100 if rec.x_sinergis_helpdesk_ticket_produits_sage100 else rec.x_sinergis_helpdesk_ticket_produits
-            # elif rec.x_sinergis_helpdesk_ticket_produits == "SAGE 1000":
-            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sage1000 if rec.x_sinergis_helpdesk_ticket_produits_sage1000 else rec.x_sinergis_helpdesk_ticket_produits
-            # elif rec.x_sinergis_helpdesk_ticket_produits == "SAP":
-            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_sap if rec.x_sinergis_helpdesk_ticket_produits_sap else rec.x_sinergis_helpdesk_ticket_produits
-            # elif rec.x_sinergis_helpdesk_ticket_produits == "X3":
-            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits + " " + rec.x_sinergis_helpdesk_ticket_produits_x3 if rec.x_sinergis_helpdesk_ticket_produits_x3 else rec.x_sinergis_helpdesk_ticket_produits
-            # elif rec.x_sinergis_helpdesk_ticket_produits == "DIVERS":
-            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits_divers if rec.x_sinergis_helpdesk_ticket_produits_divers else ''
-            # else:
-            #     rec.x_sinergis_helpdesk_ticket_produit_nom_complet = rec.x_sinergis_helpdesk_ticket_produits if rec.x_sinergis_helpdesk_ticket_produits else ''
-
 
     @api.depends('x_sinergis_helpdesk_ticket_intervention_count')
     def _compute_x_sinergis_helpdesk_ticket_intervention_count (self):

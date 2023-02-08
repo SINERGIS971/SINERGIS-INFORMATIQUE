@@ -15,5 +15,4 @@
   <record id="group_helpdesk_admin" model="res.groups">
     <field name="name">Administrateurs de ticket</field>
   </record>
-</record>
 </odoo>

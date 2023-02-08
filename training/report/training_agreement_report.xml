@@ -18,9 +18,9 @@
 				<div class="oe_structure"/>
 			  	<t t-call="web.external_layout">
 						<style>
-							p, th, li {font-size: 14px;}
-							h1 {font-size: 24px;}
-							h5 {font-size: 18px;font-weight:bold;}
+							p, th, li {font-size: 13px;}
+							h1 {font-size: 23px;}
+							h5 {font-size: 16px;font-weight:bold;}
 						</style>
 						<h1>Convention de formation</h1>
 						<table style="width: 100%;border: none;" cellspacing="0" cellpadding="0">

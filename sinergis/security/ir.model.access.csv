@@ -11,5 +11,3 @@ access_sinergis_annual_contracts,sinergis.annual_contracts,model_sinergis_annual
 sinergis_technical_note_files,sinergis.technical_note_files,model_sinergis_technical_note_files,,1,1,1,1
 sale_products,sale.products,model_sale_products,,1,0,0,0
 sale_products_subproducts,sale.products.subproducts,model_sale_products_subproducts,,1,0,0,0
-sale_products_admin,Sale Products Admin,model_sale_products,sinergis.group_sale_product,1,1,1,1
-sale_products_subproducts_admin,Sale Sub Products Admin,model_sale_products_subproducts,sinergis.group_sale_product,1,1,1,1
