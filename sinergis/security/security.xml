@@ -15,15 +15,5 @@
   <record id="group_helpdesk_admin" model="res.groups">
     <field name="name">Administrateurs de ticket</field>
   </record>
-
-  <!--========== IR RULES ==========-->
-  <record id="sale_rule_product" model="ir.rule">
-  <field name="name">Administrateurs des Produits - Ventes</field>
-  <field ref="ssale.products" name="model_id"/>
-  <field name="groups" eval="[(4, ref('sinergis.group_sale_product'))]"/>
-  <field name="perm_read" eval="True"/>
-  <field name="perm_write" eval="True"/>
-  <field name="perm_create" eval="True"/>
-  <field name="perm_unlink" eval="True"/>
 </record>
 </odoo>
