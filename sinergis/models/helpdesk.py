@@ -26,6 +26,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('SILAE','SILAE'), ('DIVERS', 'DIVERS')], string="Produits")
     #Nouveau système de produits
     x_sinergis_helpdesk_ticket_produits_new = fields.Many2one("sale.products",string="Produit")
+    x_sinergis_helpdesk_ticket_sous_produits_new = fields.Many2one("sale.products.subproducts",string="Sous-produit")
 
     x_sinergis_helpdesk_ticket_produits_cegid = fields.Selection([('LIASSE', 'LIASSE')], string="Module CEGID")
     x_sinergis_helpdesk_ticket_produits_sage100 = fields.Selection([('CPT', 'CPT'),('GES', 'GES'),('IMM', 'IMM'),('MDP', 'MDP'),('TRE', 'TRE'),('SCD', 'SCD'),('BI', 'BI'),('ECF', 'ECF'),('PAI', 'PAI'),('SEE', 'SEE'),('BATIGEST', 'BATIGEST'),('DEV', 'DEV'),('SRC', 'SRC'),('CRM', 'CRM')], string="Module Sage 100")
@@ -423,9 +424,11 @@ class HelpdeskTicket(models.Model):
 
         #BUTTON FOR UPDATE | TO REMOVE :
     def button_update_products (self):
-        tickets = self.env['helpdesk.tickets'].sudo().search([])
+        tickets = self.env['helpdesk.ticket'].sudo().search([],limit=10000)
         for ticket in tickets:
             if ticket.x_sinergis_helpdesk_ticket_produits:
                 name = ticket.x_sinergis_helpdesk_ticket_produits
-                element = self.env['sale.product'].sudo().search(['name', '=', name])
+                if name == "X3":
+                    name = "SAGE X3"
+                element = self.env['sale.products'].sudo().search([('name', '=', name)])
                 ticket.x_sinergis_helpdesk_ticket_produits_new = element

@@ -132,7 +132,8 @@
 
                 <xpath expr="//field[@name='priority']" position="after">
                     <field name="x_sinergis_helpdesk_ticket_produits"/>
-                    <field name="x_sinergis_helpdesk_ticket_produits_new"/>
+                    <field name="x_sinergis_helpdesk_ticket_produits_new" options="{'no_create': True, 'no_create_edit':True}"/>
+                    <field name="x_sinergis_helpdesk_ticket_sous_produits_new" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_produits_new',  '=', False)]}" domain="[('product_id','=',x_sinergis_helpdesk_ticket_produits_new)]" options="{'no_create': True, 'no_create_edit':True}"/>
                     <button name="button_update_products" string="DEBUG : MAJ PRODUITS ASSISTANCE" type="object" class="oe_highlight"/>
                     <field name="x_sinergis_helpdesk_ticket_produits_cegid" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_produits',  '!=', 'CEGID')]}"/>
                     <field name="x_sinergis_helpdesk_ticket_produits_sage100" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_produits',  '!=', 'SAGE 100')]}"/>
