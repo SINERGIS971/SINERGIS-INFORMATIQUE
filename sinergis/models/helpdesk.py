@@ -160,40 +160,41 @@ class HelpdeskTicket(models.Model):
 
 
     def update_type_client (self):
-        value = self.x_sinergis_helpdesk_ticket_sous_produits_new.name
-        if value == "CEGID":
-            self.x_sinergis_helpdesk_ticket_type_client = "MGE"
-        elif value == "E2TIME":
-            self.x_sinergis_helpdesk_ticket_type_client = "PME"
-        elif value == "MESBANQUES":
-            self.x_sinergis_helpdesk_ticket_type_client = "PME"
-        elif value == "OPEN BEE":
-            self.x_sinergis_helpdesk_ticket_type_client = "PME"
-        elif value == "QUARKSUP":
-            self.x_sinergis_helpdesk_ticket_type_client = "MGE"
-        elif value == "SAGE 100":
-            self.x_sinergis_helpdesk_ticket_type_client = "PME"
-        elif value == "SAGE 1000":
-            self.x_sinergis_helpdesk_ticket_type_client = "MGE"
-        elif value == "SAP":
-            self.x_sinergis_helpdesk_ticket_type_client = "MGE"
-        elif value == "VIF":
-            self.x_sinergis_helpdesk_ticket_type_client = "MGE"
-        elif value == "X3":
-            self.x_sinergis_helpdesk_ticket_type_client = "MGE"
-        elif value == "XLSOFT":
-            self.x_sinergis_helpdesk_ticket_type_client = "MGE"
-        elif value == "XRT":
-            self.x_sinergis_helpdesk_ticket_type_client = "MGE"
-        elif value == "DIVERS":
-            if self.x_sinergis_helpdesk_ticket_sous_produits_new:
-                subvalue = self.x_sinergis_helpdesk_ticket_sous_produits_new.name
-                if subvalue == "SCANFACT":
-                    self.x_sinergis_helpdesk_ticket_type_client = "PME"
-                elif subvalue == "WINDEV":
-                    self.x_sinergis_helpdesk_ticket_type_client = "PME"
-                elif subvalue == "AUTRE":
-                    self.x_sinergis_helpdesk_ticket_type_client = "PME"
+        if self.x_sinergis_helpdesk_ticket_produits_new:
+            value = self.x_sinergis_helpdesk_ticket_produits_new.name
+            if value == "CEGID":
+                self.x_sinergis_helpdesk_ticket_type_client = "MGE"
+            elif value == "E2TIME":
+                self.x_sinergis_helpdesk_ticket_type_client = "PME"
+            elif value == "MESBANQUES":
+                self.x_sinergis_helpdesk_ticket_type_client = "PME"
+            elif value == "OPEN BEE":
+                self.x_sinergis_helpdesk_ticket_type_client = "PME"
+            elif value == "QUARKSUP":
+                self.x_sinergis_helpdesk_ticket_type_client = "MGE"
+            elif value == "SAGE 100":
+                self.x_sinergis_helpdesk_ticket_type_client = "PME"
+            elif value == "SAGE 1000":
+                self.x_sinergis_helpdesk_ticket_type_client = "MGE"
+            elif value == "SAP":
+                self.x_sinergis_helpdesk_ticket_type_client = "MGE"
+            elif value == "VIF":
+                self.x_sinergis_helpdesk_ticket_type_client = "MGE"
+            elif value == "SAGE X3":
+                self.x_sinergis_helpdesk_ticket_type_client = "MGE"
+            elif value == "XLSOFT":
+                self.x_sinergis_helpdesk_ticket_type_client = "MGE"
+            elif value == "XRT":
+                self.x_sinergis_helpdesk_ticket_type_client = "MGE"
+            elif value == "DIVERS":
+                if self.x_sinergis_helpdesk_ticket_sous_produits_new:
+                    subvalue = self.x_sinergis_helpdesk_ticket_sous_produits_new.name
+                    if subvalue == "SCANFACT":
+                        self.x_sinergis_helpdesk_ticket_type_client = "PME"
+                    elif subvalue == "WINDEV":
+                        self.x_sinergis_helpdesk_ticket_type_client = "PME"
+                    elif subvalue == "AUTRE":
+                        self.x_sinergis_helpdesk_ticket_type_client = "PME"
 
     @api.onchange("x_sinergis_helpdesk_ticket_contact")
     def on_change_x_sinergis_helpdesk_ticket_contact(self):
