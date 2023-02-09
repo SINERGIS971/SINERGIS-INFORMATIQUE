@@ -140,9 +140,9 @@ class HelpdeskTicket(models.Model):
         self.x_sinergis_helpdesk_ticket_sous_produits_new = False
         HelpdeskTicket.update_type_client(self)
 
-    #@api.onchange("x_sinergis_helpdesk_ticket_produits_divers")
-    #def on_change_x_sinergis_helpdesk_ticket_produits_divers(self):
-    #    HelpdeskTicket.update_type_client(self)
+    @api.onchange("x_sinergis_helpdesk_ticket_sous_produits_new")
+    def on_change_x_sinergis_helpdesk_ticket_sous_produits_new(self):
+        HelpdeskTicket.update_type_client(self)
 
 
     def update_type_client (self):

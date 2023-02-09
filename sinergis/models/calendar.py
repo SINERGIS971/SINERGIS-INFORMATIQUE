@@ -193,12 +193,12 @@ class CalendarEvent(models.Model):
             self.x_sinergis_calendar_event_end_time = self.stop
 
     @api.onchange("x_sinergis_calendar_event_produits_new")
-    def on_change_x_sinergis_calendar_event_produits(self):
+    def on_change_x_sinergis_calendar_event_produits_new(self):
         self.x_sinergis_calendar_event_sous_produits_new = False
         CalendarEvent.update_type_client(self)
 
     @api.onchange("x_sinergis_calendar_event_sous_produits_new")
-    def on_change_x_sinergis_calendar_event_produits_divers(self):
+    def on_change_x_sinergis_calendar_event_sous_produits_new(self):
         CalendarEvent.update_type_client(self)
 
     def update_type_client (self):
