@@ -16,7 +16,11 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_contact_transfered = fields.Many2one("res.partner",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
 
 #ZONE PRODUITS
+    #Ancien système de produits
     x_sinergis_calendar_event_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('SILAE','SILAE'), ('DIVERS', 'DIVERS')], string="Produits")
+    #Nouveau système de produits
+    x_sinergis_calendar_event_produits_new = fields.Many2one("sale.products",string="Produit")
+    #x_sinergis_calendar_event_sous_produits_new = fields.Many2one("sale.products.subproducts",string="Sous-produit")
 
     x_sinergis_calendar_event_produits_cegid = fields.Selection([('LIASSE', 'LIASSE')], string="Module CEGID")
     x_sinergis_calendar_event_produits_sage100 = fields.Selection([('CPT', 'CPT'),('GES', 'GES'),('IMM', 'IMM'),('MDP', 'MDP'),('TRE', 'TRE'),('SCD', 'SCD'),('BI', 'BI'),('ECF', 'ECF'),('PAI', 'PAI'),('SEE', 'SEE'),('BATIGEST', 'BATIGEST'),('DEV', 'DEV'),('SRC', 'SRC'),('CRM', 'CRM')], string="Module Sage 100")
@@ -440,3 +444,15 @@ class CalendarEvent(models.Model):
     def get_x_sinergis_calendar_event_is_deducted(self, meeting_ids):
         meeting = self.env['calendar.event'].browse(meeting_ids)[0]
         return meeting.x_sinergis_calendar_event_is_deducted
+
+    #DEBUG - FOR UPDATE
+
+    def button_update_produit_calendrier (self):
+        events = self.env['calendar.event'].sudo().search([],limit=300000)
+        for event in events:
+            if event.x_sinergis_calendar_event_produits:
+                name = event.x_sinergis_calendar_event_produits
+                if name == "X3":
+                    name = "SAGE X3"
+                element = self.env['sale.products'].sudo().search([('name', '=', name)])
+                event.x_sinergis_calendar_event_produits_new = element

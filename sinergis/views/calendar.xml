@@ -117,6 +117,8 @@
                             <br/>
                             <br/>
                             <field name="x_sinergis_calendar_event_produits"/>
+                            <field name="x_sinergis_calendar_event_produits_new" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <button name="button_update_produit_calendrier" string="DEBUG : MAJ PRODUIT CALENDRIER" type="object" class="oe_highlight"/>
                     <field name="x_sinergis_calendar_event_produits_cegid" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'CEGID')]}"/>
                     <field name="x_sinergis_calendar_event_produits_sage100" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAGE 100')]}"/>
                     <field name="x_sinergis_calendar_event_produits_sage1000" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAGE 1000')]}"/>
