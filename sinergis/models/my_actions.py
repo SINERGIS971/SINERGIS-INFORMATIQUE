@@ -180,7 +180,7 @@ class MyActions(models.Model):
                 calendar = rec.env['calendar.event'].search([('id', '=', rec.link_id)])
                 if calendar.x_sinergis_calendar_event_produits_new and calendar.x_sinergis_calendar_event_sous_produits_new:
                     rec.product = calendar.x_sinergis_calendar_event_produits_new.name + " " + calendar.x_sinergis_calendar_event_sous_produits_new.name
-                elif ticket.x_sinergis_calendar_event_produits_new:
+                elif calendar.x_sinergis_calendar_event_produits_new:
                     rec.product = calendar.x_sinergis_calendar_event_produits_new.name
                 else: 
                     rec.product = ""
