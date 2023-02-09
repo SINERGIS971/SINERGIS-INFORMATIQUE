@@ -20,7 +20,7 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_produits = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('SILAE','SILAE'), ('DIVERS', 'DIVERS')], string="Produits")
     #Nouveau système de produits
     x_sinergis_calendar_event_produits_new = fields.Many2one("sale.products",string="Produit")
-    #x_sinergis_calendar_event_sous_produits_new = fields.Many2one("sale.products.subproducts",string="Sous-produit")
+    x_sinergis_calendar_event_sous_produits_new = fields.Many2one("sale.products.subproducts",string="Sous-produit")
 
     x_sinergis_calendar_event_produits_cegid = fields.Selection([('LIASSE', 'LIASSE')], string="Module CEGID")
     x_sinergis_calendar_event_produits_sage100 = fields.Selection([('CPT', 'CPT'),('GES', 'GES'),('IMM', 'IMM'),('MDP', 'MDP'),('TRE', 'TRE'),('SCD', 'SCD'),('BI', 'BI'),('ECF', 'ECF'),('PAI', 'PAI'),('SEE', 'SEE'),('BATIGEST', 'BATIGEST'),('DEV', 'DEV'),('SRC', 'SRC'),('CRM', 'CRM')], string="Module Sage 100")
@@ -192,17 +192,18 @@ class CalendarEvent(models.Model):
             self.x_sinergis_calendar_event_start_time = self.start
             self.x_sinergis_calendar_event_end_time = self.stop
 
-    @api.onchange("x_sinergis_calendar_event_produits")
+    @api.onchange("x_sinergis_calendar_event_produits_new")
     def on_change_x_sinergis_calendar_event_produits(self):
+        self.x_sinergis_calendar_event_sous_produits_new = False
         CalendarEvent.update_type_client(self)
 
-    @api.onchange("x_sinergis_calendar_event_produits_divers")
+    @api.onchange("x_sinergis_calendar_event_sous_produits_new")
     def on_change_x_sinergis_calendar_event_produits_divers(self):
         CalendarEvent.update_type_client(self)
 
     def update_type_client (self):
-        value = self.x_sinergis_calendar_event_produits
-        if value :
+        if self.x_sinergis_calendar_event_produits_new:
+            value = self.x_sinergis_calendar_event_produits_new.name
             if value == "CEGID":
                 self.x_sinergis_calendar_event_type_client = "MGE"
             elif value == "E2TIME":
@@ -221,15 +222,15 @@ class CalendarEvent(models.Model):
                 self.x_sinergis_calendar_event_type_client = "MGE"
             elif value == "VIF":
                 self.x_sinergis_calendar_event_type_client = "MGE"
-            elif value == "X3":
+            elif value == "SAGE X3":
                 self.x_sinergis_calendar_event_type_client = "MGE"
             elif value == "XLSOFT":
                 self.x_sinergis_calendar_event_type_client = "MGE"
             elif value == "XRT":
                 self.x_sinergis_calendar_event_type_client = "MGE"
             elif value == "DIVERS":
-                if self.x_sinergis_calendar_event_produits_divers :
-                    subvalue = self.x_sinergis_calendar_event_produits_divers
+                if self.x_sinergis_calendar_event_sous_produits_new:
+                    subvalue = self.x_sinergis_calendar_event_sous_produits_new.name
                     if subvalue == "SCANFACT":
                         self.x_sinergis_calendar_event_type_client = "PME"
                     elif subvalue == "WINDEV":
@@ -456,3 +457,26 @@ class CalendarEvent(models.Model):
                     name = "SAGE X3"
                 element = self.env['sale.products'].sudo().search([('name', '=', name)])
                 event.x_sinergis_calendar_event_produits_new = element
+
+    def button_update_sous_produit_calendrier (self):
+        events = self.env['calendar.event'].sudo().search([],limit=300000)
+        for event in events:
+            if event.x_sinergis_calendar_event_produits:
+                product = event.x_sinergis_calendar_event_produits_new
+                subproduct = False
+                if product.name == "CEGID":
+                    subproduct = event.x_sinergis_calendar_event_produits_cegid
+                if product.name == "SAGE 100":
+                    subproduct = event.x_sinergis_calendar_event_produits_sage100
+                if product.name == "SAGE 1000":
+                    subproduct = event.x_sinergis_calendar_event_produits_sage1000
+                if product.name == "SAP":
+                    subproduct = event.x_sinergis_calendar_event_produits_sap
+                if product.name == "SAGE X3":
+                    subproduct = event.x_sinergis_calendar_event_produits_x3
+                if product.name == "DIVERS":
+                    subproduct = event.x_sinergis_calendar_event_produits_divers
+
+                if subproduct:
+                    element = self.env['sale.products.subproducts'].sudo().search([('name', '=', subproduct),('product_id','=',product.id)])
+                    event.x_sinergis_calendar_event_sous_produits_new = element
