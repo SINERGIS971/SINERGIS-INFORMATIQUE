@@ -31,24 +31,6 @@ class CalendarEvent(models.Model):
 
     x_sinergis_calendar_event_produit_nom_complet = fields.Char(string="Produit", readonly=True, compute="_compute_x_sinergis_calendar_event_produit_nom_complet")
 
-    @api.depends('x_sinergis_calendar_event_produit_nom_complet')
-    def _compute_x_sinergis_calendar_event_produit_nom_complet (self):
-        for rec in self:
-            if rec.x_sinergis_calendar_event_produits == "CEGID":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_cegid if rec.x_sinergis_calendar_event_produits_cegid else rec.x_sinergis_calendar_event_produits
-            elif rec.x_sinergis_calendar_event_produits == "SAGE 100":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sage100 if rec.x_sinergis_calendar_event_produits_sage100 else rec.x_sinergis_calendar_event_produits
-            elif rec.x_sinergis_calendar_event_produits == "SAGE 1000":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sage1000 if rec.x_sinergis_calendar_event_produits_sage1000 else rec.x_sinergis_calendar_event_produits
-            elif rec.x_sinergis_calendar_event_produits == "SAP":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_sap if rec.x_sinergis_calendar_event_produits_sap else rec.x_sinergis_calendar_event_produits
-            elif rec.x_sinergis_calendar_event_produits == "X3":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits + " " + rec.x_sinergis_calendar_event_produits_x3 if rec.x_sinergis_calendar_event_produits_x3 else rec.x_sinergis_calendar_event_produits
-            elif rec.x_sinergis_calendar_event_produits == "DIVERS":
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits_divers if rec.x_sinergis_calendar_event_produits_divers else ''
-            else:
-                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits if rec.x_sinergis_calendar_event_produits else ''
-
     x_sinergis_calendar_event_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client")
 
     #PAGE FACTURATION
@@ -133,6 +115,16 @@ class CalendarEvent(models.Model):
                     if rec.x_sinergis_calendar_duree_facturee:
                         state = True
             rec.x_sinergis_calendar_event_is_facturee_total = state
+
+    @api.depends('x_sinergis_calendar_event_produit_nom_complet')
+    def _compute_x_sinergis_calendar_event_produit_nom_complet (self):
+        for rec in self:
+            if rec.x_sinergis_calendar_event_produits_new and rec.x_sinergis_calendar_event_sous_produits_new:
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits_new.name + " " + rec.x_sinergis_calendar_event_sous_produits_new.name
+            elif rec.x_sinergis_calendar_event_produits_new:
+                rec.x_sinergis_calendar_event_produit_nom_complet = rec.x_sinergis_calendar_event_produits_new.name
+            else: 
+                rec.x_sinergis_calendar_event_produit_nom_complet = ""
 
 
 

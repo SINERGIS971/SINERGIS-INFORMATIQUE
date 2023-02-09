@@ -178,20 +178,12 @@ class MyActions(models.Model):
                     rec.product = ""
             else:
                 calendar = rec.env['calendar.event'].search([('id', '=', rec.link_id)])
-                if calendar.x_sinergis_calendar_event_produits == "CEGID":
-                    rec.product = calendar.x_sinergis_calendar_event_produits + " " + calendar.x_sinergis_calendar_event_produits_cegid if calendar.x_sinergis_calendar_event_produits_cegid else calendar.x_sinergis_calendar_event_produits
-                elif calendar.x_sinergis_calendar_event_produits == "SAGE 100":
-                    rec.product = calendar.x_sinergis_calendar_event_produits + " " + calendar.x_sinergis_calendar_event_produits_sage100 if calendar.x_sinergis_calendar_event_produits_sage100 else calendar.x_sinergis_calendar_event_produits
-                elif calendar.x_sinergis_calendar_event_produits == "SAGE 1000":
-                    rec.product = calendar.x_sinergis_calendar_event_produits + " " + calendar.x_sinergis_calendar_event_produits_sage1000 if calendar.x_sinergis_calendar_event_produits_sage1000 else calendar.x_sinergis_calendar_event_produits
-                elif calendar.x_sinergis_calendar_event_produits == "SAP":
-                    rec.product = calendar.x_sinergis_calendar_event_produits + " " + calendar.x_sinergis_calendar_event_produits_sap if calendar.x_sinergis_calendar_event_produits_sap else calendar.x_sinergis_calendar_event_produits
-                elif calendar.x_sinergis_calendar_event_produits == "X3":
-                    rec.product = calendar.x_sinergis_calendar_event_produits + " " + calendar.x_sinergis_calendar_event_produits_x3 if calendar.x_sinergis_calendar_event_produits_x3 else calendar.x_sinergis_calendar_event_produits
-                elif calendar.x_sinergis_calendar_event_produits == "DIVERS":
-                    rec.product = calendar.x_sinergis_calendar_event_produits_divers if calendar.x_sinergis_calendar_event_produits_divers else ''
-                else:
-                    rec.product = calendar.x_sinergis_calendar_event_produits if calendar.x_sinergis_calendar_event_produits else ''
+                if calendar.x_sinergis_calendar_event_produits_new and calendar.x_sinergis_calendar_event_sous_produits_new:
+                    rec.product = calendar.x_sinergis_calendar_event_produits_new.name + " " + calendar.x_sinergis_calendar_event_sous_produits_new.name
+                elif ticket.x_sinergis_calendar_event_produits_new:
+                    rec.product = calendar.x_sinergis_calendar_event_produits_new.name
+                else: 
+                    rec.product = ""
 
     @api.depends('intervention_count')
     def _compute_intervention_count (self):
