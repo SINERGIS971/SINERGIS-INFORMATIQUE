@@ -440,41 +440,6 @@ class CalendarEvent(models.Model):
     def get_x_sinergis_calendar_event_is_deducted(self, meeting_ids):
         meeting = self.env['calendar.event'].browse(meeting_ids)[0]
         return meeting.x_sinergis_calendar_event_is_deducted
-
-    #DEBUG - FOR UPDATE
-
-    def button_update_produit_calendrier (self):
-        events = self.env['calendar.event'].sudo().search([],limit=300000)
-        for event in events:
-            if event.x_sinergis_calendar_event_produits:
-                name = event.x_sinergis_calendar_event_produits
-                if name == "X3":
-                    name = "SAGE X3"
-                element = self.env['sale.products'].sudo().search([('name', '=', name)])
-                event.x_sinergis_calendar_event_produits_new = element
-
-    def button_update_sous_produit_calendrier (self):
-        events = self.env['calendar.event'].sudo().search([],limit=300000)
-        for event in events:
-            if event.x_sinergis_calendar_event_produits:
-                product = event.x_sinergis_calendar_event_produits_new
-                subproduct = False
-                if product.name == "CEGID":
-                    subproduct = event.x_sinergis_calendar_event_produits_cegid
-                if product.name == "SAGE 100":
-                    subproduct = event.x_sinergis_calendar_event_produits_sage100
-                if product.name == "SAGE 1000":
-                    subproduct = event.x_sinergis_calendar_event_produits_sage1000
-                if product.name == "SAP":
-                    subproduct = event.x_sinergis_calendar_event_produits_sap
-                if product.name == "SAGE X3":
-                    subproduct = event.x_sinergis_calendar_event_produits_x3
-                if product.name == "DIVERS":
-                    subproduct = event.x_sinergis_calendar_event_produits_divers
-
-                if subproduct:
-                    element = self.env['sale.products.subproducts'].sudo().search([('name', '=', subproduct),('product_id','=',product.id)])
-                    event.x_sinergis_calendar_event_sous_produits_new = element
     
     class CalendarSinergisInterventionReportDone(models.Model):
         _name = "calendar.sinergis_intervention_report_done"
