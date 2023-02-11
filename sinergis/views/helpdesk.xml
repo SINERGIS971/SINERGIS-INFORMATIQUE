@@ -78,6 +78,7 @@
                   <field name="partner_id" position="move"/>
                   <field name="partner_phone" optional="hide"/>
                   <field name="x_sinergis_helpdesk_ticket_contact_mobile" optional="hide"/>
+                  <field name="x_sinergis_helpdesk_ticket_contact_fixe" optional="hide"/>
                   <field name="x_sinergis_helpdesk_ticket_produit_nom_complet" string="Produit"/>
                 </xpath>
                 <xpath expr="//field[@name='display_name']" position="after">
