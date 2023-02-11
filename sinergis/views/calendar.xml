@@ -180,7 +180,7 @@
                           </group>
                         </group>
                         <group>
-                          <field name="x_sinergis_societe_fichier_notes_techniques">
+                          <field name="x_sinergis_calendar_event_intervention_report_done">
                           <tree>
                             <field name="name" invisible="True"/>
                             <field name="file" filename="name" widget="binary"/>

@@ -79,7 +79,7 @@ class CalendarEvent(models.Model):
     #Ancien système < 11/02/23
     x_sinergis_calendar_event_rapport_intervention_valide = fields.Binary(string="Rapport d'intervention validé")
     #Nouveau système > 11/02/23
-    x_sinergis_calendar_event_intervention_repport_done = fields.One2many('calendar.sinergis_intervention_report_done', 'event_id', string="Fichiers notes techniques")
+    x_sinergis_calendar_event_intervention_report_done = fields.One2many('calendar.sinergis_intervention_report_done', 'event_id', string="Fichiers notes techniques")
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
