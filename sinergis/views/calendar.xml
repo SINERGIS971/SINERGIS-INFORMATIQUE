@@ -178,6 +178,20 @@
                           <group>
                             <button name="download_rapport_intervention_valide" help="Télécharger le rapport d'intervention validé" class="oe_highlight" type="object" string="Rapport validé" attrs="{'invisible': [('x_sinergis_calendar_event_rapport_intervention_valide', '=', False)]}" icon="fa-download"/>
                           </group>
+                        </group>
+                        <group>
+                          <field name="x_sinergis_societe_fichier_notes_techniques">
+                          <tree>
+                            <field name="name" invisible="True"/>
+                            <field name="file" filename="name" widget="binary"/>
+                          </tree>
+                          <form>
+                            <group>
+                                <field name="name" invisible="True"/>
+                                <field name="file" filename="name"/>
+                            </group>
+                          </form>
+                        </field>
                       </group>
                     </page>
                 </xpath>

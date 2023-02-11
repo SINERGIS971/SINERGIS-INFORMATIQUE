@@ -76,7 +76,10 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_is_deducted = fields.Boolean(string="Décompté",compute="_compute_x_sinergis_calendar_event_is_deducted")
 
     # Rapport d'intervention validé :
+    #Ancien système < 11/02/23
     x_sinergis_calendar_event_rapport_intervention_valide = fields.Binary(string="Rapport d'intervention validé")
+    #Nouveau système > 11/02/23
+    x_sinergis_calendar_event_intervention_repport_done = fields.One2many('calendar.sinergis_intervention_report_done', 'event_id', string="Fichiers notes techniques")
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
@@ -472,3 +475,11 @@ class CalendarEvent(models.Model):
                 if subproduct:
                     element = self.env['sale.products.subproducts'].sudo().search([('name', '=', subproduct),('product_id','=',product.id)])
                     event.x_sinergis_calendar_event_sous_produits_new = element
+    
+    class CalendarSinergisInterventionReportDone(models.Model):
+        _name = "calendar.sinergis_intervention_report_done"
+        _description = "Rapport d'intervention dans le Calendrier"
+
+        event_id = fields.Many2one("calendar.event",string="Évenement",required=True)
+        name = fields.Char(string="Nom",required=True)
+        file = fields.Binary(string="Rapport")
