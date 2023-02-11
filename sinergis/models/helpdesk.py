@@ -61,11 +61,13 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_is_facturee = fields.Boolean(string="Présence d'un contrat d'heures chez le client :",default=False)
 
+    #Partner ID
+    x_sinergis_helpdesk_ticket_partner_id_phone = fields.Char(string="Tel. société", related="partner_id.phone",default=False)
 
     #Colonne de droite
     x_sinergis_helpdesk_ticket_contact = fields.Many2one("res.partner",string="Contact")
     x_sinergis_helpdesk_ticket_contact_fixe = fields.Char(string="Fixe contact", readonly=True)
-    x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", readonly=True)
+    x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", related="x_sinergis_helpdesk_ticket_contact.mobile",default=False)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", readonly=True)
 
     x_sinergis_helpdesk_ticket_contrat_heures = fields.One2many('project.task',compute="_compute_x_sinergis_helpdesk_ticket_contrat_heures",readonly=True,string="Contrats d'heures du client :")
@@ -186,7 +188,7 @@ class HelpdeskTicket(models.Model):
     def on_change_x_sinergis_helpdesk_ticket_contact(self):
         if self.x_sinergis_helpdesk_ticket_contact:
             self.x_sinergis_helpdesk_ticket_contact_fixe = self.x_sinergis_helpdesk_ticket_contact.phone
-            self.x_sinergis_helpdesk_ticket_contact_mobile = self.x_sinergis_helpdesk_ticket_contact.mobile
+            #self.x_sinergis_helpdesk_ticket_contact_mobile = self.x_sinergis_helpdesk_ticket_contact.mobile
             self.x_sinergis_helpdesk_ticket_contact_mail = self.x_sinergis_helpdesk_ticket_contact.email
 
     @api.depends('x_sinergis_helpdesk_ticket_taches')
