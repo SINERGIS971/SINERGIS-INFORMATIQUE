@@ -61,9 +61,6 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_is_facturee = fields.Boolean(string="Présence d'un contrat d'heures chez le client :",default=False)
 
-    #Partner ID
-    x_sinergis_helpdesk_ticket_partner_id_phone = fields.Char(string="Tel. société", related="partner_id.phone",default=False)
-
     #Colonne de droite
     x_sinergis_helpdesk_ticket_contact = fields.Many2one("res.partner",string="Contact")
     x_sinergis_helpdesk_ticket_contact_fixe = fields.Char(string="Fixe contact", readonly=True)
