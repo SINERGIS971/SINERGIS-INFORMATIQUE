@@ -116,17 +116,16 @@
                             <br/>
                             <br/>
                             <br/>
-                            <field name="x_sinergis_calendar_event_produits"/>
+                            <!--A RETIRER APRES UN MOIS DE FONCTIONNEMENT SANS PROBLEME DU NOUVEAU SYSTEME DE PRODUITS DANS LE CALENDRIER-->
+                            <!--<field name="x_sinergis_calendar_event_produits"/>-->
                             <field name="x_sinergis_calendar_event_produits_new" options="{'no_create': True, 'no_create_edit':True}"/>
-                            <button name="button_update_produit_calendrier" string="DEBUG : MAJ PRODUIT CALENDRIER" type="object" class="oe_highlight"/>
                             <field name="x_sinergis_calendar_event_sous_produits_new" attrs="{'invisible': [('x_sinergis_calendar_event_produits_new',  '=', False)]}" domain="[('product_id','=',x_sinergis_calendar_event_produits_new)]" options="{'no_create': True, 'no_create_edit':True}"/>
-                            <button name="button_update_sous_produit_calendrier" string="DEBUG : MAJ SOUS PRODUIT CALENDRIER" type="object" class="oe_highlight"/>
-                            <field name="x_sinergis_calendar_event_produits_cegid" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'CEGID')]}"/>
-                            <field name="x_sinergis_calendar_event_produits_sage100" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAGE 100')]}"/>
-                            <field name="x_sinergis_calendar_event_produits_sage1000" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAGE 1000')]}"/>
-                            <field name="x_sinergis_calendar_event_produits_sap" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAP')]}"/>
-                            <field name="x_sinergis_calendar_event_produits_x3" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'X3')]}"/>
-                            <field name="x_sinergis_calendar_event_produits_divers" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'DIVERS')],'required': [('x_sinergis_calendar_event_produits',  '=', 'DIVERS')]}"/>
+                            <!--<field name="x_sinergis_calendar_event_produits_cegid" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'CEGID')]}"/>-->
+                            <!--<field name="x_sinergis_calendar_event_produits_sage100" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAGE 100')]}"/>-->
+                            <!--<field name="x_sinergis_calendar_event_produits_sage1000" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAGE 1000')]}"/>-->
+                            <!--<field name="x_sinergis_calendar_event_produits_sap" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'SAP')]}"/>-->
+                            <!--<field name="x_sinergis_calendar_event_produits_x3" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'X3')]}"/>-->
+                            <!--<field name="x_sinergis_calendar_event_produits_divers" attrs="{'invisible': [('x_sinergis_calendar_event_produits',  '!=', 'DIVERS')],'required': [('x_sinergis_calendar_event_produits',  '=', 'DIVERS')]}"/>-->
                             <field name="x_sinergis_calendar_event_type_client" readonly="True" force_save="1"/>
                             <br/>
                             <br/>
