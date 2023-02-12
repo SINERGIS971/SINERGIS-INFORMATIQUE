@@ -33,6 +33,8 @@ const SinergisOutlookCalendarController = CalendarController.include({
         var self = this;
         Dialog.alert(self, _t("You will be redirected to Outlook to authorize the access to your calendar."), {
             confirm_callback: function() {
+                // URL
+                
                 //framework.redirect(o.url);
             },
             title: _t('Redirection'),
