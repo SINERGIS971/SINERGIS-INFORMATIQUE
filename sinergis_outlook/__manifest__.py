@@ -32,7 +32,9 @@
     'demo': [],
     'assets': {
         'web.assets_backend': [],
-        'web.assets_qweb': [],
+        'web.assets_qweb': [
+            'microsoft_calendar/static/src/xml/*.xml',
+        ],
     },
 
 }
