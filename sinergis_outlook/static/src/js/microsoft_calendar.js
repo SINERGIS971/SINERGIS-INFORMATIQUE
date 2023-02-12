@@ -1,9 +1,12 @@
-odoo.define('microsoft_calendar.CalendarView', function (require) {
+odoo.define('sinergis_outlook.CalendarView', function (require) {
     "use strict";
+
+const CalendarRenderer = require('@calendar/js/calendar_renderer')[Symbol.for("default")].AttendeeCalendarRenderer;
+const CalendarController = require('@calendar/js/calendar_controller')[Symbol.for("default")];
 
 const MicrosoftCalendarRenderer = CalendarRenderer.include({
     events: _.extend({}, CalendarRenderer.prototype.events, {
-        'click .o_microsoft_sync_pending': '_onSyncMicrosoftCalendar',
+        'click .o_sinergis_outlook_sync_pending': '_onSyncMicrosoftCalendar',
     }),
 
     _onSyncMicrosoftCalendar: function () {
