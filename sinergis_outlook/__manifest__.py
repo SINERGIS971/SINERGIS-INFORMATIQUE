@@ -31,9 +31,11 @@
     # only loaded in demonstration mode
     'demo': [],
     'assets': {
-        'web.assets_backend': [],
+        'web.assets_backend': [
+            'sinergis_outlook/static/src/js/microsoft_calendar.js',
+        ],
         'web.assets_qweb': [
-            'microsoft_calendar/static/src/xml/*.xml',
+            'sinergis_outlook/static/src/xml/*.xml',
         ],
     },
 
