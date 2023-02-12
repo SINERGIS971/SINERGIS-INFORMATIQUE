@@ -4,7 +4,7 @@ odoo.define('sinergis_outlook.CalendarView', function (require) {
 const CalendarRenderer = require('@calendar/js/calendar_renderer')[Symbol.for("default")].AttendeeCalendarRenderer;
 const CalendarController = require('@calendar/js/calendar_controller')[Symbol.for("default")];
 
-const MicrosoftCalendarRenderer = CalendarRenderer.include({
+const SinergisOutlookCalendarRenderer = CalendarRenderer.include({
     events: _.extend({}, CalendarRenderer.prototype.events, {
         'click .o_sinergis_outlook_sync_pending': '_onSyncMicrosoftCalendar',
     }),
@@ -16,16 +16,16 @@ const MicrosoftCalendarRenderer = CalendarRenderer.include({
             on_always: function () {
                 self.$microsoftButton.prop('disabled', false);
             },
-            on_refresh: function () {
+            /*on_refresh: function () {
                 self._initMicrosoftPillButton();
-            }
+            }*/
         });
     },
 
 });
 
 //Microsoft Controller
-const MicrosoftCalendarController = CalendarController.include({
+const SinergisOutlookCalendarController = CalendarController.include({
     custom_events: _.extend({}, CalendarController.prototype.custom_events, {
         syncMicrosoftCalendar: '_onSyncMicrosoftCalendar',
     }),
@@ -33,7 +33,7 @@ const MicrosoftCalendarController = CalendarController.include({
         var self = this;
         Dialog.alert(self, _t("You will be redirected to Outlook to authorize the access to your calendar."), {
             confirm_callback: function() {
-                framework.redirect(o.url);
+                //framework.redirect(o.url);
             },
             title: _t('Redirection'),
         });
