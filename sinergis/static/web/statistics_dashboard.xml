@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="statistics_dashboard_page" name="Statistics Dashboard">
+    <div id="content">
+        <h1>Statistiques</h1>
+        <t t-esc="total_hours"/>
+    </div>
+  </template>
+</odoo>
+

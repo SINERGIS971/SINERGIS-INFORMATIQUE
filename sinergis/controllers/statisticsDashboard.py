@@ -21,10 +21,14 @@ class StatisticsDashboard(http.Controller):
         for task in tasks :
             #Par on fixe le nombre d'heures au temps prévu par le CH
             task_hours = task.planned_hours
-            timesheet_ids = task.timesheet_ids
             # On soustrait ensuite chaque intervention avant la date demandée
             timesheet_ids = request.env["account.analytic.line"].search([('task_id', '=', task.id)])
             for timesheet_id in timesheet_ids :
                 task_hours -= timesheet_id.unit_amount
+            #Mettre le CH à 0 si il a un nombre d'heures restantes négative
+            if task_hours < 0 :
+                task_hours = 0
             total_hours += task_hours
-        return total_hours
+        return http.request.render("sinergis.statistics_dashboard_page", {
+                            "total_hours" : total_hours,
+                        })
