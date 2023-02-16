@@ -15,13 +15,16 @@ class StatisticsDashboard(http.Controller):
         n = 0
         #END DEBUG
 
-        total_time = 0
+        total_hours = 0
 
         tasks = request.env["project.task"].search(['|','&','&',('active','=',False),('active','=',True),('create_date','<=','2023-02-16'),'&',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')])
         for task in tasks :
-            planned_hours = task.planned_hours
+            #Par on fixe le nombre d'heures au temps prévu par le CH
+            task_hours = task.planned_hours
             timesheet_ids = task.timesheet_ids
-            data += task.name
-            data += "<br/>"
-            n+=1
-        data+=str(n)
+            # On soustrait ensuite chaque intervention avant la date demandée
+            timesheet_ids = request.env["account.analytic.line"].search([('task_id', '=', task.id)])
+            for timesheet_id in timesheet_ids :
+                task_hours -= timesheet_id.unit_amount
+            total_hours += task_hours
+        return total_hours
