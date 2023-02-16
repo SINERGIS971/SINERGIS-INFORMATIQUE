@@ -4,7 +4,7 @@ from datetime import date
 from datetime import datetime
 
 import locale
-locale.setlocale(locale.LC_TIME,'')
+locale.setlocale(locale.LC_ALL,'fr_FR.UTF-8')
 
 class StatisticsDashboard(http.Controller):
     @http.route('/sinergis/statistics_dashboard', auth='user', methods=['GET','POST'], csrf=False)
