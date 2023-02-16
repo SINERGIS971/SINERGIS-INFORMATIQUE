@@ -3,6 +3,9 @@ from odoo.http import request
 from datetime import date
 from datetime import datetime
 
+import locale
+locale.setlocale(locale.LC_TIME,'')
+
 class StatisticsDashboard(http.Controller):
     @http.route('/sinergis/statistics_dashboard', auth='user', methods=['GET','POST'], csrf=False)
     def index (self, **kw):
@@ -29,6 +32,7 @@ class StatisticsDashboard(http.Controller):
             total_hours += task_hours
             total_hours = round(total_hours, 2)
         return http.request.render("sinergis.statistics_dashboard_page", {
+                            "date_end_text" : date_end.strftime("%A %d %B %Y"),
                             "date_end" : date_end.strftime("%Y-%m-%d"),
                             "total_hours" : total_hours,
                         })
