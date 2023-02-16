@@ -44,6 +44,8 @@
 
                 <filter string="DIVERS" name="filter_divers" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'DIVERS')]"/>
 
+                <separator/>
+
                 <filter string="Appels sans réponse" name="filter_last_call" domain="[('x_sinergis_helpdesk_last_call', '!=', False)]"/>
 
                 <filter string="Réponse par mail" name="filter_client_answer" domain="[('x_sinergis_helpdesk_ticket_client_answer', '=', True)]"/>
