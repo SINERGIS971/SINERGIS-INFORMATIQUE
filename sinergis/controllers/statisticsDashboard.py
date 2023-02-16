@@ -29,5 +29,6 @@ class StatisticsDashboard(http.Controller):
             total_hours += task_hours
             total_hours = round(total_hours, 2)
         return http.request.render("sinergis.statistics_dashboard_page", {
-                            "total_hours" : str(kw),
+                            "date_end" : date_end.strftime("%Y-%m-%d"),
+                            "total_hours" : total_hours,
                         })
