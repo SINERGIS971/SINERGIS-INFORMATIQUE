@@ -8,7 +8,9 @@
         <h1>Statistiques Sinergis</h1>
           <form action="" method="POST" id="hourly_contract_form">
             <h3>Heures restantes sur les contrats d'heures</h3>
-            <p class="important-text">Le <t t-esc="date_end_text"/> il vous restait <t t-esc="total_hours" t-options="{'widget': 'float_time'}"/> sur contrats d'heures</p>
+            <p class="important-text">Le <t t-esc="date_end_text"/> il vous restait <t t-esc="total_hours" t-options="{'widget': 'float_time'}"/> h sur contrats d'heures</p>
+            <p class="important-text"><t t-esc="total_hours_guadeloupe" t-options="{'widget': 'float_time'}"/> h en Guadeloupe</p>
+            <p class="important-text"><t t-esc="total_hours_martinique" t-options="{'widget': 'float_time'}"/> h en Martinique</p>
             <p>Cette fonctionnalité vous permet d'obtenir le nombres d'heures restantes dans vos contrats d'heures à une date précise.</p>
             <label for="hourly_contract_date">Date du calcul:</label>
             <input type="date" id="hourly_contract_date" name="hourly_contract_date" t-value="total_hours" required="True"/>

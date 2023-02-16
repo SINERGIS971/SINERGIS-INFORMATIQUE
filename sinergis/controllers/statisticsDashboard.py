@@ -17,6 +17,8 @@ class StatisticsDashboard(http.Controller):
         #Filtre pour tâches CH non archivées et archivées
 
         total_hours = 0
+        total_hours_guadeloupe = 0
+        total_hours_martinique = 0
 
         tasks = request.env["project.task"].search(['&','&','|',('active','=',False),('active','=',True),('create_date','<=',date_end.strftime("%Y-%m-%d")),'&',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')])
         for task in tasks :
@@ -30,9 +32,20 @@ class StatisticsDashboard(http.Controller):
             if task_hours < 0 :
                 task_hours = 0
             total_hours += task_hours
+            #On regarde le pays du contrat d'heure
+            project_name = task.project_id.name
+            if "GPE" in project_name :
+                total_hours_guadeloupe += task_hours
+            elif "MQE" in project_name :
+                total_hours_martinique += task_hours
+
             total_hours = round(total_hours, 2)
+            total_hours_guadeloupe = round(total_hours_guadeloupe, 2)
+            total_hours_martinique = round(total_hours_martinique, 2)
         return http.request.render("sinergis.statistics_dashboard_page", {
                             "date_end_text" : date_end.strftime("%A %d %B %Y"),
                             "date_end" : date_end.strftime("%Y-%m-%d"),
                             "total_hours" : total_hours,
+                            "total_hours_guadeloupe" : total_hours_guadeloupe,
+                            "total_hours_martinique" : total_hours_martinique,
                         })
