@@ -5,7 +5,7 @@
         <h1>Statistiques</h1>
         <form action="" method="POST" id="hourly_contract_form">
           <label for="hourly_contract_date">Date:</label>
-          <input type="date" id="hourly_contract_date" name="hourly_contract_date"/>
+          <input type="date" id="hourly_contract_date" name="hourly_contract_date" t-value="total_hours"/>
           <input type="submit" value="Envoyer"/>
         </form>
         <t t-esc="total_hours"/>

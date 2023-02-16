@@ -15,7 +15,7 @@ class StatisticsDashboard(http.Controller):
 
         total_hours = 0
 
-        tasks = request.env["project.task"].search(['|','&','&',('active','=',False),('active','=',True),('create_date','<=',date_end.strftime("%Y-%m-%d")),'&',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')])
+        tasks = request.env["project.task"].search(['&','&','|',('active','=',False),('active','=',True),('create_date','<=',date_end.strftime("%Y-%m-%d")),'&',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')])
         for task in tasks :
             #Par on fixe le nombre d'heures au temps prévu par le CH
             task_hours = task.planned_hours
