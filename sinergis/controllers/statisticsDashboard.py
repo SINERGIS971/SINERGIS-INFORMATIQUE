@@ -3,6 +3,9 @@ from odoo.http import request
 from datetime import date
 from datetime import datetime
 
+import io
+import xlsxwriter
+
 import locale
 locale.setlocale(locale.LC_ALL,'fr_FR.UTF-8')
 
@@ -49,3 +52,36 @@ class StatisticsDashboard(http.Controller):
                             "total_hours_guadeloupe" : total_hours_guadeloupe,
                             "total_hours_martinique" : total_hours_martinique,
                         })
+
+class InvoiceExcelReportController(http.Controller):
+    @http.route(['/excel'], type='http', auth="user", csrf=False)
+    def get_sale_excel_report(self, report_id=None, **args):
+        response = request.make_response(
+        None,
+        headers=[
+           ('Content-Type', 'application/vnd.ms-excel'),
+            #('Content-Disposition', 'Invoice_report' + '.xlsx')
+           ("Content-disposition", "attachment;filename=myExcel.xls")
+        ]
+        )
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        header_format = workbook.add_format({'bold': True, 'font_color': 'blue'})
+        # prepare excel sheet styles and formats
+        sheet = workbook.add_worksheet("CH NON CONSOMMES A 100%")
+        sheet.set_column(0, 7, 30)
+
+        sheet.write(0, 0, 'Date de création du contrat', header_format)
+        sheet.write(0, 1, "Date d'expiration", header_format)
+        sheet.write(0, 2, 'Bon de commande N°', header_format)
+        sheet.write(0, 3, 'Client', header_format)
+        sheet.write(0, 4, 'Heures prévues initialement', header_format)
+        sheet.write(0, 5, 'Heures passés entre le 01/01/2022 et 31/12/2022', header_format)
+        sheet.write(0, 6, 'Heures restantes le 31/12/2022', header_format)
+        sheet.write(0, 7, 'Société', header_format)
+       
+        workbook.close()
+        output.seek(0)
+        response.stream.write(output.read())
+        output.close()
+        return response
