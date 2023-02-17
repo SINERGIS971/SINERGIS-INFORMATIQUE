@@ -43,6 +43,7 @@ input[type="submit"]:hover {
 form {
   display: flex;
   flex-direction: column;
+  width: 50%;
 }
 
 form input[type='date'] {
