@@ -251,7 +251,6 @@
                   </div>
                   <div style="margin-left:30px;">
                     <separator string="Feuille d'émargement" style="color:red;"/>
-                        <field name="signed_attendance_sheet" attrs="{'readonly': [('state',  '!=', 'training_ended')]}"/>
                         <field name="signed_attendance_sheets" attrs="{'readonly': [('state',  '!=', 'training_ended')]}">
                           <tree>
                             <field name="name" invisible="True"/>

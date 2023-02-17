@@ -71,7 +71,7 @@ class Training(models.Model):
     evaluating_training_course = fields.Selection([('very_satisfaying', 'Très satisfaisant'),('satisfaying','Satisfaisant'),('perfectible','Perfectible'),('insufficient','Insuffisant')], string="Evaluation du déroulement")
     difficulties_training_course = fields.Text(string="Précisez si difficultés rencontrées :")
     # Ancien système < 17/02/2023
-    signed_attendance_sheet = fields.Binary(string="Feuille d'émargement remplie")
+    # signed_attendance_sheet = fields.Binary(string="Feuille d'émargement remplie")
     # Nouveau système > 17/02/2023
     signed_attendance_sheets = fields.One2many('training.attendance_sheet', 'training_id', string="Feuilles d'émargement remplies")
 
