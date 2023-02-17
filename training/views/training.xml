@@ -156,6 +156,11 @@
                         <group>
                           <field name="duration"/>
                         </group>
+                        <group>
+                        </group>
+                        <group>
+                          <field name="duration_hours"/>
+                        </group>
                       </group>
                       <button name="download_training_agreement" string="Télécharger la convention de formation" type="object" class="oe_highlight"/>
                       <button name="send_training_agreement" string="Envoyer la convention de formation au référent client" type="object" class="oe_highlight oe_right"/>
@@ -411,8 +416,11 @@
         <field name="arch" type="xml">
           <form>
             <group>
-              <separator string="Utiliser un contact existant"/>
-              <field name="partner_contact_id"/>
+              <separator string="Utiliser un contact existant" style="font-size:16px;" />
+            </group>
+              <label for="partner_contact_id" string="Référence du contact : " style="font-size: 16px;"/>
+              <field name="partner_contact_id" style="font-size: 16px;" nolabel="1"/>
+            <group>
               <separator string="Données du contact"/>
               <field name="training_id" invisible="True"/>
               <field name="training_state" invisible="True"/>
@@ -583,3 +591,4 @@
 
   </data>
 </odoo>
+
