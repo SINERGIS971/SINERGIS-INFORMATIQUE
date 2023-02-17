@@ -411,14 +411,15 @@
         <field name="arch" type="xml">
           <form>
             <group>
+              <separator string="Utiliser un contact existant"/>
+              <field name="partner_contact_id"/>
+              <separator string="Données du contact"/>
               <field name="training_id" invisible="True"/>
               <field name="training_state" invisible="True"/>
               <field name="name" required="True"/>
               <field name="position" required="True"/>
               <field name="email" required="True"/>
               <field name="phone"/>
-              <separator string="Utiliser un contact existant"/>
-              <field name="partner_contact_id"/>
             </group>
             <div style="margin-left:30px;" attrs="{'invisible': ['&amp;',('training_state',  '!=', 'training_ended'),('training_state',  '!=', 'training_closed')]}">
             <separator string="Évaluation"/>

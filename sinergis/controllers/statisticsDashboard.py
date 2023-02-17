@@ -56,7 +56,9 @@ class StatisticsDashboard(http.Controller):
 class InvoiceExcelReportController(http.Controller):
     @http.route(['/sinergis/statistics_dashboard/hour_contract_excel'], type='http', auth="user", csrf=False)
     def get_sale_excel_report(self, **kw):
+        #=========================
         #Paramètres de génération :
+         #=========================
         if not "hour_contract_excel_begin_date" in kw or not "hour_contract_excel_end_date" in kw :
             return "Il manque la plage de date afin de générer le document, merci de contacter un administrateur système."
         begin_date = datetime.strptime(kw["hour_contract_excel_begin_date"], '%Y-%m-%d').date()
@@ -76,12 +78,20 @@ class InvoiceExcelReportController(http.Controller):
         # et le second pour les CH non consommés
         data_consumed, data_not_consumed = InvoiceExcelReportController.get_hour_contract_data(request, begin_date, end_date, allowed_companies)
         
+        #=============================
+        # Création du nom du fichier
+        #=============================
+        
+        filename = f"CH-{begin_date.strftime('%d%m%Y')}-AU-{end_date.strftime('%d%m%Y')}"
+        
+        #=============================
         # Création de la réponse Http
+        #=============================
         response = request.make_response(
         None,
         headers=[
            ('Content-Type', 'application/vnd.ms-excel'),
-           ("Content-disposition", "attachment;filename=myExcel.xls")
+           ("Content-disposition", f"attachment;filename={filename}.xls")
         ]
         )
         output = io.BytesIO()
@@ -187,6 +197,7 @@ class InvoiceExcelReportController(http.Controller):
                 if timesheet_id.date >= begin_date :
                     effective_hours += timesheet_id.unit_amount
             remaining_hours = round(remaining_hours, 1)
+            effective_hours = round(effective_hours, 1)
             
             element = {
                 "create_date" : task.create_date.strftime("%d/%m/%Y %H:%M:%S"),
