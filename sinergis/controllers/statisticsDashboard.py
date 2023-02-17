@@ -93,13 +93,14 @@ class InvoiceExcelReportController(http.Controller):
         #CH NON CONSOMMES
         sheet_1 = workbook.add_worksheet("CH NON CONSOMMES A 100%")
         sheet_1.set_column(0, 7, 30)
+        sheet_1.set_column(5, 5, 50)
 
         sheet_1.write(0, 0, 'Date de création du contrat', header_format)
         sheet_1.write(0, 1, "Date d'expiration", header_format)
         sheet_1.write(0, 2, 'Bon de commande N°', header_format)
         sheet_1.write(0, 3, 'Client', header_format)
         sheet_1.write(0, 4, 'Heures prévues initialement', header_format)
-        sheet_1.write(0, 5, f'Heures passés entre le {begin_date.strftime("%d/%m/%Y")} et {end_date.strftime("%d/%m/%Y")}', header_format)
+        sheet_1.write(0, 5, f'Heures passées entre le {begin_date.strftime("%d/%m/%Y")} et {end_date.strftime("%d/%m/%Y")}', header_format)
         sheet_1.write(0, 6, f'Heures restantes le {end_date.strftime("%d/%m/%Y")}', header_format)
         sheet_1.write(0, 7, 'Société', header_format)
         
@@ -118,13 +119,14 @@ class InvoiceExcelReportController(http.Controller):
         #CH CONSOMMES
         sheet_2 = workbook.add_worksheet("CH CONSOMMES")
         sheet_2.set_column(0, 8, 30)
+        sheet_2.set_column(5, 5, 50)  # Pour la colonne heures passées qui est plus large
         
         sheet_2.write(0, 0, 'Date de création du contrat', header_format)
         sheet_2.write(0, 1, "Date d'expiration", header_format)
         sheet_2.write(0, 2, 'Bon de commande N°', header_format)
         sheet_2.write(0, 3, 'Client', header_format)
         sheet_2.write(0, 4, 'Heures prévues initialement', header_format)
-        sheet_2.write(0, 5, 'Heures passés entre le 01/01/2022 et 31/12/2022', header_format)
+        sheet_2.write(0, 5, 'Heures passées entre le 01/01/2022 et 31/12/2022', header_format)
         sheet_2.write(0, 6, 'Heures restantes le 31/12/2022', header_format)
         sheet_2.write(0, 7, 'Archivé à ce jour ?', header_format)
         sheet_2.write(0, 8, 'Société', header_format)

@@ -15,7 +15,7 @@
                 <label for="hourly_contract_date">Date de fin:</label>
                 <input type="date" id="hour_contract_excel_end_date" name="hour_contract_excel_end_date" required="True"/>
             </div>
-            <p>Société(s) Sinergis concernée(s)</p>
+            <p>Société(s) Sinergis concernée(s) :</p>
             <div>
               <input type="checkbox" id="sinergis_gpe_checkbox" name="sinergis_gpe_checkbox" checked="True"/>
               <label for="sinergis_gpe_checkbox">Guadeloupe</label>
