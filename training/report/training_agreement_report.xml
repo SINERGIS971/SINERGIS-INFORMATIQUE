@@ -58,7 +58,7 @@
 							<ul>
 							  <li>Objectif : Voir le diagnostic initial</li>
 							  <li>Programme et méthodes : <span t-field="doc.type_product_plan_id.name"/> (voir le plan de formation)</li>
-							  <li>Durée : <span t-field="doc.duration"/> jours</li>
+							  <li>Durée : <span t-field="doc.duration"/> jours soit <span t-field="doc.duration_hours"/> heures</li>
 								<li>Lieu : <span t-field="doc.location.name"/></li>
 								<li>Dates : <span t-field="doc.start"/> au <span t-field="doc.end"/></li>
 							</ul>
