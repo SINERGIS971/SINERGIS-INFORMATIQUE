@@ -58,3 +58,4 @@ class SaleOrder(models.Model):
     def _compute_training_count(self):
         for rec in self:
             rec.training_count = self.env['training'].search_count([('sale_id', '=', rec.id)])
+            rec.training_count = self.env['training'].search_count([('sale_id', '=', rec.id)])
