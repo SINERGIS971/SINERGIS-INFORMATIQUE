@@ -64,7 +64,7 @@ class Training(models.Model):
     remote_learning = fields.Boolean(string='Formation à distance ?', default=False)
     remote_learning_link = fields.Char(string="Lien de la formation")
     planned_hours_ids = fields.One2many("calendar.event","training_id",string="Heures de formation planifiées",readonly=True)
-    planned_hours_alert = fields.Char(string="", compute="_compute_planned_hours_alert") # Message d'alerte si les conditions sur les heures de formations ne sont pas respectées
+    planned_hours_alert = fields.Html(string="", compute="_compute_planned_hours_alert") # Message d'alerte si les conditions sur les heures de formations ne sont pas respectées
 
     #Training ended part
 
@@ -132,22 +132,22 @@ class Training(models.Model):
             total_hours = 0
             too_early = False
             too_late = False
-            for event in rec.planned_hours:
+            for event in rec.planned_hours_ids:
                 total_hours += event.duration
                 if event.start.date() < rec.start or event.stop.date() < rec.start :
                     too_early = True
-                if event.start.date() > rec.stop or event.stop.date() > rec.stop  :
+                if event.start.date() > rec.end or event.stop.date() > rec.end  :
                     too_late = True
             messages = []
             if total_hours > rec.duration_hours :
-                messages.append(f"Vous avez planifié plus d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
+                messages.append(f"- Vous avez planifié plus d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
             elif total_hours < rec.duration_hours :
-                messages.append(f"Vous avez planifié moins d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
+                messages.append(f"- Vous avez planifié moins d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
             if too_early :
-                messages.append(f"Au moins un évènement Formation a été placé trop tôt. La convention de formation de formation inquide un début le : {rec.start}")
+                messages.append(f"- Au moins un évènement Formation a été placé trop tôt. La convention de formation de formation inquide un début le : {rec.start.strftime('%d/%m/%Y')}")
             if too_late :
-                messages.append(f"Au moins un évènement Formation a été placé trop tard. La convention de formation de formation inquide une fin le : {rec.stop}")
-            message = '\n'.join(messages)
+                messages.append(f"- Au moins un évènement Formation a été placé trop tard. La convention de formation de formation inquide une fin le : {rec.end.strftime('%d/%m/%Y')}")
+            message = '<br/>'.join(messages)
             rec.planned_hours_alert = message
 
 
@@ -707,3 +707,4 @@ class TrainingOpco(models.Model):
     _description = "Opérateurs de compétences"
     name = fields.Char(string="Nom",required=True)
     email = fields.Char(string="Email",required=True)
+
