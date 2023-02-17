@@ -250,7 +250,7 @@
                     <button name="download_training_evaluation" string="Télécharger l'évaluation du consultant" type="object" class="oe_highlight oe_right"/>
                   </div>
                   <div style="margin-left:30px;">
-                    <separator string="Feuille d'émargement" style="color:red;"/>
+                    <separator string="Feuille d'émargement remplie" style="color:red;"/>
                         <field name="signed_attendance_sheets" attrs="{'readonly': [('state',  '!=', 'training_ended')]}">
                           <tree>
                             <field name="name" invisible="True"/>
