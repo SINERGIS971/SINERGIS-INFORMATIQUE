@@ -64,6 +64,7 @@ class Training(models.Model):
     remote_learning = fields.Boolean(string='Formation à distance ?', default=False)
     remote_learning_link = fields.Char(string="Lien de la formation")
     planned_hours_ids = fields.One2many("calendar.event","training_id",string="Heures de formation planifiées",readonly=True)
+    planned_hours_alert = fields.Char(string="", compute="_compute_planned_hours_alert") # Message d'alerte si les conditions sur les heures de formations ne sont pas respectées
 
     #Training ended part
 
@@ -120,6 +121,35 @@ class Training(models.Model):
             self.location_city = False
             self.location_zip = False
             self.location_country_id = False
+
+    # Détecte une erreur dans l'enregistrement des heures de formation
+    # - Si les heures planifiées dépassent celles du bon de commande
+    # - Si les heures planifiées sont insuffisantes par rapport à celles du bon de commande
+    # - Si une des dates de formation est en dehors du début/fin des dates de la formation
+    @api.depends('planned_hours_alert')
+    def _compute_planned_hours_alert (self):
+        for rec in self:
+            total_hours = 0
+            too_early = False
+            too_late = False
+            for event in rec.planned_hours:
+                total_hours += event.duration
+                if event.start.date() < rec.start or event.stop.date() < rec.start :
+                    too_early = True
+                if event.start.date() > rec.stop or event.stop.date() > rec.stop  :
+                    too_late = True
+            messages = []
+            if total_hours > rec.duration_hours :
+                messages.append(f"Vous avez planifié plus d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
+            elif total_hours < rec.duration_hours :
+                messages.append(f"Vous avez planifié moins d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
+            if too_early :
+                messages.append(f"Au moins un évènement Formation a été placé trop tôt. La convention de formation de formation inquide un début le : {rec.start}")
+            if too_late :
+                messages.append(f"Au moins un évènement Formation a été placé trop tard. La convention de formation de formation inquide une fin le : {rec.stop}")
+            message = '\n'.join(messages)
+            rec.planned_hours_alert = message
+
 
     @api.depends('delayed_assessment_received')
     def _compute_delayed_assessment_received (self):
