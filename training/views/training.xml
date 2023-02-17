@@ -251,9 +251,8 @@
                   </div>
                   <div style="margin-left:30px;">
                     <separator string="Feuille d'émargement" style="color:red;"/>
-                      <group>
                         <field name="signed_attendance_sheet" attrs="{'readonly': [('state',  '!=', 'training_ended')]}"/>
-                        <field name="signed_attendance_sheets">
+                        <field name="signed_attendance_sheets" attrs="{'readonly': [('state',  '!=', 'training_ended')]}">
                           <tree>
                             <field name="name" invisible="True"/>
                             <field name="file" filename="name" widget="binary"/>
@@ -265,7 +264,6 @@
                             </group>
                           </form>
                         </field>
-                      </group>
                   </div>
                 </div>
                 <!-- Formation cloturée -->

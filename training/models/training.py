@@ -254,8 +254,8 @@ class Training(models.Model):
                 missing_elements.append("Heures de formation planifiées")
 
         if self.state == "training_ended":
-            if not self.signed_attendance_sheet :
-                missing_elements.append("Feuille d'émargement remplie")
+            if len(self.signed_attendance_sheets) == 0 :
+                missing_elements.append("Feuille(s) d'émargement remplie(s)")
             if not self.evaluating_training_course :
                 missing_elements.append("Evaluation du déroulement")
 
