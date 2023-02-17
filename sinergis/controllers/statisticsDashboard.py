@@ -54,15 +54,27 @@ class StatisticsDashboard(http.Controller):
                         })
 
 class InvoiceExcelReportController(http.Controller):
-    @http.route(['/excel'], type='http', auth="user", csrf=False)
-    def get_sale_excel_report(self, report_id=None, **args):
+    @http.route(['/sinergis/statistics_dashboard/hour_contract_excel'], type='http', auth="user", csrf=False)
+    def get_sale_excel_report(self, **kw):
         #Paramètres de génération :
-        begin_date = date.today()
-        end_date = date.today()
+        if not "hour_contract_excel_begin_date" in kw or not "hour_contract_excel_end_date" in kw :
+            return "Il manque la plage de date afin de générer le document, merci de contacter un administrateur système."
+        begin_date = datetime.strptime(kw["hour_contract_excel_begin_date"], '%Y-%m-%d').date()
+        end_date = datetime.strptime(kw["hour_contract_excel_end_date"], '%Y-%m-%d').date()
+        #Companies à include dans excel
+        allowed_companies = []
+        if "sinergis_gpe_checkbox" in kw :
+            allowed_companies.append("SINERGIS GPE")
+        if "sinergis_mqe_checkbox" in kw :
+            allowed_companies.append("SINERGIS MQE")
+        if "sinergis_guy_checkbox" in kw :
+            allowed_companies.append("SINERGIS GUY")
+        if "sinergis_brd_checkbox" in kw :
+            allowed_companies.append("SINERGIS BRD")
         #Chargement des données
         # En sortie de la fonction nous obtenons deux tableaux. Le premier pour les CH consommés à end_date
         # et le second pour les CH non consommés
-        data_consumed, data_not_consumed = InvoiceExcelReportController.get_hour_contract_data(request, begin_date, end_date)
+        data_consumed, data_not_consumed = InvoiceExcelReportController.get_hour_contract_data(request, begin_date, end_date, allowed_companies)
         
         # Création de la réponse Http
         response = request.make_response(
@@ -141,10 +153,10 @@ class InvoiceExcelReportController(http.Controller):
 
     #Fonction de génération des contrats d'heures non consommés
     #Prend en entrée l'objet request d'odoo, la date de début du calcul et la date de fin
-    def get_hour_contract_data (request, begin_date, end_date):
+    def get_hour_contract_data (request, begin_date, end_date, allowed_companies):
         data_not_consumed = []
         data_consumed = []
-        tasks = request.env["project.task"].search(['&','|',('active','=',False),('active','=',True),'&',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')],order='create_date desc')
+        tasks = request.env["project.task"].search(['&','&','|',('active','=',False),('active','=',True),('create_date','<=',end_date.strftime("%Y-%m-%d")),'&',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')],order='create_date desc')
         
         for task in tasks :
             #Calcul de la deadline
@@ -186,10 +198,12 @@ class InvoiceExcelReportController(http.Controller):
                 "company" : company, #COMPUTE
                 }
             
-            #On regarde si à end_date, le contrat d'heure est consommé ou non
-            if remaining_hours <= 0 :
-                data_consumed.append(element)
-            else :
-                data_not_consumed.append(element)
+            # Si l'utilisateur a demandé les informations de cette companie
+            if company in allowed_companies :
+                #On regarde si à end_date, le contrat d'heure est consommé ou non
+                if remaining_hours <= 0 :
+                    data_consumed.append(element)
+                else :
+                    data_not_consumed.append(element)
         return data_consumed, data_not_consumed
     
