@@ -70,7 +70,10 @@ class Training(models.Model):
 
     evaluating_training_course = fields.Selection([('very_satisfaying', 'Très satisfaisant'),('satisfaying','Satisfaisant'),('perfectible','Perfectible'),('insufficient','Insuffisant')], string="Evaluation du déroulement")
     difficulties_training_course = fields.Text(string="Précisez si difficultés rencontrées :")
+    # Ancien système < 17/02/2023
     signed_attendance_sheet = fields.Binary(string="Feuille d'émargement remplie")
+    # Nouveau système > 17/02/2023
+    signed_attendance_sheets = fields.One2many('training.attendance_sheet', 'training_id', string="Feuilles d'émargement remplies")
 
     #Training closed part
     training_closed_date = fields.Date(string="Date de cloture de la formation", default=False,readonly=True)
@@ -708,3 +711,12 @@ class TrainingOpco(models.Model):
     name = fields.Char(string="Nom",required=True)
     email = fields.Char(string="Email",required=True)
 
+# Classe qui comporte les différentes feuilles d'émargement de la formation
+class TrainingAttendanceSheet(models.Model):
+        _name = "training.attendance_sheet"
+        _description = "Feuilles d'émargement de la formation"
+
+        training_id = fields.Many2one("training",string="Formation",required=True)
+
+        name = fields.Char(string="Nom",required=True)
+        file = fields.Binary(string="Feuille")

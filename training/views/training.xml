@@ -253,6 +253,18 @@
                     <separator string="Feuille d'émargement" style="color:red;"/>
                       <group>
                         <field name="signed_attendance_sheet" attrs="{'readonly': [('state',  '!=', 'training_ended')]}"/>
+                        <field name="signed_attendance_sheets">
+                          <tree>
+                            <field name="name" invisible="True"/>
+                            <field name="file" filename="name" widget="binary"/>
+                          </tree>
+                          <form>
+                            <group>
+                                <field name="name" invisible="True"/>
+                                <field name="file" filename="name"/>
+                            </group>
+                          </form>
+                        </field>
                       </group>
                   </div>
                 </div>
