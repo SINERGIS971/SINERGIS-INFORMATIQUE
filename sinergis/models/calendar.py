@@ -377,6 +377,12 @@ class CalendarEvent(models.Model):
         return super(CalendarEvent, self).write(values)
     """
 
+    def write(self, values):
+        user_id = self.env.user
+        if self.user_id != user_id:
+                raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas.")
+        return super(CalendarEvent, self).write(values)
+
     def generer_rapport_intervention(self):
         if self.x_sinergis_calendar_event_object == False:
             raise ValidationError("Vous devez entrer un objet pour pouvoir générer le rapport.")

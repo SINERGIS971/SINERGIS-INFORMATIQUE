@@ -217,6 +217,7 @@ class MyActions(models.Model):
             'res_model': 'helpdesk.ticket',
             'res_id': self.env['helpdesk.ticket'].search([('id', '=', self.link_id)]).id,
             'target': 'new',
+            'flags':{'mode':'readonly'},
             }
         elif self.origin == "calendar":
             context = {
@@ -226,9 +227,8 @@ class MyActions(models.Model):
             'res_model': 'calendar.event',
             'res_id': self.env['calendar.event'].search([('id', '=', self.link_id)]).id,
             'target': 'new',
+            'flags':{'mode':'readonly'},
             }
-        if self.consultant != self.env.user :
-            context['flags'] = {'initial_mode': 'view'}
         return context
 
     def invoiced_button (self):
