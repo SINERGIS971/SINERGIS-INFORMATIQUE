@@ -208,8 +208,9 @@ class MyActions(models.Model):
 
 
     def open(self):
+        context = {}
         if self.origin == "helpdesk":
-            return {
+            context = {
             'name': 'Assistance',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
@@ -218,7 +219,7 @@ class MyActions(models.Model):
             'target': 'new',
             }
         elif self.origin == "calendar":
-            return {
+            context = {
             'name': 'Calendrier',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
@@ -226,6 +227,9 @@ class MyActions(models.Model):
             'res_id': self.env['calendar.event'].search([('id', '=', self.link_id)]).id,
             'target': 'new',
             }
+        if self.consultant != self.env.user :
+            context['flags'] = {'initial_mode': 'view'}
+        return context
 
     def invoiced_button (self):
         if self.env.user.has_group('sinergis.group_myactions_employee') == False:
