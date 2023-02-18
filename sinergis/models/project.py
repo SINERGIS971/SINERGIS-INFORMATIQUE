@@ -25,6 +25,9 @@ class ProjectTask(models.Model):
     #Employé du premier évènement du calendrier associé à la tâche
     x_sinergis_project_task_first_date_user_id = fields.Many2one("res.users", compute="_compute_x_sinergis_project_task_first_date_user_id", string="Premier évènement par")
 
+    #Indique si la tâche est un CH
+    x_sinergis_project_task_contract_type = fields.Selection([('CH', 'CH'), ('DEVIS', 'DEVIS')], compute="_compute_x_sinergis_project_task_contract_type", store=True)
+
     #Onglet "SUIVI" -  Boutton télécharger la feuille de temps
     def print_timesheet_button(self):
         return self.env.ref('sinergis.sinergis_report_timesheet').report_action(self)
@@ -87,6 +90,15 @@ class ProjectTask(models.Model):
                 rec.x_sinergis_project_task_first_date_user_id = firstDate[0].user_id
             else:
                 rec.x_sinergis_project_task_first_date_user_id = False
+
+    @api.depends('x_sinergis_project_task_contract_type')
+    def _compute_x_sinergis_project_task_contract_type (self):
+        for rec in self :
+            if "CONTRAT D'HEURE" in rec.project_id.name:
+                rec.x_sinergis_project_task_is_hours_contract = "CH"
+            else :
+                rec.x_sinergis_project_task_is_hours_contract = "DEVIS"
+
 
 
 
