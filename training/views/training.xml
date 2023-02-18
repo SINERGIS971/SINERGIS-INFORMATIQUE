@@ -211,6 +211,13 @@
                           <field name="start" string="Début"/>
                           <field name="stop" string="Fin"/>
                           <field name="duration" widget="float_time"/>
+                          <button
+                          name="training_remove_event_button"
+                          string=""
+                          class="oe_highlight btn-secondary"
+                          type="object"
+                          icon="fa-paperclip"
+                          confirm="Êtes-vous sûr de supprimer cet évènement du calendrier ?"/>
                         </tree>
                       </field>
                     </group>
