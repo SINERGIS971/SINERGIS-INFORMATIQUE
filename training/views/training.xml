@@ -93,8 +93,8 @@
                   </group>
                   <!-- Partie non assigné -->
                   <div>
-                    <separator style="font-size:20px;font-color: #67BB13;" string="Non assigné" attrs="{'invisible': [('state',  '!=', 'unassigned')]}"/>
-                    <separator style="font-size:20px;" string="Non assigné" attrs="{'state': [('state',  '=', 'unassigned')]}" />
+                    <separator style="font-size:20px;color: #539314;" string="-&gt; Non assigné" attrs="{'invisible': [('state',  '!=', 'unassigned')]}"/>
+                    <separator style="font-size:16px;" string="Non assigné" attrs="{'invisible': [('state',  '=', 'unassigned')]}" />
                     <group>
                       <field name="sales_manager" widget="many2one_avatar_user" attrs="{'readonly': [('state',  '!=', 'unassigned')]}"/>
                       <field name="signed_quote" attrs="{'readonly': [('state',  '!=', 'unassigned')]}"/>
@@ -102,8 +102,8 @@
                   </div>
                   <!-- Partie commerciale -->
                   <div attrs="{'invisible': [('state',  '==', 'unassigned')]}">
-                    <separator style="font-size:20px;font-color: #67BB13;" string="Partie commerciale" attrs="{'state': [('state',  '!=', 'commercial_part')]}"/>
-                    <separator style="font-size:20px;" string="Partie commerciale" attrs="{'state': [('state',  '=', 'commercial_part')]}" />
+                    <separator style="font-size:20px;color: #539314;" string="-&gt; Partie commerciale" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}"/>
+                    <separator style="font-size:16px;" string="Partie commerciale" attrs="{'invisible': [('state',  '=', 'commercial_part')]}" />
                     <group>
                       <group>
                         <field name="partner_id" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
@@ -174,8 +174,8 @@
                   </div>
                   <!-- Partie consultant -->
                   <div attrs="{'invisible': ['|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part')]}">
-                    <separator style="font-size:20px;font-color: #67BB13;" string="Partie consultant" attrs="{'state': [('state',  '!=', 'consultant_part')]}"/>
-                    <separator style="font-size:20px;" string="Partie consultant" attrs="{'state': [('state',  '=', 'consultant_part')]}" />
+                    <separator style="font-size:20px;color: #539314;" string="-&gt; Partie consultant" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
+                    <separator style="font-size:16px;" string="Partie consultant" attrs="{'invisible': [('state',  '=', 'consultant_part')]}" />
 
                     <group>
                       <field name="consultant_id" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}"/>
@@ -235,8 +235,8 @@
                   </div>
                   <!-- Formation en cours -->
                   <div attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}">
-                  <separator style="font-size:20px;font-color: #67BB13;" string="Formation en cours" attrs="{'state': [('state',  '!=', 'training_in_progress')]}"/>
-                  <separator style="font-size:20px;" string="Formation en cours" attrs="{'state': [('state',  '=', 'training_in_progress')]}" />
+                  <separator style="font-size:20px;color: #539314;" string="-&gt; Formation en cours" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
+                  <separator style="font-size:16px;" string="Formation en cours" attrs="{'invisible': [('state',  '=', 'training_in_progress')]}" />
 
                   <group>
                     <field name="training_participants" force_save="1">
@@ -246,8 +246,8 @@
                 </div>
                 <!-- Formation terminée -->
                 <div attrs="{'invisible': ['|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress')]}">
-                <separator style="font-size:20px;font-color: #67BB13;" string="Formation terminée" attrs="{'state': [('state',  '!=', 'training_ended')]}"/>
-                <separator style="font-size:20px;" string="Formation terminée" attrs="{'state': [('state',  '=', 'training_ended')]}" />
+                <separator style="font-size:20px;color: #539314;" string="-&gt; Formation terminée" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
+                <separator style="font-size:16px;" string="Formation terminée" attrs="{'invisible': [('state',  '=', 'training_ended')]}" />
 
                 <field name="training_participants" readonly="False" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
                 </field>
@@ -282,7 +282,7 @@
                 </div>
                 <!-- Formation cloturée -->
                 <div attrs="{'invisible': ['|','|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress'),('state',  '==', 'training_ended')]}">
-                  <separator style="font-size:20px;font-color: #67BB13;" string="Formation cloturée"/>
+                  <separator style="font-size:20px;color: #539314;" string="-&gt; Formation cloturée"/>
                   <group>
                     <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_closed')]}">
                       <tree string="Liste des participants" decoration-success="is_rated==True">
@@ -616,4 +616,5 @@
 
   </data>
 </odoo>
+
 
