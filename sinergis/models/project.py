@@ -95,9 +95,9 @@ class ProjectTask(models.Model):
     def _compute_x_sinergis_project_task_contract_type (self):
         for rec in self :
             if "CONTRAT D'HEURE" in rec.project_id.name:
-                rec.x_sinergis_project_task_is_hours_contract = "CH"
+                rec.x_sinergis_project_task_contract_type = "CH"
             else :
-                rec.x_sinergis_project_task_is_hours_contract = "DEVIS"
+                rec.x_sinergis_project_task_contract_type = "DEVIS"
 
 
 

@@ -17,7 +17,7 @@
               <separator/>
               <filter string="Contrat d'heures" name="filter_contrat_heures" domain="['&amp;',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')]"/>
               <separator/>
-              <filter string="Tâches terminées et/ou dépassées" name="filter_ended_task" domain="[('remaining_hours','<=',0)]"/>
+              <filter string="Tâches terminées et/ou dépassées" name="filter_ended_task" domain="[('remaining_hours','&lt;=',0)]"/>
               <separator/>
               <filter string="Tâches marquées comme terminées" name="filter_ended_task" domain="[('x_sinergis_project_task_etat_tache','=','Tâche terminée')]"/>
               <group expand="0" string="Group By">

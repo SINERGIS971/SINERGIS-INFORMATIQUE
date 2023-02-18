@@ -251,11 +251,12 @@ class MyActions(models.Model):
     def invoiced_button_default(self):
         raise ValidationError("Vous ne pouvez pas modifier l'état de cette facturation avec ce mode de facturation.")
 
-    def print_report(self):
+    # Impression de rapports en sélectionnant un par un les activités
+    def print_reports(self):
         ids = []
         for rec in self:
             ids.append(rec.id)
-            #Fonctionnalité "a été imprimé"
+            #Fonctionnalité d'affichage "a été imprimé"
             if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) == 0:
                 data = {
                     'user_id': self.env.user.id,
@@ -269,6 +270,24 @@ class MyActions(models.Model):
                 ticket.last_date = datetime.now()
 
         return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', ids)]))
+
+    # Impression de rapports via le bouton "Éditer" de la ligne d'activité
+    def print_report(self):
+        #Fonctionnalité d'affichage "a été imprimé"
+        if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user.id),('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
+            data = {
+                'user_id': self.env.user.id,
+                'model_type': self.origin,
+                'model_id': self.link_id,
+                'last_date': datetime.now(),
+            }
+            self.env['sinergis.myactions.printed'].create(data)
+        else:
+            ticket = self.env['sinergis.myactions.printed'].search([('user_id', '=', self.env.user.id),('model_type', '=', self.origin),('model_id', '=', self.link_id)])
+            ticket.last_date = datetime.now()
+
+        return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', self.id)]))
+        
 
     def download_rapport_intervention_valide (self):
         return {
