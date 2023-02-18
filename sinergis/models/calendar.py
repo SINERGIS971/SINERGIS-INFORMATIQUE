@@ -379,8 +379,8 @@ class CalendarEvent(models.Model):
 
     def write(self, values):
         user_id = self.env.user
-        if self.user_id != user_id:
-                raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas.")
+        if self.user_id != user_id and self.env.user.has_group('sinergis.group_calendar_admin') == False:
+            raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas.")
         return super(CalendarEvent, self).write(values)
 
     def generer_rapport_intervention(self):

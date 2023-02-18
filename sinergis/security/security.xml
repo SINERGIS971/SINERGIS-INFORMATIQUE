@@ -15,4 +15,8 @@
   <record id="group_helpdesk_admin" model="res.groups">
     <field name="name">Administrateurs de ticket</field>
   </record>
+  <!-- CALENDRIER - Autoriser à modifier n'importe quel évènement -->
+  <record id="group_calendar_admin" model="res.groups">
+    <field name="name">Administrateurs du calendrier</field>
+  </record>
 </odoo>
