@@ -122,7 +122,10 @@
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <strong>Étape 2 / 5 :</strong>
-                      - Sélectionnez le type de formation, le produit ainsi que le plan de formation. S’assurer qu’un document PDF est renseigné pour ce plan de formation ( Barre supérieure -> Configuration -> Plan de Formation).
+                      <br/>
+                      - Sélectionnez le type de formation, le produit ainsi que le plan de formation.
+                      <br/>
+                      S’assurer qu’un document PDF est renseigné pour ce plan de formation ( Barre supérieure -> Configuration -> Plan de Formation).
                       <br/>
                       - Sélectionner l’OPCO et inclure le document OPCO, cette tâche n’est pas obligatoire et peut-être réalisée plus tard.
                       <br/>
@@ -153,6 +156,7 @@
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <strong>Étape 3 / 5 :</strong>
+                      <br/>
                       - Indiquer les participants à la formation : Nom, Fonction, e-mail. Le téléphone est facultatif.
                       <br/>
                       Il est possible de sélectionner directement une personne présente en base de données via le champ «Référence du contact»
@@ -163,6 +167,7 @@
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <strong>Étape 4 / 5 :</strong>
+                      <br/>
                       - Remplir les champs de rédaction de la convention. La durée est fixée à celle présente dans le devis.
                       <br/>
                       La signature présente à la fin de la convention sera celle du signataire interne.
