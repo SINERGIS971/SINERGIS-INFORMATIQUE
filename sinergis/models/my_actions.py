@@ -294,7 +294,7 @@ class MyActions(models.Model):
         
 
     def download_rapport_intervention_valide (self):
-        raise ValidationError("Cet évènement comporte un rapport d'intervention validé. Pour y accéder veuillez ouvrir l'évènement et cliquer sur l'onglet \"Rapport validé")
+        raise ValidationError("Cet évènement comporte un rapport d'intervention validé. Pour y accéder veuillez ouvrir l'évènement et cliquer sur l'onglet \"Rapport validé\"")
         # Pour le moment pas de solution pour pouvoir télécharger plusieurs rapport d'intervention dans le champ one2Many du calendrier.
         #return {
         #    'name': 'Rapport',
