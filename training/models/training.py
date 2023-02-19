@@ -642,13 +642,16 @@ class TrainingParticipants(models.Model):
                     event.add('dtstamp', line.start.replace(tzinfo=timezone))
                     if self.training_id.remote_learning :
                         location = ""
+                        event.add('url', self.training_id.remote_learning_link)
                     else :
                         if self.training_id.location_selection == 'company':
                             location = "Agence Sinergis"
                         else :
-                            location = f"{self.training_id.location_street} {self.training_id.location_street2}, {self.training_id.location_zip} {self.training_id.location_city}, {self.training_id.location_country_id}"
+                            if self.training_id.location_street2:
+                                location = f"{self.training_id.location_street} {self.training_id.location_street2}, {self.training_id.location_zip} {self.training_id.location_city}, {self.training_id.location_country_id.name}"
+                            else:
+                                location = f"{self.training_id.location_street}, {self.training_id.location_zip} {self.training_id.location_city}, {self.training_id.location_country_id.name}"
                     event['location'] = location
-                    event.add('summary', 'Python meeting about calendaring')
                     cal.add_component(event)
                 result_binary = base64.b64encode(cal.to_ical())
                 attach_data = {
