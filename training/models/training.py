@@ -632,22 +632,20 @@ class TrainingParticipants(models.Model):
 
                 # Create iCalendar File
                 cal = Calendar()
-                cal.add('attendee', 'MAILTO:abc@example.com')
-                cal.add('attendee', 'MAILTO:xyz@example.com')
+                
+                for line in self.training_id.planned_hours_ids.sorted(key=lambda x: x.start):
+                    event = Event()
+                    event.add('summary', f'Formation : {self.training_id.course_title}')
+                    event.add('dtstart', line.start)
+                    event.add('dtend', line.stop)
+                    event.add('dtstamp', line.start)
+                    #organizer = vCalAddress('MAILTO:hello@example.com')
+                    #organizer.params['cn'] = vText('Sir Jon')
+                    #organizer.params['role'] = vText('CEO')
+                    #event['organizer'] = organizer
+                    #event['location'] = vText('London, UK')
 
-                event = Event()
-                event.add('summary', 'Python meeting about calendaring')
-                event.add('dtstart', datetime(2022, 10, 24, 8, 0, 0, tzinfo=pytz.utc))
-                event.add('dtend', datetime(2022, 10, 24, 10, 0, 0, tzinfo=pytz.utc))
-                event.add('dtstamp', datetime(2022, 10, 24, 0, 10, 0, tzinfo=pytz.utc))
-
-                organizer = vCalAddress('MAILTO:hello@example.com')
-                organizer.params['cn'] = vText('Sir Jon')
-                organizer.params['role'] = vText('CEO')
-                event['organizer'] = organizer
-                event['location'] = vText('London, UK')
-
-                cal.add_component(event)
+                    cal.add_component(event)
                 result_binary = base64.b64encode(cal.to_ical())
                 attach_data = {
                     'name': 'Formation.ics',
