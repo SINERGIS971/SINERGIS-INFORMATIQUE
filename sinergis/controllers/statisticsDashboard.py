@@ -14,9 +14,9 @@ class StatisticsDashboard(http.Controller):
     def index (self, **kw):
         # User verification
         uid = request.uid
-        user = self.env["res.users"].search([("id", "=", uid)])
-        if self.env.user.has_group('sinergis.group_statistics_dashboard') == False:
-            raise "Vous n'êtes pas autorisé à accéder à cette page. Merci de vous rapporcher d'un administrateur."
+        user = request.env["res.users"].search([("id", "=", uid)])
+        if request.env.user.has_group('sinergis.group_statistics_dashboard') == False:
+            return "Vous n'êtes pas autorisé à accéder à cette page. Merci de vous rapporcher d'un administrateur."
         # Loading date parameter
         date_end = date.today()
         if "hourly_contract_date" in kw :
@@ -60,6 +60,11 @@ class StatisticsDashboard(http.Controller):
 class InvoiceExcelReportController(http.Controller):
     @http.route(['/sinergis/statistics_dashboard/hour_contract_excel'], type='http', auth="user", csrf=False)
     def get_sale_excel_report(self, **kw):
+        # User verification
+        uid = request.uid
+        user = request.env["res.users"].search([("id", "=", uid)])
+        if request.env.user.has_group('sinergis.group_statistics_dashboard') == False:
+            return "Vous n'êtes pas autorisé à accéder à cette page. Merci de vous rapporcher d'un administrateur."
         #=========================
         #Paramètres de génération :
          #=========================
