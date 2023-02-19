@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
         base_url = self.env['ir.config_parameter'].get_param('web.base.url')
         attachment_obj = self.env['ir.attachment']
         attachment_id = attachment_obj.create(
-            {'name': "Diagnostic Initial", 'datas': result})
+            {'name': "Diagnostic_Initial", 'datas': result})
         download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
         return {
             "type": "ir.actions.act_url",
