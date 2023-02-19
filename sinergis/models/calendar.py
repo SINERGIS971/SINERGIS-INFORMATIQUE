@@ -451,6 +451,6 @@ class CalendarEvent(models.Model):
         _name = "calendar.sinergis_intervention_report_done"
         _description = "Rapport d'intervention dans le Calendrier"
 
-        #event_id = fields.Many2one("calendar.event",string="Évenement",required=True)
+        event_id = fields.Many2one("calendar.event",string="Évenement",required=True)
         name = fields.Char(string="Nom",required=True)
         file = fields.Binary(string="Rapport")
