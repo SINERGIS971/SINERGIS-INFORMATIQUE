@@ -7,10 +7,15 @@ class SaleOrder(models.Model):
 
     def download_initiale_diagnostique(self):
         result = self.env['ir.config_parameter'].sudo().get_param('training.diagnostic_initial')
+        #Remove old attachment with this data
+        old_attachments = self.env["ir.attachment"].sudo().search([("datas", "=", result)])
+        for old_attachment in old_attachments:
+            old_attachment.unlink()
+            
         base_url = self.env['ir.config_parameter'].get_param('web.base.url')
         attachment_obj = self.env['ir.attachment']
         attachment_id = attachment_obj.create(
-            {'name': "name", 'datas_fname': 'name.docx', 'datas': result})
+            {'name': "Diagnostic Initial", 'datas': result})
         download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
         return {
             "type": "ir.actions.act_url",
