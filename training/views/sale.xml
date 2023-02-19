@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
           <xpath expr="//button[@name='367']" position="before">
-            <field name="training_in_order_line" invisible="1">
+            <field name="training_in_order_line" invisible="1"/>
             <button name="download_initiale_diagnostique" help="Télécharger le diagnostic initial de formation" class="oe_highlight btn-warning" type="object" string="Diagnostic initial de formation" icon="fa-download" attrs="{'invisible': [('training_in_order_line', '=', False)]}"/>
           </xpath>
           <xpath expr="//button[@name='action_view_invoice']" position="before">

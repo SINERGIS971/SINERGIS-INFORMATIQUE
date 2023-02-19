@@ -79,7 +79,7 @@ class SaleOrder(models.Model):
         for rec in self:
             training_in_order_line = False
             for line in rec.order_line:
-                if line.product.is_training:
+                if line.product_id.is_training:
                     training_in_order_line = True
             rec.training_in_order_line = training_in_order_line
 
