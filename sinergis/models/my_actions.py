@@ -294,14 +294,16 @@ class MyActions(models.Model):
         
 
     def download_rapport_intervention_valide (self):
-        return {
-            'name': 'Rapport',
-            'type': 'ir.actions.act_url',
-            'url': '/web/content/?model=calendar.event&id={}&field=x_sinergis_calendar_event_rapport_intervention_valide&download=true'.format(
-                self.link_id
-            ),
-            'target': 'self',
-        }
+        raise ValidationError("Cet évènement comporte un rapport d'intervention validé. Pour y accéder veuillez ouvrir l'évènement et cliquer sur l'onglet \"Rapport validé")
+        # Pour le moment pas de solution pour pouvoir télécharger plusieurs rapport d'intervention dans le champ one2Many du calendrier.
+        #return {
+        #    'name': 'Rapport',
+        #    'type': 'ir.actions.act_url',
+        #    'url': '/web/content/?model=calendar.event&id={}&field=x_sinergis_calendar_event_rapport_intervention_valide&download=true'.format(
+        #        self.link_id
+        #    ),
+        #    'target': 'self',
+        #}
 
 class MyActionsPrinted(models.Model):
     _name = "sinergis.myactions.printed"
