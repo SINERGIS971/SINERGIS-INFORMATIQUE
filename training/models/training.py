@@ -1,10 +1,12 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from datetime import date
-import secrets
 import base64
+from datetime import date
+from datetime import datetime
+from icalendar import Calendar, Event, vCalAddress, vText
+import pytz
+import secrets
 
-# We write "Specificity for Sinergis" if the line is only adapted and functional with the sinergis module
 
 #Pour le téléchargement de tous les documents
 import os, shutil
@@ -627,9 +629,36 @@ class TrainingParticipants(models.Model):
                 }
                 attach_id = attach_obj.create(attach_data)
                 attachment_ids.append(attach_id.id)
+
+                # Create iCalendar File
+                cal = Calendar()
+                cal.add('attendee', 'MAILTO:abc@example.com')
+                cal.add('attendee', 'MAILTO:xyz@example.com')
+
+                event = Event()
+                event.add('summary', 'Python meeting about calendaring')
+                event.add('dtstart', datetime(2022, 10, 24, 8, 0, 0, tzinfo=pytz.utc))
+                event.add('dtend', datetime(2022, 10, 24, 10, 0, 0, tzinfo=pytz.utc))
+                event.add('dtstamp', datetime(2022, 10, 24, 0, 10, 0, tzinfo=pytz.utc))
+
+                organizer = vCalAddress('MAILTO:hello@example.com')
+                organizer.params['cn'] = vText('Sir Jon')
+                organizer.params['role'] = vText('CEO')
+                event['organizer'] = organizer
+                event['location'] = vText('London, UK')
+
+                cal.add_component(event)
+                result_binary = base64.b64encode(cal.to_ical())
+                attach_data = {
+                    'name': 'Formation.ics',
+                    'datas': result_binary,
+                    'res_model': 'ir.ui.view',
+                }
+                attach_id = attach_obj.create(attach_data)
+                attachment_ids.append(attach_id.id)
+
                 values = {'attachment_ids':attachment_ids}
                 base_url = self.env['ir.config_parameter'].get_param('web.base.url')
-
                 if self.training_id.remote_learning:
                     template_id = self.env.ref('training.training_invitation_mail_remote').id
                 else :
