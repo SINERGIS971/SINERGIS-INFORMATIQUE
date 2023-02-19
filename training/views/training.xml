@@ -204,7 +204,7 @@
                     </div>
                     <br/>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
-                      <strong>Étape 5 / 5 :</strong> Déposer la convention de formation signée par le client dans le champ ci-dessous
+                      <strong>Étape 5 / 5 :</strong> Déposer la convention de formation signée par le client dans le champ ci-dessous.
                     </p>
                     <group>
                       <field name="signed_agreement" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
@@ -317,7 +317,6 @@
                       <br/>
                       Envoyer les quiz de fin de formation (quiz d’évaluation des acquis et quiz d’évaluation de la formation) aux participants.
                 </p>
-                <br/>
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
                       <strong>Étape 2 / 4 :</strong>
                       <br/>
