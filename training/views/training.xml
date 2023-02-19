@@ -95,6 +95,10 @@
                   <div>
                     <separator style="font-size:20px;color: #539314;" string="-&gt; Non assigné" attrs="{'invisible': [('state',  '!=', 'unassigned')]}"/>
                     <separator style="font-size:16px;" string="Non assigné" attrs="{'invisible': [('state',  '=', 'unassigned')]}" />
+                    <p attrs="{'invisible': [('state',  '!=', 'unassigned')]}">
+                      <strong>Étape 1 / 1 :</strong>
+                      Désigner un responsable commercial pour ce dossier et inclure le devis signé.
+                    </p>
                     <group>
                       <field name="sales_manager" widget="many2one_avatar_user" attrs="{'readonly': [('state',  '!=', 'unassigned')]}"/>
                       <field name="signed_quote" attrs="{'readonly': [('state',  '!=', 'unassigned')]}"/>
@@ -104,6 +108,10 @@
                   <div attrs="{'invisible': [('state',  '==', 'unassigned')]}">
                     <separator style="font-size:20px;color: #539314;" string="-&gt; Partie commerciale" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}"/>
                     <separator style="font-size:16px;" string="Partie commerciale" attrs="{'invisible': [('state',  '=', 'commercial_part')]}" />
+                    <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
+                      <strong>Étape 1 / 5 :</strong>
+                      Sélectionner le référent client.
+                    </p>
                     <group>
                       <group>
                         <field name="partner_id" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
@@ -112,6 +120,14 @@
                         <field name="partner_manager_id" domain="[('parent_id','=',partner_id)]" attrs="{'readonly': ['|',('partner_id',  '=', False),('state',  '!=', 'commercial_part')]}"/>
                       </group>
                     </group>
+                    <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
+                      <strong>Étape 2 / 5 :</strong>
+                      - Sélectionnez le type de formation, le produit ainsi que le plan de formation. S’assurer qu’un document PDF est renseigné pour ce plan de formation ( Barre supérieure -> Configuration -> Plan de Formation).
+                      <br/>
+                      - Sélectionner l’OPCO et inclure le document OPCO, cette tâche n’est pas obligatoire et peut-être réalisée plus tard.
+                      <br/>
+                      - Déposer le diagnostic initial rempli par le client.
+                    </p>
                     <group>
                       <group>
                         <field name="company_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
@@ -135,10 +151,24 @@
                         <field name="diagnosis_file" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
                       </group>
                     </group>
+                    <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
+                      <strong>Étape 3 / 5 :</strong>
+                      - Indiquer les participants à la formation : Nom, Fonction, e-mail. Le téléphone est facultatif.
+                      <br/>
+                      Il est possible de sélectionner directement une personne présente en base de données via le champ «Référence du contact»
+                    </p>
                     <group>
                       <field name="training_participants" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}" readonly="False">
                       </field>
                     </group>
+                    <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
+                      <strong>Étape 4 / 5 :</strong>
+                      - Remplir les champs de rédaction de la convention. La durée est fixée à celle présente dans le devis.
+                      <br/>
+                      La signature présente à la fin de la convention sera celle du signataire interne.
+                      <br/>
+                      - Télécharger la convention pour la vérifier et l’envoyer au client.
+                    </p>
                     <div style="margin-left:30px;" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <separator string="Rédaction de le convention" style="color:red;"/>
                       <group>
@@ -168,6 +198,9 @@
                       <button name="send_training_agreement" string="Envoyer la convention de formation au référent client" type="object" class="oe_highlight oe_right"/>
                     </div>
                     <br/>
+                    <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
+                      <strong>Étape 5 / 5 :</strong> Déposer la convention de formation signée par le client dans le champ ci-dessous
+                    </p>
                     <group>
                       <field name="signed_agreement" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
                     </group>
