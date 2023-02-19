@@ -631,14 +631,15 @@ class TrainingParticipants(models.Model):
                 attachment_ids.append(attach_id.id)
 
                 # Create iCalendar File
+                timezone = pytz.timezone('America/Guadeloupe')
                 cal = Calendar()
                 
                 for line in self.training_id.planned_hours_ids.sorted(key=lambda x: x.start):
                     event = Event()
-                    event.add('summary', f'Formation : {self.training_id.course_title}')
-                    event.add('dtstart', line.start)
-                    event.add('dtend', line.stop)
-                    event.add('dtstamp', line.start)
+                    event.add('summary', f'Formation Sinergis : {self.training_id.course_title}')
+                    event.add('dtstart', line.start.replace(tzinfo=timezone))
+                    event.add('dtend', line.stop.replace(tzinfo=timezone))
+                    event.add('dtstamp', line.start.replace(tzinfo=timezone))
                     #organizer = vCalAddress('MAILTO:hello@example.com')
                     #organizer.params['cn'] = vText('Sir Jon')
                     #organizer.params['role'] = vText('CEO')
