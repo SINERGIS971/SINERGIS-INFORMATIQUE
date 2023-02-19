@@ -68,7 +68,7 @@ class TrainingQuizQuestions(models.Model):
 
     required = fields.Boolean(string="Requis",default=False)
     hidden_by = fields.Many2one("training.quiz.questions", string="Cacher par la question")
-    hidden_by_choice = fields.Many2many("training.quiz.questions.multiple_choice", "question_id", string="Cacher par le choix")
+    hidden_by_choice = fields.Many2many("training.quiz.questions.multiple_choice", "question_id", string="Cacher par le/les choix")
 
     put_title = fields.Boolean(string="Mettre un titre de partie au dessus ?", default=False)
     title = fields.Char(string="Titre de partie")
@@ -78,6 +78,8 @@ class TrainingQuizQuestions(models.Model):
     @api.onchange("hidden_by")
     def on_change_hidden_by (self):
         self.hidden_by_choice = False
+        if self.hidden_by:
+            self.required = False
 
     # -1 if no exists
     @api.depends("average_rate")
