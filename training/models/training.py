@@ -46,7 +46,7 @@ class Training(models.Model):
     start = fields.Date(string="Début de la formation")
     end = fields.Date(string="Fin de la formation")
     duration = fields.Float(string="Durée (jours)",compute="_compute_duration", store="True")
-    duration_hours = fields.Float(string="Durée (heures)",compute="_compute_duration_hours", store="True")
+    duration_hours = fields.Float(string="Durée (heures)",compute="_compute_duration_hours")
     #agreement_internal_signer = fields.Char(string="Signataire interne de la convention",default="Alain CASIMIRO, Directeur")
     agreement_internal_signer = fields.Many2one("res.users",string='Signataire interne de la convention', default=lambda self: self.env['res.users'].search([('name','=','CASIMIRO Alain')]))
 
@@ -192,7 +192,7 @@ class Training(models.Model):
     def _compute_duration_hours (self):
         for rec in self:
             #Une journée de formation correspond à 7 heures
-            rec.duration_hours = 7 * rec.sale_order_line_id.product_uom_qty
+            rec.duration_hours = 7.0 * rec.sale_order_line_id.product_uom_qty
 
     #Header buttons
 
