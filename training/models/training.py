@@ -631,7 +631,7 @@ class TrainingParticipants(models.Model):
                 attachment_ids.append(attach_id.id)
 
                 # Create iCalendar File
-                timezone = pytz.timezone('America/Guadeloupe')
+                timezone = pytz.timezone(self.env.user.tz)
                 cal = Calendar()
                 
                 for line in self.training_id.planned_hours_ids.sorted(key=lambda x: x.start):
@@ -640,12 +640,15 @@ class TrainingParticipants(models.Model):
                     event.add('dtstart', line.start.replace(tzinfo=timezone))
                     event.add('dtend', line.stop.replace(tzinfo=timezone))
                     event.add('dtstamp', line.start.replace(tzinfo=timezone))
-                    #organizer = vCalAddress('MAILTO:hello@example.com')
-                    #organizer.params['cn'] = vText('Sir Jon')
-                    #organizer.params['role'] = vText('CEO')
-                    #event['organizer'] = organizer
-                    #event['location'] = vText('London, UK')
-
+                    if self.training_id.remote_learning :
+                        location = ""
+                    else :
+                        if self.training_id.location_selection == 'company':
+                            location = "Agence Sinergis"
+                        else :
+                            location = f"{self.training_id.location_street} {self.training_id.location_street2}, {self.training_id.location_zip} {self.training_id.location_city}, {self.training_id.location_country_id}"
+                    event['location'] = location
+                    event.add('summary', 'Python meeting about calendaring')
                     cal.add_component(event)
                 result_binary = base64.b64encode(cal.to_ical())
                 attach_data = {
