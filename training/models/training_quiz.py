@@ -67,11 +67,17 @@ class TrainingQuizQuestions(models.Model):
     choice_ids = fields.One2many("training.quiz.questions.multiple_choice","question_id",string="Réponses possibles")
 
     required = fields.Boolean(string="Requis",default=False)
+    hidden_by = fields.Many2one("training.quiz.questions", string="Afficher/Cacher par la question")
+    hidden_by_choice = fields.Many2Many("training.quiz.questions.multiple_choice", string="Afficher/Cacher par le choix")
 
     put_title = fields.Boolean(string="Mettre un titre de partie au dessus ?", default=False)
     title = fields.Char(string="Titre de partie")
 
     average_rate = fields.Float(string="Note moyenne", compute="_compute_average_rate")
+
+    @api.onchange("hidden_by")
+    def on_change_hidden_by (self):
+        self.hidden_by_choice = False
 
     # -1 if no exists
     @api.depends("average_rate")

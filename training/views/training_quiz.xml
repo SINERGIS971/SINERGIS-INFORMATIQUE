@@ -25,6 +25,7 @@
                 <form string="Éditer une question" >
                   <group>
                         <field name="average_rate" invisible="True"/>
+                        <field name="quiz_id" invisible="True"/>
                         <field name="name" required="True"/>
                         <field name="type" required="True"/>
                         <field name="choice_ids" attrs="{'invisible': [('type',  '!=', 'multiple_choice')]}">
@@ -46,6 +47,8 @@
                           </form>
                         </field>
                         <field name="required" required="True"/>
+                        <field name="hidden_by" domain="['&amp;',('quiz_type','=','multiple_choice'),('quiz_id','=',quiz_id)]"/>
+                        <field name="hidden_by_choice" domain="[('question_id','=',hidden_by.id)]" attrs="{'invisible': [('hidden_by',  '=', False)]}" widget="many2many_tags" />
                   </group>
                   <group>
                       <field name="put_title"/>
