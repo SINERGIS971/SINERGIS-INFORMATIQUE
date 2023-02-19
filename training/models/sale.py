@@ -5,6 +5,19 @@ class SaleOrder(models.Model):
 
     training_count = fields.Integer(compute="_compute_training_count")
 
+    def download_initiale_diagnostique(self):
+        result = self.env['ir.config_parameter'].sudo().get_param('training.diagnostic_initial')
+        base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+        attachment_obj = self.env['ir.attachment']
+        attachment_id = attachment_obj.create(
+            {'name': "name", 'datas_fname': 'name.docx', 'datas': result})
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        return {
+            "type": "ir.actions.act_url",
+            "url": str(base_url) + str(download_url),
+            "target": "new",
+        }
+
     def action_confirm(self):
         if self._get_forbidden_state_confirm() & set(self.mapped('state')):
             raise UserError(_(
