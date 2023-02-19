@@ -12,8 +12,12 @@ locale.setlocale(locale.LC_ALL,'fr_FR.UTF-8')
 class StatisticsDashboard(http.Controller):
     @http.route('/sinergis/statistics_dashboard', auth='user', methods=['GET','POST'], csrf=False)
     def index (self, **kw):
+        # User verification
         uid = request.uid
-        #Add user group verification
+        user = self.env["res.users"].search([("id", "=", uid)])
+        if self.env.user.has_group('sinergis.group_statistics_dashboard') == False:
+            raise "Vous n'êtes pas autorisé à accéder à cette page. Merci de vous rapporcher d'un administrateur."
+        # Loading date parameter
         date_end = date.today()
         if "hourly_contract_date" in kw :
             date_end = datetime.strptime(kw["hourly_contract_date"], '%Y-%m-%d').date()
