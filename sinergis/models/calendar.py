@@ -79,7 +79,8 @@ class CalendarEvent(models.Model):
     #Ancien système < 11/02/23
     x_sinergis_calendar_event_rapport_intervention_valide = fields.Binary(string="Rapport d'intervention validé")
     #Nouveau système > 11/02/23
-    x_sinergis_calendar_event_intervention_report_done_exists = fields.Boolean(string="",compute="_compute_x_sinergis_calendar_event_intervention_report_done_exists" store="True")
+    #Champ qui détecte si un rapport est dans l'évènement. Est utilisé en JS pour l'affichage en mode calendrier.
+    x_sinergis_calendar_event_intervention_report_done_exists = fields.Boolean(string="",compute="_compute_x_sinergis_calendar_event_intervention_report_done_exists", store="True")
     x_sinergis_calendar_event_intervention_report_done = fields.One2many('calendar.sinergis_intervention_report_done', 'event_id', string="Rapports d'intervention validés")
 
     @api.depends('x_sinergis_calendar_event_taches')
