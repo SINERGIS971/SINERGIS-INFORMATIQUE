@@ -391,16 +391,6 @@ class CalendarEvent(models.Model):
         self.x_sinergis_calendar_event_is_downloaded = True
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self)
 
-    def download_rapport_intervention_valide (self):
-        return {
-            'name': 'Rapport',
-            'type': 'ir.actions.act_url',
-            'url': '/web/content/?model=calendar.event&id={}&field=x_sinergis_calendar_event_rapport_intervention_valide&download=true'.format(
-                self.id
-            ),
-            'target': 'self',
-        }
-
     def send_rapport_intervention(self):
         if self.x_sinergis_calendar_event_object == False:
             raise ValidationError("Vous devez entrer un objet pour pouvoir générer le rapport.")
