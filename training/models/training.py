@@ -149,9 +149,9 @@ class Training(models.Model):
             elif total_hours < rec.duration_hours :
                 messages.append(f"- Vous avez planifié moins d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
             if too_early :
-                messages.append(f"- Au moins un évènement Formation a été placé trop tôt. La convention de formation de formation inquide un début le : {rec.start.strftime('%d/%m/%Y')}")
+                messages.append(f"- Au moins un évènement Formation a été placé trop tôt. La convention de formation de formation indique un début le : {rec.start.strftime('%d/%m/%Y')}")
             if too_late :
-                messages.append(f"- Au moins un évènement Formation a été placé trop tard. La convention de formation de formation inquide une fin le : {rec.end.strftime('%d/%m/%Y')}")
+                messages.append(f"- Au moins un évènement Formation a été placé trop tard. La convention de formation de formation indique une fin le : {rec.end.strftime('%d/%m/%Y')}")
             message = '<br/>'.join(messages)
             rec.planned_hours_alert = message
 
