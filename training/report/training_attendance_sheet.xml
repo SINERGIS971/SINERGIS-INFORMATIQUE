@@ -71,7 +71,8 @@
                 </tr>
                 <tr>
                   <th style="width: 50%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
-                    <p style="font-size:13px; margin:3px;">Date(s) de la formation : Du <span t-field="doc.start"/> au <span t-field="doc.end"/></p>
+				  	<!-- L'équipe a demandé de retirer ce champ pour éviter les problèmes avec l'OPCO -->
+                    <!--<p style="font-size:13px; margin:3px;">Date(s) de la formation : Du <span t-field="doc.start"/> au <span t-field="doc.end"/></p>-->
                   </th>
                 </tr>
             </tbody>

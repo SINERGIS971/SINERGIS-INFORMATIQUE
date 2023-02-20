@@ -79,7 +79,7 @@ class CalendarEvent(models.Model):
     #Ancien système < 11/02/23
     x_sinergis_calendar_event_rapport_intervention_valide = fields.Binary(string="Rapport d'intervention validé")
     #Nouveau système > 11/02/23
-    x_sinergis_calendar_event_intervention_report_done = fields.One2many('calendar.sinergis_intervention_report_done', 'event_id', string="Rapport d'intervention validés")
+    x_sinergis_calendar_event_intervention_report_done = fields.One2many('calendar.sinergis_intervention_report_done', 'event_id', string="Rapports d'intervention validés")
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
@@ -376,6 +376,12 @@ class CalendarEvent(models.Model):
                 raise ValidationError("Vous n'avez pas décompté les heures alors que le nombre d'heures que vous souhaitez facturées est non nul. Veuillez décompter les heures ou les remettre à 0 dans l'onglet facturation.")
         return super(CalendarEvent, self).write(values)
     """
+
+    def write(self, values):
+        user_id = self.env.user
+        if self.user_id != user_id and self.env.user.has_group('sinergis.group_calendar_admin') == False:
+            raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas.")
+        return super(CalendarEvent, self).write(values)
 
     def generer_rapport_intervention(self):
         if self.x_sinergis_calendar_event_object == False:

@@ -199,7 +199,7 @@ class MyActions(models.Model):
     def _compute_rapport_intervention_valide (self):
         for rec in self:
             if rec.origin == "calendar":
-                if self.env['calendar.event'].search([('id', '=', rec.link_id)]).x_sinergis_calendar_event_rapport_intervention_valide:
+                if self.env['calendar.sinergis_intervention_report_done'].search([('event_id', '=', rec.link_id)]):
                     rec.rapport_intervention_valide = True
                 else:
                     rec.rapport_intervention_valide = False
@@ -208,24 +208,28 @@ class MyActions(models.Model):
 
 
     def open(self):
+        context = {}
         if self.origin == "helpdesk":
-            return {
+            context = {
             'name': 'Assistance',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'helpdesk.ticket',
             'res_id': self.env['helpdesk.ticket'].search([('id', '=', self.link_id)]).id,
             'target': 'new',
+            'flags':{'mode':'readonly'},
             }
         elif self.origin == "calendar":
-            return {
+            context = {
             'name': 'Calendrier',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'calendar.event',
             'res_id': self.env['calendar.event'].search([('id', '=', self.link_id)]).id,
             'target': 'new',
+            'flags':{'mode':'readonly'},
             }
+        return context
 
     def invoiced_button (self):
         if self.env.user.has_group('sinergis.group_myactions_employee') == False:
@@ -251,11 +255,12 @@ class MyActions(models.Model):
     def invoiced_button_default(self):
         raise ValidationError("Vous ne pouvez pas modifier l'état de cette facturation avec ce mode de facturation.")
 
-    def print_report(self):
+    # Impression de rapports en sélectionnant un par un les activités
+    def print_reports(self):
         ids = []
         for rec in self:
             ids.append(rec.id)
-            #Fonctionnalité "a été imprimé"
+            #Fonctionnalité d'affichage "a été imprimé"
             if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user.id),('model_type', '=', rec.origin),('model_id', '=', rec.link_id)]) == 0:
                 data = {
                     'user_id': self.env.user.id,
@@ -270,15 +275,35 @@ class MyActions(models.Model):
 
         return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', ids)]))
 
+    # Impression de rapports via le bouton "Éditer" de la ligne d'activité
+    def print_report(self):
+        #Fonctionnalité d'affichage "a été imprimé"
+        if self.env['sinergis.myactions.printed'].search_count([('user_id', '=', self.env.user.id),('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
+            data = {
+                'user_id': self.env.user.id,
+                'model_type': self.origin,
+                'model_id': self.link_id,
+                'last_date': datetime.now(),
+            }
+            self.env['sinergis.myactions.printed'].create(data)
+        else:
+            ticket = self.env['sinergis.myactions.printed'].search([('user_id', '=', self.env.user.id),('model_type', '=', self.origin),('model_id', '=', self.link_id)])
+            ticket.last_date = datetime.now()
+
+        return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', self.id)]))
+        
+
     def download_rapport_intervention_valide (self):
-        return {
-            'name': 'Rapport',
-            'type': 'ir.actions.act_url',
-            'url': '/web/content/?model=calendar.event&id={}&field=x_sinergis_calendar_event_rapport_intervention_valide&download=true'.format(
-                self.link_id
-            ),
-            'target': 'self',
-        }
+        raise ValidationError("Cet évènement comporte un rapport d'intervention validé. Pour y accéder veuillez ouvrir l'évènement et cliquer sur l'onglet \"Rapport validé\"")
+        # Pour le moment pas de solution pour pouvoir télécharger plusieurs rapport d'intervention dans le champ one2Many du calendrier.
+        #return {
+        #    'name': 'Rapport',
+        #    'type': 'ir.actions.act_url',
+        #    'url': '/web/content/?model=calendar.event&id={}&field=x_sinergis_calendar_event_rapport_intervention_valide&download=true'.format(
+        #        self.link_id
+        #    ),
+        #    'target': 'self',
+        #}
 
 class MyActionsPrinted(models.Model):
     _name = "sinergis.myactions.printed"

@@ -25,6 +25,7 @@
                 <form string="Éditer une question" >
                   <group>
                         <field name="average_rate" invisible="True"/>
+                        <field name="quiz_id" invisible="True"/>
                         <field name="name" required="True"/>
                         <field name="type" required="True"/>
                         <field name="choice_ids" attrs="{'invisible': [('type',  '!=', 'multiple_choice')]}">
@@ -45,12 +46,22 @@
                             </group>
                           </form>
                         </field>
-                        <field name="required" required="True"/>
+                        <field name="required" required="True" attrs="{'readonly': [('hidden_by',  '!=', False)]}" force_save="1"/>
                   </group>
                   <group>
                       <field name="put_title"/>
                       <field name="title" attrs="{'invisible': [('put_title',  '=', False)]}"/>
                   </group>
+
+                  <separator style="font-size:15px;" string="Afficher / Cacher la question" />
+                  <p>Si vous autoriser cette question à être cachée, alors celle-ci ne pourras plus être requise.</p>
+                  <p>Pour activer cette fonctionalité, il est nécessaire de créer la question au préalable et de sauvegarder le quiz.</p>
+                  <div attrs="{'invisible': [('quiz_id',  '=', False)]}">
+                    <group>
+                      <field name="hidden_by" domain="['&amp;','&amp;',('type','=','multiple_choice'),('quiz_id','=',quiz_id),('hidden_by','=',False)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                      <field name="hidden_by_choice" domain="[('question_id','=',hidden_by)]" attrs="{'invisible': [('hidden_by',  '=', False)], 'required': [('hidden_by',  '!=', False)]}" widget="many2many_tags" options="{'no_create': True, 'no_create_edit':True}"/>
+                    </group>
+                  </div>
                 </form>
               </field>
               <field name="training_type_id" attrs="{'invisible': ['|','|','|',('quiz_type',  '=', 'positioning'),('quiz_type',  '=', 'training_evaluation'),('quiz_type',  '=', 'delayed_assessment'),('quiz_type',  '=', 'opco')], 'required': ['&amp;','&amp;','&amp;',('quiz_type',  '!=', 'positioning'),('quiz_type',  '!=', 'training_evaluation'),('quiz_type',  '!=', 'delayed_assessment'),('quiz_type',  '!=', 'opco')]}"/>
@@ -70,3 +81,5 @@
 
   </data>
 </odoo>
+
+

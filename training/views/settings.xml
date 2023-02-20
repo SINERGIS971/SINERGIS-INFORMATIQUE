@@ -17,6 +17,12 @@
                 <field name="training_booklet"/>
               </div>
             </div>
+            <div class="row mt16 o_settings_container">
+              <div class="o_setting_left_pane">
+                <label for="diagnostic_initial" string="Diagnostic initial: "/>
+                <field name="diagnostic_initial"/>
+              </div>
+            </div>
           </div>
           </xpath>
         </field>
@@ -40,3 +46,4 @@
 
   </data>
 </odoo>
+

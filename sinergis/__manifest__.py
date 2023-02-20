@@ -47,6 +47,7 @@
         'data/mail_helpdesk_ticket.xml',
         'data/mail_calendar_event_intervention.xml',
         'data/mail_res_partner_litige.xml',
+        'static/web/statistics_dashboard.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

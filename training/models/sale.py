@@ -4,6 +4,20 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     training_count = fields.Integer(compute="_compute_training_count")
+    training_in_order_line = fields.Boolean(compute="_compute_training_in_order_line")
+
+    def download_initiale_diagnostique(self):
+        result = self.env['ir.config_parameter'].sudo().get_param('training.diagnostic_initial')
+        base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+        attachment_obj = self.env['ir.attachment']
+        attachment_id = attachment_obj.create(
+            {'name': "Diagnostic_Initial", 'datas': result})
+        download_url = '/web/content/' + str(attachment_id.id) + '?download=true'
+        return {
+            "type": "ir.actions.act_url",
+            "url": str(base_url) + str(download_url),
+            "target": "new",
+        }
 
     def action_confirm(self):
         if self._get_forbidden_state_confirm() & set(self.mapped('state')):
@@ -58,3 +72,14 @@ class SaleOrder(models.Model):
     def _compute_training_count(self):
         for rec in self:
             rec.training_count = self.env['training'].search_count([('sale_id', '=', rec.id)])
+
+    # On regarde si une formation est dans les lignes de commande
+    @api.depends("training_in_order_line")
+    def _compute_training_in_order_line(self):
+        for rec in self:
+            training_in_order_line = False
+            for line in rec.order_line:
+                if line.product_id.is_training:
+                    training_in_order_line = True
+            rec.training_in_order_line = training_in_order_line
+

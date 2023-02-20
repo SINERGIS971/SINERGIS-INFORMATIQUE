@@ -225,10 +225,10 @@ class Training(http.Controller):
         if total_answers != 0 :  # If the quiz have rated answers
             mark = right_answers/total_answers * 20
         mark = float("{:.2f}".format(mark)) # Limit to 2 digits
-        body += "<table style='border-collapse: collapse;border: 1px solid;'><tr><th style='width:100%;border: 1px solid;'>Question</th><th style='border: 1px solid;'>Réponse</th></tr>"
+        body += "<table style='border-collapse: collapse;border: 1px solid;'><tr><th style='width:50%;border: 1px solid; padding:2px;'>Question</th><th style='width:50%;border: 1px solid;padding:2px;'>Réponse</th></tr>"
         for i in range(0,n):
             questions_answer[i] = TAG_RE.sub('', questions_answer[i])
-            body += "<tr style='margin-top:10px;'><td style='border: 1px solid;'>"+questions_name[i]+"</td><td style='border: 1px solid;'>"+questions_answer[i]+"</td></tr>"
+            body += "<tr style='margin-top:10px;'><td style='border: 1px solid;padding:2px;width:50%;'>"+questions_name[i]+"</td><td style='border: 1px solid;padding:2px;width:50%;'>"+questions_answer[i]+"</td></tr>"
         body+="</table>"
 
         if participant: #Si c'est une réponse d'un participant
@@ -263,3 +263,4 @@ class Training(http.Controller):
         #return http.request.render("training.quiz_page", {
         #    "quiz" : quiz
         #})
+

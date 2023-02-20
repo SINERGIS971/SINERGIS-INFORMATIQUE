@@ -1,10 +1,12 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from datetime import date
-import secrets
 import base64
+from datetime import date
+from datetime import datetime
+from icalendar import Calendar, Event, vCalAddress, vText
+import pytz
+import secrets
 
-# We write "Specificity for Sinergis" if the line is only adapted and functional with the sinergis module
 
 #Pour le téléchargement de tous les documents
 import os, shutil
@@ -46,6 +48,7 @@ class Training(models.Model):
     start = fields.Date(string="Début de la formation")
     end = fields.Date(string="Fin de la formation")
     duration = fields.Float(string="Durée (jours)",compute="_compute_duration", store="True")
+    duration_hours = fields.Float(string="Durée (heures)",compute="_compute_duration_hours")
     #agreement_internal_signer = fields.Char(string="Signataire interne de la convention",default="Alain CASIMIRO, Directeur")
     agreement_internal_signer = fields.Many2one("res.users",string='Signataire interne de la convention', default=lambda self: self.env['res.users'].search([('name','=','CASIMIRO Alain')]))
 
@@ -63,12 +66,16 @@ class Training(models.Model):
     remote_learning = fields.Boolean(string='Formation à distance ?', default=False)
     remote_learning_link = fields.Char(string="Lien de la formation")
     planned_hours_ids = fields.One2many("calendar.event","training_id",string="Heures de formation planifiées",readonly=True)
+    planned_hours_alert = fields.Html(string="", compute="_compute_planned_hours_alert") # Message d'alerte si les conditions sur les heures de formations ne sont pas respectées
 
     #Training ended part
 
     evaluating_training_course = fields.Selection([('very_satisfaying', 'Très satisfaisant'),('satisfaying','Satisfaisant'),('perfectible','Perfectible'),('insufficient','Insuffisant')], string="Evaluation du déroulement")
     difficulties_training_course = fields.Text(string="Précisez si difficultés rencontrées :")
-    signed_attendance_sheet = fields.Binary(string="Feuille d'émargement remplie")
+    # Ancien système < 17/02/2023
+    # signed_attendance_sheet = fields.Binary(string="Feuille d'émargement remplie")
+    # Nouveau système > 17/02/2023
+    signed_attendance_sheets = fields.One2many('training.attendance_sheet', 'training_id', string="Feuilles d'émargement remplies")
 
     #Training closed part
     training_closed_date = fields.Date(string="Date de cloture de la formation", default=False,readonly=True)
@@ -120,6 +127,35 @@ class Training(models.Model):
             self.location_zip = False
             self.location_country_id = False
 
+    # Détecte une erreur dans l'enregistrement des heures de formation
+    # - Si les heures planifiées dépassent celles du bon de commande
+    # - Si les heures planifiées sont insuffisantes par rapport à celles du bon de commande
+    # - Si une des dates de formation est en dehors du début/fin des dates de la formation
+    @api.depends('planned_hours_alert')
+    def _compute_planned_hours_alert (self):
+        for rec in self:
+            total_hours = 0
+            too_early = False
+            too_late = False
+            for event in rec.planned_hours_ids:
+                total_hours += event.duration
+                if event.start.date() < rec.start or event.stop.date() < rec.start :
+                    too_early = True
+                if event.start.date() > rec.end or event.stop.date() > rec.end  :
+                    too_late = True
+            messages = []
+            if total_hours > rec.duration_hours :
+                messages.append(f"- Vous avez planifié plus d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
+            elif total_hours < rec.duration_hours :
+                messages.append(f"- Vous avez planifié moins d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
+            if too_early :
+                messages.append(f"- Au moins un évènement Formation a été placé trop tôt. La convention de formation de formation inquide un début le : {rec.start.strftime('%d/%m/%Y')}")
+            if too_late :
+                messages.append(f"- Au moins un évènement Formation a été placé trop tard. La convention de formation de formation inquide une fin le : {rec.end.strftime('%d/%m/%Y')}")
+            message = '<br/>'.join(messages)
+            rec.planned_hours_alert = message
+
+
     @api.depends('delayed_assessment_received')
     def _compute_delayed_assessment_received (self):
         for rec in self:
@@ -153,6 +189,12 @@ class Training(models.Model):
     def _compute_duration (self):
         for rec in self:
             rec.duration = rec.sale_order_line_id.product_uom_qty
+
+    @api.depends("duration_hours")
+    def _compute_duration_hours (self):
+        for rec in self:
+            #Une journée de formation correspond à 7 heures
+            rec.duration_hours = 7.0 * rec.duration
 
     #Header buttons
 
@@ -214,8 +256,8 @@ class Training(models.Model):
                 missing_elements.append("Heures de formation planifiées")
 
         if self.state == "training_ended":
-            if not self.signed_attendance_sheet :
-                missing_elements.append("Feuille d'émargement remplie")
+            if len(self.signed_attendance_sheets) == 0 :
+                missing_elements.append("Feuille(s) d'émargement remplie(s)")
             if not self.evaluating_training_course :
                 missing_elements.append("Evaluation du déroulement")
 
@@ -587,9 +629,41 @@ class TrainingParticipants(models.Model):
                 }
                 attach_id = attach_obj.create(attach_data)
                 attachment_ids.append(attach_id.id)
+
+                # Create iCalendar File
+                timezone = pytz.timezone(self.env.user.tz)
+                cal = Calendar()
+                
+                for line in self.training_id.planned_hours_ids.sorted(key=lambda x: x.start):
+                    event = Event()
+                    event.add('summary', f'Formation Sinergis : {self.training_id.course_title}')
+                    event.add('dtstart', line.start.replace(tzinfo=timezone))
+                    event.add('dtend', line.stop.replace(tzinfo=timezone))
+                    event.add('dtstamp', line.start.replace(tzinfo=timezone))
+                    if self.training_id.remote_learning :
+                        location = ""
+                        event.add('url', self.training_id.remote_learning_link)
+                    else :
+                        if self.training_id.location_selection == 'company':
+                            location = "Agence Sinergis"
+                        else :
+                            if self.training_id.location_street2:
+                                location = f"{self.training_id.location_street} {self.training_id.location_street2}, {self.training_id.location_zip} {self.training_id.location_city}, {self.training_id.location_country_id.name}"
+                            else:
+                                location = f"{self.training_id.location_street}, {self.training_id.location_zip} {self.training_id.location_city}, {self.training_id.location_country_id.name}"
+                    event['location'] = location
+                    cal.add_component(event)
+                result_binary = base64.b64encode(cal.to_ical())
+                attach_data = {
+                    'name': 'Formation.ics',
+                    'datas': result_binary,
+                    'res_model': 'ir.ui.view',
+                }
+                attach_id = attach_obj.create(attach_data)
+                attachment_ids.append(attach_id.id)
+
                 values = {'attachment_ids':attachment_ids}
                 base_url = self.env['ir.config_parameter'].get_param('web.base.url')
-
                 if self.training_id.remote_learning:
                     template_id = self.env.ref('training.training_invitation_mail_remote').id
                 else :
@@ -670,3 +744,13 @@ class TrainingOpco(models.Model):
     _description = "Opérateurs de compétences"
     name = fields.Char(string="Nom",required=True)
     email = fields.Char(string="Email",required=True)
+
+# Classe qui comporte les différentes feuilles d'émargement de la formation
+class TrainingAttendanceSheet(models.Model):
+        _name = "training.attendance_sheet"
+        _description = "Feuilles d'émargement de la formation"
+
+        training_id = fields.Many2one("training",string="Formation",required=True)
+
+        name = fields.Char(string="Nom",required=True)
+        file = fields.Binary(string="Feuille")

@@ -8,7 +8,7 @@ import logging
 from werkzeug import urls
 
 from odoo import fields
-from odoo.addons.sinergis_microsoft_calendar.utils.microsoft_event import MicrosoftEvent
+from odoo.addons.microsoft_calendar.utils.microsoft_event import MicrosoftEvent
 from odoo.addons.microsoft_account.models.microsoft_service import TIMEOUT, RESOURCE_NOT_FOUND_STATUSES
 
 _logger = logging.getLogger(__name__)
@@ -39,6 +39,7 @@ class InvalidSyncToken(Exception):
 #  - 'occurrence' and 'exception' events are retrieved through the end-point `/v1.0/me/events/{serieMaster.id}/instances`,
 #  using the corresponding serie master ID.
 
+
 class MicrosoftCalendarService():
 
     def __init__(self, microsoft_service):
@@ -57,7 +58,7 @@ class MicrosoftCalendarService():
         }
         if not params:
             params = {
-                'startDateTime': fields.Datetime.subtract(fields.Datetime.now(), days=1).strftime("%Y-%m-%dT00:00:00Z"),
+                'startDateTime': fields.Datetime.subtract(fields.Datetime.now(), years=2).strftime("%Y-%m-%dT00:00:00Z"),
                 'endDateTime': fields.Datetime.add(fields.Datetime.now(), years=2).strftime("%Y-%m-%dT00:00:00Z"),
             }
 

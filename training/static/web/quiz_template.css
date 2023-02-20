@@ -50,6 +50,11 @@ form
   align-items:flex-start;
 }
 
+div[class="question"]
+{
+  width:100%;
+}
+
 input[type="text"]
 {
   width:100%;

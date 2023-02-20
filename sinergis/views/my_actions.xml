@@ -4,7 +4,8 @@
     <record id="sinergis_myactions_rule_employee" model="ir.rule">
             <field name="name">sinergis_myactions.rule_employee</field>
             <field name="model_id" ref="sinergis.model_sinergis_myactions"/>
-            <field name="domain_force">[('consultant', '=', user.id)]</field>
+            <!--<field name="domain_force">[('consultant', '=', user.id)]</field>-->
+            <field name="domain_force">[]</field>
             <field name="groups" eval="[Command.link(ref('sinergis.group_myactions_employee'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
@@ -15,7 +16,8 @@
     <record id="sinergis_myactions_rule_x3_only" model="ir.rule">
             <field name="name">sinergis_myactions.rule_x3_only</field>
             <field name="model_id" ref="sinergis.model_sinergis_myactions"/>
-            <field name="domain_force">['|','|','|','|','|',('consultant.name', '=', 'LARISSE Alexandra'),('consultant.name', '=', 'DEVAUX Bernard'),('consultant.name', '=', 'BOLIVARD Joris'),('consultant.name', '=', 'RIGELO Olivier'),('consultant.name', '=', 'ANELKA Annick'),('consultant.name', '=', 'PINEAU Laurent')]</field>
+            <!--<field name="domain_force">['|','|','|','|','|',('consultant.name', '=', 'LARISSE Alexandra'),('consultant.name', '=', 'DEVAUX Bernard'),('consultant.name', '=', 'BOLIVARD Joris'),('consultant.name', '=', 'RIGELO Olivier'),('consultant.name', '=', 'ANELKA Annick'),('consultant.name', '=', 'PINEAU Laurent')]</field>-->
+            <field name="domain_force">[]</field>
             <field name="groups" eval="[Command.link(ref('sinergis.group_myactions_x3_only'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
@@ -40,6 +42,8 @@
                   <filter string="Facturée" name="filter_is_billed" domain="['|',('billing',  '=', 'Contrat heure'),'&amp;',('is_billed', '=', True),'|',('billing',  '=', 'Devis'),('billing',  '=', 'Temps passé')]"/>
                   <filter string="Non facturée" name="filter_is_not_billed" domain="['&amp;',('is_billed', '=', False),'|',('billing',  '=', 'Devis'),('billing',  '=', 'Temps passé')]"/>
                   <filter string="Non facturable" name="filter_is_not_billable" domain="['|','|','|',('billing',  '=', 'À définir ultérieurement'),('billing',  '=', 'Non facturable interne'),('billing',  '=', 'Non facturable'),('billing',  '=', 'Avant-vente')]"/>
+                  <separator/>
+                  <filter string="Mes activités" name="filter_my_activities" domain="[('consultant',  '=', uid)]"/>
                     <separator/>
                     <filter string="Facturation" name="group_by_billing" context="{'group_by':'billing'}"/>
                     <filter string="Client" name="group_by_client" context="{'group_by':'client'}"/>
@@ -60,7 +64,7 @@
         <field name="arch" type="xml">
             <tree decoration-success="is_printed==True">
                 <header>
-                    <button name="print_report" string="Imprimer les rapports d'intervention" class="oe_highlight" type="object"/>
+                    <button name="print_reports" string="Imprimer les rapports d'intervention" class="oe_highlight" type="object"/>
                 </header>
                 <field name="is_printed" invisible="True"/>
                 <field name="is_billed" invisible="True"/>
@@ -76,6 +80,7 @@
                 <field name="country_id"/>
                 <field name="printed_datetime"/>
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
+                <button name="print_report" string="Éditer" class="oe_highlight btn-warning" type="object"/>
                 <button name="download_rapport_intervention_valide" string="" class="oe_highlight btn-warning" type="object" attrs="{'invisible': [('rapport_intervention_valide',  '=', False)]}" icon="fa-paperclip"/>
                 <button name="no_invoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', False),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
                 <button name="invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
@@ -106,6 +111,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sinergis.myactions</field>
         <field name="view_mode">tree</field>
+        <field name="context">{"search_default_filter_my_activities":1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Vous n'avez pas d'activité
