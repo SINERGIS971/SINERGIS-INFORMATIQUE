@@ -11,7 +11,7 @@
         <input type="hidden" name="token" t-att-value="str(token)"/>
         <p style="font-size:12px;"><span style="color:red;">* </span>: Champ requis</p>
         <t t-foreach="quiz.questions_ids" t-as="question">
-          <div t-att-hidden_by="question.hidden_by.id" t-att-hidden_by_choice="';'+';'.join(map(lambda x: str(x.id), question.hidden_by_choice))+';' if question.hidden_by_choice else False">
+          <div class="question" t-att-hidden_by="question.hidden_by.id" t-att-hidden_by_choice="';'+';'.join(map(lambda x: str(x.id), question.hidden_by_choice))+';' if question.hidden_by_choice else False">
             <t t-if="question.put_title">
               <h3><t t-esc="question.title"/></h3>
             </t>
