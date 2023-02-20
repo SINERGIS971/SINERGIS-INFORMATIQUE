@@ -11,7 +11,7 @@
         <input type="hidden" name="token" t-att-value="str(token)"/>
         <p style="font-size:12px;"><span style="color:red;">* </span>: Champ requis</p>
         <t t-foreach="quiz.questions_ids" t-as="question">
-          <div t-att-hidden_by="quiz.hidden_by.id">
+          <div t-att-hidden_by="question.hidden_by.id" t-att-hidden_by_choice="';'+';'.join(map(lambda x: str(x.id), question.hidden_by_choice))+';' if question.hidden_by_choice else False">
             <t t-if="question.put_title">
               <h3><t t-esc="question.title"/></h3>
             </t>
@@ -64,16 +64,16 @@
             <div t-if="question.type == 'multiple_choice' and question.required">
               <t t-foreach="question.choice_ids" t-as="choice">
               <div>
-                <input type="radio" t-att-id="choice.name" t-att-name="str(question.id)" t-att-value="choice.name" required=""/>
-                <label t-att-for="choice.name"><t t-esc="choice.name"/></label>
+                <input type="radio" t-att-id="choice.id" t-att-name="str(question.id)" t-att-value="choice.name" required="" t-att-onclick="'radio_hide('+str(question.id)+','+str(choice.id)+');'"/>
+                <label t-att-for="choice.id"><t t-esc="choice.name"/></label>
               </div>
             </t>
             </div>
             <div t-if="question.type == 'multiple_choice' and not question.required">
               <t t-foreach="question.choice_ids" t-as="choice">
               <div>
-                <input type="radio" t-att-id="choice.name" t-att-name="str(question.id)" t-att-value="choice.name" t-att-choice_id="choice.id"/>
-                <label t-att-for="choice.name"><t t-esc="choice.name"/></label>
+                <input type="radio" t-att-id="choice.id" t-att-name="str(question.id)" t-att-value="choice.name" t-att-choice_id="choice.id"/>
+                <label t-att-for="choice.id"><t t-esc="choice.name"/></label>
               </div>
             </t>
             </div>
@@ -94,3 +94,4 @@
     </div>
   </template>
 </odoo>
+

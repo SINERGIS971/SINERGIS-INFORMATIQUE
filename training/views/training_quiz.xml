@@ -46,7 +46,7 @@
                             </group>
                           </form>
                         </field>
-                        <field name="required" required="True" attrs="{'readonly': [('hidden_by',  '!=', False)]}"/>
+                        <field name="required" required="True" attrs="{'readonly': [('hidden_by',  '!=', False)]}" force_save="1"/>
                   </group>
                   <group>
                       <field name="put_title"/>
@@ -77,4 +77,5 @@
 
   </data>
 </odoo>
+
 
