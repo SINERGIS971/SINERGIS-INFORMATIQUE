@@ -79,6 +79,7 @@ class CalendarEvent(models.Model):
     #Ancien système < 11/02/23
     x_sinergis_calendar_event_rapport_intervention_valide = fields.Binary(string="Rapport d'intervention validé")
     #Nouveau système > 11/02/23
+    x_sinergis_calendar_event_intervention_report_done_exists = fields.Boolean(string="",compute="_compute_x_sinergis_calendar_event_intervention_report_done_exists" store="True")
     x_sinergis_calendar_event_intervention_report_done = fields.One2many('calendar.sinergis_intervention_report_done', 'event_id', string="Rapports d'intervention validés")
 
     @api.depends('x_sinergis_calendar_event_taches')
@@ -105,6 +106,14 @@ class CalendarEvent(models.Model):
             if rec.x_sinergis_calendar_event_facturation and rec.x_sinergis_calendar_event_temps_cumule > 0:
                 state = True
             rec.x_sinergis_calendar_event_is_deducted = state
+
+    @api.depends('x_sinergis_calendar_event_intervention_report_done_exists')
+    def _compute_x_sinergis_calendar_event_intervention_report_done_exists (self):
+        for rec in self:
+            if len(rec.x_sinergis_calendar_event_intervention_report_done) > 0 :
+                rec.x_sinergis_calendar_event_intervention_report_done_exists = True
+            else :
+                rec.x_sinergis_calendar_event_intervention_report_done_exists = False
 
     @api.depends('x_sinergis_calendar_event_is_facturee_total')
     def _compute_x_sinergis_calendar_event_is_facturee_total (self):
