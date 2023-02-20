@@ -195,6 +195,7 @@ class Training(models.Model):
         for rec in self:
             #Une journée de formation correspond à 7 heures
             rec.duration_hours = 7.0 * rec.duration
+            
 
     #Header buttons
 
