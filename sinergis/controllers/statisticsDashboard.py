@@ -233,10 +233,10 @@ class InvoiceExcelReportController(http.Controller):
             effective_hours = round(effective_hours, 1)
             
             # On vérifie si le client n'a pas d'autre contrat à ce jour (pour les CH consommés)
-            other_contract = request.env["project.task"].search(['&','&',('active','=',True),('remaining_hours','>','0'),('project_id.name','ilike',"CONTRAT D'HEURES")])
+            other_contract = request.env["project.task"].search(['&','&','&',('active','=',True),('remaining_hours','>','0'),('project_id.name','ilike',"CONTRAT D'HEURES"),('partner_id','=',task.partner_id.id)])
             if other_contract :
                 is_other_contract = True
-            else :
+            else : 
                 is_other_contract = False
 
             element = {
