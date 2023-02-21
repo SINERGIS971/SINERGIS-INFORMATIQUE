@@ -145,7 +145,7 @@ class InvoiceExcelReportController(http.Controller):
         
         #CH CONSOMMES
         sheet_2 = workbook.add_worksheet("CH CONSOMMES")
-        sheet_2.set_column(0, 10, 30)
+        sheet_2.set_column(0, 11, 30)
         sheet_2.set_column(7, 7, 50)  # Pour la colonne heures passées qui est plus large
         
         sheet_2.write(0, 0, 'Date de création du contrat', header_format)
@@ -158,7 +158,8 @@ class InvoiceExcelReportController(http.Controller):
         sheet_2.write(0, 7, f'Heures consommées entre le {begin_date.strftime("%d/%m/%Y")} et {end_date.strftime("%d/%m/%Y")}', header_format)
         sheet_2.write(0, 8, f'Heures restantes le {end_date.strftime("%d/%m/%Y")}', header_format)
         sheet_2.write(0, 9, 'Archivé à ce jour ?', header_format)
-        sheet_2.write(0, 10, 'Société', header_format)
+        sheet_2.write(0, 10, 'Autre contrat à ce jour ?', header_format)
+        sheet_2.write(0, 11, 'Société', header_format)
         
         line = 1
         for data_line in data_consumed:
@@ -175,7 +176,11 @@ class InvoiceExcelReportController(http.Controller):
                 sheet_2.write(line, 9, "OUI",green_text)
             else:
                 sheet_2.write(line, 9, "NON",red_text)
-            sheet_2.write(line, 10, data_line["company"])
+            if data_line["is_other_contract"] :
+                sheet_2.write(line, 10, "OUI",green_text)
+            else:
+                sheet_2.write(line, 10, "NON",red_text)
+            sheet_2.write(line, 11, data_line["company"])
             line += 1
         
         workbook.close()
@@ -227,6 +232,13 @@ class InvoiceExcelReportController(http.Controller):
             remaining_hours = round(remaining_hours, 1)
             effective_hours = round(effective_hours, 1)
             
+            # On vérifie si le client n'a pas d'autre contrat à ce jour (pour les CH consommés)
+            other_contract = request.env["project.task"].search(['&','&',('active','=',True),('remaining_hours','>','0'),('project_id.name','ilike',"CONTRAT D'HEURES")])
+            if other_contract :
+                is_other_contract = True
+            else :
+                is_other_contract = False
+
             element = {
                 "create_date" : task.create_date.strftime("%d/%m/%Y %H:%M:%S"),
                 "create_by" : task.sale_order_id.user_id.name,
@@ -238,6 +250,7 @@ class InvoiceExcelReportController(http.Controller):
                 "effective_hours" : effective_hours,#task.effective_hours,
                 "remaining_hours" : remaining_hours, #COMPUTE
                 "active" : task.active,
+                "is_other_contract": is_other_contract,
                 "company" : company, #COMPUTE
                 }
             
