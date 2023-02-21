@@ -268,9 +268,9 @@ class InvoiceExcelReportController(http.Controller):
             sheet_2.write(line, 7, data_line["effective_hours"])
             sheet_2.write(line, 8, data_line["remaining_hours"],red_text)
             if data_line["active"] :
-                sheet_2.write(line, 9, "NON",green_text)
+                sheet_2.write(line, 9, "NON",red_text)
             else:
-                sheet_2.write(line, 9, "OUI",red_text)
+                sheet_2.write(line, 9, "OUI",green_text)
             if data_line["is_other_contract"] :
                 sheet_2.write(line, 10, "OUI",green_text)
             else:
