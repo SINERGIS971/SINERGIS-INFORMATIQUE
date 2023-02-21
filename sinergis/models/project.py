@@ -158,7 +158,10 @@ class ProjectProject(models.Model):
     @api.depends('x_sinergis_project_project_acompte_verse')
     def _compute_x_sinergis_project_project_acompte_verse (self):
         for rec in self:
-            rec.x_sinergis_project_project_acompte_verse = rec.sale_order_id.x_sinergis_sale_order_acompte_verse
+            if rec.sale_order_id:
+                rec.x_sinergis_project_project_acompte_verse = rec.sale_order_id.x_sinergis_sale_order_acompte_verse
+            else :
+                rec.x_sinergis_project_project_acompte_verse = False
 
     @api.onchange("tag_ids")
     def on_change_tag_ids (self):
