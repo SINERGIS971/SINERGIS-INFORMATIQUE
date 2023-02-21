@@ -80,7 +80,7 @@
                 <field name="country_id"/>
                 <field name="printed_datetime"/>
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
-                <button name="print_report" string="Éditer" class="oe_highlight btn-warning" type="object"/>
+                <button name="print_report" string="Éditer" class="oe_highlight" type="object"/>
                 <button name="download_rapport_intervention_valide" string="" class="oe_highlight btn-warning" type="object" attrs="{'invisible': [('rapport_intervention_valide',  '=', False)]}" icon="fa-paperclip"/>
                 <button name="no_invoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', False),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
                 <button name="invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>

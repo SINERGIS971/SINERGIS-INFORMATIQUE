@@ -548,6 +548,24 @@
                   <field name="training_end_mark" style="background:orange;color:black;"/>
                 </group>
             </group>
+            <group>
+                <group>
+                    <ul>
+                      <li>A Exemplaire</li>
+                      <li>B Satisfaisant</li>
+                      <li>C Perfectible</li>
+                      <li>D Insuffisant</li>
+                    </ul>
+                </group>
+                <group>
+                    <ul>
+                      <li>A Très satisfaisant</li>
+                      <li>B Satisfaisant</li>
+                      <li>C Perfectible</li>
+                      <li>D Insuffisant</li>
+                    </ul>
+                </group>
+            </group>
             </div>
             <div attrs="{'invisible': ['|',('training_state',  '=', 'unassigned'),('training_state',  '=', 'commercial_part')]}">
               <separator string="Réponses aux quiz"/>
@@ -700,5 +718,6 @@
 
   </data>
 </odoo>
+
 
 

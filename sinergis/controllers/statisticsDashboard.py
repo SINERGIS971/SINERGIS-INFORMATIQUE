@@ -147,7 +147,7 @@ class InvoiceExcelReportController(http.Controller):
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         header_format = workbook.add_format({'bold': True, 'font_color': 'blue'})
-        sum_format = workbook.add_format({'bg_color': 'grey', 'bold': True})
+        sum_format = workbook.add_format({'bg_color': "#CFCFCF", 'bold': True})
         red_text = workbook.add_format({'font_color': 'red'})
         green_text = workbook.add_format({'font_color': 'green'})
 
@@ -168,7 +168,24 @@ class InvoiceExcelReportController(http.Controller):
         sheet_1.write(0, 9, 'Société', header_format)
         
         line = 1
+        if data_not_consumed :
+            last_data_line_company = data_not_consumed[0]["company"]
         for data_line in data_not_consumed:
+            #Ligne somme des valeurs numériques de la société Sinergis
+            if data_line["company"] != last_data_line_company:
+                for i in range(0,10):
+                    sheet_1.write(line, i, "", sum_format)
+                sheet_1.write(line, 0, last_data_line_company, sum_format)
+                sheet_1.write(line, 6, sum_data['planned_hours']['not_consumed']['company'], sum_format)
+                sheet_1.write(line, 7, sum_data['effective_hours']['not_consumed']['company'], sum_format)
+                sheet_1.write(line, 8, sum_data['remaining_hours']['not_consumed']['company'], sum_format)
+                sum_data['planned_hours']['not_consumed']['company'] = 0
+                sum_data['effective_hours']['not_consumed']['company'] = 0
+                sum_data['remaining_hours']['not_consumed']['company'] = 0
+                last_data_line_company = data_line["company"]
+                line += 1
+
+            # Ligne du CH
             sheet_1.write(line, 0, data_line["create_date"])
             sheet_1.write(line, 1, data_line["create_by"])
             sheet_1.write(line, 2, data_line["date_deadline"])
@@ -183,14 +200,26 @@ class InvoiceExcelReportController(http.Controller):
             sum_data['planned_hours']['not_consumed']['total'] += float(data_line["planned_hours"])
             sum_data['effective_hours']['not_consumed']['total'] += float(data_line["effective_hours"])
             sum_data['remaining_hours']['not_consumed']['total'] += float(data_line["remaining_hours"])
+            sum_data['planned_hours']['not_consumed']['company'] += float(data_line["planned_hours"])
+            sum_data['effective_hours']['not_consumed']['company'] += float(data_line["effective_hours"])
+            sum_data['remaining_hours']['not_consumed']['company'] += float(data_line["remaining_hours"])
             line += 1
-        # Ligne finale total
-        for i in range(0,9):
-            sheet_1.write(line, i, "", sum_format)
-        sheet_1.write(line, 0, "TOTAL", sum_format)
-        sheet_1.write(line, 6, sum_data['planned_hours']['not_consumed']['total'], sum_format)
-        sheet_1.write(line, 7, sum_data['effective_hours']['not_consumed']['total'], sum_format)
-        sheet_1.write(line, 8, sum_data['remaining_hours']['not_consumed']['total'], sum_format)
+        if data_not_consumed :
+            # Ligne somme dernière société Sinergis
+            for i in range(0,10):
+                sheet_1.write(line, i, "", sum_format)
+            sheet_1.write(line, 0, last_data_line_company, sum_format)
+            sheet_1.write(line, 6, sum_data['planned_hours']['not_consumed']['company'], sum_format)
+            sheet_1.write(line, 7, sum_data['effective_hours']['not_consumed']['company'], sum_format)
+            sheet_1.write(line, 8, sum_data['remaining_hours']['not_consumed']['company'], sum_format)
+            line += 1
+            # Ligne finale total
+            for i in range(0,10):
+                sheet_1.write(line, i, "", sum_format)
+            sheet_1.write(line, 0, "TOTAL", sum_format)
+            sheet_1.write(line, 6, sum_data['planned_hours']['not_consumed']['total'], sum_format)
+            sheet_1.write(line, 7, sum_data['effective_hours']['not_consumed']['total'], sum_format)
+            sheet_1.write(line, 8, sum_data['remaining_hours']['not_consumed']['total'], sum_format)
         
         #CH CONSOMMES
         sheet_2 = workbook.add_worksheet("CH CONSOMMES")
@@ -211,7 +240,24 @@ class InvoiceExcelReportController(http.Controller):
         sheet_2.write(0, 11, 'Société', header_format)
         
         line = 1
+        if data_consumed :
+            last_data_line_company = data_consumed[0]["company"]
         for data_line in data_consumed:
+            #Ligne somme des valeurs numériques de la société Sinergis
+            if data_line["company"] != last_data_line_company:
+                for i in range(0,12):
+                    sheet_2.write(line, i, "", sum_format)
+                sheet_2.write(line, 0, last_data_line_company, sum_format)
+                sheet_2.write(line, 6, sum_data['planned_hours']['consumed']['company'], sum_format)
+                sheet_2.write(line, 7, sum_data['effective_hours']['consumed']['company'], sum_format)
+                sheet_2.write(line, 8, sum_data['remaining_hours']['consumed']['company'], sum_format)
+                sum_data['planned_hours']['consumed']['company'] = 0
+                sum_data['effective_hours']['consumed']['company'] = 0
+                sum_data['remaining_hours']['consumed']['company'] = 0
+                last_data_line_company = data_line["company"]
+                line += 1
+
+            # Ligne du CH
             sheet_2.write(line, 0, data_line["create_date"])
             sheet_2.write(line, 1, data_line["create_by"])
             sheet_2.write(line, 2, data_line["date_deadline"])
@@ -230,7 +276,30 @@ class InvoiceExcelReportController(http.Controller):
             else:
                 sheet_2.write(line, 10, "NON",red_text)
             sheet_2.write(line, 11, data_line["company"])
+            # Sum data treatment
+            sum_data['planned_hours']['consumed']['total'] += float(data_line["planned_hours"])
+            sum_data['effective_hours']['consumed']['total'] += float(data_line["effective_hours"])
+            sum_data['remaining_hours']['consumed']['total'] += float(data_line["remaining_hours"])
+            sum_data['planned_hours']['consumed']['company'] += float(data_line["planned_hours"])
+            sum_data['effective_hours']['consumed']['company'] += float(data_line["effective_hours"])
+            sum_data['remaining_hours']['consumed']['company'] += float(data_line["remaining_hours"])
             line += 1
+        if data_consumed :
+            # Ligne somme dernière société Sinergis
+            for i in range(0,12):
+                sheet_2.write(line, i, "", sum_format)
+            sheet_2.write(line, 0, last_data_line_company, sum_format)
+            sheet_2.write(line, 6, sum_data['planned_hours']['consumed']['company'], sum_format)
+            sheet_2.write(line, 7, sum_data['effective_hours']['consumed']['company'], sum_format)
+            sheet_2.write(line, 8, sum_data['remaining_hours']['consumed']['company'], sum_format)
+            line += 1
+            # Ligne finale total
+            for i in range(0,12):
+                sheet_2.write(line, i, "", sum_format)
+            sheet_2.write(line, 0, "TOTAL", sum_format)
+            sheet_2.write(line, 6, sum_data['planned_hours']['consumed']['total'], sum_format)
+            sheet_2.write(line, 7, sum_data['effective_hours']['consumed']['total'], sum_format)
+            sheet_2.write(line, 8, sum_data['remaining_hours']['consumed']['total'], sum_format)
         
         workbook.close()
         output.seek(0)
@@ -250,19 +319,9 @@ class InvoiceExcelReportController(http.Controller):
             date_deadline = ""
             if task.date_deadline :
                 date_deadline = task.date_deadline.strftime("%d/%m/%Y")
-            # On détermine le pays du CH
-            company = ""
-            project_name = task.project_id.name
-            if "GPE" in project_name :
-                company = "SINERGIS GPE"
-            elif "MQE" in project_name :
-                company = "SINERGIS MQE"
-            elif "GUY" in project_name :
-                company = "SINERGIS GUY"
-            elif "BRD" in project_name :
-                company = "SINERGIS BRD"
 
             # On détermine si c'est un CH MGE 
+            project_name = task.project_id.name
             type = ""
             if "PME" in project_name:
                 type = "PME"
@@ -300,11 +359,11 @@ class InvoiceExcelReportController(http.Controller):
                 "remaining_hours" : remaining_hours, #COMPUTE
                 "active" : task.active,
                 "is_other_contract": is_other_contract,
-                "company" : company, #COMPUTE
+                "company" : task.company_id.name,
                 }
             
             # Si l'utilisateur a demandé les informations de cette companie
-            if company in allowed_companies :
+            if task.company_id.name in allowed_companies :
                 #On regarde si à end_date, le contrat d'heure est consommé ou non
                 if remaining_hours <= 0 :
                     data_consumed.append(element)
