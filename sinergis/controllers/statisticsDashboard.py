@@ -53,6 +53,7 @@ class StatisticsDashboard(http.Controller):
             total_hours_martinique = round(total_hours_martinique, 2)
         """
         return http.request.render("sinergis.statistics_dashboard_page", {
+                            "actual_year": date.today(),
                             #"date_end_text" : date_end.strftime("%A %d %B %Y"),
                             #"date_end" : date_end.strftime("%Y-%m-%d"),
                             #"total_hours" : total_hours,
@@ -244,9 +245,9 @@ class InvoiceExcelReportController(http.Controller):
                     data_not_consumed.append(element)
             
         # Calcul des sous-totaux de chaque société Sinergis
-        data_consumed_subtotal = {}
-        for element in data_consumed :
-            data_consumed_subtotal[element["company"]]['planneld_hours'] = 
+        #data_consumed_subtotal = {}
+        #for element in data_consumed :
+        #    data_consumed_subtotal[element["company"]]['planneld_hours'] = 
 
         return data_consumed, data_not_consumed
     

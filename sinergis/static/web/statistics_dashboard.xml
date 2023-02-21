@@ -15,7 +15,7 @@
                 <label for="">Date de début:</label>
                 <input type="date" id="hour_contract_excel_begin_date" name="hour_contract_excel_begin_date" required="True" value="2022-01-01"/>
                 <label for="hourly_contract_date">Date de fin:</label>
-                <input type="date" id="hour_contract_excel_end_date" name="hour_contract_excel_end_date" required="True"/>
+                <input type="date" id="hour_contract_excel_end_date" name="hour_contract_excel_end_date" required="True" t-att-value="actual_year+'-01-01'"/>
             </div>
             <p>Société(s) Sinergis concernée(s) :</p>
             <div>
@@ -37,6 +37,7 @@
             <br/>
               
             <input type="submit" value="Générer"/>
+          </form>
         </div>
     </div>
   </template>
