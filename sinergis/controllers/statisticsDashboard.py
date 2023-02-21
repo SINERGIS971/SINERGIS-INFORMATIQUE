@@ -19,10 +19,12 @@ class StatisticsDashboard(http.Controller):
             return "Vous n'êtes pas autorisé à accéder à cette page. Merci de vous rapporcher d'un administrateur."
         # Loading date parameter
         date_end = date.today()
-        if "hourly_contract_date" in kw :
-            date_end = datetime.strptime(kw["hourly_contract_date"], '%Y-%m-%d').date()
+        #if "hourly_contract_date" in kw :
+        #    date_end = datetime.strptime(kw["hourly_contract_date"], '%Y-%m-%d').date()
         #Filtre pour tâches CH non archivées et archivées
 
+        #Ancien système de calcul du nombres d'heures restantes. À retirer si aucun besoin d'Alain
+        """
         total_hours = 0
         total_hours_guadeloupe = 0
         total_hours_martinique = 0
@@ -49,12 +51,13 @@ class StatisticsDashboard(http.Controller):
             total_hours = round(total_hours, 2)
             total_hours_guadeloupe = round(total_hours_guadeloupe, 2)
             total_hours_martinique = round(total_hours_martinique, 2)
+        """
         return http.request.render("sinergis.statistics_dashboard_page", {
-                            "date_end_text" : date_end.strftime("%A %d %B %Y"),
-                            "date_end" : date_end.strftime("%Y-%m-%d"),
-                            "total_hours" : total_hours,
-                            "total_hours_guadeloupe" : total_hours_guadeloupe,
-                            "total_hours_martinique" : total_hours_martinique,
+                            #"date_end_text" : date_end.strftime("%A %d %B %Y"),
+                            #"date_end" : date_end.strftime("%Y-%m-%d"),
+                            #"total_hours" : total_hours,
+                            #"total_hours_guadeloupe" : total_hours_guadeloupe,
+                            #"total_hours_martinique" : total_hours_martinique,
                         })
 
 class InvoiceExcelReportController(http.Controller):
@@ -239,5 +242,11 @@ class InvoiceExcelReportController(http.Controller):
                     data_consumed.append(element)
                 else :
                     data_not_consumed.append(element)
+            
+        # Calcul des sous-totaux de chaque société Sinergis
+        data_consumed_subtotal = {}
+        for element in data_consumed :
+            data_consumed_subtotal[element["company"]]['planneld_hours'] = 
+
         return data_consumed, data_not_consumed
     
