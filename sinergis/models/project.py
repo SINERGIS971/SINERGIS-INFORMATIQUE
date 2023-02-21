@@ -119,7 +119,7 @@ class ProjectTask(models.Model):
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
-    x_sinergis_project_project_acompte_verse = fields.Boolean(string="Acompte versé", related="sale_order_id.x_sinergis_sale_order_acompte_verse")
+    x_sinergis_project_project_acompte_verse = fields.Boolean(string="Acompte versé", compute="_compute_x_sinergis_project_project_acompte_verse", store=True)
 
     x_sinergis_project_project_sale_order_contact = fields.Many2one("res.partner", string="Contact de la vente",compute="_compute_x_sinergis_project_project_sale_order_contact")
     x_sinergis_project_project_sale_order_contact_phone = fields.Char(string="Téléphone du contact",compute="_compute_x_sinergis_project_project_sale_order_contact_phone")
@@ -154,6 +154,11 @@ class ProjectProject(models.Model):
     def _compute_x_sinergis_project_project_planned_hours (self):
         for rec in self:
             rec.x_sinergis_project_project_planned_hours = sum(rec.env['calendar.event'].search([('x_sinergis_calendar_event_project', '=', rec.id)]).mapped('duration'))
+
+    @api.depends('x_sinergis_project_project_acompte_verse')
+    def _compute_x_sinergis_project_project_acompte_verse (self):
+        for rec in self:
+            rec.x_sinergis_project_project_acompte_verse = rec.sale_order_id.x_sinergis_sale_order_acompte_verse
 
     @api.onchange("tag_ids")
     def on_change_tag_ids (self):
