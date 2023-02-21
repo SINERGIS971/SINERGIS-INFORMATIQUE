@@ -53,7 +53,7 @@ class StatisticsDashboard(http.Controller):
             total_hours_martinique = round(total_hours_martinique, 2)
         """
         return http.request.render("sinergis.statistics_dashboard_page", {
-                            "actual_year": date.today(),
+                            "actual_year": date.today().year,
                             #"date_end_text" : date_end.strftime("%A %d %B %Y"),
                             #"date_end" : date_end.strftime("%Y-%m-%d"),
                             #"total_hours" : total_hours,
@@ -115,63 +115,67 @@ class InvoiceExcelReportController(http.Controller):
 
         #CH NON CONSOMMES
         sheet_1 = workbook.add_worksheet("CH NON CONSOMMES A 100%")
-        sheet_1.set_column(0, 8, 30)
-        sheet_1.set_column(6, 6, 50)
+        sheet_1.set_column(0, 9, 30)
+        sheet_1.set_column(7, 7, 50)
 
         sheet_1.write(0, 0, 'Date de création du contrat', header_format)
-        sheet_1.write(0, 1, "Date d'expiration", header_format)
-        sheet_1.write(0, 2, 'Bon de commande N°', header_format)
-        sheet_1.write(0, 3, 'Contrat PME / MGE', header_format)
-        sheet_1.write(0, 4, 'Client', header_format)
-        sheet_1.write(0, 5, 'Heures prévues initialement', header_format)
-        sheet_1.write(0, 6, f'Heures consommées entre le {begin_date.strftime("%d/%m/%Y")} et {end_date.strftime("%d/%m/%Y")}', header_format)
-        sheet_1.write(0, 7, f'Heures restantes le {end_date.strftime("%d/%m/%Y")}', header_format)
-        sheet_1.write(0, 8, 'Société', header_format)
+        sheet_1.write(0, 1, 'Crée par', header_format)
+        sheet_1.write(0, 2, "Date d'expiration", header_format)
+        sheet_1.write(0, 3, 'Bon de commande N°', header_format)
+        sheet_1.write(0, 4, 'Contrat PME / MGE', header_format)
+        sheet_1.write(0, 5, 'Client', header_format)
+        sheet_1.write(0, 6, 'Heures prévues initialement', header_format)
+        sheet_1.write(0, 7, f'Heures consommées entre le {begin_date.strftime("%d/%m/%Y")} et {end_date.strftime("%d/%m/%Y")}', header_format)
+        sheet_1.write(0, 8, f'Heures restantes le {end_date.strftime("%d/%m/%Y")}', header_format)
+        sheet_1.write(0, 9, 'Société', header_format)
         
         line = 1
         for data_line in data_not_consumed:
             sheet_1.write(line, 0, data_line["create_date"])
-            sheet_1.write(line, 1, data_line["date_deadline"])
-            sheet_1.write(line, 2, data_line["command_number"])
-            sheet_1.write(line, 3, data_line["type"])
-            sheet_1.write(line, 4, data_line["client"])
-            sheet_1.write(line, 5, data_line["planned_hours"])
-            sheet_1.write(line, 6, data_line["effective_hours"])
-            sheet_1.write(line, 7, data_line["remaining_hours"],green_text)
-            sheet_1.write(line, 8, data_line["company"])
+            sheet_1.write(line, 1, data_line["create_by"])
+            sheet_1.write(line, 2, data_line["date_deadline"])
+            sheet_1.write(line, 3, data_line["command_number"])
+            sheet_1.write(line, 4, data_line["type"])
+            sheet_1.write(line, 5, data_line["client"])
+            sheet_1.write(line, 6, data_line["planned_hours"])
+            sheet_1.write(line, 7, data_line["effective_hours"])
+            sheet_1.write(line, 8, data_line["remaining_hours"],green_text)
+            sheet_1.write(line, 9, data_line["company"])
             line += 1
         
         #CH CONSOMMES
         sheet_2 = workbook.add_worksheet("CH CONSOMMES")
-        sheet_2.set_column(0, 9, 30)
-        sheet_2.set_column(6, 6, 50)  # Pour la colonne heures passées qui est plus large
+        sheet_2.set_column(0, 10, 30)
+        sheet_2.set_column(7, 7, 50)  # Pour la colonne heures passées qui est plus large
         
         sheet_2.write(0, 0, 'Date de création du contrat', header_format)
-        sheet_2.write(0, 1, "Date d'expiration", header_format)
-        sheet_2.write(0, 2, 'Bon de commande N°', header_format)
-        sheet_2.write(0, 3, 'Contrat PME / MGE', header_format)
-        sheet_2.write(0, 4, 'Client', header_format)
-        sheet_2.write(0, 5, 'Heures prévues initialement', header_format)
-        sheet_2.write(0, 6, f'Heures consommées entre le {begin_date.strftime("%d/%m/%Y")} et {end_date.strftime("%d/%m/%Y")}', header_format)
-        sheet_2.write(0, 7, f'Heures restantes le {end_date.strftime("%d/%m/%Y")}', header_format)
-        sheet_2.write(0, 8, 'Archivé à ce jour ?', header_format)
-        sheet_2.write(0, 9, 'Société', header_format)
+        sheet_2.write(0, 1, 'Crée par', header_format)
+        sheet_2.write(0, 2, "Date d'expiration", header_format)
+        sheet_2.write(0, 3, 'Bon de commande N°', header_format)
+        sheet_2.write(0, 4, 'Contrat PME / MGE', header_format)
+        sheet_2.write(0, 5, 'Client', header_format)
+        sheet_2.write(0, 6, 'Heures prévues initialement', header_format)
+        sheet_2.write(0, 7, f'Heures consommées entre le {begin_date.strftime("%d/%m/%Y")} et {end_date.strftime("%d/%m/%Y")}', header_format)
+        sheet_2.write(0, 8, f'Heures restantes le {end_date.strftime("%d/%m/%Y")}', header_format)
+        sheet_2.write(0, 9, 'Archivé à ce jour ?', header_format)
+        sheet_2.write(0, 10, 'Société', header_format)
         
         line = 1
         for data_line in data_consumed:
             sheet_2.write(line, 0, data_line["create_date"])
-            sheet_2.write(line, 1, data_line["date_deadline"])
-            sheet_2.write(line, 2, data_line["command_number"])
-            sheet_2.write(line, 3, data_line["type"])
-            sheet_2.write(line, 4, data_line["client"])
-            sheet_2.write(line, 5, data_line["planned_hours"])
-            sheet_2.write(line, 6, data_line["effective_hours"])
-            sheet_2.write(line, 7, data_line["remaining_hours"],red_text)
+            sheet_2.write(line, 1, data_line["create_by"])
+            sheet_2.write(line, 2, data_line["date_deadline"])
+            sheet_2.write(line, 3, data_line["command_number"])
+            sheet_2.write(line, 4, data_line["type"])
+            sheet_2.write(line, 5, data_line["client"])
+            sheet_2.write(line, 6, data_line["planned_hours"])
+            sheet_2.write(line, 7, data_line["effective_hours"])
+            sheet_2.write(line, 8, data_line["remaining_hours"],red_text)
             if data_line["active"] :
-                sheet_2.write(line, 7, "OUI",green_text)
+                sheet_2.write(line, 9, "OUI",green_text)
             else:
-                sheet_2.write(line, 7, "NON",red_text)
-            sheet_2.write(line, 8, data_line["company"])
+                sheet_2.write(line, 9, "NON",red_text)
+            sheet_2.write(line, 10, data_line["company"])
             line += 1
         
         workbook.close()
@@ -225,6 +229,7 @@ class InvoiceExcelReportController(http.Controller):
             
             element = {
                 "create_date" : task.create_date.strftime("%d/%m/%Y %H:%M:%S"),
+                "create_by" : task.sale_order_id.user_id.name,
                 "date_deadline" : date_deadline, #COMPUTE
                 "command_number" : task.sale_order_id.name,
                 "type": type, #COMPUTE

@@ -8,14 +8,14 @@
         <h1>Statistiques Sinergis</h1>
           <form action="/sinergis/statistics_dashboard/hour_contract_excel" method="POST" id="hour_contract_excel_form">
             <h3>Etat Synthèse 1 : Suivi des CH définis dans une plage de dates</h3>
-            <p>1. Sélectionnez une plage de date</p>
-            <p>2. Filtrez sur la ou les agences souhaitées</p>
-            <p>3. Générez le fichier Excel</p>
+            <p class="info">1. Sélectionnez une plage de date</p>
+            <p class="info">2. Filtrez sur la ou les agences souhaitées</p>
+            <p class="info">3. Générez le fichier Excel</p>
             <div>
                 <label for="">Date de début:</label>
                 <input type="date" id="hour_contract_excel_begin_date" name="hour_contract_excel_begin_date" required="True" value="2022-01-01"/>
                 <label for="hourly_contract_date">Date de fin:</label>
-                <input type="date" id="hour_contract_excel_end_date" name="hour_contract_excel_end_date" required="True" t-att-value="actual_year+'-01-01'"/>
+                <input type="date" id="hour_contract_excel_end_date" name="hour_contract_excel_end_date" required="True" t-att-value="str(actual_year)+'-12-31'"/>
             </div>
             <p>Société(s) Sinergis concernée(s) :</p>
             <div>
