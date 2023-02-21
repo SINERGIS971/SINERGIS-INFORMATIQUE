@@ -107,9 +107,47 @@ class InvoiceExcelReportController(http.Controller):
            ("Content-disposition", f"attachment;filename={filename}.xls")
         ]
         )
+        #=================================
+        # Données de sommation des valeurs
+        #=================================
+        sum_data = {
+            "planned_hours" :{
+                "consumed" :{
+                    "company" : 0,
+                    "total" : 0
+                },
+                "not_consumed" :{
+                    "company" : 0,
+                    "total" : 0
+                }
+              },
+            "effective_hours" :{
+                "consumed" :{
+                    "company" : 0,
+                    "total" : 0
+                },
+                "not_consumed" :{
+                    "company" : 0,
+                    "total" : 0
+                }
+              },
+            "remaining_hours" :{
+                "consumed" :{
+                    "company" : 0,
+                    "total" : 0
+                },
+                "not_consumed" :{
+                    "company" : 0,
+                    "total" : 0
+                }
+              }
+        }
+
+
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         header_format = workbook.add_format({'bold': True, 'font_color': 'blue'})
+        sum_format = workbook.add_format({'bg_color': 'grey', 'bold': True})
         red_text = workbook.add_format({'font_color': 'red'})
         green_text = workbook.add_format({'font_color': 'green'})
 
@@ -141,7 +179,18 @@ class InvoiceExcelReportController(http.Controller):
             sheet_1.write(line, 7, data_line["effective_hours"])
             sheet_1.write(line, 8, data_line["remaining_hours"],green_text)
             sheet_1.write(line, 9, data_line["company"])
+            # Sum data treatment
+            sum_data['planned_hours']['not_consumed']['total'] += float(data_line["planned_hours"])
+            sum_data['effective_hours']['not_consumed']['total'] += float(data_line["effective_hours"])
+            sum_data['remaining_hours']['not_consumed']['total'] += float(data_line["remaining_hours"])
             line += 1
+        # Ligne finale total
+        for i in range(0,9):
+            sheet_1.write(line, i, "", sum_format)
+        sheet_1.write(line, 0, "TOTAL", sum_format)
+        sheet_1.write(line, 6, sum_data['planned_hours']['not_consumed']['total'], sum_format)
+        sheet_1.write(line, 7, sum_data['effective_hours']['not_consumed']['total'], sum_format)
+        sheet_1.write(line, 8, sum_data['remaining_hours']['not_consumed']['total'], sum_format)
         
         #CH CONSOMMES
         sheet_2 = workbook.add_worksheet("CH CONSOMMES")
@@ -173,9 +222,9 @@ class InvoiceExcelReportController(http.Controller):
             sheet_2.write(line, 7, data_line["effective_hours"])
             sheet_2.write(line, 8, data_line["remaining_hours"],red_text)
             if data_line["active"] :
-                sheet_2.write(line, 9, "OUI",green_text)
+                sheet_2.write(line, 9, "NON",green_text)
             else:
-                sheet_2.write(line, 9, "NON",red_text)
+                sheet_2.write(line, 9, "OUI",red_text)
             if data_line["is_other_contract"] :
                 sheet_2.write(line, 10, "OUI",green_text)
             else:
@@ -194,7 +243,7 @@ class InvoiceExcelReportController(http.Controller):
     def get_hour_contract_data (request, begin_date, end_date, allowed_companies):
         data_not_consumed = []
         data_consumed = []
-        tasks = request.env["project.task"].search(['&','&','|',('active','=',False),('active','=',True),('create_date','<=',end_date.strftime("%Y-%m-%d")),'&',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')],order='create_date desc')
+        tasks = request.env["project.task"].search(['&','&','|',('active','=',False),('active','=',True),('create_date','<=',end_date.strftime("%Y-%m-%d")),'&',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')],order='company_id desc, create_date desc')
         
         for task in tasks :
             #Calcul de la deadline
