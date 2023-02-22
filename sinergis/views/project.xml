@@ -15,14 +15,17 @@
               <filter string="Tâches projets PME" name="filter_task_pme" domain="[('x_sinergis_project_task_tag_ids','ilike','PROJET PME')]"/>
               <filter string="Tâches projets MGE" name="filter_task_mge" domain="[('x_sinergis_project_task_tag_ids','ilike','PROJET MGE')]"/>
               <separator/>
-              <filter string="Contrat d'heures" name="filter_contrat_heures" domain="['&amp;',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')]"/>
-              <filter string="Devis" name="filter_contrat_heures" domain='[("project_id.name","not ilike","CONTRAT D&#39;HEURES")]'/>
+              <filter string="Contrat d'heures" name="filter_contrat_heures" domain='[("project_id.name","ilike","CONTRAT D&#39;HEURES")]'/>
+              <filter string="Devis" name="filter_quotation" domain='[("project_id.name","not ilike","CONTRAT D&#39;HEURES")]'/>
               <separator/>
               <filter string="Tâches terminées et/ou dépassées" name="filter_ended_task" domain="[('remaining_hours','&lt;=',0)]"/>
               <separator/>
               <filter string="Tâches marquées comme terminées" name="filter_ended_task" domain="[('x_sinergis_project_task_etat_tache','=','Tâche terminée')]"/>
               <group expand="0" string="Group By">
                     <filter string="CH/DEVIS" name="group_by_contract_type" context="{'group_by':'x_sinergis_project_task_contract_type'}"/>
+                    <filter string="Société Sinergis" name="group_by_company_id" context="{'group_by':'company_id'}"/>
+                    <filter string="Produit" name="group_by_product" context="{'group_by':'x_sinergis_project_task_product_id'}"/>
+                    <filter string="Sous-Produit" name="group_by_subproduct" context="{'group_by':'x_sinergis_project_task_subproduct_id'}"/>
                 </group>
         </xpath>
       </field>
@@ -231,7 +234,7 @@
 <!-- ============ MENU ============ -->
 
 <record id="sinergis_action_view_all_task" model="ir.actions.act_window">
-            <field name="name">My Tasks</field>
+            <field name="name">Tâches</field>
             <field name="res_model">project.task</field>
             <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
             <field name="context">{'all_task': 0}</field>
