@@ -177,3 +177,4 @@ class ProjectProject(models.Model):
                     if not task.user_ids:
                         task.user_ids = [(4,values["x_sinergis_project_project_technical_manager"])]
         return super(ProjectProject, self).write(values)
+
