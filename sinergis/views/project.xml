@@ -227,5 +227,27 @@
         </field>
     </record>
 
+<!-- ============ MENU ============ -->
+
+<menuitem id="sinergis_project_task_all_tasks_root"
+          name="My Tasks"
+          parent="menu_main_pm"
+          action="sinergis_action_view_all_task"
+          sequence="3"
+          groups="base.group_no_one,group_project_user"/>
+
+<record id="sinergis_action_view_all_task" model="ir.actions.act_window">
+            <field name="name">My Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity</field>
+            <field name="context">{'search_default_my_tasks': 1, 'search_default_personal_stage': 1, 'all_task': 0}</field>
+            <field name="search_view_id" ref="view_task_search_form_extended"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucune tâche trouvée. Créons-en un !
+                </p>
+            </field>
+  </record>
+
   </data>
 </odoo>
