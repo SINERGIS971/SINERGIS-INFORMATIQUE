@@ -16,6 +16,7 @@
               <filter string="Tâches projets MGE" name="filter_task_mge" domain="[('x_sinergis_project_task_tag_ids','ilike','PROJET MGE')]"/>
               <separator/>
               <filter string="Contrat d'heures" name="filter_contrat_heures" domain="['&amp;',('project_id.name','ilike','HEURES'),('project_id.name','ilike','CONTRAT D')]"/>
+              <filter string="Devis" name="filter_contrat_heures" domain='[("project_id.name","not ilike","CONTRAT D&#39;HEURES")]'/>
               <separator/>
               <filter string="Tâches terminées et/ou dépassées" name="filter_ended_task" domain="[('remaining_hours','&lt;=',0)]"/>
               <separator/>
@@ -229,25 +230,26 @@
 
 <!-- ============ MENU ============ -->
 
-<menuitem id="sinergis_project_task_all_tasks_root"
-          name="My Tasks"
-          parent="menu_main_pm"
-          action="sinergis_action_view_all_task"
-          sequence="3"
-          groups="base.group_no_one,group_project_user"/>
-
 <record id="sinergis_action_view_all_task" model="ir.actions.act_window">
             <field name="name">My Tasks</field>
             <field name="res_model">project.task</field>
-            <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity</field>
-            <field name="context">{'search_default_my_tasks': 1, 'search_default_personal_stage': 1, 'all_task': 0}</field>
-            <field name="search_view_id" ref="view_task_search_form_extended"/>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="context">{'all_task': 0}</field>
+            <field name="search_view_id" ref="project.view_task_search_form_extended"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Aucune tâche trouvée. Créons-en un !
                 </p>
             </field>
   </record>
+      
+<menuitem id="sinergis_project_task_all_tasks_root"
+          name="Toutes les tâches"
+          parent="project.menu_main_pm"
+          action="sinergis_action_view_all_task"
+          sequence="3"
+          groups="base.group_no_one,project.group_project_user"/>
 
   </data>
 </odoo>
+
