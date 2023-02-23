@@ -8,7 +8,7 @@ class SaleOrder(models.Model):
 
     def download_initiale_diagnostique(self):
         result = self.env['ir.config_parameter'].sudo().get_param('training.diagnostic_initial')
-        base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         attachment_obj = self.env['ir.attachment']
         attachment_id = attachment_obj.create(
             {'name': "Diagnostic_Initial", 'datas': result})
