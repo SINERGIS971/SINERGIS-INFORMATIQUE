@@ -96,12 +96,14 @@
                     <separator style="font-size:20px;color: #539314;" string="-&gt; Non assigné" attrs="{'invisible': [('state',  '!=', 'unassigned')]}"/>
                     <separator style="font-size:16px;" string="Non assigné" attrs="{'invisible': [('state',  '=', 'unassigned')]}" />
                     <p attrs="{'invisible': [('state',  '!=', 'unassigned')]}">
-                      <strong>Étape 1 / 1 :</strong>
+                      <strong style="color: #539314;">Étape 1 / 1 :</strong>
+                      <span style="color: #898989;">
                       Désigner un responsable commercial pour ce dossier et inclure le devis signé.
+                      </span>
                     </p>
                     <group>
-                      <field name="sales_manager" widget="many2one_avatar_user" attrs="{'readonly': [('state',  '!=', 'unassigned')]}"/>
-                      <field name="signed_quote" attrs="{'readonly': [('state',  '!=', 'unassigned')]}"/>
+                      <field name="sales_manager" widget="many2one_avatar_user" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" class="training-required"/>
+                      <field name="signed_quote" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" class="training-required"/>
                     </group>
                   </div>
                   <!-- Partie commerciale -->
@@ -109,8 +111,10 @@
                     <separator style="font-size:20px;color: #539314;" string="-&gt; Partie commerciale" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}"/>
                     <separator style="font-size:16px;" string="Partie commerciale" attrs="{'invisible': [('state',  '=', 'commercial_part')]}" />
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
-                      <strong>Étape 1 / 5 :</strong>
+                      <strong style="color: #539314;">Étape 1 / 5 :</strong>
+                      <span style="color: #898989;">
                       Sélectionner le référent client.
+                      </span>
                     </p>
                     <group>
                       <group>
@@ -121,7 +125,9 @@
                       </group>
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
-                      <strong>Étape 2 / 5 :</strong>
+                      <br/><br/><br/>
+                      <strong style="color: #539314;">Étape 2 / 5 :</strong>
+                      <span style="color: #898989;">
                       <br/>
                       - Sélectionnez le type de formation, le produit ainsi que le plan de formation.
                       <br/>
@@ -130,6 +136,7 @@
                       - Sélectionner l’OPCO et inclure le document OPCO, cette tâche n’est pas obligatoire et peut-être réalisée plus tard.
                       <br/>
                       - Déposer le diagnostic initial rempli par le client.
+                      </span>
                     </p>
                     <group>
                       <group>
@@ -155,24 +162,28 @@
                       </group>
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
-                      <strong>Étape 3 / 5 :</strong>
+                      <br/><br/><br/>
+                      <strong style="color: #539314;">Étape 3 / 5 :</strong>
+                      <span style="color: #898989;">
                       <br/>
                       - Indiquer les participants à la formation : Nom, Fonction, e-mail. Le téléphone est facultatif.
-                      <br/>
-                      Il est possible de sélectionner directement une personne présente en base de données via le champ «Référence du contact»
+                      </span>
                     </p>
                     <group>
                       <field name="training_participants" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}" readonly="False">
                       </field>
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
-                      <strong>Étape 4 / 5 :</strong>
-                      <br/>
-                      - Remplir les champs de rédaction de la convention. La durée est fixée à celle présente dans le devis.
-                      <br/>
-                      La signature présente à la fin de la convention sera celle du signataire interne.
-                      <br/>
-                      - Télécharger la convention pour la vérifier et l’envoyer au client.
+                      <br/><br/><br/>
+                      <strong style="color: #539314;">Étape 4 / 5 :</strong>
+                      <span style="color: #898989;">
+                        <br/>
+                        - Remplir les champs de rédaction de la convention. La durée est fixée à celle présente dans le devis.
+                        <br/>
+                        La signature présente à la fin de la convention sera celle du signataire interne.
+                        <br/>
+                        - Télécharger la convention pour la vérifier et l’envoyer au client.
+                      </span>
                     </p>
                     <div style="margin-left:30px;" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <separator string="Rédaction de le convention" style="color:red;"/>
@@ -204,7 +215,11 @@
                     </div>
                     <br/>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
-                      <strong>Étape 5 / 5 :</strong> Déposer la convention de formation signée par le client dans le champ ci-dessous.
+                      <br/><br/><br/>
+                      <strong style="color: #539314;">Étape 5 / 5 :</strong>
+                      <span style="color: #898989;">
+                        Déposer la convention de formation signée par le client dans le champ ci-dessous.
+                      </span>
                     </p>
                     <group>
                       <field name="signed_agreement" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
@@ -215,20 +230,27 @@
                     <separator style="font-size:20px;color: #539314;" string="-&gt; Partie consultant" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
                     <separator style="font-size:16px;" string="Partie consultant" attrs="{'invisible': [('state',  '=', 'consultant_part')]}" />
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
-                      <strong>Étape 1 / 4 :</strong>
-                      Sélectionner le consultant.
+                      <strong style="color: #539314;">Étape 1 / 4 :</strong>
+                      <span style="color: #898989;">
+                        Sélectionner le consultant en charge.
+                      </span>
                     </p>
                     <group>
                       <field name="consultant_id" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}"/>
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
-                      <strong>Étape 2 / 4 :</strong>
-                      <br/>
-                      - Indiquer si la formation est à distance ou en présentiel.
-                      <br/>
-                      - Si la formation est à distance, indiquer le lien de connexion.
-                      <br/>
-                      - Si la formation est en présentiel, indiquer sa localisation.
+                      <br/><br/><br/>
+                      <strong style="color: #539314;">Étape 2 / 4 :</strong>
+                      <span style="color: #898989;">
+                        <br/>
+                        - Indiquer si la formation est à distance ou en présentiel.
+                        <br/>
+                        - Si la formation est à distance, indiquer le lien de connexion.
+                        <br/>
+                        - Si la formation est en présentiel, indiquer sa localisation.
+                        <br/>
+                        Aide : Cette adresse correspond au lieu où se déroulera la formation. Merci de bien vérifier son exactitude!
+                      </span>
                     </p>
                     <group>
                       <group>
@@ -255,11 +277,13 @@
                             </div>
                         </group>
                       </group>
-                      <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">Aide : Cette adresse correspond au lieu où se déroulera la formation. Merci de bien vérifier son exactitude!</p>
                     </div>
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
-                      <strong>Étape 3 / 4 :</strong>
+                      <br/><br/><br/>
+                      <strong style="color: #539314;">Étape 3 / 4 :</strong>
+                      <span style="color: #898989;">
                       Planifier les créneaux de formation, les alertes s’affichent en rouge.
+                      </span>
                     </p>
                     <field name="planned_hours_alert" style="color: red;"/>
                     <group>
@@ -282,11 +306,14 @@
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">Aide : Pour planifier des heures veuillez cliquer sur "Planifier un créneau de formation" ci-dessous et placer vos créneaux ou passer directement via l'application "Calendrier". Veillez à ce que la coche "Est une formation" soit cochée et que la bonne formation soit sélectionnée.</p>
                     <button name="button_plan_training_slot" string="Planifier un créneau de formation" type="object" icon="fa-plus-square" class="oe_highlight oe_right" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
-                      <strong>Étape 4 / 4 :</strong>
+                      <br/><br/><br/>
+                      <strong style="color: #539314;">Étape 4 / 4 :</strong>
+                      <span style="color: #898989;">
                       <br/>
                       Envoyer les invitations aux participants par mail grâce au bouton «Envoyer les invitations aux participants».
                       <br/>
                       Vous pouvez aussi envoyer les invitations individuellement avec le bouton «Envoyer une invitation».
+                      </span>
                     </p>
                     <group>
                       <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
@@ -299,8 +326,10 @@
                   <separator style="font-size:20px;color: #539314;" string="-&gt; Formation en cours" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
                   <separator style="font-size:16px;" string="Formation en cours" attrs="{'invisible': [('state',  '=', 'training_in_progress')]}" />
                   <p attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}">
-                      <strong>Étape 1 / 1 :</strong>
+                      <strong style="color: #539314;">Étape 1 / 1 :</strong>
+                      <span style="color: #898989;">
                       Envoyer les quiz de diagnostic aux participants.
+                      </span>
                   </p>
                   <group>
                     <field name="training_participants" force_save="1">
@@ -313,22 +342,30 @@
                 <separator style="font-size:20px;color: #539314;" string="-&gt; Formation terminée" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
                 <separator style="font-size:16px;" string="Formation terminée" attrs="{'invisible': [('state',  '=', 'training_ended')]}" />
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
-                      <strong>Étape 1 / 4 :</strong>
+                      <strong style="color: #539314;">Étape 1 / 4 :</strong>
+                      <span style="color: #898989;">
                       <br/>
                       Envoyer les quiz de fin de formation (quiz d’évaluation des acquis et quiz d’évaluation de la formation) aux participants.
+                      </span>
                 </p>
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
-                      <strong>Étape 2 / 4 :</strong>
+                      <br/><br/><br/>
+                      <strong style="color: #539314;">Étape 2 / 4 :</strong>
+                      <span style="color: #898989;">
                       <br/>
                       Noter chaque participant en cliquant dessus et en sélectionnant une note d’engagement et de compétences.
+                      </span>
                 </p>
                 <field name="training_participants" readonly="False" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
                 </field>
                   <button name="send_training_ended_participants" string="Envoyer les mails aux participants" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les mails à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer ?" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
-                      <strong>Étape 3 / 4 :</strong>
+                      <br/><br/><br/>
+                      <strong style="color: #539314;">Étape 3 / 4 :</strong>
+                      <span style="color: #898989;">
                       <br/>
                       Noter le déroulement de la formation et si des difficultés ont été rencontrées, le préciser.
+                      </span>
                 </p>
                   
                   <div style="margin-left:30px;">
@@ -344,9 +381,12 @@
                     <button name="download_training_evaluation" string="Télécharger l'évaluation du consultant" type="object" class="oe_highlight oe_right"/>
                   </div>
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
-                      <strong>Étape 4 / 4 :</strong>
+                      <br/><br/><br/>
+                      <strong style="color: #539314;">Étape 4 / 4 :</strong>
+                      <span style="color: #898989;">
                       <br/>
-                      Ajouter la ou les feuilles d’émargement remplie(s). Pour clôturer la formation il faut au moins une feuille d’émargement.
+                      Ajouter la ou les feuilles d’émargement remplie(s) et sauvegarder. Pour clôturer la formation il faut au moins une feuille d’émargement.
+                      </span>
                 </p>
                   <div style="margin-left:30px;">
                     <separator string="Feuille d'émargement remplie" style="color:red;"/>
@@ -530,6 +570,7 @@
               <label for="partner_contact_id" string="Référence du contact : " style="font-size: 16px;"/>
               <field name="partner_contact_id" style="font-size: 16px;" nolabel="1"/>
             <group>
+            <p>Si la référence du contact n'existe pas, vous pouvez l'ajouter manuellement ci-dessous.</p>
               <separator string="Données du contact"/>
               <field name="training_id" invisible="True"/>
               <field name="training_state" invisible="True"/>

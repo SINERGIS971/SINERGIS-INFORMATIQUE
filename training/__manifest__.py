@@ -40,4 +40,9 @@
         'data/mail_training_opco_quiz.xml',
         'static/web/quiz_template.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'training/static/src/scss/training.scss',
+        ]
+    },
 }
