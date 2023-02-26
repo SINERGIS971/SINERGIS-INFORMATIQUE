@@ -195,7 +195,7 @@
                       </span>
                     </p>
                     <div style="margin-left:30px;" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
-                      <separator string="Rédaction de le convention" style="color:red;"/>
+                      <separator string="Rédaction de le convention" style="color:#2554eb;font-size:15px;"/>
                       <group>
                       <label for="course_title" class="training-required"/>
                       <field name="course_title" nolabel="1"/>
@@ -253,7 +253,7 @@
                     </p>
                     <group>
                       <label for="consultant_id" class="training-required"/>
-                      <field name="consultant_id" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}" nolabel="1"/>
+                      <field name="consultant_id" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}" domain="[('x_sinergis_res_users_job','=','CONSULTANT')]" nolabel="1"/>
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
                       <br/><br/><br/>
@@ -386,7 +386,7 @@
                 </p>
                   
                   <div style="margin-left:30px;">
-                    <separator string="Évaluation de la formation par le consultant" style="color:red;"/>
+                    <separator string="Évaluation de la formation par le consultant" style="color:#2554eb;font-size:15px;"/>
                     <group>
                       <group>
                         <label for="evaluating_training_course" class="training-required"/>
@@ -407,7 +407,7 @@
                       </span>
                 </p>
                   <div style="margin-left:30px;">
-                    <separator string="Feuille d'émargement remplie" style="color:red;"/>
+                    <separator string="Feuille d'émargement remplie" style="color:#2554eb;font-size:15px;"/>
                         <label for="signed_attendance_sheets" class="training-required"/>
                         <field name="signed_attendance_sheets" attrs="{'readonly': [('state',  '!=', 'training_ended')]}" nolabel="1">
                           <tree>
@@ -454,7 +454,7 @@
                   </group>
                   <div style="margin-left:30px;">
                     <p>Les quiz seront envoyé automatiquement 30 jours et 60 jours après la clôture de la formation, vous pouvez forcer l'envoi via les boutons "Envoyer l'évaluation maintenant" et "Envoyer le quiz maintenant".</p>
-                    <separator string="Évaluation à froid du client (J+30)" style="color:red;"/>
+                    <separator string="Évaluation à froid du client (J+30)" style="color:#2554eb;font-size:15px;"/>
                     <group>
                       <group>
                         <field name="delayed_assessment_sent"/>
@@ -466,7 +466,7 @@
                     <button name="send_delayed_assessment_client" string="Envoyer l'évaluation maintenant" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer l'évaluation au client. Cette tâche est normalement effectuée automatiquement 30 jours après la fin de la formation. Souhaitez-vous continuer ?" attrs="{'invisible': [('delayed_assessment_received',  '=', True)]}"/>
                   </div>
                   <div style="margin-left:30px;">
-                    <separator string="Évaluation de l'OPCO (J+60)" style="color:red;"/>
+                    <separator string="Évaluation de l'OPCO (J+60)" style="color:#2554eb;font-size:15px;"/>
                     <group>
                       <group>
                         <field name="opco_quiz_sent"/>
