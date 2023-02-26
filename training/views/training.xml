@@ -87,12 +87,16 @@
                     <field name="sale_id" invisible="True"/>
                     <button name="action_open_sale_id" string="Ouvrir le devis" type="object" class="oe_link" icon="fa-file-text-o" attrs="{'invisible': [('sale_id', '=', False)]}"/>
                   </div>
+                  <p>
+                      <input type="checkbox" id="training_show_hide_checkbox" name="training_show_hide_checkbox" onclick="trainingShowHideOldParts()"/>
+                      Afficher/Cacher les parties antérieures
+                  </p>
                   <group>
                     <field name="sale_id" required="True" readonly="True"/>
                     <field name="name" required="True"/>
                   </group>
                   <!-- Partie non assigné -->
-                  <div>
+                  <div class="training_major_part" id="unassigned">
                     <separator style="font-size:20px;color: #539314;" string="-&gt; Non assigné" attrs="{'invisible': [('state',  '!=', 'unassigned')]}"/>
                     <separator style="font-size:16px;" string="Non assigné" attrs="{'invisible': [('state',  '=', 'unassigned')]}" />
                     <p attrs="{'invisible': [('state',  '!=', 'unassigned')]}">
@@ -109,7 +113,7 @@
                     </group>
                   </div>
                   <!-- Partie commerciale -->
-                  <div attrs="{'invisible': [('state',  '==', 'unassigned')]}">
+                  <div attrs="{'invisible': [('state',  '==', 'unassigned')]}" class="training_major_part" id="commercial_part">
                     <separator style="font-size:20px;color: #539314;" string="-&gt; Partie commerciale" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}"/>
                     <separator style="font-size:16px;" string="Partie commerciale" attrs="{'invisible': [('state',  '=', 'commercial_part')]}" />
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
@@ -242,7 +246,7 @@
                     </group>
                   </div>
                   <!-- Partie consultant -->
-                  <div attrs="{'invisible': ['|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part')]}">
+                  <div attrs="{'invisible': ['|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part')]}" class="training_major_part" id="consultant_part">
                     <separator style="font-size:20px;color: #539314;" string="-&gt; Partie consultant" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
                     <separator style="font-size:16px;" string="Partie consultant" attrs="{'invisible': [('state',  '=', 'consultant_part')]}" />
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
@@ -340,7 +344,7 @@
                     <button name="send_invitation_participants" string="Envoyer les invitations aux participants" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les invitations à tous les participants où l'invitation n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
                   </div>
                   <!-- Formation en cours -->
-                  <div attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}">
+                  <div attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}" class="training_major_part" id="training_in_progress">
                   <separator style="font-size:20px;color: #539314;" string="-&gt; Formation en cours" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
                   <separator style="font-size:16px;" string="Formation en cours" attrs="{'invisible': [('state',  '=', 'training_in_progress')]}" />
                   <p attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}">
@@ -356,7 +360,7 @@
                   <button name="send_diagnostic_quiz_participants" string="Envoyer les quiz de diagnostic" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les quiz à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
                 </div>
                 <!-- Formation terminée -->
-                <div attrs="{'invisible': ['|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress')]}">
+                <div attrs="{'invisible': ['|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress')]}" class="training_major_part" id="training_ended">
                 <separator style="font-size:20px;color: #539314;" string="-&gt; Formation terminée" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
                 <separator style="font-size:16px;" string="Formation terminée" attrs="{'invisible': [('state',  '=', 'training_ended')]}" />
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
@@ -423,7 +427,7 @@
                   </div>
                 </div>
                 <!-- Formation cloturée -->
-                <div attrs="{'invisible': ['|','|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress'),('state',  '==', 'training_ended')]}">
+                <div attrs="{'invisible': ['|','|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress'),('state',  '==', 'training_ended')]}" class="training_major_part" id="training_closed">
                   <separator style="font-size:20px;color: #539314;" string="-&gt; Formation cloturée"/>
                   <group>
                     <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_closed')]}">
@@ -780,6 +784,7 @@
 
   </data>
 </odoo>
+
 
 
 

@@ -43,6 +43,7 @@
     'assets': {
         'web.assets_backend': [
             'training/static/src/scss/training.scss',
+            'training/static/src/js/training.js',
         ]
     },
 }
