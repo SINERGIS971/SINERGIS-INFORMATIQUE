@@ -1,5 +1,6 @@
 from odoo import api, fields, models, tools
 from odoo.exceptions import ValidationError
+from odoo.exceptions import Warning
 from datetime import datetime
 
 class MyActions(models.Model):
@@ -295,7 +296,7 @@ class MyActions(models.Model):
 
     def download_rapport_intervention_valide (self):
         report_count = self.env['calendar.sinergis_intervention_report_done'].search_count([('event_id', '=', self.link_id)])
-        raise ValidationError(f"Cet évènement comporte {str(report_count)} rapport d'intervention validé. Pour y accéder veuillez ouvrir l'évènement et cliquer sur l'onglet \"Rapport validé\"")
+        raise Warning(f"Cet évènement comporte {str(report_count)} rapport d'intervention validé. Pour y accéder veuillez ouvrir l'évènement et cliquer sur l'onglet \"Rapport validé\"")
         # Pour le moment pas de solution pour pouvoir télécharger plusieurs rapport d'intervention dans le champ one2Many du calendrier.
         #return {
         #    'name': 'Rapport',

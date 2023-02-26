@@ -23,6 +23,9 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_model = fields.Many2one("sale.order",string="Modele de devis")
 
+    #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
+    payment_term_id = fields.Many2one(default=lambda self: self.env['account.payment.term'].search([('name','ilike',"100% des logiciels")]))
+
     #Ancienne version des produits avec anciennes données présentes. À retirer après avoir pleinement adopté le nouveau système.
     x_sinergis_sale_order_product = fields.Selection([('CEGID', 'CEGID'), ('E2TIME', 'E2TIME'), ('MESBANQUES', 'MESBANQUES'), ('OPEN BEE', 'OPEN BEE'), ('QUARKSUP', 'QUARKSUP'), ('SAGE 100', 'SAGE 100'), ('SAGE 1000', 'SAGE 1000'), ('SAP', 'SAP'), ('VIF', 'VIF'), ('X3', 'SAGE X3'), ('XLSOFT', 'XLSOFT'), ('XRT', 'XRT'), ('SILAE','SILAE'), ('DIVERS', 'DIVERS')], required=False, string="Produit")
     #Nouvelle version des produits rattaché au model de produits
@@ -235,9 +238,13 @@ class SaleOrder(models.Model):
     #    if self.fiscal_position_id:
     #        self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',self.fiscal_position_id.name),('company_id.name', '=', self.company_id.name)])[0].id
 
+    # 26 Février 2023 - Lors de la suppression d'un devis / bon de commande, supprimer aussi les tâches et projets associés
+    def unlink(self):
+        for rec in self:
+            self.env['project.task'].sudo().search(['|', ('sale_line_id', 'in', rec.order_line.ids),('sale_order_id', '=', rec.id)]).unlink()
+            self.env['project.project'].sudo().search([('sale_order_id', '=', rec.id)]).unlink()
+        return super(SaleOrder, self).unlink()
 
-    #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
-    payment_term_id = fields.Many2one(default=lambda self: self.env['account.payment.term'].search([('name','ilike',"100% des logiciels")]))
 
 
 class SaleOrderLine(models.Model):
