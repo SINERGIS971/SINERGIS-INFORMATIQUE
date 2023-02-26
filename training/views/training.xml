@@ -367,7 +367,6 @@
                       </span>
                 </p>
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
-                      <br/><br/><br/>
                       <strong style="color: #539314;">Étape 2 / 4 :</strong>
                       <span class="training-step-content">
                       <br/>
@@ -589,14 +588,17 @@
             </group>
               <label for="partner_contact_id" string="Référence du contact : " style="font-size: 16px;"/>
               <field name="partner_contact_id" style="font-size: 16px;" nolabel="1"/>
+              <p>Si la référence du contact n'existe pas, vous pouvez l'ajouter manuellement ci-dessous.</p>
             <group>
-            <p>Si la référence du contact n'existe pas, vous pouvez l'ajouter manuellement ci-dessous.</p>
               <separator string="Données du contact"/>
               <field name="training_id" invisible="True"/>
               <field name="training_state" invisible="True"/>
-              <field name="name" required="True"/>
-              <field name="position" required="True"/>
-              <field name="email" required="True"/>
+              <label for="name" class="training-required"/>
+              <field name="name" required="True" nolabel="1"/>
+              <label for="position" class="training-required"/>
+              <field name="position" required="True" nolabel="1"/>
+              <label for="email" class="training-required"/>
+              <field name="email" required="True" nolabel="1"/>
               <field name="phone"/>
             </group>
             <div style="margin-left:30px;" attrs="{'invisible': ['&amp;',('training_state',  '!=', 'training_ended'),('training_state',  '!=', 'training_closed')]}">
