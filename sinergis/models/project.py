@@ -28,6 +28,10 @@ class ProjectTask(models.Model):
     #Indique si la tâche est un CH
     x_sinergis_project_task_contract_type = fields.Selection([('CH', 'CH'), ('DEVIS', 'DEVIS')], compute="_compute_x_sinergis_project_task_contract_type", store=True)
 
+    #Récupère le produit et le sous-produit du devis et de la ligne de vente
+    x_sinergis_project_task_product_id = fields.Many2one("sale.products",string="Produit", related="sale_order_id.x_sinergis_sale_order_product_new", store=True)
+    x_sinergis_project_task_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-Produit", related="sale_line_id.x_sinergis_sale_order_line_subproduct_id", store=True)
+
     #Onglet "SUIVI" -  Boutton télécharger la feuille de temps
     def print_timesheet_button(self):
         return self.env.ref('sinergis.sinergis_report_timesheet').report_action(self)
@@ -177,3 +181,4 @@ class ProjectProject(models.Model):
                     if not task.user_ids:
                         task.user_ids = [(4,values["x_sinergis_project_project_technical_manager"])]
         return super(ProjectProject, self).write(values)
+

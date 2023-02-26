@@ -15,7 +15,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['base','product','sale','mail','calendar'],
+    'depends': ['base','product','sale','mail','calendar','sinergis'],
 
     'data': [
         'security/ir.model.access.csv',
@@ -40,4 +40,10 @@
         'data/mail_training_opco_quiz.xml',
         'static/web/quiz_template.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'training/static/src/scss/training.scss',
+            'training/static/src/js/training.js',
+        ]
+    },
 }
