@@ -97,13 +97,15 @@
                     <separator style="font-size:16px;" string="Non assigné" attrs="{'invisible': [('state',  '=', 'unassigned')]}" />
                     <p attrs="{'invisible': [('state',  '!=', 'unassigned')]}">
                       <strong style="color: #539314;">Étape 1 / 1 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       Désigner un responsable commercial pour ce dossier et inclure le devis signé.
                       </span>
                     </p>
                     <group>
-                      <field name="sales_manager" widget="many2one_avatar_user" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" class="training-required"/>
-                      <field name="signed_quote" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" class="training-required"/>
+                      <label for="sales_manager" class="training-required"/>
+                      <field name="sales_manager" widget="many2one_avatar_user" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" class="training-required" nolabel="1"/>
+                      <label for="signed_quote" class="training-required"/>
+                      <field name="signed_quote" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" class="training-required" nolabel="1"/>
                     </group>
                   </div>
                   <!-- Partie commerciale -->
@@ -112,22 +114,24 @@
                     <separator style="font-size:16px;" string="Partie commerciale" attrs="{'invisible': [('state',  '=', 'commercial_part')]}" />
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <strong style="color: #539314;">Étape 1 / 5 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       Sélectionner le référent client.
                       </span>
                     </p>
                     <group>
                       <group>
-                        <field name="partner_id" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
+                        <label for="partner_id" class="training-required"/>
+                        <field name="partner_id" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}" nolabel="1"/>
                       </group>
                       <group>
-                        <field name="partner_manager_id" domain="[('parent_id','=',partner_id)]" attrs="{'readonly': ['|',('partner_id',  '=', False),('state',  '!=', 'commercial_part')]}"/>
+                        <label for="partner_manager_id" class="training-required"/>
+                        <field name="partner_manager_id" domain="[('parent_id','=',partner_id)]" attrs="{'readonly': ['|',('partner_id',  '=', False),('state',  '!=', 'commercial_part')]}" nolabel="1"/>
                       </group>
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <br/><br/><br/>
                       <strong style="color: #539314;">Étape 2 / 5 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       <br/>
                       - Sélectionnez le type de formation, le produit ainsi que le plan de formation.
                       <br/>
@@ -140,31 +144,36 @@
                     </p>
                     <group>
                       <group>
-                        <field name="company_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
+                        <label for="company_id" class="training-required"/>
+                        <field name="company_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}" nolabel="1"/>
                       </group>
                       <group>
-                        <field name="type_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
+                        <label for="type_id" class="training-required"/>
+                        <field name="type_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}" nolabel="1"/>
                       </group>
                       <group>
                         <field name="opco_id" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
                       </group>
                       <group>
-                        <field name="type_product_id" domain="[('type_id','=',type_id)]" attrs="{'readonly': ['|',('type_id',  '=', False),('state',  '!=', 'commercial_part')]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <label for="type_product_id" class="training-required"/>
+                        <field name="type_product_id" domain="[('type_id','=',type_id)]" attrs="{'readonly': ['|',('type_id',  '=', False),('state',  '!=', 'commercial_part')]}" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
                       </group>
                       <group>
                         <field name="opco_file" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
                       </group>
                       <group>
-                        <field name="type_product_plan_id" domain="['&amp;',('type_id','=',type_id),('product_id','=',type_product_id)]" attrs="{'readonly': ['|',('type_product_id',  '=', False),('state',  '!=', 'commercial_part')]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <label for="type_product_plan_id" class="training-required"/>
+                        <field name="type_product_plan_id" domain="['&amp;',('type_id','=',type_id),('product_id','=',type_product_id)]" attrs="{'readonly': ['|',('type_product_id',  '=', False),('state',  '!=', 'commercial_part')]}" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
                       </group>
                       <group>
-                        <field name="diagnosis_file" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
+                        <label for="diagnosis_file" class="training-required"/>
+                        <field name="diagnosis_file" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}" nolabel="1"/>
                       </group>
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <br/><br/><br/>
                       <strong style="color: #539314;">Étape 3 / 5 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       <br/>
                       - Indiquer les participants à la formation : Nom, Fonction, e-mail. Le téléphone est facultatif.
                       </span>
@@ -176,7 +185,7 @@
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <br/><br/><br/>
                       <strong style="color: #539314;">Étape 4 / 5 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                         <br/>
                         - Remplir les champs de rédaction de la convention. La durée est fixée à celle présente dans le devis.
                         <br/>
@@ -188,21 +197,27 @@
                     <div style="margin-left:30px;" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <separator string="Rédaction de le convention" style="color:red;"/>
                       <group>
-                      <field name="course_title"/>
-                      <field name="location" options="{'no_create': True, 'no_create_edit':True}"/>
+                      <label for="course_title" class="training-required"/>
+                      <field name="course_title" nolabel="1"/>
+                      <label for="location" class="training-required"/>
+                      <field name="location" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
                       </group>
                       <group>
                         <group>
-                          <field name="start"/>
+                          <label for="start" class="training-required"/>
+                          <field name="start" nolabel="1"/>
                         </group>
                         <group>
-                          <field name="end"/>
+                          <label for="end" class="training-required"/>
+                          <field name="end" nolabel="1"/>
                         </group>
                         <group>
-                          <field name="agreement_internal_signer" options="{'no_create': True, 'no_create_edit':True}"/>
+                          <label for="agreement_internal_signer" class="training-required"/>
+                          <field name="agreement_internal_signer" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
                         </group>
                         <group>
-                          <field name="duration"/>
+                          <label for="duration" class="training-required"/>
+                          <field name="duration" nolabel="1"/>
                         </group>
                         <group>
                         </group>
@@ -217,12 +232,13 @@
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <br/><br/><br/>
                       <strong style="color: #539314;">Étape 5 / 5 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                         Déposer la convention de formation signée par le client dans le champ ci-dessous.
                       </span>
                     </p>
                     <group>
-                      <field name="signed_agreement" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}"/>
+                      <label for="signed_agreement" class="training-required"/>
+                      <field name="signed_agreement" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}" nolabel="1"/>
                     </group>
                   </div>
                   <!-- Partie consultant -->
@@ -231,17 +247,18 @@
                     <separator style="font-size:16px;" string="Partie consultant" attrs="{'invisible': [('state',  '=', 'consultant_part')]}" />
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
                       <strong style="color: #539314;">Étape 1 / 4 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                         Sélectionner le consultant en charge.
                       </span>
                     </p>
                     <group>
-                      <field name="consultant_id" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}"/>
+                      <label for="consultant_id" class="training-required"/>
+                      <field name="consultant_id" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}" nolabel="1"/>
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
                       <br/><br/><br/>
                       <strong style="color: #539314;">Étape 2 / 4 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                         <br/>
                         - Indiquer si la formation est à distance ou en présentiel.
                         <br/>
@@ -257,13 +274,15 @@
                         <field name="remote_learning" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}"/>
                       </group>
                       <group>
-                        <field name="remote_learning_link" attrs="{'invisible': [('remote_learning',  '==', False)], 'required': [('remote_learning',  '=', True)], 'readonly': [('state',  '!=', 'consultant_part')]}"/>
+                        <label for="remote_learning_link" class="training-required"/>
+                        <field name="remote_learning_link" attrs="{'invisible': [('remote_learning',  '==', False)], 'required': [('remote_learning',  '=', True)], 'readonly': [('state',  '!=', 'consultant_part')]}" nolabel="1"/>
                       </group>
                     </group>
                     <div attrs="{'invisible': [('remote_learning',  '=', True)]}">
                       <group>
                         <group>
-                          <field name="location_selection" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}"/>
+                          <label for="location_selection" class="training-required"/>
+                          <field name="location_selection" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}" nolabel="1"/>
                         </group>
                         <group>
                             <div attrs="{'invisible': [('location_selection',  '=', 'company')]}">
@@ -281,13 +300,14 @@
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
                       <br/><br/><br/>
                       <strong style="color: #539314;">Étape 3 / 4 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       Planifier les créneaux de formation, les alertes s’affichent en rouge.
                       </span>
                     </p>
                     <field name="planned_hours_alert" style="color: red;"/>
                     <group>
-                      <field name="planned_hours_ids">
+                      <label for="planned_hours_ids" class="training-required"/>
+                      <field name="planned_hours_ids" nolabel="1">
                         <tree string="Heures planifiées" default_order="start asc">
                           <field name="user_id" string="Organisateur"/>
                           <field name="start" string="Début"/>
@@ -308,7 +328,7 @@
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
                       <br/><br/><br/>
                       <strong style="color: #539314;">Étape 4 / 4 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       <br/>
                       Envoyer les invitations aux participants par mail grâce au bouton «Envoyer les invitations aux participants».
                       <br/>
@@ -327,7 +347,7 @@
                   <separator style="font-size:16px;" string="Formation en cours" attrs="{'invisible': [('state',  '=', 'training_in_progress')]}" />
                   <p attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}">
                       <strong style="color: #539314;">Étape 1 / 1 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       Envoyer les quiz de diagnostic aux participants.
                       </span>
                   </p>
@@ -343,7 +363,7 @@
                 <separator style="font-size:16px;" string="Formation terminée" attrs="{'invisible': [('state',  '=', 'training_ended')]}" />
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
                       <strong style="color: #539314;">Étape 1 / 4 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       <br/>
                       Envoyer les quiz de fin de formation (quiz d’évaluation des acquis et quiz d’évaluation de la formation) aux participants.
                       </span>
@@ -351,7 +371,7 @@
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
                       <br/><br/><br/>
                       <strong style="color: #539314;">Étape 2 / 4 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       <br/>
                       Noter chaque participant en cliquant dessus et en sélectionnant une note d’engagement et de compétences.
                       </span>
@@ -362,7 +382,7 @@
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
                       <br/><br/><br/>
                       <strong style="color: #539314;">Étape 3 / 4 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       <br/>
                       Noter le déroulement de la formation et si des difficultés ont été rencontrées, le préciser.
                       </span>
@@ -372,7 +392,8 @@
                     <separator string="Évaluation de la formation par le consultant" style="color:red;"/>
                     <group>
                       <group>
-                        <field name="evaluating_training_course" attrs="{'readonly': [('state',  '!=', 'training_ended')]}"/>
+                        <label for="evaluating_training_course" class="training-required"/>
+                        <field name="evaluating_training_course" attrs="{'readonly': [('state',  '!=', 'training_ended')]}" nolabel="1"/>
                       </group>
                       <group>
                         <field name="difficulties_training_course" attrs="{'readonly': [('state',  '!=', 'training_ended')]}"/>
@@ -383,14 +404,15 @@
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
                       <br/><br/><br/>
                       <strong style="color: #539314;">Étape 4 / 4 :</strong>
-                      <span style="color: #898989;">
+                      <span class="training-step-content">
                       <br/>
                       Ajouter la ou les feuilles d’émargement remplie(s) et sauvegarder. Pour clôturer la formation il faut au moins une feuille d’émargement.
                       </span>
                 </p>
                   <div style="margin-left:30px;">
                     <separator string="Feuille d'émargement remplie" style="color:red;"/>
-                        <field name="signed_attendance_sheets" attrs="{'readonly': [('state',  '!=', 'training_ended')]}">
+                        <label for="signed_attendance_sheets" class="training-required"/>
+                        <field name="signed_attendance_sheets" attrs="{'readonly': [('state',  '!=', 'training_ended')]}" nolabel="1">
                           <tree>
                             <field name="name" invisible="True"/>
                             <field name="file" filename="name" widget="binary"/>
