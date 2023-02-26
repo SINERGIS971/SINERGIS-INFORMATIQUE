@@ -15,7 +15,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['base','product','sale','mail','calendar'],
+    'depends': ['base','product','sale','mail','calendar','sinergis'],
 
     'data': [
         'security/ir.model.access.csv',

@@ -407,7 +407,6 @@
                       </span>
                 </p>
                   <div style="margin-left:30px;">
-                    <separator string="Feuille d'émargement remplie" style="color:#2554eb;font-size:15px;"/>
                         <label for="signed_attendance_sheets" class="training-required"/>
                         <field name="signed_attendance_sheets" attrs="{'readonly': [('state',  '!=', 'training_ended')]}" nolabel="1">
                           <tree>
