@@ -241,7 +241,10 @@ class SaleOrder(models.Model):
     # 26 Février 2023 - Lors de la suppression d'un devis / bon de commande, supprimer aussi les tâches et projets associés
     def unlink(self):
         for rec in self:
-            self.env['project.task'].sudo().search(['|', ('sale_line_id', 'in', rec.order_line.ids),('sale_order_id', '=', rec.id)]).unlink()
+            tasks = self.env['project.task'].sudo().search(['|', ('sale_line_id', 'in', rec.order_line.ids),('sale_order_id', '=', rec.id)])
+            for task in tasks:
+                task.sale_line_id = False
+                task.unlink()
             self.env['project.project'].sudo().search([('sale_order_id', '=', rec.id)]).unlink()
         return super(SaleOrder, self).unlink()
 
