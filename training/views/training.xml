@@ -103,9 +103,9 @@
                     </p>
                     <group>
                       <label for="sales_manager" class="training-required"/>
-                      <field name="sales_manager" widget="many2one_avatar_user" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" class="training-required" nolabel="1"/>
+                      <field name="sales_manager" widget="many2one_avatar_user" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" nolabel="1"/>
                       <label for="signed_quote" class="training-required"/>
-                      <field name="signed_quote" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" class="training-required" nolabel="1"/>
+                      <field name="signed_quote" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" nolabel="1"/>
                     </group>
                   </div>
                   <!-- Partie commerciale -->
@@ -274,7 +274,7 @@
                         <field name="remote_learning" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}"/>
                       </group>
                       <group>
-                        <label for="remote_learning_link" class="training-required"/>
+                        <label for="remote_learning_link" class="training-required" attrs="{'invisible': [('remote_learning',  '==', False)]}"/>
                         <field name="remote_learning_link" attrs="{'invisible': [('remote_learning',  '==', False)], 'required': [('remote_learning',  '=', True)], 'readonly': [('state',  '!=', 'consultant_part')]}" nolabel="1"/>
                       </group>
                     </group>
@@ -335,10 +335,8 @@
                       Vous pouvez aussi envoyer les invitations individuellement avec le bouton «Envoyer une invitation».
                       </span>
                     </p>
-                    <group>
                       <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
                       </field>
-                    </group>
                     <button name="send_invitation_participants" string="Envoyer les invitations aux participants" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les invitations à tous les participants où l'invitation n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
                   </div>
                   <!-- Formation en cours -->
