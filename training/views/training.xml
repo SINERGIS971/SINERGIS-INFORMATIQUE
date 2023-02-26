@@ -89,8 +89,11 @@
                   </div>
                   <p>
                       <input type="checkbox" id="training_show_hide_checkbox" name="training_show_hide_checkbox" onclick="trainingShowHideOldParts()"/>
-                      Afficher/Cacher les parties antérieures
+                      &#032;Afficher les parties antérieures
                   </p>
+                  <script type="text/javascript">
+                      trainingShowHideOldParts();
+                  </script>
                   <group>
                     <field name="sale_id" required="True" readonly="True"/>
                     <field name="name" required="True"/>
@@ -784,6 +787,7 @@
 
   </data>
 </odoo>
+
 
 
 
