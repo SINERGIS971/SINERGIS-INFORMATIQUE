@@ -19,7 +19,7 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_amount_charged = fields.Monetary(string="Montant facturé")
     x_sinergis_sale_order_amount_remaining = fields.Monetary(string="Restant à facturer",compute="_compute_x_sinergis_sale_order_amount_remaining")
-    x_sinergis_sale_order_acompte_verse = fields.Boolean(default=0, string="Acompte versé")
+    x_sinergis_sale_order_acompte_verse = fields.Boolean(string="Acompte versé")
 
     x_sinergis_sale_order_model = fields.Many2one("sale.order",string="Modele de devis")
 
