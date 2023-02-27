@@ -123,7 +123,7 @@ class ProjectTask(models.Model):
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
-    x_sinergis_project_project_acompte_verse = fields.Boolean(string="Acompte versé", compute="_compute_x_sinergis_project_project_acompte_verse", store=True)
+    x_sinergis_project_project_acompte_verse = fields.Boolean(string="Acompte versé", compute="_compute_x_sinergis_project_project_acompte_verse")
 
     x_sinergis_project_project_sale_order_contact = fields.Many2one("res.partner", string="Contact de la vente",compute="_compute_x_sinergis_project_project_sale_order_contact")
     x_sinergis_project_project_sale_order_contact_phone = fields.Char(string="Téléphone du contact",compute="_compute_x_sinergis_project_project_sale_order_contact_phone")
@@ -167,10 +167,10 @@ class ProjectProject(models.Model):
             else:
                 rec.x_sinergis_project_project_acompte_verse = False
 
-    @api.onchange("tag_ids")
-    def on_change_tag_ids (self):
-        if "ACOMPTE VERSE (A PLANIFIER)" in self.tag_ids.mapped('name'):
-            self.x_sinergis_project_project_acompte_verse = True
+    #@api.onchange("tag_ids")
+    #def on_change_tag_ids (self):
+    #    if "ACOMPTE VERSE (A PLANIFIER)" in self.tag_ids.mapped('name'):
+    #        self.x_sinergis_project_project_acompte_verse = True
 
     def write(self, values):
         #Si on change le responsable technique du projet, mettre les assignés des tâches associées au même utilisateur si la tâche n'a pas d'assigné.
