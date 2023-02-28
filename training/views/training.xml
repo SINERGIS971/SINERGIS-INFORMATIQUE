@@ -442,7 +442,8 @@
                               class="oe_highlight btn-secondary"
                               type="object"
                               icon="fa-trash-o"
-                              confirm="Êtes-vous sûr de supprimer ce participant ?"/>
+                              confirm="Êtes-vous sûr de supprimer ce participant ?"
+                              attrs="{'invisible': ['&amp;','&amp;',('state',  '!=', 'commercial_part'),('state',  '!=', 'training_in_progress'),('state',  '!=', 'training_ended')]}"/>
                             <field name="name"/>
                             <field name="email"/>
                             <!--Partie consultant-->
