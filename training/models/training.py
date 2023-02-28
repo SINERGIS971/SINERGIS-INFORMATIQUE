@@ -144,9 +144,9 @@ class Training(models.Model):
                 if event.start.date() > rec.end or event.stop.date() > rec.end  :
                     too_late = True
             messages = []
-            if total_hours > rec.duration_hours :
+            if total_hours > rec.duration_hours and total_hours > 0 :
                 messages.append(f"- Vous avez planifié plus d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
-            elif total_hours < rec.duration_hours :
+            elif total_hours < rec.duration_hours and total_hours > 0 :
                 messages.append(f"- Vous avez planifié moins d'heures que prévues. La convention de formation indique un total de {rec.duration_hours} heures alors que vous avez placé {total_hours} heures.")
             if too_early :
                 messages.append(f"- Au moins un évènement Formation a été placé trop tôt. La convention de formation de formation indique un début le : {rec.start.strftime('%d/%m/%Y')}")

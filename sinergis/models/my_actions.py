@@ -295,7 +295,17 @@ class MyActions(models.Model):
 
     def download_rapport_intervention_valide (self):
         report_count = self.env['calendar.sinergis_intervention_report_done'].search_count([('event_id', '=', self.link_id)])
-        raise ValidationError(f"Cet évènement comporte {str(report_count)} rapport(s) d'intervention validé(s). Pour y accéder veuillez ouvrir l'évènement et cliquer sur l'onglet \"Rapport validé\"")
+        if report_count == 1 :
+            report_id = self.env['calendar.sinergis_intervention_report_done'].search([('event_id', '=', self.link_id)]).id
+            return {
+                'name': 'Rapport',
+                'type': 'ir.actions.act_url',
+                'url': '/web/content/?model=calendar.sinergis_intervention_report_done&id={}&field=file&download=true'.format(
+                    report_id
+                ),
+                'target': 'self',
+            }
+        raise ValidationError(f"Cet évènement comporte {str(report_count)} rapport(s) d'intervention validé(s). Pour y accéder veuillez ouvrir (bouton OUVRIR) l'évènement et cliquer sur l'onglet \"Rapport validé\" afin d’accéder à l’ensemble des rapports validés.")
         # Pour le moment pas de solution pour pouvoir télécharger plusieurs rapport d'intervention dans le champ one2Many du calendrier.
         #return {
         #    'name': 'Rapport',

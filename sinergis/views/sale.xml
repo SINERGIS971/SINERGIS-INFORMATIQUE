@@ -217,6 +217,22 @@
         </field>
     </record>
 
+    <!--Tree view : Company => Orders => Tree view -->
+    <record id="sinergis_inherited_sale_view_order_tree" model="ir.ui.view">
+        <field name="name">sinergis.inherited.sale.view.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="x_sinergis_sale_order_objet" readonly="1" decoration-bf="1"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    
+
     <!-- DANS LA LISTE DES ELEMENTS DU DEVIS, METTRE LE COUT PAR DEFAUT -->
     <record id="sinergis_inherited_margin_sale_order_line_form" model="ir.ui.view">
         <field name="name">sinergis.inherited.margin.sale.order.line.form</field>

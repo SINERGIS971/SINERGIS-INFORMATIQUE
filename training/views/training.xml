@@ -202,7 +202,7 @@
                       </span>
                     </p>
                     <div style="margin-left:30px;" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
-                      <separator string="Rédaction de le convention" style="color:#2554eb;font-size:15px;"/>
+                      <separator string="Rédaction de la convention" style="color:#2554eb;font-size:15px;"/>
                       <group>
                       <label for="course_title" class="training-required"/>
                       <field name="course_title" nolabel="1"/>
@@ -255,7 +255,7 @@
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
                       <strong style="color: #539314;">Étape 1 / 4 :</strong>
                       <span class="training-step-content">
-                        Sélectionner le consultant en charge.
+                        Sélectionner le consultant en charge de la formation.
                       </span>
                     </p>
                     <group>
@@ -374,6 +374,7 @@
                       </span>
                 </p>
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
+                      <br/>
                       <strong style="color: #539314;">Étape 2 / 4 :</strong>
                       <span class="training-step-content">
                       <br/>
