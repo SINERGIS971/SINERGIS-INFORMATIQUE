@@ -607,6 +607,9 @@ class TrainingParticipants(models.Model):
         self.email = self.partner_contact_id.email
         self.phone = self.partner_contact_id.phone
 
+    def remove_participant (self):
+        self.unlink()
+
     def send_invitation_individual(self):
         if Training.verifiation_fields(self.training_id):
             if not self.training_id.planned_hours_ids :

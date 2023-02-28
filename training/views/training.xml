@@ -186,7 +186,7 @@
                       </span>
                     </p>
                     <group>
-                      <field name="training_participants" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}" readonly="False">
+                      <field name="training_participants" attrs="{'invisible': [('state',  '!=', 'commercial_part')]}" readonly="False" delete="0">
                       </field>
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
@@ -342,7 +342,7 @@
                       Vous pouvez aussi envoyer les invitations individuellement avec le bouton «Envoyer une invitation».
                       </span>
                     </p>
-                      <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
+                      <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}" delete="0">
                       </field>
                     <button name="send_invitation_participants" string="Envoyer les invitations aux participants" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les invitations à tous les participants où l'invitation n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'consultant_part')]}"/>
                   </div>
@@ -357,7 +357,7 @@
                       </span>
                   </p>
                   <group>
-                    <field name="training_participants" force_save="1">
+                    <field name="training_participants" force_save="1" delete="0">
                     </field>
                   </group>
                   <button name="send_diagnostic_quiz_participants" string="Envoyer les quiz de diagnostic" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les quiz à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer" attrs="{'invisible': [('state',  '!=', 'training_in_progress')]}"/>
@@ -381,7 +381,7 @@
                       Noter chaque participant en cliquant dessus et en sélectionnant une note d’engagement et de compétences.
                       </span>
                 </p>
-                <field name="training_participants" readonly="False" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
+                <field name="training_participants" readonly="False" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_ended')]}" delete="0">
                 </field>
                   <button name="send_training_ended_participants" string="Envoyer les mails aux participants" type="object" class="oe_highlight oe_right" confirm="Vous allez envoyer les mails à tous les participants où celui-ci n'a pas encore été envoyée. Souhaitez-vous continuer ?" attrs="{'invisible': [('state',  '!=', 'training_ended')]}"/>
                 <p attrs="{'invisible': [('state',  '!=', 'training_ended')]}">
@@ -434,8 +434,15 @@
                 <div attrs="{'invisible': ['|','|','|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'consultant_part'),('state',  '==', 'training_in_progress'),('state',  '==', 'training_ended')]}" class="training_major_part" id="training_closed">
                   <separator style="font-size:20px;color: #539314;" string="-&gt; Formation cloturée"/>
                   <group>
-                    <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_closed')]}">
+                    <field name="training_participants" readonly="True" force_save="1" attrs="{'invisible': [('state',  '!=', 'training_closed')]}" delete="0">
                       <tree string="Liste des participants" decoration-success="is_rated==True">
+                            <button
+                              name="remove_participant"
+                              string=""
+                              class="oe_highlight btn-secondary"
+                              type="object"
+                              icon="fa-trash-o"
+                              confirm="Êtes-vous sûr de supprimer ce participant ?"/>
                             <field name="name"/>
                             <field name="email"/>
                             <!--Partie consultant-->
