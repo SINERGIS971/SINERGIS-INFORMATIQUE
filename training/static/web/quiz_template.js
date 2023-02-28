@@ -39,9 +39,7 @@ function radio_hide(question_id, choice_id) {
     if (elements.length > 0) {
         elements.forEach(function(element) {
           inputs = element.querySelectorAll('input');
-              console.log(inputs);
               inputs.forEach(input => {
-                input.value = '';
                 input.checked = false;
           });
           element.style.display = "none";
@@ -55,4 +53,5 @@ function radio_hide(question_id, choice_id) {
         }
     }
 }
+
 

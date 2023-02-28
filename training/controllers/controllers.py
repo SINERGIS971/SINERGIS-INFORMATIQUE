@@ -143,76 +143,100 @@ class Training(http.Controller):
         del kw["token"]
         TrainingParticipant = http.request.env['training.participants']
         participant = TrainingParticipant.search(['|','|','|',('token_quiz_diagnostic', '=', token ),('token_quiz_positioning', '=', token ),('token_quiz_prior_learning', '=', token ),('token_quiz_training_evaluation', '=', token)])
-        training = http.request.env['training'].search(['|',('token_delayed_assessment', '=', token ),('token_opco_quiz', '=', token )])
-        if not participant and not training:
+        if not participant :
+            training = http.request.env['training'].search(['|',('token_delayed_assessment', '=', token ),('token_opco_quiz', '=', token )])
+        else :
+            training = participant.training_id
+        if not participant or not training:
             return ("Token invalide")
 
         questions = []
+        
+        question_data = kw
         questions_name = []
-        questions_answer = list(kw.values())
-        if participant:
-            if participant.token_quiz_diagnostic == token: #C'est un quiz diagnostic
-                if participant.answer_quiz_diagnostic:
-                    return http.request.render("training.quiz_page_message", {
-                        "message": "Vous avez déjà rempli ce questionnaire"
-                    })
-
-            if participant.token_quiz_positioning == token: #C'est un quiz diagnostic
-                if participant.answer_positioning_quiz:
-                    return http.request.render("training.quiz_page_message", {
-                        "message": "Vous avez déjà rempli ce questionnaire"
-                    })
-
-            if participant.token_quiz_prior_learning == token: #C'est un quiz d'évaluation des acquis
-                if participant.answer_prior_learning_quiz:
-                    return http.request.render("training.quiz_page_message", {
-                        "message": "Vous avez déjà rempli ce questionnaire"
-                    })
-
-            if participant.token_quiz_training_evaluation == token: #C'est un quiz d'évaluation de la formation
-                if participant.answer_training_evaluation:
-                    return http.request.render("training.quiz_page_message", {
-                        "message": "Vous avez déjà rempli ce questionnaire"
-                    })
-        if training:
-            if training.token_delayed_assessment == token: #C'est un quiz diagnostic
-                if training.answer_delayed_assessment:
-                    return http.request.render("training.quiz_page_message", {
-                        "message": "Vous avez déjà rempli ce questionnaire"
-                    })
-            if training.token_opco_quiz == token: #C'est un quiz diagnostic
-                if training.answer_opco_quiz:
-                    return http.request.render("training.quiz_page_message", {
-                        "message": "Vous avez déjà rempli ce questionnaire"
-                    })
-        questions = http.request.env['training.quiz.questions'].search([('id', '=', list(kw.keys()))])
+        questions_answer = []
+        
+        quiz_type=False
+        if participant.token_quiz_diagnostic == token: #C'est un quiz diagnostic
+            quiz_type="diagnostic"
+            if participant.answer_quiz_diagnostic:
+                return http.request.render("training.quiz_page_message", {
+                    "message": "Vous avez déjà rempli ce questionnaire"
+                })
+        elif participant.token_quiz_positioning == token: #C'est un quiz positionnement
+            quiz_type="positioning"
+            if participant.answer_positioning_quiz:
+                return http.request.render("training.quiz_page_message", {
+                    "message": "Vous avez déjà rempli ce questionnaire"
+                })
+        elif participant.token_quiz_prior_learning == token: #C'est un quiz d'évaluation des acquis
+            quiz_type="prior_learning"
+            if participant.answer_prior_learning_quiz:
+                return http.request.render("training.quiz_page_message", {
+                    "message": "Vous avez déjà rempli ce questionnaire"
+                })
+        elif participant.token_quiz_training_evaluation == token: #C'est un quiz d'évaluation de la formation
+            quiz_type="training_evaluation"
+            if participant.answer_training_evaluation:
+                return http.request.render("training.quiz_page_message", {
+                    "message": "Vous avez déjà rempli ce questionnaire"
+                })
+        elif training.token_delayed_assessment == token: #C'est un quiz diagnostic
+            quiz_type="delayed_assessment"
+            if training.answer_delayed_assessment:
+                return http.request.render("training.quiz_page_message", {
+                    "message": "Vous avez déjà rempli ce questionnaire"
+                })
+        elif training.token_opco_quiz == token: #C'est un quiz diagnostic
+            quiz_type="opco"
+            if training.answer_opco_quiz:
+                return http.request.render("training.quiz_page_message", {
+                    "message": "Vous avez déjà rempli ce questionnaire"
+                })
+        if not quiz_type:
+            return ("Il n'y a pas de quiz associé, veuillez contacter un administrateur système.")
+        if quiz_type == "opco" or quiz_type == "delayed_assessment" or quiz_type == "training_evaluation":
+            quiz = http.request.env['training.quiz'].search([('quiz_type', '=', quiz_type)])
+        else:
+            quiz = http.request.env['training.quiz'].search(['&',('training_type_product_plan', '=', training.type_product_plan_id.id),('quiz_type', '=', quiz_type)])
+        questions = http.request.env['training.quiz.questions'].search([('quiz_id', '=', quiz.id)])
         #Score variables
         total_answers = 0
         right_answers = 0
 
-        i = 0
         for question in questions:
             questions_name.append(question.name)
+            if str(question.id) in question_data:
+                answer = question_data[str(question.id)]
+            else:
+                answer = ""
             if question.type == "note1":
-                vals = {'rate': int(questions_answer[i]),
-                        'question_id': question.id
-                        }
-                http.request.env['training.quiz.questions.rate.record'].sudo().create(vals)
-                questions_answer[i] = questions_answer[i] + " sur 5"
+                if answer != "" :
+                    rate = int(answer)
+                    vals = {'rate': rate,
+                            'question_id': question.id
+                            }
+                    http.request.env['training.quiz.questions.rate.record'].sudo().create(vals)
+                    questions_answer.append(answer + " sur 5")
+                else : 
+                    questions_answer.append("")
             #Si c'est une question à choix multiple
-            if question.type == "multiple_choice":
-                question_choice = http.request.env['training.quiz.questions.multiple_choice'].search(['&',('question_id', '=',question.id),('name','=',questions_answer[i])])
+            elif question.type == "multiple_choice":
+                question_right_answers = http.request.env['training.quiz.questions.multiple_choice'].search(['&',('question_id', '=',question.id),('right_answer','=',True)])
+                if question_right_answers :  # If question have right answer
+                    total_answers += 1  # Increment the number of rated answers answered
+                    
+                question_choice = http.request.env['training.quiz.questions.multiple_choice'].search(['&',('question_id', '=',question.id),('name','=',answer)])
                 if question_choice:
                     vals = {'date': date.today(),
                             'multiple_choice_id': question_choice.id
                             }
                     http.request.env['training.quiz.questions.multiple_choice.record'].sudo().create(vals)
-                    question_right_answers = http.request.env['training.quiz.questions.multiple_choice'].search(['&',('question_id', '=',question.id),('right_answer','=',True)])
-                    if question_right_answers :  # If question have right answer
-                        total_answers += 1  # Increment the number of rated answers answered
-                        if question_choice.right_answer == True :
-                            right_answers += 1  # If it's a good answer : Add 1 to score
-            i += 1
+                    if question_choice.right_answer == True :
+                        right_answers += 1  # If it's a good answer : Add 1 to score
+                questions_answer.append(answer)
+            else:
+                questions_answer.append(answer)
 
         if (len(questions_name) != len(questions_answer)):
             return("Une erreur est survenue, merci de contacter Sinergis")
@@ -226,7 +250,7 @@ class Training(http.Controller):
             mark = right_answers/total_answers * 20
         mark = float("{:.2f}".format(mark)) # Limit to 2 digits
         body += "<table style='border-collapse: collapse;border: 1px solid;'><tr><th style='width:50%;border: 1px solid; padding:2px;'>Question</th><th style='width:50%;border: 1px solid;padding:2px;'>Réponse</th></tr>"
-        for i in range(0,n):
+        for i in range(0,len(questions_answer)):
             questions_answer[i] = TAG_RE.sub('', questions_answer[i])
             body += "<tr style='margin-top:10px;'><td style='border: 1px solid;padding:2px;width:50%;'>"+questions_name[i]+"</td><td style='border: 1px solid;padding:2px;width:50%;'>"+questions_answer[i]+"</td></tr>"
         body+="</table>"
@@ -263,4 +287,5 @@ class Training(http.Controller):
         #return http.request.render("training.quiz_page", {
         #    "quiz" : quiz
         #})
+
 
