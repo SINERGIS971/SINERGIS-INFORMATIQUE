@@ -147,7 +147,7 @@ class Training(http.Controller):
             training = http.request.env['training'].search(['|',('token_delayed_assessment', '=', token ),('token_opco_quiz', '=', token )])
         else :
             training = participant.training_id
-        if not participant or not training:
+        if not training:
             return ("Token invalide")
 
         questions = []
