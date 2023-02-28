@@ -43,10 +43,11 @@ class SaleOrder(models.Model):
             for line in self.order_line:
                 if line.product_id.is_training:
                     #Verify if the training does not exists
+                    training_name = f"FORMATION - {self.partner_id.name}"
                     if self.env['training'].search_count(['&',('sale_id', '=', self.id),('sale_order_line_id', '=', line.id)]) == 0:
                         vals = {'sale_id': self.id,
                                 'sale_order_line_id': line.id,
-                                'name': line.name, #Formation name equal to the description of the order line
+                                'name': training_name, #Formation name equal to the description of the order line
                                 'company_id': self.company_id.id,
                                 'partner_id': self.partner_id.id,
                                 'duration': line.product_uom_qty}

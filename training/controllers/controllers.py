@@ -195,7 +195,7 @@ class Training(http.Controller):
                 })
         if not quiz_type:
             return ("Il n'y a pas de quiz associé, veuillez contacter un administrateur système.")
-        if quiz_type == "opco" or quiz_type == "delayed_assessment" or quiz_type == "training_evaluation":
+        if quiz_type == "opco" or quiz_type == "delayed_assessment" or quiz_type == "training_evaluation" or quiz_type == "positioning":
             quiz = http.request.env['training.quiz'].search([('quiz_type', '=', quiz_type)])
         else:
             quiz = http.request.env['training.quiz'].search(['&',('training_type_product_plan', '=', training.type_product_plan_id.id),('quiz_type', '=', quiz_type)])
@@ -287,5 +287,6 @@ class Training(http.Controller):
         #return http.request.render("training.quiz_page", {
         #    "quiz" : quiz
         #})
+
 
 
