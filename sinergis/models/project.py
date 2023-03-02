@@ -18,7 +18,7 @@ class ProjectTask(models.Model):
     #Tags lié au projet
     x_sinergis_project_task_tag_ids = fields.Many2many(related="project_id.tag_ids", string="Tags du projet")
 
-    x_sinergis_project_task_planned_hours = fields.Float(compute="_compute_x_sinergis_project_task_planned_hours")
+    x_sinergis_project_task_planned_hours = fields.Float(compute="_compute_x_sinergis_project_task_planned_hours", string="Heures planifiées")
 
     #Date du premier évènement du calendrier associé à la tâche
     x_sinergis_project_task_first_date = fields.Datetime(compute="_compute_x_sinergis_project_task_first_date", string="Date premier évènement")
