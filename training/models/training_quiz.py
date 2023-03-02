@@ -11,7 +11,7 @@ class TrainingQuiz(models.Model):
     training_type_id = fields.Many2one("training.type", string="Type de formation")
     training_type_product = fields.Many2one("training.type.product", string="Produit")
     training_type_product_plan = fields.Many2one("training.type.product.plan",string="Plan de formation")
-    quiz_type = fields.Selection([('positioning', 'Positionnement'),('diagnostic', 'Diagnostic'),('prior_learning', 'Évaluation des acquis'),('training_evaluation', 'Évaluation de la formation'),('delayed_assessment', 'Évaluation à froid du client'),('opco', "Quiz de l'OPCO")],required="True")
+    quiz_type = fields.Selection([('positioning', 'Positionnement'),('diagnostic', 'Diagnostic'),('prior_learning', 'Évaluation des acquis'),('training_evaluation', 'Évaluation de la formation'),('delayed_assessment', 'Évaluation à froid du client'),('opco', "Quiz de l'OPCO")],required="True",string="Type de quiz")
 
     @api.onchange("training_type_id")
     def on_change_type_id(self):
