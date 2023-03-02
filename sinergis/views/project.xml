@@ -18,6 +18,7 @@
               <filter string="Contrat d'heures" name="filter_contrat_heures" domain='[("project_id.name","ilike","CONTRAT D&#39;HEURES")]'/>
               <filter string="Devis" name="filter_quotation" domain='[("project_id.name","not ilike","CONTRAT D&#39;HEURES")]'/>
               <separator/>
+              <filter string="Tâches non terminées" name="filter_not_ended_task" domain="[('remaining_hours','&gt;',0)]"/>
               <filter string="Tâches terminées et/ou dépassées" name="filter_ended_task" domain="[('remaining_hours','&lt;=',0)]"/>
               <separator/>
               <filter string="Tâches marquées comme terminées" name="filter_ended_task" domain="[('x_sinergis_project_task_etat_tache','=','Tâche terminée')]"/>
@@ -64,7 +65,8 @@
             <field name="planned_hours"/>
             <field name="effective_hours"/>
             <field name="remaining_hours"/>
-            <field name="progress"/>
+            <field name="progress" widget="progressbar"/>
+            <field name="x_sinergis_project_task_planned_hours"/>
             <field name="activity_ids" position="move"/>
             <field name="x_sinergis_project_task_first_date" widget="date"/>
             <field name="x_sinergis_project_task_first_date_user_id"/>

@@ -8,6 +8,33 @@
     <field name="view_mode">tree,form</field>
 </record>
 
+<record id="training_quiz_tree" model="ir.ui.view">
+        <field name="name">training.quiz.tree</field>
+        <field name="model">training.quiz</field>
+        <field name="arch" type="xml">
+            <tree>
+              <field name="type"/>
+              <field name="training_type_product"/>
+              <field name="training_type_product_plan"/>
+              <field name="name"/>
+            </tree>
+        </field>
+  </record>
+
+  <record id="training_quiz_search" model="ir.ui.view">
+        <field name="name">training.quiz.search</field>
+        <field name="model">training.quiz</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="0" string="Group By">
+                    <filter string="Type" name="group_by_type" context="{'group_by':'type'}"/>
+                    <filter string="Produit" name="group_by_training_type_product" context="{'group_by':'training_type_product'}"/>
+                    <filter string="Plan" name="group_by_training_type_product_plan" context="{'group_by':'training_type_product_plan'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
 <record id="training_quiz_form" model="ir.ui.view">
         <field name="name">Quiz</field>
         <field name="model">training.quiz</field>
