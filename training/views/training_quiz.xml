@@ -13,7 +13,7 @@
         <field name="model">training.quiz</field>
         <field name="arch" type="xml">
             <tree>
-              <field name="type"/>
+              <field name="quiz_type"/>
               <field name="training_type_product"/>
               <field name="training_type_product_plan"/>
               <field name="name"/>
@@ -27,7 +27,7 @@
         <field name="arch" type="xml">
             <search>
                 <group expand="0" string="Group By">
-                    <filter string="Type" name="group_by_type" context="{'group_by':'type'}"/>
+                    <filter string="Type de quiz" name="group_by_quiz_type" context="{'group_by':'quiz_type'}"/>
                     <filter string="Produit" name="group_by_training_type_product" context="{'group_by':'training_type_product'}"/>
                     <filter string="Plan" name="group_by_training_type_product_plan" context="{'group_by':'training_type_product_plan'}"/>
                 </group>
