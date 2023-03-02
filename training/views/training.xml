@@ -110,7 +110,7 @@
                     </p>
                     <group>
                       <label for="sales_manager" class="training-required"/>
-                      <field name="sales_manager" widget="many2one_avatar_user" domain="[('sel_groups_1_9_10','=','1')]" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" nolabel="1"/>
+                      <field name="sales_manager" widget="many2one_avatar_user" domain="[('groups_id', 'in', [self.env.ref('base.group_user').id])]" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" nolabel="1"/>
                       <label for="signed_quote" class="training-required"/>
                       <field name="signed_quote" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" nolabel="1"/>
                     </group>
@@ -220,7 +220,7 @@
                         </group>
                         <group>
                           <label for="agreement_internal_signer" class="training-required"/>
-                          <field name="agreement_internal_signer" domain="[('sel_groups_1_9_10','=','1')]" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
+                          <field name="agreement_internal_signer" domain="[('groups_id', 'in', [self.env.ref('base.group_user').id])]" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
                         </group>
                         <group>
                           <label for="duration" class="training-required"/>
