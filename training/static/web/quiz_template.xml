@@ -21,25 +21,25 @@
             <!-- INPUT LIST -->
 
             <!-- Short text -->
-            <input t-if="question.type == 'text1' and question.required" type="text" t-att-name="str(question.id)" id="name" required=""/>
+            <input t-if="question.type == 'text1' and question.required" type="text" t-att-name="str(question.id)" id="name" required="" class="training-required"/>
             <input t-if="question.type == 'text1' and not question.required" type="text" t-att-name="str(question.id)" id="name"/>
 
             <!-- Long text -->
-            <textarea t-if="question.type == 'text2' and question.required" id="Name" t-att-name="str(question.id)" rows="5" cols="33" required=""></textarea>
+            <textarea t-if="question.type == 'text2' and question.required" id="Name" t-att-name="str(question.id)" rows="5" cols="33" required="" class="training-required"></textarea>
             <textarea t-if="question.type == 'text2' and not question.required" id="Name" t-att-name="str(question.id)" rows="5" cols="33"></textarea>
 
             <!-- 5 stars mark -->
             <div class="rate-box" t-if="question.type == 'note1' and question.required">
               <div class="rate">
-                <input type="radio" t-att-id="'star5-'+str(question.id)" t-att-name="question.id" value="5" required=""/>
+                <input type="radio" t-att-id="'star5-'+str(question.id)" t-att-name="question.id" value="5" required="" class="training-required"/>
                 <label t-att-for="'star5-'+str(question.id)" title="text"></label>
-                <input type="radio" t-att-id="'star4-'+str(question.id)" t-att-name="question.id" value="4" required=""/>
+                <input type="radio" t-att-id="'star4-'+str(question.id)" t-att-name="question.id" value="4" required="" class="training-required"/>
                 <label t-att-for="'star4-'+str(question.id)" title="text"></label>
-                <input type="radio" t-att-id="'star3-'+str(question.id)" t-att-name="question.id" value="3" required=""/>
+                <input type="radio" t-att-id="'star3-'+str(question.id)" t-att-name="question.id" value="3" required="" class="training-required"/>
                 <label t-att-for="'star3-'+str(question.id)" title="text"></label>
-                <input type="radio" t-att-id="'star2-'+str(question.id)" t-att-name="question.id" value="2" required=""/>
+                <input type="radio" t-att-id="'star2-'+str(question.id)" t-att-name="question.id" value="2" required="" class="training-required"/>
                 <label t-att-for="'star2-'+str(question.id)" title="text"></label>
-                <input type="radio" t-att-id="'star1-'+str(question.id)" t-att-name="question.id" value="1" required=""/>
+                <input type="radio" t-att-id="'star1-'+str(question.id)" t-att-name="question.id" value="1" required="" class="training-required"/>
                 <label t-att-for="'star1-'+str(question.id)" title="text"></label>
               </div>
             </div>
@@ -64,7 +64,7 @@
             <div t-if="question.type == 'multiple_choice' and question.required">
               <t t-foreach="question.choice_ids" t-as="choice">
               <div>
-                <input type="radio" t-att-id="choice.id" t-att-name="str(question.id)" t-att-value="choice.name" required="" t-att-onclick="'radio_hide('+str(question.id)+','+str(choice.id)+');'"/>
+                <input type="radio" t-att-id="choice.id" t-att-name="str(question.id)" t-att-value="choice.name" required="" class="training-required" t-att-onclick="'radio_hide('+str(question.id)+','+str(choice.id)+');'"/>
                 <label t-att-for="choice.id"><t t-esc="choice.name"/></label>
               </div>
             </t>

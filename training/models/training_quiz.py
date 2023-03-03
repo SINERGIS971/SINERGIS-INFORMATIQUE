@@ -78,8 +78,6 @@ class TrainingQuizQuestions(models.Model):
     @api.onchange("hidden_by")
     def on_change_hidden_by (self):
         self.hidden_by_choice = False
-        if self.hidden_by:
-            self.required = False
 
     # -1 if no exists
     @api.depends("average_rate")
@@ -134,4 +132,5 @@ class TrainingQuizQuestionsMultipleChoiceRecord(models.Model):
     _description = "Réponse à une question à choix multiple"
     date = fields.Date(string="",readonly=True)
     multiple_choice_id = fields.Many2one("training.quiz.questions.multiple_choice", string="",readonly=True)
+
 

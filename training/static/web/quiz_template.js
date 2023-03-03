@@ -41,6 +41,7 @@ function radio_hide(question_id, choice_id) {
           inputs = element.querySelectorAll('input');
               inputs.forEach(input => {
                 input.checked = false;
+                input.required = false;
           });
           element.style.display = "none";
         });
@@ -49,6 +50,10 @@ function radio_hide(question_id, choice_id) {
         if (elements.length > 0) {
             elements.forEach(function(element) {
                 element.style.display = "block";
+                if (element.classList.contains("training-required"))
+                {
+                  input.required = true;
+                }
             });
         }
     }
