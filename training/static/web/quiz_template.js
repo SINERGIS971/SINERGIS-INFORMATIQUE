@@ -49,14 +49,15 @@ function radio_hide(question_id, choice_id) {
         elements = getElementsByXPath("//div[@hidden_by='"+question_id.toString()+"' and not(contains(@hidden_by_choice,';"+choice_id.toString()+";'))]");
         if (elements.length > 0) {
             elements.forEach(function(element) {
+                inputs = element.querySelectorAll('input');
+                inputs.forEach(input => {
+                    if (input.classList.contains("training-required"))
+                    {
+                      input.required = true;
+                    }
+                });
                 element.style.display = "block";
-                if (element.classList.contains("training-required"))
-                {
-                  input.required = true;
-                }
             });
         }
     }
 }
-
-
