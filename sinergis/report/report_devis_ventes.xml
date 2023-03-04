@@ -9,6 +9,7 @@
 		<field name="report_file">sinergis.sinergis_sale_order_devis</field>
 		<field name="binding_model_id" ref="model_sale_order"/>
 		<field name="binding_type">report</field>
+		<field name="print_report_name">(object.create_date.strftime('%d%m%Y') or '')+" - DEVIS N°"+(object.name or '')+" - "+(object.partner_id.name or '')</field>
 	</record>
 	<!-- Enregistrement des données du rapport -->
 	<template id="sinergis.sinergis_sale_order_devis">

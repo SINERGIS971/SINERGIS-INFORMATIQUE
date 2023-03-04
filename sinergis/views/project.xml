@@ -95,6 +95,15 @@
     </field>
   </record>
 
+  <record id="sinergis_project_project_tree" model="ir.ui.view">
+        <field name="name">sinergis.project.project.tree</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <tree default_order="id desc">
+              <field name="name"/>
+            </tree>
+        </field>
+    </record>
 
   <!-- ============ KANBAN ============ -->
 
