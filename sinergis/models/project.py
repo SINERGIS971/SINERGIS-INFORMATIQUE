@@ -26,7 +26,8 @@ class ProjectTask(models.Model):
     x_sinergis_project_task_first_date_user_id = fields.Many2one("res.users", compute="_compute_x_sinergis_project_task_first_date_user_id", string="Premier évènement par")
 
     #Indique si la tâche est un CH
-    x_sinergis_project_task_contract_type = fields.Selection([('CH', 'CH'), ('DEVIS', 'DEVIS')], compute="_compute_x_sinergis_project_task_contract_type", store=True)
+    x_sinergis_project_task_contract_type = fields.Selection([('CH', 'CH'), ('DEVIS', 'DEVIS')], compute="_compute_x_sinergis_project_task_contract_type", store=False)
+    x_sinergis_project_task_contract_type_stored = fields.Selection([('CH', 'CH'), ('DEVIS', 'DEVIS')], related="x_sinergis_project_task_contract_type", store=True)
 
     #Récupère le produit et le sous-produit du devis et de la ligne de vente
     x_sinergis_project_task_product_id = fields.Many2one("sale.products",string="Produit", related="sale_order_id.x_sinergis_sale_order_product_new", store=True)
