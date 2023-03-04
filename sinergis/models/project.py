@@ -41,7 +41,11 @@ class ProjectTask(models.Model):
         return self.env.ref('sinergis.sinergis_report_timesheet').report_action(self)
     
     def print_calendar_reports(self):
-        return
+        ids = []
+        events = self.env['calendar.event'].search([('x_sinergis_calendar_event_tache', '=', self.id)])
+        for event in events:
+            ids.append(event.id)
+        return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self.env['calendar.event'].search([('id', '=', ids)]))
 
 
     @api.depends('x_sinergis_project_task_done')
@@ -114,7 +118,7 @@ class ProjectTask(models.Model):
     @api.depends('x_sinergis_project_task_is_calendar_event')
     def _compute_x_sinergis_project_task_is_calendar_event (self):
         for rec in self:
-            count = self.env['calendar.event'].search_count(['|',('x_sinergis_calendar_event_tache', '=', rec.id),('x_sinergis_calendar_event_tache2', '=', rec.id)])
+            count = self.env['calendar.event'].search_count([('x_sinergis_calendar_event_tache', '=', rec.id)])
             if count > 0 :
                 rec.x_sinergis_project_task_is_calendar_event = True
             else:
