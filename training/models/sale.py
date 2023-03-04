@@ -55,7 +55,7 @@ class SaleOrder(models.Model):
 
         return True
 
-    #ACCES AUX FORMATIONS LIES AU DEVIS
+    #ACCES AUX FORMATIONS LIEES AU DEVIS
     def action_view_training(self):
         training_ids = self.env["training"].sudo().search([("sale_id", "=", self.id)])
         ids_list = []

@@ -42,7 +42,7 @@ class ProjectTask(models.Model):
     
     def print_calendar_reports(self):
         ids = []
-        events = self.env['calendar.event'].search([('x_sinergis_calendar_event_tache', '=', self.id)])
+        events = self.env['calendar.event'].search([('x_sinergis_calendar_event_tache', '=', self.id)], order='x_sinergis_calendar_event_start_time desc')
         for event in events:
             ids.append(event.id)
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self.env['calendar.event'].search([('id', '=', ids)]))

@@ -26,6 +26,7 @@
         'views/sale.xml',
         'views/settings.xml',
         'views/company.xml',
+        'views/partner.xml',
         'report/training_agreement_report.xml',
         'report/training_consultant_evaluation_report.xml',
         'report/layout_training_attendance_sheet.xml',
