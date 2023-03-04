@@ -59,6 +59,7 @@
         <xpath expr="//field[@name='priority']" position="after">
             <field name="x_sinergis_project_task_done" invisible="True"/>
             <field name="x_sinergis_project_task_soon_done" invisible="True"/>
+            <field name="x_sinergis_project_task_contract_type" invisible="True"/>
             <field name="x_sinergis_project_task_is_calendar_event" invisible="True"/>
             <field name="project_id" position="move"/>
             <field name="name" position="move"/>
