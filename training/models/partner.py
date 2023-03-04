@@ -12,7 +12,7 @@ class ResPartner(models.Model):
 
      #ACCES AUX FORMATIONS LIEES AU CLIENT
     def action_view_training(self):
-        training_ids = self.env["training"].sudo().search([("sale_id", "=", self.id)])
+        training_ids = self.env["training"].sudo().search([("partner_id", "=", self.id)])
         ids_list = []
         for training_id in training_ids:
             ids_list.append(training_id.id)
