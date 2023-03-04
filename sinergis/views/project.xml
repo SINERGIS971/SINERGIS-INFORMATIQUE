@@ -59,6 +59,7 @@
         <xpath expr="//field[@name='priority']" position="after">
             <field name="x_sinergis_project_task_done" invisible="True"/>
             <field name="x_sinergis_project_task_soon_done" invisible="True"/>
+            <field name="x_sinergis_project_task_is_calendar_event" invisible="True"/>
             <field name="project_id" position="move"/>
             <field name="name" position="move"/>
             <field name="user_ids" position="move"/>
@@ -73,6 +74,7 @@
             <field name="tag_ids" position="move"/>
             <field name="x_sinergis_project_task_etat_tache"/>
             <field name="company_id" position="move"/>
+            <button name="print_calendar_reports" string="Éditer" class="oe_highlight" type="object" attrs="{'invisible': [['x_sinergis_project_task_is_calendar_event','=',False]]}"/>
         </xpath>
         <xpath expr="//field[@name='stage_id']" position="attributes">
             <attribute name="invisible">1</attribute>
@@ -95,15 +97,10 @@
     </field>
   </record>
 
-  <record id="sinergis_project_project_tree" model="ir.ui.view">
-        <field name="name">sinergis.project.project.tree</field>
-        <field name="model">project.project</field>
-        <field name="arch" type="xml">
-            <tree default_order="id desc">
-              <field name="name"/>
-            </tree>
-        </field>
-    </record>
+  <record id="project.open_view_project_all" model="ir.actions.act_window">
+        <field name="name">Projects</field>
+        <field name="view_mode">kanban,form,tree</field>
+  </record>
 
   <!-- ============ KANBAN ============ -->
 

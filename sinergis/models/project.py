@@ -32,9 +32,17 @@ class ProjectTask(models.Model):
     x_sinergis_project_task_product_id = fields.Many2one("sale.products",string="Produit", related="sale_order_id.x_sinergis_sale_order_product_new", store=True)
     x_sinergis_project_task_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-Produit", related="sale_line_id.x_sinergis_sale_order_line_subproduct_id", store=True)
 
+    #4/03/2023 : Ajout d'un bouton éditer pour éditer chaque feuille d'intervention des intervenitons passées
+    # Champ booléen pour savoir s'il y a des interventions dans le calendriers attachés à cette tache
+    x_sinergis_project_task_is_calendar_event = fields.Boolean(compute="_compute_x_sinergis_project_task_is_calendar_event")
+
     #Onglet "SUIVI" -  Boutton télécharger la feuille de temps
     def print_timesheet_button(self):
         return self.env.ref('sinergis.sinergis_report_timesheet').report_action(self)
+    
+    def print_calendar_reports(self):
+        return
+
 
     @api.depends('x_sinergis_project_task_done')
     def _compute_x_sinergis_project_task_done (self):
@@ -103,6 +111,14 @@ class ProjectTask(models.Model):
             else :
                 rec.x_sinergis_project_task_contract_type = "DEVIS"
 
+    @api.depends('x_sinergis_project_task_is_calendar_event')
+    def _compute_x_sinergis_project_task_is_calendar_event (self):
+        for rec in self:
+            count = self.env['calendar.event'].search_count(['|',('x_sinergis_calendar_event_tache', '=', rec.id),('x_sinergis_calendar_event_tache2', '=', rec.id)])
+            if count > 0 :
+                rec.x_sinergis_project_task_is_calendar_event = True
+            else:
+                rec.x_sinergis_project_task_is_calendar_event = False
 
 
 
