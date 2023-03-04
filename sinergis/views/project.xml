@@ -160,6 +160,7 @@
             </xpath>
 
             <xpath expr="//label[@for='project_id']" position="before">
+                <field name="x_sinergis_project_task_contract_type" invisible="1"/>
                 <field name="create_date"/>
             </xpath>
 
@@ -188,12 +189,16 @@
             </xpath>
 
         <notebook position="inside">
-            <page string="Transfert de solde" name="x_sinergis_project_task_ch_transfer_page" attrs="{'invisible':[('x_sinergis_project_task_contract_type','=','CH')]}">
+            <page string="Transfert de solde" name="x_sinergis_project_task_ch_transfer_page" attrs="{'invisible':[('x_sinergis_project_task_contract_type','!=','CH')]}">
             <group>
-              <field name="x_sinergis_project_task_transfer_task_id" domain="[('partner_id', '=', partner_id)]"/>
-              <button name="transfer_ch_button" string="Transférer" class="oe_highlight" type="object" confirm="Êtes-vous sûr de transférer le solde de ce contrat d'heures vers le contrat sélectionné ?"/>
+              <group>
+                <field name="x_sinergis_project_task_transfer_task_id" domain="['&amp;',('partner_id', '=', partner_id),('id','!=',id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+              </group>
+              <group>
+                <button name="transfer_ch_button" string="Transférer" class="oe_highlight" type="object" confirm="Êtes-vous sûr de transférer le solde de ce contrat d'heures vers le contrat sélectionné ?"/>
+              </group>
             </group>
-            <page>
+            </page>
         </notebook>
 
         </field>
@@ -273,4 +278,5 @@
 
   </data>
 </odoo>
+
 

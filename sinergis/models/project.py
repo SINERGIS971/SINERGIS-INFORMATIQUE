@@ -53,7 +53,12 @@ class ProjectTask(models.Model):
     
     # Bouton de transfert de contrat d'heures
     def transfer_ch_button (self):
-        raise ValidationError("En maintenance...")
+        if not self.x_sinergis_project_task_transfer_task_id :
+            raise ValidationError("Vous devez sélectionner un contrat d'heures afin de transférer le solde de celui-ci.")
+        if self.remaining_hours == 0:
+            raise ValidationError("Vous ne pouvez pas transférer le solde de ce contrat d'heures car il est actuellement à zéro.")
+        name = f"Transfert du contrat du contrat d'heures : {self.name} vers {self.x_sinergis_project_task_transfer_task_id.name}"
+        self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.env.user.id, 'unit_amount' : -self.remaining_hours})]
 
 
     @api.depends('x_sinergis_project_task_done')
