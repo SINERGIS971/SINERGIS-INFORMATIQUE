@@ -193,7 +193,7 @@
             <page string="Transfert de solde" name="x_sinergis_project_task_ch_transfer_page" attrs="{'invisible':[('x_sinergis_project_task_contract_type','!=','CH')]}">
             <group>
               <group>
-                <field name="x_sinergis_project_task_transfer_task_id" domain="['&amp;',('partner_id', '=', partner_id),('id','!=',id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="x_sinergis_project_task_transfer_task_id" domain="['&amp;',('partner_id', '=', partner_id),('id','!=',id),('x_sinergis_project_task_contract_type','=','CH')]" options="{'no_create': True, 'no_create_edit':True}"/>
               </group>
               <group>
                 <button name="transfer_ch_button" string="Transférer" class="oe_highlight" type="object" confirm="Êtes-vous sûr de transférer le solde de ce contrat d'heures vers le contrat sélectionné ?"/>
