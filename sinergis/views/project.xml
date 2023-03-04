@@ -186,6 +186,16 @@
             <xpath expr="//div[@class='w-100']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+
+        <notebook position="inside">
+            <page string="Transfert de solde" name="x_sinergis_project_task_ch_transfer_page" attrs="{'invisible':[('x_sinergis_project_task_contract_type','=','CH')]}">
+            <group>
+              <field name="x_sinergis_project_task_transfer_task_id" domain="[('partner_id', '=', partner_id)]"/>
+              <button name="transfer_ch_button" string="Transférer" class="oe_highlight" type="object" confirm="Êtes-vous sûr de transférer le solde de ce contrat d'heures vers le contrat sélectionné ?"/>
+            </group>
+            <page>
+        </notebook>
+
         </field>
     </record>
 

@@ -36,6 +36,10 @@ class ProjectTask(models.Model):
     # Champ booléen pour savoir s'il y a des interventions dans le calendriers attachés à cette tache
     x_sinergis_project_task_is_calendar_event = fields.Boolean(compute="_compute_x_sinergis_project_task_is_calendar_event")
 
+    #4/03/2023 : Permettre le transfert du solde du CH
+    x_sinergis_project_task_transfer_task_id = fields.Many2one("project.task",string="Nouveau contrat d'heures")
+
+
     #Onglet "SUIVI" -  Boutton télécharger la feuille de temps
     def print_timesheet_button(self):
         return self.env.ref('sinergis.sinergis_report_timesheet').report_action(self)
@@ -46,6 +50,10 @@ class ProjectTask(models.Model):
         for event in events:
             ids.append(event.id)
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self.env['calendar.event'].search([('id', '=', ids)]))
+    
+    # Bouton de transfert de contrat d'heures
+    def transfer_ch_button (self):
+        raise ValidationError("En maintenance...")
 
 
     @api.depends('x_sinergis_project_task_done')
