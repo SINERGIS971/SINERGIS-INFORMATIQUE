@@ -218,3 +218,13 @@ class ProjectProject(models.Model):
                         task.user_ids = [(4,values["x_sinergis_project_project_technical_manager"])]
         return super(ProjectProject, self).write(values)
 
+    #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
+    @api.model_create_multi
+    def create(self, list_value):
+        for vals in list_value:
+            if "sale_line_id" in vals:
+                sale_order_id = self.env['sale.order.line'].search([('id','=',vals["sale_line_id"])]).order_id
+                if sale_order_id.partner_id:
+                    vals["partner_id"] = sale_order_id.partner_id.id
+        projects = super(ProjectProject, self).create(list_value)
+        return projects
