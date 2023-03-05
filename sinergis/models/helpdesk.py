@@ -406,7 +406,6 @@ class HelpdeskTicket(models.Model):
                 vals["x_sinergis_helpdesk_ticket_contact"] = vals["partner_id"]
                 vals["partner_id"] = self.env['res.partner'].search([('id','=',vals["partner_id"])]).parent_id.id
             if not "team_id" in vals or vals["team_id"] == False :
-                team_id = self.env['helpdesk.team'].sudo().search([], limit=1).id
-                vals["team_id"] = team_id
+                raise ValidationError("Veuillez sélectionner toutes les sociétés Sinergis (en haut à droite) afin de créer un ticket.")
         tickets = super(HelpdeskTicket, self).create(list_value)
         return tickets
