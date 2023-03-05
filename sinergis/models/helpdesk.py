@@ -405,10 +405,8 @@ class HelpdeskTicket(models.Model):
             if self.env['res.partner'].search([('id','=',vals["partner_id"])]).is_company == False:
                 vals["x_sinergis_helpdesk_ticket_contact"] = vals["partner_id"]
                 vals["partner_id"] = self.env['res.partner'].search([('id','=',vals["partner_id"])]).parent_id.id
-            if not "team_id" in vals :
-                team = self.env['helpdesk.team'].search([])
-                if len(team) > 1 :
-                    team = team[0]
-                vals["team_id"] = team.id
+            if not "team_id" in vals or vals["team_id"] == False :
+                team_id = self.env['helpdesk.team'].sudo().search([], limit=1).id
+                vals["team_id"] = team_id
         tickets = super(HelpdeskTicket, self).create(list_value)
         return tickets
