@@ -108,13 +108,8 @@
     <field name="model">project.project</field>
     <field name="inherit_id" ref="project.view_project"/>
     <field name="arch" type="xml">
-      <xpath expr="//tree" position="replace">
-          <tree decoration-muted="active == False" string="Projects" delete="0" multi_edit="1" sample="1">
-                    <field name="sequence" optional="show" widget="handle"/>
-                    <field name="message_needaction" invisible="1"/>
-                    <field name="active" invisible="1"/>
-                    <field name="name" string="Name" class="font-weight-bold"/>
-                    <field name="partner_id" optional="show" string="Client"/>
+      <xpath expr="//name" position="after">
+                    <field name="partner_id" position="move"/>
                     <field name="tag_ids" widget="many2many_tags"/>
                     <field name="remaining_hours" widget="timesheet_uom"/>
                     <field name="x_sinergis_project_project_planned_hours" widget="timesheet_uom"/>
