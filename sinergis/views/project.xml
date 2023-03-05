@@ -110,7 +110,7 @@
     <field name="arch" type="xml">
       <xpath expr="//field[@name='name']" position="after">
                     <field name="partner_id" position="move"/>
-                    <field name="tag_ids" widget="many2many_tags"/>
+                    <field name="tag_ids" optional="show" position="move"/>
                     <field name="remaining_hours" widget="timesheet_uom"/>
                     <field name="x_sinergis_project_project_planned_hours" widget="timesheet_uom"/>
                     <field name="user_id" position="move"/>
