@@ -165,9 +165,9 @@ class ProjectProject(models.Model):
     x_sinergis_project_project_sale_order_contact_phone = fields.Char(string="Téléphone du contact",compute="_compute_x_sinergis_project_project_sale_order_contact_phone")
 
     x_sinergis_project_project_etat_projet = fields.Selection([("Projet en cours", "Projet en cours"),('Projet terminé', 'Projet terminé')], string="Etat du projet")
-    x_sinergis_project_project_technical_manager = fields.Many2one("res.users")
+    x_sinergis_project_project_technical_manager = fields.Many2one("res.users", string="Responsable technique")
 
-    x_sinergis_project_project_planned_hours = fields.Float(compute="_compute_x_sinergis_project_project_planned_hours")
+    x_sinergis_project_project_planned_hours = fields.Float(compute="_compute_x_sinergis_project_project_planned_hours", string="Heures planifiées")
 
     x_sinergis_project_res_users_job = fields.Selection(related="user_id.x_sinergis_res_users_job") #Type du vendeur : Consultant ou commercial
 
