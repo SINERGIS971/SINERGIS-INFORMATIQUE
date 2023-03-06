@@ -117,7 +117,7 @@
                     <field name="x_sinergis_project_project_technical_manager" widget="many2one_avatar_user" options="{'no_open':True, 'no_create': True, 'no_create_edit': True}"/>
                     <field name="x_sinergis_project_project_etat_projet"/>
                     <field name="x_sinergis_project_project_acompte_verse"/>
-                    <field name="company_id"/>
+                    <field name="company_id" position="move"/>
       </xpath>
       <xpath expr="//field[@name='date_start']" position="attributes">
           <attribute name="invisible">1</attribute>
