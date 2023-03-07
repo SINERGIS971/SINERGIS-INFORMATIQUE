@@ -50,7 +50,7 @@ class Training(models.Model):
     duration = fields.Float(string="Durée (jours)",compute="_compute_duration", store="True")
     duration_hours = fields.Float(string="Durée (heures)",compute="_compute_duration_hours")
     #agreement_internal_signer = fields.Char(string="Signataire interne de la convention",default="Alain CASIMIRO, Directeur")
-    agreement_internal_signer = fields.Many2one("res.users",string='Signataire interne de la convention', default=lambda self: self.env['res.users'].search([('name','=','CASIMIRO Alain')]))
+    agreement_internal_signer = fields.Many2one("training.agreement_internal_signer",string='Signataire interne de la convention', default=lambda self: self.env['training.agreement_internal_signer'].search([('user_id.name','=','CASIMIRO Alain')]))
 
     signed_agreement = fields.Binary(string='Convention de formation signée')
 
