@@ -11,6 +11,8 @@
           <field name="planned_hours"/>
         </xpath>
         <xpath expr="//filter[@name='my_tasks']" position="before">
+              <filter string="Mes ventes" name="filter_x_sinergis_project_task_seller_id" domain="[('x_sinergis_project_task_seller_id', '=', uid)]"/>
+              <separator/>
               <filter string="Mes projets" name="contract_of_my_projects" domain="[('project_id.user_id', '=', uid)]"/>
               <filter string="Tâches projets PME" name="filter_task_pme" domain="[('x_sinergis_project_task_tag_ids','ilike','PROJET PME')]"/>
               <filter string="Tâches projets MGE" name="filter_task_mge" domain="[('x_sinergis_project_task_tag_ids','ilike','PROJET MGE')]"/>
@@ -27,6 +29,7 @@
                     <filter string="Société Sinergis" name="group_by_company_id" context="{'group_by':'company_id'}"/>
                     <filter string="Produit" name="group_by_product" context="{'group_by':'x_sinergis_project_task_product_id'}"/>
                     <filter string="Sous-Produit" name="group_by_subproduct" context="{'group_by':'x_sinergis_project_task_subproduct_id'}"/>
+                    <filter string="Vendeur" name="group_by_x_sinergis_project_task_seller_id" context="{'group_by':'x_sinergis_project_task_seller_id'}"/>
                 </group>
         </xpath>
       </field>
@@ -81,6 +84,7 @@
             <field name="x_sinergis_project_task_first_date_user_id"/>
             <field name="tag_ids" position="move"/>
             <field name="x_sinergis_project_task_etat_tache"/>
+            <field name="x_sinergis_project_task_seller_id" optional="hide"/>
             <field name="company_id" position="move"/>
             <button name="print_calendar_reports" string="Éditer" class="oe_highlight" type="object" attrs="{'invisible': [['x_sinergis_project_task_is_calendar_event','=',False]]}"/>
         </xpath>

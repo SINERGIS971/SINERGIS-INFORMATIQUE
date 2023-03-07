@@ -40,6 +40,9 @@ class ProjectTask(models.Model):
     #4/03/2023 : Permettre le transfert du solde du CH
     x_sinergis_project_task_transfer_task_id = fields.Many2one("project.task",string="Nouveau contrat d'heures")
 
+    # 7 Mars 2023 - Ajout d'un vendeur
+    x_sinergis_project_task_seller_id = fields.Many2one("res.users",compute="_compute_x_sinergis_project_task_seller_id",string='Vendeur')
+
 
     #Onglet "SUIVI" -  Boutton télécharger la feuille de temps
     def print_timesheet_button(self):
@@ -139,6 +142,15 @@ class ProjectTask(models.Model):
                 rec.x_sinergis_project_task_is_calendar_event = True
             else:
                 rec.x_sinergis_project_task_is_calendar_event = False
+
+    @api.depends("x_sinergis_project_task_seller_id")
+    def _compute_x_sinergis_project_task_seller_id (self):
+        for rec in self :
+            if rec.sale_line_id:
+                rec.x_sinergis_project_task_seller_id = rec.sale_line_id.order_id.user_id
+            else:
+                rec.x_sinergis_project_task_seller_id = False
+
 
 
 
