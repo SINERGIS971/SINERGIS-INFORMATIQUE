@@ -220,7 +220,7 @@
                         </group>
                         <group>
                           <label for="agreement_internal_signer" class="training-required"/>
-                          <field name="agreement_internal_signer" domain="[('x_sinergis_res_users_is_employee', '=', True)]" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
+                          <field name="agreement_internal_signer" domain="[('user_id.x_sinergis_res_users_is_employee', '=', True)]" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
                         </group>
                         <group>
                           <label for="duration" class="training-required"/>

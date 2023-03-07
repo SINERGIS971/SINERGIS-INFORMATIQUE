@@ -748,7 +748,7 @@ class TrainingOpco(models.Model):
     name = fields.Char(string="Nom",required=True)
     email = fields.Char(string="Email",required=True)
 
-class Training (models.Model):
+class TrainingAgreementInternalSigner (models.Model):
     _name="training.agreement_internal_signer"
     _description = "Signataires internes de la convention"
     _rec_name = "user_id"
