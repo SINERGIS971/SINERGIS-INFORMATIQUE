@@ -171,6 +171,10 @@ class ProjectProject(models.Model):
 
     x_sinergis_project_res_users_job = fields.Selection(related="user_id.x_sinergis_res_users_job") #Type du vendeur : Consultant ou commercial
 
+    # 7 Mars 2023 - Ajout des heures prévues initialement et des heures passées
+    x_sinergis_project_project_initial_hours = fields.Float(compute="_compute_x_sinergis_project_project_initial_hours", string="Heures prévues initialement")
+    x_sinergis_project_project_effective_hours = fields.Float(compute="_compute_x_sinergis_project_project_effective_hours", string="Heures passées")
+
     @api.depends('x_sinergis_project_project_sale_order_contact')
     def _compute_x_sinergis_project_project_sale_order_contact (self):
         for rec in self:
@@ -202,6 +206,24 @@ class ProjectProject(models.Model):
                 rec.x_sinergis_project_project_acompte_verse = rec.sale_line_id.order_id.x_sinergis_sale_order_acompte_verse
             else:
                 rec.x_sinergis_project_project_acompte_verse = False
+
+    @api.depends('x_sinergis_project_project_initial_hours')
+    def _compute_x_sinergis_project_project_initial_hours (self):
+        for rec in self:
+            task_ids = self.env['project.task'].search([('project_id','=',rec.id)])
+            initial_hours = 0.0
+            for task_id in task_ids:
+                initial_hours += task_id.planned_hours
+            rec.x_sinergis_project_project_initial_hours = initial_hours
+
+    @api.depends('x_sinergis_project_project_effective_hours')
+    def _compute_x_sinergis_project_project_effective_hours (self):
+        for rec in self:
+            task_ids = self.env['project.task'].search([('project_id','=',rec.id)])
+            effective_hours = 0.0
+            for task_id in task_ids:
+                effective_hours += task_id.effective_hours
+            rec.x_sinergis_project_project_effective_hours = effective_hours
 
     #@api.onchange("tag_ids")
     #def on_change_tag_ids (self):
