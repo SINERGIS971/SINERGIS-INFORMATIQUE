@@ -751,6 +751,7 @@ class TrainingOpco(models.Model):
 class Training (models.Model):
     _name="training.agreement_internal_signer"
     _description = "Signataires internes de la convention"
+    _rec_name = "user_id"
     user_id = fields.Many2one("res.users",string='Signataire')
     signature = fields.Binary(string="Signature")
 

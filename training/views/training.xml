@@ -737,6 +737,32 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <record id="training_agreement_internal_signer_action_tree" model="ir.ui.view">
+        <field name="name">training.agreement_internal_signer_action.tree</field>
+        <field name="model">training.agreement_internal_signer</field>
+        <field name="arch" type="xml">
+            <tree>
+              <field name="user_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="training_agreement_internal_signer_action_form" model="ir.ui.view">
+        <field name="name">training.agreement_internal_signer_action.form</field>
+        <field name="model">training.agreement_internal_signer</field>
+        <field name="arch" type="xml">
+            <form>
+              <group>
+                <group>
+                  <field name="user_id" domain="[('x_sinergis_res_users_is_employee', '=', True)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                </group>
+                <group>
+                  <field name="signature"/>
+                </group>
+              </group>
+            </form>
+        </field>
+    </record>
+
     <!--==========AUTOMATED ACTIONS==========-->
 
     <record id="automating_closed_training" model="ir.cron">
