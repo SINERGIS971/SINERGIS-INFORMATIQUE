@@ -42,6 +42,7 @@ class ProjectTask(models.Model):
 
     # 7 Mars 2023 - Ajout d'un vendeur
     x_sinergis_project_task_seller_id = fields.Many2one("res.users", related="sale_line_id.order_id.user_id",string='Vendeur')
+    x_sinergis_project_task_seller_id_stored = fields.Many2one("res.users", related="x_sinergis_project_task_seller_id",string='Vendeur', store=True)
 
 
     #Onglet "SUIVI" -  Boutton télécharger la feuille de temps
@@ -181,6 +182,7 @@ class ProjectProject(models.Model):
 
     # 7 Mars 2023 - Ajout d'un vendeur
     x_sinergis_project_project_seller_id = fields.Many2one("res.users", related="sale_line_id.order_id.user_id",string='Vendeur')
+    x_sinergis_project_project_seller_id_stored = fields.Many2one("res.users", related="x_sinergis_project_project_seller_id",string='Vendeur', store=True)
 
     @api.depends('x_sinergis_project_project_sale_order_contact')
     def _compute_x_sinergis_project_project_sale_order_contact (self):

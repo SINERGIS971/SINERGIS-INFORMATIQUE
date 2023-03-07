@@ -11,7 +11,7 @@
           <field name="planned_hours"/>
         </xpath>
         <xpath expr="//filter[@name='my_tasks']" position="before">
-              <filter string="Mes ventes" name="filter_x_sinergis_project_task_seller_id" domain="[('x_sinergis_project_task_seller_id', '=', uid)]"/>
+              <filter string="Mes ventes" name="filter_x_sinergis_project_task_seller_id" domain="[('x_sinergis_project_task_seller_id_stored', '=', uid)]"/>
               <separator/>
               <filter string="Mes projets" name="contract_of_my_projects" domain="[('project_id.user_id', '=', uid)]"/>
               <filter string="Tâches projets PME" name="filter_task_pme" domain="[('x_sinergis_project_task_tag_ids','ilike','PROJET PME')]"/>
@@ -29,7 +29,7 @@
                     <filter string="Société Sinergis" name="group_by_company_id" context="{'group_by':'company_id'}"/>
                     <filter string="Produit" name="group_by_product" context="{'group_by':'x_sinergis_project_task_product_id'}"/>
                     <filter string="Sous-Produit" name="group_by_subproduct" context="{'group_by':'x_sinergis_project_task_subproduct_id'}"/>
-                    <filter string="Vendeur" name="group_by_x_sinergis_project_task_seller_id" context="{'group_by':'x_sinergis_project_task_seller_id'}"/>
+                    <filter string="Vendeur" name="group_by_x_sinergis_project_task_seller_id_stored" context="{'group_by':'x_sinergis_project_task_seller_id_stored'}"/>
                 </group>
         </xpath>
       </field>
@@ -42,7 +42,7 @@
     <field name="inherit_id" ref="project.view_project_project_filter"/>
     <field name="arch" type="xml">
       <xpath expr="//filter[@name='open']" position="after">
-        <filter string="Mes ventes" name="filter_x_sinergis_project_project_seller_id" domain="[('x_sinergis_project_project_seller_id', '=', uid)]"/>
+        <filter string="Mes ventes" name="filter_x_sinergis_project_project_seller_id_stored" domain="[('x_sinergis_project_project_seller_id_stored', '=', uid)]"/>
         <separator/>
         <filter string="Consultant" domain="[('x_sinergis_project_res_users_job', '=', 'CONSULTANT')]" name="user_type_consultant"/>
         <filter string="Commercial" domain="[('x_sinergis_project_res_users_job', '=', 'COMMERCIAL')]" name="user_type_commercial"/>
@@ -53,7 +53,7 @@
 
       <xpath expr="//filter[@name='groupby_stage']" position="after">
         <filter string="Société Sinergis" name="group_by_company_id" context="{'group_by':'company_id'}"/>
-        <filter string="Vendeur" name="group_by_x_sinergis_project_project_seller_id" context="{'group_by':'x_sinergis_project_project_seller_id'}"/>
+        <filter string="Vendeur" name="group_by_x_sinergis_project_project_seller_id_stored" context="{'group_by':'x_sinergis_project_project_seller_id_stored'}"/>
       </xpath>
     </field>
 </record>
@@ -84,7 +84,7 @@
             <field name="x_sinergis_project_task_first_date_user_id"/>
             <field name="tag_ids" position="move"/>
             <field name="x_sinergis_project_task_etat_tache"/>
-            <field name="x_sinergis_project_task_seller_id" optional="hide"/>
+            <field name="x_sinergis_project_task_seller_id_stored" optional="hide"/>
             <field name="company_id" position="move"/>
             <button name="print_calendar_reports" string="Éditer" class="oe_highlight" type="object" attrs="{'invisible': [['x_sinergis_project_task_is_calendar_event','=',False]]}"/>
         </xpath>
@@ -131,7 +131,7 @@
                     <field name="x_sinergis_project_project_etat_projet"/>
                     <field name="x_sinergis_project_project_acompte_verse"/>
                     <field name="company_id" position="move"/>
-                    <field name="x_sinergis_project_project_seller_id" optional="hide"/>
+                    <field name="x_sinergis_project_project_seller_id_stored" optional="hide"/>
       </xpath>
       <xpath expr="//field[@name='date_start']" position="attributes">
           <attribute name="invisible">1</attribute>
