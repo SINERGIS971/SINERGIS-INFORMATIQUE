@@ -729,6 +729,14 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <!--Configuration Signataires interne de la convention-->
+    <record id="training_agreement_internal_signer_action" model="ir.actions.act_window">
+        <field name="name">Liste des signataires internes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">training.agreement_internal_signer</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
     <!--==========AUTOMATED ACTIONS==========-->
 
     <record id="automating_closed_training" model="ir.cron">
@@ -790,6 +798,14 @@
               parent="training_configuration_root"
               name="OPCO"
               action="training_opco_action"
+              sequence="10"/>
+
+    <!--Configuration - Signataires de la convention-->
+
+    <menuitem id="training_configuration_agreement_internal_signer"
+              parent="training_configuration_root"
+              name="Signataires de la convention"
+              action="training_agreement_internal_signer_action"
               sequence="10"/>
 
 

@@ -748,6 +748,12 @@ class TrainingOpco(models.Model):
     name = fields.Char(string="Nom",required=True)
     email = fields.Char(string="Email",required=True)
 
+class Training (models.Model):
+    _name="training.agreement_internal_signer"
+    _description = "Signataires internes de la convention"
+    user_id = fields.Many2one("res.users",string='Signataire')
+    signature = fields.Binary(string="Signature")
+
 # Classe qui comporte les différentes feuilles d'émargement de la formation
 class TrainingAttendanceSheet(models.Model):
         _name = "training.attendance_sheet"
