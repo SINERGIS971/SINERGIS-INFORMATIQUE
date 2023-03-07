@@ -39,11 +39,18 @@
     <field name="inherit_id" ref="project.view_project_project_filter"/>
     <field name="arch" type="xml">
       <xpath expr="//filter[@name='open']" position="after">
+        <filter string="Mes ventes" name="filter_x_sinergis_project_project_seller_id" domain="[('x_sinergis_project_project_seller_id', '=', uid)]"/>
+        <separator/>
         <filter string="Consultant" domain="[('x_sinergis_project_res_users_job', '=', 'CONSULTANT')]" name="user_type_consultant"/>
         <filter string="Commercial" domain="[('x_sinergis_project_res_users_job', '=', 'COMMERCIAL')]" name="user_type_commercial"/>
         <separator/>
         <filter string="Projets terminés" name="filter_ended_project" domain="[('x_sinergis_project_project_etat_projet','=','Projet terminé')]"/>
         <filter string="Projets non terminés" name="filter_not_ended_project" domain="[('x_sinergis_project_project_etat_projet','!=','Projet terminé')]"/>
+      </xpath>
+
+      <xpath expr="//filter[@name='groupby_stage']" position="after">
+        <filter string="Société Sinergis" name="group_by_company_id" context="{'group_by':'company_id'}"/>
+        <filter string="Vendeur" name="group_by_x_sinergis_project_project_seller_id" context="{'group_by':'x_sinergis_project_project_seller_id'}"/>
       </xpath>
     </field>
 </record>
@@ -120,6 +127,7 @@
                     <field name="x_sinergis_project_project_etat_projet"/>
                     <field name="x_sinergis_project_project_acompte_verse"/>
                     <field name="company_id" position="move"/>
+                    <field name="x_sinergis_project_project_seller_id" optional="hide"/>
       </xpath>
       <xpath expr="//field[@name='date_start']" position="attributes">
           <attribute name="invisible">1</attribute>

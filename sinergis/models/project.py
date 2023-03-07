@@ -175,6 +175,9 @@ class ProjectProject(models.Model):
     x_sinergis_project_project_initial_hours = fields.Float(compute="_compute_x_sinergis_project_project_initial_hours", string="Heures prévues initialement")
     x_sinergis_project_project_effective_hours = fields.Float(compute="_compute_x_sinergis_project_project_effective_hours", string="Heures passées")
 
+    # 7 Mars 2023 - Ajout d'un vendeur
+    x_sinergis_project_project_seller_id = fields.Many2one("res.users",compute="_compute_x_sinergis_project_project_seller_id",string='Vendeur')
+
     @api.depends('x_sinergis_project_project_sale_order_contact')
     def _compute_x_sinergis_project_project_sale_order_contact (self):
         for rec in self:
@@ -224,6 +227,14 @@ class ProjectProject(models.Model):
             for task_id in task_ids:
                 effective_hours += task_id.effective_hours
             rec.x_sinergis_project_project_effective_hours = effective_hours
+
+    @api.depends('x_sinergis_project_project_seller_id')
+    def _compute_x_sinergis_project_project_seller_id (self):
+        for rec in self :
+            if rec.sale_line_id:
+                rec.x_sinergis_project_project_seller_id = rec.sale_line_id.order_id.user_id
+            else:
+                rec.x_sinergis_project_project_seller_id = False
 
     #@api.onchange("tag_ids")
     #def on_change_tag_ids (self):
