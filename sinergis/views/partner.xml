@@ -108,6 +108,7 @@
                 <field name="x_sinergis_societe_suspect"/>
                 <field name="x_sinergis_societe_en_cours_immatriculation"/>
                 <field name="x_sinergis_societe_etranger"/>
+                <p style="font-size:8pt;">En cochant "Étranger", les taxes sur les nouveaux devis du client seront à renseigner manuellement.</p>
             </xpath>
 
             <xpath expr="//div[@class='o_address_format']" position="after">
