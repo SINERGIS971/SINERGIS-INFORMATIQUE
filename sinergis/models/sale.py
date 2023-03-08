@@ -133,7 +133,7 @@ class SaleOrder(models.Model):
                             rec.partner_id.property_account_position_id = rec.fiscal_position_id
                         #Si le client est étranger, alors on ne recalcule pas automatiquement les taxes
                         if not rec.partner_id.x_sinergis_societe_etranger:
-                            rec.order.order_line._compute_tax_id()
+                            rec.order_line._compute_tax_id()
 
     @api.depends('x_sinergis_sale_order_amount_remaining')
     def _compute_x_sinergis_sale_order_amount_remaining (self):
