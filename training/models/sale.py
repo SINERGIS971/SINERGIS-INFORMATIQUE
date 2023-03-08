@@ -44,9 +44,9 @@ class SaleOrder(models.Model):
                 if line.product_id.is_training:
                     #Verify if the training does not exists
                     if line.x_sinergis_sale_order_line_subproduct_id:
-                        training_name = f"FORMATION - {line.x_sinergis_sale_order_line_subproduct_id.name} - {self.partner_id.name}"
+                        training_name = f"FORMATION - {self.x_sinergis_sale_order_product_new.name} {line.x_sinergis_sale_order_line_subproduct_id.name} - {self.partner_id.name}"
                     else :
-                        training_name = f"FORMATION - {self.partner_id.name}"
+                        training_name = f"FORMATION - {self.x_sinergis_sale_order_product_new.name} - {self.partner_id.name}"
                     if self.env['training'].search_count(['&',('sale_id', '=', self.id),('sale_order_line_id', '=', line.id)]) == 0:
                         vals = {'sale_id': self.id,
                                 'sale_order_line_id': line.id,
