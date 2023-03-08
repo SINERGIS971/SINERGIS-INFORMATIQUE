@@ -13,7 +13,7 @@ class SaleOrder(models.Model):
     x_sinergis_sale_order_objet = fields.Char(string="Objet")
     x_sinergis_sale_order_contact = fields.Many2one("res.partner",string="Contact", required="True")
 
-    fiscal_position_id = fields.Many2one(compute="_compute_fiscal_position_id", readonly=False, domain="[('company_id','=',company_id)]");
+    fiscal_position_id = fields.Many2one(compute="_compute_fiscal_position_id", readonly=False, domain="[('company_id','=',company_id)]")
 
     pricelist_id = fields.Many2one(default=lambda self: self.env['product.pricelist'].search([('name','=',"PRIX PUBLIC")]))
 
@@ -116,22 +116,24 @@ class SaleOrder(models.Model):
 
     @api.depends('fiscal_position_id')
     def _compute_fiscal_position_id (self):
-        if self.partner_id :
-            if self.state == "draft":
-                company_id = self.company_id
-                country_id = self.partner_id.country_id.name
-                if company_id and country_id :
-                    if country_id == "France":
-                        self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE"),('company_id.name', '=', company_id.name)])[0].id
-                        self.partner_id.property_account_position_id = self.fiscal_position_id
-                    elif country_id == "Guadeloupe" or country_id == "Martinique":
-                        self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM"),('company_id.name', '=', company_id.name)])[0].id
-                        self.partner_id.property_account_position_id = self.fiscal_position_id
-                    elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
-                        self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO"),('company_id.name', '=', company_id.name)])[0].id
-                        self.partner_id.property_account_position_id = self.fiscal_position_id
-                    for order in self:
-                        order.order_line._compute_tax_id()
+        for rec in self :
+            if rec.partner_id :
+                if rec.state == "draft":
+                    company_id = rec.company_id
+                    country_id = rec.partner_id.country_id.name
+                    if company_id and country_id :
+                        if country_id == "France":
+                            rec.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA FRANCE"),('company_id.name', '=', company_id.name)])[0].id
+                            rec.partner_id.property_account_position_id = rec.fiscal_position_id
+                        elif country_id == "Guadeloupe" or country_id == "Martinique":
+                            rec.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM"),('company_id.name', '=', company_id.name)])[0].id
+                            rec.partner_id.property_account_position_id = rec.fiscal_position_id
+                        elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
+                            rec.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO"),('company_id.name', '=', company_id.name)])[0].id
+                            rec.partner_id.property_account_position_id = rec.fiscal_position_id
+                        #Si le client est étranger, alors on ne recalcule pas automatiquement les taxes
+                        if not rec.partner_id.x_sinergis_societe_etranger:
+                            rec.order.order_line._compute_tax_id()
 
     @api.depends('x_sinergis_sale_order_amount_remaining')
     def _compute_x_sinergis_sale_order_amount_remaining (self):

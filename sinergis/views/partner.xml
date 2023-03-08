@@ -107,6 +107,7 @@
             <xpath expr="//span[@name='address_name']" position="before">
                 <field name="x_sinergis_societe_suspect"/>
                 <field name="x_sinergis_societe_en_cours_immatriculation"/>
+                <field name="x_sinergis_societe_etranger"/>
             </xpath>
 
             <xpath expr="//div[@class='o_address_format']" position="after">

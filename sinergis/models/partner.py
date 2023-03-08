@@ -60,6 +60,10 @@ class ResPartner(models.Model):
 
     x_sinergis_societe_annual_contracts = fields.One2many('sinergis.annual_contracts', 'partner_id', string="Contrats annuels")
 
+    # 8/03/2023 : Ajout du statut "étranger" pour avoir libre choix de la TVA lors de la facturation
+
+    x_sinergis_societe_etranger = fields.Boolean(string="Étranger", default=False)
+
 
     #Gestion des contraintes supplémentaires
 

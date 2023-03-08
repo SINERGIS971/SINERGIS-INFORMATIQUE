@@ -1,14 +1,16 @@
+/* -- EN COURS DE DEV -- */
+
 odoo.define('sinergis.dialog_popup', function (require) {
     "use strict";
     
-    var Dialog = require('web.Dialog');
+    /*var Dialog = require('web.Dialog');
     var core = require('web.core');
     var Widget = require('web.Widget');
     var QWeb = core.qweb;
 
     var CustomDialog = Widget.extend({
         events: {
-            'click .btn-popover': 'on_button_click',
+            'click .btn-primary': 'on_button_click',
         },
         start: function() {
             var self = this;
@@ -29,7 +31,58 @@ odoo.define('sinergis.dialog_popup', function (require) {
             this.dialog.close();
         },
     });
+    
+    var custom_dialog = new CustomDialog(null);
+    custom_dialog.appendTo($('body'));
+    console.log("yoyo");*/
+    
+    
+    
+    
+    window.onload = function() {
+        $(document).on('click', '.btn-popover', function(){
+             f();
+         });
+    };
+    
+    function f () {
+        self=this;
+        console.log("TEST2");
+        var Dialog = require('web.Dialog');
+        var rpc = require('web.rpc');
 
-    return CustomDialog;
+        Dialog.alert(
+           this,
+           "Dialog Alert",
+           {
+               onForceClose: function(){
+                   console.log("Click Close");
+               },
+               confirm_callback: function(){
+                   console.log("Click Ok");
+                   
+                   var seen = [];
+                   var data = JSON.stringify(this, function(key, val) {
+                       if (val != null && typeof val == "object") {
+                            if (seen.indexOf(val) >= 0) {
+                                return;
+                            }
+                            seen.push(val);
+                        }
+                        return val;
+                    });
+                    rpc.query({
+                         model: "sale.order",
+                         method: "test_debug",
+                         args: [data],
+                     }).then(function (result) { 
+                                console.log(result);
+                    });
+               }
+           }
+        );
+    }
+    //dialog.open();
+
     });
     
