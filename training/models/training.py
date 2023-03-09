@@ -127,6 +127,11 @@ class Training(models.Model):
             self.location_zip = False
             self.location_country_id = False
 
+    @api.onchange("company_id")
+    def on_change_company_id (self):
+        # Signataire interne lié à la société Sinergis.
+        self.agreement_internal_signer = False
+
     # Détecte une erreur dans l'enregistrement des heures de formation
     # - Si les heures planifiées dépassent celles du bon de commande
     # - Si les heures planifiées sont insuffisantes par rapport à celles du bon de commande
