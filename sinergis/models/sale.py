@@ -217,9 +217,9 @@ class SaleOrder(models.Model):
             lines = rec.order_line
             total_days = 0
             for line in lines :
-                if line.product_udm.name == "Jours":
+                if line.product_uom.name == "Jours":
                     days += line.product_uom_quantity
-                elif line.product_udm.name == "Heures":
+                elif line.product_uom.name == "Heures":
                     days += lines.product_uom_quantity / 7.0
             rec.x_sinergis_sale_order_days_count = total_days
 
