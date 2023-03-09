@@ -216,11 +216,12 @@ class SaleOrder(models.Model):
         for rec in self:
             lines = rec.order_line
             total_days = 0
-            for line in lines :
-                if line.product_uom.name == "Jours":
-                    days += line.product_uom_quantity
-                elif line.product_uom.name == "Heures":
-                    days += lines.product_uom_quantity / 7.0
+            if lines :
+                for line in lines :
+                    if line.product_uom.name == "Jours":
+                        total_days += line.product_uom_qty
+                    elif line.product_uom.name == "Heures":
+                        total_days += lines.product_uom_qty / 7.0
             rec.x_sinergis_sale_order_days_count = total_days
 
     @api.onchange("order_line")
