@@ -220,7 +220,7 @@
                         </group>
                         <group>
                           <label for="agreement_internal_signer" class="training-required"/>
-                          <field name="agreement_internal_signer" domain="[('user_id.x_sinergis_res_users_is_employee', '=', True)]" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
+                          <field name="agreement_internal_signer" domain="['&amp;',('user_id.x_sinergis_res_users_is_employee', '=', True),('company_id','=',company_id)]" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
                         </group>
                         <group>
                           <label for="duration" class="training-required"/>
@@ -743,6 +743,7 @@
         <field name="arch" type="xml">
             <tree>
               <field name="user_id"/>
+              <field name="company_id">
             </tree>
         </field>
     </record>
@@ -757,6 +758,9 @@
                 </group>
                 <group>
                   <field name="signature"/>
+                </group>
+                <group>
+                  <field name="company_id" options="{'no_create': True, 'no_create_edit':True}"/>
                 </group>
               </group>
             </form>

@@ -50,6 +50,9 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_supplier_order = fields.Boolean(string="Commande fournisseur", default=False)
 
+    # 9 Mars 2023 : Ajout du nombre de jours dans le devis.
+    x_sinergis_sale_order_days_count = fields.Float(string="Nombre de jours", compute="_compute_x_sinergis_sale_order_days_count")
+
 
 
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
@@ -68,6 +71,8 @@ class SaleOrder(models.Model):
         else:
             self.company_id = self.env.company.id
 
+    #Utilisation du modèle
+    #To do : Voir si on peut créer la ligne puis changer l'article
     @api.onchange('x_sinergis_sale_order_model')
     def onchange_x_sinergis_sale_order_model(self):
         if self.x_sinergis_sale_order_model:
@@ -205,6 +210,18 @@ class SaleOrder(models.Model):
                 planned_days += task.x_sinergis_project_task_planned_hours / 8
             planned_days = round(planned_days,2)
             rec.x_sinergis_sale_order_planned_days = planned_days
+
+    @api.depends('x_sinergis_sale_order_days_count')
+    def _compute_x_sinergis_sale_order_days_count (self):
+        for rec in self:
+            lines = rec.order_line
+            total_days = 0
+            for line in lines :
+                if line.product_udm.name == "Jours":
+                    days += line.product_uom_quantity
+                elif line.product_udm.name == "Heures":
+                    days += lines.product_uom_quantity / 7.0
+            rec.x_sinergis_sale_order_days_count = total_days
 
     @api.onchange("order_line")
     def on_change_order_line(self):
