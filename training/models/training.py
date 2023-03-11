@@ -127,6 +127,11 @@ class Training(models.Model):
             self.location_zip = False
             self.location_country_id = False
 
+    @api.onchange("company_id")
+    def on_change_company_id (self):
+        # Signataire interne lié à la société Sinergis.
+        self.agreement_internal_signer = False
+
     # Détecte une erreur dans l'enregistrement des heures de formation
     # - Si les heures planifiées dépassent celles du bon de commande
     # - Si les heures planifiées sont insuffisantes par rapport à celles du bon de commande
@@ -752,8 +757,9 @@ class TrainingAgreementInternalSigner (models.Model):
     _name="training.agreement_internal_signer"
     _description = "Signataires internes de la convention"
     _rec_name = "user_id"
-    user_id = fields.Many2one("res.users",string='Signataire')
-    signature = fields.Binary(string="Signature")
+    user_id = fields.Many2one("res.users",string='Signataire',required=True)
+    company_id = fields.Many2one('res.company', string="Société Sinergis",required=True)
+    signature = fields.Binary(string="Signature",required=True)
 
 # Classe qui comporte les différentes feuilles d'émargement de la formation
 class TrainingAttendanceSheet(models.Model):
