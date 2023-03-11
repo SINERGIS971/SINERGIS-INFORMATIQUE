@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Outlook Calendar',
+    'name': 'Module Calendrier Outlook Sinergis',
     'version': '1.0',
     'category': 'Productivity',
     'description': "",

@@ -1,4 +1,4 @@
-odoo.define('microsoft_calendar.MicrosoftCalendarPopover', function(require) {
+odoo.define('sinergis_microsoft_calendar.MicrosoftCalendarPopover', function(require) {
     "use strict";
 
     const CalendarPopover = require('@calendar/js/calendar_renderer')[Symbol.for("default")].AttendeeCalendarPopover;

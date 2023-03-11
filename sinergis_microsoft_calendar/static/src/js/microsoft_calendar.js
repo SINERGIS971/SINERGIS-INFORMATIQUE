@@ -1,4 +1,4 @@
-odoo.define('microsoft_calendar.CalendarView', function (require) {
+odoo.define('sinergis_microsoft_calendar.CalendarView', function (require) {
 "use strict";
 
 var core = require('web.core');

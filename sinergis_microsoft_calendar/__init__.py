@@ -15,6 +15,6 @@ def init_initiating_microsoft_uuid(cr, registry):
     party name on all existing companies once the module is installed. """
     env = api.Environment(cr, SUPERUSER_ID, {})
     config_parameter = env['ir.config_parameter'].sudo()
-    microsoft_guid = config_parameter.get_param('microsoft_calendar.microsoft_guid', False)
+    microsoft_guid = config_parameter.get_param('sinergis_microsoft_calendar.microsoft_guid', False)
     if not microsoft_guid:
-        config_parameter.set_param('microsoft_calendar.microsoft_guid', str(uuid.uuid4()))
+        config_parameter.set_param('sinergis_microsoft_calendar.microsoft_guid', str(uuid.uuid4()))
