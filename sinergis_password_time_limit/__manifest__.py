@@ -18,11 +18,9 @@
     'depends': ['base','web','mail'],
 
     'data': [
-        'security/ir.model.access.csv',
+        'views/sinergis_password_time_limit.xml',
     ],
     'assets': {
-        'web.assets_backend': [
-        ],
         'web.assets_qweb': [
             'sinergis_password_time_limit/static/src/xml/panel.xml',
         ]
