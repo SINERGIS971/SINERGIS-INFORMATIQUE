@@ -15,14 +15,17 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['base'],
+    'depends': ['base','web'],
 
     'data': [
         'security/ir.model.access.csv',
     ],
     'assets': {
         'web.assets_backend': [
-            'training/static/src/xml/panel.xml',
+        ],
+        'web.assets_qweb': [
+            'sinergis_password_time_limit/static/src/xml/panel.xml',
         ]
     },
 }
+
