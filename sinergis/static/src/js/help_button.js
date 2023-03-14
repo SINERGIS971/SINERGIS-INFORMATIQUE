@@ -3,18 +3,20 @@ odoo.define('sinergis.help_button', function(require) {
 
     var core = require('web.core');
     var rpc = require('web.rpc');
+    var session = require('web.session');
 
     var _t = core._t;
 
     $(document).ready(function() {
-        $('.reste_password_limit_button').click(function() {
-            rpc.query({
-                model: 'my.model',
-                method: 'my_function',
-                args: [],
-            }).then(function(result) {
-                // Do something with the result
-            });
+        $('.reset_password_limit_button').click(function() {
+            new view_dialogs.FormViewDialog(this, {
+                res_model: 'res.users',
+                res_id: session.uid,
+                title: "Utilisateur",
+                on_saved: function (record) {
+                    console.log("Click Save");
+                }
+             }).open();
         });
     });
 });

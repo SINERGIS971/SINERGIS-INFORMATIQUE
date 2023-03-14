@@ -4,7 +4,7 @@
     <t t-name="sinergis.MessagingMenu" t-inherit="mail.MessagingMenu" t-inherit-mode="extension">
       <xpath expr="//a[@title='Conversations']/.." position="after">
         <div class="dropdown">
-          <button class="reste_password_limit_button" style="color:red;margin-top:10px;padding:10px;display: inline-block;outline: none;cursor: pointer;font-weight: 500;border: 1px solid transparent;border-radius: 2px;height: 36px;line-height: 34px;font-size: 14px;color: #ffffff;background-color: #007c89;transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;padding: 0 18px;">Veuillez changer le mot de passe de votre compte</button>
+          <button class="reset_password_limit_button" style="color:red;margin-top:10px;padding:10px;display: inline-block;outline: none;cursor: pointer;font-weight: 500;border: 1px solid transparent;border-radius: 2px;height: 36px;line-height: 34px;font-size: 14px;color: #ffffff;background-color: #007c89;transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;padding: 0 18px;">Veuillez changer le mot de passe de votre compte</button>
           <a href="https://groupesfpr.sharepoint.com/:f:/s/ODOO/EnQMMHxSfIFGqQt_JMUd_7kBgja8jRwAs5nhhZoO5wGn0A?e=X8BpGL" style="padding-left:20px;padding-right:20px;"><i role="img" class="fa fa-info"></i></a>
           <a href="/sinergis/statistics_dashboard" style="padding-left:20px;padding-right:20px;" target="_blank"><i role="img" class="fa fa-bar-chart-o"></i></a>
         </div>
