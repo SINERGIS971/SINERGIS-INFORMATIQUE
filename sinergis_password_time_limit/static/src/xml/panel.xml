@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <template xml:space="preserve" owl="1">
-    <t t-name="sinergis_password_time_limit.MessagingMenu" t-inherit="mail.MessagingMenu" t-inherit-mode="primary">
-      <xpath expr="//a[@title='Conversations']/.." position="after">
-        <div class="dropdown">
+    <t t-name="sinergis_password_time_limit.MessagingMenu" t-inherit="sinergis.MessagingMenu" t-inherit-mode="extension">
+      <xpath expr="//div[@class='dropdown']" position="inside">
           <p style="color:red;margin-top:10px;padding:10px;display: inline-block;outline: none;cursor: pointer;font-weight: 500;border: 1px solid transparent;border-radius: 2px;height: 36px;line-height: 34px;font-size: 14px;color: #ffffff;background-color: #007c89;transition: background-color 0.2s ease-in-out 0s, opacity 0.2s ease-in-out 0s;padding: 0 18px;">Veuillez changer le mot de passe de votre compte</p>
-        </div>
       </xpath>
     </t>
 </template>

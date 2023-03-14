@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <template xml:space="preserve" owl="1">
-    <t t-name="sinergis.MessagingMenu" t-inherit="mail.MessagingMenu" t-inherit-mode="primary">
+    <t t-name="sinergis.MessagingMenu" t-inherit="mail.MessagingMenu" t-inherit-mode="extension">
       <xpath expr="//a[@title='Conversations']/.." position="after">
         <div class="dropdown">
           <a href="https://groupesfpr.sharepoint.com/:f:/s/ODOO/EnQMMHxSfIFGqQt_JMUd_7kBgja8jRwAs5nhhZoO5wGn0A?e=X8BpGL" style="padding-left:20px;padding-right:20px;"><i role="img" class="fa fa-info"></i></a>

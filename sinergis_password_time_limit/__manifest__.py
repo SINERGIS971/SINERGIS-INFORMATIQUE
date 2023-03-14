@@ -15,7 +15,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['base','web','mail'],
+    'depends': ['base','web','mail',"sinergis"],
 
     'data': [
         'views/sinergis_password_time_limit.xml',
