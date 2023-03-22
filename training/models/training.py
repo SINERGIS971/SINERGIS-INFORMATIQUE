@@ -672,11 +672,12 @@ class TrainingParticipants(models.Model):
 
                 values = {'attachment_ids':attachment_ids}
                 base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+                disability_referents = self.env['training.disability_referent'].sudo().search([])
                 if self.training_id.remote_learning:
                     template_id = self.env.ref('training.training_invitation_mail_remote').id
                 else :
                     template_id = self.env.ref('training.training_invitation_mail').id
-                self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True,email_values=values)
+                self.env["mail.template"].browse(template_id).with_context(base_url=base_url,disability_referents=disability_referents).send_mail(self.id, force_send=True,email_values=values)
                 self.invitation_sent = True
             else :
                 raise ValidationError("Ce participant n'a pas de mail, veuillez le renseigner en revenant à la partie commerciale.")

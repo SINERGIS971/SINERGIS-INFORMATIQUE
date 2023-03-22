@@ -788,8 +788,8 @@
     </record>
 
     <record id="training_agreement_internal_signer_action_form" model="ir.ui.view">
-        <field name="name">training.agreement_internal_signer_action.form</field>
-        <field name="model">training.agreement_internal_signer</field>
+        <field name="name">training.disability_referent_action.form</field>
+        <field name="model">training.disability_referent</field>
         <field name="arch" type="xml">
             <form>
               <group>
