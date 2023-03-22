@@ -761,6 +761,15 @@ class TrainingAgreementInternalSigner (models.Model):
     company_id = fields.Many2one('res.company', string="Société Sinergis",required=True)
     signature = fields.Binary(string="Signature",required=True)
 
+class TrainingDisabilityReferent (models.Model):
+    _name="training.disability_referent"
+    _description = "Référents handicape"
+    _rec_name = "user_id"
+    user_id = fields.Many2one("res.users",string='Référent',required=True)
+    phone = fields.Char(string="Téléphone", required=True)
+    mail =fields.Char(string="Email", required=True)
+
+
 # Classe qui comporte les différentes feuilles d'émargement de la formation
 class TrainingAttendanceSheet(models.Model):
         _name = "training.attendance_sheet"
@@ -770,3 +779,4 @@ class TrainingAttendanceSheet(models.Model):
 
         name = fields.Char(string="Nom",required=True)
         file = fields.Binary(string="Feuille")
+
