@@ -249,6 +249,13 @@
                 <button name="transfer_ch_button" string="Transférer" class="oe_highlight" type="object" confirm="Êtes-vous sûr de transférer le solde de ce contrat d'heures vers le contrat sélectionné ?"/>
               </group>
             </group>
+            <group>
+              <group>
+                <field name="x_sinergis_project_task_transfer_archive"/>
+              </group>
+              <group>
+              </group>
+            </group>
             </page>
         </notebook>
 

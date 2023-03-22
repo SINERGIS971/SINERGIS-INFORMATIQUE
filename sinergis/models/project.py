@@ -39,6 +39,7 @@ class ProjectTask(models.Model):
 
     #4/03/2023 : Permettre le transfert du solde du CH
     x_sinergis_project_task_transfer_task_id = fields.Many2one("project.task",string="Nouveau contrat d'heures")
+    x_sinergis_project_task_transfer_archive = fields.Boolean(default=True, string="Archiver ensuite ce contrat")
 
     # 7 Mars 2023 - Ajout d'un vendeur
     x_sinergis_project_task_seller_id = fields.Many2one("res.users", related="sale_line_id.order_id.user_id",string='Vendeur')
@@ -67,6 +68,9 @@ class ProjectTask(models.Model):
         self.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.env.user.id, 'unit_amount' : time})]
         self.x_sinergis_project_task_transfer_task_id.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.env.user.id, 'unit_amount' : -time})]
         self.x_sinergis_project_task_transfer_task_id = False
+        #Archiver le contrat d'heures si on souhaite l'archiver après transfert
+        if self.x_sinergis_project_task_transfer_archive :
+            self.active = False
 
     @api.depends('x_sinergis_project_task_done')
     def _compute_x_sinergis_project_task_done (self):
