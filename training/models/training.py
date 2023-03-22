@@ -521,8 +521,8 @@ class Training(models.Model):
 
     # =====QWEB FUNCTIONS=====
     # Function used to have all disability referent in remote and non remote invitation
-        def get_disability_referents (self):
-            return self.env['training.disability_referent'].sudo().search([])
+    def get_disability_referents (self):
+        return self.env['training.disability_referent'].sudo().search([])
 
 class TrainingParticipants(models.Model):
     _name = "training.participants"
@@ -784,4 +784,5 @@ class TrainingAttendanceSheet(models.Model):
 
         name = fields.Char(string="Nom",required=True)
         file = fields.Binary(string="Feuille")
+
 

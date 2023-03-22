@@ -106,7 +106,7 @@
                           <t t-set="disability_referents" t-value="object.training_id.get_disability_referents()"/>
                           <t t-foreach="disability_referents" t-as="disability_referent">
                             <br/>
-                            <span t-out="disability_referent.user_id.name"/> <span t-out="disability_referent.phone"/> <span t-out="disability_referent.mail"/>
+                            <span t-out="disability_referent.user_id.name"/> - <span t-out="disability_referent.phone"/> - <span t-out="disability_referent.mail"/>
                           </t>
                           </li>
                         </ul>
