@@ -479,7 +479,7 @@ class Training(models.Model):
                 if self.partner_manager_id.email:
                     if not self.token_delayed_assessment:
                         self.token_delayed_assessment = "dela-"+str(self.id)+secrets.token_urlsafe(40)
-                    base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+                    base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                     template_id = self.env.ref('training.training_delayed_assessment_mail').id
                     self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                     self.delayed_assessment_sent = True
@@ -490,7 +490,7 @@ class Training(models.Model):
                 if self.opco_id.email:
                     if not self.token_opco_quiz:
                         self.token_opco_quiz = "dela-"+str(self.id)+secrets.token_urlsafe(40)
-                    base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+                    base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                     template_id = self.env.ref('training.training_opco_quiz_mail').id
                     self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                     self.opco_quiz_sent = True
@@ -676,7 +676,7 @@ class TrainingParticipants(models.Model):
                 attachment_ids.append(attach_id.id)
 
                 values = {'attachment_ids':attachment_ids}
-                base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+                base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 if self.training_id.remote_learning:
                     template_id = self.env.ref('training.training_invitation_mail_remote').id
                 else :
@@ -691,7 +691,7 @@ class TrainingParticipants(models.Model):
             if self.email:
                 if not self.token_quiz_diagnostic:
                     self.token_quiz_diagnostic = "diag-"+str(self.id)+secrets.token_urlsafe(40)
-                base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+                base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 template_id = self.env.ref('training.training_diagnostic_quiz_mail').id
                 self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                 self.diagnostic_quiz_sent = True
@@ -707,7 +707,7 @@ class TrainingParticipants(models.Model):
                     self.token_quiz_prior_learning = "prio-"+str(self.id)+secrets.token_urlsafe(40)
                 if not self.token_quiz_training_evaluation:
                     self.token_quiz_training_evaluation = "eval-"+str(self.id)+secrets.token_urlsafe(40)
-                base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+                base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 template_id = self.env.ref('training.training_ended_quiz_mail').id
                 self.env["mail.template"].browse(template_id).with_context(base_url=base_url).send_mail(self.id, force_send=True)
                 self.training_ended_sent = True
