@@ -102,7 +102,13 @@
                         <p><strong>Informations pratiques :</strong></p>
                         <ul>
                           <li>En suivant cette formation, vous acceptez les termes du règlement intérieur de notre organisme, ci-joint dans le livret de formation</li>
-                          <li>Si vous êtes en situation de handicap, veuillez contacter un de nos référents handicap :<br/>Alice CARRERE 06 96 91 34 50 acarrere@groupesfpr.fr<br/>Laetita PRIVAT 06 96 31 60 60 lprivat@groupesfpr.fr</li>
+                          <li>Si vous êtes en situation de handicap, veuillez contacter un de nos référents handicap :
+                          <t t-set="disability_referents" t-value="object.training_id.get_disability_referents()"/>
+                          <t t-foreach="disability_referents" t-as="disability_referent">
+                            <br/>
+                            <span t-out="disability_referent.user_id.name"/> - <span t-out="disability_referent.phone"/> - <span t-out="disability_referent.mail"/>
+                          </t>
+                          </li>
                         </ul>
                         <p>Merci de nous prévenir de tout empêchement ou retard au 05 96 56 00 34.</p>
                         <br/>
