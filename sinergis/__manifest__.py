@@ -57,6 +57,8 @@
         'web.assets_backend': [
             'sinergis/static/src/js/button_confirm.js',
             'sinergis/static/src/js/help_button.js',
+            # Permet de toujours avoir toutes les sociétés Sinergis cochées.
+            'sinergis/static/src/js/all_companies.js',
             #'sinergis/static/src/js/dialog_popup.js',
         ],
         'web.assets_qweb': [
