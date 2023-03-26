@@ -86,6 +86,7 @@
             <field name="x_sinergis_project_task_etat_tache"/>
             <field name="x_sinergis_project_task_seller_id_stored" widget="many2one_avatar_user" optional="hide"/>
             <field name="company_id" position="move"/>
+            <button name="calendar_events_button" string="Évenements" class="oe_highlight" type="object" attrs="{'invisible': [['x_sinergis_project_task_first_date','=',False]]}"/>
             <button name="print_calendar_reports" string="Éditer" class="oe_highlight" type="object" attrs="{'invisible': [['x_sinergis_project_task_is_calendar_event','=',False]]}"/>
         </xpath>
         <xpath expr="//field[@name='stage_id']" position="attributes">

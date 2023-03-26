@@ -50,6 +50,16 @@ class ProjectTask(models.Model):
     def print_timesheet_button(self):
         return self.env.ref('sinergis.sinergis_report_timesheet').report_action(self)
     
+    def calendar_events_button(self):
+        return {
+            'name': ('Évenements'),
+            'type': 'ir.actions.act_window',
+            "views": [[False, "tree"],[False, "form"]],
+            'res_model': 'calendar.event',
+            'domain': f"['|',('x_sinergis_calendar_event_tache', '=', {self.id}),('x_sinergis_calendar_event_tache2', '=', {self.id})]",
+        }
+        pass
+
     def print_calendar_reports(self):
         ids = []
         events = self.env['calendar.event'].search([('x_sinergis_calendar_event_tache', '=', self.id)], order='x_sinergis_calendar_event_start_time desc')
