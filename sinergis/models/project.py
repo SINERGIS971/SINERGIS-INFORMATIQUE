@@ -52,7 +52,7 @@ class ProjectTask(models.Model):
     
     def calendar_events_button(self):
         return {
-            'name': ('Évenements'),
+            'name': ('Évènements'),
             'type': 'ir.actions.act_window',
             "views": [[False, "tree"],[False, "form"]],
             'res_model': 'calendar.event',
