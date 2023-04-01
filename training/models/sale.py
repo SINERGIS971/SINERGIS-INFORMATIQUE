@@ -96,3 +96,10 @@ class SaleOrderLine(models.Model):
     groups="base.group_user")
     training_partner_id = fields.Many2one("res.partner",string="Client de la formation", default=lambda self: self.order_id.partner_id)
     is_training = fields.Boolean(related="product_id.is_training",default=False)
+
+    @api.onchange("product_id")
+    def on_change_product_id(self):
+        if self.is_training :
+            self.training_partner_id = self.order_id.partner_id
+        else :
+            self.training_partner_id = False
