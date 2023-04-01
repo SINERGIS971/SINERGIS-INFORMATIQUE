@@ -87,3 +87,11 @@ class SaleOrder(models.Model):
                     training_in_order_line = True
             rec.training_in_order_line = training_in_order_line
 
+
+class SaleOrderLine(models.Model):
+    _inherit = "sale.order.line"
+    purchase_price = fields.Float(
+    string='Cost', compute=False,
+    digits='Product Price', store=True, readonly=False,
+    groups="base.group_user")
+    training_partner_id = fields.Many2one("res.partner",string="Client")

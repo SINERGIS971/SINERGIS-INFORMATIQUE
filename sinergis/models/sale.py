@@ -53,7 +53,8 @@ class SaleOrder(models.Model):
     # 9 Mars 2023 : Ajout du nombre de jours dans le devis.
     x_sinergis_sale_order_days_count = fields.Float(string="Nombre de jours", compute="_compute_x_sinergis_sale_order_days_count")
 
-
+    # 1 Avril 2022 : Ajout d'un champ devis signé
+    x_sinergis_sale_order_signed_quote = fields.Binary(string="Devis signé")
 
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
     @api.onchange('partner_shipping_id', 'partner_id', 'company_id')

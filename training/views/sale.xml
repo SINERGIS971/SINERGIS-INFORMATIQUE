@@ -18,5 +18,16 @@
         </field>
     </record>
 
+  <record id="training_inherited_view_order_line_tree" model="ir.ui.view">
+        <field name="name">training.sale.order.line.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="before">
+                <field name="training_partner_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('product_id.is_training', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
   </data>
 </odoo>
