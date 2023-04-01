@@ -95,3 +95,4 @@ class SaleOrderLine(models.Model):
     digits='Product Price', store=True, readonly=False,
     groups="base.group_user")
     training_partner_id = fields.Many2one("res.partner",string="Client")
+    is_training = fields.Boolean(related="product_id.is_training",default=False)
