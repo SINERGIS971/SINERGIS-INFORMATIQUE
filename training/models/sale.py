@@ -99,6 +99,9 @@ class SaleOrderLine(models.Model):
 
     @api.onchange("product_id")
     def on_change_product_id(self):
+        # Compute training_count and training_in_order_line
+        self.order_id.training_count._compute_training_count()
+        self.order_id.training_in_order_line._compute_training_in_order_line()
         if self.is_training :
             self.training_partner_id = self.order_id.partner_id
         else :
