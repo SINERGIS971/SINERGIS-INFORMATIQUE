@@ -12,6 +12,7 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_is_technical_appointment = fields.Boolean()
 
     x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client")
+    x_sinergis_calendar_event_client_name = fields.Char(related="x_sinergis_calendar_event_client.name")
     x_sinergis_calendar_event_contact = fields.Many2one("res.partner",string="Contact")
     x_sinergis_calendar_event_contact_transfered = fields.Many2one("res.partner",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
 

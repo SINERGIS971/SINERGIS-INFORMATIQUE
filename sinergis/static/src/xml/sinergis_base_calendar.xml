@@ -4,21 +4,21 @@
     <t t-name="sinergis.calendar-box" t-inherit="calendar.Calendar.calendar-box" t-inherit-mode="extension">
       <xpath expr="//t[@t-esc='record.display_name']" position="after">
         <br/>
-        <t t-if="record.x_sinergis_calendar_event_client">
-          <i role="img" class="fa fa-male" style="color:green;">&#032;<t t-esc="record.x_sinergis_calendar_event_client"></t></i>
+        <t t-if="record.x_sinergis_calendar_event_client_name">
+          <i role="img" class="fa fa-male" style="color:green;">&#032;<t t-esc="record.x_sinergis_calendar_event_client_name"></t></i>
           <br/>
         </t>
         <t t-if="record.x_sinergis_calendar_event_intervention_report_done_exists">
           <i role="img" class="fa fa-paperclip" style="color:green;"></i>
         </t>
         <t t-if="record.x_sinergis_calendar_event_is_facturee_total">
-          <i role="img" class="fa fa-check-circle-o" style="color:green;">&#032;<strong>Décompté : <t t-esc="record.x_sinergis_calendar_event_temps_cumule"></strong></i>
+          <i role="img" class="fa fa-check-circle-o" style="color:green;">&#032;<strong>Décompté : <t t-esc="record.x_sinergis_calendar_event_temps_cumule"></t> h</strong></i>
           <br/>
           <i role="img" class="fa fa-file-text-o" style="color:green;">&#032;<t t-esc="record.x_sinergis_calendar_event_facturation"></t></i>
         </t>
         <t t-if="record.x_sinergis_calendar_event_facturation == 'À définir ultérieurement'">
           <br/>
-          <i role="img" class="fa fa-file-text-o" style="color:red;">&#032;<t t-esc="record.x_sinergis_calendar_event_facturation" t-options="{'widget': 'float_time'}"></t></i>
+          <i role="img" class="fa fa-file-text-o" style="color:red;">&#032;<t t-esc="record.x_sinergis_calendar_event_facturation"></t></i>
         </t>
       </xpath>
     </t>

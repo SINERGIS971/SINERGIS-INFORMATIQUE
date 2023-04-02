@@ -32,7 +32,7 @@
                   <field name="x_sinergis_calendar_event_is_facturee_total" invisible="1"/>
                   <field name="x_sinergis_calendar_event_facturation" invisible="1"/>
                   <field name="x_sinergis_calendar_event_intervention_report_done_exists" invisible="1"/>
-                  <field name="x_sinergis_calendar_event_client" invisible="1"/>
+                  <field name="x_sinergis_calendar_event_client_name" invisible="1"/>
                   <field name="x_sinergis_calendar_event_temps_cumule" invisible="1"/>
               </xpath>
             </field>
