@@ -67,7 +67,7 @@ class CalendarEvent(models.Model):
     # Prise en compte uniquement de la facturation CH ou devis
     x_sinergis_calendar_event_is_facturee = fields.Boolean(string="",default=False)
     # Prise en compte de chaque type de facturation.
-    # Pour valider cette facturation : Soit on décompt, soit on renseigne un type de facturation sans décomptage et on regarde si il y a du temps passé présent
+    # Pour valider cette facturation : Soit on décompte, soit on renseigne un type de facturation sans décomptage et on regarde si il y a du temps passé présent
     x_sinergis_calendar_event_is_facturee_total = fields.Boolean(string="",compute="_compute_x_sinergis_calendar_event_is_facturee_total")
 
     #Pour la vue list
