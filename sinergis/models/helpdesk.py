@@ -385,6 +385,10 @@ class HelpdeskTicket(models.Model):
     def x_sinergis_helpdesk_ticket_last_call_button (self):
         self.x_sinergis_helpdesk_last_call = datetime.now()
 
+    def x_sinergis_helpdesk_ticket_partner_replied (self):
+        self.x_sinergis_helpdesk_last_call = False
+        self.message_post(body="PARTNER REPLIED")
+
     def button_x_sinergis_helpdesk_ticket_client_answer (self):
         raise ValidationError("Le client a envoyé au moins deux mails concernant ce ticket.")
 

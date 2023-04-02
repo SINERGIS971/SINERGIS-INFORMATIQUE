@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
           <xpath expr="//button[@name='367']" position="before">
             <field name="training_in_order_line" invisible="1"/>
+            <field name="training_parent_company" invisible="1"/>
             <button name="download_initiale_diagnostique" help="Télécharger le diagnostic initial de formation" class="oe_highlight btn-warning" type="object" string="Diagnostic initial de formation" icon="fa-download" attrs="{'invisible': [('training_in_order_line', '=', False)]}"/>
           </xpath>
           <xpath expr="//button[@name='action_view_invoice']" position="before">
@@ -29,7 +30,7 @@
                        force_save="1"
                        options="{'no_create': True, 'no_create_edit':True}"
                        attrs="{'readonly': [('is_training', '=', False)], 'column_invisible': [('parent.training_in_order_line', '=', False)], 'required': [('is_training', '=', True)]}"
-                       domain="[('is_company', '=', True),('x_sinergis_societe_mere', '=', parent.training_parent_company),('id','=',parent.training_parent_company.id)]"
+                       domain="['&amp;',('is_company', '=', True),'|','|',('x_sinergis_societe_mere', '=', parent.training_parent_company),('x_sinergis_societe_mere', '=', parent.partner_id),('id','=',parent.training_parent_company)]"
                        />
             </xpath>
         </field>
