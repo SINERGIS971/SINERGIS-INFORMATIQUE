@@ -166,14 +166,20 @@
                     <field name="x_sinergis_helpdesk_ticket_contact_mobile" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_contact',  '=', False), ('x_sinergis_helpdesk_ticket_contact_mobile',  '=', False)]}" force_save="1" widget="phone"/>
                     <field name="x_sinergis_helpdesk_ticket_contact_mail" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_contact',  '=', False), ('x_sinergis_helpdesk_ticket_contact_mail',  '=', False)]}" force_save="1"/>
                     <field name="x_sinergis_helpdesk_last_call"/>
-                    <button name="x_sinergis_helpdesk_ticket_last_call_button" class="oe_highlight btn-warning" type="object" string="Le client n'a pas répondu" icon="fa-phone"/>
-                    <button name="x_sinergis_helpdesk_ticket_partner_replied" class="oe_highlight btn-success" type="object" string="Le client a répondu" icon="fa-phone"/>
                 </xpath>
 
                 <!-- CREATION DU NOTEBOOK EN BAS DE PAGE -->
 
                 <xpath expr="//field[@name='description']" position="replace"/>
                 <xpath expr="//form/sheet/group[1]" position="after">
+                    <group>
+                      <group>
+                      </group>
+                      <group>
+                        <button name="x_sinergis_helpdesk_ticket_last_call_button" class="oe_highlight btn-warning" type="object" string="Le client n'a pas répondu" icon="fa-phone"/>
+                        <button name="x_sinergis_helpdesk_ticket_partner_replied" class="oe_highlight btn-success" type="object" string="Le client a répondu" icon="fa-phone"/>
+                      </group>
+                    </group>
                     <group>
                         <field name="description" class="field_description" placeholder="Description du problème..." string="Description du problème" required="True"/>
                     </group>

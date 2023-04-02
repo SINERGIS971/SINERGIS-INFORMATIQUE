@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import datetime
+import pytz
 
 
 class HelpdeskTicket(models.Model):
@@ -384,10 +385,13 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_last_call_button (self):
         self.x_sinergis_helpdesk_last_call = datetime.now()
+        body = f"Le client a répondu le {datetime.now(pytz.timezone('America/Guadeloupe'))} (horaire de Guadeloupe)."
+        self.message_post(body=body)
 
     def x_sinergis_helpdesk_ticket_partner_replied (self):
         self.x_sinergis_helpdesk_last_call = False
-        self.message_post(body="PARTNER REPLIED")
+        body = f"Le client n'a pas répondu le {datetime.now(pytz.timezone('America/Guadeloupe'))} (horaire de Guadeloupe)."
+        self.message_post(body=body)
 
     def button_x_sinergis_helpdesk_ticket_client_answer (self):
         raise ValidationError("Le client a envoyé au moins deux mails concernant ce ticket.")
