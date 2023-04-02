@@ -93,7 +93,7 @@
                   <field name="company_id" position="move"/>
                   <field name="stage_id" position="move"/>
                   <field name="x_sinergis_helpdesk_last_call" optional="hide"/>
-                  <field name="x_sinergis_helpdesk_last_call_user_id" optional="hide"/>
+                  <field name="x_sinergis_helpdesk_last_call_user_id" optional="hide" widget="many2one_avatar_user"/>
                   <button name="x_sinergis_helpdesk_ticket_tree_last_call_button" class="oe_highlight btn-outline-secondary" type="object" string="Le client n'a pas répondu" attrs="{'invisible': [('x_sinergis_helpdesk_last_call', '=', False)]}"/>
                   <field name="x_sinergis_helpdesk_ticket_planned_intervention_text"/>
                 </xpath>

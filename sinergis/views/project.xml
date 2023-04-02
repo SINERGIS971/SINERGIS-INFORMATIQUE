@@ -86,7 +86,6 @@
             <field name="x_sinergis_project_task_etat_tache"/>
             <field name="x_sinergis_project_task_seller_id_stored" widget="many2one_avatar_user" optional="hide"/>
             <field name="company_id" position="move"/>
-            <button name="calendar_events_button" string="Évènements" class="oe_highlight" type="object" attrs="{'invisible': [['x_sinergis_project_task_first_date','=',False]]}"/>
             <button name="print_calendar_reports" string="Éditer" class="oe_highlight" type="object" attrs="{'invisible': [['x_sinergis_project_task_is_calendar_event','=',False]]}"/>
         </xpath>
         <xpath expr="//field[@name='stage_id']" position="attributes">
@@ -208,11 +207,13 @@
 
             <xpath expr="//header" position="inside">
               <button name="print_calendar_reports" string="Éditer" class="oe_highlight" type="object" attrs="{'invisible': [['x_sinergis_project_task_is_calendar_event','=',False]]}"/>
+              <button name="calendar_events_button" string="Évènements" class="oe_highlight" type="object" attrs="{'invisible': [['x_sinergis_project_task_first_date','=',False]]}"/>
             </xpath>
 
             <xpath expr="//label[@for='project_id']" position="before">
                 <field name="x_sinergis_project_task_contract_type" invisible="1"/>
                 <field name="x_sinergis_project_task_is_calendar_event" invisible="1"/>
+                <field name="x_sinergis_project_task_first_date" invisible="1"/>
                 <field name="create_date"/>
             </xpath>
 
