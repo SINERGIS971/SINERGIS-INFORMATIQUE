@@ -74,6 +74,8 @@
                 </xpath>
                 <xpath expr="//field[@name='display_name']" position="before">
                   <field name="x_sinergis_helpdesk_ticket_client_answer" invisible="True"/>
+                  <field name="x_sinergis_helpdesk_last_call" invisible="1"/>
+                  <field name="x_sinergis_helpdesk_ticket_client_bloque" invisible="True"/>
                   <button name="button_x_sinergis_helpdesk_ticket_client_answer" readonly="True" type="object"  icon="fa-bell" class="btn-danger" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_answer', '=', False)]}"/>
                   <field name="create_date"/>
                   <field name="x_sinergis_helpdesk_ticket_client_answer_date"/>
@@ -91,9 +93,8 @@
                   <field name="activity_ids" position="move"/>
                   <field name="company_id" position="move"/>
                   <field name="stage_id" position="move"/>
-                  <field name="x_sinergis_helpdesk_last_call"/>
+                  <button name="x_sinergis_helpdesk_ticket_tree_last_call_button" class="oe_highlight btn-outline-secondary" type="object" string="Le client n'a pas répondu" attrs="{'invisible': [('x_sinergis_helpdesk_last_call', '=', False)]}"/>
                   <field name="x_sinergis_helpdesk_ticket_planned_intervention_text"/>
-                  <field name="x_sinergis_helpdesk_ticket_client_bloque" invisible="True"/>
                 </xpath>
 
                 <xpath expr="//field[@name='display_name']" position="attributes">

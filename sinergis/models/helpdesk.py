@@ -393,6 +393,10 @@ class HelpdeskTicket(models.Model):
         body = f"Le client a répondu le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
         self.message_post(body=body)
 
+    # Bouton dans la tree view qui informe que le client n'a pas répondu.
+    def x_sinergis_helpdesk_ticket_tree_last_call_button (self):
+        return
+
     def button_x_sinergis_helpdesk_ticket_client_answer (self):
         raise ValidationError("Le client a envoyé au moins deux mails concernant ce ticket.")
 
