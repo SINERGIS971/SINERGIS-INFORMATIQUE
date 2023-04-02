@@ -78,6 +78,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_client_answer_date = fields.Datetime(string="Dernier mail le", compute="_compute_x_sinergis_helpdesk_ticket_client_answer_date")
 
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
+    x_sinergis_helpdesk_last_call_user_id = fields.Many2one("res.users",string='Dernier appel par')
 
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
     def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):
@@ -380,10 +381,12 @@ class HelpdeskTicket(models.Model):
         self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
 
     def x_sinergis_helpdesk_ticket_stop_time_button (self):
+        self.x_sinergis_helpdesk_last_call_user_id = self.env.user
         self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
         self.x_sinergis_helpdesk_ticket_temps_passe = (self.x_sinergis_helpdesk_ticket_end_time - self.x_sinergis_helpdesk_ticket_start_time).total_seconds() / 3600
 
     def x_sinergis_helpdesk_ticket_last_call_button (self):
+        self.x_sinergis_helpdesk_last_call_user_id = self.env.user
         self.x_sinergis_helpdesk_last_call = datetime.now()
         body = f"Le client n'a pas répondu le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
         self.message_post(body=body)
