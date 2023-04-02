@@ -6,6 +6,9 @@ class SaleOrder(models.Model):
     training_count = fields.Integer(compute="_compute_training_count")
     training_in_order_line = fields.Boolean(compute="_compute_training_in_order_line")
 
+    #Ajout de la société mère afin d'obtenir dans le choix du client de la formation (ligne de commande) uniquement les sociétés filles ou la société mère
+    training_parent_company = fields.Many2one('res.partner', related="partner_id.x_sinergis_societe_mere",string="Société mère")
+
     def download_initiale_diagnostique(self):
         result = self.env['ir.config_parameter'].sudo().get_param('training.diagnostic_initial')
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
@@ -99,9 +102,6 @@ class SaleOrderLine(models.Model):
 
     @api.onchange("product_id")
     def on_change_product_id(self):
-        # Compute training_count and training_in_order_line
-        self.order_id.training_count._compute_training_count()
-        self.order_id.training_in_order_line._compute_training_in_order_line()
         if self.is_training :
             self.training_partner_id = self.order_id.partner_id
         else :
