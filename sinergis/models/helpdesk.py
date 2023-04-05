@@ -411,6 +411,22 @@ class HelpdeskTicket(models.Model):
                 raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
             if self.x_sinergis_helpdesk_ticket_client_bloque :
                 raise ValidationError("Vous ne pouvez pas modifier le ticket d'un client bloqué. Merci de contacter un commercial ou un administrateur des tickets.")
+        
+        facturation = values.get("x_sinergis_helpdesk_ticket_facturation", self.x_sinergis_helpdesk_ticket_facturation)
+
+        if facturation != "Contrat heures" and facturation != "Devis":
+            facturation = values.get("x_sinergis_helpdesk_ticket_facturation", self.x_sinergis_helpdesk_ticket_facturation)
+            start = values.get("x_sinergis_helpdesk_ticket_start_time", self.x_sinergis_helpdesk_ticket_start_time)
+            stop = values.get("x_sinergis_helpdesk_ticket_end_time", self.x_sinergis_helpdesk_ticket_end_time)
+            context = {
+                "name" : "ASSISTANCE",
+                "user_id" : self.user_id.id,
+                "start" : start,
+                "stop" : stop,
+                "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id
+            }
+            self.env["calendar.event"].create(context)
+
         return super(HelpdeskTicket, self).write(values)
 
     #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée

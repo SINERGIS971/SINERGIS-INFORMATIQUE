@@ -86,6 +86,7 @@ class CalendarEvent(models.Model):
 
     # 5 Avril : Ajout d'un lien vers le ticket si l'évènement provient de l'assistance
     x_sinergis_calendar_event_account_analytic_line_id = fields.Many2one("account.analytic.line")
+    x_sinergis_calendar_event_helpdesk_ticket_id = fields.Many2one("helpdesk.ticket")
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
