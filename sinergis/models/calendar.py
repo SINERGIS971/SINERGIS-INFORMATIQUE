@@ -52,7 +52,7 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_tache = fields.Many2one("project.task", string="Tâche")
     x_sinergis_calendar_event_tache_transfered = fields.Many2one("project.task",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
 
-    x_sinergis_calendar_event_tache2 = fields.Many2one("project.task", string="Contrat d'heure")
+    x_sinergis_calendar_event_tache2 = fields.Many2one("project.task", string="Contrat d'heures")
     x_sinergis_calendar_event_tache_information = fields.Char(string="")
 
 
@@ -83,6 +83,9 @@ class CalendarEvent(models.Model):
     #Champ qui détecte si un rapport est dans l'évènement. Est utilisé en JS pour l'affichage en mode calendrier.
     x_sinergis_calendar_event_intervention_report_done_exists = fields.Boolean(string="",compute="_compute_x_sinergis_calendar_event_intervention_report_done_exists", store="True")
     x_sinergis_calendar_event_intervention_report_done = fields.One2many('calendar.sinergis_intervention_report_done', 'event_id', string="Rapports d'intervention validés")
+
+    # 5 Avril : Ajout d'un lien vers le ticket si l'évènement provient de l'assistance
+    x_sinergis_calendar_event_account_analytic_line_id = fields.Many2one("account.analytic.line")
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
