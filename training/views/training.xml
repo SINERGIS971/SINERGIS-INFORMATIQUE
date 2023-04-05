@@ -105,7 +105,9 @@
                     <p attrs="{'invisible': [('state',  '!=', 'unassigned')]}">
                       <strong style="color: #539314;">Étape 1 / 1 :</strong>
                       <span class="training-step-content">
-                      Désigner un responsable commercial pour ce dossier et inclure le devis signé.
+                      Désigner un responsable commercial pour ce dossier.
+                      <br/>
+                      Le devis signé est à inclure directement dans le devis.
                       </span>
                     </p>
                     <group>
