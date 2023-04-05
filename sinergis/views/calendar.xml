@@ -203,9 +203,6 @@
                 <xpath expr="//field[@name='stop']" position="attributes">
                     <attribute name="required">True</attribute>
                 </xpath>
-                <xpath expr="//field[@name='allday']" position="attributes">
-                    <attribute name="invisible">True</attribute>
-                </xpath>
             </field>
         </record>
     </data>
