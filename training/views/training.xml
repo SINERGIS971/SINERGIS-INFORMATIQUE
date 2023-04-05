@@ -114,7 +114,7 @@
                       <label for="sales_manager" class="training-required"/>
                       <field name="sales_manager" widget="many2one_avatar_user" domain="[('x_sinergis_res_users_is_employee', '=', True)]" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" nolabel="1"/>
                       <label for="signed_quote" class="training-required"/>
-                      <field name="signed_quote" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" nolabel="1"/>
+                      <field name="signed_quote" nolabel="1"/>
                     </group>
                   </div>
                   <!-- Partie commerciale -->
@@ -131,7 +131,7 @@
                     <group>
                       <group>
                         <label for="partner_id" class="training-required"/>
-                        <field name="partner_id" attrs="{'readonly': [('state',  '!=', 'commercial_part')]}" nolabel="1"/>
+                        <field name="partner_id" nolabel="1"/>
                       </group>
                       <group>
                         <label for="partner_manager_id" class="training-required"/>
