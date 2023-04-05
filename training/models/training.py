@@ -32,7 +32,7 @@ class Training(models.Model):
     sales_manager = fields.Many2one("res.users",string='Responsable commercial')
     signed_quote = fields.Binary(string='Devis signé')
     #Commercial part
-    partner_id = fields.Many2one("res.partner", string="Client")
+    partner_id = fields.Many2one("res.partner", related='sale_order_line_id.training_partner_id', string="Client")
     partner_manager_id = fields.Many2one("res.partner", string="Référent client")
     company_id = fields.Many2one("res.company", string="Société Sinergis")
     type_id = fields.Many2one("training.type", string="Type de formation")

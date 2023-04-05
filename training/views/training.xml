@@ -122,7 +122,8 @@
                     <p attrs="{'invisible': [('state',  '!=', 'commercial_part')]}">
                       <strong style="color: #539314;">Étape 1 / 5 :</strong>
                       <span class="training-step-content">
-                      Sélectionner le référent client.
+                      Sélectionner le référent client.<br/>
+                      Le client est celui renseigné dans la ligne du devis correspondant à cette formation.
                       </span>
                     </p>
                     <group>
