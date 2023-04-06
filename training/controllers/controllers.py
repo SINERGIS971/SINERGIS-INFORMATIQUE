@@ -13,8 +13,8 @@ class Training(http.Controller):
         if not token:
             return ("Vous n'avez pas accès à cette page, veuillez contacter Sinergis.")
         TrainingParticipant = http.request.env['training.participants']
-        participant = TrainingParticipant.search(['|','|','|',('token_quiz_diagnostic', '=', token ),('token_quiz_positioning', '=', token ),('token_quiz_prior_learning', '=', token ),('token_quiz_training_evaluation', '=', token )])
-        training = http.request.env['training'].search(['|',('token_delayed_assessment', '=', token ),('token_opco_quiz', '=', token )])
+        participant = TrainingParticipant.sudo().search(['|','|','|',('token_quiz_diagnostic', '=', token ),('token_quiz_positioning', '=', token ),('token_quiz_prior_learning', '=', token ),('token_quiz_training_evaluation', '=', token )])
+        training = http.request.env['training'].sudo().search(['|',('token_delayed_assessment', '=', token ),('token_opco_quiz', '=', token )])
         if not participant and not training:
             return ("Nous n'avions pas réussi à vous authentifier, veuillez contacter Sinergis.")
         #Vérification du type de quiz
@@ -33,7 +33,7 @@ class Training(http.Controller):
                         "message": "Vous avez déjà rempli ce questionnaire"
                     })
                 if training_plan_id:
-                    training_quiz = TrainingQuiz.search([('training_type_product_plan', '=', training_plan_id.id),('quiz_type', '=', 'diagnostic')])
+                    training_quiz = TrainingQuiz.sudo().search([('training_type_product_plan', '=', training_plan_id.id),('quiz_type', '=', 'diagnostic')])
                     if training_quiz:
                         return http.request.render("training.quiz_page", {
                             "token" : token,
@@ -51,7 +51,7 @@ class Training(http.Controller):
                         "message": "Vous avez déjà rempli ce questionnaire"
                     })
                 if training_plan_id:
-                    training_quiz = TrainingQuiz.search([('quiz_type', '=', 'positioning')])
+                    training_quiz = TrainingQuiz.sudo().search([('quiz_type', '=', 'positioning')])
                     if training_quiz:
                         return http.request.render("training.quiz_page", {
                             "token" : token,
@@ -69,7 +69,7 @@ class Training(http.Controller):
                         "message": "Vous avez déjà rempli ce questionnaire"
                     })
                 if training_plan_id:
-                    training_quiz = TrainingQuiz.search([('training_type_product_plan', '=', training_plan_id.id),('quiz_type', '=', 'prior_learning')])
+                    training_quiz = TrainingQuiz.sudo().search([('training_type_product_plan', '=', training_plan_id.id),('quiz_type', '=', 'prior_learning')])
                     if training_quiz:
                         return http.request.render("training.quiz_page", {
                             "token" : token,
@@ -86,7 +86,7 @@ class Training(http.Controller):
                     return http.request.render("training.quiz_page_message", {
                         "message": "Vous avez déjà rempli ce questionnaire"
                     })
-                training_quiz = TrainingQuiz.search([('quiz_type', '=', 'training_evaluation')])
+                training_quiz = TrainingQuiz.sudo().search([('quiz_type', '=', 'training_evaluation')])
                 if training_quiz:
                     return http.request.render("training.quiz_page", {
                         "token" : token,
@@ -103,7 +103,7 @@ class Training(http.Controller):
                         "message": "Vous avez déjà rempli ce questionnaire"
                     })
                 if training_plan_id:
-                    training_quiz = TrainingQuiz.search([('quiz_type', '=', 'delayed_assessment')])
+                    training_quiz = TrainingQuiz.sudo().search([('quiz_type', '=', 'delayed_assessment')])
                     if training_quiz:
                         return http.request.render("training.quiz_page", {
                             "token" : token,
@@ -121,7 +121,7 @@ class Training(http.Controller):
                         "message": "Vous avez déjà rempli ce questionnaire"
                     })
                 if training_plan_id:
-                    training_quiz = TrainingQuiz.search([('quiz_type', '=', 'opco')])
+                    training_quiz = TrainingQuiz.sudo().search([('quiz_type', '=', 'opco')])
                     if training_quiz:
                         return http.request.render("training.quiz_page", {
                             "token" : token,
@@ -142,9 +142,9 @@ class Training(http.Controller):
         token = kw["token"]
         del kw["token"]
         TrainingParticipant = http.request.env['training.participants']
-        participant = TrainingParticipant.search(['|','|','|',('token_quiz_diagnostic', '=', token ),('token_quiz_positioning', '=', token ),('token_quiz_prior_learning', '=', token ),('token_quiz_training_evaluation', '=', token)])
+        participant = TrainingParticipant.sudo().search(['|','|','|',('token_quiz_diagnostic', '=', token ),('token_quiz_positioning', '=', token ),('token_quiz_prior_learning', '=', token ),('token_quiz_training_evaluation', '=', token)])
         if not participant :
-            training = http.request.env['training'].search(['|',('token_delayed_assessment', '=', token ),('token_opco_quiz', '=', token )])
+            training = http.request.env['training'].sudo().search(['|',('token_delayed_assessment', '=', token ),('token_opco_quiz', '=', token )])
         else :
             training = participant.training_id
         if not training:
@@ -196,10 +196,10 @@ class Training(http.Controller):
         if not quiz_type:
             return ("Il n'y a pas de quiz associé, veuillez contacter un administrateur système.")
         if quiz_type == "opco" or quiz_type == "delayed_assessment" or quiz_type == "training_evaluation" or quiz_type == "positioning":
-            quiz = http.request.env['training.quiz'].search([('quiz_type', '=', quiz_type)])
+            quiz = http.request.env['training.quiz'].sudo().search([('quiz_type', '=', quiz_type)])
         else:
-            quiz = http.request.env['training.quiz'].search(['&',('training_type_product_plan', '=', training.type_product_plan_id.id),('quiz_type', '=', quiz_type)])
-        questions = http.request.env['training.quiz.questions'].search([('quiz_id', '=', quiz.id)])
+            quiz = http.request.env['training.quiz'].sudo().search(['&',('training_type_product_plan', '=', training.type_product_plan_id.id),('quiz_type', '=', quiz_type)])
+        questions = http.request.env['training.quiz.questions'].sudo().search([('quiz_id', '=', quiz.id)])
         #Score variables
         total_answers = 0
         right_answers = 0
@@ -222,11 +222,11 @@ class Training(http.Controller):
                     questions_answer.append("")
             #Si c'est une question à choix multiple
             elif question.type == "multiple_choice":
-                question_right_answers = http.request.env['training.quiz.questions.multiple_choice'].search(['&',('question_id', '=',question.id),('right_answer','=',True)])
+                question_right_answers = http.request.env['training.quiz.questions.multiple_choice'].sudo().search(['&',('question_id', '=',question.id),('right_answer','=',True)])
                 if question_right_answers :  # If question have right answer
                     total_answers += 1  # Increment the number of rated answers answered
                     
-                question_choice = http.request.env['training.quiz.questions.multiple_choice'].search(['&',('question_id', '=',question.id),('name','=',answer)])
+                question_choice = http.request.env['training.quiz.questions.multiple_choice'].sudo().search(['&',('question_id', '=',question.id),('name','=',answer)])
                 if question_choice:
                     vals = {'date': date.today(),
                             'multiple_choice_id': question_choice.id
