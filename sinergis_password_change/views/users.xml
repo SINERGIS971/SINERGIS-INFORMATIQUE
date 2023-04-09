@@ -17,13 +17,16 @@
     <record id="res_users_change_password" model="ir.ui.view">
             <field name="name">res.users.change_password</field>
             <field name="model">res.users</field>
+            <field name="mode">primary</field>
             <field name="arch" type="xml">
-                <form string="Changement de mot de passe">
+                <form string="Changement de mot de passe" create="false" delete="false">
+                    <p>Vous devez changer votre mot de passe tous les 90 jours au plus.</p>
                   <group>
                     <group>
                       <field name="x_sinergis_res_users_password_last_update"/>
                     </group>
                     <group>
+                      <button name="x_sinergis_res_users_password_change_password" string="CHANGER DE MOT DE PASSE" type="object" class="btn btn-secondary"/>
                     </group>
                   </group>
                 </form>
@@ -35,6 +38,7 @@
             <field name="res_model">res.users</field>
             <field name="view_mode">form</field>
             <field name="context">{'from_my_profile': True}</field>
+            <field name="target">new</field>
             <field name="view_id" ref="sinergis_password_change.res_users_change_password"/>
     </record>
 

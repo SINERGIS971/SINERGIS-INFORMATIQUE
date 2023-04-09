@@ -33,6 +33,7 @@
     'assets': {
         'web.assets_backend': [
             'sinergis_password_change/static/src/js/user_menu.js',
+            'sinergis_password_change/static/src/js/widgets.js',
         ],
         'web.assets_qweb': [
             # Nothing
