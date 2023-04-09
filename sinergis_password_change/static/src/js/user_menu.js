@@ -10,7 +10,7 @@ export function changePassword(env) {
     return {
         type: "item",
         id: "change_password",
-        description: env._t("Change Password"),
+        description: env._t("Modifier le mot de passe"),
         callback: async function () {
             const actionDescription = await env.services.orm.call("res.users", "sinergis_action_get");
             actionDescription.res_id = env.services.user.userId;

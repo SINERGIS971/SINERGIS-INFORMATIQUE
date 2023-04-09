@@ -12,5 +12,5 @@ class ResUsers(models.Model):
     @api.model
     def sinergis_action_get(self):
         if self.env.user.employee_id:
-            return self.env['ir.actions.act_window']._for_xml_id('hr.res_users_action_my')
+            return self.env['ir.actions.act_window']._for_xml_id('sinergis.res_users_action_my')
         return super(ResUsers, self).action_get()
