@@ -14,13 +14,13 @@
             <div class="row mt16 o_settings_container">
               <div class="o_setting_left_pane">
                 <label for="training_booklet" string="Livret de formation: "/>
-                <field name="training_booklet"/>
+                <field name="training_booklet" filename="training_file_name"/>
               </div>
             </div>
             <div class="row mt16 o_settings_container">
               <div class="o_setting_left_pane">
                 <label for="diagnostic_initial" string="Diagnostic initial: "/>
-                <field name="diagnostic_initial"/>
+                <field name="diagnostic_initial" filename="training_file_name"/>
               </div>
             </div>
           </div>
