@@ -23,14 +23,11 @@
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
 
-        <xpath expr="//field[@name='partner_id']" position="before">
-              <field name="x_sinergis_res_users_password_last_update"/>
-        </xpath>
-
             <xpath expr="//field[@name='signature']" position="attributes">
               <attribute name="options">{'codeview': true}</attribute>
             </xpath>
             <xpath expr="//field[@name='signature']" position="after">
+              <field name="x_sinergis_res_users_password_last_update"/>
               <field name="x_sinergis_res_users_job"/>
               <field name="x_sinergis_res_users_initials"/>
               <field name="x_sinergis_res_users_tampon_signature"/>
