@@ -14,7 +14,7 @@ odoo.define('sinergis.SinergisChangePassword', function (require) {
     var _t = core._t;
     
     var SinergisChangePassword = AbstractAction.extend({
-        template: "ChangePassword",
+        template: "SinergisChangePassword",
     
         /**
          * @fixme: weird interaction with the parent for the $buttons handling
@@ -32,7 +32,7 @@ odoo.define('sinergis.SinergisChangePassword', function (require) {
             });
             $button.eq(0).click(function () {
                 self._rpc({
-                        route: '/web/session/change_password',
+                        route: '/web/session/change_sinergis_password',
                         params: {
                             fields: $('form[name=change_password_form]').serializeArray()
                         }
