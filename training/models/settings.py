@@ -3,9 +3,9 @@ from odoo import models, fields, api
 class TrainingSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    training_cgv = fields.Binary(string="CGV")
-    training_booklet = fields.Binary(string="Livret de formation")
-    diagnostic_initial = fields.Binary(string="Diagnostic initial")
+    training_cgv = fields.Binary(string="CGV", invisible=True)
+    training_booklet = fields.Binary(string="Livret de formation", invisible=True)
+    diagnostic_initial = fields.Binary(string="Diagnostic initial", invisible=True)
 
     @api.model
     def get_values(self):
