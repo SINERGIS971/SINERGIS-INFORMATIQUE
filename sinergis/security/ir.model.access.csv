@@ -1,16 +1,16 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sinergis_movementcountry,sinergis.movementcountry,model_sinergis_movementcountry,,1,1,1,1
-access_sinergis_movementarea,sinergis.movementarea,model_sinergis_movementarea,,1,1,1,1
-access_sinergis_myactions,sinergis.myactions,model_sinergis_myactions,,1,0,0,0
-access_sinergis_myactions_printed,sinergis.myactions.printed,model_sinergis_myactions_printed,,1,1,1,1
-access_sinergis_myactions_billed,sinergis.myactions.billed,model_sinergis_myactions_billed,,1,1,1,1
-mail.access_mail_mail_all,mail.mail.sinergis,mail.model_mail_mail,,1,0,0,0
+access_sinergis_movementcountry,sinergis.movementcountry,model_sinergis_movementcountry,base.group_user,1,1,1,1
+access_sinergis_movementarea,sinergis.movementarea,model_sinergis_movementarea,base.group_user,1,1,1,1
+access_sinergis_myactions,sinergis.myactions,model_sinergis_myactions,base.group_user,1,0,0,0
+access_sinergis_myactions_printed,sinergis.myactions.printed,model_sinergis_myactions_printed,base.group_user,1,1,1,1
+access_sinergis_myactions_billed,sinergis.myactions.billed,model_sinergis_myactions_billed,base.group_user,1,1,1,1
+mail.access_mail_mail_all,mail.mail.sinergis,mail.model_mail_mail,base.group_user,1,0,0,0
 mail.access_mail_mail_user,mail.mail.user,mail.model_mail_mail,base.group_user,1,0,0,0
 mail.access_mail_mail_portal,mail.mail.portal,mail.model_mail_mail,base.group_portal,1,0,0,0
-access_sinergis_annual_contracts,sinergis.annual_contracts,model_sinergis_annual_contracts,,1,1,1,1
-sinergis_technical_note_files,sinergis.technical_note_files,model_sinergis_technical_note_files,,1,1,1,1
-calendar_sinergis_intervention_report_done,calendar.sinergis_intervention_report_done,model_calendar_sinergis_intervention_report_done,,1,1,1,1
-sale_products,sale.products,model_sale_products,,1,0,0,0
-sale_products_subproducts,sale.products.subproducts,model_sale_products_subproducts,,1,0,0,0
+access_sinergis_annual_contracts,sinergis.annual_contracts,model_sinergis_annual_contracts,base.group_user,1,1,1,1
+sinergis_technical_note_files,sinergis.technical_note_files,model_sinergis_technical_note_files,base.group_user,1,1,1,1
+calendar_sinergis_intervention_report_done,calendar.sinergis_intervention_report_done,model_calendar_sinergis_intervention_report_done,base.group_user,1,1,1,1
+sale_products,sale.products,model_sale_products,base.group_user,1,0,0,0
+sale_products_subproducts,sale.products.subproducts,model_sale_products_subproducts,base.group_user,1,0,0,0
 sale_products_admin,Sale Products Admin,model_sale_products,sinergis.group_sale_product,1,1,1,1
 sale_products_subproducts_admin,Sale Sub Products Admin,model_sale_products_subproducts,sinergis.group_sale_product,1,1,1,1
