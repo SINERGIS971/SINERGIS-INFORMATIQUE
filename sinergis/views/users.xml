@@ -22,6 +22,11 @@
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='partner_id']" position="before">
+              <field name="x_sinergis_res_users_password_last_update"/>
+        </xpath>
+
             <xpath expr="//field[@name='signature']" position="attributes">
               <attribute name="options">{'codeview': true}</attribute>
             </xpath>

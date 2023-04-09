@@ -12,6 +12,7 @@
             <div class="app_settings_block" data-string="Formations" string="Formations" data-key="training">
             <h2>Paramètres de formations</h2>
             <div class="row mt16 o_settings_container">
+              <field name="training_file_name" invisible="True"/>
               <div class="o_setting_left_pane">
                 <label for="training_booklet" string="Livret de formation: "/>
                 <field name="training_booklet" filename="training_file_name"/>
