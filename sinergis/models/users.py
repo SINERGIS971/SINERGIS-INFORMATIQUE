@@ -20,7 +20,3 @@ class ResUsers(models.Model):
     def _compute_x_sinergis_res_users_is_employee (self):
         for rec in self:
             rec.x_sinergis_res_users_is_employee = rec.has_group('base.group_user')
-
-    @api.onchange('password')
-    def onchange_password(self):
-        self.x_sinergis_res_users_password_last_update = datetime.now()
