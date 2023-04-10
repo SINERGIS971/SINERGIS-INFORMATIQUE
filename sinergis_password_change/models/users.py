@@ -15,6 +15,10 @@ class ResUsers(models.Model):
         }
     
     @api.model
+    def sinergis_get_last_update(self):
+        return self.env.user.x_sinergis_res_users_password_last_update
+    
+    @api.model
     def sinergis_action_get(self):
         if self.env.user.employee_id:
             return self.env['ir.actions.act_window']._for_xml_id('sinergis_password_change.res_users_action_my')

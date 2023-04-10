@@ -8,43 +8,25 @@ import { symmetricalDifference } from "@web/core/utils/arrays";
 const { Component, hooks } = owl;
 const { useState } = hooks;
 
+
+
 export class ChangePasswordMenu extends Component {
     setup() {
-        this.companyService = useService("company");
-        this.currentCompany = this.companyService.currentCompany;
-        this.state = useState({ companiesToToggle: [] });
+        this.companyService = useService("change_password");
+        this.companyService.display_change_password_menu();
     }
-
-    toggleCompany(companyId) {
-        this.state.companiesToToggle = symmetricalDifference(this.state.companiesToToggle, [
-            companyId,
-        ]);
-        browser.clearTimeout(this.toggleTimer);
-        this.toggleTimer = browser.setTimeout(() => {
-            this.companyService.setCompanies("toggle", ...this.state.companiesToToggle);
-        }, this.constructor.toggleDelay);
-    }
-
-    logIntoCompany(companyId) {
-        browser.clearTimeout(this.toggleTimer);
-        this.companyService.setCompanies("loginto", companyId);
-    }
-
-    get selectedCompanies() {
-        return symmetricalDifference(
-            this.companyService.allowedCompanyIds,
-            this.state.companiesToToggle
-        );
+    
+    changePassword(companyId) {
+        this.companyService.load_page();
     }
 }
-ChangePasswordMenu.template = "web.SinergisChangePasswordMenu";
+ChangePasswordMenu.template = "sinergis_password_change.SinergisChangePasswordMenu";
 ChangePasswordMenu.toggleDelay = 1000;
 
 export const systrayItem = {
     Component: ChangePasswordMenu,
     isDisplayed(env) {
-        const { availableCompanies } = env.services.company;
-        return Object.keys(availableCompanies).length > 1;
+        return true;
     },
 };
 

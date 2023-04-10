@@ -1,11 +1,6 @@
 odoo.define('sinergis.SinergisChangePassword', function (require) {
     "use strict";
     
-    /**
-     * This file defines a client action that opens in a dialog (target='new') and
-     * allows the user to change his password.
-     */
-    
     var AbstractAction = require('web.AbstractAction');
     var core = require('web.core');
     var Dialog = require('web.Dialog');
@@ -16,12 +11,6 @@ odoo.define('sinergis.SinergisChangePassword', function (require) {
     var SinergisChangePassword = AbstractAction.extend({
         template: "SinergisChangePassword",
     
-        /**
-         * @fixme: weird interaction with the parent for the $buttons handling
-         *
-         * @override
-         * @returns {Promise}
-         */
         start: function () {
             var self = this;
             web_client.set_title('Changer le mot de passe');

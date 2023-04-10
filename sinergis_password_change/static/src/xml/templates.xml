@@ -23,8 +23,20 @@
 </form>
 
 
-<t t-name="SinergisChangePasswordMenu" owl="1">
-    <p>Hello World!</p>
+<t t-name="sinergis_password_change.SinergisChangePasswordMenu" owl="1">
+    <Dropdown position="'bottom-end'" class="sinergis_change_password_menu">
+            <t t-set-slot="toggler">
+                <span>Vous devez changer votre mot de passe !</span>
+            </t>
+            <DropdownItem class="p-0 bg-white">
+                <div
+                role="button"
+                t-on-click="changePassword()">
+                    <t t-esc='service_text' />
+                    <span>Changer mon mot de passe</span>
+                </div>
+            </DropdownItem>
+    </Dropdown>
 </t>
 
 </templates>

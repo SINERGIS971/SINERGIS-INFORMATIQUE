@@ -35,6 +35,7 @@
             'sinergis_password_change/static/src/js/user_menu.js',
             'sinergis_password_change/static/src/js/widgets.js',
             'sinergis_password_change/static/src/js/systray.js',
+            'sinergis_password_change/static/src/js/service.js',
         ],
         'web.assets_qweb': [
             'sinergis_password_change/static/src/xml/templates.xml',
