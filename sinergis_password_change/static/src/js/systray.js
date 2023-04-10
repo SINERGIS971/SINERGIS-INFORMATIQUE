@@ -37,11 +37,11 @@ export class ChangePasswordMenu extends Component {
         );
     }
 }
-SwitchCompanyMenu.template = "web.SwitchCompanyMenu";
-SwitchCompanyMenu.toggleDelay = 1000;
+ChangePasswordMenu.template = "web.SinergisChangePasswordMenu";
+ChangePasswordMenu.toggleDelay = 1000;
 
 export const systrayItem = {
-    Component: SwitchCompanyMenu,
+    Component: ChangePasswordMenu,
     isDisplayed(env) {
         const { availableCompanies } = env.services.company;
         return Object.keys(availableCompanies).length > 1;

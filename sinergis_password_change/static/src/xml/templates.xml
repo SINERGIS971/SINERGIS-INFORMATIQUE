@@ -22,4 +22,9 @@
     <button type="button" class="btn btn-secondary oe_form_button oe_form_button_cancel" href="javascript:void(0)">Annuler</button>
 </form>
 
+
+<t t-name="SinergisChangePasswordMenu" owl="1">
+    <p>Hello World!</p>
+</t>
+
 </templates>
