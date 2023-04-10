@@ -24,7 +24,7 @@
 
 
 <t t-name="sinergis_password_change.SinergisChangePasswordMenu" owl="1">
-    <Dropdown position="'bottom-end'" class="sinergis_change_password_menu" style="display: inline-block; outline: none; cursor: pointer; font-size: 15px; line-height: 10px; font-weight: 600; border-radius: 8px; padding: 0px; border: none; transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s; background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%); color: #fff;">
+    <Dropdown position="'bottom-end'" class="sinergis_change_password_menu" style="visibility: hidden; width:0; display: inline-block; outline: none; cursor: pointer; font-size: 15px; line-height: 10px; font-weight: 600; border-radius: 8px; padding: 0px; border: none; transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s; background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%); color: #fff;">
             <t t-set-slot="toggler">
                 <span>Vous devez changer votre mot de passe !</span>
             </t>

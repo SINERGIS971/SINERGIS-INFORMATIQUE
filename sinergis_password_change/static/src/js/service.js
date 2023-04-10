@@ -22,9 +22,11 @@ export const changePasswordService = {
                 last_update_date.then((result) => {
                   const stringResult = JSON.stringify(result).replaceAll('"', '');
                   console.log(stringResult);
+                  const elements = document.querySelectorAll('.sinergis_change_password_menu');
                   if (stringResult != "false" && !isDateMoreThan90DaysAgo(stringResult)) {
-                      const elements = document.querySelectorAll('.sinergis_change_password_menu');
                       elements.forEach(element => element.remove());
+                  } else {
+                      elements.forEach(element => {element.style.visibility="visible"; element.style.width="auto"});
                   }
                 }).catch((error) => {
                   console.error(error);
