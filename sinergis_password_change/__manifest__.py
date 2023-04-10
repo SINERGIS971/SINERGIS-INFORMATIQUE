@@ -36,7 +36,7 @@
             'sinergis_password_change/static/src/js/widgets.js',
         ],
         'web.assets_qweb': [
-            'sinergis_password_change/static/src/xml/templates.js',
+            'sinergis_password_change/static/src/xml/templates.xml',
         ],
     },
 

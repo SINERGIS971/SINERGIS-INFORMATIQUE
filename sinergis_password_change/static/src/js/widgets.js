@@ -34,7 +34,7 @@ odoo.define('sinergis.SinergisChangePassword', function (require) {
                 self._rpc({
                         route: '/web/session/change_sinergis_password',
                         params: {
-                            fields: $('form[name=change_password_form]').serializeArray()
+                            fields: $('form[name=sinergis_change_password_form]').serializeArray()
                         }
                     })
                     .then(function (result) {

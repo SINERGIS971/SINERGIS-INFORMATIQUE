@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from odoo import api, models, fields, _, SUPERUSER_ID
 from odoo.exceptions import ValidationError
 
