@@ -12,20 +12,23 @@ class SinergisPasswordChange(http.Controller):
     def change_password(self, fields):
         old_password,new_password,confirm_password = operator.itemgetter('old_pwd', 'new_password','confirm_pwd')({f['name']: f['value'] for f in fields})
         if not (old_password.strip() and new_password.strip() and confirm_password.strip()):
-            return {'error': 'You cannot leave any password empty.'}
+            return {'error': 'Vous ne pouvez laisser aucun mot de passe vide.'}
         if new_password != confirm_password:
-            return {'error': 'The new password and its confirmation must be identical.'}
+            return {'error': 'Le nouveau mot de passe et sa confirmation doivent être identiques.'}
 
-        msg = "Error, password not changed !"
+        msg = "Erreur, mot de passe non changé !"
         try:
             if request.env['res.users'].change_password(old_password, new_password):
                 # Change last date update password
-                request.env.user.write({'x_sinergis_res_users_password_last_update': datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
-                return {'new_password': new_password}
+                if old_password != new_password :
+                    request.env.user.write({'x_sinergis_res_users_password_last_update': datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+                    return {'new_password': new_password}
+                else:
+                    msg = "Votre nouveau mot de passe est identique à l'ancien."
         except AccessDenied as e:
             msg = e.args[0]
             if msg == AccessDenied().args[0]:
-                msg = 'The old password you provided is incorrect, your password was not changed.'
+                msg = "L'ancien mot de passe que vous avez fourni est incorrect, votre mot de passe n'a pas été modifié."
         except UserError as e:
             msg = e.args[0]
         return {'error': msg}

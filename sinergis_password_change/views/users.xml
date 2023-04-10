@@ -20,13 +20,13 @@
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <form string="Changement de mot de passe" create="false" delete="false">
-                    <p>Vous devez changer votre mot de passe tous les 90 jours au plus.</p>
+                    <p>Vous devez changer votre mot de passe tous les 90 jours au plus. Cliquez sur le bouton "CHANGER DE MOT DE PASSE" pour effectuer le changement.</p>
                   <group>
                     <group>
                       <field name="x_sinergis_res_users_password_last_update"/>
                     </group>
                     <group>
-                      <button name="x_sinergis_res_users_password_change_password" string="CHANGER DE MOT DE PASSE" type="object" class="btn btn-secondary"/>
+                      <button name="x_sinergis_res_users_password_change_password" string="CHANGER DE MOT DE PASSE" type="object" class="btn btn-success"/>
                     </group>
                   </group>
                 </form>

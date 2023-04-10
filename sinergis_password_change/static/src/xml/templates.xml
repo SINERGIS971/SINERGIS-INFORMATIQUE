@@ -31,7 +31,8 @@
             <DropdownItem class="p-0 bg-white">
                 <div
                 role="button"
-                t-on-click="changePassword()">
+                t-on-click="changePassword()"
+                class="btn btn-light font-weight-normal border-0 d-flex flex-grow-1 align-items-center py-0 log_into pl-2 o_py">
                     <t t-esc='service_text' />
                     <span class='company_label pr-3' style="font-size: 15px;">Changer mon mot de passe</span>
                 </div>
