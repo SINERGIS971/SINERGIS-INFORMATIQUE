@@ -78,9 +78,7 @@
 
                   <button name="button_download_attendance_sheet" string="Feuille d'émargement" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': ['|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'training_closed')]}"/>
                   <button name="button_download_certificate_of_attendance" string="Attestation de présence au stage" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': ['|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'training_closed')]}"/>
-
-                  <!--<button name="button_download_all_documents" string="Télécharger les documents de cette formation" type="object"  icon="fa-download" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>-->
-                </header>
+               </header>
                 <sheet>
                   <field name="active" invisible="True"/>
                   <div class="oe_button_box" name="button_box">
