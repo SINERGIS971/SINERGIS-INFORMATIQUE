@@ -23,7 +23,7 @@ class ResUsers(models.Model):
         self.sudo().x_sinergis_res_users_tickets_in_calendar = True
 
     def action_disallow_tickets_in_calendar(self):
-        self.sudo().x_sinergis_res_users_tickets_in_calendar = True
+        self.sudo().x_sinergis_res_users_tickets_in_calendar = False
 
     @api.depends('x_sinergis_res_users_is_employee')
     def _compute_x_sinergis_res_users_is_employee (self):
