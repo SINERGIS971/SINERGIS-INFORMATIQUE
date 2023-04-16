@@ -415,22 +415,21 @@ class HelpdeskTicket(models.Model):
         # Enregistrer l'intervention dans le calendrier si ce n'est pas décompté sur tâche
         facturation = values.get("x_sinergis_helpdesk_ticket_facturation", self.x_sinergis_helpdesk_ticket_facturation)
         if  facturation and facturation != "Contrat heures" and facturation != "Devis":
-            events = self.env['account.analytic.line'].search([("x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id)])
-            if not events:  # On regarde si un évènement rattéché à ce ticket existe
-                start = values.get("x_sinergis_helpdesk_ticket_start_time", self.x_sinergis_helpdesk_ticket_start_time)
-                stop = values.get("x_sinergis_helpdesk_ticket_end_time", self.x_sinergis_helpdesk_ticket_end_time)
-                partner_id = values.get("partner_id", self.partner_id)
-                contact_id = values.get("x_sinergis_helpdesk_ticket_contact", self.x_sinergis_helpdesk_ticket_contact)
-                if start and stop :
-                    context = {
-                        "name" : "ASSISTANCE",
-                        "user_id" : self.user_id.id,
-                        "start" : start,
-                        "stop" : stop,
-                        "x_sinergis_calendar_event_client": partner_id.id,
-                        "x_sinergis_calendar_event_contact" : contact_id.id,
-                    }
-                    self.env["calendar.event"].create(context)
+            self.env['calendar.event'].search([("x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id)]).unlink()
+            start = values.get("x_sinergis_helpdesk_ticket_start_time", self.x_sinergis_helpdesk_ticket_start_time)
+            stop = values.get("x_sinergis_helpdesk_ticket_end_time", self.x_sinergis_helpdesk_ticket_end_time)
+            partner_id = values.get("partner_id", self.partner_id)
+            contact_id = values.get("x_sinergis_helpdesk_ticket_contact", self.x_sinergis_helpdesk_ticket_contact)
+            if start and stop and stop > start:
+                context = {
+                    "name" : "ASSISTANCE",
+                    "user_id" : self.user_id.id,
+                    "start" : start,
+                    "stop" : stop,
+                    "x_sinergis_calendar_event_client": partner_id.id,
+                    "x_sinergis_calendar_event_contact" : contact_id.id,
+                }
+                self.env["calendar.event"].create(context)
 
         return super(HelpdeskTicket, self).write(values)
 
