@@ -415,22 +415,31 @@ class HelpdeskTicket(models.Model):
         # Enregistrer l'intervention dans le calendrier si ce n'est pas décompté sur tâche
         facturation = values.get("x_sinergis_helpdesk_ticket_facturation", self.x_sinergis_helpdesk_ticket_facturation)
         if  facturation and facturation != "Contrat heures" and facturation != "Devis":
-            self.env['calendar.event'].search([("x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id)]).unlink()
+            event = self.env['calendar.event'].search(['&',("x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id),("x_sinergis_calendar_event_account_analytic_line_id","=",False)], limit=1)
+            #Chargement des paramètres start et stop
             start = values.get("x_sinergis_helpdesk_ticket_start_time", self.x_sinergis_helpdesk_ticket_start_time)
             stop = values.get("x_sinergis_helpdesk_ticket_end_time", self.x_sinergis_helpdesk_ticket_end_time)
+            if type(start) == str:
+                start = datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
+            if type(stop) == str:
+                stop = datetime.strptime(stop, '%Y-%m-%d %H:%M:%S')
             partner_id = values.get("partner_id", self.partner_id)
             contact_id = values.get("x_sinergis_helpdesk_ticket_contact", self.x_sinergis_helpdesk_ticket_contact)
             if start and stop and stop > start:
                 context = {
-                    "name" : "ASSISTANCE",
+                    "name" : f"ASSISTANCE - {partner_id.name}",
                     "user_id" : self.user_id.id,
                     "start" : start,
                     "stop" : stop,
                     "x_sinergis_calendar_event_client": partner_id.id,
                     "x_sinergis_calendar_event_contact" : contact_id.id,
-                    "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id
+                    "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
+                    'need_sync_m': False
                 }
-                self.env["calendar.event"].create(context)
+                if not event :
+                    self.env["calendar.event"].create(context)
+                else :
+                    event.write(context)
 
         return super(HelpdeskTicket, self).write(values)
 

@@ -79,8 +79,9 @@
             
                 <!-- Ajout d'un bouton pour générer un rapport d'intervention -->
                 <xpath expr="//button[@name='action_open_composer']" position="after">
-                    <button name="send_rapport_intervention" help="Envoyer le rapport d'intervention" type="object" string="Envoyer le rapport d'intervention"/>
-                    <button name="generer_rapport_intervention" help="Génerer un rapport d'intervention au format PDF" type="object" string=" Rapport d'intervention (PDF)" icon="fa-download"/>
+                    <button name="send_rapport_intervention" help="Envoyer le rapport d'intervention" type="object" string="Envoyer le rapport d'intervention" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False)]}"/>
+                    <button name="generer_rapport_intervention" help="Génerer un rapport d'intervention au format PDF" type="object" string=" Rapport d'intervention (PDF)" icon="fa-download" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False)]}"/>
+                    <button name="action_open_ticket" help="Ouvre le ticket associée" string="Ouvrir le ticket" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False)]}"/>
                 </xpath>
 
 
