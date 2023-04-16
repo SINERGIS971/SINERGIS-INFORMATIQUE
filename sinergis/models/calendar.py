@@ -405,6 +405,15 @@ class CalendarEvent(models.Model):
             raise UserError("Il vous faut un contact pour envoyer le rapport d'intervention.")
         self.x_sinergis_calendar_event_is_downloaded = True
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self)
+    
+    def action_open_ticket(self):
+        return({
+            'name': 'Ticket',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'helpdesk.ticket',
+            'res_id': self.x_sinergis_calendar_event_helpdesk_ticket_id.id,
+            })
 
     def send_rapport_intervention(self):
         if self.x_sinergis_calendar_event_object == False:
