@@ -415,7 +415,7 @@ class HelpdeskTicket(models.Model):
         # Enregistrer l'intervention dans le calendrier si ce n'est pas décompté sur tâche
         facturation = values.get("x_sinergis_helpdesk_ticket_facturation", self.x_sinergis_helpdesk_ticket_facturation)
         if  facturation and facturation != "Contrat heures" and facturation != "Devis":
-            events = self.env['account.analytic.line'].search(["x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id])
+            events = self.env['account.analytic.line'].search([("x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id)])
             if not events:  # On regarde si un évènement rattéché à ce ticket existe
                 start = values.get("x_sinergis_helpdesk_ticket_start_time", self.x_sinergis_helpdesk_ticket_start_time)
                 stop = values.get("x_sinergis_helpdesk_ticket_end_time", self.x_sinergis_helpdesk_ticket_end_time)
