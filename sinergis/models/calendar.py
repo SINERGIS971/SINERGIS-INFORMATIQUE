@@ -85,7 +85,6 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_intervention_report_done = fields.One2many('calendar.sinergis_intervention_report_done', 'event_id', string="Rapports d'intervention validés")
 
     # 5 Avril : Ajout d'un lien vers le ticket si l'évènement provient de l'assistance
-    x_sinergis_calendar_event_account_analytic_line_id = fields.Many2one("account.analytic.line")
     x_sinergis_calendar_event_helpdesk_ticket_id = fields.Many2one("helpdesk.ticket")
 
     @api.depends('x_sinergis_calendar_event_taches')
@@ -287,12 +286,12 @@ class CalendarEvent(models.Model):
             if not self.x_sinergis_calendar_event_tache.project_id.x_sinergis_project_project_acompte_verse and not self.x_sinergis_calendar_event_is_commercial_appointment:
                 raise ValidationError("Vous ne pouvez rien planifier sur cette tâche si l'acompte n'a pas encore été versé. Il faut cocher 'Acompte verse' dans la page du projet.")
         CalendarEvent.updateTasks(self)
-        CalendarEvent.setTacheInformation(self)
+        CalendarEvent.set_task_information(self)
 
     @api.onchange("x_sinergis_calendar_event_tache2")
     def on_change_x_sinergis_calendar_event_tache2(self):
         CalendarEvent.updateTasks(self)
-        CalendarEvent.setTacheInformation(self)
+        CalendarEvent.set_task_information(self)
 
     @api.onchange("name")
     def on_change_name (self):
@@ -301,7 +300,7 @@ class CalendarEvent(models.Model):
         if self.x_sinergis_calendar_event_desc_intervention == self.name or self.x_sinergis_calendar_event_desc_intervention == False:
             self.x_sinergis_calendar_event_desc_intervention = self.name
 
-    def setTacheInformation(self):
+    def set_task_information(self):
         if self.x_sinergis_calendar_event_tache :
             tache = self.x_sinergis_calendar_event_tache
         elif self.x_sinergis_calendar_event_tache2 :
@@ -342,7 +341,7 @@ class CalendarEvent(models.Model):
         if self.x_sinergis_calendar_event_taches :
             self.x_sinergis_calendar_event_is_facturee = True
             self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : self.x_sinergis_calendar_event_object, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee,'x_sinergis_account_analytic_line_event_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_calendar_event_start_time ,'x_sinergis_account_analytic_line_end_time' : self.x_sinergis_calendar_event_end_time})]
-            CalendarEvent.setTacheInformation(self)
+            CalendarEvent.set_task_information(self)
 
         #OVERRIDE WRITE & CREATE
 
@@ -406,6 +405,7 @@ class CalendarEvent(models.Model):
         self.x_sinergis_calendar_event_is_downloaded = True
         return self.env.ref('sinergis.sinergis_intervention_report_calendar').report_action(self)
     
+    # Ouvrir le ticket pour les évènements crées à partir de l'assistance
     def action_open_ticket(self):
         return({
             'name': 'Ticket',
