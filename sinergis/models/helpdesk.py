@@ -428,6 +428,7 @@ class HelpdeskTicket(models.Model):
                     "stop" : stop,
                     "x_sinergis_calendar_event_client": partner_id.id,
                     "x_sinergis_calendar_event_contact" : contact_id.id,
+                    "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id
                 }
                 self.env["calendar.event"].create(context)
 

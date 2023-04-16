@@ -76,6 +76,7 @@
             <field name="model">calendar.event</field>
             <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
             <field name="arch" type="xml">
+            
                 <!-- Ajout d'un bouton pour générer un rapport d'intervention -->
                 <xpath expr="//button[@name='action_open_composer']" position="after">
                     <button name="send_rapport_intervention" help="Envoyer le rapport d'intervention" type="object" string="Envoyer le rapport d'intervention"/>
@@ -85,8 +86,9 @@
 
                 <!-- Ajout client/contact/participants -->
                 <xpath expr="//field[@name='start']" position="before">
-                    <field name="x_sinergis_calendar_event_is_commercial_appointment" invisible="True"/>
-                    <field name="x_sinergis_calendar_event_is_technical_appointment" invisible="True"/>
+                    <field name="x_sinergis_calendar_event_is_commercial_appointment" invisible="1"/>
+                    <field name="x_sinergis_calendar_event_is_technical_appointment" invisible="1"/>
+                    <field name="x_sinergis_calendar_event_helpdesk_ticket_id" invisible="1"/>
                     <xpath expr="//field[@name='allday']" position="move"/>
                     <field name="x_sinergis_calendar_event_client" domain="[('is_company','=',True)]" options="{'no_create': True, 'no_create_edit':True}" force_save="1" attrs="{'readonly': [('x_sinergis_calendar_event_is_facturee','=',True)]}"/>
                     <field name="x_sinergis_calendar_event_contact" domain="[('parent_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
