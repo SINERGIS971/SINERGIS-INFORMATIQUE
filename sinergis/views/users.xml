@@ -35,5 +35,21 @@
         </field>
     </record>
 
+
+    <record id="sinergis_inherited_view_users_form_simple_modif" model="ir.ui.view">
+        <field name="name">sinergis.inherited_view_users_form_simple_modif</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[@name='signature']" position="after">
+              <group name="sinergis_helpdesk_settings" string="Assistance">
+                <field name="x_sinergis_res_users_tickets_in_calendar"/>
+              </group>
+            </xpath>
+        </field>
+    </record>
+
   </data>
 </odoo>

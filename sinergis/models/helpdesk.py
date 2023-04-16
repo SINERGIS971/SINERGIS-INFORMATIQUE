@@ -370,25 +370,26 @@ class HelpdeskTicket(models.Model):
             self.x_sinergis_helpdesk_ticket_is_facturee = True
             name = self.name
             self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_ticket_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_helpdesk_ticket_start_time ,'x_sinergis_account_analytic_line_end_time': self.x_sinergis_helpdesk_ticket_end_time})]
-            # Creation d'un evenement dans le calendrier
-            start = self.x_sinergis_helpdesk_ticket_start_time
-            stop = self.x_sinergis_helpdesk_ticket_end_time
-            partner_id = self.partner_id
-            contact_id = self.x_sinergis_helpdesk_ticket_contact
-            if start and stop and stop > start:
-                context = {
-                    "name" : f"ASSISTANCE - {partner_id.name}",
-                    "user_id" : self.user_id.id,
-                    "start" : start,
-                    "stop" : stop,
-                    "x_sinergis_calendar_event_client": partner_id.id,
-                    "x_sinergis_calendar_event_contact" : contact_id.id,
-                    "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
-                    'need_sync_m': False
-                }
-                self.env["calendar.event"].create(context)
-            # Mise à jour des informations de la tâche
-            HelpdeskTicket.set_task_information(self)
+            # Creation d'un evenement dans le calendrier si l'utilisateur l'autorise
+            if self.user_id.x_sinergis_res_users_tickets_in_calendar:
+                start = self.x_sinergis_helpdesk_ticket_start_time
+                stop = self.x_sinergis_helpdesk_ticket_end_time
+                partner_id = self.partner_id
+                contact_id = self.x_sinergis_helpdesk_ticket_contact
+                if start and stop and stop > start:
+                    context = {
+                        "name" : f"ASSISTANCE - {partner_id.name}",
+                        "user_id" : self.user_id.id,
+                        "start" : start,
+                        "stop" : stop,
+                        "x_sinergis_calendar_event_client": partner_id.id,
+                        "x_sinergis_calendar_event_contact" : contact_id.id,
+                        "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
+                        'need_sync_m': False
+                    }
+                    self.env["calendar.event"].create(context)
+                # Mise à jour des informations de la tâche
+                HelpdeskTicket.set_task_information(self)
 
     def x_sinergis_helpdesk_ticket_reset_button (self):
         if self.x_sinergis_helpdesk_ticket_is_facturee:
@@ -430,34 +431,35 @@ class HelpdeskTicket(models.Model):
             if self.x_sinergis_helpdesk_ticket_client_bloque :
                 raise ValidationError("Vous ne pouvez pas modifier le ticket d'un client bloqué. Merci de contacter un commercial ou un administrateur des tickets.")
         
-        # Enregistrer l'intervention dans le calendrier si ce n'est pas décompté sur tâche
-        facturation = values.get("x_sinergis_helpdesk_ticket_facturation", self.x_sinergis_helpdesk_ticket_facturation)
-        if  facturation and facturation != "Contrat heures" and facturation != "Devis":
-            event = self.env['calendar.event'].search([("x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id)], limit=1)
-            #Chargement des paramètres start et stop
-            start = values.get("x_sinergis_helpdesk_ticket_start_time", self.x_sinergis_helpdesk_ticket_start_time)
-            stop = values.get("x_sinergis_helpdesk_ticket_end_time", self.x_sinergis_helpdesk_ticket_end_time)
-            if type(start) == str:
-                start = datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
-            if type(stop) == str:
-                stop = datetime.strptime(stop, '%Y-%m-%d %H:%M:%S')
-            partner_id = values.get("partner_id", self.partner_id)
-            contact_id = values.get("x_sinergis_helpdesk_ticket_contact", self.x_sinergis_helpdesk_ticket_contact)
-            if start and stop and stop > start:
-                context = {
-                    "name" : f"ASSISTANCE - {partner_id.name}",
-                    "user_id" : self.user_id.id,
-                    "start" : start,
-                    "stop" : stop,
-                    "x_sinergis_calendar_event_client": partner_id.id,
-                    "x_sinergis_calendar_event_contact" : contact_id.id,
-                    "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
-                    'need_sync_m': False
-                }
-                if not event :
-                    self.env["calendar.event"].create(context)
-                else :
-                    event.write(context)
+        # Enregistrer l'intervention dans le calendrier si ce n'est pas décompté sur tâche et que l'utilisateur l'autorise
+        if self.user_id.x_sinergis_res_users_tickets_in_calendar:
+            facturation = values.get("x_sinergis_helpdesk_ticket_facturation", self.x_sinergis_helpdesk_ticket_facturation)
+            if  facturation and facturation != "Contrat heures" and facturation != "Devis":
+                event = self.env['calendar.event'].search([("x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id)], limit=1)
+                #Chargement des paramètres start et stop
+                start = values.get("x_sinergis_helpdesk_ticket_start_time", self.x_sinergis_helpdesk_ticket_start_time)
+                stop = values.get("x_sinergis_helpdesk_ticket_end_time", self.x_sinergis_helpdesk_ticket_end_time)
+                if type(start) == str:
+                    start = datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
+                if type(stop) == str:
+                    stop = datetime.strptime(stop, '%Y-%m-%d %H:%M:%S')
+                partner_id = values.get("partner_id", self.partner_id)
+                contact_id = values.get("x_sinergis_helpdesk_ticket_contact", self.x_sinergis_helpdesk_ticket_contact)
+                if start and stop and stop > start:
+                    context = {
+                        "name" : f"ASSISTANCE - {partner_id.name}",
+                        "user_id" : self.user_id.id,
+                        "start" : start,
+                        "stop" : stop,
+                        "x_sinergis_calendar_event_client": partner_id.id,
+                        "x_sinergis_calendar_event_contact" : contact_id.id,
+                        "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
+                        'need_sync_m': False
+                    }
+                    if not event :
+                        self.env["calendar.event"].create(context)
+                    else :
+                        event.write(context)
 
         return super(HelpdeskTicket, self).write(values)
 
