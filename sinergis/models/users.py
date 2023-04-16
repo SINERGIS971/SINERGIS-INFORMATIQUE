@@ -19,6 +19,12 @@ class ResUsers(models.Model):
     # 16 Avril 2023 Ajouter la possibilité à chacun de synchroniser ses tickets dans le calendrier
     x_sinergis_res_users_tickets_in_calendar = fields.Boolean(string="Synchroniser les tickets dans le calendrier", default=False)
 
+    def action_allow_tickets_in_calendar(self):
+        self.sudo().x_sinergis_res_users_tickets_in_calendar = True
+
+    def action_disallow_tickets_in_calendar(self):
+        self.sudo().x_sinergis_res_users_tickets_in_calendar = True
+
     @api.depends('x_sinergis_res_users_is_employee')
     def _compute_x_sinergis_res_users_is_employee (self):
         for rec in self:
