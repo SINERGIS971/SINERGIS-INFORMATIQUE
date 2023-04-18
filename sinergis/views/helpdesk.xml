@@ -178,8 +178,11 @@
                       <group>
                       </group>
                       <group>
-                        <button name="x_sinergis_helpdesk_ticket_last_call_button" class="oe_highlight btn-warning" type="object" string="Le client n'a pas répondu" icon="fa-phone"/>
-                        <button name="x_sinergis_helpdesk_ticket_partner_replied" class="oe_highlight btn-success" type="object" string="Le client a répondu" icon="fa-phone" attrs="{'invisible': [('x_sinergis_helpdesk_last_call',  '=', False)]}"/>
+                          <div>
+                            <button name="x_sinergis_helpdesk_ticket_last_call_button" class="oe_highlight btn-info" type="object" string="LE CLIENT N'A PAS RÉPONDU" icon="fa-phone" attrs="{'invisible': [('x_sinergis_helpdesk_last_call',  '=', False)]}" style="margin-right: 10px;"/>
+                            <button name="x_sinergis_helpdesk_ticket_last_call_button" class="btn-outline-info" type="object" string="LE CLIENT N'A PAS RÉPONDU" icon="fa-phone" attrs="{'invisible': [('x_sinergis_helpdesk_last_call',  '!=', False)]}"/>
+                            <button name="x_sinergis_helpdesk_ticket_partner_replied" class="oe_highlight btn-success" type="object" string="LE CLIENT A RÉPONDU" icon="fa-phone" attrs="{'invisible': [('x_sinergis_helpdesk_last_call',  '=', False)]}"/>
+                          </div>
                       </group>
                     </group>
                     <group>
