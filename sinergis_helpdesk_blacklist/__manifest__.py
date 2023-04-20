@@ -21,7 +21,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ["helpdesk","base","mail"],
+    'depends': ["helpdesk","base"],
 
     # always loaded
     'data': [
