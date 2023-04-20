@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "sinergis_outlook",
+    'name': "Sinergis Helpdesk Blacklist",
 
     'version': '1.0',
 
     'summary': """
-        Module Sinergis de synchronisation Outlook""",
+        Module Sinergis de blacklist des spams dans l'assistance""",
 
     'description': """
-        Module Sinergis de synchronisation Outlook
+        Module Sinergis de blacklist des spams dans l'assistance
     """,
 
     'author': "Productivity",
@@ -21,21 +21,19 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['microsoft_account', 'calendar'],
+    'depends': ["helpdesk","base"],
 
     # always loaded
     'data': [
+        'views/helpdesk.xml',
         'security/ir.model.access.csv',
-        'views/res_config_settings_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [],
     'assets': {
         'web.assets_backend': [
-            'sinergis_outlook/static/src/js/microsoft_calendar.js',
         ],
         'web.assets_qweb': [
-            'sinergis_outlook/static/src/xml/*.xml',
         ],
     },
 
