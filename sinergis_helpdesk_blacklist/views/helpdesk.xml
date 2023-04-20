@@ -27,8 +27,8 @@
     </record>
 
 <record id="sinergis_helpdesk_ticket_blacklist_form" model="ir.ui.view">
-        <field name="name">Quiz</field>
-        <field name="model">training.quiz</field>
+        <field name="name">Sinergis Helpdesk Ticket Blacklist Form</field>
+        <field name="model">helpdesk.ticket.blacklist</field>
         <field name="arch" type="xml">
           <form duplicate="false">
             <group>
