@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sinergis_helpdesk_ticket_blacklist_automation" model="base.automation">
+        <field name="name">Ticket Blacklist Automation</field>
+        <field name="model_id" ref="mail.mail_message"/>
+        <field name="state">code</field>
+        <field name="code">
+if record.res_id:
+  ticket = env['helpdesk.ticket'].search([('id','=',record.res_id)]) # Sélection du ticket
+  if self.env['helpdesk.ticket.blacklist'].search(('email', '=', ticket.email)):  # If email in blacklist
+    ticket.unlink()
+        </field>
+        <field name="trigger">on_create</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

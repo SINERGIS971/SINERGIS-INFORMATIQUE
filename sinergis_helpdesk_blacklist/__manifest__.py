@@ -21,11 +21,12 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ["helpdesk","base"],
+    'depends': ["helpdesk","base","mail"],
 
     # always loaded
     'data': [
         'views/helpdesk.xml',
+        'data/automation.xml',
         'security/ir.model.access.csv',
     ],
     # only loaded in demonstration mode
