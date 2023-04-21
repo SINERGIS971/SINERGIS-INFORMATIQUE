@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sinergis_helpdesk_ticket_blacklist,helpdesk.ticket.blacklist,model_helpdesk_ticket_blacklist,base.group_user,1,1,1,1
+access_sinergis_helpdesk_ticket_blacklist_base,helpdesk.ticket.blacklist,model_helpdesk_ticket_blacklist,base.group_user,1,0,0,0
+access_sinergis_helpdesk_ticket_blacklist_admin,helpdesk.ticket.blacklist,model_helpdesk_ticket_blacklist,sinergis_helpdesk_blacklist.group_sinergis_helpdesk_blacklist,1,1,1,1

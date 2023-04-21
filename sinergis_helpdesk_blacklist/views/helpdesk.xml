@@ -1,5 +1,23 @@
 <odoo>
   <data>
+
+<record id="sinergis_helpdesk_ticket_blacklist_inherited_form" model="ir.ui.view">
+            <field name="name">Inherited Helpdesk Ticket Form from Blacklist module</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+            <field name="arch" type="xml">
+              <xpath expr="//header" position="inside">
+                <button name="action_register_blacklist" string="Marquer comme spam" type="object" class="oe_highlight" attrs="{'invisible': [('blacklisted',  '=', True)]}" groups="sinergis_helpdesk_blacklist.group_sinergis_helpdesk_blacklist"/>
+                <button name="action_unregister_blacklist" string="Ne plus marquer comme spam" type="object" class="oe_highlight" attrs="{'invisible': [('blacklisted',  '=', True)]}" groups="sinergis_helpdesk_blacklist.group_sinergis_helpdesk_blacklist"/>
+              </xpath>
+              <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="blacklisted" invisible="1"/>
+                </xpath>
+            </field>
+</record>
+
+
+
 <record id="sinergis_helpdesk_ticket_blacklist_action" model="ir.actions.act_window">
     <field name="name">Sinergis Helpdesk Ticket Blacklist Action</field>
     <field name="type">ir.actions.act_window</field>
@@ -40,7 +58,7 @@
 
 <menuitem id="sinergis_helpdesk_ticket_blacklist_menu" name="Blacklist" action="sinergis_helpdesk_ticket_blacklist_action"
         sequence="0" parent="helpdesk.helpdesk_menu_config"
-        groups="base.group_user"/>
+        groups="sinergis_helpdesk_blacklist.group_sinergis_helpdesk_blacklist"/>
 
 
   </data>

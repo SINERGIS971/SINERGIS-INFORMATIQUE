@@ -8,7 +8,8 @@
         Module Sinergis de blacklist des spams dans l'assistance""",
 
     'description': """
-        Module Sinergis de blacklist des spams dans l'assistance
+        Module Sinergis de blacklist des spams dans l'assistance.
+        Le module 'sinergis' est requis.
     """,
 
     'author': "Productivity",
@@ -25,6 +26,7 @@
 
     # always loaded
     'data': [
+        'security/security.xml',
         'views/helpdesk.xml',
         'data/automation.xml',
         'security/ir.model.access.csv',

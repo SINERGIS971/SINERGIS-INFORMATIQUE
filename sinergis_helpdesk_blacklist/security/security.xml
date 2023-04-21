@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="group_sinergis_helpdesk_blacklist" model="res.groups">
+    <field name="name">Autorisé à modifier la blacklist de l'assistance</field>
+  </record>
+</odoo>
