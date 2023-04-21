@@ -5,6 +5,7 @@ class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"
 
 
+
 class HelpdeskTicketBlacklist(models.Model):
     _name = "helpdesk.ticket.blacklist"
     _description = "Ticket blacklist"
