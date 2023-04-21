@@ -394,6 +394,9 @@ class HelpdeskTicket(models.Model):
     def x_sinergis_helpdesk_ticket_reset_button (self):
         if self.x_sinergis_helpdesk_ticket_is_facturee:
             self.env["account.analytic.line"].search([('x_sinergis_account_analytic_line_ticket_id', '=', self.id)]).unlink()
+            # Retirer les évènements du calendrier correspondants à ce ticket
+            self.env['calendar.event'].search([("x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id)]).unlink()
+            # Marquer le ticket comme non facturé
             self.x_sinergis_helpdesk_ticket_is_facturee = not self.x_sinergis_helpdesk_ticket_is_facturee
 
     def x_sinergis_helpdesk_ticket_start_time_button (self):
