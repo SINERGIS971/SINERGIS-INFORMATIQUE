@@ -385,7 +385,7 @@ class HelpdeskTicket(models.Model):
                         "x_sinergis_calendar_event_client": partner_id.id,
                         "x_sinergis_calendar_event_contact" : contact_id.id,
                         "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
-                        'need_sync_m': False
+                        'need_sync_m': True
                     }
                     self.env["calendar.event"].create(context)
                 # Mise à jour des informations de la tâche
@@ -454,7 +454,7 @@ class HelpdeskTicket(models.Model):
                         "x_sinergis_calendar_event_client": partner_id.id,
                         "x_sinergis_calendar_event_contact" : contact_id.id,
                         "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
-                        'need_sync_m': False
+                        'need_sync_m': True
                     }
                     if not event :
                         self.env["calendar.event"].create(context)

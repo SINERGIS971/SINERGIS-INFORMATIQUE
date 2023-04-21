@@ -7,8 +7,8 @@
             <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
             <field name="arch" type="xml">
               <xpath expr="//header" position="inside">
-                <button name="action_register_blacklist" string="Marquer comme spam" type="object" class="oe_highlight" attrs="{'invisible': [('blacklisted',  '=', True)]}" groups="sinergis_helpdesk_blacklist.group_sinergis_helpdesk_blacklist"/>
-                <button name="action_unregister_blacklist" string="Ne plus marquer comme spam" type="object" class="oe_highlight" attrs="{'invisible': [('blacklisted',  '=', True)]}" groups="sinergis_helpdesk_blacklist.group_sinergis_helpdesk_blacklist"/>
+                <button name="action_register_blacklist" string="Marquer comme spam" confirm="Êtes-vous sûr de marquer cette email comme spam ?" class="btn-outline-danger" style="color: red;" type="object" icon="fa-trash-o" attrs="{'invisible': [('blacklisted',  '=', True)]}" groups="sinergis_helpdesk_blacklist.group_sinergis_helpdesk_blacklist"/>
+                <button name="action_unregister_blacklist" string="Ne plus marquer comme spam" class="btn-outline-info" style="color: orange;" type="object" icon="fa-trash-o" attrs="{'invisible': [('blacklisted',  '=', False)]}" groups="sinergis_helpdesk_blacklist.group_sinergis_helpdesk_blacklist"/>
               </xpath>
               <xpath expr="//field[@name='team_id']" position="after">
                     <field name="blacklisted" invisible="1"/>
@@ -59,7 +59,6 @@
 <menuitem id="sinergis_helpdesk_ticket_blacklist_menu" name="Blacklist" action="sinergis_helpdesk_ticket_blacklist_action"
         sequence="0" parent="helpdesk.helpdesk_menu_config"
         groups="sinergis_helpdesk_blacklist.group_sinergis_helpdesk_blacklist"/>
-
 
   </data>
 </odoo>
