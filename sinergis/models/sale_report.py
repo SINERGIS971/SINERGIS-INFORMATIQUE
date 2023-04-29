@@ -1,5 +1,5 @@
-from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from odoo import tools
+from odoo import api, fields, models
 
 # ANALYSE DES VENTES
 
@@ -13,6 +13,8 @@ class SinergisSaleReport(models.Model):
     name = fields.Char('Référence de vente', readonly=True)
     date = fields.Datetime('Date de vente', readonly=True)
     product_id = fields.Many2one('product.product', 'Produit', readonly=True)
+    product_uom = fields.Many2one('uom.uom', 'Unité de mesure', readonly=True)
+    product_uom_qty = fields.Float('Qté commandée', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Client', readonly=True)
     company_id = fields.Many2one('res.company', 'Société', readonly=True)
     user_id = fields.Many2one('res.users', 'Vendeur', readonly=True)
@@ -25,6 +27,7 @@ class SinergisSaleReport(models.Model):
         ('done', 'Sales Done'),
         ('cancel', 'Cancelled'),
         ], string='Status', readonly=True)
+    margin = fields.Float('Margin')
     
     order_id = fields.Many2one('sale.order', 'Vente', readonly=True)
 
@@ -34,6 +37,8 @@ class SinergisSaleReport(models.Model):
         select_ = """
             coalesce(min(l.id), -s.id) as id,
             l.product_id as product_id,
+            t.uom_id as product_uom,
+            CASE WHEN l.product_id IS NOT NULL THEN sum(l.product_uom_qty / u.factor * u2.factor) ELSE 0 END as product_uom_qty,
             CASE WHEN l.product_id IS NOT NULL THEN sum(l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END) ELSE 0 END as price_total,
             CASE WHEN l.product_id IS NOT NULL THEN sum(l.price_subtotal / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END) ELSE 0 END as price_subtotal,
             s.name as name,
@@ -42,7 +47,8 @@ class SinergisSaleReport(models.Model):
             s.partner_id as partner_id,
             s.user_id as user_id,
             s.company_id as company_id,
-            s.id as order_id
+            s.id as order_id,
+            SUM(l.margin / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END) AS margin
         """
         for field in fields.values():
             select_ += field
@@ -66,6 +72,7 @@ class SinergisSaleReport(models.Model):
         groupby_ = """
             l.product_id,
             l.order_id,
+            t.uom_id,
             s.name,
             s.date_order,
             s.partner_id,
