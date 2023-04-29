@@ -4,6 +4,7 @@ from . import partner
 from . import helpdesk
 from . import calendar
 from . import sale
+from . import sale_report
 from . import project
 from . import crm
 from . import users

@@ -29,6 +29,7 @@
         'views/helpdesk.xml',
         'views/calendar.xml',
         'views/sale.xml',
+        'views/sale_report.xml',
         'views/project.xml',
         'views/crm.xml',
         'views/users.xml',
