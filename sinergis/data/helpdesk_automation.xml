@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sinergis_helpdesk_ticket_answer_closed_ticket_automation" model="base.automation">
+        <field name="name">Answer to closed ticket Automation</field>
+        <field name="model_id" ref="mail.model_mail_message"/>
+        <field name="state">code</field>
+        <field name="code">
+if record.res_id:
+  existing_ticket = env['helpdesk.ticket'].search([('id','=',record.res_id)]) # Sélection du ticket
+  if existing_ticket.stage_id.id == 3 or existing_ticket.stage_id.id == 4: # Si ticket résolu ou annulé
+    existing_ticket.sudo().write ({'stage_id': 1}) # On marque le ticket comme nouveau
+    #existing_ticket.sudo().write ({'create_date': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),'stage_id': 1}) # On marque le ticket comme nouveau
+        </field>
+        <field name="trigger">on_create</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>
