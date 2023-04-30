@@ -8,6 +8,7 @@ class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"
 
     # --FORM--
+
     #Override
     #company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company, readonly=True,related='')
     team_id = fields.Many2one(default=lambda self: self.env['helpdesk.team'].search([], limit=1))
@@ -73,8 +74,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_taches = fields.One2many('project.task',compute="_compute_tasks",readonly=True)
 
     # 3 Février 2023 : Ajout de l'alerte si le client a répondu après avoir envoyé le ticket
-    x_sinergis_helpdesk_ticket_client_answer_stored = fields.Boolean(string="Réponse client", related="x_sinergis_helpdesk_ticket_client_answer", store=True)
-    x_sinergis_helpdesk_ticket_client_answer = fields.Boolean(compute="_compute_x_sinergis_helpdesk_ticket_client_answer")
+    x_sinergis_helpdesk_ticket_client_answer = fields.Boolean(string="Réponse client", compute="_compute_x_sinergis_helpdesk_ticket_client_answer", store=True)
     x_sinergis_helpdesk_ticket_client_answer_date = fields.Datetime(string="Dernier mail le", compute="_compute_x_sinergis_helpdesk_ticket_client_answer_date")
 
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
@@ -187,7 +187,7 @@ class HelpdeskTicket(models.Model):
     def _compute_tasks (self):
         HelpdeskTicket.updateTasks(self)
 
-    @api.depends('x_sinergis_helpdesk_ticket_client_answer')
+    @api.depends('message_ids')
     def _compute_x_sinergis_helpdesk_ticket_client_answer (self):
         for rec in self:
             all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
