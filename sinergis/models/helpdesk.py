@@ -8,7 +8,6 @@ class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"
 
     # --FORM--
-
     #Override
     #company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company, readonly=True,related='')
     team_id = fields.Many2one(default=lambda self: self.env['helpdesk.team'].search([], limit=1))
