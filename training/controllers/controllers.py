@@ -238,20 +238,24 @@ class Training(http.Controller):
             elif question.type == "multiple_response":
                 # Using multiple_choice model from multiple_choice answer
                 question_right_answers = http.request.env['training.quiz.questions.multiple_choice'].sudo().search(['&',('question_id', '=',question.id),('right_answer','=',True)])
-                if question_right_answers :  # If question have right answer
-                    total_answers += 1  # Increment the number of rated answers answered
                 _answers = answer.split(",")
-                correct = True
+                _total_right_answers_count = len(question_right_answers) # Count of total existing right answers
+                _total_answers_count = len(_answers) # Count of total answers
+                _right_answers_count = 0 # Count of right answers checked
                 for _answer in _answers:
+                    question_choice = http.request.env['training.quiz.questions.multiple_choice'].sudo().search(['&',('question_id', '=',question.id),('name','=',_answer)])
                     if question_choice:
                         vals = {'date': date.today(),
                                 'multiple_choice_id': question_choice.id
                                 }
                         http.request.env['training.quiz.questions.multiple_choice.record'].sudo().create(vals)
-                    else :
-                        correct = False
-                if correct :
-                    right_answers += 1
+                        if question_choice.right_answer :
+                            _right_answers_count += 1
+                if question_right_answers :
+                    total_answers += 1  # Increment the number of rated answers answered
+                    # Verification if all right answers are checked
+                    if (_total_right_answers_count == _total_answers_count and _total_answers_count == _right_answers_count) :
+                        right_answers += 1  # If it's a good answer : Add 1 to score
                 questions_answer.append(answer)
             else:
                 questions_answer.append(answer)

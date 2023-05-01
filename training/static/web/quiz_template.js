@@ -91,6 +91,5 @@ function updateMultipleResponse (name) {
       data.push(el[i].getAttribute("value").replace(",",""));
     }
   }
-  console.log(data);
-  document.getElementsByName(name)[0].value = data.join("");
+  document.getElementsByName(name)[0].value = data.join(",");
 }

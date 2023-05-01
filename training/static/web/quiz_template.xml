@@ -81,7 +81,7 @@
             <!-- Multiple response -->
 
             <div t-if="question.type == 'multiple_response' and question.required">
-              <input type="text" t-att-name="str(question.id)" id="name"/>
+              <input type="hidden" t-att-name="str(question.id)" id="name"/>
               <t t-foreach="question.choice_ids" t-as="choice">
               <div>
                 <input type="checkbox" t-att-id="choice.id" t-att-name="str(question.id)+'[]'" t-att-value="choice.name" required="" class="training-required" t-att-onclick="'requiredMultipleResponse('+str(question.id)+');updateMultipleResponse('+str(question.id)+')'"/>
@@ -90,8 +90,8 @@
             </t>
             </div>
             <div t-if="question.type == 'multiple_response' and not question.required">
+              <input type="hidden" t-att-name="str(question.id)" id="name"/>
               <t t-foreach="question.choice_ids" t-as="choice">
-                  <input type="text" t-att-name="str(question.id)" id="name"/>
               <div>
                 <input type="checkbox" t-att-id="choice.id" t-att-name="str(question.id)+'[]'" required="" class="training-required" t-att-onclick="'updateMultipleResponse('+str(question.id)+')'"/>
                 <label t-att-for="choice.id"><t t-esc="choice.name"/></label>
