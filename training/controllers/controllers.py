@@ -235,8 +235,15 @@ class Training(http.Controller):
                     if question_choice.right_answer == True :
                         right_answers += 1  # If it's a good answer : Add 1 to score
                 questions_answer.append(answer)
+            elif question.type == "multiple_response":
+                # Using multiple_choice model from multiple_choice answer
+                question_right_answers = http.request.env['training.quiz.questions.multiple_choice'].sudo().search(['&',('question_id', '=',question.id),('right_answer','=',True)])
+                if question_right_answers :  # If question have right answer
+                    total_answers += 1  # Increment the number of rated answers answered
+                questions_answer.append(answer.toString())
             else:
                 questions_answer.append(answer)
+        
 
         if (len(questions_name) != len(questions_answer)):
             return("Une erreur est survenue, merci de contacter Sinergis")
