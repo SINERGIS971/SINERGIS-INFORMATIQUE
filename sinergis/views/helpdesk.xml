@@ -8,7 +8,7 @@
           <field name="arch" type="xml">
               <xpath expr="//field[@name='id']" position="after">
                 <field name="x_sinergis_helpdesk_ticket_ticket_resolution" filter_domain="['|', '|',('x_sinergis_helpdesk_ticket_ticket_resolution', 'ilike', self),('description', 'ilike', self), ('name', 'ilike', self)]"/>
-                <field name="x_sinergis_helpdesk_ticket_contact_mail" filter_domain="[('x_sinergis_helpdesk_ticket_contact_mail', 'ilike', self)]"/>
+                <field name="email" filter_domain="[('email', 'ilike', self)]"/>
               </xpath>
 
               <xpath expr="//filter[@name='my_ticket']" position="before">
