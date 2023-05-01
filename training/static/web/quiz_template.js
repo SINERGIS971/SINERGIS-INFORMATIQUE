@@ -82,3 +82,14 @@ function requiredMultipleResponse (name) {
     }
   }
 }
+
+function updateMultipleResponse (name) {
+  el = document.getElementsByName(name);
+  var data = [];
+  for (i = 0; i < el.length; i++) {
+    if (el[i].checked === true) {
+      data.push(el[i].getAttribute("value"));
+    }
+  }
+  document.getElementsByName(name.replace("[]","")).value = data.join(";;");
+}
