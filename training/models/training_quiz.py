@@ -62,7 +62,7 @@ class TrainingQuizQuestions(models.Model):
     _description = "Questions Quiz"
     name = fields.Char(string="Question")
     quiz_id = fields.Many2one("training.quiz")
-    type = fields.Selection([ ('text1', 'Texte court'),('text2', 'Texte long'),('note1', 'Note sur 5'),('multiple_choice', 'Choix multiple')], string="Type de question" )
+    type = fields.Selection([ ('text1', 'Texte court'),('text2', 'Texte long'),('note1', 'Note sur 5'),('multiple_choice', 'Choix multiple'),('multiple_response', 'Réponse multiple')], string="Type de question" )
     #Pour les réponses à choix multiple
     choice_ids = fields.One2many("training.quiz.questions.multiple_choice","question_id",string="Réponses possibles")
 

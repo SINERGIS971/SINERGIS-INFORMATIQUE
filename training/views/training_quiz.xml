@@ -55,7 +55,7 @@
                         <field name="quiz_id" invisible="True"/>
                         <field name="name" required="True"/>
                         <field name="type" required="True"/>
-                        <field name="choice_ids" attrs="{'invisible': [('type',  '!=', 'multiple_choice')]}">
+                        <field name="choice_ids" attrs="{'invisible': ['&amp;', ('type',  '!=', 'multiple_choice'), ('type',  '!=', 'multiple_response')]}">
                           <tree>
                             <field name="name"/>
                             <field name="right_answer"/>

@@ -78,6 +78,25 @@
             </t>
             </div>
 
+            <!-- Multiple response -->
+
+            <div t-if="question.type == 'multiple_response' and question.required">
+              <t t-foreach="question.choice_ids" t-as="choice">
+              <div>
+                <input type="checkbox" t-att-id="choice.id" t-att-name="str(question.id)" t-att-value="choice.name" required="" class="training-required">
+                <label t-att-for="choice.id"><t t-esc="choice.name"/></label>
+              </div>
+            </t>
+            </div>
+            <div t-if="question.type == 'multiple_response' and not question.required">
+              <t t-foreach="question.choice_ids" t-as="choice">
+              <div>
+                <input type="checkbox" t-att-id="choice.id" t-att-name="str(question.id)" required="" class="training-required">
+                <label t-att-for="choice.id"><t t-esc="choice.name"/></label>
+              </div>
+            </t>
+            </div>
+
             <br/><br/>
           </div>
         </t>
