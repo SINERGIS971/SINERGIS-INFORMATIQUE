@@ -240,9 +240,22 @@ class Training(http.Controller):
                 question_right_answers = http.request.env['training.quiz.questions.multiple_choice'].sudo().search(['&',('question_id', '=',question.id),('right_answer','=',True)])
                 if question_right_answers :  # If question have right answer
                     total_answers += 1  # Increment the number of rated answers answered
-                questions_answer.append(answer.toString())
+                _answers = answer.split(",")
+                correct = True
+                for _answer in _answers:
+                    if question_choice:
+                        vals = {'date': date.today(),
+                                'multiple_choice_id': question_choice.id
+                                }
+                        http.request.env['training.quiz.questions.multiple_choice.record'].sudo().create(vals)
+                    else :
+                        correct = False
+                if correct :
+                    right_answers += 1
+                questions_answer.append(answer)
             else:
                 questions_answer.append(answer)
+                question_choice = http.request.env['training.quiz.questions.multiple_choice'].sudo().search(['&',('question_id', '=',question.id),('name','=',answer)])
         
 
         if (len(questions_name) != len(questions_answer)):

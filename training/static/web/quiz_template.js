@@ -63,7 +63,7 @@ function radio_hide(question_id, choice_id) {
 }
 
 function requiredMultipleResponse (name) {
-  el = document.getElementsByName(name);
+  el = document.getElementsByName(name+"[]");
 
   var atLeastOneChecked = false;
   for (i = 0; i < el.length; i++) {
@@ -84,12 +84,13 @@ function requiredMultipleResponse (name) {
 }
 
 function updateMultipleResponse (name) {
-  el = document.getElementsByName(name);
+  el = document.getElementsByName(name+"[]");
   var data = [];
   for (i = 0; i < el.length; i++) {
     if (el[i].checked === true) {
-      data.push(el[i].getAttribute("value"));
+      data.push(el[i].getAttribute("value").replace(",",""));
     }
   }
-  document.getElementsByName(name.replace("[]","")).value = data.join(";;");
+  console.log(data);
+  document.getElementsByName(name)[0].value = data.join("");
 }
