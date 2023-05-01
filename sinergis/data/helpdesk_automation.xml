@@ -14,7 +14,7 @@ if record.res_id:
             'partner_id': existing_ticket.partner_id.id,
             'message_ids': [record.id],
             'description': record.body,
-            'email': email,
+            'partner_email': partner_email,
             'team_id': env['helpdesk.ticket']._default_team_id(),
         })
     record.write({'x_sinergis_helpdesk_ticket_contact': existing_ticket.x_sinergis_helpdesk_ticket_contact.id,})
