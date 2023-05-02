@@ -369,11 +369,6 @@ class InvoiceExcelReportController(http.Controller):
                     data_consumed.append(element)
                 else :
                     data_not_consumed.append(element)
-            
-        # Calcul des sous-totaux de chaque société Sinergis
-        #data_consumed_subtotal = {}
-        #for element in data_consumed :
-        #    data_consumed_subtotal[element["company"]]['planneld_hours'] = 
 
         return data_consumed, data_not_consumed
     
@@ -385,7 +380,7 @@ class ArticlesReportController(http.Controller):
         user = request.env["res.users"].search([("id", "=", uid)])
         if request.env.user.has_group('sinergis.group_statistics_dashboard') == False:
             return "Vous n'êtes pas autorisé à accéder à cette page. Merci de vous rapporcher d'un administrateur."
-        begin_date = datetime.strptime(kw["2001-01-01"], '%Y-%m-%d').date()
+        begin_date = datetime.strptime("2001-01-01", '%Y-%m-%d').date()
         end_date = datetime.strptime("2025-01-01", '%Y-%m-%d').date()
         
         #=============================
@@ -413,30 +408,62 @@ class ArticlesReportController(http.Controller):
         red_text = workbook.add_format({'font_color': 'red'})
         green_text = workbook.add_format({'font_color': 'green'})
 
-        #CH NON CONSOMMES
         sheet_1 = workbook.add_worksheet("Page")
         sheet_1.set_column(0, 6, 30)
         
 
         sheet_1.write(0, 0, '', header_format)
-        sheet_1.write(0, 1, 'Montant HT', header_format)
-        sheet_1.write(0, 2, "Montant TTC", header_format)
+        sheet_1.write(0, 1, 'Montant HT (€)', header_format)
+        sheet_1.write(0, 2, "Montant TTC (€)", header_format)
         sheet_1.write(0, 3, 'Heures planifiées', header_format)
         sheet_1.write(0, 4, 'Heures consommées', header_format)
         sheet_1.write(0, 5, 'Heures restantes', header_format)
         
-        articles = request.env["product.template"].search([],order='name asc')
+        articles = request.env["product.product"].search([],order='name asc')
         i = 1
+        _temp = []
+        sum_price_subtotal = 0
+        sum_price_total = 0
+        sum_planned_hours = 0
+        sum_effective_hours = 0
         for article in articles :
             sheet_1.write(i, 0, article.name, header_format)
+            # PRICE TOTAL AND SUBTOTAL
             price_subtotal = 0
             price_total = 0
-            lines = request.env["sale.order.line"].search([('product_id', '=', article.id)],order='')
+            planned_hours = 0
+            effective_hours = 0
+            lines = request.env["sale.order.line"].search([('product_id', '=', article.id)])
             for line in lines :
-                price_subtotal += line.price_subtotal
-                price_total += line.price_total
+                if line.order_id.state == "sale":
+                    price_subtotal += line.price_subtotal
+                    price_total += line.price_total
+                    # PLANNED HOURS
+                    tasks = request.env["project.task"].search(['&',('sale_line_id', '=', line.id),'|',('active', '=', False),('active', '=', True)])
+                    for task in tasks :
+                        if not task.id in _temp:
+                            _temp.append(task.id)
+                            planned_hours += task.planned_hours
+                            # EFFECTIVE HOURS
+                            for timesheet in task.timesheet_ids:
+                                effective_hours += timesheet.unit_amount
             sheet_1.write(i, 1, str(price_subtotal))
             sheet_1.write(i, 2, str(price_total))
+            sheet_1.write(i, 3, str(planned_hours))
+            sheet_1.write(i, 4, str(effective_hours))
+            sheet_1.write(i, 5, str(planned_hours-effective_hours))
+            sum_price_subtotal += price_subtotal
+            sum_price_total += price_total
+            sum_planned_hours += planned_hours
+            sum_effective_hours += effective_hours
+            i+=1
+        sheet_1.write(i, 0, 'TOTAL', sum_format)
+        sheet_1.write(i, 1, str(sum_price_subtotal), sum_format)
+        sheet_1.write(i, 2, str(sum_price_total), sum_format)
+        sheet_1.write(i, 3, str(sum_planned_hours), sum_format)
+        sheet_1.write(i, 4, str(), sum_format)
+        sheet_1.write(i, 4, str(sum_planned_hours-sum_effective_hours), sum_format)
+
             
         workbook.close()
         output.seek(0)
