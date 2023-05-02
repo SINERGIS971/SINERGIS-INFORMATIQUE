@@ -377,3 +377,69 @@ class InvoiceExcelReportController(http.Controller):
 
         return data_consumed, data_not_consumed
     
+class ArticlesReportController(http.Controller):
+    @http.route(['/sinergis/statistics_dashboard/articles_report'], type='http', auth="user", csrf=False)
+    def get_articles_report(self, **kw):
+        # User verification
+        uid = request.uid
+        user = request.env["res.users"].search([("id", "=", uid)])
+        if request.env.user.has_group('sinergis.group_statistics_dashboard') == False:
+            return "Vous n'êtes pas autorisé à accéder à cette page. Merci de vous rapporcher d'un administrateur."
+        begin_date = datetime.strptime(kw["2001-01-01"], '%Y-%m-%d').date()
+        end_date = datetime.strptime("2025-01-01", '%Y-%m-%d').date()
+        
+        #=============================
+        # Création du nom du fichier
+        #=============================
+        
+        filename = f"Analyse articles"
+        
+        #=============================
+        # Création de la réponse Http
+        #=============================
+        response = request.make_response(
+        None,
+        headers=[
+           ('Content-Type', 'application/vnd.ms-excel'),
+           ("Content-disposition", f"attachment;filename={filename}.xls")
+        ]
+        )
+
+
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        header_format = workbook.add_format({'bold': True, 'font_color': 'blue'})
+        sum_format = workbook.add_format({'bg_color': "#CFCFCF", 'bold': True})
+        red_text = workbook.add_format({'font_color': 'red'})
+        green_text = workbook.add_format({'font_color': 'green'})
+
+        #CH NON CONSOMMES
+        sheet_1 = workbook.add_worksheet("Page")
+        sheet_1.set_column(0, 6, 30)
+        
+
+        sheet_1.write(0, 0, '', header_format)
+        sheet_1.write(0, 1, 'Montant HT', header_format)
+        sheet_1.write(0, 2, "Montant TTC", header_format)
+        sheet_1.write(0, 3, 'Heures planifiées', header_format)
+        sheet_1.write(0, 4, 'Heures consommées', header_format)
+        sheet_1.write(0, 5, 'Heures restantes', header_format)
+        
+        articles = request.env["product.template"].search([],order='name asc')
+        i = 1
+        for article in articles :
+            sheet_1.write(i, 0, article.name, header_format)
+            price_subtotal = 0
+            price_total = 0
+            lines = request.env["sale.order.line"].search([('product_id', '=', article.id)],order='')
+            for line in lines :
+                price_subtotal += line.price_subtotal
+                price_total += line.price_total
+            sheet_1.write(i, 1, str(price_subtotal))
+            sheet_1.write(i, 2, str(price_total))
+            
+        workbook.close()
+        output.seek(0)
+        response.stream.write(output.read())
+        output.close()
+        return response
