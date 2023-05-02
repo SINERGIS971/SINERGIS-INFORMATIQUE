@@ -380,8 +380,8 @@ class ArticlesReportController(http.Controller):
         user = request.env["res.users"].search([("id", "=", uid)])
         if request.env.user.has_group('sinergis.group_statistics_dashboard') == False:
             return "Vous n'êtes pas autorisé à accéder à cette page. Merci de vous rapporcher d'un administrateur."
-        begin_date = datetime.strptime("2001-01-01", '%Y-%m-%d').date()
-        end_date = datetime.strptime("2025-01-01", '%Y-%m-%d').date()
+        #begin_date = datetime.strptime("2001-01-01", '%Y-%m-%d').date()
+        end_date = datetime.strptime("2023-03-31", '%Y-%m-%d').date()
         
         #=============================
         # Création du nom du fichier
@@ -435,7 +435,7 @@ class ArticlesReportController(http.Controller):
             effective_hours = 0
             lines = request.env["sale.order.line"].search([('product_id', '=', article.id)])
             for line in lines :
-                if line.order_id.state == "sale":
+                if line.order_id.state == "sale" and line.order_id.date_order.date() <= end_date:
                     price_subtotal += line.price_subtotal
                     price_total += line.price_total
                     # PLANNED HOURS
@@ -445,7 +445,8 @@ class ArticlesReportController(http.Controller):
                             _temp.append(task.id)
                             planned_hours += task.planned_hours
                             # EFFECTIVE HOURS
-                            for timesheet in task.timesheet_ids:
+                            timesheets = request.env["account.analytic.line"].search([('task_id', '=', task.id),('create_date','<=',end_date.strftime("%Y-%m-%d"))])
+                            for timesheet in timesheets:
                                 effective_hours += timesheet.unit_amount
             sheet_1.write(i, 1, str(price_subtotal))
             sheet_1.write(i, 2, str(price_total))
@@ -461,8 +462,8 @@ class ArticlesReportController(http.Controller):
         sheet_1.write(i, 1, str(sum_price_subtotal), sum_format)
         sheet_1.write(i, 2, str(sum_price_total), sum_format)
         sheet_1.write(i, 3, str(sum_planned_hours), sum_format)
-        sheet_1.write(i, 4, str(), sum_format)
-        sheet_1.write(i, 4, str(sum_planned_hours-sum_effective_hours), sum_format)
+        sheet_1.write(i, 4, str(sum_effective_hours), sum_format)
+        sheet_1.write(i, 5, str(sum_planned_hours-sum_effective_hours), sum_format)
 
             
         workbook.close()
