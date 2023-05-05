@@ -26,6 +26,7 @@
     # always loaded
     'data': [
         'views/settings.xml',
+        'data/automation.xml',
         'security/ir.model.access.csv',
     ],
     # only loaded in demonstration mode

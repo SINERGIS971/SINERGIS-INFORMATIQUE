@@ -1,0 +1,14 @@
+<odoo>
+  <data>
+    <record id="automation_update_mailchimp" model="ir.cron">
+            <field name="name">Automatisation - Mise à jour des clients Mailchimp</field>
+            <field name="model_id" ref="model_res_partner"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model.sync_mailchimp()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+    </record>
+    </data>
+</odoo>
