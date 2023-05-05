@@ -44,14 +44,14 @@ class ResPartner(models.Model):
                             email_list.append(user['email_address'])
 
                         # Check if user exists in database
-                        odoo_user = self.env['res.partner'].search([('mailchimp_id', '=', user['id'])], limit=1)
+                        odoo_user = self.env['res.partner'].sudo().search([('mailchimp_id', '=', user['id'])], limit=1)
                         if odoo_user :
                             update = False
                             if odoo_user.x_sinergis_societe_contact_firstname != user['merge_fields']['FNAME']:
                                 update = True
                             if odoo_user.x_sinergis_societe_contact_lastname != user['merge_fields']['LNAME']:
                                 update = True
-                            if str(odoo_user.email).lower() != user['email_address']:
+                            if str(odoo_user.email) != user['email_address']:
                                 update = True
                             # If we need to update, add to id_to_update array
                             if update:
@@ -61,15 +61,15 @@ class ResPartner(models.Model):
             except ApiClientError as error:
                 print("An exception occurred: {}".format(error.text))
                 return
-        partners = self.env['res.partner'].search([('is_company','=',False)])
-        
+            
+        partners = self.env['res.partner'].sudo().search([('is_company','=',False)])
         print(str(id_to_update))
-        
+
         for partner in partners:
             # Only partners with email
             if partner.email:
                 # If email is in correct format and client is not actually in mailchimp
-                partner_email = partner.email.lower()
+                partner_email = partner.email
                 if re.match(email_regex,partner_email) and partner_email not in email_list: # Verify if email format is correct and if not exists in mailchimp
                     print("Adding Mailchimp contact : " + partner_email)
                     member_info = {
