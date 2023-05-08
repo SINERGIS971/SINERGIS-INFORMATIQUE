@@ -29,62 +29,117 @@ class ResPartner(models.Model):
         "server": api_key.split("-")[1]
         })
         email_list = [] # Actual emails on Mailchimp
-        id_to_update = []
+        ids_to_update = []
         # Pagination data
-        page_size = 300
+        page_size = 500
         actual_page = 0
         total_page = 1 # Default page count is 1. Page count computed after reading the first page.
         print("Loading Mailchimp data ...")
         while actual_page <= total_page: 
+            print(str(int(actual_page/total_page*100)) + ' %')
             try:
                 response = mailchimp.lists.get_list_members_info(list_id,count=page_size,offset=actual_page*page_size)
                 if 'members' in response:
                     for user in response['members']:
+                        # email_list store existing email address
                         if user['email_address'] :
-                            email_list.append(user['email_address'])
-
+                            email_list.append(user['email_address'].lower()) # Lower email to don't have double email
+                            
+                            # Check and add a mailchimp_id
+                            partner = self.env['res.partner'].sudo().search([('email','=',user['email_address']),('is_company','=',False)], limit=1)
+                            if partner :
+                                partner.mailchimp_id = user['id']
+                        
                         # Check if user exists in database
                         odoo_user = self.env['res.partner'].sudo().search([('mailchimp_id', '=', user['id'])], limit=1)
                         if odoo_user :
                             update = False
-                            if odoo_user.x_sinergis_societe_contact_firstname != user['merge_fields']['FNAME']:
+                            odoo_firstname = odoo_user.x_sinergis_societe_contact_firstname.replace(" ", "") if odoo_user.x_sinergis_societe_contact_firstname else ''
+                            odoo_lastname = odoo_user.x_sinergis_societe_contact_lastname.replace(" ", "") if odoo_user.x_sinergis_societe_contact_lastname else ''
+                            odoo_email = str(odoo_user.email).replace(" ", "")
+                            
+                            mailchimp_firstname = str(user['merge_fields']['FNAME']).replace(" ", "")
+                            mailchimp_lastname = str(user['merge_fields']['LNAME']).replace(" ","")
+                            mailchimp_email = str(user['email_address']).replace(" ", "")
+                            
+                            # Problem in Sinergis database
+                            odoo_firstname = odoo_firstname.replace("<Nonrenseigné>","")
+                            
+                            if odoo_firstname != mailchimp_firstname:
+                                print('FNAME PB : ' + odoo_firstname + " | " + str(user['merge_fields']['FNAME']))
                                 update = True
-                            if odoo_user.x_sinergis_societe_contact_lastname != user['merge_fields']['LNAME']:
+                            if odoo_lastname != mailchimp_lastname:
+                                print('LNAME PB : ' + odoo_lastname + " | " + str(user['merge_fields']['LNAME']))
                                 update = True
-                            if str(odoo_user.email) != user['email_address']:
+                            if odoo_email != mailchimp_email:
+                                print('EMAIL PB : ' + odoo_email + " | " + str(user['email_address']))
                                 update = True
-                            # If we need to update, add to id_to_update array
+                            # If we need to update, add to ids_to_update array
                             if update:
-                                id_to_update.append(user['id'])
+                                ids_to_update.append(user['id'])
                     total_page = int(response['total_items'])//page_size
                 actual_page += 1
             except ApiClientError as error:
                 print("An exception occurred: {}".format(error.text))
                 return
-            
-        partners = self.env['res.partner'].sudo().search([('is_company','=',False)])
-        print(str(id_to_update))
+
+        print("Updating Mailchimp data ...")
+        print("    Loading Odoo clients to create on Mailchimp ...")
+        members = []
+        partners = self.env['res.partner'].sudo().search(['&',('is_company','=',False),('mailchimp_id','=',False)])
+        #print(str(id_to_update))
 
         for partner in partners:
             # Only partners with email
             if partner.email:
                 # If email is in correct format and client is not actually in mailchimp
                 partner_email = partner.email
-                if re.match(email_regex,partner_email) and partner_email not in email_list: # Verify if email format is correct and if not exists in mailchimp
+                # Lower email to don't have double email
+                if re.match(email_regex,partner_email) and partner_email.lower() not in email_list: # Verify if email format is correct and if not exists in mailchimp
                     print("Adding Mailchimp contact : " + partner_email)
+                    email_list.append(partner_email)
+                    
+                    partner_firstname = partner.x_sinergis_societe_contact_firstname if partner.x_sinergis_societe_contact_firstname else ""
+                    partner_lastname = partner.x_sinergis_societe_contact_lastname if partner.x_sinergis_societe_contact_lastname else ""
                     member_info = {
                                     "email_address": partner_email,
                                     "status": "subscribed",
                                     "merge_fields": {
-                                        "FNAME": partner.x_sinergis_societe_contact_firstname if partner.x_sinergis_societe_contact_firstname else "",
-                                        "LNAME": partner.x_sinergis_societe_contact_lastname if partner.x_sinergis_societe_contact_lastname else ""
+                                        "FNAME": partner_firstname,
+                                        "LNAME": partner_lastname
                                     }
                                   }
-                    try:
-                        response = mailchimp.lists.add_list_member(list_id, member_info)
-                        # Update mailchimp id of partner :
-                        partner.mailchimp_id = response['id']
-                        print("response: {}".format(response))
-                    except ApiClientError as error:
-                        print("An exception occurred: {}".format(error.text))
+                    members.append(member_info)
+        
+        print('New members count : ' + str(len(members)))
+        print("    Sending new users to mailchimp ...")
+        # Send data to Mailchimp
+        for i in range(0, len(members)//200 + 1):
+            print(str(int(i/(len(members)//200 + 1)*100)) + ' %')
+            try:
+                response = mailchimp.lists.batch_list_members(list_id, {'members': members[i*200:(i+1)*200]})
+                print("response: {}".format(response))
+            except ApiClientError as error:
+                print("An exception occurred: {}".format(error.text))
+                
+        print("    Sending users updates to mailchimp ...")
+        for id_to_update in ids_to_update :
+            partner = self.env['res.partner'].sudo().search([('is_company','=',False),('mailchimp_id','=',id_to_update)])
+            partner_firstname = partner.x_sinergis_societe_contact_firstname if partner.x_sinergis_societe_contact_firstname else ""
+            partner_lastname = partner.x_sinergis_societe_contact_lastname if partner.x_sinergis_societe_contact_lastname else ""
+            partner_email = partner.email
+            if partner_email :
+                print(f"Mailchimp update of {partner_firstname} {partner_lastname}")
+                member_info = {
+                                "email_address": partner_email,
+                                "merge_fields": {
+                                "FNAME": partner_firstname,
+                                "LNAME": partner_lastname    
+                                }
+                              }
+                try:
+                    mailchimp.lists.update_list_member(list_id, partner.mailchimp_id, member_info)
+                except ApiClientError as error:
+                    print("An exception occurred: {}".format(error.text))
+            
                         
