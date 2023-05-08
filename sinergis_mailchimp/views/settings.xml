@@ -17,11 +17,14 @@
                                     <div class="content-group">
                                         <div class="row mt16">
                                             <label class="col-lg-3 o_light_label" string="API KEY" for="api_key"/>
-                                            <field name="api_key" class="oe_inline" style="width: 70% !important;"/>
+                                            <field name="api_key" class="oe_inline" style="width: 70% !important;" password="True"/>
                                         </div>
                                         <div class="row mt16">
                                             <label class="col-lg-3 o_light_label" string="AUDIENCE ID" for="list_id"/>
                                             <field name="list_id" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <button name="reset_mailchimp" class="oe_highlight btn-info" type="object" string="REMETTRE A ZERO LA SYNCHRONISATION MAILCHIMP" icon="fa-times-circle" confirm="Souhaitez-vous vraiment remettre à zero la synchronisation ? Les liens entre Mailchimp et Odoo seront supprimés. Aucune donnée ne sera affectée."/>
                                         </div>
                                     </div>
                                 </div>

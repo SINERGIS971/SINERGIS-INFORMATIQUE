@@ -66,13 +66,13 @@ class ResPartner(models.Model):
                             odoo_firstname = odoo_firstname.replace("<Nonrenseigné>","")
                             
                             if odoo_firstname != mailchimp_firstname:
-                                print('FNAME PB : ' + odoo_firstname + " | " + str(user['merge_fields']['FNAME']))
+                                #print('FNAME CHANGE : ' + odoo_firstname + " | " + str(user['merge_fields']['FNAME']))
                                 update = True
                             if odoo_lastname != mailchimp_lastname:
-                                print('LNAME PB : ' + odoo_lastname + " | " + str(user['merge_fields']['LNAME']))
+                                #print('LNAME CHANGE : ' + odoo_lastname + " | " + str(user['merge_fields']['LNAME']))
                                 update = True
                             if odoo_email != mailchimp_email:
-                                print('EMAIL PB : ' + odoo_email + " | " + str(user['email_address']))
+                                #print('EMAIL CHANGE : ' + odoo_email + " | " + str(user['email_address']))
                                 update = True
                             # If we need to update, add to ids_to_update array
                             if update:
@@ -119,6 +119,14 @@ class ResPartner(models.Model):
             try:
                 response = mailchimp.lists.batch_list_members(list_id, {'members': members[i*200:(i+1)*200]})
                 print("response: {}".format(response))
+                # Adding mailchimp_id to new members
+                if "new_members" in response :
+                    if len(response["new_members"]) > 0:
+                        for new_member in response["new_members"]:
+                            partner = self.env['res.partner'].sudo().search(['&',('email','=',new_member['email_address']),('mailchimp_id','=',False)])
+                            if partner :
+                                #print("ADDING MAILCHIMP_ID TO NEW CLIENT")
+                                partner.mailchimp_id = new_member['id']
             except ApiClientError as error:
                 print("An exception occurred: {}".format(error.text))
                 

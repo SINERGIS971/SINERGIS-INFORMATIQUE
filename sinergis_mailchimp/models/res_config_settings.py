@@ -12,3 +12,5 @@ class ResConfigSettings(models.TransientModel):
     list_id = fields.Char(string="AUDIENCE ID",
                               config_parameter='sinergis_mailchimp.list_id')
     
+    def reset_mailchimp (self):
+        self.env['res.partner'].search([('mailchimp_id', '!=', False)], limit=100000).mailchimp_id = False
