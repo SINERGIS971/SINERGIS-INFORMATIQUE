@@ -124,7 +124,7 @@ class ResPartner(models.Model):
                 if "new_members" in response :
                     if len(response["new_members"]) > 0:
                         for new_member in response["new_members"]:
-                            partner = self.env['res.partner'].sudo().search(['&',('email','=',new_member['email_address']),('is_company','=',False)])
+                            partner = self.env['res.partner'].sudo().search(['&',('email','=',new_member['email_address']),('is_company','=',False)], limit=1)
                             if partner :
                                 #print("ADDING MAILCHIMP_ID TO NEW CLIENT")
                                 partner.mailchimp_id = new_member['id']
