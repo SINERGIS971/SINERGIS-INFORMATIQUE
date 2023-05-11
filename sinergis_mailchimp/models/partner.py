@@ -131,23 +131,24 @@ class ResPartner(models.Model):
                 print("An exception occurred: {}".format(error.text))
                 
         print("    Sending users updates to mailchimp ...")
-        for id_to_update in ids_to_update :
-            partner = self.env['res.partner'].sudo().search([('is_company','=',False),('mailchimp_id','=',id_to_update)])
-            partner_firstname = partner.x_sinergis_societe_contact_firstname if partner.x_sinergis_societe_contact_firstname else ""
-            partner_lastname = partner.x_sinergis_societe_contact_lastname if partner.x_sinergis_societe_contact_lastname else ""
-            partner_email = partner.email
-            if partner_email :
-                print(f"Mailchimp update of {partner_firstname} {partner_lastname}")
-                member_info = {
-                                "email_address": partner_email,
-                                "merge_fields": {
-                                "FNAME": partner_firstname,
-                                "LNAME": partner_lastname    
+        if ids_to_update:
+            for id_to_update in ids_to_update :
+                partner = self.env['res.partner'].sudo().search([('is_company','=',False),('mailchimp_id','=',id_to_update)],limit=1)
+                partner_firstname = partner.x_sinergis_societe_contact_firstname if partner.x_sinergis_societe_contact_firstname else ""
+                partner_lastname = partner.x_sinergis_societe_contact_lastname if partner.x_sinergis_societe_contact_lastname else ""
+                partner_email = partner.email
+                if partner_email :
+                    print(f"Mailchimp update of {partner_firstname} {partner_lastname}")
+                    member_info = {
+                                    "email_address": partner_email,
+                                    "merge_fields": {
+                                    "FNAME": partner_firstname,
+                                    "LNAME": partner_lastname    
+                                    }
                                 }
-                              }
-                try:
-                    mailchimp.lists.update_list_member(list_id, partner.mailchimp_id, member_info)
-                except ApiClientError as error:
-                    print("An exception occurred: {}".format(error.text))
+                    try:
+                        mailchimp.lists.update_list_member(list_id, partner.mailchimp_id, member_info)
+                    except ApiClientError as error:
+                        print("An exception occurred: {}".format(error.text))
             
                         
