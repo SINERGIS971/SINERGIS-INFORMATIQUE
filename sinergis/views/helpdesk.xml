@@ -43,6 +43,8 @@
 
                 <filter string="XRT" name="filter_xrt" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'XRT')]"/>
 
+                <filter string="SILAE" name="filter_silae" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'SILAE')]"/>
+
                 <filter string="DIVERS" name="filter_divers" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'DIVERS')]"/>
 
                 <separator/>
