@@ -64,6 +64,7 @@ class ResPartner(models.Model):
                             
                             # Problem in Sinergis database
                             odoo_firstname = odoo_firstname.replace("<Nonrenseigné>","")
+                            odoo_lastname = odoo_lastname.replace("<Nonrenseigné>","")
                             
                             if odoo_firstname != mailchimp_firstname:
                                 print('FNAME CHANGE : ' + odoo_firstname + " | " + str(user['merge_fields']['FNAME']))
@@ -86,7 +87,7 @@ class ResPartner(models.Model):
         print("Updating Mailchimp data ...")
         print("    Loading Odoo clients to create on Mailchimp ...")
         members = []
-        partners = self.env['res.partner'].sudo().search(['&',('is_company','=',False),('mailchimp_id','=',False)])
+        partners = self.env['res.partner'].sudo().search([('is_company','=',False)], limit=100000)
         #print(str(id_to_update))
 
         for partner in partners:
@@ -136,6 +137,11 @@ class ResPartner(models.Model):
                 partner = self.env['res.partner'].sudo().search([('is_company','=',False),('mailchimp_id','=',id_to_update)],limit=1)
                 partner_firstname = partner.x_sinergis_societe_contact_firstname if partner.x_sinergis_societe_contact_firstname else ""
                 partner_lastname = partner.x_sinergis_societe_contact_lastname if partner.x_sinergis_societe_contact_lastname else ""
+
+                #Sinergis database problem
+                partner_firstname = partner_firstname.replace("<Non renseigné>","")
+                partner_lastname = partner_lastname.replace("<Non renseigné>","")
+
                 partner_email = partner.email
                 if partner_email :
                     print(f"Mailchimp update of {partner_firstname} {partner_lastname}")
