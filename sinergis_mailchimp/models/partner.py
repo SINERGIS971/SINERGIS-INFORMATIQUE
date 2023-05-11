@@ -46,12 +46,12 @@ class ResPartner(models.Model):
                             email_list.append(user['email_address'].lower()) # Lower email to don't have double email
                             
                             # Check and add a mailchimp_id
-                            partner = self.env['res.partner'].sudo().search([('email','=',user['email_address']),('is_company','=',False)], limit=1)
+                            partner = self.env['res.partner'].sudo().search(['&',('email','=',user['email_address']),('is_company','=',False)], limit=1)
                             if partner :
                                 partner.mailchimp_id = user['id']
                         
                         # Check if user exists in database
-                        odoo_user = self.env['res.partner'].sudo().search([('mailchimp_id', '=', user['id'])], limit=1)
+                        odoo_user = self.env['res.partner'].sudo().search(['&',('mailchimp_id', '=', user['id']),('is_company','=',False)], limit=1)
                         if odoo_user :
                             update = False
                             odoo_firstname = odoo_user.x_sinergis_societe_contact_firstname.replace(" ", "") if odoo_user.x_sinergis_societe_contact_firstname else ''
@@ -123,7 +123,7 @@ class ResPartner(models.Model):
                 if "new_members" in response :
                     if len(response["new_members"]) > 0:
                         for new_member in response["new_members"]:
-                            partner = self.env['res.partner'].sudo().search(['&',('email','=',new_member['email_address']),('mailchimp_id','=',False)])
+                            partner = self.env['res.partner'].sudo().search(['&',('email','=',new_member['email_address']),('is_company','=',False)])
                             if partner :
                                 #print("ADDING MAILCHIMP_ID TO NEW CLIENT")
                                 partner.mailchimp_id = new_member['id']
