@@ -67,13 +67,13 @@ class ResPartner(models.Model):
                             odoo_lastname = odoo_lastname.replace("<Nonrenseigné>","")
                             
                             if odoo_firstname != mailchimp_firstname:
-                                print('FNAME CHANGE : ' + odoo_firstname + " | " + str(user['merge_fields']['FNAME']))
+                                print('FNAME CHANGE : ' + odoo_firstname + " | " + str(mailchimp_firstname))
                                 update = True
                             if odoo_lastname != mailchimp_lastname:
-                                print('LNAME CHANGE : ' + odoo_lastname + " | " + str(user['merge_fields']['LNAME']))
+                                print('LNAME CHANGE : ' + odoo_lastname + " | " + str(mailchimp_lastname))
                                 update = True
                             if odoo_email != mailchimp_email:
-                                print('EMAIL CHANGE : ' + odoo_email + " | " + str(user['email_address']))
+                                print('EMAIL CHANGE : ' + odoo_email + " | " + str(mailchimp_email))
                                 update = True
                             # If we need to update, add to ids_to_update array
                             if update:
