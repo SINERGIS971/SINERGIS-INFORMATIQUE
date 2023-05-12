@@ -42,6 +42,7 @@
               <filter string="En cours d'immatriculation" name="in_process_of_registration" domain="[('x_sinergis_societe_en_cours_immatriculation', '=', True)]"/>
               <filter string="Suspects" name="is_suspect_filter" domain="[('x_sinergis_societe_suspect', '=', True)]"/>
               <separator/>
+              <filter string="Société" name="group_by_company_id" context="{'group_by':'company_id'}"/>
             </xpath>
         </field>
     </record>
