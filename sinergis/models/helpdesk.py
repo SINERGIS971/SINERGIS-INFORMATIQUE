@@ -63,6 +63,9 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_is_facturee = fields.Boolean(string="Présence d'un contrat d'heures chez le client :",default=False)
 
     #Colonne de droite
+    x_sinergis_helpdesk_ticket_partner_company_id = fields.Many2one('res.company', string="Agence rattachée", compute="_compute_x_sinergis_helpdesk_ticket_partner_company_id", store=True)
+    x_sinergis_helpdesk_ticket_partner_company_name = fields.Char(compute="_compute_x_sinergis_helpdesk_ticket_partner_company_name")
+    
     x_sinergis_helpdesk_ticket_contact = fields.Many2one("res.partner",string="Contact")
     x_sinergis_helpdesk_ticket_contact_fixe = fields.Char(string="Fixe contact", related="x_sinergis_helpdesk_ticket_contact.phone",default=False)
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", related="x_sinergis_helpdesk_ticket_contact.mobile",default=False)
@@ -113,6 +116,16 @@ class HelpdeskTicket(models.Model):
             else :
                 rec.x_sinergis_helpdesk_ticket_temps_cumule = rec.x_sinergis_helpdesk_ticket_temps_passe
 
+    @api.depends("x_sinergis_helpdesk_ticket_partner_company_id","partner_id")
+    def _compute_x_sinergis_helpdesk_ticket_partner_company_id(self):
+        for ticket in self:
+            ticket.x_sinergis_helpdesk_ticket_partner_company_id = ticket.partner_id.company_id
+            
+    @api.depends("x_sinergis_helpdesk_ticket_partner_company_id")
+    def _compute_x_sinergis_helpdesk_ticket_partner_company_name(self):
+        for ticket in self:
+            ticket.x_sinergis_helpdesk_ticket_partner_company_name = ticket.x_sinergis_helpdesk_ticket_partner_company_id.name
+                
     @api.depends("x_sinergis_helpdesk_ticket_contrat_heures")
     def _compute_x_sinergis_helpdesk_ticket_contrat_heures(self):
         for task in self:
@@ -236,6 +249,10 @@ class HelpdeskTicket(models.Model):
             for tag in self.partner_id.category_id:
                 if tag.name == "PROSPECT":
                     raise ValidationError("Le client est un prospect. Vous ne pouvez pas intervenir, merci de vous rapprocher d'un commercial.")
+        # Si le ticket est un ticket d'un client PARINET : Mettre automatiquement en "Non facturable" la facturation
+        if self.partner_id.company_id.name == "PARINET":
+            self.x_sinergis_helpdesk_ticket_facturation = "Temps passé"
+        
         HelpdeskTicket.updateTasks(self)
 
     @api.onchange("x_sinergis_helpdesk_ticket_facturation")
