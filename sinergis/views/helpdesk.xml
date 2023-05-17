@@ -57,12 +57,12 @@
                 
                 <separator/>
                   
-                <filter string="Agence SINERGIS" name="filter_company_sinergis" domain="[('x_sinergis_helpdesk_ticket_partner_company_id', 'ilike', 'SINERGIS')]"/>
+                <filter string="Agences SINERGIS" name="filter_company_sinergis" domain="[('x_sinergis_helpdesk_ticket_partner_company_id', 'ilike', 'SINERGIS')]"/>
                 <filter string="Agence PARINET" name="filter_company_parinet" domain="[('x_sinergis_helpdesk_ticket_partner_company_id', 'ilike', 'PARINET')]"/>
                   
                 <!-- GROUP BY -->
                   
-                <filter string="Société rattachée" name="group_by_x_sinergis_helpdesk_ticket_partner_company_id" context="{'group_by':'x_sinergis_helpdesk_ticket_partner_company_id'}"/>
+                <filter string="Agence rattachée" name="group_by_x_sinergis_helpdesk_ticket_partner_company_id" context="{'group_by':'x_sinergis_helpdesk_ticket_partner_company_id'}"/>
                   
               </xpath>
               <xpath expr="//filter[@name='unassigned']" position="after">
