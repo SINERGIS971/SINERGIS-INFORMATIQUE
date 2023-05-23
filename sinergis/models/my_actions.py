@@ -15,6 +15,7 @@ class MyActions(models.Model):
     client = fields.Many2one("res.partner",string="Client")
     product = fields.Char(string = "Produit",compute="_compute_product")
     billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Avant-vente", "Avant-vente")], string="Facturation")
+    billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable')], string="Facturable/Non facturable")
     time = fields.Float(string = "Temps")
     consultant = fields.Many2one('res.users',string="Consultant")
     consultant_company_id = fields.Many2one("res.company",string="Société SINERGIS")
@@ -48,7 +49,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed FROM
+            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -57,13 +58,17 @@ class MyActions(models.Model):
                     ht.x_sinergis_helpdesk_ticket_start_time as date,
                     ht.partner_id as client,
                     REPLACE(ht.x_sinergis_helpdesk_ticket_facturation,'heures','heure') as billing,
-
+                    CASE
+                        WHEN ht.x_sinergis_helpdesk_ticket_facturation = 'À définir ultérieurement' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Non facturable interne' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Non facturable' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Avant-vente'
+                            THEN 'Non facturable'
+                            ELSE 'Facturable'
+                    END AS billing_type,
                     CASE
                         WHEN ht.x_sinergis_helpdesk_ticket_facturation = 'Contrat heures' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Devis'
                             THEN SUM(aal.unit_amount)::TEXT
                             ELSE ht.x_sinergis_helpdesk_ticket_temps_passe::TEXT
                     END AS time,
-
+                    
                     ht.user_id as consultant,
                     ru.company_id as consultant_company_id,
                     ht.x_sinergis_helpdesk_ticket_contact as contact,
@@ -106,6 +111,11 @@ class MyActions(models.Model):
                     ce.start as date,
                     ce.x_sinergis_calendar_event_client as client,
                     REPLACE(ce.x_sinergis_calendar_event_facturation,'heures','heure') as billing,
+                    CASE
+                        WHEN ce.x_sinergis_calendar_event_facturation = 'À définir ultérieurement' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable interne' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable' OR ce.x_sinergis_calendar_event_facturation = 'Avant-vente'
+                            THEN 'Non facturable'
+                            ELSE 'Facturable'
+                    END AS billing_type,
                     CASE
                         WHEN ce.x_sinergis_calendar_event_facturation = 'Contrat heure' OR ce.x_sinergis_calendar_event_facturation = 'Devis'
                             THEN SUM(aal.unit_amount)::TEXT

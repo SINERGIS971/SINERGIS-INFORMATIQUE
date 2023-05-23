@@ -39,8 +39,14 @@
                         <field name="author_id"/>
                         <field name="email_to"/>
                         <field name="recipient_ids" widget="many2many_tags"/>
-                        <field name="body"/>
                     </group>
+                    <field name="body_html" widget="html" options="{'style-inline': true}"/>
+                    <field name="attachment_ids" readonly="True">
+                        <tree>
+                            <field name="name" invisible="1"/>
+                            <field string="Fichier" name="datas" filename="name" widget="binary"/>
+                        </tree>
+                    </field>
                 </sheet>
             </form>
         </field>

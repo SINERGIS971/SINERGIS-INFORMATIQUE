@@ -70,6 +70,14 @@
                 <filter name="is_open" position="move"/>
                 <filter name="is_close" position="move"/>
               </xpath>
+              
+              <xpath expr="//filter[@name='creation_date']" position="replace">
+                  <filter string="Date de tri" date="sort_date" name="sort_date"/>
+              </xpath>
+              
+              <xpath expr="//filter[@name='created_by']" position="replace">
+                  <filter string="Date de tri" name="group_by_sort_date" context="{'group_by': 'sort_date'}"/>
+              </xpath>
           </field>
       </record>
 
@@ -84,14 +92,14 @@
                   <attribute name="decoration-danger">x_sinergis_helpdesk_ticket_client_bloque==True</attribute>
                   <attribute name="decoration-bf">x_sinergis_helpdesk_ticket_client_bloque==True</attribute>
                   <attribute name="decoration-primary">x_sinergis_helpdesk_ticket_partner_company_name=='PARINET'</attribute>
-                  <attribute name="default_order">create_date desc</attribute>
+                  <attribute name="default_order">sort_date desc</attribute>
                 </xpath>
                 <xpath expr="//field[@name='display_name']" position="before">
                   <field name="x_sinergis_helpdesk_ticket_client_answer" invisible="True"/>
                   <field name="x_sinergis_helpdesk_ticket_client_bloque" invisible="True"/>
                   <field name="x_sinergis_helpdesk_ticket_partner_company_name" invisible="1"/>
                   <button name="button_x_sinergis_helpdesk_ticket_client_answer" readonly="True" type="object"  icon="fa-bell" class="btn-danger" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_answer', '=', False)]}"/>
-                  <field name="create_date"/>
+                  <field name="sort_date"/>
                   <field name="x_sinergis_helpdesk_ticket_client_answer_date"/>
                   <field name="priority" position="move"/>
                   <field name="partner_id" position="move"/>
@@ -156,6 +164,7 @@
                 <xpath expr="//field[@name='team_id']" position="before">
                      <p attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}" style="color:green;font-weight:bold;text-align:center;border: solid 2px green;font-size:16px;">Intervention à planifier</p>
                     <field name="create_date"/>
+                    <field name="sort_date"/>
                 </xpath>
 
                 <xpath expr="//field[@name='priority']" position="after">
@@ -205,6 +214,17 @@
                           </div>
                       </group>
                     </group>
+                    
+                    <group>
+                        <group>
+                        </group>
+                        <group>
+                            <div>
+                              <button name="x_sinergis_helpdesk_ticket_partner_reminder" class="oe_highlight btn-warning" type="object" string="RELANCE CLIENT" icon="fa-bullhorn"/>
+                            </div>
+                        </group>
+                    </group>
+                    
                     <group>
                         <field name="description" class="field_description" placeholder="Description du problème..." string="Description du problème" required="True"/>
                     </group>
@@ -259,7 +279,11 @@
                 </field>
                 <group>
                 <field name="x_sinergis_helpdesk_ticket_temps_passe" widget="float_time" style="font-size:13pt;" attrs="{'required': [('x_sinergis_helpdesk_ticket_show_facturation',  '=', True)]}"/>
-                <field name="x_sinergis_helpdesk_ticket_is_solved"/>
+                <div style="background:#FFF300;">
+                    <group>
+                        <field name="x_sinergis_helpdesk_ticket_is_solved"/>
+                    </group>
+                </div>
                 <br/>
                 <field name="x_sinergis_helpdesk_ticket_intervention_count" attrs="{'invisible': ['&amp;',('x_sinergis_helpdesk_ticket_facturation', '!=', 'Contrat heures'),('x_sinergis_helpdesk_ticket_facturation', '!=', 'Devis')]}"/>
                 <field name="x_sinergis_helpdesk_ticket_temps_cumule" widget="float_time" attrs="{'invisible': ['&amp;',('x_sinergis_helpdesk_ticket_facturation', '!=', 'Contrat heures'),('x_sinergis_helpdesk_ticket_facturation', '!=', 'Devis')]}" />

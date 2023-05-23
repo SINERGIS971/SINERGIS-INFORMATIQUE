@@ -224,6 +224,11 @@ class CalendarEvent(models.Model):
     @api.onchange("x_sinergis_calendar_event_sous_produits_new")
     def on_change_x_sinergis_calendar_event_sous_produits_new(self):
         CalendarEvent.update_type_client(self)
+        
+    @api.onchange("x_sinergis_calendar_event_start_time","x_sinergis_calendar_event_end_time")
+    def _update_temps_passe (self):
+        if self.x_sinergis_calendar_event_end_time and self.x_sinergis_calendar_event_start_time:
+            self.x_sinergis_calendar_duree_facturee = (self.x_sinergis_calendar_event_end_time - self.x_sinergis_calendar_event_start_time).total_seconds() / 3600
 
     def update_type_client (self):
         if self.x_sinergis_calendar_event_produits_new:
@@ -467,10 +472,12 @@ class CalendarEvent(models.Model):
 
     def x_sinergis_calendar_event_start_time_button (self):
         self.x_sinergis_calendar_event_start_time = datetime.now()
+        self._update_temps_passe()
 
     def x_sinergis_calendar_event_stop_time_button (self):
         self.x_sinergis_calendar_event_end_time = datetime.now()
-        self.x_sinergis_calendar_duree_facturee = (self.x_sinergis_calendar_event_end_time - self.x_sinergis_calendar_event_start_time).total_seconds() / 3600
+        self._update_temps_passe()
+        
 
     #RPC Functions
 

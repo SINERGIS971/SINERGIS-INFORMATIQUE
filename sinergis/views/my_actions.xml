@@ -48,6 +48,7 @@
                   <filter string="Mes activités" name="filter_my_activities" domain="[('consultant',  '=', uid)]"/>
                     <separator/>
                     <filter string="Facturation" name="group_by_billing" context="{'group_by':'billing'}"/>
+                    <filter string="Facturable/Non facturable" name="group_by_billing_type" context="{'group_by':'billing_type'}"/>
                     <filter string="Client" name="group_by_client" context="{'group_by':'client'}"/>
                     <filter string="Date" name="group_by_date" context="{'group_by':'date'}"/>
                     <filter string="Consultant" name="group_by_consultant" context="{'group_by':'consultant'}"/>

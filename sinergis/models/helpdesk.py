@@ -9,6 +9,9 @@ class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"
 
     # --FORM--
+    
+    # Date nécessaire pour trier les tickets
+    sort_date = fields.Datetime("Date de tri", default=lambda self: datetime.now().strftime("%Y-%m-%d %H:%M:%S"), readonly=True)
 
     #Override
     #company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company, readonly=True,related='')
@@ -93,7 +96,6 @@ class HelpdeskTicket(models.Model):
             else:
                 rec.x_sinergis_helpdesk_ticket_planned_intervention_text = False
 
-
     @api.depends('x_sinergis_helpdesk_ticket_produit_nom_complet')
     def _compute_x_sinergis_helpdesk_ticket_produit_nom_complet (self):
         for rec in self:
@@ -148,11 +150,12 @@ class HelpdeskTicket(models.Model):
             domain.append(('name','ilike','HEURES'))
             domain.append(('partner_id', '=', task.partner_id.id))
             task.x_sinergis_helpdesk_ticket_contrat_heures = self.env["project.task"].search(domain)
-
+            
     @api.onchange("user_id")
     def on_change_user_id(self):
-        self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
-        self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
+        if not self.x_sinergis_helpdesk_ticket_start_time and not self.x_sinergis_helpdesk_ticket_end_time:
+            self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
+            self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
 
 
     @api.onchange("stage_id")
@@ -173,6 +176,10 @@ class HelpdeskTicket(models.Model):
     def on_change_x_sinergis_helpdesk_ticket_sous_produits_new(self):
         HelpdeskTicket.update_type_client(self)
 
+    @api.onchange("x_sinergis_helpdesk_ticket_start_time", "x_sinergis_helpdesk_ticket_end_time")
+    def _update_temps_passe (self):
+        if self.x_sinergis_helpdesk_ticket_end_time and self.x_sinergis_helpdesk_ticket_start_time:
+            self.x_sinergis_helpdesk_ticket_temps_passe = (self.x_sinergis_helpdesk_ticket_end_time - self.x_sinergis_helpdesk_ticket_start_time).total_seconds() / 3600
 
     def update_type_client (self):
         if self.x_sinergis_helpdesk_ticket_produits_new:
@@ -433,11 +440,12 @@ class HelpdeskTicket(models.Model):
 
     def x_sinergis_helpdesk_ticket_start_time_button (self):
         self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
+        self._update_temps_passe()
 
     def x_sinergis_helpdesk_ticket_stop_time_button (self):
         self.x_sinergis_helpdesk_last_call_user_id = self.env.user
         self.x_sinergis_helpdesk_ticket_end_time = datetime.now()
-        self.x_sinergis_helpdesk_ticket_temps_passe = (self.x_sinergis_helpdesk_ticket_end_time - self.x_sinergis_helpdesk_ticket_start_time).total_seconds() / 3600
+        self._update_temps_passe()
 
     def x_sinergis_helpdesk_ticket_last_call_button (self):
         self.x_sinergis_helpdesk_last_call_user_id = self.env.user
@@ -450,6 +458,11 @@ class HelpdeskTicket(models.Model):
         body = f"Le client a répondu le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
         self.message_post(body=body)
 
+    def x_sinergis_helpdesk_ticket_partner_reminder (self):
+        self.sort_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        body = f"Il y a eu une relance du client le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
+        self.message_post(body=body)
+        
     # Bouton dans la tree view qui informe que le client n'a pas répondu.
     def x_sinergis_helpdesk_ticket_tree_last_call_button (self):
         return

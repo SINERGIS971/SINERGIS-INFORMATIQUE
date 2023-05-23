@@ -106,6 +106,11 @@ class SaleOrder(models.Model):
         for line in self.order_line :
             line.x_sinergis_sale_order_line_subproduct_id = False
 
+    @api.onchange('x_sinergis_sale_order_acompte_x3')
+    def onchange_x_sinergis_sale_order_acompte_x3(self):
+        if self.x_sinergis_sale_order_acompte_x3 == False :
+            self.x_sinergis_sale_order_solde_x3 = False
+        
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
@@ -184,7 +189,7 @@ class SaleOrder(models.Model):
             amount = 0
             for line in rec.order_line:
                 amount += line.price_total*(1-line.product_id.deposit_percentage)
-            rec.x_sinergis_sale_order_facture_acompte = amount
+            rec.x_sinergis_sale_order_facture_solde = amount
 
 
     @api.depends('x_sinergis_sale_order_projects_ended')
