@@ -6,6 +6,9 @@ import re
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
+    
+    # Mise en place de l'archivage des devis
+    active = fields.Boolean(string='Active', default=True)
 
     x_sinergis_sale_order_client_bloque = fields.Boolean(string="",default=False,compute="_compute_x_sinergis_sale_order_client_bloque")
     x_sinergis_sale_order_client_douteux = fields.Boolean(string="",default=False,compute="_compute_x_sinergis_sale_order_client_douteux")
@@ -273,6 +276,33 @@ class SaleOrder(models.Model):
     #def on_change_fiscal_position_id(self):
     #    if self.fiscal_position_id:
     #        self.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',self.fiscal_position_id.name),('company_id.name', '=', self.company_id.name)])[0].id
+
+    #23 Mai 2023 : Ne pas permettre aux consultants de créer un devis sans passer par une opportunité
+    @api.model_create_multi
+    def create(self, list_value):
+        for vals in list_value:
+            if self.env.user.x_sinergis_res_users_job == "COMMERCIAL" :
+                if not "opportunity_id" in vals or vals["opportunity_id"] == False:
+                    raise ValidationError("Vous êtes commercial. Afin de créer un devis, veuillez passer par le module CRM et créer une opportunité ou rattacher une opportunité à ce devis. Si vous rencontrez encore des problèmes, contactez un administrateur.")
+        orders = super(SaleOrder, self).create(list_value)
+        return orders
+    
+    #23 Mai 2023 : Si on passe le devis en BDC : On passe l'opportunité en status gagné et archivé
+    def write(self, vals):
+        if "state" in vals:
+            if vals["state"] == "sale":
+                id = vals.get("id", self.id)
+                opportunity_id = vals.get("opportunity_id", self.opportunity_id)
+                if opportunity_id :
+                    # Passer l'opportunité en état "GAGNE" et l'archiver
+                    won_stage = self.env["crm.stage"].search([('is_won', '=', True)], limit=1)
+                    opportunity_id.stage_id = won_stage
+                    opportunity_id.active = False
+                    # Archivage des autres ventes de l'opportunité
+                    sales = self.env['sale.order'].search(['&',('opportunity_id', '=', opportunity_id.id), ('id', '!=', id)])
+                    sales.active = False
+        orders = super(SaleOrder, self).write(vals)
+        return orders
 
     # 26 Février 2023 - Lors de la suppression d'un devis / bon de commande, supprimer aussi les tâches et projets associés
     def unlink(self):

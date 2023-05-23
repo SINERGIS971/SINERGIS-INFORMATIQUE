@@ -14,6 +14,8 @@
           </xpath>
           <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
             <separator/>
+            <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
+            <separator/>
             <filter string="Consultant" domain="[('x_sinergis_sale_res_users_job', '=', 'CONSULTANT')]" name="user_type_consultant"/>
             <filter string="Commercial" domain="[('x_sinergis_sale_res_users_job', '=', 'COMMERCIAL')]" name="user_type_commercial"/>
             <separator/>
@@ -52,6 +54,7 @@
 
 
           <xpath expr="//header" position="after">
+            <field name="active" invisible="True"/>
             <field name="x_sinergis_sale_order_client_bloque" invisible="True"/>
             <field name="x_sinergis_sale_order_client_douteux" invisible="True"/>
             <field name="x_sinergis_sale_order_client_suspect" invisible="True"/>
