@@ -12,5 +12,6 @@ from . import company
 from . import account
 from . import mail
 from . import my_actions
+from . import product
 
 from . import movementArea
