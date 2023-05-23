@@ -12,6 +12,7 @@ class SaleOrder(models.Model):
 
     x_sinergis_sale_order_objet = fields.Char(string="Objet")
     x_sinergis_sale_order_contact = fields.Many2one("res.partner",string="Contact", required="True")
+    x_sinergis_sale_order_contact_note = fields.Text(compute="_compute_x_sinergis_sale_order_contact_note")
 
     fiscal_position_id = fields.Many2one(compute="_compute_fiscal_position_id", readonly=False, domain="[('company_id','=',company_id)]")
 
@@ -119,6 +120,16 @@ class SaleOrder(models.Model):
                 rec.x_sinergis_sale_order_client_suspect = rec.partner_id.x_sinergis_societe_suspect
             else:
                 rec.x_sinergis_sale_order_client_suspect = False
+
+    @api.depends("x_sinergis_sale_order_contact_note")
+    def _compute_x_sinergis_sale_order_contact_note(self):
+        text = re.compile('<.*?>')
+        for ticket in self :
+            comment = re.sub(text, '', ticket.x_sinergis_sale_order_contact.comment)
+            if len(comment) <= 2 :
+                ticket.x_sinergis_sale_order_contact_note = False
+            else :
+                ticket.x_sinergis_sale_order_contact_note = comment
 
     @api.depends('fiscal_position_id')
     def _compute_fiscal_position_id (self):

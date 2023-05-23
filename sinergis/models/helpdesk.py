@@ -2,6 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import datetime
 import pytz
+import re
 
 
 class HelpdeskTicket(models.Model):
@@ -70,7 +71,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_fixe = fields.Char(string="Fixe contact", related="x_sinergis_helpdesk_ticket_contact.phone",default=False)
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", related="x_sinergis_helpdesk_ticket_contact.mobile",default=False)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", related="x_sinergis_helpdesk_ticket_contact.email",default=False)
-    x_sinergis_helpdesk_ticket_contact_note = fields.Char(related="x_sinergis_helpdesk_ticket_contact.comment")
+    x_sinergis_helpdesk_ticket_contact_note = fields.Text(compute="_compute_x_sinergis_helpdesk_ticket_contact_note")
 
     x_sinergis_helpdesk_ticket_contrat_heures = fields.One2many('project.task',compute="_compute_x_sinergis_helpdesk_ticket_contrat_heures",readonly=True,string="Contrats d'heures du client :")
 
@@ -126,7 +127,17 @@ class HelpdeskTicket(models.Model):
     def _compute_x_sinergis_helpdesk_ticket_partner_company_name(self):
         for ticket in self:
             ticket.x_sinergis_helpdesk_ticket_partner_company_name = ticket.x_sinergis_helpdesk_ticket_partner_company_id.name
-                
+    
+    @api.depends("x_sinergis_helpdesk_ticket_contact_note")
+    def _compute_x_sinergis_helpdesk_ticket_contact_note(self):
+        text = re.compile('<.*?>')
+        for ticket in self :
+            comment = re.sub(text, '', ticket.x_sinergis_helpdesk_ticket_contact.comment)
+            if len(comment) <= 2 :
+                ticket.x_sinergis_helpdesk_ticket_contact_note = False
+            else :
+                ticket.x_sinergis_helpdesk_ticket_contact_note = comment
+    
     @api.depends("x_sinergis_helpdesk_ticket_contrat_heures")
     def _compute_x_sinergis_helpdesk_ticket_contrat_heures(self):
         for task in self:

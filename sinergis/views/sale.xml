@@ -64,6 +64,9 @@
             <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#A7A7A7;color:white;" attrs="{'invisible': [('x_sinergis_sale_order_client_suspect',  '=', False)]}">
                   Le client est enregistré comme suspect, vous ne pouvez pas confirmer le devis.
             </div>
+            <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#EEE3FF;color:black;font-size:12px;padding:10px;" attrs="{'invisible': [('x_sinergis_sale_order_contact_note',  '=', False)]}">
+                      Note concernant <strong><field name="x_sinergis_sale_order_contact" readonly="1"/></strong> : <field name="x_sinergis_sale_order_contact_note"/>
+            </div>
           </xpath>
 
           <!-- Empecher de confirmer le devis si le client est bloqué -->
