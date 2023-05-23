@@ -85,10 +85,12 @@
                 </xpath>
 
                 <!-- Ajout de banderoles d'information -->
-                <xpath expr="//header" position="after">
+                <xpath expr="//sheet" position="before">
+                <header>
                   <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#EEE3FF;color:black;font-size:12px;padding:10px;" attrs="{'invisible': [('x_sinergis_calendar_event_contact_note',  '=', False)]}">
                             Note concernant <strong><field name="x_sinergis_calendar_event_contact" readonly="1"/></strong> : <field name="x_sinergis_calendar_event_contact_note"/>
                   </div>
+                </header>
                 </xpath>
 
                 <!-- Ajout client/contact/participants -->

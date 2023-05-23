@@ -139,12 +139,13 @@ class CalendarEvent(models.Model):
     @api.depends("x_sinergis_calendar_event_contact_note")
     def _compute_x_sinergis_calendar_event_contact_note(self):
         text = re.compile('<.*?>')
-        for ticket in self :
-            comment = re.sub(text, '', ticket.x_sinergis_calendar_event_contact.comment)
-            if len(comment) <= 2 :
-                ticket.x_sinergis_calendar_event_contact_note = False
-            else :
-                ticket.x_sinergis_calendar_event_contact_note = comment
+        for rec in self :
+            if rec.x_sinergis_calendar_event_contact:
+                comment = re.sub(text, '', rec.x_sinergis_calendar_event_contact.comment)
+                if len(comment) <= 2 :
+                    rec.x_sinergis_calendar_event_contact_note = False
+                else :
+                    rec.x_sinergis_calendar_event_contact_note = comment
 
     @api.depends('x_sinergis_calendar_event_produit_nom_complet')
     def _compute_x_sinergis_calendar_event_produit_nom_complet (self):
