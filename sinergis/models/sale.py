@@ -2,6 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 import math
+import re
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"

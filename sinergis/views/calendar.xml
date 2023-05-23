@@ -84,6 +84,12 @@
                     <button name="action_open_ticket" help="Ouvre le ticket associée" string="Ouvrir le ticket" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': [('x_sinergis_calendar_event_helpdesk_ticket_id','=',False)]}"/>
                 </xpath>
 
+                <!-- Ajout de banderoles d'information -->
+                <xpath expr="//header" position="after">
+                  <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#EEE3FF;color:black;font-size:12px;padding:10px;" attrs="{'invisible': [('x_sinergis_calendar_event_contact_note',  '=', False)]}">
+                            Note concernant <strong><field name="x_sinergis_calendar_event_contact" readonly="1"/></strong> : <field name="x_sinergis_calendar_event_contact_note"/>
+                  </div>
+                </xpath>
 
                 <!-- Ajout client/contact/participants -->
                 <xpath expr="//field[@name='start']" position="before">

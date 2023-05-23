@@ -2,6 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 from datetime import datetime
+import re
 
 
 class CalendarEvent(models.Model):
@@ -15,6 +16,8 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_client_name = fields.Char(related="x_sinergis_calendar_event_client.name")
     x_sinergis_calendar_event_contact = fields.Many2one("res.partner",string="Contact")
     x_sinergis_calendar_event_contact_transfered = fields.Many2one("res.partner",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
+    x_sinergis_calendar_event_contact_note = fields.Text(compute="_compute_x_sinergis_calendar_event_contact_note")
+    
 
 #ZONE PRODUITS
     #Ancien système de produits
@@ -132,6 +135,16 @@ class CalendarEvent(models.Model):
                     if rec.x_sinergis_calendar_duree_facturee:
                         state = True
             rec.x_sinergis_calendar_event_is_facturee_total = state
+
+    @api.depends("x_sinergis_calendar_event_contact_note")
+    def _compute_x_sinergis_calendar_event_contact_note(self):
+        text = re.compile('<.*?>')
+        for ticket in self :
+            comment = re.sub(text, '', ticket.x_sinergis_calendar_event_contact.comment)
+            if len(comment) <= 2 :
+                ticket.x_sinergis_calendar_event_contact_note = False
+            else :
+                ticket.x_sinergis_calendar_event_contact_note = comment
 
     @api.depends('x_sinergis_calendar_event_produit_nom_complet')
     def _compute_x_sinergis_calendar_event_produit_nom_complet (self):
