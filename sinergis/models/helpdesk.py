@@ -70,6 +70,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_contact_fixe = fields.Char(string="Fixe contact", related="x_sinergis_helpdesk_ticket_contact.phone",default=False)
     x_sinergis_helpdesk_ticket_contact_mobile = fields.Char(string="Mobile contact", related="x_sinergis_helpdesk_ticket_contact.mobile",default=False)
     x_sinergis_helpdesk_ticket_contact_mail = fields.Char(string="Mail contact", related="x_sinergis_helpdesk_ticket_contact.email",default=False)
+    x_sinergis_helpdesk_ticket_contact_note = fields.Char(related="x_sinergis_helpdesk_ticket_contact.comment")
 
     x_sinergis_helpdesk_ticket_contrat_heures = fields.One2many('project.task',compute="_compute_x_sinergis_helpdesk_ticket_contrat_heures",readonly=True,string="Contrats d'heures du client :")
 

@@ -221,7 +221,7 @@
                             <field name="remaining_hours" widget="float_time"/>
                             <field name="progress" widget="progressbar"/>
                             <field name="company_id"/>
-                            <button name="print_timesheet_button" string="Imprimer PDF" class="oe_highlight" type="object"/>
+                            <button name="print_timesheet_button" string="Imprimer PDF" class="oe_highlight" type="object" attrs="{'invisible':[('effective_hours','=',0)]}"/>
                         </tree>
                       </field>
                 </page>
