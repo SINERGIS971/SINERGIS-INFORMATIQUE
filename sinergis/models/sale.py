@@ -26,6 +26,10 @@ class SaleOrder(models.Model):
     x_sinergis_sale_order_amount_remaining = fields.Monetary(string="Restant à facturer",compute="_compute_x_sinergis_sale_order_amount_remaining")
     x_sinergis_sale_order_acompte_verse = fields.Boolean(string="Acompte versé")
 
+    # 23 Mai 2023 : Ajout de la facturation acompte + facturation solde calculés à partir du pourcentage d'acompte des produits
+    x_sinergis_sale_order_facture_acompte = fields.Monetary(string="Facture acompte", compute="_compute_x_sinergis_sale_order_facture_acompte")
+
+
     x_sinergis_sale_order_model = fields.Many2one("sale.order",string="Modele de devis")
 
     #METTRE LES CONDITIONS DE PAIEMENT PAR DEFAUT - OVERRIDE FONCTION DE BASE
@@ -163,6 +167,14 @@ class SaleOrder(models.Model):
     def _compute_x_sinergis_sale_order_amount_remaining (self):
         for rec in self:
             rec.x_sinergis_sale_order_amount_remaining = rec.amount_total - rec.x_sinergis_sale_order_amount_charged
+
+    @api.depends('x_sinergis_sale_order_facture_acompte')
+    def _compute_x_sinergis_sale_order_facture_acompte(self):
+        for rec in self:
+            amount = 0
+            for line in rec.order_line:
+                amount += line.price_total*line.deposit_percentage
+            rec.x_sinergis_sale_order_facture_acompte = amount
 
 
     @api.depends('x_sinergis_sale_order_projects_ended')
