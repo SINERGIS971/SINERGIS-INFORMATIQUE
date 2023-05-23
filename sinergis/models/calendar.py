@@ -14,9 +14,10 @@ class CalendarEvent(models.Model):
 
     x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client")
     x_sinergis_calendar_event_client_name = fields.Char(related="x_sinergis_calendar_event_client.name")
+    x_sinergis_calendar_event_client_douteux = fields.Boolean(related="x_sinergis_calendar_event_client.x_sinergis_societe_litige_douteux") # 23 Mai 2023 : Ajout de la banderole : client douteux
     x_sinergis_calendar_event_contact = fields.Many2one("res.partner",string="Contact")
     x_sinergis_calendar_event_contact_transfered = fields.Many2one("res.partner",string="") #Utilisé lors du transfert de client et contact depuis la planification de l'assistance. Permet de ne pas rentrer en conflit avec le onchange du client qui supprime le contact au demarrage
-    x_sinergis_calendar_event_contact_note = fields.Text(compute="_compute_x_sinergis_calendar_event_contact_note")
+    x_sinergis_calendar_event_contact_note = fields.Text(compute="_compute_x_sinergis_calendar_event_contact_note") # 23 Mai 2023 : Ajout de la banderole : info sur le client
     
 
 #ZONE PRODUITS

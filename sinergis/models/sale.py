@@ -126,12 +126,14 @@ class SaleOrder(models.Model):
     def _compute_x_sinergis_sale_order_contact_note(self):
         text = re.compile('<.*?>')
         for rec in self :
-            if rec.x_sinergis_helpdesk_ticket_contact:
+            if rec.x_sinergis_sale_order_contact.comment:
                 comment = re.sub(text, '', rec.x_sinergis_sale_order_contact.comment)
                 if len(comment) <= 2 :
                     rec.x_sinergis_sale_order_contact_note = False
                 else :
                     rec.x_sinergis_sale_order_contact_note = comment
+            else:
+                rec.x_sinergis_sale_order_contact_note = False
 
     @api.depends('fiscal_position_id')
     def _compute_fiscal_position_id (self):

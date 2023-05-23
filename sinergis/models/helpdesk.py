@@ -132,12 +132,14 @@ class HelpdeskTicket(models.Model):
     def _compute_x_sinergis_helpdesk_ticket_contact_note(self):
         text = re.compile('<.*?>')
         for ticket in self :
-            if ticket.x_sinergis_helpdesk_ticket_contact:
+            if ticket.x_sinergis_helpdesk_ticket_contact.comment:
                 comment = re.sub(text, '', ticket.x_sinergis_helpdesk_ticket_contact.comment)
                 if len(comment) <= 2 :
                     ticket.x_sinergis_helpdesk_ticket_contact_note = False
                 else :
                     ticket.x_sinergis_helpdesk_ticket_contact_note = comment
+            else:
+                ticket.x_sinergis_helpdesk_ticket_contact_note = False
     
     @api.depends("x_sinergis_helpdesk_ticket_contrat_heures")
     def _compute_x_sinergis_helpdesk_ticket_contrat_heures(self):
