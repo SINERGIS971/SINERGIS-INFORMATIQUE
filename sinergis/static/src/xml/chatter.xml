@@ -5,8 +5,20 @@
       <xpath expr="//div[@class='o-autogrow']" position="before">
         <button class="btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonScheduleActivity" type="button" t-att-disabled="chatter.isDisabled" t-on-click="chatter.onClickScheduleActivity" title="Schedule an activity" data-hotkey="shift+a">
                             <i class="fa fa-clock-o"/>
-                            Schedule activity
+                            Schedule activity 2
         </button>
       </xpath>
     </t>
 </template>
+
+<templates>
+
+    <t t-extend="mail.ChatterTopbar">
+
+        <t t-jquery="div.o_chatter_button_new_message" t-operation="replace">
+
+        </t>
+
+    </t>
+
+</templates>
