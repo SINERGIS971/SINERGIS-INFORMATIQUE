@@ -68,7 +68,7 @@
             #'sinergis/static/src/xml/menu_company.xml',
             'sinergis/static/src/xml/help_button.xml',
             'sinergis/static/src/xml/sinergis_base_calendar.xml',
-            'sinergis/static/src/xml/chatter.xml',
+            #'sinergis/static/src/xml/chatter.xml',
         ],
     },
 

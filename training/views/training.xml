@@ -62,7 +62,7 @@
         <field name="name">training.form</field>
         <field name="model">training</field>
         <field name="arch" type="xml">
-            <form>
+            <form disable_autofocus="1">
                 <header>
                   <field name="state" widget="statusbar" statusbar_visible="unassigned,commercial_part,consultant_part,training_in_progress,training_ended,training_closed"/>
                   <button name="button_switch_commercial_part" string="Passer à la partie: commerciale" type="object" class="oe_highlight" attrs="{'invisible': [('state',  '!=', 'unassigned')]}"/>
