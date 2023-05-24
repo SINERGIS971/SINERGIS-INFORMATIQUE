@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<template xml:space="preserve" owl="1">
+    <t t-name="sinergis.ChatterTopbarInherit" t-inherit="mail.ChatterTopbar">
+      <xpath expr="//div[@class='o-autogrow']" position="before">
+        <button class="btn btn-link o_ChatterTopbar_button o_ChatterTopbar_buttonScheduleActivity" type="button" t-att-disabled="chatter.isDisabled" t-on-click="chatter.onClickScheduleActivity" title="Schedule an activity" data-hotkey="shift+a">
+                            <i class="fa fa-clock-o"/>
+                            Schedule activity
+        </button>
+      </xpath>
+    </t>
+</template>

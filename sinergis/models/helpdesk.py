@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 import re
 
@@ -452,6 +452,8 @@ class HelpdeskTicket(models.Model):
         self.x_sinergis_helpdesk_last_call = datetime.now()
         body = f"Le client n'a pas répondu le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
         self.message_post(body=body)
+        # Création d'un rappel pour le consultant
+        self.activity_schedule('mail.mail_activity_data_call',summary='Rappeler le client',note="Rappeler le client car il n'a pas répondu",date_deadline=datetime.today()+timedelta(minutes=30),user_id=self.env.user.id)
 
     def x_sinergis_helpdesk_ticket_partner_replied (self):
         self.x_sinergis_helpdesk_last_call = False

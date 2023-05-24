@@ -147,6 +147,8 @@ class CalendarEvent(models.Model):
                     rec.x_sinergis_calendar_event_contact_note = False
                 else :
                     rec.x_sinergis_calendar_event_contact_note = comment
+            else :
+                rec.x_sinergis_calendar_event_contact_note = False
 
     @api.depends('x_sinergis_calendar_event_produit_nom_complet')
     def _compute_x_sinergis_calendar_event_produit_nom_complet (self):
