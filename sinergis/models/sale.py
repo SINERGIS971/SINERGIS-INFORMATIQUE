@@ -324,7 +324,6 @@ class SaleOrder(models.Model):
                     # Passer l'opportunité en état "GAGNE" et l'archiver
                     won_stage = self.env["crm.stage"].search([('is_won', '=', True)], limit=1)
                     opportunity_id.stage_id = won_stage
-                    opportunity_id.active = False
                     # Archivage des autres ventes de l'opportunité
                     sales = self.env['sale.order'].search(['&',('opportunity_id', '=', opportunity_id.id), ('id', '!=', id)])
                     sales.active = False
