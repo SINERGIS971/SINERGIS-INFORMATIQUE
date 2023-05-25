@@ -24,4 +24,18 @@
   <record id="group_statistics_dashboard" model="res.groups">
     <field name="name">Utilisateurs autorisés à accéder à la page statistiques</field>
   </record>
+
+
+  <!-- Groupe d'accès au module Mes Activités -->
+  <record id="module_category_sinergis_my_actions" model="ir.module.category">
+        <field name="name">Mes Activités</field>
+        <field name="description">Activités des consultants</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <record id="group_sinergis_my_actions_user" model="res.groups">
+        <field name="name">Utilisateur</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="training.module_category_sinergis_my_actions"/>
+    </record>
 </odoo>
