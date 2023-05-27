@@ -18,8 +18,8 @@
     'depends': ['base','product','sale','mail','calendar','sinergis'],
 
     'data': [
-        'security/ir.model.access.csv',
         'security/security.xml',
+        'security/ir.model.access.csv',
         'views/training.xml',
         'views/training_quiz.xml',
         'views/product.xml',

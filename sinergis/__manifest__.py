@@ -23,8 +23,8 @@
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
         'security/security.xml',
+        'security/ir.model.access.csv',
         'views/partner.xml',
         'views/helpdesk.xml',
         'views/calendar.xml',
@@ -63,6 +63,7 @@
             # Permet de toujours avoir toutes les sociétés Sinergis cochées.
             'sinergis/static/src/js/all_companies.js',
             #'sinergis/static/src/js/dialog_popup.js',
+            'sinergis/static/src/css/style.css',
         ],
         'web.assets_qweb': [
             #'sinergis/static/src/xml/menu_company.xml',

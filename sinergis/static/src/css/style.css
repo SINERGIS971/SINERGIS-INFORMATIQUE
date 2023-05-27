@@ -1,0 +1,9 @@
+.o_sinergis_checkbox input:checked + label:after{
+    background-color:#78FF00;
+    border-radius:2px;
+    }
+    
+.o_sinergis_checkbox input:not(:checked)+ label:after{
+    background-color:#FF00FF;
+    border-radius:2px;
+}
