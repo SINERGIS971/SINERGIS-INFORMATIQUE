@@ -1,19 +1,5 @@
 <odoo>
   <data>
-
-    <record id="sinergis_password_change_inherited_res_users" model="ir.ui.view">
-        <field name="name">sinergis_password_change.inherited.res.users</field>
-        <field name="model">res.users</field>
-        <field name="inherit_id" ref="base.view_users_form"/>
-        <field name="priority" eval="10"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='signature']" position="after">
-              <field name="x_sinergis_res_users_password_last_update"/>
-            </xpath>
-        </field>
-    </record>
-
-
     <record id="res_users_change_password" model="ir.ui.view">
             <field name="name">res.users.change_password</field>
             <field name="model">res.users</field>

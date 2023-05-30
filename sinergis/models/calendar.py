@@ -137,7 +137,7 @@ class CalendarEvent(models.Model):
                         state = True
             rec.x_sinergis_calendar_event_is_facturee_total = state
 
-    @api.depends("x_sinergis_calendar_event_contact_note")
+    @api.depends("x_sinergis_calendar_event_contact_note","x_sinergis_calendar_event_contact")
     def _compute_x_sinergis_calendar_event_contact_note(self):
         text = re.compile('<.*?>')
         for rec in self :
@@ -213,10 +213,10 @@ class CalendarEvent(models.Model):
 
     @api.onchange("duration")
     def on_change_duration(self):
-        self.x_sinergis_calendar_duree_facturee = self.duration
         if self.x_sinergis_calendar_event_start_time == False and self.x_sinergis_calendar_event_end_time == False :
             self.x_sinergis_calendar_event_start_time = self.start
             self.x_sinergis_calendar_event_end_time = self.stop
+            self.x_sinergis_calendar_duree_facturee = self.duration
 
     @api.onchange("x_sinergis_calendar_event_produits_new")
     def on_change_x_sinergis_calendar_event_produits_new(self):
@@ -418,7 +418,7 @@ class CalendarEvent(models.Model):
         # Pour autoriser la synchronisation Outlook - TODO : Plus étudier la synchro Outlook pour mieux restreindre
         if not "need_sync_m" in values:
             if self.user_id != user_id and self.env.user.has_group('sinergis.group_calendar_admin') == False:
-                raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas.")
+                raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas. ID : " + str(self.id))
         return super(CalendarEvent, self).write(values)
 
     def generer_rapport_intervention(self):

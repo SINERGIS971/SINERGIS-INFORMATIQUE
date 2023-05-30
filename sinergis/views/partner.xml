@@ -385,11 +385,20 @@
                 </group>
             </xpath>
 
+            <xpath expr="//field[@name='child_ids']/form/sheet//field[@name='comment']" position="before">
+                <group>
+                    <p style="font-size:11pt;"><strong>NOTE : </strong><span style="font-size:8pt;">( Visible dans l'assistance et dans le calendrier )</span></p>
+                </group>
+            </xpath>
+
             <xpath expr="//field[@name='child_ids']/kanban/field[@name='display_name']" position="after">
                 <field name="x_sinergis_societe_contact_inactive"/>
             </xpath>
             <xpath expr="//field[@name='child_ids']/kanban/templates/t/div/div[2]/field[@name='name']" position="after">
                 <div t-if="record.x_sinergis_societe_contact_inactive.raw_value" style="color:red;">CONTACT INACTIF !</div>
+            </xpath>
+            <xpath expr="//field[@name='child_ids']/kanban//div[@class='oe_kanban_details']" position="inside">
+                <div style="color: #4A5FFF;"><t t-esc="record.comment.value"/></div>
             </xpath>
 
             <xpath expr="//field[@name='child_ids']/form/sheet//field[@name='email']" position="attributes">
@@ -466,6 +475,9 @@
                   </group>
                 </group>
                 <group attrs="{'invisible':[('is_company','=',True)]}">
+                    <group>
+                        <p style="font-size:11pt;"><strong>NOTE : </strong><span style="font-size:8pt;">( Visible dans l'assistance et dans le calendrier )</span></p>
+                    </group>
                     <field name="comment" />
                 </group>
             </xpath>

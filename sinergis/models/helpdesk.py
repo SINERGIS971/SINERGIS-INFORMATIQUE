@@ -130,7 +130,7 @@ class HelpdeskTicket(models.Model):
         for ticket in self:
             ticket.x_sinergis_helpdesk_ticket_partner_company_name = ticket.x_sinergis_helpdesk_ticket_partner_company_id.name
     
-    @api.depends("x_sinergis_helpdesk_ticket_contact_note")
+    @api.depends("x_sinergis_helpdesk_ticket_contact_note","x_sinergis_helpdesk_ticket_contact")
     def _compute_x_sinergis_helpdesk_ticket_contact_note(self):
         text = re.compile('<.*?>')
         for ticket in self :
@@ -236,6 +236,8 @@ class HelpdeskTicket(models.Model):
                             last_mail_date = message.date
                 if email_count >= 2 :
                     rec.x_sinergis_helpdesk_ticket_client_answer = True
+                    # Mise à jour de la date de tri pour remonter l'information
+                    self.sort_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 else:
                     rec.x_sinergis_helpdesk_ticket_client_answer = False
             else:
@@ -306,8 +308,8 @@ class HelpdeskTicket(models.Model):
     def on_change_x_sinergis_helpdesk_ticket_is_solved(self):
         if self.x_sinergis_helpdesk_ticket_is_solved:
             self.stage_id = self.env['helpdesk.stage'].search([('name','=',"Résolu")])
-        #else if self.name != False: #Pour eviter un changement d'état à la création d'un ticket
-    #        self.stage_id = self.env['helpdesk.stage'].search([('name','=',"En cours")])
+        elif self.x_sinergis_helpdesk_ticket_show_facturation: #Pour eviter un changement d'état à la création d'un ticket
+            self.stage_id = self.env['helpdesk.stage'].search([('name','=',"Nouveau")])
 
     def updateTasks (self):
         for event in self:
@@ -526,3 +528,11 @@ class HelpdeskTicket(models.Model):
                 #raise ValidationError("Veuillez sélectionner toutes les sociétés Sinergis (en haut à droite) afin de créer un ticket.")
         tickets = super(HelpdeskTicket, self).create(list_value)
         return tickets
+    
+    # Ne pas permettre la suppression d'un ticket si l'utilisateur n'est pas un administrateur des tickets
+    def unlink(self):
+        if not self.env.user.has_group('sinergis.group_helpdesk_admin'):
+            raise ValidationError("Vous n'avez pas le droit de suppression d'un ticket. Veuillez vous rapprocher d'un administrateur des tickets.")
+        else :
+            super(HelpdeskTicket, self).unlink()
+        return

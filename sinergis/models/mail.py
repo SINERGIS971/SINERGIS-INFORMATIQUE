@@ -66,3 +66,21 @@ class MailActivity(models.Model):
                 'default_activity_ids': [(6, 0, self.ids)],
             }
             return action
+
+class MailActivity(models.Model):
+    _inherit = "mail.mail"
+    
+    x_sinergis_has_attachment = fields.Boolean(string="Pièce jointe ?", compute="_compute_x_sinergis_has_attachment")
+    
+    @api.depends("x_sinergis_has_attachment")
+    def _compute_x_sinergis_has_attachment (self):
+        for rec in self:
+            if len(rec.attachment_ids) > 1:
+                rec.x_sinergis_has_attachment = True
+            elif len(rec.attachment_ids) == 1:
+                if rec.attachment_ids[0].name == "image0":
+                    rec.x_sinergis_has_attachment = False
+                else :
+                    rec.x_sinergis_has_attachment = True
+            else:
+                rec.x_sinergis_has_attachment = False
