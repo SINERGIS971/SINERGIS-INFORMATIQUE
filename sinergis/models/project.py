@@ -195,7 +195,7 @@ class ProjectTask(models.Model):
             if "partner_id" in vals:
                 partner_id = self.env['res.partner'].search(['id',"=",vals['partner_id']])
                 if not partner_id.company_id.x_sinergis_allow_task_creation:
-                    list_value.delete(vals) # Empêcher la création de la tâche
+                    list_value = False
         tasks = super(ProjectTask, self).create(list_value)
         return tasks
 
@@ -298,6 +298,6 @@ class ProjectProject(models.Model):
                     vals["partner_id"] = sale_order_id.partner_id.id
                     # Empecher la création du projet si bloqué du côté de l'agence
                     if not sale_order_id.partner_id.company_id.x_sinergis_allow_task_creation:
-                        list_value.delete(vals) # On supprime la demande de création de ce projet
+                        list_value = False # On supprime la demande
         projects = super(ProjectProject, self).create(list_value)
         return projects
