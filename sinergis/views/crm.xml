@@ -24,9 +24,26 @@
               <attribute name="domain">[('is_company','=',True)]</attribute>
               <attribute name="string">Société</attribute>
           </xpath>
-            <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="after">
+          <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="after">
                 <field name="x_sinergis_crm_lead_contact" domain="[('parent_id','=',partner_id)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
-            </xpath>
+          </xpath>
+          
+          <!-- Retirer la probabilité calculée par Odoo dans la vue FORM -->
+          <xpath expr="//field[@name='recurring_plan']/.." position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//div[@id='probability']/.." position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <!-- Retirer le bouton gagné dans le header de la vue FORM -->
+          <xpath expr="//button[@name='178']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <!-- Retirer le bouton perdu dans le header de la vue FORM -->
+          <xpath expr="//span[@groups='!crm.group_use_recurring_revenues']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          
         </field>
     </record>
 

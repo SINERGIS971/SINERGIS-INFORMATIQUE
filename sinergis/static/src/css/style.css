@@ -4,7 +4,7 @@
     }
     
 .o_sinergis_checkbox input:not(:checked)+ label:after{
-    background-color:#FF00FF;
+    background-color:#CACACA;
     border-radius:2px;
 }
 
