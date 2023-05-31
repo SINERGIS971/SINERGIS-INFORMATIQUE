@@ -142,11 +142,12 @@ class CalendarEvent(models.Model):
         text = re.compile('<.*?>')
         for rec in self :
             if rec.x_sinergis_calendar_event_contact:
-                comment = re.sub(text, '', rec.x_sinergis_calendar_event_contact.comment)
-                if len(comment) <= 2 :
-                    rec.x_sinergis_calendar_event_contact_note = False
-                else :
-                    rec.x_sinergis_calendar_event_contact_note = comment
+                if rec.x_sinergis_calendar_event_contact.comment:
+                    comment = re.sub(text, '', rec.x_sinergis_calendar_event_contact.comment)
+                    if len(comment) <= 2 :
+                        rec.x_sinergis_calendar_event_contact_note = False
+                    else :
+                        rec.x_sinergis_calendar_event_contact_note = comment
             else :
                 rec.x_sinergis_calendar_event_contact_note = False
 
