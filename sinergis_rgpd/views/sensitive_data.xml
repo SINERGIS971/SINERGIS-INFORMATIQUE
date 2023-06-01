@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+    <record id="sinergis_rgpd_sensitive_data_tree" model="ir.ui.view">
+          <field name="name">sinergis.sensitive_data.tree</field>
+          <field name="model">sinergis_rgpd.sensitive_data</field>
+          <field name="arch" type="xml">
+              <tree default_order="deletion_date desc">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="partner_id"/>
+                <field name="deletion_date"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="sinergis_rgpd_sensitive_data_action" model="ir.actions.act_window">
+        <field name="name">Données sensibles</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sinergis_rgpd.sensitive_data</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Il n'y a pas d'enregistrement
+            </p>
+        </field>
+    </record>
+
+      <menuitem id="sinergis_rgpd_root"
+              name="RGPD"
+              web_icon="sinergis_rgpd,static/description/icon.png"
+              sequence="10"/>
+
+      <menuitem id="sinergis_rgpd_sensitive_data_root"
+              parent="sinergis_rgpd_root"
+              name="Données sensibles"
+              action="sinergis_rgpd_sensitive_data_action"
+              sequence="10"/>
+
+  </data>
+</odoo>
