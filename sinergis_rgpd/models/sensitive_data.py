@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 class SinergisSensitiveData(models.Model):
     _name = "sinergis_rgpd.sensitive_data"
     _description = "Données sensibles Sinergis"
+    _inherit = ["mail.thread","mail.activity.mixin"]
 
     partner_id = fields.Many2one("res.partner", string="Société", required=True)
     user_id = fields.Many2one("res.users", string="Utilisateur",default=lambda self: self.env.user)

@@ -17,7 +17,7 @@
     'category': 'Authentication',
     'version': '0.1',
 
-    'depends': ['web'],
+    'depends': ['web','mail'],
 
     'data': [
         'security/security.xml',
