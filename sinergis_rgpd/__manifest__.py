@@ -28,6 +28,7 @@
     ],
     'assets': {
         'web.assets_backend': [
+            'sinergis_rgpd/static/src/js/systray.js',
         ],
         'web.assets_qweb': [
             'sinergis_rgpd/static/src/xml/templates.xml',
