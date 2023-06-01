@@ -58,6 +58,7 @@
             <field name="x_sinergis_sale_order_client_bloque" invisible="True"/>
             <field name="x_sinergis_sale_order_client_douteux" invisible="True"/>
             <field name="x_sinergis_sale_order_client_suspect" invisible="True"/>
+            <field name="x_sinergis_sale_order_allow_task_creation" invisible="True"/>
             <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E30000;color:white;font-size:17px;padding:15px;" attrs="{'invisible': [('x_sinergis_sale_order_client_bloque',  '=', False)]}">
                   Attention! Le client est <strong>bloqué</strong>!. Vous ne pouvez pas confirmer le devis.
             </div>
@@ -80,7 +81,11 @@
             <attribute name="attrs">{'invisible': ['|','|',('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft'])]}</attribute>
           </xpath>
 
-
+          <!-- Créer des boutons afin de confirmer le devis sans créer de tâche -->
+          <xpath expr="//button[@name='action_confirm'][1]" position="after">
+            <button name="action_confirm_without_task" string="Confirmer sans créer de tâche" class="btn-primary" type="object" attrs="{'invisible': ['|','|','|',('x_sinergis_sale_order_allow_task_creation',  '=', False),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft','sent'])]}"/>
+          </xpath>
+          
             <xpath expr="//field[@name='partner_id']" position="before">
                 <field name="x_sinergis_sale_order_objet" placeholder="Objet du devis..."/>
             </xpath>

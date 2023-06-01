@@ -783,6 +783,6 @@ class TrainingAttendanceSheet(models.Model):
         training_id = fields.Many2one("training",string="Formation",required=True)
 
         name = fields.Char(string="Nom",required=True)
-        file = fields.Binary(string="Feuille")
+        file = fields.Binary(string="Feuille", required=True)
 
 
