@@ -20,8 +20,9 @@
     'depends': ['web'],
 
     'data': [
-        'views/sensitive_data.xml',
         'security/security.xml',
         'security/ir.model.access.csv',
+        'views/partner.xml',
+        'views/sensitive_data.xml',
     ],
 }

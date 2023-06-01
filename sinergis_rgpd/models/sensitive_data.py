@@ -10,4 +10,4 @@ class SinergisSensitiveData(models.Model):
     partner_id = fields.Many2one("res.partner", string="Société", required=True)
     user_id = fields.Many2one("res.users", string="Utilisateur",default=lambda self: self.env.user)
     name = fields.Char(string='Reference', required=True)
-    deletion_date = fields.Datetime(name="Date de suppression",default=lambda self: fields.Datetime.now() + timedelta(days=30), required=True)
+    deletion_date = fields.Datetime(string="Date de suppression",default=lambda self: fields.Datetime.now() + timedelta(days=30), required=True)

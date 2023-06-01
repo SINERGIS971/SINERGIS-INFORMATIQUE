@@ -10,10 +10,10 @@
                     <page name="sinergis_rgpd_page" string="RGPD">
                         <group>
                             <field name="x_sinergis_rgpd_sensitive_data_ids">
-                                <tree>
+                                <tree editable="bottom">
                                     <field name="user_id" widget="many2one_avatar_user"/>
                                     <field name="name"/>
-                                    <field name="deletion_data"/>
+                                    <field name="deletion_date"/>
                                 </tree>
                             </field>
                         </group>
