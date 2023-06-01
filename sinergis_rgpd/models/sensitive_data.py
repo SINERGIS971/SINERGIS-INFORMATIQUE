@@ -20,8 +20,8 @@ class SinergisSensitiveData(models.Model):
     archive_date = fields.Datetime(string="Date d'archivage",readonly=True)
 
     def action_document_is_removed (self):
-        archive_date = datetime.now()
-        active = False
+        self.archive_date = datetime.now()
+        self.active = False
 
     #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
     @api.model_create_multi

@@ -26,4 +26,11 @@
         'views/sensitive_data.xml',
         'data/activity_type.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+        ],
+        'web.assets_qweb': [
+            'sinergis_rgpd/static/src/xml/templates.xml',
+        ],
+    },
 }
