@@ -19,7 +19,14 @@
     <record id="sinergis_rgpd_user_rule" model="ir.rule">
         <field name="name">User rule for Sinergis RGPD</field>
         <field name="model_id" ref="model_sinergis_rgpd_sensitive_data"/>
-        <field name="groups" eval="[Command.link(ref('sinergis_rgpd.group_sinergis_sensitive_data_user'))]"/>
-        <field name="domain_force">[('user_id','=',uid)]</field>
+        <field name="groups" eval="[(4, ref('sinergis_rgpd.group_sinergis_sensitive_data_user'))]"/>
+        <field name="domain_force">[('user_id','=',user.id)]</field>
+    </record>
+
+    <record id="sinergis_rgpd_admin_rule" model="ir.rule">
+        <field name="name">Administrator rule for Sinergis RGPD</field>
+        <field name="model_id" ref="model_sinergis_rgpd_sensitive_data"/>
+        <field name="groups" eval="[(4, ref('sinergis_rgpd.group_sinergis_sensitive_data_administrator'))]"/>
+        <field name="domain_force">[]</field>
     </record>
 </odoo>

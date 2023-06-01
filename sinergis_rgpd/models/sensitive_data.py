@@ -9,14 +9,19 @@ class SinergisSensitiveData(models.Model):
     _inherit = ["mail.thread","mail.activity.mixin"]
 
     is_create = fields.Boolean(default=False)
+    active = fields.Boolean(string='Active', default=True)
 
     partner_id = fields.Many2one("res.partner", string="Société", required=True)
     user_id = fields.Many2one("res.users", string="Utilisateur",default=lambda self: self.env.user, required=True, readonly=True)
     name = fields.Char(string='Reference', required=True)
     file_path = fields.Char(string="Chemin du fichier", required=True)
     comment = fields.Text(string="Commentaire")
-    deletion_date = fields.Datetime(string="Date de suppression",default=lambda self: fields.Datetime.now() + timedelta(days=30), required=True)
+    deletion_date = fields.Datetime(string="Date de suppression",default=lambda self: datetime.now() + timedelta(days=30), required=True)
     archive_date = fields.Datetime(string="Date d'archivage",readonly=True)
+
+    def action_document_is_removed (self):
+        archive_date = datetime.now()
+        active = False
 
     #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
     @api.model_create_multi

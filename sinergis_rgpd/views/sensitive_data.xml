@@ -10,6 +10,7 @@
                 <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
                 <field name="user_id" filter_domain="[('consultant_id', 'ilike', self)]"/>
                 <filter string="Expirés" name="filter_expired" domain="[('deletion_date', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00'))]"/>
+                <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
                 <group expand="0" string="Group By">
                 </group>
             </search>
@@ -26,6 +27,7 @@
                 <field name="name"/>
                 <field name="file_path"/>
                 <field name="deletion_date"/>
+                <button name="action_document_is_removed" string="Document supprimé" class="oe_highlight btn-success" type="object" attrs="{'invisible': [('archive_date',  '!=', False)]}" icon="fa-check" confirm="Avez-vous bien supprimé ce fichier ?"/>
               </tree>
           </field>
       </record>
@@ -44,6 +46,7 @@
                     <field name="file_path"/>
                     <field name="comment"/>
                     <field name="deletion_date" attrs="{'readonly': [('is_create',  '=', True)]}"/>
+                    <field name="archive_date"/>
                 </group>
               </sheet>
               <div class="oe_chatter">

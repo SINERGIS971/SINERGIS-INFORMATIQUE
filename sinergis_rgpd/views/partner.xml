@@ -17,6 +17,7 @@
                                     <field name="file_path"/>
                                     <field name="comment"/>
                                     <field name="deletion_date" attrs="{'readonly': [('is_create',  '=', True)]}"/>
+                                    <button name="action_document_is_removed" string="Document supprimé" class="oe_highlight btn-success" type="object" attrs="{'invisible': [('archive_date',  '!=', False)]}" icon="fa-check" confirm="Avez-vous bien supprimé ce fichier ?"/>
                                 </tree>
                             </field>
                         </group>
