@@ -13,6 +13,22 @@
           </field>
       </record>
 
+      <record id="sinergis_rgpd_sensitive_data_form" model="ir.ui.view">
+          <field name="name">sinergis.sensitive_data.form</field>
+          <field name="model">sinergis_rgpd.sensitive_data</field>
+          <field name="arch" type="xml">
+              <form>
+              <group>
+                <group>
+                  <field name="partner_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                  <field name="user_id" options="{'no_create': True, 'no_create_edit':True}" widget="many2one_avatar_user"/>
+                  <field name="name"/>
+                  <field name="deletion_date"/>
+              </group>
+            </form>
+          </field>
+      </record>
+
       <record id="sinergis_rgpd_sensitive_data_action" model="ir.actions.act_window">
         <field name="name">Données sensibles</field>
         <field name="type">ir.actions.act_window</field>
