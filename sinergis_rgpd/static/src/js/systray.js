@@ -12,19 +12,19 @@ const { useState } = hooks;
 
 export class SinergisSensitiveFileMenu extends Component {
     setup() {
-        //this.companyService = useService("sinergis_sensitive");
-        //this.companyService.display_change_password_menu();
+        this.companyService = useService("sensitive_file_menu_service");
+        this.companyService.display_change_password_menu();
     }
     
     //changePassword(companyId) {
     //   this.companyService.load_page();
     //}
 }
-ChangePasswordMenu.template = "sinergis_rgpd.SinergisSensitiveFileMenu";
-ChangePasswordMenu.toggleDelay = 1000;
+SinergisSensitiveFileMenu.template = "sinergis_rgpd.SinergisSensitiveFileMenu";
+SinergisSensitiveFileMenu.toggleDelay = 1000;
 
 export const systrayItem = {
-    Component: ChangePasswordMenu,
+    Component: SinergisSensitiveFileMenu,
     isDisplayed(env) {
         return true;
     },
