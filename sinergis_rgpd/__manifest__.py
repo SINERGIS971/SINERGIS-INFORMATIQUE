@@ -24,5 +24,6 @@
         'security/ir.model.access.csv',
         'views/partner.xml',
         'views/sensitive_data.xml',
+        'data/activity_type.xml',
     ],
 }
