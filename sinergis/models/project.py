@@ -173,31 +173,7 @@ class ProjectTask(models.Model):
                         completedTasks = False
             if completedTasks :
                 self.project_id.x_sinergis_project_project_etat_projet = "Projet terminé"
-    
-    @api.model_create_multi
-    def create(self, list_value):
-        for vals in list_value:
-            # Ajout automatique du client du projet
-            if "sale_line_id" in vals:
-                sale_order_id = self.env['sale.order.line'].search([('id','=',vals["sale_line_id"])]).order_id
-                if sale_order_id.partner_id:
-                    vals["partner_id"] = sale_order_id.partner_id.id
-                    # Empecher la création du projet si bloqué du côté de l'agence
-                    if not sale_order_id.partner_id.company_id.x_sinergis_allow_task_creation:
-                        list_value.delete(vals) # On supprime la demande de création de ce projet
-        projects = super(ProjectProject, self).create(list_value)
-        return projects
 
-    @api.model_create_multi
-    def create(self, list_value):
-        for vals in list_value:
-            # Empecher la création dr la tâche si bloqué du côté de l'agence
-            if "partner_id" in vals:
-                partner_id = self.env['res.partner'].search(['id',"=",vals['partner_id']])
-                if not partner_id.company_id.x_sinergis_allow_task_creation:
-                    return
-        tasks = super(ProjectTask, self).create(list_value)
-        return tasks
 
 class ProjectProject(models.Model):
     _inherit = "project.project"
@@ -291,13 +267,9 @@ class ProjectProject(models.Model):
     @api.model_create_multi
     def create(self, list_value):
         for vals in list_value:
-            # Ajout automatique du client du projet
             if "sale_line_id" in vals:
                 sale_order_id = self.env['sale.order.line'].search([('id','=',vals["sale_line_id"])]).order_id
                 if sale_order_id.partner_id:
                     vals["partner_id"] = sale_order_id.partner_id.id
-                    # Empecher la création du projet si bloqué du côté de l'agence
-                    if not sale_order_id.partner_id.company_id.x_sinergis_allow_task_creation:
-                        return # On supprime la demande
         projects = super(ProjectProject, self).create(list_value)
         return projects
