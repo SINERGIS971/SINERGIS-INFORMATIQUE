@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="module_category_sinergis_sensitive_data" model="ir.module.category">
         <field name="name">Données sensibles</field>
         <field name="description">Aide à la gestion des données sensibles</field>
@@ -15,5 +14,12 @@
         <field name="name">Administrateur</field>
         <field name="implied_ids" eval="[(4, ref('sinergis_rgpd.group_sinergis_sensitive_data_user'))]"/>
         <field name="category_id" ref="sinergis_rgpd.module_category_sinergis_sensitive_data"/>
+    </record>
+
+    <record id="sinergis_rgpd_user_rule" model="ir.rule">
+        <field name="name">User rule for Sinergis RGPD</field>
+        <field name="model_id" ref="model_sinergis_rgpd_sensitive_data"/>
+        <field name="groups" eval="[Command.link(ref('sinergis_rgpd.group_sinergis_sensitive_data_user'))]"/>
+        <field name="domain_force">[('user_id','=',uid)]</field>
     </record>
 </odoo>

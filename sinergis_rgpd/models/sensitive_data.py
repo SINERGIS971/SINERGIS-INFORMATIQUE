@@ -11,7 +11,7 @@ class SinergisSensitiveData(models.Model):
     is_create = fields.Boolean(default=False)
 
     partner_id = fields.Many2one("res.partner", string="Société", required=True)
-    user_id = fields.Many2one("res.users", string="Utilisateur",default=lambda self: self.env.user, required=True)
+    user_id = fields.Many2one("res.users", string="Utilisateur",default=lambda self: self.env.user, required=True, readonly=True)
     name = fields.Char(string='Reference', required=True)
     file_path = fields.Char(string="Chemin du fichier", required=True)
     comment = fields.Text(string="Commentaire")
