@@ -69,11 +69,11 @@ class SaleOrder(models.Model):
 
     # 1 Juin 2023 : Permettre à certaines agences de ne pas créer de projets et tâches
 
-    x_sinergis_sale_order_allow_task_creation = fields.Boolean(related="partner_id.company_id.x_sinergis_allow_task_creation", default=True)
+    x_sinergis_sale_order_forbid_task_creation = fields.Boolean(related="partner_id.company_id.x_sinergis_forbid_task_creation", default=False)
 
     def action_confirm_without_task(self):
         # Passer le devis en bon de commande sans créer de tâche
-        self.write({'state': 'done'})
+        self.write({'state': 'sale'})
         return True
 
     #Empeche l'actualisation automatique de la position fiscale en fonction de la société, nous la recalculons directement en compute en fonction du pays de provenance du client
