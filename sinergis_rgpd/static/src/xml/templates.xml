@@ -2,19 +2,10 @@
 <templates id="template" xml:space="preserve">
 
 <t t-name="sinergis_rgpd.SinergisSensitiveFileMenu" owl="1">
-    <Dropdown position="'bottom-end'" class="sinergis_rgpd_sensitive_file_menu" style="visibility: hidden; width:0; display: inline-block; outline: none; cursor: pointer; font-size: 15px; line-height: 10px; font-weight: 600; border-radius: 8px; padding: 0px; border: none; transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s; background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%); color: #fff;">
+    <Dropdown position="'bottom-end'" class="sinergis_rgpd_sensitive_file_menu" style="width:auto; display: inline-block; outline: none; cursor: pointer; font-size: 15px; line-height: 10px; font-weight: 600; border-radius: 8px; padding: 0px; border: none; transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s; background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%); color: #fff; padding-left: 10px; padding-right: 10px;">
             <t t-set-slot="toggler">
-                <span>Urgent</span>
+                <span>Documents sensibles à supprimer</span>
             </t>
-            <DropdownItem class="p-0 bg-white">
-                <div
-                role="button"
-                t-on-click="changePassword()"
-                class="btn btn-light font-weight-normal border-0 d-flex flex-grow-1 align-items-center py-0 log_into pl-2 o_py">
-                    <t t-esc='service_text' />
-                    <span class='company_label pr-3' style="font-size: 15px;">Changer mon mot de passe</span>
-                </div>
-            </DropdownItem>
     </Dropdown>
 </t>
 

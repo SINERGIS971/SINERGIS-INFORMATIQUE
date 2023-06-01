@@ -23,6 +23,13 @@ class SinergisSensitiveData(models.Model):
         self.archive_date = datetime.now()
         self.active = False
 
+    def is_sensitive_data_to_remove(self):
+        data = self.env["sinergis_rgpd.sensitive_data"].search(['&','&',("active","=",True),("archive_date",">=",datetime.now().strftime('%Y-%m-%d 00:00:00')),("user_id","=",self.env.user.id)])
+        if len(data) > 0 :
+            return True
+        else :
+            return False
+
     #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
     @api.model_create_multi
     def create(self, list_vals):

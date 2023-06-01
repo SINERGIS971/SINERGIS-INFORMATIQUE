@@ -13,7 +13,7 @@ const { useState } = hooks;
 export class SinergisSensitiveFileMenu extends Component {
     setup() {
         this.companyService = useService("sensitive_file_menu_service");
-        this.companyService.display_change_password_menu();
+        this.companyService.display_sensitive_file_menu();
     }
     
     //changePassword(companyId) {
