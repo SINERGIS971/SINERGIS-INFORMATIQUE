@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='user_id']" position="after">
                 <field name="is_training"/>
-                <field name="training_id" attrs="{'invisible': [('is_training',  '=', False)]}" domain="['|','&amp;',('sales_manager',  '=', uid),('consultant_id',  '=', uid),('state',  '!=', 'training_closed')]"/>
+                <field name="training_id" attrs="{'invisible': [('is_training',  '=', False)]}" domain="[('partner_id','=',x_sinergis_calendar_event_client),('state',  '!=', 'training_closed')]"/>
             </xpath>
         </field>
     </record>
