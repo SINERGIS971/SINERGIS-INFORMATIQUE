@@ -528,6 +528,7 @@ class HelpdeskTicket(models.Model):
                 #raise ValidationError("Veuillez sélectionner toutes les sociétés Sinergis (en haut à droite) afin de créer un ticket.")
         tickets = super(HelpdeskTicket, self).create(list_value)
         for ticket in tickets :
+            ticket.message_unsubscribe(partner_ids=ticket.partner_id.ids)
             ticket.message_subscribe(partner_ids=ticket.x_sinergis_helpdesk_ticket_contact.ids)
         return tickets
     
