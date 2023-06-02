@@ -309,7 +309,7 @@ class HelpdeskTicket(models.Model):
         if self.x_sinergis_helpdesk_ticket_is_solved:
             self.stage_id = self.env['helpdesk.stage'].search([('name','=',"Résolu")])
         elif self.x_sinergis_helpdesk_ticket_show_facturation: #Pour eviter un changement d'état à la création d'un ticket
-            self.stage_id = self.env['helpdesk.stage'].search([('name','=',"Nouveau")])
+            self.stage_id = self.env['helpdesk.stage'].search([('name','=',"En cours")])
 
     def updateTasks (self):
         for event in self:
@@ -527,6 +527,8 @@ class HelpdeskTicket(models.Model):
             #if not "team_id" in vals or vals["team_id"] == False :
                 #raise ValidationError("Veuillez sélectionner toutes les sociétés Sinergis (en haut à droite) afin de créer un ticket.")
         tickets = super(HelpdeskTicket, self).create(list_value)
+        for ticket in tickets :
+            ticket.message_subscribe(partner_ids=ticket.x_sinergis_helpdesk_ticket_contact.ids)
         return tickets
     
     # Ne pas permettre la suppression d'un ticket si l'utilisateur n'est pas un administrateur des tickets
