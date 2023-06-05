@@ -271,5 +271,7 @@ class ProjectProject(models.Model):
                 sale_order_id = self.env['sale.order.line'].search([('id','=',vals["sale_line_id"])]).order_id
                 if sale_order_id.partner_id:
                     vals["partner_id"] = sale_order_id.partner_id.id
+                if "name" in vals:
+                    vals["name"] = f"{vals['name']} - {sale_order_id.x_sinergis_sale_order_object}"
         projects = super(ProjectProject, self).create(list_value)
         return projects
