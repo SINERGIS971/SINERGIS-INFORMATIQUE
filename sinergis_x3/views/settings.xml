@@ -19,6 +19,25 @@
         </field>
     </record>
 
+    <record id="sinergis_x3_settings_product_template_view_tree" model="ir.ui.view">
+        <field name="name">sinergis_x3.settings.product.template.view.tree</field>
+        <field name="model">sinergis_x3.settings.product.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="product_template_id"/>
+                    <field name="format"/>
+                    <br/>
+                    <p style="font-size: 10px;">Guide : Pour renseigner le format, vous disposez des variables suivantes :
+                    <br/>- {product} : Code produit Sinergis
+                    <br/>- {subproduct} : Code sous-produit Sinergis
+                    <br/>- {hostable} : Code hébergé ou On Premise
+                    <br/>- {uom} : Code de l'unité de mesure<p>
+                </sheet>
+            </tree>
+        </field>
+    </record>
+
     <record id="sinergis_x3_settings_product_template_action" model="ir.actions.act_window">
         <field name="name">Transcodage des articles</field>
         <field name="res_model">sinergis_x3.settings.product.template</field>
@@ -116,7 +135,7 @@
     </record>
 
     <record id="sinergis_x3_settings_uom_action" model="ir.actions.act_window">
-        <field name="name">Transcodage codes hébergement</field>
+        <field name="name">Transcodage unités</field>
         <field name="res_model">sinergis_x3.settings.uom</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -157,7 +176,7 @@
         <field name="model">sinergis_x3.settings.company</field>
         <field name="arch" type="xml">
             <tree string="Transcodage agences">
-                <field name="user_id"/>
+                <field name="company_id"/>
                 <field name="code"/>
             </tree>
         </field>
