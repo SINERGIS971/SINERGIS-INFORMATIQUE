@@ -106,7 +106,7 @@
         <field name="model">sinergis_x3.settings.hostable</field>
         <field name="arch" type="xml">
             <tree string="Transcodage codes hébergement">
-                <field name="is_hostable"/>
+                <field name="hosted"/>
                 <field name="code"/>
             </tree>
         </field>

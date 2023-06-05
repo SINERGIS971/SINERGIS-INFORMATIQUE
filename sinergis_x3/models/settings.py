@@ -30,9 +30,9 @@ class SinergisX3SettingsSinergisSubProduct(models.Model):
 class SinergisX3SettingsHostable(models.Model):
     _name = "sinergis_x3.settings.hostable"
     _description = "Codes hébergement"
-    _rec_name = 'is_hostable'
+    _rec_name = 'is_hosted'
 
-    is_hostable = fields.Boolean(string="Est hébergé ?",default=False)
+    hosted = fields.Boolean(string="Est hébergé ?",default=False)
     code = fields.Char(string="Code", required=True)
 
 class SinergisX3SettingsUom(models.Model):
