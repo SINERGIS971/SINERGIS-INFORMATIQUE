@@ -6,6 +6,8 @@
     <!-- Menu parent pour assigner les sous-menus -->
     <menuitem id="sinergis_x3_settings_menu" name="Connecteur Odoo - X3" parent="base.menu_custom"/>
 
+    <!-- TRANSCODAGE ARTICLES -->
+
     <record id="sinergis_x3_settings_product_template_view_tree" model="ir.ui.view">
         <field name="name">sinergis_x3.settings.product.template.view.tree</field>
         <field name="model">sinergis_x3.settings.product.template</field>
@@ -23,9 +25,153 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="sinergis_x3_settings_menu"
+    <menuitem id="sinergis_x3_settings_product_template_menu"
         action="sinergis_x3_settings_product_template_action"
-        parent="sinergis_x3.menu_automation"
+        parent="sinergis_x3.sinergis_x3_settings_menu"
         sequence="1"/>
+
+    <!-- TRANSCODAGE PRODUITS -->
+
+    <record id="sinergis_x3_settings_sinergis_product_view_tree" model="ir.ui.view">
+        <field name="name">sinergis_x3.settings.sinergis_product.view.tree</field>
+        <field name="model">sinergis_x3.settings.sinergis_product</field>
+        <field name="arch" type="xml">
+            <tree string="Transcodage produits Sinergis">
+                <field name="sinergis_product_id"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_x3_settings_sinergis_product_action" model="ir.actions.act_window">
+        <field name="name">Transcodage des produits Sinergis</field>
+        <field name="res_model">sinergis_x3.settings.sinergis_product</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sinergis_x3_settings_sinergis_product_menu"
+        action="sinergis_x3_settings_sinergis_product_action"
+        parent="sinergis_x3.sinergis_x3_settings_menu"
+        sequence="2"/>
+
+    <!-- TRANSCODAGE SOUS-PRODUITS -->
+
+    <record id="sinergis_x3_settings_sinergis_subproduct_view_tree" model="ir.ui.view">
+        <field name="name">sinergis_x3.settings.sinergis_subproduct.view.tree</field>
+        <field name="model">sinergis_x3.settings.sinergis_subproduct</field>
+        <field name="arch" type="xml">
+            <tree string="Transcodage sous-produits Sinergis">
+                <field name="sinergis_subproduct_id"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_x3_settings_sinergis_subproduct_action" model="ir.actions.act_window">
+        <field name="name">Transcodage des sous-produits Sinergis</field>
+        <field name="res_model">sinergis_x3.settings.sinergis_subproduct</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sinergis_x3_settings_sinergis_subproduct_menu"
+        action="sinergis_x3_settings_sinergis_subproduct_action"
+        parent="sinergis_x3.sinergis_x3_settings_menu"
+        sequence="3"/>
+
+    <!-- TRANSCODAGE DE L'HEBERGEMENT -->
+
+    <record id="sinergis_x3_settings_hostable_view_tree" model="ir.ui.view">
+        <field name="name">sinergis_x3.settings.hostable.view.tree</field>
+        <field name="model">sinergis_x3.settings.hostable</field>
+        <field name="arch" type="xml">
+            <tree string="Transcodage codes hébergement">
+                <field name="is_hostable"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_x3_settings_hostable_action" model="ir.actions.act_window">
+        <field name="name">Transcodage codes hébergement</field>
+        <field name="res_model">sinergis_x3.settings.hostable</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sinergis_x3_settings_hostable_menu"
+        action="sinergis_x3_settings_hostable_action"
+        parent="sinergis_x3.sinergis_x3_settings_menu"
+        sequence="4"/>
+
+    <!-- TRANSCODAGE DES UNITES -->
+
+    <record id="sinergis_x3_settings_uom_view_tree" model="ir.ui.view">
+        <field name="name">sinergis_x3.settings.uom.view.tree</field>
+        <field name="model">sinergis_x3.settings.uom</field>
+        <field name="arch" type="xml">
+            <tree string="Transcodage unités">
+                <field name="uom_id"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_x3_settings_uom_action" model="ir.actions.act_window">
+        <field name="name">Transcodage codes hébergement</field>
+        <field name="res_model">sinergis_x3.settings.uom</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sinergis_x3_settings_uom_menu"
+        action="sinergis_x3_settings_uom_action"
+        parent="sinergis_x3.sinergis_x3_settings_menu"
+        sequence="5"/>
+
+    <!-- TRANSCODAGE DES COMMERCIAUX -->
+
+    <record id="sinergis_x3_settings_commercial_view_tree" model="ir.ui.view">
+        <field name="name">sinergis_x3.settings.commercial.view.tree</field>
+        <field name="model">sinergis_x3.settings.commercial</field>
+        <field name="arch" type="xml">
+            <tree string="Transcodage commerciaux">
+                <field name="user_id"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_x3_settings_commercial_action" model="ir.actions.act_window">
+        <field name="name">Transcodage commerciaux</field>
+        <field name="res_model">sinergis_x3.settings.commercial</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sinergis_x3_settings_commercial_menu"
+        action="sinergis_x3_settings_commercial_action"
+        parent="sinergis_x3.sinergis_x3_settings_menu"
+        sequence="6"/>
+
+    <!-- TRANSCODAGE DES AGENCES -->
+
+    <record id="sinergis_x3_settings_company_view_tree" model="ir.ui.view">
+        <field name="name">sinergis_x3.settings.company.view.tree</field>
+        <field name="model">sinergis_x3.settings.company</field>
+        <field name="arch" type="xml">
+            <tree string="Transcodage agences">
+                <field name="user_id"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_x3_settings_company_action" model="ir.actions.act_window">
+        <field name="name">Transcodage agences</field>
+        <field name="res_model">sinergis_x3.settings.company</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sinergis_x3_settings_company_menu"
+        action="sinergis_x3_settings_company_action"
+        parent="sinergis_x3.sinergis_x3_settings_menu"
+        sequence="7"/>
 
 </odoo>
