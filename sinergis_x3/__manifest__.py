@@ -23,6 +23,7 @@
         'security/security.xml',
         'security/ir.model.access.csv',
         'views/product.xml',
+        'views/sale.xml',
         'views/settings.xml',
     ],
     'assets': {
