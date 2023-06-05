@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sinergis_x3_inherited_view_order_line_tree" model="ir.ui.view">
+            <field name="name">sinergis_x3.sale.order.line.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="after">
+                    <field name="is_hostable" invisible="1"/>
+                    <field name="hosted" attrs="{'invisible': [['is_hostable','=',False]]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                </xpath>
+            </field>
+    </record>
+
+</odoo>

@@ -32,7 +32,7 @@ class SinergisX3SettingsHostable(models.Model):
     _description = "Codes hébergement"
     _rec_name = 'is_hostable'
 
-    is_hostable = fields.Boolean(string="Est hébergeable ?",default=False)
+    is_hostable = fields.Boolean(string="Est hébergé ?",default=False)
     code = fields.Char(string="Code", required=True)
 
 class SinergisX3SettingsUom(models.Model):
