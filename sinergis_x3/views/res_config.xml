@@ -17,7 +17,7 @@
                                     <div class="content-group">
                                         <div class="row mt16">
                                             <label class="col-lg-3 o_light_label" string="URL X3 DE BASE" for="base_url_x3"/>
-                                            <field name="base_url_x3" class="oe_inline" style="width: 70% !important;" password="True"/>
+                                            <field name="base_url_x3" class="oe_inline" style="width: 70% !important;"/>
                                         </div>
                                         <div class="row mt16">
                                             <label class="col-lg-3 o_light_label" string="CHEMIN POST DES COMMANDES" for="path_x3_orders"/>
@@ -28,7 +28,7 @@
                                             <field name="path_x3_contracts" class="oe_inline" style="width: 70% !important;"/>
                                         </div>
                                         <div class="row mt16">
-                                            <button name="test_x3_connection" class="oe_highlight btn-info" type="object" string="TESTER LA CONNEXION" icon="fa-times-circle" />
+                                            <button name="test_x3_connection" class="oe_highlight btn-info" type="object" string="TESTER LA CONNEXION"/>
                                         </div>
                                     </div>
                                 </div>

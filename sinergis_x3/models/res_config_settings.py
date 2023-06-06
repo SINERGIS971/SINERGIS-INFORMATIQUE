@@ -22,8 +22,9 @@ class ResConfigSettings(models.TransientModel):
                               placeholder="/exemple/")
     
     def test_x3_connection (self):
-        code = requests.get(self.base_url_x3).status_code
-        if code == 200:
-            raise ValidationError("Connexion : SUCCES")
-        else :
-            raise ValidationError(f"Connexion : ECHEC | Code : {code}")
+        if self.base_url_x3:
+            code = requests.get(self.base_url_x3).status_code
+            if code == 200:
+                raise ValidationError("Connexion : SUCCESS")
+            else :
+                raise ValidationError(f"Connexion : ECHEC | Code : {str(code)}")
