@@ -14,8 +14,11 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
-
     sinergis_x3_transfered = fields.Boolean(default=False) # Permet de savoir si le devis a déjà été transféré vers X3
+    sinergis_x3_log = fields.One2many(
+        "sale.order.odoo_x3_log", "sale_id", string="Odoo-X3 log", readonly=True
+    )
+
 
     #Bouton qui informe que la commande est bien synchronisée su Odoo
     def sinegis_x3_header_connected (self):
@@ -112,3 +115,12 @@ class SaleOrder(models.Model):
             if values["state"] == "sale":
                 self.send_order_to_x3()
         return sale_order
+    
+class SaleOrderOdooX3Log (models.Model):
+    _name = "sale.order.odoo_x3_log"
+    _description = "Informations sur la synchronisation Odoo-X3 du bon de commande"
+    
+    date = fields.Datetime("Date", default=lambda self: datetime.now().strftime("%Y-%m-%d %H:%M:%S"), readonly=True)
+    sale_id = fields.Many2one("sale.order",string="Vente",required=True)
+    name = fields.Text(string="Information",required=True)
+    type = fields.Selection([('success', 'success'),('danger', 'danger')], string="Type")

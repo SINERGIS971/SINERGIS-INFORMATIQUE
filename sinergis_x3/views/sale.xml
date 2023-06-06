@@ -21,12 +21,22 @@
                 </button>
 
                 <button name="sinegis_x3_header_disconnected" type="object" class="oe_stat_button" icon="fa-times icon" style="color:red;"
-                    attrs="{'invisible': ['|',['sinergis_x3_transfered','=',True],['state','|','sale']]}">
+                    attrs="{'invisible': ['|',['sinergis_x3_transfered','=',True],['state','!=','sale']]}">
                         <div class="o_field_widget o_stat_info">
                             <span class="o_stat_text">Odoo - X3:</span>
                             <span class="o_stat_text">Non transféré</span>
                         </div>
                 </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Odoo - X3" name="sinergis_x3_page">
+                    <field name="sinergis_x3_log">
+                        <tree decoration-success="type=='success'" decoration-danger="type=='danger'">
+                            <field name="date"/>
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
             </xpath>
         </field>
     </record>
