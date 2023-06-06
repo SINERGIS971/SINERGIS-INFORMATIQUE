@@ -21,6 +21,12 @@ class ResConfigSettings(models.TransientModel):
                               config_parameter='sinergis_x3.path_x3_contracts',
                               placeholder="/exemple/")
     
+    user_x3 = fields.Char(string="Nom d'utilisateur",
+                              config_parameter='sinergis_x3.user_x3')
+    
+    password_x3 = fields.Char(string="Mot de passe",
+                              config_parameter='sinergis_x3.password_x3')
+    
     def test_x3_connection (self):
         if self.base_url_x3:
             code = requests.get(self.base_url_x3).status_code

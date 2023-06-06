@@ -12,7 +12,7 @@
                             <div class="col-12 col-lg-12 o_setting_box" id="sinergis_x3_text_block">
                                 <div class="o_setting_right_pane">
                                     <div class="text-muted">
-                                        Paramètres
+                                        Paramètres du serveur X3
                                     </div>
                                     <div class="content-group">
                                         <div class="row mt16">
@@ -29,6 +29,21 @@
                                         </div>
                                         <div class="row mt16">
                                             <button name="test_x3_connection" class="oe_highlight btn-info" type="object" string="TESTER LA CONNEXION"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        Paramètres de connexion
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="Nom d'utilisateur" for="user_x3"/>
+                                            <field name="user_x3" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="Mot de passe" for="password_x3"/>
+                                            <field name="password_x3" class="oe_inline" style="width: 70% !important;"/>
                                         </div>
                                     </div>
                                 </div>

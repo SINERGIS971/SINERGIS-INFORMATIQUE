@@ -28,6 +28,14 @@ class SaleOrder(models.Model):
         return True
 
     def send_order_to_x3(self):
+
+        if self.sinergis_x3_transfered:
+            self.env["sale.order.odoo_x3_log"].create({
+            "sale_id" : self.id,
+            "name" : "Le devis est passé en bon de commande mais un transfert avait déjà été effectué sur celui-ci.",
+            "type" : "warning"
+        })
+
         missing_data = []
 
         sale_location = self.env["sinergis_x3.settings.company"].search([("company_id","=",self.company_id.id)], limit=1).code
@@ -63,7 +71,7 @@ class SaleOrder(models.Model):
             if not uom:
                 missing_data.append(f"Transcodage de l'unité de temps ({line.product_uom.name})")
             
-            product_format = self.env["sinergis_x3.settings.product.template"].search([("id","=",line.product_id.id)], limit=1).format
+            product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).format
             if product_format :
                 product_format = product_format.replace("{product}", sinergis_product)
                 # Load the subproduct
@@ -137,4 +145,4 @@ class SaleOrderOdooX3Log (models.Model):
     date = fields.Datetime("Date", default=lambda self: datetime.now().strftime("%Y-%m-%d %H:%M:%S"), readonly=True)
     sale_id = fields.Many2one("sale.order",string="Vente",required=True)
     name = fields.Text(string="Information",required=True)
-    type = fields.Selection([('success', 'success'),('danger', 'danger')], string="Type")
+    type = fields.Selection([('success', 'success'),('danger', 'danger'),('warning', 'warning')], string="Type")

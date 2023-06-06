@@ -33,7 +33,7 @@
                     <p style="font-size: 10px;">Guide : Pour renseigner le format, vous disposez des variables suivantes :
                     <br/>- {product} : Code produit Sinergis
                     <br/>- {subproduct} : Code sous-produit Sinergis
-                    <br/>- {hostable} : Code hébergé ou On Premise
+                    <br/>- {hosted} : Code hébergé ou On Premise
                     <br/>- {uom} : Code de l'unité de mesure</p>
                 </sheet>
             </form>
