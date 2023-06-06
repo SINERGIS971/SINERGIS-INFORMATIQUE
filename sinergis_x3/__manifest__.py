@@ -25,6 +25,7 @@
         'views/product.xml',
         'views/sale.xml',
         'views/settings.xml',
+        'views/res_config.xml',
     ],
     'assets': {
         'web.assets_backend': [

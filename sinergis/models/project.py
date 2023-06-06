@@ -272,6 +272,6 @@ class ProjectProject(models.Model):
                 if sale_order_id.partner_id:
                     vals["partner_id"] = sale_order_id.partner_id.id
                 if "name" in vals:
-                    vals["name"] = f"{vals['name']} - {sale_order_id.x_sinergis_sale_order_object}"
+                    vals["name"] = f"{vals['name']} - {sale_order_id.x_sinergis_sale_order_objet}"
         projects = super(ProjectProject, self).create(list_value)
         return projects

@@ -15,7 +15,6 @@ class SaleOrder(models.Model):
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
 
     def send_order_to_x3(self):
-
         sale_location = self.env["sinergis_x3.settings.company"].search([("company_id","=",self.company_id.id)], limit=1).code
         if not sale_location :
             print("LOCATION")
@@ -34,7 +33,9 @@ class SaleOrder(models.Model):
             sinergis_subproduct = self.env["sinergis_x3.settings.sinergis_subproduct"].search([("sinergis_subproduct_id","=",line.x_sinergis_sale_order_line_subproduct_id.id)], limit=1).code
             hosted = self.env["sinergis_x3.settings.hostable"].search([("hosted","=",line.hosted)], limit=1).code
             uom = self.env["sinergis_x3.settings.uom"].search([("uom_id","=",line.product_uom.id)], limit=1).code
-        data = {"sale_location" : sale_location}
+        data = {"SALFCY" : sale_location,
+                "Type" : "NEW",
+                ""}
         requests.post('https://eow1b86drs2nu4d.m.pipedream.net/', json=data)
 
     @api.depends("hostable_in_order_line", "order_line")
@@ -47,7 +48,9 @@ class SaleOrder(models.Model):
             rec.hostable_in_order_line = hostable_in_order_line
 
     # Envoyer la commande vers X3 lors de la confirmation du devis
-    @api.multi
     def write(self, values):
-        self.send_order_to_x3()
-        return super(SaleOrderLine, self).write(values)
+        sale_order = super(SaleOrder, self).write(values)
+        if "state" in values :
+            if values["state"] == "sale":
+                self.send_order_to_x3()
+        return sale_order

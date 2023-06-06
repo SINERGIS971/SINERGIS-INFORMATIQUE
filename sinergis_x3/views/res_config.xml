@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="sinergis_x3_res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">sinergis_x3.res.config.settings.view.form.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Sinergis X3" string="Sinergis X3" data-key="sinergis_x3">
+                        <h2>Paramètres Connecteur Odoo - X3</h2>
+                        <div class="row mt16 o_settings_container" id="sinergis_x3_setting_container">
+                            <div class="col-12 col-lg-12 o_setting_box" id="sinergis_x3_text_block">
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        Paramètres
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="URL X3 DE BASE" for="base_url_x3"/>
+                                            <field name="base_url_x3" class="oe_inline" style="width: 70% !important;" password="True"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="CHEMIN POST DES COMMANDES" for="path_x3_orders"/>
+                                            <field name="path_x3_orders" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="CHEMIN GET DES CONTRATS ANNUELS" for="path_x3_contracts"/>
+                                            <field name="path_x3_contracts" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <button name="test_x3_connection" class="oe_highlight btn-info" type="object" string="TESTER LA CONNEXION" icon="fa-times-circle" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- MENU ITEMS -->
+        <menuitem id="sinergis_x3_root"
+              name="Connecteur Odoo X3"
+              sequence="10"/>
+</odoo>
