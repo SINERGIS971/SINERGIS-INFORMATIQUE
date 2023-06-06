@@ -28,20 +28,19 @@ class SaleOrder(models.Model):
         return True
 
     def send_order_to_x3(self):
+        missing_data = []
+
         sale_location = self.env["sinergis_x3.settings.company"].search([("company_id","=",self.company_id.id)], limit=1).code
-        if not sale_location :
-            print("LOCATION")
-            return
         sinergis_product = self.env["sinergis_x3.settings.sinergis_product"].search([("sinergis_product_id","=",self.x_sinergis_sale_order_product_new.id)], limit=1).code
-        #if not sinergis_product :
-        #    return
         commercial = self.env["sinergis_x3.settings.commercial"].search([("user_id","=",self.user_id.id)], limit=1).code
+        if not sale_location :
+            missing_data.append(f"Transcodage de l'agence Sinergis ({self.company_id.name})")
         if not commercial :
-            print("COMMERCIAL")
-            return
+            missing_data.append(f"Transcodage du commercial ({self.user_id.name})")
         if not sinergis_product :
-            print("PRODUCT")
-            return
+            missing_data.append(f"Transcodage du produit Sinergis ({self.x_sinergis_sale_order_product_new.name})")
+        if not self.partner_id.x_sinergis_societe_ancien_code_x3:
+            missing_data.append(f"Code X3 du client ({self.partner_id.name})")
         
         data = {"SALFCY" : sale_location,
                 "SOHTYP" : "NEW",
@@ -60,11 +59,9 @@ class SaleOrder(models.Model):
             hosted = self.env["sinergis_x3.settings.hostable"].search([("hosted","=",line.hosted)], limit=1).code
             uom = self.env["sinergis_x3.settings.uom"].search([("uom_id","=",line.product_uom.id)], limit=1).code
             if not hosted:
-                print("HOSTED")
-                return
+                missing_data.append(f"Transcodage de l'état Hébergé")
             if not uom:
-                print("UOM")
-                return
+                missing_data.append(f"Transcodage de l'unité de temps ({line.product_uom.name})")
             
             product_format = self.env["sinergis_x3.settings.product.template"].search([("id","=",line.product_id.id)], limit=1).format
             if product_format :
@@ -77,18 +74,28 @@ class SaleOrder(models.Model):
                 product_format = product_format.replace("{hosted}", hosted)
                 # Load the UoM code
                 product_format = product_format.replace("{uom}", uom)
+                # Creating the line data
+                data_line={
+                    "ARTICLE" : product_format,
+                    "ITMDES" : line.name,
+                    "SAU" : uom,
+                    "GROPRI" : line.price_subtotal,
+                    "DISCRGVAL1" : line.discount,
+                    "CPRPRI" : line.margin,
+                }
+                data_lines.append(data_line)
+            else:
+                missing_data.append(f"Pas de format pour l'article ({line.product_id.name})")
 
-            # Creating the line data
-            data_line={
-                "ARTICLE" : product_format,
-                "ITMDES" : line.name,
-                "SAU" : uom,
-                "GROPRI" : line.price_subtotal,
-                "DISCRGVAL1" : line.discount,
-                "CPRPRI" : line.margin,
-            }
-            data_lines.append(data_line)
-        
+        if len(missing_data) > 0:
+            self.env["sale.order.odoo_x3_log"].create({
+                "sale_id" : self.id,
+                "name" : f"Echec du transfert ! Éléments manquants : {','.join(missing_data)} ",
+                "type" : "danger"
+            })
+            return True
+
+
         data["lines"] = data_lines
 
         #Connection to X3
@@ -98,6 +105,13 @@ class SaleOrder(models.Model):
 
         # On marque le devis comme transféré
         self.sinergis_x3_transfered = True
+        
+        # On ajoute dans le log l'information de synchronisation
+        self.env["sale.order.odoo_x3_log"].create({
+            "sale_id" : self.id,
+            "name" : "Transféré avec succès vers X3",
+            "type" : "success"
+        })
 
     @api.depends("hostable_in_order_line", "order_line")
     def _compute_hostable_in_order_line(self):
