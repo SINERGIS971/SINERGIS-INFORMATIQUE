@@ -15,8 +15,13 @@ class SaleOrder(models.Model):
 
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
 
+    sinergis_x3_transfered = fields.Boolean(default=False) # Permet de savoir si le devis a déjà été transféré vers X3
+
     #Bouton qui informe que la commande est bien synchronisée su Odoo
     def sinegis_x3_header_connected (self):
+        return True
+
+    def sinegis_x3_header_disconnected(self):
         return True
 
     def send_order_to_x3(self):
@@ -87,6 +92,9 @@ class SaleOrder(models.Model):
         base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
         path_x3_orders = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
         requests.post(base_url+path_x3_orders, json=data)
+
+        # On marque le devis comme transféré
+        self.sinergis_x3_transfered = True
 
     @api.depends("hostable_in_order_line", "order_line")
     def _compute_hostable_in_order_line(self):

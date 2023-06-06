@@ -9,12 +9,22 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="after">
                 <field name="hostable_in_order_line" invisible="True"/>
+                <field name="sinergis_x3_transfered" invisible="True"/>
             </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="sinegis_x3_header_connected" type="object" class="oe_stat_button" icon="fa-check icon">
+                <button name="sinegis_x3_header_connected" type="object" class="oe_stat_button" icon="fa-check icon" style="color:green;"
+                    attrs="{'invisible': [['sinergis_x3_transfered','=',False]]}">
                         <div class="o_field_widget o_stat_info">
-                            <span class="o_stat_text">Connecteur X3 :</span>
-                            <span class="o_stat_text">Synchonisé</span>
+                            <span class="o_stat_text">Odoo - X3:</span>
+                            <span class="o_stat_text">Transféré</span>
+                        </div>
+                </button>
+
+                <button name="sinegis_x3_header_disconnected" type="object" class="oe_stat_button" icon="fa-times icon" style="color:red;"
+                    attrs="{'invisible': ['|',['sinergis_x3_transfered','=',True],['state','|','sale']]}">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">Odoo - X3:</span>
+                            <span class="o_stat_text">Non transféré</span>
                         </div>
                 </button>
             </xpath>
