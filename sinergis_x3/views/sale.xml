@@ -32,6 +32,7 @@
                 <page string="Odoo - X3" name="sinergis_x3_page">
                     <field name="sinergis_x3_log">
                         <tree decoration-success="type=='success'" decoration-danger="type=='danger'">
+                            <field name="type" invisible="1"/>
                             <field name="date"/>
                             <field name="name"/>
                         </tree>
