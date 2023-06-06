@@ -15,6 +15,10 @@ class SaleOrder(models.Model):
 
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
 
+    #Bouton qui informe que la commande est bien synchronisée su Odoo
+    def sinegis_x3_header_connected (self):
+        return True
+
     def send_order_to_x3(self):
         sale_location = self.env["sinergis_x3.settings.company"].search([("company_id","=",self.company_id.id)], limit=1).code
         if not sale_location :
@@ -56,15 +60,15 @@ class SaleOrder(models.Model):
             
             product_format = self.env["sinergis_x3.settings.product.template"].search([("id","=",line.product_id.id)], limit=1).format
             if product_format :
-                product_format.replace("{product}", sinergis_product)
+                product_format = product_format.replace("{product}", sinergis_product)
                 # Load the subproduct
                 if "{subproduct}" in product_format:
                     if sinergis_subproduct:
-                        product_format.replace("{subproduct}", sinergis_subproduct)
+                        product_format = product_format.replace("{subproduct}", sinergis_subproduct)
                 # Load the hosted code
-                product_format.replace("{hosted}", hosted)
+                product_format = product_format.replace("{hosted}", hosted)
                 # Load the UoM code
-                product_format.replace("{uom}", uom)
+                product_format = product_format.replace("{uom}", uom)
 
             # Creating the line data
             data_line={
