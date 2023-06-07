@@ -43,6 +43,7 @@ def order_to_soap(data_in,pool_alias,public_name,code_lang="FRA"):
             <FLD NAME="SALFCY" TYPE="Char">{data_in["SALFCY"]}</FLD>
             <FLD NAME="SOHTYP" TYPE="Char">{data_in["SOHTYP"]}</FLD>
             <FLD NAME="CUSORDREF" TYPE="Char">{data_in["CUSORDREF "]}</FLD>
+            <FLD NAME="REP" TYPE="Char">{data_in["REP"]}</FLD>
             <FLD NAME="X_DEVODOO" TYPE="Char">{data_in["X_DEVODOO"]}</FLD>
             <FLD NAME="ORDDAT" TYPE="Date">{data_in["ORDDAT"]}</FLD>
             <FLD NAME="BPCORD" TYPE="Char">{data_in["BPCORD"]}</FLD>

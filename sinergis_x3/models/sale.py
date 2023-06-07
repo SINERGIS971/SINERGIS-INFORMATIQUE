@@ -90,10 +90,10 @@ class SaleOrder(models.Model):
                 # Creating the line data
                 data_line={
                     "ITMREF" : product_format,
-                    "ITMDES" : line.name,
+                    "ITMDES" : line.product_id.name,
                     "QTY" : str(line.product_uom_qty),
                     #"SAU" : uom,
-                    "GROPRI" : str(line.price_subtotal),
+                    "GROPRI" : str(line.price_unit),
                     "DISCRGVAL1" : str(line.discount),
                     "CPRPRI" : str(line.purchase_price),
                 }
@@ -117,14 +117,21 @@ class SaleOrder(models.Model):
         pool_alias = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.pool_alias')
         public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name')
         authentication_token = b64encode(f"{user_x3}:{password_x3}".encode('utf-8')).decode("ascii")
-        headers = {'content-type': 'text/xml', 'Authorization': f'Basic {authentication_token}'}
+        headers = {'content-type': 'text/xml;charset=UTF-8',
+                   'Authorization': f'Basic {authentication_token}',
+                   'soapaction': "\"\""}
         data_soap = order_to_soap(data, pool_alias=pool_alias, public_name=public_name)
+        self.env["sale.order.odoo_x3_log"].create({
+            "sale_id" : self.id,
+            "name" : f"DEBUG : {data_soap}",
+            "type" : "warning"
+            })
         #Connection to X3
         base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
         path_x3_orders = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
         response = requests.post(base_url+path_x3_orders, data=data_soap, headers=headers).content
-        response_dict = xmltodict.parse(response)
         try:
+            response_dict = xmltodict.parse(response)
             status = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["status"]["#text"]
         except:
             self.env["sale.order.odoo_x3_log"].create({
@@ -175,6 +182,6 @@ class SaleOrderOdooX3Log (models.Model):
     _description = "Informations sur la synchronisation Odoo-X3 du bon de commande"
     
     date = fields.Datetime("Date", default=lambda self: datetime.now().strftime("%Y-%m-%d %H:%M:%S"), readonly=True)
-    sale_id = fields.Many2one("sale.order",string="Vente",required=True)
+    sale_id = fields.Many2one("sale.order",string="Vente",required=True,ondelete="cascade")
     name = fields.Text(string="Information",required=True)
     type = fields.Selection([('success', 'success'),('danger', 'danger'),('warning', 'warning')], string="Type")
