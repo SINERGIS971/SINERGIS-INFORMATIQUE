@@ -49,6 +49,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br/>
+                                <br/>
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        Paramètres web service
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="Pool alias" for="pool_alias"/>
+                                            <field name="pool_alias" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="Nom du web service" for="public_name"/>
+                                            <field name="public_name" class="oe_inline" style="width: 70% !important;" password="True"/>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -6,6 +6,7 @@ from datetime import datetime
 from odoo.addons.sinergis_x3.utils.soap import order_to_soap
 
 import requests
+import xmltodict
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
@@ -113,14 +114,35 @@ class SaleOrder(models.Model):
         # Obtention de la requete SOAP
         user_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_x3')
         password_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_x3')
+        pool_alias = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.pool_alias')
+        public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name')
         authentication_token = b64encode(f"{user_x3}:{password_x3}".encode('utf-8')).decode("ascii")
         headers = {'content-type': 'text/xml', 'Authorization': f'Basic {authentication_token}'}
-        data_soap = order_to_soap(data, pool_alias="ODOO", public_name="COMMANDES")
+        data_soap = order_to_soap(data, pool_alias=pool_alias, public_name=public_name)
         #Connection to X3
         base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
         path_x3_orders = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
-        requests.post(base_url+path_x3_orders, data=data_soap, headers=headers)
+        response = requests.post(base_url+path_x3_orders, data=data_soap, headers=headers).content
+        response_dict = xmltodict.parse(response)
+        try:
+            status = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["status"]["#text"]
+        except:
+            self.env["sale.order.odoo_x3_log"].create({
+            "sale_id" : self.id,
+            "name" : f"La réponse obtenue par le serveur n'est pas correcte. Réponse : {response}",
+            "type" : "danger"
+            })
+            return True
         
+        # S'il y a une erreur dans la requête
+        if status != "1":
+            self.env["sale.order.odoo_x3_log"].create({
+            "sale_id" : self.id,
+            "name" : f"Erreur rencontrée sur X3! Réponse : {response}",
+            "type" : "danger"
+            })
+            return True
+
         # On marque le devis comme transféré
         self.sinergis_x3_transfered = True
         

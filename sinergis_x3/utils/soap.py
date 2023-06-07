@@ -9,7 +9,7 @@
 def order_to_soap(data_in,pool_alias,public_name,code_lang="FRA"):
     i = 1 # Numéro de la ligne en cours d'écriture
     data_lines = []
-    for line in data["lines"]:
+    for line in data_in["lines"]:
         data_lines.append(
             f"""
             <LIN NUM="{str(i)}">
