@@ -59,4 +59,3 @@ def order_to_soap(data_in,pool_alias,public_name,code_lang="FRA"):
     </soapenv:Envelope>
     """
     return data
-
