@@ -1,6 +1,9 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from base64 import b64encode
 from datetime import datetime
+
+from odoo.addons.sinergis_x3.utils.soap import order_to_soap
 
 import requests
 
@@ -34,7 +37,8 @@ class SaleOrder(models.Model):
             "sale_id" : self.id,
             "name" : "Le devis est passé en bon de commande mais un transfert avait déjà été effectué sur celui-ci.",
             "type" : "warning"
-        })
+            })
+            return True
 
         missing_data = []
 
@@ -54,7 +58,7 @@ class SaleOrder(models.Model):
                 "SOHTYP" : "NEW",
                 "CUSORDREF " : self.x_sinergis_sale_order_objet,
                 "X_DEVODOO" : self.name,
-                "ORDDAT" : datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "ORDDAT" : datetime.now().strftime("%Y%m%d"),
                 "BPCORD" : self.partner_id.x_sinergis_societe_ancien_code_x3,
                 "REP" : commercial,
                 "REP(1)" : False,
@@ -84,12 +88,13 @@ class SaleOrder(models.Model):
                 product_format = product_format.replace("{uom}", uom)
                 # Creating the line data
                 data_line={
-                    "ARTICLE" : product_format,
+                    "ITMREF" : product_format,
                     "ITMDES" : line.name,
-                    "SAU" : uom,
-                    "GROPRI" : line.price_subtotal,
-                    "DISCRGVAL1" : line.discount,
-                    "CPRPRI" : line.margin,
+                    "QTY" : str(line.product_uom_qty),
+                    #"SAU" : uom,
+                    "GROPRI" : str(line.price_subtotal),
+                    "DISCRGVAL1" : str(line.discount),
+                    "CPRPRI" : str(line.purchase_price),
                 }
                 data_lines.append(data_line)
             else:
@@ -105,12 +110,17 @@ class SaleOrder(models.Model):
 
 
         data["lines"] = data_lines
-
+        # Obtention de la requete SOAP
+        user_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_x3')
+        password_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_x3')
+        authentication_token = b64encode(f"{user_x3}:{password_x3}".encode('utf-8')).decode("ascii")
+        headers = {'content-type': 'text/xml', 'Authorization': f'Basic {authentication_token}'}
+        data_soap = order_to_soap(data, pool_alias="ODOO", public_name="COMMANDES")
         #Connection to X3
         base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
         path_x3_orders = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
-        requests.post(base_url+path_x3_orders, json=data)
-
+        requests.post(base_url+path_x3_orders, data=data_soap, headers=headers)
+        
         # On marque le devis comme transféré
         self.sinergis_x3_transfered = True
         

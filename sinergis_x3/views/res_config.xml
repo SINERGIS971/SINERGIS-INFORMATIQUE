@@ -32,6 +32,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br/>
+                                <br/>
                                 <div class="o_setting_right_pane">
                                     <div class="text-muted">
                                         Paramètres de connexion
@@ -43,7 +45,7 @@
                                         </div>
                                         <div class="row mt16">
                                             <label class="col-lg-3 o_light_label" string="Mot de passe" for="password_x3"/>
-                                            <field name="password_x3" class="oe_inline" style="width: 70% !important;"/>
+                                            <field name="password_x3" class="oe_inline" style="width: 70% !important;" password="True"/>
                                         </div>
                                     </div>
                                 </div>
