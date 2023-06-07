@@ -152,14 +152,21 @@ class SaleOrder(models.Model):
             return True
         
         # On récupère le code X3 de la commande crée
-        result_xml = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["resultXml"]
-        result_xml = result_xml[9:-3]
-        result_dict = xmltodict.parse(result_xml)
-        sinergis_x3_id = False
-        for fld in result_dict["RESULT"]["GRP"][0]:
-            if fld["@NAME"] == "SOHTYPE":
-               sinergis_x3_id = fld["#text"]
-        self.sinergis_x3_id = sinergis_x3_id
+        try:
+            result_xml = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["resultXml"]["#text"]
+            result_xml = result_xml.replace("""'<?xml version="1.0" encoding="UTF-8"?>""","")
+            result_dict = xmltodict.parse(result_xml)
+            sinergis_x3_id = False
+            for fld in result_dict["RESULT"]["GRP"][0]["FLD"]:
+                if fld["@NAME"] == "SOHNUM":
+                   sinergis_x3_id = fld["#text"]
+            self.sinergis_x3_id = sinergis_x3_id
+        except:
+            self.env["sale.order.odoo_x3_log"].create({
+                "sale_id" : self.id,
+                "name" : f"Récupération du SOHNUM de la nouvelle commande impossible",
+                "type" : "warning"
+            })
 
         # On marque le devis comme transféré
         self.sinergis_x3_transfered = True
