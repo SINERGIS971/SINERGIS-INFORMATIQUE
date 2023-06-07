@@ -17,7 +17,7 @@ class SinergisX3SettingsSinergisProduct(models.Model):
     _rec_name = 'sinergis_product_id'
 
     sinergis_product_id = fields.Many2one("sale.products", string="Produit Sinergis", required=True)
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(string="Code X3", required=True)
 
 class SinergisX3SettingsSinergisSubProduct(models.Model):
     _name = "sinergis_x3.settings.sinergis_subproduct"
@@ -25,7 +25,7 @@ class SinergisX3SettingsSinergisSubProduct(models.Model):
     _rec_name = 'sinergis_subproduct_id'
 
     sinergis_subproduct_id = fields.Many2one("sale.products.subproducts", string="Sous-produit Sinergis", required=True)
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(string="Code X3", required=True)
 
 class SinergisX3SettingsHostable(models.Model):
     _name = "sinergis_x3.settings.hostable"
@@ -33,7 +33,7 @@ class SinergisX3SettingsHostable(models.Model):
     _rec_name = 'hosted'
 
     hosted = fields.Boolean(string="Est hébergé ?",default=False)
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(string="Code X3", required=True)
 
 class SinergisX3SettingsUom(models.Model):
     _name = "sinergis_x3.settings.uom"
@@ -41,7 +41,7 @@ class SinergisX3SettingsUom(models.Model):
     _rec_name = 'uom_id'
 
     uom_id = fields.Many2one("uom.uom", string="Unité", required=True)
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(string="Code X3", required=True)
 
 class SinergisX3SettingsCommercial(models.Model):
     _name = "sinergis_x3.settings.commercial"
@@ -49,7 +49,7 @@ class SinergisX3SettingsCommercial(models.Model):
     _rec_name = 'user_id'
 
     user_id = fields.Many2one("res.users", string="Commercial", required=True)
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(string="Code X3", required=True)
 
 class SinergisX3SettingsCompany(models.Model):
     _name = "sinergis_x3.settings.company"
@@ -57,5 +57,5 @@ class SinergisX3SettingsCompany(models.Model):
     _rec_name = 'company_id'
 
     company_id = fields.Many2one("res.company", string="Agence", required=True)
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(string="Code X3", required=True)
 

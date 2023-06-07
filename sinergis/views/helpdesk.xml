@@ -73,6 +73,7 @@
               
               <xpath expr="//filter[@name='creation_date']" position="replace">
                   <filter string="Date de tri" date="sort_date" name="sort_date"/>
+                  <filter string="Date de cloture" date="close_date" name="close_date"/>
               </xpath>
               
               <xpath expr="//filter[@name='created_by']" position="replace">
@@ -169,6 +170,7 @@
                      <p attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}" style="color:green;font-weight:bold;text-align:center;border: solid 2px green;font-size:16px;">Intervention à planifier</p>
                     <field name="create_date"/>
                     <field name="sort_date"/>
+                    <field name="close_date"/>
                 </xpath>
 
                 <xpath expr="//field[@name='priority']" position="after">

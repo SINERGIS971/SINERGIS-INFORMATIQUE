@@ -19,6 +19,7 @@ class SaleOrder(models.Model):
 
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
     sinergis_x3_transfered = fields.Boolean(default=False) # Permet de savoir si le devis a déjà été transféré vers X3
+    sinergis_x3_id = fields.Char(string="Numéro X3")
     sinergis_x3_log = fields.One2many(
         "sale.order.odoo_x3_log", "sale_id", string="Odoo-X3 log", readonly=True
     )
@@ -149,6 +150,16 @@ class SaleOrder(models.Model):
             "type" : "danger"
             })
             return True
+        
+        # On récupère le code X3 de la commande crée
+        result_xml = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["resultXml"]
+        result_xml = result_xml[9:-3]
+        result_dict = xmltodict.parse(result_xml)
+        sinergis_x3_id = False
+        for fld in result_dict["RESULT"]["GRP"][0]:
+            if fld["@NAME"] == "SOHTYPE":
+               sinergis_x3_id = fld["#text"]
+        self.sinergis_x3_id = sinergis_x3_id
 
         # On marque le devis comme transféré
         self.sinergis_x3_transfered = True
