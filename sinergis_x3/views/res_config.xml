@@ -16,6 +16,10 @@
                                     </div>
                                     <div class="content-group">
                                         <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="ACTIVER LA SYNCHRONISATION" for="enable"/>
+                                            <field name="enable" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                        <div class="row mt16">
                                             <label class="col-lg-3 o_light_label" string="URL X3 DE BASE" for="base_url_x3"/>
                                             <field name="base_url_x3" class="oe_inline" style="width: 70% !important;"/>
                                         </div>

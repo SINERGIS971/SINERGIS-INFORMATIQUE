@@ -33,6 +33,9 @@ class SaleOrder(models.Model):
         return True
 
     def send_order_to_x3(self):
+        enable = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.enable')
+        if not enable:
+            return True
 
         if self.sinergis_x3_transfered:
             self.env["sale.order.odoo_x3_log"].create({
@@ -53,7 +56,7 @@ class SaleOrder(models.Model):
             missing_data.append(f"Transcodage du commercial ({self.user_id.name})")
         if not sinergis_product :
             missing_data.append(f"Transcodage du produit Sinergis ({self.x_sinergis_sale_order_product_new.name})")
-        if not self.partner_id.x_sinergis_societe_ancien_code_x3:
+        if not self.partner_id.sinergis_x3_code:
             missing_data.append(f"Code X3 du client ({self.partner_id.name})")
         
         data = {"SALFCY" : sale_location,
@@ -61,7 +64,7 @@ class SaleOrder(models.Model):
                 "CUSORDREF " : self.x_sinergis_sale_order_objet,
                 "X_DEVODOO" : self.name,
                 "ORDDAT" : datetime.now().strftime("%Y%m%d"),
-                "BPCORD" : self.partner_id.x_sinergis_societe_ancien_code_x3,
+                "BPCORD" : self.partner_id.sinergis_x3_code,
                 "REP" : commercial,
                 "REP(1)" : False,
                 "DEMDLVDAT" : False}

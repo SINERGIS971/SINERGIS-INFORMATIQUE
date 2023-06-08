@@ -10,6 +10,10 @@ import requests
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
+    enable = fields.Boolean(string="Activer le module",
+                            config_parameter='sinergis_x3.base_url_x3',
+                            default=True)
+
     # CONFIGURATION URL
 
     base_url_x3 = fields.Char(string="URL X3 DE BASE",

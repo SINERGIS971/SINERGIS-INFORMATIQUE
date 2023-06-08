@@ -1,42 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <record id="sinergis_mailchimp_res_config_settings_view_form" model="ir.ui.view">
-            <field name="name">sinergis.mailchimp.res.config.settings.view.form.inherit</field>
-            <field name="model">res.config.settings</field>
-            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[hasclass('settings')]" position="inside">
-                    <div class="app_settings_block" data-string="Sinergis Mailchimp" string="Sinergis Mailchimp" data-key="sinergis_mailchimp">
-                        <h2>Paramètres Sinergis Mailchimp</h2>
-                        <div class="row mt16 o_settings_container" id="sinergis_mailchimp_setting_container">
-                            <div class="col-12 col-lg-12 o_setting_box" id="sinergis_mailchimp_text_block">
-                                <div class="o_setting_right_pane">
-                                    <div class="text-muted">
-                                        Paramètres
-                                    </div>
-                                    <div class="content-group">
-                                        <div class="row mt16">
-                                            <label class="col-lg-3 o_light_label" string="API KEY" for="api_key"/>
-                                            <field name="api_key" class="oe_inline" style="width: 70% !important;" password="True"/>
-                                        </div>
-                                        <div class="row mt16">
-                                            <label class="col-lg-3 o_light_label" string="AUDIENCE ID" for="list_id"/>
-                                            <field name="list_id" class="oe_inline" style="width: 70% !important;"/>
-                                        </div>
-                                        <div class="row mt16">
-                                            <button name="reset_mailchimp" class="oe_highlight btn-info" type="object" string="REMETTRE A ZERO LA SYNCHRONISATION MAILCHIMP" icon="fa-times-circle" confirm="Souhaitez-vous vraiment remettre à zero la synchronisation ? Les liens entre Mailchimp et Odoo seront supprimés. Aucune donnée ne sera affectée."/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </xpath>
-            </field>
-        </record>
 
-        <!-- MENU ITEMS -->
-        <menuitem id="sinergis_mailchimp_root"
-              name="Sinergis Mailchimp"
-              sequence="10"/>
+    <!-- Menu parent pour assigner les sous-menus -->
+    <menuitem id="sinergis_mailchimp_settings_menu" name="Connecteur Mailchimp" parent="base.menu_custom"/>
+
+    <!-- Tags -->
+
+    <record id="sinergis_mailchimp_settings_company_tag_view_tree" model="ir.ui.view">
+        <field name="name">sinergis_mailchimp.settings.company.tag.view.tree</field>
+        <field name="model">sinergis_mailchimp.settings.company.tag</field>
+        <field name="arch" type="xml">
+            <tree string="Tag des sociétés">
+                <field name="company_id"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_mailchimp_settings_company_tag_action" model="ir.actions.act_window">
+        <field name="name">Tag des sociétés</field>
+        <field name="res_model">sinergis_mailchimp.settings.company.tag</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sinergis_mailchimp_settings_company_tag_menu"
+        action="sinergis_mailchimp_settings_company_tag_action"
+        parent="sinergis_mailchimp.sinergis_mailchimp_settings_menu"
+        sequence="1"/>
+
 </odoo>

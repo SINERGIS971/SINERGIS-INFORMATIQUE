@@ -110,6 +110,14 @@ class ResPartner(models.Model):
                                         "LNAME": partner_lastname
                                     }
                                   }
+                    # Ajout du tag de la société
+                    partner_company_tag = self.env['sinergis_mailchimp.settings.company.tag'].search([("company_id","=",partner.company_id.id)])
+                    if partner_company_tag:
+                        member_info["tags"] = [{
+                                                    "name": partner_company_tag.name,
+                                                    "status": "active"
+                                                }]
+                    
                     members.append(member_info)
         
         print('New members count : ' + str(len(members)))
