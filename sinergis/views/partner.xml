@@ -284,7 +284,7 @@
                 <field name="vat"/>
                 <br/><br/><br/><br/><br/>
                 <field name="x_sinergis_societe_ancien_code_sap"/>
-                <field name="sinergis_x3_code"/>
+                <field name="x_sinergis_societe_ancien_code_x3"/>
                 <field name="x_sinergis_societe_code_client_sage"/>
                 <field name="x_sinergis_societe_compte_tiers"/>
                 <field name="write_date"/>
