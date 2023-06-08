@@ -26,6 +26,7 @@
         'views/sale.xml',
         'views/settings.xml',
         'views/res_config.xml',
+        'views/partner.xml',
     ],
     'assets': {
         'web.assets_backend': [
