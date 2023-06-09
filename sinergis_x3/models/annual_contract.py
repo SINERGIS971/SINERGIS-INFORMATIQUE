@@ -27,18 +27,18 @@ class SinergisAnnualContracts(models.Model):
     X_RENOUVELE = fields.Char(string="Renouvelé")
     STRDAT = fields.Date(string="Début de contrat")
     ENDDAT = fields.Date(string="Fin de contrat")
-    QTY = fields.Interger(string="Quantité")
+    QTY = fields.Integer(string="Quantité")
     SAU = fields.Char(string="Unité")
-    NETPRI = fields.Monetary(string="Prix net unitaire")
-    PFM = fields.Monetary(string="Marge unitaire")
+    NETPRI = fields.Float(string="Prix net unitaire")
+    PFM = fields.Float(string="Marge unitaire")
     X_RESILIE = fields.Char(string="Résilié")
     X_DATRESIL = fields.Date(string="Date résiliation")
     LASINVNUM = fields.Char(string="No de facture")
 
     #GACCDUDATE
-    AMTLOC = fields.Monetary(string="Montant échéance")
-    PAYLOC = fields.Monetary(string="Montant payé comptabilisé")
-    TMPLOC = fields.Monetary(string="Montant payé provisoire")
+    AMTLOC = fields.Float(string="Montant échéance")
+    PAYLOC = fields.Float(string="Montant payé comptabilisé")
+    TMPLOC = fields.Float(string="Montant payé provisoire")
 
 class ResPartner(models.Model):
     _inherit = "res.partner"

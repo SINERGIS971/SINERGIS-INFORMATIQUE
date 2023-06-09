@@ -14,3 +14,4 @@ access_sinergis_x3_commercial_user,sinergis_x3.settings.commercial,model_sinergi
 access_sinergis_x3_company_admin,sinergis_x3.settings.company,model_sinergis_x3_settings_company,base.group_system,1,1,1,1
 access_sinergis_x3_company_user,sinergis_x3.settings.company,model_sinergis_x3_settings_company,,0,0,0,0
 access_sinergis_x3_sale_order_odoo_x3_log,sinergis_x3.sale.order.odoo_x3_log,model_sale_order_odoo_x3_log,base.group_user,1,1,1,1
+access_sinergis_x3_annual_contract,sinergis.annual_contract,model_sinergis_x3_annual_contract,base.group_user,1,1,1,0
