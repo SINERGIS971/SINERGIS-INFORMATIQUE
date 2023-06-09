@@ -43,4 +43,4 @@ class SinergisAnnualContracts(models.Model):
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    x_sinergis_x3_annual_contract = fields.One2many('sinergis_x3.annual_contract', 'partner_id', string="Contrats annuels X3")
+    x_sinergis_x3_annual_contract = fields.One2many('sinergis_x3.annual_contract', 'partner_id', string="Contrats annuels X3", readonly=True)

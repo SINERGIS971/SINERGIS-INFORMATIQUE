@@ -57,7 +57,9 @@ class ResPartner(models.Model):
     x_sinergis_societe_societe_fille = fields.One2many('res.partner', 'x_sinergis_societe_mere', string='Contact', domain=[('active', '=', True)]) #EN TEST
 
     x_sinergis_societe_suivi_activite = fields.One2many('project.task', 'commercial_partner_id',related="commercial_partner_id.task_ids",readonly=True)
-    
+
+    x_sinergis_societe_annual_contracts = fields.One2many('sinergis.annual_contracts', 'partner_id', string="Contrats annuels")
+
     # 8/03/2023 : Ajout du statut "étranger" pour avoir libre choix de la TVA lors de la facturation
 
     x_sinergis_societe_etranger = fields.Boolean(string="Étranger", default=False)
@@ -227,6 +229,13 @@ class ResPartner(models.Model):
                 self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
         return super(ResPartner, self).write(values)
 
+# A SUPPRIMER
+class SinergisAnnualContracts(models.Model):
+    _name = "sinergis.annual_contracts"
+    _description = "Contrats Annuels"
+
+    # Relié via code client X3
+    partner_id = fields.Many2one("res.partner",string="Client",required=True)
 
 class SinergisTechnicalNoteFiles(models.Model):
     _name = "sinergis.technical_note_files"
