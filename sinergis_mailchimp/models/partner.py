@@ -46,12 +46,12 @@ class ResPartner(models.Model):
                             email_list.append(user['email_address'].lower()) # Lower email to don't have double email
                             
                             # Check and add a mailchimp_id
-                            partner = self.env['res.partner'].sudo().search(['&',('email','=',user['email_address']),('is_company','=',False)], limit=1)
+                            partner = self.env['res.partner'].sudo().search(['&','&',('email','=',user['email_address']),('is_company','=',False),('parent_id','!=',False)], limit=1)
                             if partner :
                                 partner.mailchimp_id = user['id']
                         
                         # Check if user exists in database
-                        odoo_user = self.env['res.partner'].sudo().search(['&',('mailchimp_id', '=', user['id']),('is_company','=',False)], limit=1)
+                        odoo_user = self.env['res.partner'].sudo().search(['&','&',('mailchimp_id', '=', user['id']),('is_company','=',False),('parent_id','!=',False)], limit=1)
                         if odoo_user :
                             update = False
                             odoo_firstname = odoo_user.x_sinergis_societe_contact_firstname.replace(" ", "") if odoo_user.x_sinergis_societe_contact_firstname else ''
@@ -87,7 +87,7 @@ class ResPartner(models.Model):
         print("Updating Mailchimp data ...")
         print("    Loading Odoo clients to create on Mailchimp ...")
         members = []
-        partners = self.env['res.partner'].sudo().search([('is_company','=',False)], limit=100000)
+        partners = self.env['res.partner'].sudo().search(['&',('is_company','=',False),('parent_id','!=',False)], limit=100000)
         #print(str(id_to_update))
 
         for partner in partners:
@@ -111,12 +111,10 @@ class ResPartner(models.Model):
                                     }
                                   }
                     # Ajout du tag de la société
-                    partner_company_tag = self.env['sinergis_mailchimp.settings.company.tag'].search([("company_id","=",partner.company_id.id)])
-                    if partner_company_tag:
-                        member_info["tags"] = [{
-                                                    "name": partner_company_tag.name,
-                                                    "status": "active"
-                                                }]
+                    if partner.parent_id :
+                        partner_company_tag = self.env['sinergis_mailchimp.settings.company.tag'].search([("company_id","=",partner.parent_id.company_id.id)])
+                        if partner_company_tag:
+                            member_info["tags"] = [partner_company_tag.name]
                     
                     members.append(member_info)
         
@@ -132,7 +130,7 @@ class ResPartner(models.Model):
                 if "new_members" in response :
                     if len(response["new_members"]) > 0:
                         for new_member in response["new_members"]:
-                            partner = self.env['res.partner'].sudo().search(['&',('email','=',new_member['email_address']),('is_company','=',False)], limit=1)
+                            partner = self.env['res.partner'].sudo().search(['&',('email','=',new_member['email_address']),('is_company','=',False),('parent_id','!=',False)], limit=1)
                             if partner :
                                 #print("ADDING MAILCHIMP_ID TO NEW CLIENT")
                                 partner.mailchimp_id = new_member['id']

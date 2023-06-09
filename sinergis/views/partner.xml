@@ -225,32 +225,6 @@
                         </tree>
                       </field>
                 </page>
-                <page string="Contrats annuels">
-                    <field name="x_sinergis_societe_annual_contracts">
-                      <tree>
-                        <field name="company_id"/>
-                        <field name="order_type"/>
-                        <field name="order_number"/>
-                        <field name="order_ref"/>
-                        <field name="bill_before_fusion"/>
-                        <field name="order_date"/>
-                        <field name="doc_origin"/>
-                        <field name="article"/>
-                        <field name="name"/>
-                        <field name="gross_price"/>
-                        <field name="cost_price"/>
-                        <field name="serial_number"/>
-                        <field name="starting_date_validity"/>
-                        <field name="end_date_validity"/>
-                        <field name="statistical_family_1"/>
-                        <field name="statistical_family_2"/>
-                        <field name="statistical_family_3"/>
-                        <field name="statistical_family_4"/>
-                        <field name="statistical_family_5"/>
-                        <field name="order_state"/>
-                      </tree>
-                    </field>
-                </page>
             </notebook>
 
             <!-- MODIFICATIONS - FORM ORIGINAL -->

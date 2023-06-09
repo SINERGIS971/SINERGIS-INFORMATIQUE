@@ -237,6 +237,8 @@ class HelpdeskTicket(models.Model):
                 if email_count >= 2 :
                     rec.x_sinergis_helpdesk_ticket_client_answer = True
                     # Mise à jour de la date de tri pour remonter l'information
+                    #TODO : CHANGER LA DATE DE TRI UNIQUEMENT SI NOUVEAU MESSAGE ET PAS UNIQUEMENT LORSQU'ON A UNE MODIFICATIO NDE LA LISTE DES MESSAGES
+
                     self.sort_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 else:
                     rec.x_sinergis_helpdesk_ticket_client_answer = False

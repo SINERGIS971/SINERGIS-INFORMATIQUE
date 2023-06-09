@@ -11,7 +11,7 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     enable = fields.Boolean(string="Activer le module",
-                            config_parameter='sinergis_x3.base_url_x3',
+                            config_parameter='sinergis_x3.enable',
                             default=True)
 
     # CONFIGURATION URL
