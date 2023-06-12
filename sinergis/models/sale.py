@@ -364,10 +364,12 @@ class SaleOrderLine(models.Model):
 class Products (models.Model):
     _name = "sale.products"
     _description = "Produits"
+    active = fields.Boolean(string='Active', default=True)
     name = fields.Char(string="Product Name",required=True)
 
 class SubProducts (models.Model):
     _name = "sale.products.subproducts"
     _description = "Sous-Produits"
     product_id = fields.Many2one("sale.products",string="Produit",required=True)
+    active = fields.Boolean(string='Active', default=True)
     name = fields.Char(string="Sub-Product Name",required=True)

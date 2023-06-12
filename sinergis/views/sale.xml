@@ -297,6 +297,15 @@
         </tree>
         </field>
     </record>
+    <record id="sale_sinergis_products_search" model="ir.ui.view">
+        <field name="name">sale.sinergis.products.tree</field>
+        <field name="model">sale.products</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
+            </search>
+        </field>
+    </record>
 
     <record id="sale_products_subproducts_action" model="ir.actions.act_window">
         <field name="name">Sous-Produits</field>
@@ -312,6 +321,18 @@
             <field name="product_id" string="Produit"/>
             <field name="name" string="Nom du sous-produit"/>
         </tree>
+        </field>
+    </record>
+    <record id="sale_sinergis_subproducts_search" model="ir.ui.view">
+        <field name="name">sale.sinergis.subproducts.tree</field>
+        <field name="model">sale.products.subproducts</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
+                <group expand="0" string="Group By">
+                    <filter string="Produit" name="group_by_product_id" context="{'group_by':'product_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
