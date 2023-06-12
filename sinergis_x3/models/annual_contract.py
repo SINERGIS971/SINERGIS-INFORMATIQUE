@@ -149,9 +149,3 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     x_sinergis_x3_annual_contract = fields.One2many('sinergis_x3.annual_contract', 'partner_id', string="Contrats annuels X3", readonly=True)
-    
-    @api.onchange("x_sinergis_x3_annual_contract")
-    def on_change_x_sinergis_x3_annual_contract(self):
-        partner = self.env['res.partner'].search([('x_sinergis_x3_annual_contract','=',self.x_sinergis_x3_annual_contract)], limit=1)
-        if partner:
-            raise ValidationError(f'Ce code X3 est déjà renseigné pour une autre société : {partner.name}')

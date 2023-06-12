@@ -9,3 +9,9 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     sinergis_x3_code = fields.Char(string='Code X3')
+
+    @api.onchange("sinergis_x3_code")
+    def on_change_sinergis_x3_code(self):
+        partner = self.env['res.partner'].search([('sinergis_x3_code','=',self.sinergis_x3_code)], limit=1)
+        if partner:
+            raise ValidationError(f'Ce code X3 est déjà renseigné pour une autre société : {partner.name}')
