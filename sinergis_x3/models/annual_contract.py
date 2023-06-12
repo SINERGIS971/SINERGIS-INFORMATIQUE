@@ -1,6 +1,8 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
+from datetime import datetime
+
 import requests
 import json
 import base64
@@ -109,38 +111,47 @@ class SinergisAnnualContracts(models.Model):
                 PAYLOC = resource["PAYLOC"]
                 TMPLOC = resource["TMPLOC"]
 
-                # On regarde si l'élément existe déjà dans la base
-                entity = self.env['sinergis_x3.annual_contract'].search([('BPCORD','=',BPCORD),('CUSORDREF','=',CUSORDREF),('TSICOD0','=',TSICOD0),('TSICOD1','=',TSICOD1),('TSICOD2','=',TSICOD2),('TSICOD4','=',TSICOD4)])
-                if not entity :
-                    partner_id = self.env['res.partner'].search([("sinergis_x3_code","=",BPCORD)],limit=1)
-                    data = {
-                        "partner_id": partner_id,
-                        "SALFCY": SALFCY,
-                        "SOHTYP": SOHTYP,
-                        "CUSORDREF": CUSORDREF,
-                        "BPCORD": BPCORD,
-                        "TSICOD0": TSICOD0,
-                        "TSICOD1": TSICOD1,
-                        "TSICOD2": TSICOD2,
-                        "TSICOD4": TSICOD4,
-                        "ITMDES": ITMDES,
-                        "X_SERNUM": X_SERNUM,
-                        "X_EVO": X_EVO,
-                        "X_COMEVO": X_COMEVO,
-                        "X_PERIOD": X_PERIOD,
-                        "X_RENOUVELE": X_RENOUVELE,
-                        "STRDAT": STRDAT,
-                        "ENDDAT": ENDDAT,
-                        "QTY": QTY,
-                        "SAU": SAU,
-                        "NETPRI": NETPRI,
-                        "PFM": PFM,
-                        "LASINVNUM": LASINVNUM,
-                        "AMTLOC": AMTLOC,
-                        "PAYLOC": PAYLOC,
-                        "TMPLOC": TMPLOC
-                    }
-                    self.env['sinergis_x3.annual_contract'].create(data)
+                check_date = True
+                if STRDAT and ENDDAT:
+                    try:
+                        strdat_date = datetime.strptime(STRDAT, '%y-%m-%d')
+                        enddat_date = datetime.strptime(ENDDAT, '%y-%m-%d')
+                    except ValueError:
+                        check_date = False
+
+                if check_date:
+                    # On regarde si l'élément existe déjà dans la base
+                    entity = self.env['sinergis_x3.annual_contract'].search([('BPCORD','=',BPCORD),('CUSORDREF','=',CUSORDREF),('TSICOD0','=',TSICOD0),('TSICOD1','=',TSICOD1),('TSICOD2','=',TSICOD2),('TSICOD4','=',TSICOD4)])
+                    if not entity :
+                        partner_id = self.env['res.partner'].search([("sinergis_x3_code","=",BPCORD)],limit=1)
+                        data = {
+                            "partner_id": partner_id,
+                            "SALFCY": SALFCY,
+                            "SOHTYP": SOHTYP,
+                            "CUSORDREF": CUSORDREF,
+                            "BPCORD": BPCORD,
+                            "TSICOD0": TSICOD0,
+                            "TSICOD1": TSICOD1,
+                            "TSICOD2": TSICOD2,
+                            "TSICOD4": TSICOD4,
+                            "ITMDES": ITMDES,
+                            "X_SERNUM": X_SERNUM,
+                            "X_EVO": X_EVO,
+                            "X_COMEVO": X_COMEVO,
+                            "X_PERIOD": X_PERIOD,
+                            "X_RENOUVELE": X_RENOUVELE,
+                            "STRDAT": STRDAT,
+                            "ENDDAT": ENDDAT,
+                            "QTY": QTY,
+                            "SAU": SAU,
+                            "NETPRI": NETPRI,
+                            "PFM": PFM,
+                            "LASINVNUM": LASINVNUM,
+                            "AMTLOC": AMTLOC,
+                            "PAYLOC": PAYLOC,
+                            "TMPLOC": TMPLOC
+                        }
+                        self.env['sinergis_x3.annual_contract'].create(data)
             
 
         

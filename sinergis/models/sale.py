@@ -112,6 +112,7 @@ class SaleOrder(models.Model):
 
     @api.onchange('x_sinergis_sale_order_product_new')
     def onchange_x_sinergis_sale_order_product_new(self):
+        self._compute_x_sinergis_sale_order_product_new_have_subproduct()
         for line in self.order_line :
             line.x_sinergis_sale_order_line_subproduct_id = False
 

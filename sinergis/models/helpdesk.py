@@ -234,30 +234,32 @@ class HelpdeskTicket(models.Model):
                         email_count += 1
                         if not last_mail_date:
                             last_mail_date = message.date
+                # Mise à jour de la date du dernier message
+                rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
                 if email_count >= 2 :
                     rec.x_sinergis_helpdesk_ticket_client_answer = True
-                    # Mise à jour de la date de tri pour remonter l'information
-                    #TODO : CHANGER LA DATE DE TRI UNIQUEMENT SI NOUVEAU MESSAGE ET PAS UNIQUEMENT LORSQU'ON A UNE MODIFICATIO NDE LA LISTE DES MESSAGES
-
-                    self.sort_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    # Mise à jour de la date de tri uniquement si le dernier message est un mail
+                    message = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")], limit=1, order='id desc')
+                    if message.message_type == "email":
+                        self.sort_date = message.date.strftime("%Y-%m-%d %H:%M:%S")
                 else:
                     rec.x_sinergis_helpdesk_ticket_client_answer = False
             else:
                 rec.x_sinergis_helpdesk_ticket_client_answer = False
 
-    @api.depends('x_sinergis_helpdesk_ticket_client_answer_date')
-    def _compute_x_sinergis_helpdesk_ticket_client_answer_date (self):
-        for rec in self:
-            all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
-            if all_messages:
-                last_mail_date = False
-                for message in all_messages:
-                    if message.message_type == "email":
-                        last_mail_date = message.date
-                        break
-                rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
-            else:
-                rec.x_sinergis_helpdesk_ticket_client_answer_date = False
+    #@api.depends('x_sinergis_helpdesk_ticket_client_answer_date')
+    #def _compute_x_sinergis_helpdesk_ticket_client_answer_date (self):
+    #    for rec in self:
+    #        all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
+    #        if all_messages:
+    #            last_mail_date = False
+    #            for message in all_messages:
+    #                if message.message_type == "email":
+    #                    last_mail_date = message.date
+    #                    break
+    #            rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
+    #        else:
+    #            rec.x_sinergis_helpdesk_ticket_client_answer_date = False
 
     @api.onchange("partner_id")
     def on_change_partner_id(self):
