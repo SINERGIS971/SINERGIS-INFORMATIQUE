@@ -419,7 +419,8 @@ class CalendarEvent(models.Model):
     def write(self, values):
         user_id = self.env.user
         # Pour autoriser la synchronisation Outlook - TODO : Plus étudier la synchro Outlook pour mieux restreindre
-        if not "need_sync_m" in values:
+        # Vérifier si l'objet existe
+        if not "need_sync_m" in values and self.id :
             if self.user_id != user_id and self.env.user.has_group('sinergis.group_calendar_admin') == False:
                 raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas. ID : " + str(self.id))
         return super(CalendarEvent, self).write(values)

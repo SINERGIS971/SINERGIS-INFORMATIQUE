@@ -11,5 +11,16 @@
             </xpath>
         </field>
     </record>
+    
+    <record id="sinergis_x3_inherited_res_partner_select" model="ir.ui.view">
+        <field name="name">sinergis_x3.inherited.res.partner.select</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+              <field name="sinergis_x3_code" filter_domain="[('sinergis_x3_code', 'ilike', self)]"/>
+            </xpath>
+        </field>
+    </record>
   </data>
 </odoo>
