@@ -42,6 +42,10 @@ class MyActions(models.Model):
     printed_datetime = fields.Datetime(string='Dernière édition',compute="_compute_printed_datetime")
     is_billed = fields.Boolean(string="")
 
+    # Refacturation
+
+    reinvoiced_company_id = fields.Many2one("res.company")
+
     #@api.model_cr
     #[16/10/22] Helpdesk : Variable 'date' fixée à 'start_time' pour ne pas voir la date de création mais la date de traitement du ticket
     def init(self):
@@ -49,7 +53,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed FROM
+            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.reinvoiced_company_id FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -82,7 +86,8 @@ class MyActions(models.Model):
                     NULL as movement_country,
                     NULL as movement_area,
                     rp.country_id as country_id,
-                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='helpdesk' and bld.model_id=ht.id) > 0 THEN True else False END as is_billed
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='helpdesk' and bld.model_id=ht.id) > 0 THEN True else False END as is_billed,
+                    false as reinvoiced_company_id
                 FROM
                     helpdesk_ticket as ht
                 FULL JOIN
@@ -134,7 +139,8 @@ class MyActions(models.Model):
                     ce.x_sinergis_calendar_event_trip_movementcountry as movement_country,
                     ce.x_sinergis_calendar_event_trip_movementarea as movement_area,
                     rp.country_id as country_id,
-                    Case WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='calendar' and bld.model_id=ce.id) > 0 THEN True else False END as is_billed
+                    Case WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='calendar' and bld.model_id=ce.id) > 0 THEN True else False END as is_billed,
+                    false as reinvoiced_company_id
                 FROM
                     calendar_event as ce
                 FULL JOIN
@@ -241,6 +247,8 @@ class MyActions(models.Model):
             }
         return context
 
+    # Marquer la facturation
+
     def invoiced_button (self):
         if self.env.user.has_group('sinergis.group_myactions_employee') == False:
             if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
@@ -264,6 +272,33 @@ class MyActions(models.Model):
 
     def invoiced_button_default(self):
         raise ValidationError("Vous ne pouvez pas modifier l'état de cette facturation avec ce mode de facturation.")
+
+    # Marquer la refacturation
+
+    def reinvoiced_button (self):
+        if self.env.user.has_group('sinergis.group_myactions_employee') == False:
+            if self.env['sinergis.myactions.reinvoiced'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
+                data = {
+                    'model_type': self.origin,
+                    'model_id': self.link_id,
+                }
+                self.env['sinergis.myactions.reinvoiced'].create(data)
+        else:
+            raise ValidationError("Vous n'avez pas l'accès pour changer le statut de la facturation. Merci de vous rapprocher de la direction.")
+
+    def no_reinvoiced_button (self):
+        if self.env.user.has_group('sinergis.group_myactions_employee') == False:
+            if self.env['sinergis.myactions.reinvoiced'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 1:
+                self.env["sinergis.myactions.reinvoiced"].search([('model_type', '=', self.origin),('model_id', '=', self.link_id)]).unlink()
+        else:
+            raise ValidationError("Vous n'avez pas l'accès pour changer le statut de la refacturation. Merci de vous rapprocher de la direction.")
+
+    def no_reinvoiced_button_default(self):
+        raise ValidationError("Vous ne pouvez pas modifier l'état de cette refacturation avec ce mode de facturation.")
+
+    def reinvoiced_button_default(self):
+        raise ValidationError("Vous ne pouvez pas modifier l'état de cette refacturation avec ce mode de facturation.")
+
 
     # Impression de rapports en sélectionnant un par un les activités
     def print_reports(self):
@@ -339,3 +374,10 @@ class MyActionsBilled(models.Model):
     _description = "Interventions facturées"
     model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
     model_id = fields.Integer(string="")
+
+class MyActionsReinvoiced(models.Model):
+    _name = "sinergis.myactions.reinvoiced"
+    _description = "Interventions refacturées"
+    model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
+    model_id = fields.Integer(string="")
+    reinvoiced_company_id = fields.Many2one("res.company",string="Agence")

@@ -17,38 +17,38 @@ class SinergisAnnualContracts(models.Model):
     partner_id = fields.Many2one("res.partner",string="Client",required=True)
 
     # SORDER
-    SALFCY = fields.Char(string="Site de vente") # S1, S2 OU S3
-    SOHTYP = fields.Char(string="Type") # REAB OU NEW
-    SOHNUM = fields.Char(string="Numéro de commande")
-    CUSORDREF = fields.Char(string="Type de contrat")
-    ORDDAT = fields.Date(string="Date de commande")
+    SALFCY = fields.Char(string="Site de vente") # S1, S2 OU S3 #DEF
+    SOHTYP = fields.Char(string="Type") # REAB OU NEW #OPT
+    SOHNUM = fields.Char(string="Numéro de commande") #OPT
+    CUSORDREF = fields.Char(string="Type de contrat") #DEF
+    ORDDAT = fields.Date(string="Date de commande")  #DEF
 
     #SORDERP ET SORDERQ
-    TSICOD0 = fields.Char(string="Type d'article")
-    TSICOD1 = fields.Char(string="Logiciel")
-    TSICOD2 = fields.Char(string="Module")
-    TSICOD3 = fields.Char(string="Hébergement")
-    TSICOD4 = fields.Char(string="Logiciel")
-    ITMDES = fields.Char(string="Désignation")
-    X_SERNUM = fields.Char(string="N° de série")
-    X_EVO= fields.Char(string="Évolution")
-    X_COMEVO = fields.Char(string="Commande évolution")
-    X_PERIOD = fields.Char(string="Périodicité")
-    X_RENOUVELE = fields.Char(string="Renouvelé")
-    STRDAT = fields.Date(string="Début de contrat")
-    ENDDAT = fields.Date(string="Fin de contrat")
-    QTY = fields.Integer(string="Quantité")
-    SAU = fields.Char(string="Unité")
-    NETPRI = fields.Float(string="Prix net unitaire")
-    PFM = fields.Float(string="Marge unitaire")
-    X_RESILIE = fields.Char(string="Résilié")
-    X_DATRESIL = fields.Date(string="Date résiliation")
-    LASINVNUM = fields.Char(string="No de facture")
+    TSICOD0 = fields.Char(string="Type d'article") #OPT
+    TSICOD1 = fields.Char(string="Logiciel") #DEF
+    TSICOD2 = fields.Char(string="Module") #DEF
+    #TSICOD3 = fields.Char(string="Hébergement")
+    TSICOD4 = fields.Char(string="Hébergement") #DEF
+    ITMDES = fields.Char(string="Désignation") #OPT
+    X_SERNUM = fields.Char(string="N° de série") #DEF PREMIERE COLONNE
+    X_EVO= fields.Char(string="Évolution") #OPT
+    X_COMEVO = fields.Char(string="Commande évolution") #OPT
+    X_PERIOD = fields.Char(string="Périodicité") #OPT
+    X_RENOUVELE = fields.Char(string="Renouvelé") #OPT
+    STRDAT = fields.Date(string="Début de contrat") #DEF
+    ENDDAT = fields.Date(string="Fin de contrat") #DEF
+    QTY = fields.Integer(string="Quantité") #OPT
+    SAU = fields.Char(string="Unité") #OPT
+    NETPRI = fields.Float(string="Prix net unitaire") #OPT
+    PFM = fields.Float(string="Marge unitaire") #OPT
+    X_RESILIE = fields.Char(string="Résilié") #DEF
+    X_DATRESIL = fields.Date(string="Date résiliation") #OPT
+    LASINVNUM = fields.Char(string="No de facture") #OPT
 
     #GACCDUDATE
-    AMTLOC = fields.Float(string="Montant échéance")
-    PAYLOC = fields.Float(string="Montant payé comptabilisé")
-    TMPLOC = fields.Float(string="Montant payé provisoire")
+    AMTLOC = fields.Float(string="Montant échéance") #OPT
+    PAYLOC = fields.Float(string="Montant payé comptabilisé") #OPT
+    TMPLOC = fields.Float(string="Montant payé provisoire") #OPT
 
     def load_xctrencours_x3 (self):
         # Chargement authentification

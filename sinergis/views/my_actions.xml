@@ -82,9 +82,18 @@
                 <field name="consultant" widget="many2one_avatar_user"/>
                 <field name="country_id"/>
                 <field name="printed_datetime"/>
+                
+                <button name="no_reinvoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', False),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
+                <button name="reinvoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
+                <button name="no_reinvoiced_button_default" string="Facturée" class="oe_highlight btn-warning" type="object" attrs="{'invisible': [('billing',  '!=', 'Contrat heure')]}"/>
+                <button name="reinvoiced_button_default" string="Non facturable" class="oe_highlight btn-warning" type="object" attrs="{'invisible': ['&amp;','&amp;','&amp;',('billing',  '!=', 'À définir ultérieurement'),('billing',  '!=', 'Non facturable interne'),('billing',  '!=', 'Non facturable'),('billing',  '!=', 'Avant-vente')]}"/>
+                
+                <field name="reinvoiced_company_id" string="Agence qui refacture"/>
+
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
                 <button name="print_report" string="Éditer" class="oe_highlight" type="object"/>
                 <button name="download_rapport_intervention_valide" string="" class="oe_highlight btn-warning" type="object" attrs="{'invisible': [('rapport_intervention_valide',  '=', False)]}" icon="fa-paperclip"/>
+                <!-- FACTURATION -->
                 <button name="no_invoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', False),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
                 <button name="invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
                 <button name="no_invoiced_button_default" string="Facturée" class="oe_highlight btn-warning" type="object" attrs="{'invisible': [('billing',  '!=', 'Contrat heure')]}"/>

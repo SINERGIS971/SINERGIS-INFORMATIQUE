@@ -16,10 +16,10 @@
                         <field name="SALFCY"/>
                         <field name="CUSORDREF"/>
                         <field name="ORDDAT"/>
-                        <field name="TSICOD(0)"/>
-                        <field name="TSICOD(1)"/>
-                        <field name="TSICOD(2)"/>
-                        <field name="TSICOD(4)"/>
+                        <field name="TSICOD0"/>
+                        <field name="TSICOD1"/>
+                        <field name="TSICOD2"/>
+                        <field name="TSICOD4"/>
                         <field name="STRDAT"/>
                         <field name="ENDDAT"/>
                       </tree>
