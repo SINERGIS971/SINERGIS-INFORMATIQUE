@@ -284,7 +284,7 @@ class MyActions(models.Model):
                 data = {
                     'model_type': self.origin,
                     'model_id': self.link_id,
-                    'model_id': self.env.user.company_id.id,
+                    'reinvoiced_company_id': self.env.user.company_id.id,
                 }
                 self.env['sinergis.myactions.reinvoiced'].create(data)
         else:
@@ -296,13 +296,6 @@ class MyActions(models.Model):
                 self.env["sinergis.myactions.reinvoiced"].search([('model_type', '=', self.origin),('model_id', '=', self.link_id)]).unlink()
         else:
             raise ValidationError("Vous n'avez pas l'accès pour changer le statut de la refacturation. Merci de vous rapprocher de la direction.")
-
-    def no_reinvoiced_button_default(self):
-        raise ValidationError("Vous ne pouvez pas modifier l'état de cette refacturation avec ce mode de facturation.")
-
-    def reinvoiced_button_default(self):
-        raise ValidationError("Vous ne pouvez pas modifier l'état de cette refacturation avec ce mode de facturation.")
-
 
     # Impression de rapports en sélectionnant un par un les activités
     def print_reports(self):
