@@ -67,7 +67,11 @@ class SinergisAnnualContracts(models.Model):
         headers = {'content-type': 'text/xml;charset=UTF-8',
          'Authorization': f'Basic {authentication_token}'}
         
+        count = 0
         while next_exists:
+            print("Count : "+str(count))
+            count += count_per_page
+
             response = requests.get(f"{url}&count={str(count_per_page)}",
                             headers=headers,
                             cookies=cookies)
@@ -85,6 +89,7 @@ class SinergisAnnualContracts(models.Model):
             for resource in response_json['$resources']:
                 SALFCY = resource["SALFCY"]
                 SOHTYP = resource["SOHTYP"]
+                SOHNUM = resource["SOHNUM"]
                 CUSORDREF = resource["CUSORDREF"]
                 ORDDAT = resource["ORDDAT"]
                 BPCORD = resource["BPCORD"]
@@ -113,48 +118,61 @@ class SinergisAnnualContracts(models.Model):
                 PAYLOC = resource["PAYLOC"]
                 TMPLOC = resource["TMPLOC"]
 
-                check_date = True
+                # Ajout des dates
+                if ORDDAT and ENDDAT:
+                    try:
+                        ORDDAT = datetime.strptime(ORDDAT, '%y-%m-%d')
+                    except ValueError:
+                        ORDDAT = False
                 if STRDAT and ENDDAT:
                     try:
-                        strdat_date = datetime.strptime(STRDAT, '%y-%m-%d')
-                        enddat_date = datetime.strptime(ENDDAT, '%y-%m-%d')
+                        STRDAT = datetime.strptime(STRDAT, '%y-%m-%d')
+                        ENDDAT = datetime.strptime(ENDDAT, '%y-%m-%d')
                     except ValueError:
-                        check_date = False
-
-                if check_date:
-                    # On regarde si l'élément existe déjà dans la base
-                    entity = self.env['sinergis_x3.annual_contract'].search([('BPCORD','=',BPCORD),('CUSORDREF','=',CUSORDREF),('TSICOD0','=',TSICOD0),('TSICOD1','=',TSICOD1),('TSICOD2','=',TSICOD2),('TSICOD4','=',TSICOD4)])
-                    if not entity :
-                        partner_id = self.env['res.partner'].search([("sinergis_x3_code","=",BPCORD)],limit=1)
+                        STRDAT = False
+                        ENDDAT = False
+                if X_DATRESIL:
+                    try:
+                        X_DATRESIL = datetime.strptime(X_DATRESIL, '%y-%m-%d')
+                    except ValueError:
+                        X_DATRESIL = False
+                        
+                # On regarde si l'élément existe déjà dans la base
+                entity = self.env['sinergis_x3.annual_contract'].search([('BPCORD','=',BPCORD),('SOHNUM','=',SOHNUM),('SOHTYP','=',SOHTYP),('TSICOD0','=',TSICOD0),('TSICOD1','=',TSICOD1),('TSICOD2','=',TSICOD2),('TSICOD4','=',TSICOD4)])
+                if not entity :
+                    partner_id = self.env['res.partner'].search([("sinergis_x3_code","=",BPCORD)],limit=1)
+                    if partner_id:
+                        print(f"Ajout d'un contrat annuel pour le client : {partner_id.name}")
                         data = {
-                            "partner_id": partner_id,
-                            "SALFCY": SALFCY,
-                            "SOHTYP": SOHTYP,
-                            "CUSORDREF": CUSORDREF,
-                            "ORDDAT": ORDDAT,
-                            "BPCORD": BPCORD,
-                            "TSICOD0": TSICOD0,
-                            "TSICOD1": TSICOD1,
-                            "TSICOD2": TSICOD2,
-                            "TSICOD4": TSICOD4,
-                            "ITMDES": ITMDES,
-                            "X_SERNUM": X_SERNUM,
-                            "X_EVO": X_EVO,
-                            "X_COMEVO": X_COMEVO,
-                            "X_PERIOD": X_PERIOD,
-                            "X_RENOUVELE": X_RENOUVELE,
-                            "STRDAT": STRDAT,
-                            "ENDDAT": ENDDAT,
-                            "QTY": QTY,
-                            "SAU": SAU,
-                            "NETPRI": NETPRI,
-                            "X_RESILIE": X_RESILIE,
-                            "X_DATRESIL": X_DATRESIL,
-                            "PFM": PFM,
-                            "LASINVNUM": LASINVNUM,
-                            "AMTLOC": AMTLOC,
-                            "PAYLOC": PAYLOC,
-                            "TMPLOC": TMPLOC
+                                "partner_id": partner_id,
+                                "SALFCY": SALFCY,
+                                "SOHTYP": SOHTYP,
+                                "SOHNUM": SOHNUM,
+                                "CUSORDREF": CUSORDREF,
+                                "ORDDAT": ORDDAT,
+                                "BPCORD": BPCORD,
+                                "TSICOD0": TSICOD0,
+                                "TSICOD1": TSICOD1,
+                                "TSICOD2": TSICOD2,
+                                "TSICOD4": TSICOD4,
+                                "ITMDES": ITMDES,
+                                "X_SERNUM": X_SERNUM,
+                                "X_EVO": X_EVO,
+                                "X_COMEVO": X_COMEVO,
+                                "X_PERIOD": X_PERIOD,
+                                "X_RENOUVELE": X_RENOUVELE,
+                                "STRDAT": STRDAT,
+                                "ENDDAT": ENDDAT,
+                                "QTY": QTY,
+                                "SAU": SAU,
+                                "NETPRI": NETPRI,
+                                "X_RESILIE": X_RESILIE,
+                                "X_DATRESIL": X_DATRESIL,
+                                "PFM": PFM,
+                                "LASINVNUM": LASINVNUM,
+                                "AMTLOC": AMTLOC,
+                                "PAYLOC": PAYLOC,
+                                "TMPLOC": TMPLOC
                         }
                         self.env['sinergis_x3.annual_contract'].create(data)
             
