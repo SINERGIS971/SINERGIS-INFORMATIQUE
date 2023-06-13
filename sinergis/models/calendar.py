@@ -90,6 +90,8 @@ class CalendarEvent(models.Model):
 
     # 5 Avril : Ajout d'un lien vers le ticket si l'évènement provient de l'assistance
     x_sinergis_calendar_event_helpdesk_ticket_id = fields.Many2one("helpdesk.ticket")
+    x_sinergis_calendar_event_helpdesk_facturation = fields.Char(compute="_compute_x_sinergis_calendar_event_helpdesk_facturation") # Permet de stocker la facturation si nous synchronisons les tickets sur le calendrier
+
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
@@ -100,13 +102,24 @@ class CalendarEvent(models.Model):
         for rec in self:
             rec.x_sinergis_calendar_event_intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_event_id', '=', rec.id)])
 
-    @api.depends('x_sinergis_calendar_event_temps_cumule')
+    @api.depends('x_sinergis_calendar_event_temps_cumule', 'x_sinergis_calendar_event_helpdesk_ticket_id')
     def _compute_x_sinergis_calendar_event_temps_cumule (self):
         for rec in self:
-            if rec.x_sinergis_calendar_event_facturation == "Contrat heure" or rec.x_sinergis_calendar_event_facturation == "Devis":
-                rec.x_sinergis_calendar_event_temps_cumule = sum(rec.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_event_id', '=', rec.id)]).mapped('unit_amount'))
-            else :
-                rec.x_sinergis_calendar_event_temps_cumule = rec.x_sinergis_calendar_duree_facturee
+            # Si l'évènement ne provient pas d'un ticket
+            if not rec.x_sinergis_calendar_event_helpdesk_ticket_id:
+                if rec.x_sinergis_calendar_event_facturation == "Contrat heure" or rec.x_sinergis_calendar_event_facturation == "Devis":
+                    rec.x_sinergis_calendar_event_temps_cumule = sum(rec.env['account.analytic.line'].search([('x_sinergis_account_analytic_line_event_id', '=', rec.id)]).mapped('unit_amount'))
+                else :
+                    rec.x_sinergis_calendar_event_temps_cumule = rec.x_sinergis_calendar_duree_facturee
+            else:
+                if rec.x_sinergis_calendar_event_helpdesk_ticket_id.x_sinergis_helpdesk_ticket_facturation == 'Contrat heures' or rec.x_sinergis_calendar_event_helpdesk_ticket_id.x_sinergis_helpdesk_ticket_facturation == 'Devis':
+                    lines = self.env["account.analytic.line"].search([("x_sinergis_account_analytic_line_ticket_id","=",rec.x_sinergis_calendar_event_helpdesk_ticket_id.id)])
+                    time = 0.0
+                    for line in lines:
+                        time += line.unit_amount
+                    rec.x_sinergis_calendar_event_temps_cumule = time
+                else :
+                    rec.x_sinergis_calendar_event_temps_cumule = rec.x_sinergis_calendar_event_helpdesk_ticket_id.x_sinergis_helpdesk_ticket_temps_passe
 
     @api.depends('x_sinergis_calendar_event_is_deducted')
     def _compute_x_sinergis_calendar_event_is_deducted (self):
@@ -129,12 +142,16 @@ class CalendarEvent(models.Model):
         for rec in self:
             state = False
             #Si décomptage sur CH ou devis
-            if rec.x_sinergis_calendar_event_is_facturee:
-                state = True
-            elif rec.x_sinergis_calendar_event_facturation:
-                if rec.x_sinergis_calendar_event_facturation != "Contrat heure" and rec.x_sinergis_calendar_event_facturation != "Devis" and rec.x_sinergis_calendar_event_facturation != "À définir ultérieurement":
-                    if rec.x_sinergis_calendar_duree_facturee:
-                        state = True
+            if not rec.x_sinergis_calendar_event_helpdesk_ticket_id:
+                if rec.x_sinergis_calendar_event_is_facturee:
+                    state = True
+                elif rec.x_sinergis_calendar_event_facturation:
+                    if rec.x_sinergis_calendar_event_facturation != "Contrat heure" and rec.x_sinergis_calendar_event_facturation != "Devis" and rec.x_sinergis_calendar_event_facturation != "À définir ultérieurement":
+                        if rec.x_sinergis_calendar_duree_facturee:
+                            state = True
+            else:
+                if rec.x_sinergis_calendar_event_temps_cumule:
+                    state = True
             rec.x_sinergis_calendar_event_is_facturee_total = state
 
     @api.depends("x_sinergis_calendar_event_contact_note","x_sinergis_calendar_event_contact")
@@ -163,6 +180,11 @@ class CalendarEvent(models.Model):
             else: 
                 rec.x_sinergis_calendar_event_produit_nom_complet = ""
 
+    @api.depends("x_sinergis_calendar_event_helpdesk_facturation")
+    def _compute_x_sinergis_calendar_event_helpdesk_facturation(self):
+        for rec in self:
+            if rec.x_sinergis_calendar_event_helpdesk_ticket_id:
+                rec.x_sinergis_calendar_event_helpdesk_facturation = rec.x_sinergis_calendar_event_helpdesk_ticket_id.x_sinergis_helpdesk_ticket_facturation
 
 
     def updateTasks (self):

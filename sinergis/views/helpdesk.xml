@@ -170,7 +170,7 @@
                      <p attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}" style="color:green;font-weight:bold;text-align:center;border: solid 2px green;font-size:16px;">Intervention à planifier</p>
                     <field name="create_date"/>
                     <field name="sort_date"/>
-                    <field name="close_date"/>
+                    <field name="close_date" readonly="1"/>
                 </xpath>
 
                 <xpath expr="//field[@name='priority']" position="after">

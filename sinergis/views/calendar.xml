@@ -34,6 +34,10 @@
                   <field name="x_sinergis_calendar_event_intervention_report_done_exists" invisible="1"/>
                   <field name="x_sinergis_calendar_event_client_name" invisible="1"/>
                   <field name="x_sinergis_calendar_event_temps_cumule" invisible="1"/>
+
+                  <!--Facturation depuis l'assistance-->
+                  <field name="x_sinergis_calendar_event_helpdesk_ticket_id" invisible="1"/>
+                  <field name="x_sinergis_calendar_event_helpdesk_facturation" invisible="1"/>
               </xpath>
             </field>
         </record>

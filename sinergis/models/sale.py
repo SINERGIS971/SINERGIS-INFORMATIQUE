@@ -337,8 +337,6 @@ class SaleOrder(models.Model):
                     # Archivage des autres ventes de l'opportunité
                     sales = self.env['sale.order'].search(['&',('opportunity_id', '=', opportunity_id.id), ('id', '!=', id)])
                     sales.active = False
-        orders = super(SaleOrder, self).write(vals)
-        return orders
 
     # 26 Février 2023 - Lors de la suppression d'un devis / bon de commande, supprimer aussi les tâches et projets associés
     def unlink(self):
@@ -349,7 +347,6 @@ class SaleOrder(models.Model):
                 task.unlink()
             self.env['project.project'].sudo().search([('sale_order_id', '=', rec.id)]).unlink()
         return super(SaleOrder, self).unlink()
-
 
 
 class SaleOrderLine(models.Model):

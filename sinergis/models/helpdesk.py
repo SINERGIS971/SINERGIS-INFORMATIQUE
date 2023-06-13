@@ -83,7 +83,7 @@ class HelpdeskTicket(models.Model):
 
     # 3 Février 2023 : Ajout de l'alerte si le client a répondu après avoir envoyé le ticket
     x_sinergis_helpdesk_ticket_client_answer = fields.Boolean(string="Réponse client", compute="_compute_x_sinergis_helpdesk_ticket_client_answer", store=True)
-    x_sinergis_helpdesk_ticket_client_answer_date = fields.Datetime(string="Dernier mail le", compute="_compute_x_sinergis_helpdesk_ticket_client_answer_date")
+    x_sinergis_helpdesk_ticket_client_answer_date = fields.Datetime(string="Dernier mail le")
 
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
     x_sinergis_helpdesk_last_call_user_id = fields.Many2one("res.users",string='Dernier appel par')
@@ -246,20 +246,6 @@ class HelpdeskTicket(models.Model):
                     rec.x_sinergis_helpdesk_ticket_client_answer = False
             else:
                 rec.x_sinergis_helpdesk_ticket_client_answer = False
-
-    #@api.depends('x_sinergis_helpdesk_ticket_client_answer_date')
-    #def _compute_x_sinergis_helpdesk_ticket_client_answer_date (self):
-    #    for rec in self:
-    #        all_messages = self.env["mail.message"].search(["&", ("res_id", "=", rec.id), ("model", "=", "helpdesk.ticket")])
-    #        if all_messages:
-    #            last_mail_date = False
-    #            for message in all_messages:
-    #                if message.message_type == "email":
-    #                    last_mail_date = message.date
-    #                    break
-    #            rec.x_sinergis_helpdesk_ticket_client_answer_date = last_mail_date
-    #        else:
-    #            rec.x_sinergis_helpdesk_ticket_client_answer_date = False
 
     @api.onchange("partner_id")
     def on_change_partner_id(self):
