@@ -142,6 +142,7 @@ class MyActions(models.Model):
                     ce.x_sinergis_calendar_event_trip_movementarea as movement_area,
                     rp.country_id as country_id,
                     Case WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='calendar' and bld.model_id=ce.id) > 0 THEN True else False END as is_billed,
+                                        CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) > 0 THEN True else False END as is_reinvoiced,
                     false as reinvoiced_company_id
                 FROM
                     calendar_event as ce
