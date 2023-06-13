@@ -44,6 +44,7 @@ class MyActions(models.Model):
 
     # Refacturation
 
+    is_reinvoiced = fields.Boolean(string="")
     reinvoiced_company_id = fields.Many2one("res.company")
 
     #@api.model_cr
@@ -53,7 +54,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.reinvoiced_company_id FROM
+            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced,T.reinvoiced_company_id FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -87,6 +88,7 @@ class MyActions(models.Model):
                     NULL as movement_area,
                     rp.country_id as country_id,
                     CASE WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='helpdesk' and bld.model_id=ht.id) > 0 THEN True else False END as is_billed,
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) > 0 THEN True else False END as is_reinvoiced,
                     false as reinvoiced_company_id
                 FROM
                     helpdesk_ticket as ht
