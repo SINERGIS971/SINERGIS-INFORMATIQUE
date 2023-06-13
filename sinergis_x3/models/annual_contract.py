@@ -17,11 +17,11 @@ class SinergisAnnualContracts(models.Model):
     partner_id = fields.Many2one("res.partner",string="Client",required=True)
 
     # SORDER
-    SALFCY = fields.Char(string="Site de vente", required=True) # S1, S2 OU S3
+    SALFCY = fields.Char(string="Site de vente") # S1, S2 OU S3
     SOHTYP = fields.Char(string="Type") # REAB OU NEW
     SOHNUM = fields.Char(string="Numéro de commande")
     CUSORDREF = fields.Char(string="Type de contrat")
-    ORDDAT = fields.Date(string="Date de commande",required=True)
+    ORDDAT = fields.Date(string="Date de commande")
 
     #SORDERP ET SORDERQ
     TSICOD0 = fields.Char(string="Type d'article")
@@ -119,21 +119,21 @@ class SinergisAnnualContracts(models.Model):
                 TMPLOC = resource["TMPLOC"]
 
                 # Ajout des dates
-                if ORDDAT and ENDDAT:
+                if ORDDAT:
                     try:
-                        ORDDAT = datetime.strptime(ORDDAT, '%y-%m-%d')
-                    except ValueError:
+                        ORDDAT = datetime.strptime(ORDDAT, '%Y-%m-%d')
+                    except ValueError as e:
                         ORDDAT = False
                 if STRDAT and ENDDAT:
                     try:
-                        STRDAT = datetime.strptime(STRDAT, '%y-%m-%d')
-                        ENDDAT = datetime.strptime(ENDDAT, '%y-%m-%d')
+                        STRDAT = datetime.strptime(STRDAT, '%Y-%m-%d')
+                        ENDDAT = datetime.strptime(ENDDAT, '%Y-%m-%d')
                     except ValueError:
                         STRDAT = False
                         ENDDAT = False
                 if X_DATRESIL:
                     try:
-                        X_DATRESIL = datetime.strptime(X_DATRESIL, '%y-%m-%d')
+                        X_DATRESIL = datetime.strptime(X_DATRESIL, '%Y-%m-%d')
                     except ValueError:
                         X_DATRESIL = False
                         
@@ -144,7 +144,7 @@ class SinergisAnnualContracts(models.Model):
                     if partner_id:
                         print(f"Ajout d'un contrat annuel pour le client : {partner_id.name}")
                         data = {
-                                "partner_id": partner_id,
+                                "partner_id": partner_id.id,
                                 "SALFCY": SALFCY,
                                 "SOHTYP": SOHTYP,
                                 "SOHNUM": SOHNUM,

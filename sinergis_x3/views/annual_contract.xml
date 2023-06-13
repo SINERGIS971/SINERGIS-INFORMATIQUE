@@ -14,6 +14,14 @@
                     <field name="x_sinergis_x3_annual_contract">
                       <tree>
                         <field name="SALFCY"/>
+                        <field name="CUSORDREF"/>
+                        <field name="ORDDAT"/>
+                        <field name="TSICOD(0)"/>
+                        <field name="TSICOD(1)"/>
+                        <field name="TSICOD(2)"/>
+                        <field name="TSICOD(4)"/>
+                        <field name="STRDAT"/>
+                        <field name="ENDDAT"/>
                       </tree>
                     </field>
                 </page>
