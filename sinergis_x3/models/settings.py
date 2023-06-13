@@ -17,15 +17,16 @@ class SinergisX3SettingsSinergisProduct(models.Model):
     _rec_name = 'sinergis_product_id'
 
     sinergis_product_id = fields.Many2one("sale.products", string="Produit Sinergis", required=True)
-    code = fields.Char(string="Code X3", required=True)
+    code = fields.Char(string="Code X3")
 
 class SinergisX3SettingsSinergisSubProduct(models.Model):
     _name = "sinergis_x3.settings.sinergis_subproduct"
     _description = "Transcodage des sous-produits Sinergis"
     _rec_name = 'sinergis_subproduct_id'
 
+    sinergis_product_id = fields.Many2one("sale.products", string="Produit Sinergis", required=True)
     sinergis_subproduct_id = fields.Many2one("sale.products.subproducts", string="Sous-produit Sinergis", required=True)
-    code = fields.Char(string="Code X3", required=True)
+    code = fields.Char(string="Code X3")
 
 class SinergisX3SettingsHostable(models.Model):
     _name = "sinergis_x3.settings.hostable"

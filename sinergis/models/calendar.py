@@ -185,7 +185,8 @@ class CalendarEvent(models.Model):
         for rec in self:
             if rec.x_sinergis_calendar_event_helpdesk_ticket_id:
                 rec.x_sinergis_calendar_event_helpdesk_facturation = rec.x_sinergis_calendar_event_helpdesk_ticket_id.x_sinergis_helpdesk_ticket_facturation
-
+            else:
+                rec.x_sinergis_calendar_event_helpdesk_facturation = False
 
     def updateTasks (self):
         for event in self:

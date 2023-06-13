@@ -19,6 +19,7 @@ class SinergisAnnualContracts(models.Model):
     # SORDER
     SALFCY = fields.Char(string="Site de vente", required=True) # S1, S2 OU S3
     SOHTYP = fields.Char(string="Type") # REAB OU NEW
+    SOHNUM = fields.Char(string="Numéro de commande")
     CUSORDREF = fields.Char(string="Type de contrat")
     ORDDAT = fields.Date(string="Date de commande",required=True)
 
@@ -85,7 +86,7 @@ class SinergisAnnualContracts(models.Model):
                 SALFCY = resource["SALFCY"]
                 SOHTYP = resource["SOHTYP"]
                 CUSORDREF = resource["CUSORDREF"]
-                # Il manque la date de commande ORDDAT
+                ORDDAT = resource["ORDDAT"]
                 BPCORD = resource["BPCORD"]
                 TSICOD0 = resource["TSICOD0"]
                 TSICOD1 = resource["TSICOD1"]
@@ -104,9 +105,10 @@ class SinergisAnnualContracts(models.Model):
                 SAU = resource["SAU"]
                 NETPRI = resource["NETPRI"]
                 PFM = resource["PFM"]
-                # Il manque X_RESILIE
-                # Il manque X_DATRESIL
+                X_RESILIE = resource["X_RESILIE"]
+                X_DATRESIL = resource["X_DATRESIL"]
                 LASINVNUM = resource["LASINVNUM"]
+
                 AMTLOC = resource["AMTLOC"]
                 PAYLOC = resource["PAYLOC"]
                 TMPLOC = resource["TMPLOC"]
@@ -129,6 +131,7 @@ class SinergisAnnualContracts(models.Model):
                             "SALFCY": SALFCY,
                             "SOHTYP": SOHTYP,
                             "CUSORDREF": CUSORDREF,
+                            "ORDDAT": ORDDAT,
                             "BPCORD": BPCORD,
                             "TSICOD0": TSICOD0,
                             "TSICOD1": TSICOD1,
@@ -145,6 +148,8 @@ class SinergisAnnualContracts(models.Model):
                             "QTY": QTY,
                             "SAU": SAU,
                             "NETPRI": NETPRI,
+                            "X_RESILIE": X_RESILIE,
+                            "X_DATRESIL": X_DATRESIL,
                             "PFM": PFM,
                             "LASINVNUM": LASINVNUM,
                             "AMTLOC": AMTLOC,

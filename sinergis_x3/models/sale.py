@@ -30,12 +30,13 @@ class SaleOrder(models.Model):
         return True
 
     def sinegis_x3_header_disconnected(self):
+        self.send_order_to_x3()
         return True
 
     def send_order_to_x3(self):
         enable = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.enable')
         if not enable:
-            return True
+            return
 
         if self.sinergis_x3_transfered:
             self.env["sale.order.odoo_x3_log"].create({
@@ -43,7 +44,7 @@ class SaleOrder(models.Model):
             "name" : "Le devis est passé en bon de commande mais un transfert avait déjà été effectué sur celui-ci.",
             "type" : "warning"
             })
-            return True
+            return
 
         missing_data = []
 
@@ -111,7 +112,7 @@ class SaleOrder(models.Model):
                 "name" : f"Echec du transfert ! Éléments manquants : {','.join(missing_data)} ",
                 "type" : "danger"
             })
-            return True
+            return
 
 
         data["lines"] = data_lines
@@ -143,7 +144,7 @@ class SaleOrder(models.Model):
             "name" : f"La réponse obtenue par le serveur n'est pas correcte. Réponse : {response}",
             "type" : "danger"
             })
-            return True
+            return
         
         # S'il y a une erreur dans la requête
         if status != "1":
@@ -152,7 +153,7 @@ class SaleOrder(models.Model):
             "name" : f"Erreur rencontrée sur X3! Réponse : {response}",
             "type" : "danger"
             })
-            return True
+            return
         
         # On récupère le code X3 de la commande crée
         try:
