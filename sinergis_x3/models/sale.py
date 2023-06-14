@@ -17,6 +17,8 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    sinergis_x3_company_id = fields.Many2one("sinergis_x3.settings.company", string="Site de vente X3")
+
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
     sinergis_x3_transfered = fields.Boolean(default=False) # Permet de savoir si le devis a déjà été transféré vers X3
     sinergis_x3_id = fields.Char(string="Numéro X3")
@@ -48,19 +50,18 @@ class SaleOrder(models.Model):
 
         missing_data = []
 
-        sale_location = self.env["sinergis_x3.settings.company"].search([("company_id","=",self.company_id.id)], limit=1).code
         sinergis_product = self.env["sinergis_x3.settings.sinergis_product"].search([("sinergis_product_id","=",self.x_sinergis_sale_order_product_new.id)], limit=1).code
         commercial = self.env["sinergis_x3.settings.commercial"].search([("user_id","=",self.user_id.id)], limit=1).code
-        if not sale_location :
-            missing_data.append(f"Transcodage de l'agence Sinergis ({self.company_id.name})")
+        if not self.sinergis_x3_company_id :
+            missing_data.append(f"site de vente X3 ({self.sinergis_x3_company_id.name})")
         if not commercial :
-            missing_data.append(f"Transcodage du commercial ({self.user_id.name})")
+            missing_data.append(f"transcodage du commercial ({self.user_id.name})")
         if not sinergis_product :
-            missing_data.append(f"Transcodage du produit Sinergis ({self.x_sinergis_sale_order_product_new.name})")
+            missing_data.append(f"transcodage du produit Sinergis ({self.x_sinergis_sale_order_product_new.name})")
         if not self.partner_id.sinergis_x3_code:
-            missing_data.append(f"Code X3 du client ({self.partner_id.name})")
+            missing_data.append(f"code X3 du client ({self.partner_id.name})")
         
-        data = {"SALFCY" : sale_location,
+        data = {"SALFCY" : self.sinergis_x3_company_id.code,
                 "SOHTYP" : "NEW",
                 "CUSORDREF " : self.x_sinergis_sale_order_objet,
                 "X_DEVODOO" : self.name,
@@ -77,9 +78,9 @@ class SaleOrder(models.Model):
             hosted = self.env["sinergis_x3.settings.hostable"].search([("hosted","=",line.hosted)], limit=1).code
             uom = self.env["sinergis_x3.settings.uom"].search([("uom_id","=",line.product_uom.id)], limit=1).code
             if not hosted:
-                missing_data.append(f"Transcodage de l'état Hébergé")
+                missing_data.append(f"transcodage de l'état Hébergé")
             if not uom:
-                missing_data.append(f"Transcodage de l'unité de temps ({line.product_uom.name})")
+                missing_data.append(f"transcodage de l'unité de temps ({line.product_uom.name})")
             
             product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).format
             if product_format :
@@ -104,7 +105,7 @@ class SaleOrder(models.Model):
                 }
                 data_lines.append(data_line)
             else:
-                missing_data.append(f"Pas de format pour l'article ({line.product_id.name})")
+                missing_data.append(f"pas de format pour l'article ({line.product_id.name})")
 
         if len(missing_data) > 0:
             self.env["sale.order.odoo_x3_log"].create({

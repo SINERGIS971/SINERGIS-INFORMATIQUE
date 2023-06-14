@@ -64,3 +64,17 @@ class SinergisX3SettingsCompany(models.Model):
     company_id = fields.Many2one("res.company", string="Agence", required=True)
     code = fields.Char(string="Code X3", required=True)
 
+class SinergisX3SettingsCompany(models.Model):
+    _name = "sinergis_x3.settings.company"
+    _description = "Transcodage des agences"
+    _rec_name = 'name'
+
+    name = fields.Char(string="Code X3", compute="_compute_name")    
+
+    company_id = fields.Many2one("res.company", string="Agence", required=True)
+    code = fields.Char(string="Code X3", required=True)
+
+    @api.depends('company_id', 'code')
+    def _compute_name(self):
+        for rec in self:
+            rec.name = f"{rec.company_id.name} {rec.code}"
