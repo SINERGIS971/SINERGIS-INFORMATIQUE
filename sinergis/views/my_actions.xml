@@ -87,8 +87,6 @@
                 <!-- REFACTURATION -->
                 <button name="no_reinvoiced_button" string="Refacturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_reinvoiced',  '=', False),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
                 <button name="reinvoiced_button" string="Non refacturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_reinvoiced',  '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
-                
-                <field name="reinvoiced_company_id" string="Agence qui refacture"/>
 
                 <button name="open" string="Ouvrir" class="oe_highlight" type="object"/>
                 <button name="print_report" string="Éditer" class="oe_highlight" type="object"/>
