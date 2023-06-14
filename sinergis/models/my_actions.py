@@ -45,6 +45,7 @@ class MyActions(models.Model):
     # Refacturation
 
     is_reinvoiced = fields.Boolean(string="")
+    reinvoiced_company_id = fields.Many2one("res.company")
 
     #@api.model_cr
     #[16/10/22] Helpdesk : Variable 'date' fixée à 'start_time' pour ne pas voir la date de création mais la date de traitement du ticket
@@ -53,7 +54,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced FROM
+            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced,T.reinvoiced_company_id FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -87,7 +88,8 @@ class MyActions(models.Model):
                     NULL as movement_area,
                     rp.country_id as country_id,
                     CASE WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='helpdesk' and bld.model_id=ht.id) > 0 THEN True else False END as is_billed,
-                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) > 0 THEN True else False END as is_reinvoiced
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) > 0 THEN True else False END as is_reinvoiced,
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) > 0 THEN (SELECT reinvoiced_company_id FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) else NULL END as reinvoiced_company_id
                 FROM
                     helpdesk_ticket as ht
                 FULL JOIN
@@ -140,7 +142,8 @@ class MyActions(models.Model):
                     ce.x_sinergis_calendar_event_trip_movementarea as movement_area,
                     rp.country_id as country_id,
                     Case WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='calendar' and bld.model_id=ce.id) > 0 THEN True else False END as is_billed,
-                                        CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) > 0 THEN True else False END as is_reinvoiced
+                                        CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) > 0 THEN True else False END as is_reinvoiced,
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) > 0 THEN (SELECT reinvoiced_company_id FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) else NULL END as reinvoiced_company_id
                 FROM
                     calendar_event as ce
                 FULL JOIN
@@ -280,7 +283,8 @@ class MyActions(models.Model):
             if self.env['sinergis.myactions.reinvoiced'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
                 data = {
                     'model_type': self.origin,
-                    'model_id': self.link_id
+                    'model_id': self.link_id,
+                    'reinvoiced_company_id': self.env.user.company_id.id,
                 }
                 self.env['sinergis.myactions.reinvoiced'].create(data)
         else:
@@ -373,3 +377,4 @@ class MyActionsReinvoiced(models.Model):
     _description = "Interventions refacturées"
     model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
     model_id = fields.Integer(string="")
+    reinvoiced_company_id = fields.Many2one("res.company",string="Agence")

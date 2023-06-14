@@ -77,4 +77,4 @@ class SinergisX3SettingsCompany(models.Model):
     @api.depends('company_id', 'code')
     def _compute_name(self):
         for rec in self:
-            rec.name = f"{rec.company_id.name} {rec.code}"
+            rec.name = f"{rec.company_id.name} ({rec.code})"

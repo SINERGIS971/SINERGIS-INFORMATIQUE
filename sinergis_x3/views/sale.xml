@@ -31,7 +31,7 @@
             </xpath>
 
             <xpath expr="//field[@name='partner_invoice_id']" position="before">
-                <field name="sinergis_x3_company_id"/>
+                <field name="sinergis_x3_company_id" options="{'no_create': True, 'no_create_edit':True}"/>
             </xpath>
 
             <xpath expr="//notebook" position="inside">
