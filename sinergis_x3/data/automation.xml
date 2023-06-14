@@ -1,0 +1,14 @@
+<odoo>
+  <data>
+    <record id="automation_update_sinergis_x3_annual_contract" model="ir.cron">
+            <field name="name">Automatisation - Mise à jour des contrats annuels X3</field>
+            <field name="model_id" ref="model_sinergis_x3_annual_contract"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model.load_xctrencours_x3()</field>
+            <field name="interval_number">6</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+    </record>
+    </data>
+</odoo>

@@ -28,6 +28,7 @@
         'views/res_config.xml',
         'views/partner.xml',
         'views/annual_contract.xml',
+        'data/automation.xml',
     ],
     'assets': {
         'web.assets_backend': [

@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 import json
@@ -118,12 +118,18 @@ class SinergisAnnualContracts(models.Model):
                 PAYLOC = resource["PAYLOC"]
                 TMPLOC = resource["TMPLOC"]
 
-                # Ajout des dates
+                # Ajout de la date de commande
                 if ORDDAT:
                     try:
                         ORDDAT = datetime.strptime(ORDDAT, '%Y-%m-%d')
+                        contract_duration_validity = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.contract_duration_validity')
+                        if not contract_duration_validity:
+                            contract_duration_validity = 365
+                        if ORDDAT + timedelta(days=contract_duration_validity) < datetime.now().date() :
+                            continue # Si la date de la commande date depuis plus d'une certaine durée, ne pas la prendre en compte
                     except ValueError as e:
-                        ORDDAT = False
+                        continue # On saute l'itération actuelle
+            
                 if STRDAT and ENDDAT:
                     try:
                         STRDAT = datetime.strptime(STRDAT, '%Y-%m-%d')

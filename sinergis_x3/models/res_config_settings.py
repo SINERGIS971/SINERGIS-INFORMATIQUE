@@ -40,6 +40,11 @@ class ResConfigSettings(models.TransientModel):
     public_name = fields.Char(string="Nom du web service",
                               config_parameter='sinergis_x3.public_name')
     
+    # PARAMETRAGE D'IMPORTATION DES DONNEES
+    
+    contract_duration_validity = fields.Integer(string="Durée de validité d'un contrat annuel",
+                              config_parameter='sinergis_x3.contract_duration_validity')
+    
     def test_x3_connection (self):
         if self.base_url_x3:
             code = requests.get(self.base_url_x3).status_code

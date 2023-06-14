@@ -70,6 +70,18 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        Paramètres d'importation des données
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="Durée de validité d'un contrat annuel (jours)" for="contract_duration_validity"/>
+                                            <field name="contract_duration_validity" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
