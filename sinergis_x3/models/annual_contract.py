@@ -27,7 +27,6 @@ class SinergisAnnualContracts(models.Model):
     TSICOD0 = fields.Char(string="Type d'article") #OPT
     TSICOD1 = fields.Char(string="Logiciel") #DEF
     TSICOD2 = fields.Char(string="Module") #DEF
-    #TSICOD3 = fields.Char(string="Hébergement")
     TSICOD4 = fields.Char(string="Hébergement") #DEF
     ITMDES = fields.Char(string="Désignation") #OPT
     X_SERNUM = fields.Char(string="N° de série") #DEF PREMIERE COLONNE
@@ -125,7 +124,7 @@ class SinergisAnnualContracts(models.Model):
                         contract_duration_validity = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.contract_duration_validity')
                         if not contract_duration_validity:
                             contract_duration_validity = 365
-                        if ORDDAT + timedelta(days=contract_duration_validity) < datetime.now().date() :
+                        if ORDDAT + timedelta(days=int(contract_duration_validity)) < datetime.now() :
                             continue # Si la date de la commande date depuis plus d'une certaine durée, ne pas la prendre en compte
                     except ValueError as e:
                         continue # On saute l'itération actuelle
