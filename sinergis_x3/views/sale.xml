@@ -29,6 +29,11 @@
                         </div>
                 </button>
             </xpath>
+
+            <xpath expr="//field[@name='partner_invoice_id']" position="before">
+                <field name="sinergis_x3_company_id"/>
+            </xpath>
+
             <xpath expr="//notebook" position="inside">
                 <page string="Odoo - X3" name="sinergis_x3_page">
                     <group>

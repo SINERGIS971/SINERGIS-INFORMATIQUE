@@ -26,6 +26,10 @@ class SaleOrder(models.Model):
         "sale.order.odoo_x3_log", "sale_id", string="Odoo-X3 log", readonly=True
     )
 
+    @api.onchange("partner_id")
+    def onchange_partner_id(self):
+        if not self.sinergis_x3_company_id:
+            self.sinergis_x3_company_id = self.env["sinergis_x3.settings.company"].search([("company_id","=",self.partner_id.company_id.id)], limit=1)
 
     #Bouton qui informe que la commande est bien synchronisée su Odoo
     def sinegis_x3_header_connected (self):
