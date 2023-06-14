@@ -28,6 +28,10 @@ class SinergisX3SettingsSinergisSubProduct(models.Model):
     sinergis_subproduct_id = fields.Many2one("sale.products.subproducts", string="Sous-produit Sinergis", required=True)
     code = fields.Char(string="Code X3")
 
+    @api.onchange ("sinergis_product_id")
+    def onchange_sinergis_product_id(self):
+        self.sinergis_subproduct_id = False
+
 class SinergisX3SettingsHostable(models.Model):
     _name = "sinergis_x3.settings.hostable"
     _description = "Codes hébergement"

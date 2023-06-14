@@ -82,28 +82,26 @@
         <field name="model">sinergis_x3.settings.sinergis_subproduct</field>
         <field name="arch" type="xml">
             <tree string="Transcodage sous-produits Sinergis">
+                <field name="sinergis_product_id"/>
                 <field name="sinergis_subproduct_id"/>
                 <field name="code"/>
             </tree>
         </field>
     </record>
 
-    <record id="sinergis_x3_settings_sinergis_product_view_form" model="ir.ui.view">
-        <field name="name">sinergis_x3.settings.sinergis_product.view.form</field>
-        <field name="model">sinergis_x3.settings.product.template</field>
+    <record id="sinergis_x3_settings_sinergis_subproduct_view_form" model="ir.ui.view">
+        <field name="name">sinergis_x3.settings.sinergis_subproduct.view.form</field>
+        <field name="model">sinergis_x3.settings.sinergis_subproduct</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
                     <group>
-                    <field name="product_template_id"/>
-                    <field name="format"/>
+                    <field name="sinergis_product_id"/>
+                    <field name="sinergis_subproduct_id"
+                    attrs="{'readonly':[('sinergis_product_id','=',False)]}"
+                    domain="[('product_id', '=', sinergis_product_id)]"/>
+                    <field name="code"/>
                     </group>
-                    <br/>
-                    <p style="font-size: 10px;">Guide : Pour renseigner le format, vous disposez des variables suivantes :
-                    <br/>- {product} : Code produit Sinergis
-                    <br/>- {subproduct} : Code sous-produit Sinergis
-                    <br/>- {hosted} : Code hébergé ou On Premise
-                    <br/>- {uom} : Code de l'unité de mesure</p>
                 </sheet>
             </form>
         </field>
