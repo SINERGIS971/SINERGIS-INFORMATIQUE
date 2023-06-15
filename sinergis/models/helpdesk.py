@@ -408,8 +408,12 @@ class HelpdeskTicket(models.Model):
                 partner_id = self.partner_id
                 contact_id = self.x_sinergis_helpdesk_ticket_contact
                 if start and stop and stop > start:
+                    if partner_id:
+                        event_name = f"ASSISTANCE - {partner_id.name}"
+                    else:
+                        event_name = "ASSISTANCE"
                     context = {
-                        "name" : f"ASSISTANCE - {partner_id.name}",
+                        "name" : event_name,
                         "user_id" : self.user_id.id,
                         "start" : start,
                         "stop" : stop,

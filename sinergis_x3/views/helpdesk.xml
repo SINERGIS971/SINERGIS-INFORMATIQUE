@@ -8,7 +8,40 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='x_sinergis_helpdesk_ticket_contrat_heures']" position="before">
-                    <field name="x_sinergis_x3_annual_contracts" domain="[('partner_id', '=', partner_id)]">
+                    <field name="x_sinergis_x3_annual_contracts">
+                        <tree decoration-danger="expired==True">
+                        <field name="expired" invisible="1"/>
+
+                        <field name="X_SERNUM"/>
+
+                        <field name="SALFCY"/>
+                        <field name="SOHTYP" optional="hide"/>
+                        <field name="SOHNUM" optional="hide"/>
+                        <field name="CUSORDREF"/>
+                        <field name="ORDDAT"/>
+                        <field name="TSICOD0" optional="hide"/>
+                        <field name="TSICOD1"/>
+                        <field name="TSICOD2"/>
+                        <field name="TSICOD4"/>
+                        <field name="ITMDES" optional="hide"/>
+                        <field name="X_EVO" optional="hide"/>
+                        <field name="X_COMEVO" optional="hide"/>
+                        <field name="X_PERIOD" optional="hide"/>
+                        <field name="X_RENOUVELE" optional="hide"/>
+                        <field name="STRDAT"/>
+                        <field name="ENDDAT"/>
+                        <field name="QTY" optional="hide"/>
+                        <field name="SAU" optional="hide"/>
+                        <field name="NETPRI" optional="hide"/>
+                        <field name="PFM" optional="hide"/>
+                        <field name="X_RESILIE"/>
+                        <field name="X_DATRESIL" optional="hide"/>
+                        <field name="LASINVNUM" optional="hide"/>
+                        <field name="AMTLOC" optional="hide"/>
+                        <field name="PAYLOC" optional="hide"/>
+                        <field name="TMPLOC" optional="hide"/>
+                      </tree>
+                    </field>
                 </xpath>
 
             </field>
