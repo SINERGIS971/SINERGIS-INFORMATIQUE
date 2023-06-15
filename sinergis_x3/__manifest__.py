@@ -28,8 +28,8 @@
         'views/res_config.xml',
         'views/partner.xml',
         'views/annual_contract.xml',
+        'views/helpdesk.xml',
         'data/automation.xml',
-        'data/helpdesk.xml',
     ],
     'assets': {
         'web.assets_backend': [
