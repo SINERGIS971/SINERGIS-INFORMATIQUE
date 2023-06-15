@@ -9,7 +9,7 @@
 
                 <xpath expr="//field[@name='x_sinergis_helpdesk_ticket_contrat_heures']" position="before">
                     <field name="x_sinergis_x3_annual_contracts">
-                        <tree decoration-danger="expired==True">
+                        <tree decoration-danger="expired==True" default_order='ORDDAT'>
                         <field name="expired" invisible="1"/>
 
                         <field name="X_SERNUM"/>

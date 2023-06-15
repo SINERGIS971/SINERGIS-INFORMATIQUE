@@ -39,17 +39,20 @@ class SaleOrder(models.Model):
         self.send_order_to_x3()
         return True
 
+    def create_log(self, content, log_type):
+        self.env["sale.order.odoo_x3_log"].create({
+            "sale_id" : self.id,
+            "name" : content,
+            "type" : log_type
+            })
+
     def send_order_to_x3(self):
         enable = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.enable')
         if not enable:
             return True
 
         if self.sinergis_x3_transfered:
-            self.env["sale.order.odoo_x3_log"].create({
-            "sale_id" : self.id,
-            "name" : "Le devis est passé en bon de commande mais un transfert avait déjà été effectué sur celui-ci.",
-            "type" : "warning"
-            })
+            self.create_log(content="Le devis est passé en bon de commande mais un transfert avait déjà été effectué sur celui-ci.", log_type="warning")
             return True
 
         missing_data = []
@@ -111,11 +114,7 @@ class SaleOrder(models.Model):
                 missing_data.append(f"pas de format pour l'article ({line.product_id.name})")
 
         if len(missing_data) > 0:
-            self.env["sale.order.odoo_x3_log"].create({
-                "sale_id" : self.id,
-                "name" : f"Echec du transfert ! Éléments manquants : {','.join(missing_data)} ",
-                "type" : "danger"
-            })
+            self.create_log(content=f"Echec du transfert ! Éléments manquants : {','.join(missing_data)} ", log_type="danger")
             return True
 
 
@@ -130,11 +129,7 @@ class SaleOrder(models.Model):
                    'Authorization': f'Basic {authentication_token}',
                    'soapaction': "\"\""}
         data_soap = order_to_soap(data, pool_alias=pool_alias, public_name=public_name)
-        self.env["sale.order.odoo_x3_log"].create({
-            "sale_id" : self.id,
-            "name" : f"DEBUG : {data_soap}",
-            "type" : "warning"
-            })
+        self.create_log(content=f"DEBUG : {data_soap}", log_type="warning")
         #Connection to X3
         base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
         path_x3_orders = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
@@ -143,21 +138,19 @@ class SaleOrder(models.Model):
             response_dict = xmltodict.parse(response)
             status = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["status"]["#text"]
         except:
-            self.env["sale.order.odoo_x3_log"].create({
-            "sale_id" : self.id,
-            "name" : f"La réponse obtenue par le serveur n'est pas correcte. Réponse : {response}",
-            "type" : "danger"
-            })
+            self.create_log(content=f"La réponse obtenue par le serveur n'est pas correcte. Réponse : {response}", log_type="danger")
             return True
         
         # S'il y a une erreur dans la requête
         if status != "1":
-            self.env["sale.order.odoo_x3_log"].create({
-            "sale_id" : self.id,
-            "name" : f"Erreur rencontrée sur X3! Réponse : {response}",
-            "type" : "danger"
-            })
-            return True
+            if "Erreur zone [M:SOH4]ITMREF" in response:
+                code_list = []
+                for line in data_lines:
+                    code_list.append(line['ITMREF'])
+                self.create_log(content=f"Erreur rencontrée sur X3, le code article n'est pas reconnu. Liste des codes articles : {','.join(code_list)}", log_type="danger")
+            else:
+                self.create_log(content=f"Erreur rencontrée sur X3! Réponse : {response}", log_type="danger")
+                return True
         
         # On récupère le code X3 de la commande crée
         try:
@@ -170,21 +163,15 @@ class SaleOrder(models.Model):
                    sinergis_x3_id = fld["#text"]
             self.sinergis_x3_id = sinergis_x3_id
         except:
-            self.env["sale.order.odoo_x3_log"].create({
-                "sale_id" : self.id,
-                "name" : f"Récupération du SOHNUM de la nouvelle commande impossible",
-                "type" : "warning"
-            })
+            self.create_log(content=f"Récupération du SOHNUM de la nouvelle commande impossible", log_type="warning")
+                
 
         # On marque le devis comme transféré
         self.sinergis_x3_transfered = True
         
         # On ajoute dans le log l'information de synchronisation
-        self.env["sale.order.odoo_x3_log"].create({
-            "sale_id" : self.id,
-            "name" : "Transféré avec succès vers X3",
-            "type" : "success"
-        })
+        self.create_log(content=f"Transféré avec succès vers X3", log_type="success")
+        
 
     @api.depends("hostable_in_order_line", "order_line")
     def _compute_hostable_in_order_line(self):
