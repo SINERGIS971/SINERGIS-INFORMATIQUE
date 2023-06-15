@@ -38,6 +38,7 @@
                 <page string="Odoo - X3" name="sinergis_x3_page">
                     <group>
                         <field name="sinergis_x3_id"/>
+                        <field name="sinergis_x3_price_total" attrs="{'invisible': [['sinergis_x3_price_total','=',False]]}"/>
                     </group>
                     <field name="sinergis_x3_log">
                         <tree decoration-success="type=='success'" decoration-danger="type=='danger'" decoration-warning="type=='warning'" >

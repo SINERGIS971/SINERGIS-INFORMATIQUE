@@ -22,6 +22,7 @@ class SaleOrder(models.Model):
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
     sinergis_x3_transfered = fields.Boolean(default=False) # Permet de savoir si le devis a déjà été transféré vers X3
     sinergis_x3_id = fields.Char(string="Numéro X3")
+    sinergis_x3_price_total = fields.Float(string="Total TTC dans X3 (€)", default=False)
     sinergis_x3_log = fields.One2many(
         "sale.order.odoo_x3_log", "sale_id", string="Odoo-X3 log", readonly=True
     )
@@ -158,12 +159,20 @@ class SaleOrder(models.Model):
             result_xml = result_xml.replace("""'<?xml version="1.0" encoding="UTF-8"?>""","")
             result_dict = xmltodict.parse(result_xml)
             sinergis_x3_id = False
-            for fld in result_dict["RESULT"]["GRP"][0]["FLD"]:
-                if fld["@NAME"] == "SOHNUM":
-                   sinergis_x3_id = fld["#text"]
+            sinergis_x3_price_total = False
+            for grp in result_dict["RESULT"]["GRP"]:
+                if grp["@ID"] == "SOH0_1":
+                    for fld in grp["FLD"]:
+                        if fld["@NAME"] == "SOHNUM":
+                            sinergis_x3_id = fld["#text"]
+                if grp["@ID"] == "SOH4_4":
+                    for fld in grp["FLD"]:
+                        if fld["@NAME"] == "ORDINVATI":
+                            sinergis_x3_price_total = fld["#text"]
             self.sinergis_x3_id = sinergis_x3_id
+            self.sinergis_x3_price_total = sinergis_x3_price_total
         except:
-            self.create_log(content=f"Récupération du SOHNUM de la nouvelle commande impossible", log_type="warning")
+            self.create_log(content=f"Récupération du SOHNUM et du total TTC de la nouvelle commande impossible", log_type="warning")
                 
 
         # On marque le devis comme transféré
