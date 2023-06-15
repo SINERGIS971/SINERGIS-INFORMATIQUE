@@ -17,7 +17,7 @@
     'category': 'Tools',
     'version': '0.1',
 
-    'depends': ['sinergis','mail'],
+    'depends': ['sinergis','mail','helpdesk'],
 
     'data': [
         'security/security.xml',
@@ -29,6 +29,7 @@
         'views/partner.xml',
         'views/annual_contract.xml',
         'data/automation.xml',
+        'data/helpdesk.xml',
     ],
     'assets': {
         'web.assets_backend': [
