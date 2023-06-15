@@ -23,6 +23,7 @@ class SaleOrder(models.Model):
     sinergis_x3_transfered = fields.Boolean(default=False) # Permet de savoir si le devis a déjà été transféré vers X3
     sinergis_x3_id = fields.Char(string="Numéro X3")
     sinergis_x3_price_total = fields.Float(string="Total TTC dans X3 (€)", default=False)
+    sinergis_x3_correct_price = fields.Boolean(compute="_compute_sinergis_x3_correct_price")
     sinergis_x3_log = fields.One2many(
         "sale.order.odoo_x3_log", "sale_id", string="Odoo-X3 log", readonly=True
     )
@@ -31,6 +32,14 @@ class SaleOrder(models.Model):
     def onchange_partner_id_sinergis_x3(self):
         if not self.sinergis_x3_company_id:
             self.sinergis_x3_company_id = self.env["sinergis_x3.settings.company"].search([("company_id","=",self.partner_id.company_id.id)], limit=1)
+
+    @api.depends("sinergis_x3_correct_price")
+    def _compute_sinergis_x3_correct_price (self):
+        for rec in self:
+            if rec.amount_total != rec.sinergis_x3_price_total and rec.sinergis_x3_transfered:
+                sinergis_x3_correct_price = False
+            else:
+                sinergis_x3_correct_price = True 
 
     #Bouton qui informe que la commande est bien synchronisée su Odoo
     def sinegis_x3_header_connected (self):
@@ -95,6 +104,8 @@ class SaleOrder(models.Model):
                 if "{subproduct}" in product_format:
                     if sinergis_subproduct:
                         product_format = product_format.replace("{subproduct}", sinergis_subproduct)
+                    else :
+                        product_format = product_format.replace("{subproduct}", "")
                 # Load the hosted code
                 product_format = product_format.replace("{hosted}", hosted)
                 # Load the UoM code
@@ -144,14 +155,14 @@ class SaleOrder(models.Model):
         
         # S'il y a une erreur dans la requête
         if status != "1":
-            if "Erreur zone [M:SOH4]ITMREF" in response:
+            if "Erreur zone [M:SOH4]ITMREF" in str(response):
                 code_list = []
                 for line in data_lines:
                     code_list.append(line['ITMREF'])
                 self.create_log(content=f"Erreur rencontrée sur X3, le code article n'est pas reconnu. Liste des codes articles : {','.join(code_list)}", log_type="danger")
             else:
                 self.create_log(content=f"Erreur rencontrée sur X3! Réponse : {response}", log_type="danger")
-                return True
+            return True
         
         # On récupère le code X3 de la commande crée
         try:

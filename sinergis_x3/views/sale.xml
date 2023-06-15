@@ -34,6 +34,12 @@
                 <field name="sinergis_x3_company_id" options="{'no_create': True, 'no_create_edit':True}"/>
             </xpath>
 
+            <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                <div attrs="{'invisible': [['sinergis_x3_correct_price','=',True]]}">
+                    <p style="color: red; font-size:13px;">ATTENTION : Le total TTC dans X3 est différent de celui d'Odoo !</p>
+                </div>
+            </xpath>
+
             <xpath expr="//notebook" position="inside">
                 <page string="Odoo - X3" name="sinergis_x3_page">
                     <group>
