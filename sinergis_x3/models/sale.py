@@ -37,9 +37,9 @@ class SaleOrder(models.Model):
     def _compute_sinergis_x3_correct_price (self):
         for rec in self:
             if rec.amount_total != rec.sinergis_x3_price_total and rec.sinergis_x3_transfered:
-                sinergis_x3_correct_price = False
+                rec.sinergis_x3_correct_price = False
             else:
-                sinergis_x3_correct_price = True 
+                rec.sinergis_x3_correct_price = True 
 
     #Bouton qui informe que la commande est bien synchronisée su Odoo
     def sinegis_x3_header_connected (self):

@@ -31,12 +31,13 @@
             </xpath>
 
             <xpath expr="//field[@name='partner_invoice_id']" position="before">
+                <field name="sinergis_x3_correct_price" invisible="1"/>
                 <field name="sinergis_x3_company_id" options="{'no_create': True, 'no_create_edit':True}"/>
             </xpath>
 
-            <xpath expr="//field[@name='partner_shipping_id']" position="after">
+            <xpath expr="//group[@name='order_details']" position="after">
                 <div attrs="{'invisible': [['sinergis_x3_correct_price','=',True]]}">
-                    <p style="color: red; font-size:13px;">ATTENTION : Le total TTC dans X3 est différent de celui d'Odoo !</p>
+                    <p style="color: orange; font-size:15px; border: 5px solid orange; padding: 5px;">ATTENTION : Le total TTC dans X3 est différent de celui d'Odoo !</p>
                 </div>
             </xpath>
 
