@@ -52,3 +52,7 @@ class ResConfigSettings(models.TransientModel):
                 raise ValidationError("Connexion : SUCCESS")
             else :
                 raise ValidationError(f"Connexion : ECHEC | Code : {str(code)}")
+
+    # Remise à zero des contrats annuels    
+    def reset_annual_contracts(self):
+        self.env["sinergis_x3.annual_contract"].search([], limit=1000000).unlink()

@@ -34,6 +34,10 @@
                                         <div class="row mt16">
                                             <button name="test_x3_connection" class="oe_highlight btn-info" type="object" string="TESTER LA CONNEXION"/>
                                         </div>
+                                        <br/>
+                                        <div class="row mt16">
+                                            <button name="reset_annual_contracts" class="oe_highlight btn-info" type="object" string="SUPPRIMER LES CONTRATS ANNUELS"/>
+                                        </div>
                                     </div>
                                 </div>
                                 <br/>

@@ -12,7 +12,9 @@
             <notebook position="inside">
                 <page string="Contrats annuels X3">
                     <field name="x_sinergis_x3_annual_contract">
-                      <tree>
+                      <tree decoration-danger="expired==True">
+                        <field name="expired" invisible="1"/>
+
                         <field name="X_SERNUM"/>
 
                         <field name="SALFCY"/>

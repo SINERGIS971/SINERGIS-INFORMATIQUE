@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 import requests
 import json
@@ -48,6 +48,19 @@ class SinergisAnnualContracts(models.Model):
     AMTLOC = fields.Float(string="Montant échéance") #OPT
     PAYLOC = fields.Float(string="Montant payé comptabilisé") #OPT
     TMPLOC = fields.Float(string="Montant payé provisoire") #OPT
+
+    expired = fields.Boolean(compute="_compute_expired")
+
+    @api.depends("expired")
+    def _compute_expired(self):
+        for rec in self:
+            if rec.ENDDAT :
+                if rec.ENDDAT <= date.today():
+                    rec.expired = True
+                else :
+                    rec.expired = False
+            else:
+                rec.expired = False
 
     def load_xctrencours_x3 (self):
         # Chargement authentification
@@ -179,8 +192,7 @@ class SinergisAnnualContracts(models.Model):
                                 "PAYLOC": PAYLOC,
                                 "TMPLOC": TMPLOC
                         }
-                        self.env['sinergis_x3.annual_contract'].create(data)
-            
+                        self.env['sinergis_x3.annual_contract'].create(data)      
 
         
 

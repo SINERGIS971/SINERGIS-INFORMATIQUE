@@ -83,8 +83,6 @@ class SaleOrder(models.Model):
             uom = self.env["sinergis_x3.settings.uom"].search([("uom_id","=",line.product_uom.id)], limit=1).code
             if not hosted:
                 missing_data.append(f"transcodage de l'état Hébergé")
-            if not uom:
-                missing_data.append(f"transcodage de l'unité de temps ({line.product_uom.name})")
             
             product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).format
             if product_format :
@@ -96,7 +94,8 @@ class SaleOrder(models.Model):
                 # Load the hosted code
                 product_format = product_format.replace("{hosted}", hosted)
                 # Load the UoM code
-                product_format = product_format.replace("{uom}", uom)
+                if uom:
+                    product_format = product_format.replace("{uom}", uom)
                 # Creating the line data
                 data_line={
                     "ITMREF" : product_format,
