@@ -132,6 +132,21 @@ class Training(models.Model):
         # Signataire interne lié à la société Sinergis.
         self.agreement_internal_signer = False
 
+    # Ne pas autoriser de mettre une date de début ou fin dans le mauvais sens
+    @api.onchange("start")
+    def on_change_start(self):
+        if self.end and self.start:
+            if self.end < self.start:
+                raise ValidationError("Attention ! La date de début est supérieure à la date de fin.")
+            
+    @api.onchange("stop")
+    def on_change_stop(self):
+        if self.end and self.start:
+            if self.end < self.start:
+                raise ValidationError("Attention ! La date de fin est inférieure à la date de début.")
+
+
+
     # Détecte une erreur dans l'enregistrement des heures de formation
     # - Si les heures planifiées dépassent celles du bon de commande
     # - Si les heures planifiées sont insuffisantes par rapport à celles du bon de commande
@@ -382,6 +397,9 @@ class Training(models.Model):
     def download_training_agreement(self):
         if Training.verification_training_agreement(self):
             return self.env.ref('training.training_agreement_report').report_action(self)
+        
+    def download_training_quiz_answers(self):
+        return self.env.ref('training.training_quiz_report').report_action(self)
 
     def send_training_agreement(self):
         if Training.verification_training_agreement(self):

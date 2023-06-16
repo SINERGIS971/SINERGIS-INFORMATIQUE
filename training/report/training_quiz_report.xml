@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Enregistrement des informations du rapport -->
+	<record id="training_quiz_report" model="ir.actions.report">
+		<field name="name">Quiz de la formation</field>
+		<field name="model">training</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">training.training_quiz_report</field>
+		<field name="report_file">training.training_quiz_report</field>
+		<field name="binding_model_id" eval="False"/>
+		<field name="binding_type">report</field>
+	</record>
+	<!-- Enregistrement des données du rapport -->
+	<template id="training_quiz_report">
+		<t t-call="web.html_container">
+			<div class="page">
+			<t t-foreach="docs" t-as="doc">
+				<div class="oe_structure"/>
+			  	<t t-call="web.external_layout">
+						<h1 style="font-size:20px;text-align:center;">Réponses aux quiz de la formation <span t-field="doc.name"/></h1>
+                        <h1 style="font-size:16px;text-align:center;">Client : <span t-field="doc.partner_id.name"/></h1>
+
+                        <t t-foreach="doc.training_participants" t-as="line">
+							<tr>
+                                <div t-if="participant.answer_positioning_quiz"><span t-field="participant.answer_positioning_quiz"/></div>
+							</tr>
+						</t>
+				</t>
+			</t>
+			</div>
+        </t>
+	</template>
+</odoo>
