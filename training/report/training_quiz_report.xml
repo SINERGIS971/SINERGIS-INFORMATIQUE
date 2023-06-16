@@ -5,26 +5,61 @@
 		<field name="name">Quiz de la formation</field>
 		<field name="model">training</field>
 		<field name="report_type">qweb-pdf</field>
-		<field name="report_name">training.training_quiz_report</field>
-		<field name="report_file">training.training_quiz_report</field>
+		<field name="report_name">training.quiz_report</field>
+		<field name="report_file">training.quiz_report</field>
 		<field name="binding_model_id" eval="False"/>
 		<field name="binding_type">report</field>
 	</record>
 	<!-- Enregistrement des données du rapport -->
-	<template id="training_quiz_report">
+	<template id="quiz_report">
 		<t t-call="web.html_container">
 			<div class="page">
 			<t t-foreach="docs" t-as="doc">
 				<div class="oe_structure"/>
-			  	<t t-call="web.external_layout">
-						<h1 style="font-size:20px;text-align:center;">Réponses aux quiz de la formation <span t-field="doc.name"/></h1>
-                        <h1 style="font-size:16px;text-align:center;">Client : <span t-field="doc.partner_id.name"/></h1>
-
-                        <t t-foreach="doc.training_participants" t-as="line">
-							<tr>
-                                <div t-if="participant.answer_positioning_quiz"><span t-field="participant.answer_positioning_quiz"/></div>
-							</tr>
+			  	<t t-call="training.layout_training_attendance_sheet">
+						<h1 style="font-size:22px;text-align:center;">Réponses aux quiz de la formation : <span t-field="doc.name"/></h1>
+                        <h2 style="font-size:19px;text-align:center;">Client : <span t-field="doc.partner_id.name"/></h2>
+                        <br/><br/>
+                        <t t-foreach="doc.training_participants" t-as="participant">
+                            <br/><br/>
+                            <h3 style="font-size:19px; font-weight: bold; color:#F59F1C;"><span t-field="participant.name"/></h3>
+                            <div t-if="participant.answer_positioning_quiz">
+                                <p style="font-size:13px;color: #536FFB;">Quiz de positionnement</p>
+                                <t t-if="participant.mark_positioning_quiz>=0"><span t-field="participant.mark_positioning_quiz"/> / 20</t>
+                                <span t-field="participant.answer_positioning_quiz" style="font-size:12px;"/>
+                                <br/>
+                            </div>
+                            <div t-if="participant.answer_quiz_diagnostic">
+                                <p style="font-size:13px;color: #536FFB;">Quiz de diagnostic</p>
+                                <t t-if="participant.mark_quiz_diagnostic>=0"><span t-field="participant.mark_quiz_diagnostic"/> / 20</t>
+                                <span t-field="participant.answer_quiz_diagnostic" style="font-size:12px;"/>
+                                <br/>
+                            </div>
+                            <div t-if="participant.answer_prior_learning_quiz">
+                                <p style="font-size:13px;color: #536FFB;">Quiz d'évaluation des acquis</p>
+                                <t t-if="participant.mark_prior_learning_quiz>=0"><span t-field="participant.mark_prior_learning_quiz"/> / 20</t>
+                                <span t-field="participant.answer_prior_learning_quiz" style="font-size:12px;"/>
+                                <br/>
+                            </div>
+                            <div t-if="participant.answer_training_evaluation">
+                                <p style="font-size:13px;color: #536FFB;">Évaluation de la formation</p>
+                                <t t-if="participant.mark_training_evaluation>=0"><span t-field="participant.mark_positioning_quiz"/> / 20</t>
+                                <span t-field="participant.answer_training_evaluation" style="font-size:12px;"/>
+                                <br/>
+                            </div>
 						</t>
+                        <div t-if="doc.answer_delayed_assessment">
+                                <h2 style="font-size:16px;text-align:center;">Évaluation à froid du référent :</h2>
+                                <t t-if="doc.mark_delayed_assessment>=0"><span t-field="doc.mark_delayed_assessment"/> / 20</t>
+                                <span t-field="doc.answer_delayed_assessment" style="font-size:12px;"/>
+                                <br/>
+                        </div>
+
+                        <div t-if="doc.answer_opco_quiz">
+                            <h2 style="font-size:18px;text-align:center;">Quiz de l'OPCO</h2>
+                            <t t-if="doc.mark_opco_quiz>=0"><span t-field="doc.mark_opco_quiz" style="font-size:12px;"/> / 20</t>
+                            <span t-field="doc.answer_opco_quiz" style="font-size:12px;"/>
+                        </div>
 				</t>
 			</t>
 			</div>

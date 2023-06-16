@@ -656,22 +656,22 @@
               <field name="training_evaluation_received" invisible="True"/>
               <div attrs="{'invisible': [('positioning_quiz_received',  '=', False)]}" style="margin-left:20px;">
                 <separator string="Quiz de positionnement" style="font-size: 16px;"/>
-                <div attrs="{'invisible': [('mark_positioning_quiz',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_positioning_quiz" readonly="True"/></div>
+                <div attrs="{'invisible': [('mark_positioning_quiz',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_positioning_quiz" readonly="True"/> / 20</div>
                 <field name="answer_positioning_quiz"/>
               </div>
               <div attrs="{'invisible': [('diagnostic_received',  '=', False)]}" style="margin-left:20px;">
                 <separator string="Quiz diagnostic" style="font-size: 16px;"/>
-                <div attrs="{'invisible': [('mark_quiz_diagnostic',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_quiz_diagnostic" readonly="True"/></div>
+                <div attrs="{'invisible': [('mark_quiz_diagnostic',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_quiz_diagnostic" readonly="True"/> / 20</div>
                 <field name="answer_quiz_diagnostic"/>
               </div>
               <div attrs="{'invisible': [('prior_learning_quiz_received',  '=', False)]}" style="margin-left:20px;">
                 <separator string="Quiz de validation des acquis" style="font-size: 16px;"/>
-                <div attrs="{'invisible': [('mark_prior_learning_quiz',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_prior_learning_quiz" readonly="True"/></div>
+                <div attrs="{'invisible': [('mark_prior_learning_quiz',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_prior_learning_quiz" readonly="True"/> / 20</div>
                 <field name="answer_prior_learning_quiz"/>
               </div>
               <div attrs="{'invisible': [('training_evaluation_received',  '=', False)]}" style="margin-left:20px;">
                 <separator string="Quiz évaluation formation" style="font-size: 16px;"/>
-                <div attrs="{'invisible': [('mark_training_evaluation',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_training_evaluation" readonly="True"/></div>
+                <div attrs="{'invisible': [('mark_training_evaluation',  '=', -1)]}" style="color:#DCC222; font-size: 16px;">Note : <field name="mark_training_evaluation" readonly="True"/> / 20</div>
                 <field name="answer_training_evaluation"/>
               </div>
             </div>
