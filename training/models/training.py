@@ -139,8 +139,8 @@ class Training(models.Model):
             if self.end < self.start:
                 raise ValidationError("Attention ! La date de début est supérieure à la date de fin.")
             
-    @api.onchange("stop")
-    def on_change_stop(self):
+    @api.onchange("end")
+    def on_change_end(self):
         if self.end and self.start:
             if self.end < self.start:
                 raise ValidationError("Attention ! La date de fin est inférieure à la date de début.")
