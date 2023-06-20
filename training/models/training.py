@@ -374,6 +374,16 @@ class Training(models.Model):
             'res_model': 'sale.order',
             'res_id': self.sale_id.id,
         }
+    
+    def action_open_sended_mail(self):
+        participants_ids = self.env['training.participants'].search([('training_id','=', self.id)], limit=1)
+        return {
+            'name': 'Emails envoyés concernant la formation',
+            'type': 'ir.actions.act_window',
+            "views": [[False, "tree"],[False, "form"]],
+            'res_model': 'mail.mail',
+            'domain': f"[('model','=','training.participants'),('res_id', 'in', {str(participants_ids)})]",
+        }
 
     #Other buttons
 

@@ -91,6 +91,7 @@
                   <div class="oe_button_box" name="button_box">
                     <field name="sale_id" invisible="True"/>
                     <button name="action_open_sale_id" string="Ouvrir le devis" type="object" class="oe_link" icon="fa-file-text-o" attrs="{'invisible': [('sale_id', '=', False)]}"/>
+                    <button name="action_open_sended_mail" string="Mails envoyés" type="object" class="oe_link" icon="fa-envelope-o"/>
                   </div>
                   <p>
                       <input type="checkbox" id="training_show_hide_checkbox" name="training_show_hide_checkbox" onclick="trainingShowHideOldParts()"/>
