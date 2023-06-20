@@ -22,6 +22,11 @@ class Training(models.Model):
     sale_id = fields.Many2one("sale.order", string="Devis")
     sale_order_line_id = fields.Many2one("sale.order.line")
 
+    # Heures réalisées, prévues, restantes
+    planned_hours = fields.Float(string="Heures prévues", compute="_compute_task_hours")
+    effective_hours = fields.Float(string="Heures effectuées", compute="_compute_task_hours")
+    remaining_hours = fields.Float(string="Heures restantes", compute="_compute_task_hours")
+
     #Quiz tokens
     token_delayed_assessment = fields.Char(default="")
     token_opco_quiz = fields.Char(default="")
@@ -145,6 +150,13 @@ class Training(models.Model):
             if self.end < self.start:
                 raise ValidationError("Attention ! La date de fin est inférieure à la date de début.")
 
+    @api.depends('planned_hours','effective_hours','remaining_hours')
+    def _compute_task_hours(self):
+        for rec in self:
+            task = self.env["project.task"].search([("sale_line_id", "=", rec.sale_order_line_id)], limit=1)
+            rec.planned_hours = task.planned_hours
+            rec.effective_hours = task.effective_hours
+            rec.remaining_hours = task.remaining_hours
 
 
     # Détecte une erreur dans l'enregistrement des heures de formation
