@@ -53,7 +53,7 @@
     </record>
 
     <menuitem id="menu_sinergis_sale_report"
-            name="Articles"
+            name="Ventes SINERGIS"
             parent="sale.menu_sale_report"
             sequence="5"
             action="action_sinergis_order_report_all"

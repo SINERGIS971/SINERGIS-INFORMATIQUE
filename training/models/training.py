@@ -160,7 +160,7 @@ class Training(models.Model):
             rec.remaining_hours = task.remaining_hours
             scheduled_hours = 0
             for planned_hour in rec.planned_hours_ids:
-                scheduled_hours += planned_hour
+                scheduled_hours += planned_hour.duration
             rec.scheduled_hours = scheduled_hours
 
 

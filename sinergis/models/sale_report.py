@@ -38,6 +38,10 @@ class SinergisSaleReport(models.Model):
     effective_hours = fields.Float("Heures réalisées", readonly=True)
     remaining_hours = fields.Float("Heures restantes", readonly=True)
 
+    # Montant facturé et non facturé
+    total_billed = fields.Float(string="Total facturé", readonly=True)
+    total_unbilled = fields.Float(string="Total non facturé", readonly=True)
+
     def _select_sale(self, fields=None):
         if not fields:
             fields = {}
@@ -82,6 +86,23 @@ class SinergisSaleReport(models.Model):
             CASE WHEN l.product_id IS NOT NULL THEN SUM(pt.planned_hours) ELSE 0 END AS planned_hours,
             CASE WHEN l.product_id IS NOT NULL THEN SUM(aal.total_unit_amount) ELSE 0 END AS effective_hours,
             CASE WHEN SUM(aal.total_unit_amount) IS NOT NULL THEN (SUM(pt.planned_hours)-SUM(aal.total_unit_amount)) ELSE SUM(pt.planned_hours) END AS remaining_hours,
+            
+            CASE
+                WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 AND NOT s.x_sinergis_sale_order_solde_x3
+                THEN sum(t.deposit_percentage*l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
+                WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 AND s.x_sinergis_sale_order_solde_x3
+                THEN sum(l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
+                ELSE 0
+            END as total_billed,
+
+            CASE
+                WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 AND NOT s.x_sinergis_sale_order_solde_x3
+                THEN sum((1-t.deposit_percentage)*l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
+                WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 AND s.x_sinergis_sale_order_solde_x3
+                THEN 0
+                ELSE sum(l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
+            END as total_unbilled,
+
             pt.id as task_id
         """
         for field in fields.values():

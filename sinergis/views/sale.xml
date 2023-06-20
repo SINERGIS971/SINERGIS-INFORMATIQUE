@@ -116,8 +116,8 @@
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="x_sinergis_sale_order_signed_quote"/>
-                <field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <field name="x_sinergis_sale_order_amount_remaining" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                <!--<field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>-->
+                <!--<field name="x_sinergis_sale_order_amount_remaining" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>-->
                 <field name="x_sinergis_sale_order_days_count"/>
                 <p style="font-size:8pt;">Dans le calcul du nombre de jours, une journée correspond à 7h.</p>
                 <field name="x_sinergis_sale_order_facture_acompte" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
