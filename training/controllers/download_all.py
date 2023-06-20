@@ -65,6 +65,7 @@ class DownloadAllTraining(http.Controller):
                     content_attendance_sheet_base64 = sheet.file
                     content_attendance_sheet = base64.b64decode(content_attendance_sheet_base64)
                     zipf.writestr(name_attendance_sheet, content_attendance_sheet)
+                    i+=1
 
         data = BytesIO(base64.standard_b64decode(zip_buffer.getvalue()))
         return http.send_file(zip_buffer, filename='archive12.zip', as_attachment=True)
