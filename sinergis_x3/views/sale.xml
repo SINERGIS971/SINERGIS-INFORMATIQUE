@@ -36,7 +36,7 @@
             </xpath>
 
             <xpath expr="//group[@name='order_details']" position="after">
-                <div attrs="{'invisible': [['sinergis_x3_correct_price','=',True]]}">
+                <div attrs="{'invisible': ['|',('sinergis_x3_correct_price','=',True),('sinergis_x3_price_total','=',0)]}">
                     <p style="color: orange; font-size:15px; border: 5px solid orange; padding: 5px;">ATTENTION : Le total TTC dans X3 est différent de celui d'Odoo !</p>
                 </div>
             </xpath>
