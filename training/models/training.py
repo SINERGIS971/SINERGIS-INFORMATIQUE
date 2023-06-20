@@ -400,6 +400,15 @@ class Training(models.Model):
         
     def download_training_quiz_answers(self):
         return self.env.ref('training.training_quiz_report').report_action(self)
+    
+    def download_all_documents(self):
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"{str(base_url)}/training/download_all?training_id={str(self.id)}",
+            "target": "new",
+        }
+
 
     def send_training_agreement(self):
         if Training.verification_training_agreement(self):
