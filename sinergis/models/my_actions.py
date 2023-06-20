@@ -2,6 +2,13 @@ from odoo import api, fields, models, tools
 from odoo.exceptions import ValidationError
 from datetime import datetime
 
+class MyActionsReinvoiced(models.Model):
+    _name = "sinergis.myactions.reinvoiced"
+    _description = "Interventions refacturées"
+    model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
+    model_id = fields.Integer(string="")
+    reinvoiced_company_id = fields.Many2one("res.company",string="Agence")
+
 class MyActions(models.Model):
     _name = "sinergis.myactions"
     _auto = False
@@ -371,10 +378,3 @@ class MyActionsBilled(models.Model):
     _description = "Interventions facturées"
     model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
     model_id = fields.Integer(string="")
-
-class MyActionsReinvoiced(models.Model):
-    _name = "sinergis.myactions.reinvoiced"
-    _description = "Interventions refacturées"
-    model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
-    model_id = fields.Integer(string="")
-    reinvoiced_company_id = fields.Many2one("res.company",string="Agence")
