@@ -88,15 +88,15 @@ class SinergisSaleReport(models.Model):
             CASE WHEN SUM(aal.total_unit_amount) IS NOT NULL THEN (SUM(pt.planned_hours)-SUM(aal.total_unit_amount)) ELSE SUM(pt.planned_hours) END AS remaining_hours,
             
             CASE
-                WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 = True AND s.x_sinergis_sale_order_solde_x3 = False
+                WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 = True AND (s.x_sinergis_sale_order_solde_x3 = False OR s.x_sinergis_sale_order_solde_x3 IS NULL)
                 THEN sum(t.deposit_percentage*l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
                 WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 = True AND s.x_sinergis_sale_order_solde_x3 = True
                 THEN sum(l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
                 ELSE 0
             END as total_billed,
-
+ 
             CASE
-                WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 = True AND s.x_sinergis_sale_order_solde_x3 = False
+                WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 = True AND (s.x_sinergis_sale_order_solde_x3 = False OR s.x_sinergis_sale_order_solde_x3 IS NULL)
                 THEN sum((1-t.deposit_percentage)*l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
                 WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 = True AND s.x_sinergis_sale_order_solde_x3 = True
                 THEN 0
