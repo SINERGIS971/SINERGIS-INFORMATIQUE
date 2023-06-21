@@ -91,39 +91,40 @@ class SaleOrder(models.Model):
         #Construction des données articles
         data_lines = []
         for line in self.order_line:
-            sinergis_subproduct = self.env["sinergis_x3.settings.sinergis_subproduct"].search([("sinergis_subproduct_id","=",line.x_sinergis_sale_order_line_subproduct_id.id)], limit=1).code
-            hosted = self.env["sinergis_x3.settings.hostable"].search([("hosted","=",line.hosted)], limit=1).code
-            uom = self.env["sinergis_x3.settings.uom"].search([("uom_id","=",line.product_uom.id)], limit=1).code
-            if not hosted:
-                missing_data.append(f"transcodage de l'état Hébergé")
-            
-            product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).format
-            if product_format :
-                product_format = product_format.replace("{product}", sinergis_product)
-                # Load the subproduct
-                if "{subproduct}" in product_format:
-                    if sinergis_subproduct:
-                        product_format = product_format.replace("{subproduct}", sinergis_subproduct)
-                    else :
-                        product_format = product_format.replace("{subproduct}", "")
-                # Load the hosted code
-                product_format = product_format.replace("{hosted}", hosted)
-                # Load the UoM code
-                if uom:
-                    product_format = product_format.replace("{uom}", uom)
-                # Creating the line data
-                data_line={
-                    "ITMREF" : product_format,
-                    "ITMDES" : line.product_id.name,
-                    "QTY" : str(line.product_uom_qty),
-                    #"SAU" : uom,
-                    "GROPRI" : str(line.price_unit),
-                    "DISCRGVAL1" : str(line.discount),
-                    "CPRPRI" : str(line.purchase_price),
-                }
-                data_lines.append(data_line)
-            else:
-                missing_data.append(f"pas de format pour l'article ({line.product_id.name})")
+            if line.product_id:
+                sinergis_subproduct = self.env["sinergis_x3.settings.sinergis_subproduct"].search([("sinergis_subproduct_id","=",line.x_sinergis_sale_order_line_subproduct_id.id)], limit=1).code
+                hosted = self.env["sinergis_x3.settings.hostable"].search([("hosted","=",line.hosted)], limit=1).code
+                uom = self.env["sinergis_x3.settings.uom"].search([("uom_id","=",line.product_uom.id)], limit=1).code
+                if not hosted:
+                    missing_data.append(f"transcodage de l'état Hébergé")
+                
+                product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).format
+                if product_format :
+                    product_format = product_format.replace("{product}", sinergis_product)
+                    # Load the subproduct
+                    if "{subproduct}" in product_format:
+                        if sinergis_subproduct:
+                            product_format = product_format.replace("{subproduct}", sinergis_subproduct)
+                        else :
+                            product_format = product_format.replace("{subproduct}", "")
+                    # Load the hosted code
+                    product_format = product_format.replace("{hosted}", hosted)
+                    # Load the UoM code
+                    if uom:
+                        product_format = product_format.replace("{uom}", uom)
+                    # Creating the line data
+                    data_line={
+                        "ITMREF" : product_format,
+                        "ITMDES" : line.product_id.name,
+                        "QTY" : str(line.product_uom_qty),
+                        #"SAU" : uom,
+                        "GROPRI" : str(line.price_unit),
+                        "DISCRGVAL1" : str(line.discount),
+                        "CPRPRI" : str(line.purchase_price),
+                    }
+                    data_lines.append(data_line)
+                else:
+                    missing_data.append(f"pas de format pour l'article ({line.product_id.name})")
 
         if len(missing_data) > 0:
             self.create_log(content=f"Echec du transfert ! Éléments manquants : {','.join(missing_data)} ", log_type="danger")
