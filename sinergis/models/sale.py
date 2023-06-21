@@ -331,7 +331,7 @@ class SaleOrder(models.Model):
                 # Vérification des sous-produit
                 if self.x_sinergis_sale_order_product_new_have_subproduct:
                     for line in self.order_line:
-                        if not line.x_sinergis_sale_order_line_subproduct_id:
+                        if not line.x_sinergis_sale_order_line_subproduct_id and line.product_id:
                             raise ValidationError("Veuillez indiquer les sous-produits pour les lignes de commande.")
                 # Opérations sur les opportunités liées
                 id = vals.get("id", self.id)
