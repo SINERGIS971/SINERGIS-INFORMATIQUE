@@ -43,7 +43,7 @@
 					<tbody>
 							<tr>
 								<th style="width: 75%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
-									<h1 style="font-size:20px;padding-top:40px;">Feuille d'émargement <span t-esc="i+1"/>/<span t-esc="n"/></h1>
+									<h1 style="font-size:20px;padding-top:40px;">Feuille d'émargement <span t-esc="i+1"/>/<span t-esc="n"/> - <span t-field="doc.partner_id.name"/></h1>
 								</th>
 								 <th style="width: 25%;padding: 0;margin:0;font-weight: normal;">
 									<img src='/web/binary/company_logo' style="max-height: 150px; margin-bottom:0px;" alt="Logo"/>

@@ -156,7 +156,7 @@ class SinergisAnnualContracts(models.Model):
                         X_DATRESIL = False
                         
                 # On regarde si l'élément existe déjà dans la base
-                entity = self.env['sinergis_x3.annual_contract'].search([('BPCORD','=',BPCORD),('SOHNUM','=',SOHNUM),('SOHTYP','=',SOHTYP),('TSICOD0','=',TSICOD0),('TSICOD1','=',TSICOD1),('TSICOD2','=',TSICOD2),('TSICOD4','=',TSICOD4)])
+                entity = self.env['sinergis_x3.annual_contract'].search([('BPCORD','=',BPCORD),('SOHNUM','=',SOHNUM),('SOHTYP','=',SOHTYP),('TSICOD0','=',TSICOD0),('TSICOD1','=',TSICOD1),('TSICOD2','=',TSICOD2),('TSICOD4','=',TSICOD4)], limit=1)
                 if not entity :
                     partner_id = self.env['res.partner'].search([("sinergis_x3_code","=",BPCORD)],limit=1)
                     if partner_id:
@@ -192,9 +192,40 @@ class SinergisAnnualContracts(models.Model):
                                 "PAYLOC": PAYLOC,
                                 "TMPLOC": TMPLOC
                         }
-                        self.env['sinergis_x3.annual_contract'].create(data)      
+                        self.env['sinergis_x3.annual_contract'].create(data)
+                else:
+                    data = {
+                                "SALFCY": SALFCY,
+                                "SOHTYP": SOHTYP,
+                                "SOHNUM": SOHNUM,
+                                "CUSORDREF": CUSORDREF,
+                                "ORDDAT": ORDDAT,
+                                "BPCORD": BPCORD,
+                                "TSICOD0": TSICOD0,
+                                "TSICOD1": TSICOD1,
+                                "TSICOD2": TSICOD2,
+                                "TSICOD4": TSICOD4,
+                                "ITMDES": ITMDES,
+                                "X_SERNUM": X_SERNUM,
+                                "X_EVO": X_EVO,
+                                "X_COMEVO": X_COMEVO,
+                                "X_PERIOD": X_PERIOD,
+                                "X_RENOUVELE": X_RENOUVELE,
+                                "STRDAT": STRDAT,
+                                "ENDDAT": ENDDAT,
+                                "QTY": QTY,
+                                "SAU": SAU,
+                                "NETPRI": NETPRI,
+                                "X_RESILIE": X_RESILIE,
+                                "X_DATRESIL": X_DATRESIL,
+                                "PFM": PFM,
+                                "LASINVNUM": LASINVNUM,
+                                "AMTLOC": AMTLOC,
+                                "PAYLOC": PAYLOC,
+                                "TMPLOC": TMPLOC
+                        }
+                    entity.write(data)
 
-        
 
 class ResPartner(models.Model):
     _inherit = "res.partner"

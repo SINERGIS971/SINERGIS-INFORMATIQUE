@@ -77,12 +77,12 @@ class SaleOrder(models.Model):
             missing_data.append(f"transcodage du produit Sinergis ({self.x_sinergis_sale_order_product_new.name})")
         if not self.partner_id.sinergis_x3_code:
             missing_data.append(f"code X3 du client ({self.partner_id.name})")
-        
+
         data = {"SALFCY" : self.sinergis_x3_company_id.code,
                 "SOHTYP" : "NEW",
                 "CUSORDREF " : self.x_sinergis_sale_order_objet,
                 "X_DEVODOO" : self.name,
-                "ORDDAT" : datetime.now().strftime("%Y%m%d"),
+                "ORDDAT" : self.date_order if self.date_order else datetime.now().strftime("%Y%m%d"),
                 "BPCORD" : self.partner_id.sinergis_x3_code,
                 "REP" : commercial,
                 "REP(1)" : False,
