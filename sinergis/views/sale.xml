@@ -216,6 +216,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='create_date']" position="after">
                 <field name="x_sinergis_sale_order_objet" readonly="1" decoration-bf="1"/>
+                <field name="date_order" optional="hide"/>
             </xpath>
             <xpath expr="//field[@name='company_id']" position="replace">
             </xpath>
