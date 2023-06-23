@@ -28,5 +28,16 @@
         </field>
     </record>
 
+    <record id="sinergis_inherited_email_search" model="ir.ui.view">
+        <field name="name">sinergis.inherited.email.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="mail.view_message_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='message_needaction']" position="after">
+                <filter string="Avec sujet" name="filter_has_subject" domain="[('subject', '!=', False)]"/>
+            </xpath>
+        </field>
+    </record>
+
   </data>
 </odoo>
