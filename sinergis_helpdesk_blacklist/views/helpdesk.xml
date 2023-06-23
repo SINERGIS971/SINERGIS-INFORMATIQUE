@@ -1,6 +1,19 @@
 <odoo>
   <data>
 
+<record id="sinergis_helpdesk_ticket_blacklist_inherited_helpdesk_ticket_select" model="ir.ui.view">
+          <field name="name">sinergis_helpdesk_ticket_blacklist.inherited.helpdesk.ticket.select</field>
+          <field name="model">helpdesk.ticket</field>
+          <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+          <field name="arch" type="xml">
+
+              <xpath expr="//filter[@name='my_ticket']" position="after">
+                <field name="blacklisted" invisible="True"/>
+                <filter string="Blacklisté" name="filter_blacklisted" domain="[('blacklisted', '=', True)]"/>
+              </xpath>
+          </field>
+      </record>
+
 <record id="sinergis_helpdesk_ticket_blacklist_inherited_form" model="ir.ui.view">
             <field name="name">Inherited Helpdesk Ticket Form from Blacklist module</field>
             <field name="model">helpdesk.ticket</field>
