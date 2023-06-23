@@ -84,3 +84,16 @@ class MailActivity(models.Model):
                     rec.x_sinergis_has_attachment = True
             else:
                 rec.x_sinergis_has_attachment = False
+
+class MailMessage(models.Model):
+    _inherit = "mail.message"
+
+    x_sinergis_has_destination = fields.Boolean(compute="_compute_x_sinergis_has_destination")
+
+    @api.depends('x_sinergis_has_destination')
+    def _compute_x_sinergis_has_destination (self):
+        for rec in self:
+            if len(rec.notification_ids) > 0:
+                rec.x_sinergis_has_destination = True
+            else:
+                rec.x_sinergis_has_destination = False
