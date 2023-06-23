@@ -261,6 +261,9 @@ class ProjectProject(models.Model):
                 for task in task_ids:
                     if not task.user_ids:
                         task.user_ids = [(4,values["x_sinergis_project_project_technical_manager"])]
+        if "active" in values :
+            if "CONTRAT D'HEURES" in self.name and values["active"] == False:
+                raise ValidationError("Attention, vous ne pouvez pas archiver un projet contenant tous les contrats d'heures.")
         return super(ProjectProject, self).write(values)
 
     #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
