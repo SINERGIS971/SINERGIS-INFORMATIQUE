@@ -5,7 +5,7 @@
             <field name="name">mail.message.sinergis</field>
             <field name="model_id" ref="mail.model_mail_message"/>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
-            <field name="domain_force">[('author_id', '=', user.id),('x_sinergis_has_destination','=',True)]</field>
+            <field name="domain_force">[('notification_ids','!=',False),('create_uid', '=', user.id)]</field>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
@@ -13,15 +13,17 @@
     </record>
 
     <record id="sinergis.access_mail_message_sinergis_admin" model="ir.rule">
-            <field name="name">mail.message.sinergis</field>
+            <field name="name">mail.message.sinergis.admin</field>
             <field name="model_id" ref="mail.model_mail_message"/>
             <field name="groups" eval="[(4, ref('base.group_system'))]"/>
-            <field name="domain_force">[('email_from','!=',False),('x_sinergis_has_destination','=',True)]</field>
+            <field name="domain_force">[('notification_ids','!=',False)]</field>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
     </record>
+
+    <!-- ANCIEN INTERFACE - NOUS UTILISONS MAINTENANT LES VUES D'ODOO - A REMETTRE SI NECESSAIRE -->
 
     <!--<record id="sinergis_email_message_sent_tree" model="ir.ui.view">
         <field name="name">sinergis_email_message_sent.tree</field>
@@ -75,6 +77,8 @@
             </p>
         </field>
     </record>
+
+    <!-- ANCIEN INTERFACE - NOUS UTILISONS MAINTENANT LES VUES D'ODOO - A REMETTRE SI NECESSAIRE -->
 
     <!-- <record id="sinergis_email_message_sent_action_form" model="ir.actions.act_window.view">
         <field name="sequence" eval="560"/>
