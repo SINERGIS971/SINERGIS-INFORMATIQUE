@@ -5,7 +5,7 @@
             <field name="name">mail.message.sinergis</field>
             <field name="model_id" ref="mail.model_mail_message"/>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
-            <field name="domain_force">['|',('create_uid', '=', user.id),('create_uid', '=', False)]</field>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -25,20 +25,20 @@
 
     <!-- ANCIEN INTERFACE - NOUS UTILISONS MAINTENANT LES VUES D'ODOO - A REMETTRE SI NECESSAIRE -->
 
-    <!--<record id="sinergis_email_message_sent_tree" model="ir.ui.view">
+    <record id="sinergis_email_message_sent_tree" model="ir.ui.view">
         <field name="name">sinergis_email_message_sent.tree</field>
         <field name="type">tree</field>
         <field name="model">mail.message</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="create_uid"/>
                 <field name="date"/>
                 <field name="subject"/>
                 <field name="author_id"/>
                 <field name="partner_ids" widget="many2many_tags"/>
-                <field name="x_sinergis_has_attachment"/>
             </tree>
         </field>
-    </record>-->
+    </record>
 
     <!--<record id="sinergis_email_message_sent_form" model="ir.ui.view">
         <field name="name">sinergis_email_message_sent.form</field>
@@ -88,12 +88,12 @@
         <field name="act_window_id" ref="sinergis_email_message_sent_action"/>
     </record> -->
 
-    <!-- record model="ir.actions.act_window.view" id="sinergis_email_message_sent_action_tree">
+    <record model="ir.actions.act_window.view" id="sinergis_email_message_sent_action_tree">
         <field name="sequence" eval="1"/>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="sinergis_email_message_sent_tree"/>
         <field name="act_window_id" ref="sinergis_email_message_sent_action"/>
-    </record> -->
+    </record>
 
 <!-- MENU -->
 
