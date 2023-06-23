@@ -5,7 +5,7 @@
             <field name="name">mail.message.sinergis</field>
             <field name="model_id" ref="mail.model_mail_message"/>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
-            <field name="domain_force">[('create_uid', '=', user.id),('subject', '!=', False)]</field>
+            <field name="domain_force">['|',('create_uid', '=', user.id),('create_uid', '=', False)]</field>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -16,7 +16,7 @@
             <field name="name">mail.message.sinergis.admin</field>
             <field name="model_id" ref="mail.model_mail_message"/>
             <field name="groups" eval="[(4, ref('base.group_system'))]"/>
-            <field name="domain_force">[('subject', '!=', False)]</field>
+            <field name="domain_force">[]</field>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
