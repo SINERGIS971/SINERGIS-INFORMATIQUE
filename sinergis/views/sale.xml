@@ -154,6 +154,10 @@
                 </group>
             </xpath>
 
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="context">{'default_x_sinergis_sale_order_product_new': x_sinergis_sale_order_line_product_id}</attribute>
+            </xpath>
+
             <!-- MODIFICATION DE LA LISTE -->
             <xpath expr="//field[@name='order_line']//field[@name='product_id'][1]" position="attributes">
                 <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
