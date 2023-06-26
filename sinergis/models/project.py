@@ -83,14 +83,6 @@ class ProjectTask(models.Model):
         if self.x_sinergis_project_task_transfer_archive :
             self.active = False
 
-    @api.onchange("active")
-    def on_change_active (self):
-        if self.active :
-            body = f"Cette tâche a été désarchivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
-        else:
-            body = f"Cette tâche a été archivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
-        self.message_post(body=body)
-
     @api.depends('x_sinergis_project_task_done')
     def _compute_x_sinergis_project_task_done (self):
         for rec in self :
@@ -167,9 +159,6 @@ class ProjectTask(models.Model):
             else:
                 rec.x_sinergis_project_task_is_calendar_event = False
 
-
-
-
     @api.onchange("x_sinergis_project_task_etat_tache")
     def on_change_x_sinergis_project_task_etat_tache(self):
         if self.x_sinergis_project_task_etat_tache :
@@ -182,6 +171,15 @@ class ProjectTask(models.Model):
                         completedTasks = False
             if completedTasks :
                 self.project_id.x_sinergis_project_project_etat_projet = "Projet terminé"
+        
+    def write(self, values):
+        if "active" in values :
+            if values["active"] :
+                body = f"Cette tâche a été désarchivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
+            else:
+                body = f"Cette tâche a été archivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
+            self.message_post(body=body)
+        return super(ProjectTask, self).write(values)
 
 
 class ProjectProject(models.Model):

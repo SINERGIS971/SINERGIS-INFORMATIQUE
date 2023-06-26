@@ -114,6 +114,7 @@ class SaleOrder(models.Model):
     def onchange_x_sinergis_sale_order_product_new(self):
         self._compute_x_sinergis_sale_order_product_new_have_subproduct()
         for line in self.order_line :
+            line.x_sinergis_sale_order_line_product_id = self.x_sinergis_sale_order_product_new
             line.x_sinergis_sale_order_line_subproduct_id = False
 
     @api.onchange('x_sinergis_sale_order_acompte_x3')
@@ -363,6 +364,8 @@ class SaleOrderLine(models.Model):
     string='Cost', compute=False,
     digits='Product Price', store=True, readonly=False,
     groups="base.group_user")
+
+    x_sinergis_sale_order_line_product_id = fields.Many2one("sale.products",string="Produit", default=lambda self: self.order_id.x_sinergis_sale_order_product_new, required=True)
     x_sinergis_sale_order_line_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-Produit")
 
 #SINERGIS PRODUCTS AND SUB-PRODUCTS
