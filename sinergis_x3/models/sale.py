@@ -67,14 +67,11 @@ class SaleOrder(models.Model):
 
         missing_data = []
 
-        sinergis_product = self.env["sinergis_x3.settings.sinergis_product"].search([("sinergis_product_id","=",self.x_sinergis_sale_order_product_new.id)], limit=1).code
         commercial = self.env["sinergis_x3.settings.commercial"].search([("user_id","=",self.user_id.id)], limit=1).code
         if not self.sinergis_x3_company_id :
             missing_data.append(f"site de vente X3 ({self.sinergis_x3_company_id.name})")
         if not commercial :
             missing_data.append(f"transcodage du commercial ({self.user_id.name})")
-        if not sinergis_product :
-            missing_data.append(f"transcodage du produit Sinergis ({self.x_sinergis_sale_order_product_new.name})")
         if not self.partner_id.sinergis_x3_code:
             missing_data.append(f"code X3 du client ({self.partner_id.name})")
 
@@ -82,7 +79,7 @@ class SaleOrder(models.Model):
                 "SOHTYP" : "NEW",
                 "CUSORDREF " : self.x_sinergis_sale_order_objet,
                 "X_DEVODOO" : self.name,
-                "ORDDAT" : self.date_order if self.date_order else datetime.now().strftime("%Y%m%d"),
+                "ORDDAT" : self.date_order if self.date_order.strftime("%Y%m%d") else datetime.now().strftime("%Y%m%d"),
                 "BPCORD" : self.partner_id.sinergis_x3_code,
                 "REP" : commercial,
                 "REP(1)" : False,
@@ -92,11 +89,14 @@ class SaleOrder(models.Model):
         data_lines = []
         for line in self.order_line:
             if line.product_id:
+                sinergis_product = self.env["sinergis_x3.settings.sinergis_product"].search([("sinergis_product_id","=",line.x_sinergis_sale_order_line_product_id.id)], limit=1).code
                 sinergis_subproduct = self.env["sinergis_x3.settings.sinergis_subproduct"].search([("sinergis_subproduct_id","=",line.x_sinergis_sale_order_line_subproduct_id.id)], limit=1).code
                 hosted = self.env["sinergis_x3.settings.hostable"].search([("hosted","=",line.hosted)], limit=1).code
                 uom = self.env["sinergis_x3.settings.uom"].search([("uom_id","=",line.product_uom.id)], limit=1).code
                 if not hosted:
                     missing_data.append(f"transcodage de l'état Hébergé")
+                if not sinergis_product :
+                    missing_data.append(f"transcodage du produit Sinergis ({self.x_sinergis_sale_order_product_new.name})")
                 
                 product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).format
                 if product_format :

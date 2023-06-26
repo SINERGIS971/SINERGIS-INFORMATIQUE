@@ -47,6 +47,8 @@
 
                 <filter string="DIVERS" name="filter_divers" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'DIVERS')]"/>
 
+                <filter string="PRODUIT NON RENSEIGNÉ" name="filter_product_empty" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', False)]"/>
+
                 <separator/>
                 <filter string="Intervention à planifier" name="filter_x_sinergis_helpdesk_ticket_planned_intervention" domain="[('x_sinergis_helpdesk_ticket_planned_intervention', '!=', False)]"/>
                 <separator/>
