@@ -79,7 +79,7 @@ class SaleOrder(models.Model):
                 "SOHTYP" : "NEW",
                 "CUSORDREF " : self.x_sinergis_sale_order_objet,
                 "X_DEVODOO" : self.name,
-                "ORDDAT" : self.date_order if self.date_order.strftime("%Y%m%d") else datetime.now().strftime("%Y%m%d"),
+                "ORDDAT" : self.date_order if self.date_order.strftime("%d/%m/%Y") else datetime.now().strftime("%d/%m/%Y"),
                 "BPCORD" : self.partner_id.sinergis_x3_code,
                 "REP" : commercial,
                 "REP(1)" : False,
