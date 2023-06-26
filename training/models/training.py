@@ -378,11 +378,11 @@ class Training(models.Model):
     def action_open_sended_mail(self):
         participants_ids = self.env['training.participants'].search([('training_id','=', self.id)])
         mails = self.env["mail.mail"].search(['|','&',("res_id","in",participants_ids.ids),('model','=','training.participants'),'&',("res_id","=",self.id),('model','=','training')]) 
-        tree_view_id = self.env.ref('sinergis.sinergis_email_sent_tree').id
+        #tree_view_id = self.env.ref('sinergis.sinergis_email_sent_tree').id
         return {
             'name': 'Emails envoyés concernant la formation',
             'type': 'ir.actions.act_window',
-            "views": [[tree_view_id, "tree"],[False, "form"]],
+            "views": [[False, "tree"],[False, "form"]],
             'res_model': 'mail.mail',
             'domain': f"[('id','in',{mails.ids})]",
         }

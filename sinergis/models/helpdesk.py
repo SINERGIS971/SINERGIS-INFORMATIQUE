@@ -166,6 +166,7 @@ class HelpdeskTicket(models.Model):
             user_id = self.user_id
             if user_id != self.env.user and not self.env.user.has_group('sinergis.group_helpdesk_admin'):
                 raise ValidationError("Vous ne pouvez pas marquer un ticket que ne vous est pas assigné comme résolu.")
+            self.x_sinergis_helpdesk_ticket_is_solved = True
 
     @api.onchange("x_sinergis_helpdesk_ticket_produits_new")
     def on_change_x_sinergis_helpdesk_ticket_produits_new(self):

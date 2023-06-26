@@ -2,6 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import datetime
 import math
+import pytz
 
 
 class ProjectTask(models.Model):
@@ -81,6 +82,14 @@ class ProjectTask(models.Model):
         #Archiver le contrat d'heures si on souhaite l'archiver après transfert
         if self.x_sinergis_project_task_transfer_archive :
             self.active = False
+
+    @api.onchange("active")
+    def on_change_active (self):
+        if self.active :
+            body = f"Cette tâche a été désarchivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
+        else:
+            body = f"Cette tâche a été archivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
+        self.message_post(body=body)
 
     @api.depends('x_sinergis_project_task_done')
     def _compute_x_sinergis_project_task_done (self):
