@@ -180,7 +180,7 @@ class ProjectTask(models.Model):
                 else:
                     body = f"Cette tâche a été archivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
                 self.message_post(body=body)
-        return super(ProjectTask, self).write(values)
+        return super(ProjectTask, self).write(values_list)
 
 
 class ProjectProject(models.Model):
