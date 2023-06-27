@@ -2,11 +2,11 @@
 <odoo>
     <data>
        <record id="training_diagnostic_quiz_mail" model="mail.template">
-            <field name="name">Quiz de diagnostic</field>
+            <field name="name">Quiz de positionnement</field>
             <field name="model_id" ref="training.model_training_participants"/>
             <field name="email_from">support@sinergis.odoo.com</field>
             <field name="email_to">{{ (object.email or '') }}</field>
-            <field name="subject">Quiz de diagnostic SINERGIS</field>
+            <field name="subject">Quiz de positionnement SINERGIS</field>
             <!--<field name="report_template" ref="training_agreement_report"/>-->
             <!--<field name="report_name">Quiz de diagnostic</field>-->
             <field name="auto_delete" eval="False"/>
@@ -52,7 +52,7 @@
                       <td style="font-family: sans-serif;font-size: 14px;vertical-align: top; ">
                         <p>Bonjour,</p>
                         <p>Bienvenue à la formation <span t-out="object.training_id.type_product_plan_id.name"/>.</p>
-                        <p>Veuillez compléter le diagnostic initial en cliquant sur le bouton ci-dessous.</p>
+                        <p>Veuillez compléter le quiz de positionnement initial en cliquant sur le bouton ci-dessous.</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box;
         width: 100%;" >
                           <tbody>
@@ -78,7 +78,7 @@
           margin: 0;
           padding: 12px 25px;
           text-decoration: none;
-          text-transform: capitalize; ">Questionnaire de diagnostic</a> </td>
+          text-transform: capitalize; ">Questionnaire de positionnement</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>

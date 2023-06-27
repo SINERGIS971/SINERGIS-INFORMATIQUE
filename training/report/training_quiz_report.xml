@@ -24,13 +24,13 @@
                             <br/><br/>
                             <h3 style="font-size:19px; font-weight: bold; color:#F59F1C;"><span t-field="participant.name"/></h3>
                             <div t-if="participant.answer_positioning_quiz">
-                                <p style="font-size:13px;color: #536FFB;">Quiz de positionnement</p>
+                                <p style="font-size:13px;color: #536FFB;">Quiz de diagnostic</p>
                                 <t t-if="participant.mark_positioning_quiz>=0"><span t-field="participant.mark_positioning_quiz"/> / 20</t>
                                 <span t-field="participant.answer_positioning_quiz" style="font-size:12px;"/>
                                 <br/>
                             </div>
                             <div t-if="participant.answer_quiz_diagnostic">
-                                <p style="font-size:13px;color: #536FFB;">Quiz de diagnostic</p>
+                                <p style="font-size:13px;color: #536FFB;">Quiz de positionnement</p>
                                 <t t-if="participant.mark_quiz_diagnostic>=0"><span t-field="participant.mark_quiz_diagnostic"/> / 20</t>
                                 <span t-field="participant.answer_quiz_diagnostic" style="font-size:12px;"/>
                                 <br/>

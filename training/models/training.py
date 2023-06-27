@@ -513,7 +513,7 @@ class Training(models.Model):
                     TrainingParticipants.send_diagnostic_quiz_individual(participant)
                     mail_count += 1
             if mail_count == 0:
-                raise ValidationError("Vous avez déjà envoyé le diagnostic à tous les participants, si un des participants n'a pas reçu le mail, veuillez lui envoyer individuellement grace bouton situé sur sa ligne.")
+                raise ValidationError("Vous avez déjà envoyé le quiz de positionnement à tous les participants, si un des participants n'a pas reçu le mail, veuillez lui envoyer individuellement grace bouton situé sur sa ligne.")
 
     def download_training_evaluation (self):
         return self.env.ref('training.training_consultant_evaluation_report').report_action(self)
@@ -602,15 +602,15 @@ class TrainingParticipants(models.Model):
 
     #Consultant part
     invitation_sent = fields.Boolean(string="Invitation envoyée",default=False)
-    diagnostic_quiz_sent = fields.Boolean(string="Quiz de diagnostic envoyé",default=False)
+    diagnostic_quiz_sent = fields.Boolean(string="Quiz de positionnement envoyé",default=False)
 
-    answer_positioning_quiz = fields.Html(default="",readonly=True, string="Réponse au quiz de positionnement")
-    mark_positioning_quiz = fields.Float(string="Note du quiz de positionnement")
-    positioning_quiz_received = fields.Boolean(string="Quiz de positionnement reçu",default=False,compute="_compute_positioning_quiz_received")
+    answer_positioning_quiz = fields.Html(default="",readonly=True, string="Réponse au quiz de diagnostic")
+    mark_positioning_quiz = fields.Float(string="Note du quiz de diagnostic")
+    positioning_quiz_received = fields.Boolean(string="Quiz de diagnostic reçu",default=False,compute="_compute_positioning_quiz_received")
 
-    answer_quiz_diagnostic = fields.Html(default="",readonly=True, string="Réponse au diagnostic")
-    mark_quiz_diagnostic = fields.Float(string="Note du quiz de diagnostic")
-    diagnostic_received = fields.Boolean(string="Diagnostic reçu",default=False,compute="_compute_diagnostic_received")
+    answer_quiz_diagnostic = fields.Html(default="",readonly=True, string="Réponse au quiz de positionnement")
+    mark_quiz_diagnostic = fields.Float(string="Note du quiz de positionnement")
+    diagnostic_received = fields.Boolean(string="Positionnement reçu",default=False,compute="_compute_diagnostic_received")
 
     #Training ended part
     is_rated = fields.Boolean(string="Évalué",default=False, compute="_compute_is_rated")
