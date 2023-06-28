@@ -43,7 +43,7 @@ class SaleOrder(models.Model):
     x_sinergis_sale_order_product_new = fields.Many2one("sale.products",string="Produit", required=True)
     x_sinergis_sale_order_product_new_have_subproduct = fields.Boolean(compute="_compute_x_sinergis_sale_order_product_new_have_subproduct") # À actualiser pour pouvoir update la valeur à chaque chargement de page. Pour le moment, le readonly des subproducts est désactivé
 
-    x_sinergis_sale_order_projects_ended = fields.Boolean(string="Projets terminés", compute="_compute_x_sinergis_sale_order_projects_ended", store=True)
+    x_sinergis_sale_order_projects_ended = fields.Boolean(string="Projets terminés", compute="_compute_x_sinergis_sale_order_projects_ended")
 
     x_sinergis_sale_res_users_job = fields.Selection(related="user_id.x_sinergis_res_users_job", store="True") #Type du vendeur : Consultant ou commercial
 

@@ -77,6 +77,7 @@ def order_line_text_to_soap (SOHNUM,total_text,num_line,pool_alias,public_name,c
             line += word+" "
         else:
             results.append(line.strip())
+            line = " "+word+" "
     if line:
         results.append(line.strip())
 

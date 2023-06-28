@@ -32,9 +32,9 @@
             <filter string="XLSOFT" domain="[('x_sinergis_sale_order_product_new.name', '=', 'XLSOFT')]" name="product_xlsoft_filter"/>
             <filter string="XRT" domain="[('x_sinergis_sale_order_product_new.name', '=', 'XRT')]" name="product_xrt_filter"/>
             <filter string="DIVERS" domain="[('x_sinergis_sale_order_product_new.name', '=', 'DIVERS')]" name="product_divers_filter"/>
-            <separator/>
+            <!--<separator/>
             <filter string="Projet terminé" name="filter_ended_project" domain="[('x_sinergis_sale_order_projects_ended','=',True)]"/>
-            <filter string="Projet non terminé" name="filter_not_ended_project" domain="[('x_sinergis_sale_order_projects_ended','=',False)]"/>
+            <filter string="Projet non terminé" name="filter_not_ended_project" domain="[('x_sinergis_sale_order_projects_ended','=',False)]"/>-->
             <separator/>
             <filter string="Acompte versé" name="filter_acompte_verse" domain="[('x_sinergis_sale_order_acompte_verse','=',True)]"/>
             <filter string="Acompte non versé" name="filter_acompte_non_verse" domain="[('x_sinergis_sale_order_acompte_verse','=',False)]"/>
