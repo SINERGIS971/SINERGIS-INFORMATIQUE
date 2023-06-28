@@ -14,7 +14,7 @@ class SaleOrderLine(models.Model):
     is_hostable = fields.Boolean(related="product_id.is_hostable")
     is_ch = fields.Boolean(related="product_id.is_ch")
     hosted = fields.Boolean(string="Hébergé", default=False)
-    ch_multi = fields.Boolean(string="CH multi-produits", default=False)
+    ch_multi = fields.Boolean(string="CH MULTI", default=False)
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -115,12 +115,20 @@ class SaleOrder(models.Model):
                     # Load the UoM code
                     if uom:
                         product_format = product_format.replace("{uom}", uom)
+
+                    # Check if multi-product CH
+                    if line.ch_multi:
+                        if " MGE" in line.product_id.name:
+                            product_format = "CHMGE"
+                        else:
+                            product_format = "CHPME"
+
                     # Creating the line data
                     data_line={
                         "ITMREF" : product_format,
                         "ITMDES" : line.product_id.name,
                         "QTY" : str(line.product_uom_qty),
-                        #"SAU" : uom,
+                        "SAU" : uom, # Voir si cela fonctionne bien
                         "GROPRI" : str(line.price_unit),
                         "DISCRGVAL1" : str(line.discount),
                         "CPRPRI" : str(line.purchase_price),
