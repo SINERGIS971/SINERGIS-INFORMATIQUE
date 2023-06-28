@@ -285,6 +285,13 @@
                 <field name="x_sinergis_sale_order_line_product_id" options="{'no_create': True, 'no_create_edit':True}" optional="hide"/>
                 <field name="x_sinergis_sale_order_line_subproduct_id" domain="[('product_id','=',x_sinergis_sale_order_line_product_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
             </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree//field[@name='qty_delivered']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='qty_invoiced']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
         </field>
     </record>
 

@@ -12,7 +12,9 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     is_hostable = fields.Boolean(related="product_id.is_hostable")
+    is_ch_multi = fields.Boolean(related="product_id.is_ch_multi")
     hosted = fields.Boolean(string="Hébergé", default=False)
+    ch_multi = fields.Boolean(string="CH multi-produits", default=False)
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -20,6 +22,7 @@ class SaleOrder(models.Model):
     sinergis_x3_company_id = fields.Many2one("sinergis_x3.settings.company", string="Site de vente X3")
 
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
+    ch_in_order_line = fields.Boolean(compute="_compute_ch_in_order_line") # Si il y a un contrat d'heures dans les lignes de commande
     sinergis_x3_transfered = fields.Boolean(default=False) # Permet de savoir si le devis a déjà été transféré vers X3
     sinergis_x3_id = fields.Char(string="Numéro X3")
     sinergis_x3_price_total = fields.Float(string="Total TTC dans X3 (€)", default=False)
@@ -202,6 +205,16 @@ class SaleOrder(models.Model):
                 if line.is_hostable :
                     hostable_in_order_line = True
             rec.hostable_in_order_line = hostable_in_order_line
+
+    @api.depends("ch_in_order_line", "order_line")
+    def _compute_ch_in_order_line(self):
+        for rec in self:
+            ch_in_order_line = False
+            for line in rec.order_line:
+                if line.is_ch:
+                    ch_in_order_line = True
+            rec.ch_in_order_line = ch_in_order_line
+
 
     # Envoyer la commande vers X3 lors de la confirmation du devis
     def write(self, values):
