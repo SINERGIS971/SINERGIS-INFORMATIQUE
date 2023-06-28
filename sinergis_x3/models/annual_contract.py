@@ -225,6 +225,13 @@ class SinergisAnnualContracts(models.Model):
                                 "TMPLOC": TMPLOC
                         }
                     entity.write(data)
+        
+        # Suppression des anciens contrats annuels
+        contract_duration_validity = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.contract_duration_validity')
+        if not contract_duration_validity:
+            contract_duration_validity = 365
+        limit_date = datetime.now() - timedelta(days=int(contract_duration_validity))
+        self.env["sinergis_x3.annual_contract"].search([("ORDDAT","<",datetime.strptime(limit_date, '%Y-%m-%d'))]).unlink()
 
 
 class ResPartner(models.Model):
