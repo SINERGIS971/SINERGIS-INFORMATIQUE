@@ -65,13 +65,15 @@ def order_to_soap(data_in,pool_alias,public_name,code_lang="FRA"):
     return data
 
 def order_line_text_to_soap (SOHNUM,total_text,num_line,pool_alias,public_name,code_lang="FRA"):
-    text_array = [total_text[i:i+255] for i in range(0, len(total_text), 255)]
+    total_text = total_text.replace("<","")
+    total_text = total_text.replace(">","")
+    text_array = [total_text[i:i+240] for i in range(0, len(total_text), 240)]
     tab = []
     j = 1
     for text in text_array:
         tab.append(f"""
         <LIN NUM="{j}">
-        <FLD NAM="ZTEXTE" >{text.encode("utf-8")}</FLD>
+        <FLD NAM="ZTEXTE" >{text}</FLD>
         </LIN>
         """)
         j += 1
