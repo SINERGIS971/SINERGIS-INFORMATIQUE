@@ -71,7 +71,7 @@ def order_line_text_to_soap (SOHNUM,total_text,num_line,pool_alias,public_name,c
     for text in text_array:
         tab.append(f"""
         <LIN NUM="{j}">
-        <FLD NAM="ZTEXTE" >{text}</FLD>
+        <FLD NAM="ZTEXTE" >{text.encode("utf-8")}</FLD>
         </LIN>
         """)
         j += 1
