@@ -3,7 +3,7 @@ from odoo.exceptions import ValidationError
 from base64 import b64encode
 from datetime import datetime
 
-from odoo.addons.sinergis_x3.utils.soap import order_to_soap
+from odoo.addons.sinergis_x3.utils.soap import order_to_soap, order_line_text_to_soap
 
 import requests
 import xmltodict
@@ -128,10 +128,11 @@ class SaleOrder(models.Model):
                         "ITMREF" : product_format,
                         "ITMDES" : line.product_id.name,
                         "QTY" : str(line.product_uom_qty),
-                        "SAU" : uom, # Voir si cela fonctionne bien
+                        "SAU" : uom,
                         "GROPRI" : str(line.price_unit),
                         "DISCRGVAL1" : str(line.discount),
                         "CPRPRI" : str(line.purchase_price),
+                        "TEXT": str(line.name) # Désignation de la ligne
                     }
                     data_lines.append(data_line)
                 else:
@@ -177,11 +178,11 @@ class SaleOrder(models.Model):
             return True
         
         # On récupère le code X3 de la commande crée
+        sinergis_x3_id = False
         try:
             result_xml = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["resultXml"]["#text"]
             result_xml = result_xml.replace("""'<?xml version="1.0" encoding="UTF-8"?>""","")
-            result_dict = xmltodict.parse(result_xml)
-            sinergis_x3_id = False
+            result_dict = xmltodict.parse(result_xml)            
             sinergis_x3_price_total = False
             for grp in result_dict["RESULT"]["GRP"]:
                 if grp["@ID"] == "SOH0_1":
@@ -200,7 +201,15 @@ class SaleOrder(models.Model):
 
         # On marque le devis comme transféré
         self.sinergis_x3_transfered = True
-        
+
+        # Création des lignes de texte dans X3
+        i=1
+        if sinergis_x3_id != False:
+            for line in self.order_line:
+                data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,line.name,str(i),pool_alias=pool_alias, public_name="INSTEXLIG")
+                response = requests.post(base_url+path_x3_orders, data=data_line_text_soap, headers=headers).content
+                i+=1
+
         # On ajoute dans le log l'information de synchronisation
         self.create_log(content=f"Transféré avec succès vers X3", log_type="success")
         

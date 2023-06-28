@@ -231,7 +231,7 @@ class SinergisAnnualContracts(models.Model):
         if not contract_duration_validity:
             contract_duration_validity = 365
         limit_date = datetime.now() - timedelta(days=int(contract_duration_validity))
-        self.env["sinergis_x3.annual_contract"].search([("ORDDAT","<",datetime.strptime(limit_date, '%Y-%m-%d'))]).unlink()
+        self.env["sinergis_x3.annual_contract"].search([("ORDDAT","<",limit_date.strftime('%Y-%m-%d'))]).unlink()
 
 
 class ResPartner(models.Model):

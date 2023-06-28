@@ -63,3 +63,43 @@ def order_to_soap(data_in,pool_alias,public_name,code_lang="FRA"):
     </soapenv:Envelope>
     """
     return data
+
+def order_line_text_to_soap (SOHNUM,total_text,num_line,pool_alias,public_name,code_lang="FRA"):
+    text_array = [total_text[i:i+255] for i in range(0, len(total_text), 255)]
+    tab = []
+    j = 1
+    for text in text_array:
+        tab.append(f"""
+        <LIN NUM="{j}">
+        <FLD NAM="ZTEXTE" >{text}</FLD>
+        </LIN>
+        """)
+        j += 1
+    data=f"""
+    <soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wss="http://www.adonix.com/WSS">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <wss:run soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+         <callContext xsi:type="wss:CAdxCallContext">
+            <codeLang xsi:type="xsd:string">{code_lang}</codeLang>
+            <poolAlias xsi:type="xsd:string">{pool_alias}</poolAlias>
+            <poolId xsi:type="xsd:string"></poolId>
+            <requestConfig xsi:type="xsd:string"></requestConfig>
+         </callContext>
+         <publicName xsi:type="xsd:string">{public_name}</publicName>
+         <inputXml xsi:type="xsd:string">
+         <![CDATA[<PARAM>
+		<GRP ID="GRP1" NAM="GRP1">
+		<FLD NAM="ZNUMSOH">{SOHNUM}</FLD>
+		<FLD NAM="ZLIG">{num_line}000</FLD>
+		</GRP>
+		<TAB ID="GRP2" DIM="5">
+		{''.join(tab)}
+		</TAB>
+		</PARAM>]]>
+         </inputXml>
+      </wss:run>
+    </soapenv:Body>
+    </soapenv:Envelope>
+    """
+    return data
