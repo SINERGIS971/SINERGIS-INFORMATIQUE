@@ -126,7 +126,7 @@ class SaleOrder(models.Model):
                     # Creating the line data
                     data_line={
                         "ITMREF" : product_format,
-                        "ITMDES" : line.product_id.name,
+                        "ITMDES" : line.name.split("\n")[0],
                         "QTY" : str(line.product_uom_qty),
                         "SAU" : uom,
                         "GROPRI" : str(line.price_unit),
@@ -206,8 +206,10 @@ class SaleOrder(models.Model):
         i=1
         if sinergis_x3_id != False:
             for line in self.order_line:
-                data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,line.name,str(i),pool_alias=pool_alias, public_name="INSTEXLIG")
-                response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode(), headers=headers).content
+                line_name_array = line.name.split("\n")
+                if len(line_name_array) > 1:
+                    data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,line_name_array[1:],str(i),pool_alias=pool_alias, public_name="INSTEXLIG")
+                    response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode(), headers=headers).content
                 i+=1
 
         # On ajoute dans le log l'information de synchronisation
