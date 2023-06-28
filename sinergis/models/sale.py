@@ -368,6 +368,10 @@ class SaleOrderLine(models.Model):
     x_sinergis_sale_order_line_product_id = fields.Many2one("sale.products",string="Produit", required=True)
     x_sinergis_sale_order_line_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-Produit")
 
+    @api.onchange("x_sinergis_sale_order_line_product_id")
+    def onchange_x_sinergis_sale_order_line_product_id(self):
+        self.x_sinergis_sale_order_line_subproduct_id = False
+
 #SINERGIS PRODUCTS AND SUB-PRODUCTS
 class Products (models.Model):
     _name = "sale.products"
