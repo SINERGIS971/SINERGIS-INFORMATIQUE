@@ -12,7 +12,7 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     is_hostable = fields.Boolean(related="product_id.is_hostable")
-    is_ch_multi = fields.Boolean(related="product_id.is_ch_multi")
+    is_ch_multi = fields.Boolean(related="product_id.is_ch")
     hosted = fields.Boolean(string="Hébergé", default=False)
     ch_multi = fields.Boolean(string="CH multi-produits", default=False)
 
