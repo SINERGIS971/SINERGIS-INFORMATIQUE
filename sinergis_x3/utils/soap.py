@@ -67,10 +67,22 @@ def order_to_soap(data_in,pool_alias,public_name,code_lang="FRA"):
 def order_line_text_to_soap (SOHNUM,total_text,num_line,pool_alias,public_name,code_lang="FRA"):
     total_text = total_text.replace("<","")
     total_text = total_text.replace(">","")
-    text_array = [total_text[i:i+240] for i in range(0, len(total_text), 240)]
+    total_text = total_text.replace("\n"," ")
+    words = total_text.split()
+    results = []
+    line = ""
+
+    for word in words :
+        if len(line) + len(word) + 1 <= 220:
+            line += word+" "
+        else:
+            results.append(line.strip())
+    if line:
+        results.append(line.strip())
+
     tab = []
     j = 1
-    for text in text_array:
+    for text in results:
         tab.append(f"""
         <LIN NUM="{j}">
         <FLD NAM="ZTEXTE" >{text}</FLD>
