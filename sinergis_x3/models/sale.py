@@ -68,7 +68,7 @@ class SaleOrder(models.Model):
         
         # Vérification si tous les sous-produits sont bien définis
         for line in self.order_line:
-            if line.product_id and not line.x_sinergis_sale_order_line_product_id:
+            if line.product_id and not line.x_sinergis_sale_order_line_subproduct_id:
                 if self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id),("format","ilike","{subproduct}")]):
                     raise ValidationError(f"Veuillez indiquer un sous-produit pour : {line.product_id.name}")
 
