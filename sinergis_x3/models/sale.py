@@ -61,14 +61,24 @@ class SaleOrder(models.Model):
 
     def send_order_to_x3(self):
         enable = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.enable')
+
+        # Vérification si la synchronisation est activée ou non
         if not enable:
             return True
+        
+        # Vérification si tous les sous-produits sont bien définis
+        for line in self.order_line:
+            if line.product_id and not line.x_sinergis_sale_order_line_product_id:
+                if self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id),("format","ilike","{subproduct}")]):
+                    raise ValidationError(f"Veuillez indiquer un sous-produit pour : {line.product_id.name}")
 
+
+        # Ne pas permettre deux transferts sur le même devis
         if self.sinergis_x3_transfered:
             self.create_log(content="Le devis est passé en bon de commande mais un transfert avait déjà été effectué sur celui-ci.", log_type="warning")
             return True
 
-        missing_data = []
+        missing_data = [] # Tableau qui comprend toutes les données manquantes
 
         commercial = self.env["sinergis_x3.settings.commercial"].search([("user_id","=",self.user_id.id)], limit=1).code
         if not self.sinergis_x3_company_id :
@@ -206,11 +216,12 @@ class SaleOrder(models.Model):
         i=1
         if sinergis_x3_id != False:
             for line in self.order_line:
-                line_name_array = line.name.split("\n")
-                if len(line_name_array) > 1:
-                    data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,line_name_array[1:],str(i),pool_alias=pool_alias, public_name="INSTEXLIG")
-                    response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode(), headers=headers).content
-                i+=1
+                if line.product_id:
+                    line_name_array = line.name.split("\n")
+                    if len(line_name_array) > 1:
+                        data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,"".join(line_name_array[1:]),str(i),pool_alias=pool_alias, public_name="INSTEXLIG")
+                        response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode(), headers=headers).content
+                    i+=1
 
         # On ajoute dans le log l'information de synchronisation
         self.create_log(content=f"Transféré avec succès vers X3", log_type="success")

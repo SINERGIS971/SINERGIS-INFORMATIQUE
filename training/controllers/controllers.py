@@ -27,7 +27,7 @@ class Training(http.Controller):
             training_plan_id = training_id.type_product_plan_id
 
         if participant:
-            if participant.token_quiz_diagnostic == token: #C'est un quiz diagnostic
+            if participant.token_quiz_diagnostic == token: #C'est un quiz de Positionnement
                 if participant.answer_quiz_diagnostic:
                     return http.request.render("training.quiz_page_message", {
                         "message": "Vous avez déjà rempli ce questionnaire"
@@ -45,7 +45,7 @@ class Training(http.Controller):
                         return("Il n'y a pas de quiz associé à cette étape de la formation")
                 else:
                     return("Il n'y a pas de plan associé à cette formation, veuillez contacter Sinergis.")
-            elif participant.token_quiz_positioning == token: #C'est un quiz de positionnement
+            elif participant.token_quiz_positioning == token: #C'est un quiz de Diagnostic
                 if participant.answer_positioning_quiz:
                     return http.request.render("training.quiz_page_message", {
                         "message": "Vous avez déjà rempli ce questionnaire"
@@ -280,10 +280,10 @@ class Training(http.Controller):
         body+="</table>"
 
         if participant: #Si c'est une réponse d'un participant
-            if participant.token_quiz_diagnostic == token: #C'est un quiz diagnostic
+            if participant.token_quiz_diagnostic == token: #C'est un quiz positionnement
                 participant.answer_quiz_diagnostic = body
                 participant.mark_quiz_diagnostic = mark
-            elif participant.token_quiz_positioning == token: #C'est un quiz de positionnement
+            elif participant.token_quiz_positioning == token: #C'est un quiz de diagnostic
                 participant.answer_positioning_quiz = body
                 participant.mark_positioning_quiz = mark
             if participant.token_quiz_prior_learning == token: #C'est un quiz d'évaluation des acquis
