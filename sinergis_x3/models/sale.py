@@ -154,15 +154,27 @@ class SaleOrder(models.Model):
 
 
         data["lines"] = data_lines
+        # Chargement données Reverse Proxy
+        user_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_rproxy')
+        password_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_rproxy')
+        authentication_token_rproxy = False
+        if user_rproxy:
+            authentication_token_rproxy = base64.b64encode(f"{user_rproxy}:{password_rproxy}".encode('utf-8')).decode("ascii")
         # Obtention de la requete SOAP
         user_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_x3')
         password_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_x3')
         pool_alias = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.pool_alias')
         public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name')
         authentication_token = b64encode(f"{user_x3}:{password_x3}".encode('utf-8')).decode("ascii")
-        headers = {'content-type': 'text/xml;charset=UTF-8',
+        if authentication_token_rproxy:
+            headers = {'content-type': 'text/xml;charset=UTF-8',
                    'Authorization': f'Basic {authentication_token}',
-                   'soapaction': "\"\""}
+                   'sinergisauthorization': f'Basic {authentication_token_rproxy}',
+                   'soapaction': "\"\"",}
+        else:
+            headers = {'content-type': 'text/xml;charset=UTF-8',
+                   'Authorization': f'Basic {authentication_token}',
+                   'soapaction': "\"\"",}
         data_soap = order_to_soap(data, pool_alias=pool_alias, public_name=public_name)
         self.create_log(content=f"DEBUG : {data_soap}", log_type="warning")
         #Connection to X3

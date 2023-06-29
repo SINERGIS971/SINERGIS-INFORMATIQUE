@@ -63,6 +63,12 @@ class SinergisAnnualContracts(models.Model):
                 rec.expired = False
 
     def load_xctrencours_x3 (self):
+        # Chargement données Reverse Proxy
+        user_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_rproxy')
+        password_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_rproxy')
+        authentication_token_rproxy = False
+        if user_rproxy:
+            authentication_token_rproxy = base64.b64encode(f"{user_rproxy}:{password_rproxy}".encode('utf-8')).decode("ascii")
         # Chargement authentification
         user_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_x3')
         password_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_x3')
@@ -76,8 +82,13 @@ class SinergisAnnualContracts(models.Model):
         count_per_page = 1000 # Nombre d'items par page
         next_exists = True # Permet de savoir si une page existe ensuite
 
-        headers = {'content-type': 'text/xml;charset=UTF-8',
-         'Authorization': f'Basic {authentication_token}'}
+        if authentication_token_rproxy:
+            headers = {'content-type': 'text/xml;charset=UTF-8',
+            'Authorization': f'Basic {authentication_token}',
+            'sinergisauthorization': f'Basic {authentication_token_rproxy}'}
+        else:
+            headers = {'content-type': 'text/xml;charset=UTF-8',
+            'Authorization': f'Basic {authentication_token}'}
         
         count = 0
         while next_exists:

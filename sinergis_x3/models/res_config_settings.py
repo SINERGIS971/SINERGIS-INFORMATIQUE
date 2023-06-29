@@ -25,6 +25,13 @@ class ResConfigSettings(models.TransientModel):
                               config_parameter='sinergis_x3.path_x3_contracts',
                               placeholder="/exemple/")
     
+    # REVERSE PROXY CONNEXION
+
+    user_rproxy = fields.Char(string="Nom d'utilisateur reverse proxy",
+                              config_parameter='sinergis_x3.user_rproxy')
+    password_rproxy = fields.Char(string="Mot de passe reverse proxy",
+                              config_parameter='sinergis_x3.password_rproxy')
+
     # CONFIGURATION CONNEXION
 
     user_x3 = fields.Char(string="Nom d'utilisateur",
