@@ -97,7 +97,8 @@ class SinergisAnnualContracts(models.Model):
 
             response = requests.get(f"{url}&count={str(count_per_page)}",
                             headers=headers,
-                            cookies=cookies)
+                            cookies=cookies,
+                            verify=False)
             cookies = response.cookies
             response_content = response.content
             response_json = json.loads(response_content)
