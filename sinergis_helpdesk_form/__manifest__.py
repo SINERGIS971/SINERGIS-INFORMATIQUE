@@ -21,7 +21,7 @@
 
     'data': [
         'security/ir.model.access.csv',
-        'static/web/quiz_template.xml',
+        'static/src/web/form_page.xml',
     ],
     'assets': {
         'web.assets_backend': [
