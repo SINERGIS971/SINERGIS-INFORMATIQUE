@@ -6,6 +6,7 @@ from datetime import datetime
 from odoo.addons.sinergis_x3.utils.soap import order_to_soap, order_line_text_to_soap
 
 import requests
+import urllib3
 import xmltodict
 
 class SaleOrderLine(models.Model):
@@ -167,6 +168,7 @@ class SaleOrder(models.Model):
         public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name')
         authentication_token = b64encode(f"{user_x3}:{password_x3}".encode('utf-8')).decode("ascii")
         if authentication_token_rproxy:
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
             headers = {'content-type': 'text/xml;charset=UTF-8',
                    'Authorization': f'Basic {authentication_token}',
                    'sinergisauthorization': f'Basic {authentication_token_rproxy}',

@@ -7,6 +7,7 @@ import requests
 import json
 import base64
 import sys
+import urllib3
 
 class SinergisAnnualContracts(models.Model):
     _name = "sinergis_x3.annual_contract"
@@ -83,6 +84,7 @@ class SinergisAnnualContracts(models.Model):
         next_exists = True # Permet de savoir si une page existe ensuite
 
         if authentication_token_rproxy:
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
             headers = {'content-type': 'text/xml;charset=UTF-8',
             'Authorization': f'Basic {authentication_token}',
             'sinergisauthorization': f'Basic {authentication_token_rproxy}'}

@@ -5,6 +5,7 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 import requests
+import urllib3
 
 
 class ResConfigSettings(models.TransientModel):
@@ -53,7 +54,8 @@ class ResConfigSettings(models.TransientModel):
     
     def test_x3_connection (self):
         if self.base_url_x3:
-            code = requests.get(self.base_url_x3).status_code
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            code = requests.get(self.base_url_x3, verify=False).status_code
             if code == 200:
                 raise ValidationError("Connexion : SUCCESS")
             else :
