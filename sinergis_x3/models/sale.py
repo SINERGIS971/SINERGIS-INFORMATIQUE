@@ -5,6 +5,7 @@ from datetime import datetime
 
 from odoo.addons.sinergis_x3.utils.soap import order_to_soap, order_line_text_to_soap
 
+import base64
 import requests
 import urllib3
 import xmltodict
