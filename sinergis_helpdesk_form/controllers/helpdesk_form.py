@@ -17,7 +17,7 @@ class HelpdeskFormController(http.Controller):
         data = {}
         secret_server_key = "6LfylOMmAAAAAPeWD-hVvCU9A4oAFF54c6MKdJYZ"
         client_ip = http.request.httprequest.remote_addr
-        data = {'secret': secret_server_key, 'reponse': recaptcha_response, 'remoteip': client_ip}
+        data = {'secret': secret_server_key, 'response': recaptcha_response, 'remoteip': client_ip}
         response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data).content
         return str(response)
 

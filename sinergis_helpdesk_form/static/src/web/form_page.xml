@@ -92,7 +92,7 @@
             background-color: #f4bd48;
             }
         </style>
-         <script src="https://www.google.com/recaptcha/api.js"></script>
+         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
          <script>
             function onSubmit(token) {
                 document.getElementById("help_form").submit();
@@ -129,12 +129,12 @@
                 <label class="form__label" for="subject">Description du problème</label>
                 <textarea class="form__textarea" id="subject" name="subject" placeholder="Décrire votre problème.." rows="7"></textarea>
             </div>
+            
+            <div class="g-recaptcha" data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"></div>
+            <br/>
             <button
-            class="primary-btn form__btn g-recaptcha"
-            type="submit"
-            data-sitekey="6LfylOMmAAAAAANvP2Zq2yZKnyUtCJjQPwtN2ZLI" 
-            data-callback='onSubmit' 
-            data-action='submit'>ENVOYER</button>
+            class="primary-btn form__btn"
+            type="submit">ENVOYER</button>
             </form>
         </main>
     </body>
