@@ -92,16 +92,21 @@
             background-color: #f4bd48;
             }
         </style>
-         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+         <script src="https://www.google.com/recaptcha/api.js"></script>
          <script>
-            function onSubmit(token) {
-                document.getElementById("help_form").submit();
+            function validateForm() {
+                var response = grecaptcha.getResponse();
+                if (response.length === 0) {
+                    alert("Veuillez compléter le reCAPTCHA.");
+                return false;
+                }
+                return true;
             }
         </script>
     </head>
     <body class="page">
         <main class="main page__main">
-            <form class="form main__form" id="help_form" method="POST">
+            <form class="form main__form" id="help_form" method="POST" onsubmit="return validateForm();">
             <h1>Formulaire d'assistance Sinergis</h1>
             <input type="hidden" name="csrf_token" t-att-value="csrf" />
             <div class="form__linput">
@@ -132,9 +137,7 @@
             
             <div class="g-recaptcha" data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"></div>
             <br/>
-            <button
-            class="primary-btn form__btn"
-            type="submit">ENVOYER</button>
+            <input type="submit" class="primary-btn form__btn" value="Envoyer"/>
             </form>
         </main>
     </body>
