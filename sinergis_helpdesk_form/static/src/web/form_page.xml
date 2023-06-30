@@ -110,20 +110,20 @@
             <h1>Formulaire d'assistance Sinergis</h1>
             <input type="hidden" name="csrf_token" t-att-value="csrf" />
             <div class="form__linput">
-                <label class="form__label" for="fname">Nom et prénom</label>
-                <input class="form__input" type="text" id="fname" name="fname" placeholder="Nom et prénom.."/>
+                <label class="form__label" for="name">Nom et prénom</label>
+                <input class="form__input" type="text" id="name" name="name" placeholder="Nom et prénom.." required="True"/>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="lname">Société</label>
-                <input class="form__input" type="text" id="lname" name="lname" placeholder="Société.."/>
+                <label class="form__label" for="company">Société</label>
+                <input class="form__input" type="text" id="company" name="company" placeholder="Société.." required="True"/>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="lname">E-mail</label>
-                <input class="form__input" type="text" id="lname" name="lname" placeholder="Adresse e-mail.."/>
+                <label class="form__label" for="email">E-mail</label>
+                <input class="form__input" type="text" id="email" name="email" placeholder="Adresse e-mail.." required="True"/>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="country-select">Produit</label>
-                <select class="form__select" id="country-select" name="countries">
+                <label class="form__label" for="product-select">Produit</label>
+                <select class="form__select" id="product-select" name="products" required="True">
                 <option value="">Choisissez votre produit</option>
                 <option value="australia">Australia</option>
                 <option value="canada">Canada</option>
@@ -131,10 +131,9 @@
                 </select>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="subject">Description du problème</label>
-                <textarea class="form__textarea" id="subject" name="subject" placeholder="Décrire votre problème.." rows="7"></textarea>
+                <label class="form__label" for="problem">Description du problème</label>
+                <textarea class="form__textarea" id="problem" name="problem" placeholder="Décrire votre problème.." rows="7" required="True"></textarea>
             </div>
-            
             <div class="g-recaptcha" data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"></div>
             <br/>
             <input type="submit" class="primary-btn form__btn" value="Envoyer"/>
