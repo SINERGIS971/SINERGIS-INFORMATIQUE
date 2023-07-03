@@ -107,6 +107,12 @@
     </head>
     <body class="page">
         <main class="main page__main">
+            <div t-if="success and not error">
+            SUCCESS
+            </div>
+            <div t-if="error">
+            ERROR
+            </div>
             <form class="form main__form" id="help_form" method="POST" onsubmit="return validateForm();">
             <h1>Formulaire d'assistance Sinergis</h1>
             <input type="hidden" name="csrf_token" t-att-value="csrf" />
