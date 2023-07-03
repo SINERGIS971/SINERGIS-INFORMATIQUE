@@ -31,6 +31,26 @@ class HelpdeskFormController(http.Controller):
             if not name or not company or not email or not product_select or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             success = True
+            
+            data = {
+                'name': name,
+                'description': problem
+            }
+            
+            contact_id = self.env['res.partner'].search([('email','=',email),('is_company','=',False)],limit=1)
+            if contact_id:
+                parent_id = contact_id.parent_id
+                if not parent_id:
+                    data['partner_id'] = contact_id.id
+                else :
+                    data['partner_id'] = parent_id.id
+                    data['x_sinergis_helpdesk_contact'] = contact_id.id
+            else:
+                contact_id = self.env['res.partner'].create({'name': name, 'email': email, 'is_company': False})
+                data['partner_id'] = contact_id.id
+            
+            self.env['helpdesk.ticket'].create(data)
+
 
         return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success})
 
