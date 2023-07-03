@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from odoo import http
+from odoo.http import Response
 
+import json
 
-class SinergisCOntroller(http.Controller):
+class SinergisController(http.Controller):
     @http.route('/sinergis/get_subproduct', auth='public', methods=['GET'])
     def index_get(self, **kw):
         if "product_id" in kw:
@@ -14,5 +16,6 @@ class SinergisCOntroller(http.Controller):
                     'id': subproduct_id.id,
                     'name': subproduct_id.name
                 })
-            return {'subproducts': data}
+            headers_json = {'Content-Type': 'application/json'} 
+            return Response(json.dumps({'subproducts': data}), headers=headers_json)
         return ""

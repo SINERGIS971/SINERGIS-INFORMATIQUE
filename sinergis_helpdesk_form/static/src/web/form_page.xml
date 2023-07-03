@@ -105,22 +105,28 @@
                 return true;
             }
 
-            const selectProduct = document.getElementById('product-select');
-
-            selectProduct.addEventListener('change', () => {
-            const selectedProduct = selectProduct.value;
-
-            fetch('/sinergis/get_subproduct')
-                .then(response => response.json())
-                .then(data => {
-                    const subproducts = data.subproducts;
-
-                subproducts.forEach(subproduct => {
-                    console.log(subproduct);
-                });
-                })
-                .catch(error => {
-                console.error('Erreur lors de la requête:', error);
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('Go...');
+                const selectProduct = document.getElementById('product-select');
+                selectProduct.addEventListener('change', () => {
+                const selectedProduct = selectProduct.value;
+                fetch('https://sinergis-staging-8220421.dev.odoo.com/sinergis/get_subproduct?product_id=7')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        var selectSubproducts = document.getElementById("subproduct-select");
+                        selectSubproducts.innerHTML = "";
+                        const subproducts = data.subproducts;
+                    subproducts.forEach(subproduct => {
+                        var optionElement = document.createElement("option");
+                        optionElement.value = subproduct.id;
+                        optionElement.text = subproduct.name;
+                        selectSubproducts.appendChild(optionElement)
+                    });
+                    })
+                    .catch(error => {
+                    console.error('Erreur lors de la requête:', error);
+                    });
                 });
             });
         </script>
@@ -151,6 +157,12 @@
                 <t t-foreach="products" t-as="product">
                     <option t-att-value="product.id"><t t-esc="product.name"/></option>
                 </t>
+                </select>
+            </div>
+            <div class="form__linput">
+                <label class="form__label" for="subproduct-select">Sous-Produit</label>
+                <select class="form__select" id="subproduct-select" name="subproducts">
+                <option value="">Choisissez votre sous-produit</option>
                 </select>
             </div>
             <div class="form__linput">
