@@ -183,7 +183,7 @@ class SaleOrder(models.Model):
         #Connection to X3
         base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
         path_x3_orders = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
-        response = requests.post(base_url+path_x3_orders, data=data_soap, headers=headers, verify=False).content
+        response = requests.post(base_url+path_x3_orders, data=data_soap.encode('utf-8'), headers=headers, verify=False).content
         try:
             response_dict = xmltodict.parse(response)
             status = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["status"]["#text"]
@@ -235,7 +235,7 @@ class SaleOrder(models.Model):
                     line_name_array = line.name.split("\n")
                     if len(line_name_array) > 1:
                         data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,"".join(line_name_array[1:]),str(i),pool_alias=pool_alias, public_name="INSTEXLIG")
-                        response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode(), headers=headers, verify=False).content
+                        response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode('utf-8'), headers=headers, verify=False).content
                     i+=1
 
         # On ajoute dans le log l'information de synchronisation
