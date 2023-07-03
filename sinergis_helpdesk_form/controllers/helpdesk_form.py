@@ -26,7 +26,10 @@ class HelpdeskFormController(http.Controller):
             name = kw.get("name")
             company = kw.get("company")
             email = kw.get("email")
-            product_select = kw.get("products")
+            product_select = int(kw.get("products"))
+            subproduct_select = False
+            if "subproducts" in kw:
+                subproduct_select = int(kw.get("subproducts"))
             subject = kw.get("subject")
             problem = kw.get("problem")
             if not name or not company or not email or not product_select or not subject or not problem:
@@ -34,6 +37,10 @@ class HelpdeskFormController(http.Controller):
             product_id = http.request.env['sale.products'].search([('id','=',product_select)],limit=1)
             if not product_id:
                 error = "Le produit que vous venez de sélectionner n'existe pas dans notre base de données."
+            if subproduct_select:
+                subproduct_id = http.request.env['sale.products.subproducts'].search([('id','=',subproduct_select)],limit=1)
+                if not subproduct_id:
+                    error = "Le sous-produit que vous venez de sélectionner n'existe pas dans notre base de données."
             if not error :
                 success = True
                 data = {
@@ -41,6 +48,8 @@ class HelpdeskFormController(http.Controller):
                     'description': problem,
                     'user_id': http.request.env.uid,
                     'team_id': http.request.env['helpdesk.ticket']._default_team_id(),
+                    'x_sinergis_helpdesk_ticket_produits_new': product_select,
+                    'x_sinergis_helpdesk_ticket_sous_produits_new': subproduct_select,
                 }
                 contact_id = http.request.env['res.partner'].search([('email','=',email),('is_company','=',False)],limit=1)
                 if contact_id:

@@ -93,6 +93,11 @@
             .primary-btn:hover {
             background-color: #f4bd48;
             }
+
+            .required-ast
+            {
+                color: red;
+            }
         </style>
          <script src="https://www.google.com/recaptcha/api.js"></script>
          <script>
@@ -110,13 +115,24 @@
                 const selectProduct = document.getElementById('product-select');
                 selectProduct.addEventListener('change', () => {
                 const selectedProduct = selectProduct.value;
-                fetch('https://sinergis-staging-8220421.dev.odoo.com/sinergis/get_subproduct?product_id=7')
+                fetch('https://sinergis-staging-8220421.dev.odoo.com/sinergis/get_subproduct?product_id='+selectedProduct.toString())
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
                         var selectSubproducts = document.getElementById("subproduct-select");
                         selectSubproducts.innerHTML = "";
                         const subproducts = data.subproducts;
+
+                        if (subproducts.length == 0){
+                            document.getElementById("subproduct-select").hidden = true;
+                        } else {
+                            document.getElementById("subproduct-select").hidden = false;
+                        }
+
+                        var optionElement = document.createElement("option");
+                        optionElement.value = "";
+                        optionElement.text = "";
+                        selectSubproducts.appendChild(optionElement)
                     subproducts.forEach(subproduct => {
                         var optionElement = document.createElement("option");
                         optionElement.value = subproduct.id;
@@ -139,19 +155,19 @@
             <h1>Formulaire d'assistance Sinergis</h1>
             <input type="hidden" name="csrf_token" t-att-value="csrf" />
             <div class="form__linput">
-                <label class="form__label" for="name">Nom et prénom</label>
+                <label class="form__label" for="name">Nom et prénom <span class="required-ast">*</span></label>
                 <input class="form__input" type="text" id="name" name="name" placeholder="Nom et prénom.." required="True" maxlength="50"/>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="company">Société</label>
+                <label class="form__label" for="company">Société <span class="required-ast">*</span></label>
                 <input class="form__input" type="text" id="company" name="company" placeholder="Société.." required="True" maxlength="50"/>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="email">E-mail</label>
+                <label class="form__label" for="email">E-mail <span class="required-ast">*</span></label>
                 <input class="form__input" type="text" id="email" name="email" placeholder="Adresse e-mail.." required="True" maxlength="50"/>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="product-select">Produit</label>
+                <label class="form__label" for="product-select">Produit <span class="required-ast">*</span></label>
                 <select class="form__select" id="product-select" name="products" required="True">
                 <option value="">Choisissez votre produit</option>
                 <t t-foreach="products" t-as="product">
@@ -159,18 +175,18 @@
                 </t>
                 </select>
             </div>
-            <div class="form__linput">
+            <div class="form__linput" id="subproduct_block" hidden="True">
                 <label class="form__label" for="subproduct-select">Sous-Produit</label>
                 <select class="form__select" id="subproduct-select" name="subproducts">
                 <option value="">Choisissez votre sous-produit</option>
                 </select>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="subject">Sujet</label>
+                <label class="form__label" for="subject">Sujet <span class="required-ast">*</span></label>
                 <input class="form__input" type="text" id="subject" name="subject" placeholder="Sujet.." required="True" maxlength="150"/>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="problem">Description du problème</label>
+                <label class="form__label" for="problem">Description du problème <span class="required-ast">*</span></label>
                 <textarea class="form__textarea" id="problem" name="problem" placeholder="Décrire votre problème.." rows="7" required="True" maxlength="2000"></textarea>
             </div>
             <div class="g-recaptcha" data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"></div>
