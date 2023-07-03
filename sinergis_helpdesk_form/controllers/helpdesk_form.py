@@ -22,7 +22,7 @@ class HelpdeskFormController(http.Controller):
             response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data).content.decode('utf-8')
             response_dict = json.loads(response)
             if response_dict['success'] != True:
-                error = "Erreur : Le recaptcha n'est pas validé."
+                error = "Le recaptcha n'est pas validé."
             name = kw.get("name")
             company = kw.get("company")
             email = kw.get("email")
@@ -38,7 +38,9 @@ class HelpdeskFormController(http.Controller):
                 success = True
                 data = {
                     'name': subject,
-                    'description': problem
+                    'description': problem,
+                    'user_id': http.request.env.uid,
+                    'team_id': http.request.env['helpdesk.ticket']._default_team_id(),
                 }
                 contact_id = http.request.env['res.partner'].search([('email','=',email),('is_company','=',False)],limit=1)
                 if contact_id:
@@ -47,13 +49,13 @@ class HelpdeskFormController(http.Controller):
                         data['partner_id'] = contact_id.id
                     else :
                         data['partner_id'] = parent_id.id
-                        data['x_sinergis_helpdesk_contact'] = contact_id.id
+                        data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
                 else:
                     contact_id = http.request.env['res.partner'].create({'name': name, 'email': email, 'is_company': False})
                     data['partner_id'] = contact_id.id
-                    data['x_sinergis_helpdesk_contact'] = contact_id.id
+                    data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
                 
-                http.request.env['helpdesk.ticket'].create(data)
+                http.request.env['helpdesk.ticket'].with_company(parent_id.company_id).create(data)
                 
         return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success})
 
