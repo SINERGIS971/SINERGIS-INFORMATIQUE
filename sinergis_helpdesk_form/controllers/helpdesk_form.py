@@ -32,6 +32,6 @@ class HelpdeskFormController(http.Controller):
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             success = True
 
-        xreturn http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success})
+        return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success})
 
         
