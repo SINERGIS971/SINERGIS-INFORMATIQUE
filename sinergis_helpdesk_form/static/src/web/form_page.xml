@@ -104,6 +104,25 @@
                 }
                 return true;
             }
+
+            const selectProduct = document.getElementById('product-select');
+
+            selectProduct.addEventListener('change', () => {
+            const selectedProduct = selectProduct.value;
+
+            fetch('/sinergis/get_subproduct')
+                .then(response => response.json())
+                .then(data => {
+                    const subproducts = data.subproducts;
+
+                subproducts.forEach(subproduct => {
+                    console.log(subproduct);
+                });
+                })
+                .catch(error => {
+                console.error('Erreur lors de la requête:', error);
+                });
+            });
         </script>
     </head>
     <body class="page">
