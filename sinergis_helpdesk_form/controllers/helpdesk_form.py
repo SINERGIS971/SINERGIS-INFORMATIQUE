@@ -10,7 +10,8 @@ class HelpdeskFormController(http.Controller):
     def index_get(self, **kw):
         token = kw.get("token")
         csrf = http.request.csrf_token()
-        return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf})
+        products = http.request.env['sale.products'].search([], limit=500)
+        return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products})
     
     @http.route('/help_sinergis', auth='public', methods=['POST'])
     def index_post(self, **kw):
@@ -22,13 +23,13 @@ class HelpdeskFormController(http.Controller):
         data = {'secret': secret_server_key, 'response': recaptcha_response, 'remoteip': client_ip}
         response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data).content.decode('utf-8')
         response_dict = json.loads(response)
-        if response_dict['success'] != "true":
+        if response_dict['success'] != True:
             return "Erreur : Le recaptcha n'est pas validé."
         name = kw.get("name")
         company = kw.get("company")
         email = kw.get("email")
-        product_select = kw.get("product-select")
-        problem = kw.get("product-select")
+        product_select = kw.get("products")
+        problem = kw.get("problem")
         if not name or not company or not email or not product_select or not problem:
             return "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
         return f"{name}, {company}, {email}, {product_select}, {problem}"

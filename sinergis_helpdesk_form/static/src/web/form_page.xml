@@ -87,6 +87,7 @@
             border: 0;
             border-radius: var(--radius-2);
             cursor: pointer;
+            font-size: 1.5em;
             }
             .primary-btn:hover {
             background-color: #f4bd48;
@@ -111,28 +112,28 @@
             <input type="hidden" name="csrf_token" t-att-value="csrf" />
             <div class="form__linput">
                 <label class="form__label" for="name">Nom et prénom</label>
-                <input class="form__input" type="text" id="name" name="name" placeholder="Nom et prénom.." required="True"/>
+                <input class="form__input" type="text" id="name" name="name" placeholder="Nom et prénom.." required="True" maxlength="50"/>
             </div>
             <div class="form__linput">
                 <label class="form__label" for="company">Société</label>
-                <input class="form__input" type="text" id="company" name="company" placeholder="Société.." required="True"/>
+                <input class="form__input" type="text" id="company" name="company" placeholder="Société.." required="True" maxlength="50"/>
             </div>
             <div class="form__linput">
                 <label class="form__label" for="email">E-mail</label>
-                <input class="form__input" type="text" id="email" name="email" placeholder="Adresse e-mail.." required="True"/>
+                <input class="form__input" type="text" id="email" name="email" placeholder="Adresse e-mail.." required="True" maxlength="50"/>
             </div>
             <div class="form__linput">
                 <label class="form__label" for="product-select">Produit</label>
                 <select class="form__select" id="product-select" name="products" required="True">
                 <option value="">Choisissez votre produit</option>
-                <option value="australia">Australia</option>
-                <option value="canada">Canada</option>
-                <option value="usa">USA</option>
+                <t t-foreach="products" t-as="product">
+                    <option t-att-value="product.id"><t t-esc="product.name"/></option>
+                </t>
                 </select>
             </div>
             <div class="form__linput">
                 <label class="form__label" for="problem">Description du problème</label>
-                <textarea class="form__textarea" id="problem" name="problem" placeholder="Décrire votre problème.." rows="7" required="True"></textarea>
+                <textarea class="form__textarea" id="problem" name="problem" placeholder="Décrire votre problème.." rows="7" required="True" maxlength="2000"></textarea>
             </div>
             <div class="g-recaptcha" data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"></div>
             <br/>

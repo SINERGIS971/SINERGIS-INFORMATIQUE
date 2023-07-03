@@ -244,4 +244,4 @@ class SinergisTechnicalNoteFiles(models.Model):
     partner_id = fields.Many2one("res.partner",string="Client",required=True)
 
     name = fields.Char(string="Nom",required=True)
-    file = fields.Binary(string="File")
+    file = fields.Binary(string="File", required=True)
