@@ -1,21 +1,16 @@
 # -*- coding: utf-8 -*-
-# from odoo import http
+from odoo import http
 
 
-# class Sinergis(http.Controller):
-#     @http.route('/sinergis/sinergis', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
-
-#     @http.route('/sinergis/sinergis/objects', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('sinergis.listing', {
-#             'root': '/sinergis/sinergis',
-#             'objects': http.request.env['sinergis.sinergis'].search([]),
-#         })
-
-#     @http.route('/sinergis/sinergis/objects/<model("sinergis.sinergis"):obj>', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('sinergis.object', {
-#             'object': obj
-#         })
+class SinergisCOntroller(http.Controller):
+    @http.route('/sinergis/get_subproduct', auth='public', methods=['GET'])
+    def index_get(self, **kw):
+        product_id = int(kw.get('product_id'))
+        subproduct_ids = http.request.env['sale.products.subproducts'].search([('product_id','=',product_id)])
+        data = []
+        for subproduct_id in subproduct_ids:
+            data.append({
+                'id': subproduct_id.id,
+                'name': subproduct_id.name
+            })
+        return str(data)

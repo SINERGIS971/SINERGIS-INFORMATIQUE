@@ -103,6 +103,7 @@
                   <field name="x_sinergis_helpdesk_ticket_partner_company_name" invisible="1"/>
                   <button name="button_x_sinergis_helpdesk_ticket_client_answer" readonly="True" type="object"  icon="fa-bell" class="btn-danger" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_answer', '=', False)]}"/>
                   <field name="sort_date"/>
+                  <field name="close_date" optional="hide"/>
                   <field name="x_sinergis_helpdesk_ticket_client_answer_date"/>
                   <field name="priority" position="move"/>
                   <field name="partner_id" position="move"/>

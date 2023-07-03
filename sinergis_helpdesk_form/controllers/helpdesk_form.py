@@ -7,7 +7,7 @@ from datetime import date
 
 class HelpdeskFormController(http.Controller):
     @http.route('/help_sinergis', auth='public', methods=['GET','POST'])
-    def index_get(self, **kw):
+    def index(self, **kw):
         csrf = http.request.csrf_token()
         products = http.request.env['sale.products'].search([], limit=500)
         error = False
@@ -48,15 +48,15 @@ class HelpdeskFormController(http.Controller):
                     if not parent_id:
                         data['partner_id'] = contact_id.id
                     else :
-                        data['partner_id'] = parent_id.id
+                        data['partner_id'] = contact_id.id
                         data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
                 else:
                     contact_id = http.request.env['res.partner'].create({'name': name, 'email': email, 'is_company': False})
                     data['partner_id'] = contact_id.id
                     data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
                 
-                http.request.env['helpdesk.ticket'].with_company(parent_id.company_id).create(data)
-                
+                http.request.env['helpdesk.ticket'].create(data)
+
         return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success})
 
         
