@@ -33,6 +33,8 @@ class SaleOrder(models.Model):
         "sale.order.odoo_x3_log", "sale_id", string="Odoo-X3 log", readonly=True
     )
 
+    sinergis_x3_partner_has_codex3 = fields.Boolean(related="partner_id.sinergis_x3_code")
+
     @api.onchange("partner_id")
     def onchange_partner_id_sinergis_x3(self):
         if not self.sinergis_x3_company_id:

@@ -25,7 +25,7 @@ class ResPartner(models.Model):
 
     # --FORM--
 
-    company_id = fields.Many2one(default=lambda self: self.env.company);
+    company_id = fields.Many2one(default=lambda self: self.env.company)
 
     x_sinergis_societe_mere = fields.Many2one('res.partner', string="Société mère", index=True)
 

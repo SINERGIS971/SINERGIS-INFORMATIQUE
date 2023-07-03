@@ -56,13 +56,12 @@ class HelpdeskFormController(http.Controller):
                         data['partner_id'] = contact_id.id
                     else :
                         data['partner_id'] = contact_id.id
-                        data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
                 else:
                     contact_id = http.request.env['res.partner'].create({'name': name, 'email': email, 'is_company': False})
                     data['partner_id'] = contact_id.id
-                    data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
                 
-                http.request.env['helpdesk.ticket'].create(data)
+                ticket = http.request.env['helpdesk.ticket'].create(data)
+                ticket.wrtie({'x_sinergis_helpdesk_ticket_contact': contact_id.id})
 
         return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success})
 
