@@ -124,9 +124,9 @@
                         const subproducts = data.subproducts;
 
                         if (subproducts.length == 0){
-                            document.getElementById("subproduct-select").hidden = true;
+                            document.getElementById("subproduct-select").style.display = none;
                         } else {
-                            document.getElementById("subproduct-select").hidden = false;
+                            document.getElementById("subproduct-select").style.display = block;
                         }
 
                         var optionElement = document.createElement("option");
@@ -175,7 +175,7 @@
                 </t>
                 </select>
             </div>
-            <div class="form__linput" id="subproduct_block" hidden="True">
+            <div class="form__linput" id="subproduct_block" style="display:none;">
                 <label class="form__label" for="subproduct-select">Sous-Produit</label>
                 <select class="form__select" id="subproduct-select" name="subproducts">
                 <option value="">Choisissez votre sous-produit</option>

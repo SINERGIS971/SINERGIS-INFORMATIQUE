@@ -27,9 +27,7 @@ class HelpdeskFormController(http.Controller):
             company = kw.get("company")
             email = kw.get("email")
             product_select = int(kw.get("products"))
-            subproduct_select = False
-            if "subproducts" in kw:
-                subproduct_select = int(kw.get("subproducts"))
+            subproduct_select = kw.get("subproducts")
             subject = kw.get("subject")
             problem = kw.get("problem")
             if not name or not company or not email or not product_select or not subject or not problem:
