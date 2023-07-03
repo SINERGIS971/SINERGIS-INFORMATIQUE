@@ -27,31 +27,34 @@ class HelpdeskFormController(http.Controller):
             company = kw.get("company")
             email = kw.get("email")
             product_select = kw.get("products")
+            subject = kw.get("subject")
             problem = kw.get("problem")
-            if not name or not company or not email or not product_select or not problem:
+            if not name or not company or not email or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
-            success = True
-            
-            data = {
-                'name': name,
-                'description': problem
-            }
-            
-            contact_id = self.env['res.partner'].search([('email','=',email),('is_company','=',False)],limit=1)
-            if contact_id:
-                parent_id = contact_id.parent_id
-                if not parent_id:
+            product_id = http.request.env['sale.products'].search([('id','=',product_select)],limit=1)
+            if not product_id:
+                error = "Le produit que vous venez de sélectionner n'existe pas dans notre base de données."
+            if not error :
+                success = True
+                data = {
+                    'name': subject,
+                    'description': problem
+                }
+                contact_id = http.request.env['res.partner'].search([('email','=',email),('is_company','=',False)],limit=1)
+                if contact_id:
+                    parent_id = contact_id.parent_id
+                    if not parent_id:
+                        data['partner_id'] = contact_id.id
+                    else :
+                        data['partner_id'] = parent_id.id
+                        data['x_sinergis_helpdesk_contact'] = contact_id.id
+                else:
+                    contact_id = http.request.env['res.partner'].create({'name': name, 'email': email, 'is_company': False})
                     data['partner_id'] = contact_id.id
-                else :
-                    data['partner_id'] = parent_id.id
                     data['x_sinergis_helpdesk_contact'] = contact_id.id
-            else:
-                contact_id = self.env['res.partner'].create({'name': name, 'email': email, 'is_company': False})
-                data['partner_id'] = contact_id.id
-            
-            self.env['helpdesk.ticket'].create(data)
-
-
+                
+                http.request.env['helpdesk.ticket'].create(data)
+                
         return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success})
 
         
