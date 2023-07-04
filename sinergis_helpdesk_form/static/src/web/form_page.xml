@@ -5,99 +5,118 @@
     <head>
         <style>
             @import "https://unpkg.com/open-props";
-            *,
-            *::before,
-            *::after {
-            box-sizing: border-box;
-            }
 
-            h1 {
-            font-weight: bold;
-            font-size: 1.4em;
-            text-align: center;
-            margin-bottom: 20px;
-            }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
-            button {
-            font: inherit;
-            }
+h1 {
+    font-weight: bold;
+    font-size: 1.4em;
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-            .page {
-            color: var(--gray-9);
-            background-color: var(--gray-0);
-            display: grid;
-            grid-template-areas: "main";
-            min-height: 100vh;
-            font-family: var(--font-sans);
-            }
-            .page__mani {
-            grid-area: main;
-            }
+button {
+    font: inherit;
+}
 
-            .main {
-            display: flex;
-            flex-direction: column;
-            justify-items: center;
-            align-items: center;
-            padding: var(--size-3);
-            }
-            .main__form {
-            max-width: 30em;
-            }
+.page {
+    color: var(--gray-9);
+    background-color: var(--gray-0);
+    display: grid;
+    grid-template-areas: "main";
+    min-height: 100vh;
+    font-family: var(--font-sans);
+}
 
-            .form {
-            color: var(--gray-9);
-            background-color: #d6e2f4;
-            display: grid;
-            padding: var(--size-4);
-            width: 100%;
-            border: 1px solid var(--gray-4);
-            border-radius: var(--radius-2);
-            }
-            .form__linput {
-            display: grid;
-            margin-bottom: var(--size-3);
-            }
-            .form__label {
-            margin-bottom: var(--size-2);
-            }
-            .form__input, .form__select {
-            padding: 1em 0.7rem;
-            border: 1px solid var(--gray-4);
-            border-radius: var(--radius-2);
-            }
-            .form__select {
-            background: inherit;
-            }
-            .form__textarea {
-            padding: 1em 0.7rem;
-            resize: vertical;
-            border: 1px solid var(--gray-4);
-            border-radius: var(--radius-2);
-            font: inherit;
-            }
-            .form__btn {
-            margin-right: auto;
-            }
+.page__mani {
+    grid-area: main;
+}
 
-            .primary-btn {
-            transition: 180ms ease-in;
-            color: var(--gray-0);
-            background-color: #f58c00;
-            padding: 0.7em var(--size-3);
-            border: 0;
-            border-radius: var(--radius-2);
-            cursor: pointer;
-            font-size: 1.5em;
-            }
-            .primary-btn:hover {
-            background-color: #f4bd48;
-            }
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    padding: var(--size-3);
+}
 
-            .required-ast
-            {
-                color: red;
-            }
+.main__form {
+    max-width: 30em;
+    width: 100%;
+}
+
+.form {
+    color: var(--gray-9);
+    background-color: #d6e2f4;
+    display: grid;
+    padding: var(--size-4);
+    width: 100%;
+    border: 1px solid var(--gray-4);
+    border-radius: var(--radius-2);
+}
+
+.form__linput {
+    display: grid;
+    margin-bottom: var(--size-3);
+}
+
+.form__label {
+    margin-bottom: var(--size-2);
+}
+
+.form__input,
+.form__select,
+.form__textarea {
+    padding: 1em 0.7rem;
+    border: 1px solid var(--gray-4);
+    border-radius: var(--radius-2);
+    width: 100%;
+}
+
+.form__select {
+    background: inherit;
+}
+
+.form__textarea {
+    padding: 1em 0.7rem;
+    resize: vertical;
+    border: 1px solid var(--gray-4);
+    border-radius: var(--radius-2);
+    font: inherit;
+}
+
+.form__btn {
+    margin-right: auto;
+}
+
+.primary-btn {
+    transition: 180ms ease-in;
+    color: var(--gray-0);
+    background-color: #f58c00;
+    padding: 0.7em var(--size-3);
+    border: 0;
+    border-radius: var(--radius-2);
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+.primary-btn:hover {
+    background-color: #f4bd48;
+}
+
+.required-ast {
+    color: red;
+}
+
+@media only screen and (max-width: 768px) {
+    .main__form {
+        max-width: 100%;
+    }
+}
         </style>
          <script src="https://www.google.com/recaptcha/api.js"></script>
          <script>

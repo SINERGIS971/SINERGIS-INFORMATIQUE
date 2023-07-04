@@ -33,12 +33,20 @@ class SaleOrder(models.Model):
         "sale.order.odoo_x3_log", "sale_id", string="Odoo-X3 log", readonly=True
     )
 
-    sinergis_x3_partner_has_codex3 = fields.Boolean(related="partner_id.sinergis_x3_code")
+    sinergis_x3_partner_has_codex3 = fields.Boolean(compute="_compute_sinergis_x3_partner_has_codex3")
 
     @api.onchange("partner_id")
     def onchange_partner_id_sinergis_x3(self):
         if not self.sinergis_x3_company_id:
             self.sinergis_x3_company_id = self.env["sinergis_x3.settings.company"].search([("company_id","=",self.partner_id.company_id.id)], limit=1)
+
+    @api.depends("sinergis_x3_partner_has_codex3")
+    def _compute_sinergis_x3_partner_has_codex3(self):
+        for rec in self:
+            if rec.partner_id.sinergis_x3_code:
+                rec.sinergis_x3_partner_has_codex3 = True
+            else:
+                rec.sinergis_x3_partner_has_codex3 = False
 
     @api.depends("sinergis_x3_correct_price")
     def _compute_sinergis_x3_correct_price (self):

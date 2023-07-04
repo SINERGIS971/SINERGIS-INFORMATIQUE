@@ -32,8 +32,8 @@
             </xpath>
 
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="sinergis_x3_partner_has_codex3"/>
-                <p t-if="sinergis_x3_partner_has_codex3" style="font-size:10px;color:red;">Le client n'a pas de code X3</p>
+                <field name="sinergis_x3_partner_has_codex3" invisible="1"/>
+                <p t-if="sinergis_x3_partner_has_codex3" style="font-size:12px;color:red;text-align:end;">Le client n'a pas de code X3</p>
             </xpath>
 
             <xpath expr="//field[@name='partner_invoice_id']" position="before">
