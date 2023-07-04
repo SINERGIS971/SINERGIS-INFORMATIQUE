@@ -30,7 +30,7 @@ class HelpdeskFormController(http.Controller):
             subproduct_select = kw.get("subproducts")
             subject = kw.get("subject")
             problem = kw.get("problem")
-            files = kw.get("files")
+            files = http.request.httprequest.files.getlist('files[]')
             if not name or not company or not email or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             product_id = http.request.env['sale.products'].sudo().search([('id','=',product_select)],limit=1)
@@ -63,6 +63,22 @@ class HelpdeskFormController(http.Controller):
                 
                 ticket = http.request.env['helpdesk.ticket'].sudo().create(data)
                 ticket.write({'x_sinergis_helpdesk_ticket_contact': contact_id.id})
+
+                # Création des PJ associées au ticket
+                #To do : vérification du type et de la taille
+                for file in files :
+                    name = file.filename
+                    attached_file = file.read()
+                    http.request.env['ir.attachment'].sudo().create({
+                        'name': file.filename,
+                        'res_model': 'helpdesk.ticket',
+                        'res_id': ticket.id,
+                        'type': 'binary',
+                        'datas_fname': file.filename,
+                        'datas': attached_file.encode('base64'),
+                    }) 
+
+
 
         return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success})
 

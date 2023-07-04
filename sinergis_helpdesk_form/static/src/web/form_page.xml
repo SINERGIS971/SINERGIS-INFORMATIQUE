@@ -202,7 +202,7 @@ button {
         <main class="main page__main">
             <p t-if="success and not error" style="background-color: #5cb85c; color: #fff; text-align: center; padding: 10px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 12px;">Votre ticket a bien été pris en charge par Sinergis.<br/>Nous reviendrons vers vous rapidement.</p>
             <p t-if="error" style="background-color: #E94D4D; color: #fff; text-align: center; padding: 10px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 12px;">Erreur<br/><t t-esc="error"/></p>
-            <form class="form main__form" id="help_form" method="POST" onsubmit="return validateForm();">
+            <form class="form main__form" id="help_form" method="POST" enctype="multipart/form-data" onsubmit="return validateForm();">
             <h1>Formulaire d'assistance Sinergis</h1>
             <input type="hidden" name="csrf_token" t-att-value="csrf" />
             <div class="form__linput">
@@ -243,7 +243,7 @@ button {
             <div class="form__linput">
                 <label class="form__label" for="problem">Documents</label>
                 <div class="file-input">
-                <input type="file" id="files" name="files" onchange="handleFiles()" multiple="1">
+                <input type="file" id="files" name="files[]" onchange="handleFiles()" multiple="1"/>
                 <button>Choisir des fichiers</button>
                 <span id="fileCount"></span>
                 </div>
