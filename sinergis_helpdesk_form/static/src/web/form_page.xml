@@ -182,7 +182,7 @@ button {
             </div>
             <div class="form__linput">
                 <label class="form__label" for="email">E-mail <span class="required-ast">*</span></label>
-                <input class="form__input" type="text" id="email" name="email" placeholder="Adresse e-mail.." required="True" maxlength="50"/>
+                <input class="form__input" type="email" id="email" name="email" placeholder="Adresse e-mail.." required="True" maxlength="50"/>
             </div>
             <div class="form__linput">
                 <label class="form__label" for="product-select">Produit <span class="required-ast">*</span></label>
