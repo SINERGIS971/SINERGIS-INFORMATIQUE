@@ -34,11 +34,11 @@ class HelpdeskFormController(http.Controller):
             problem = kw.get("problem")
             files = http.request.httprequest.files.getlist('files[]')
             # Verification des extensions
-            extensions = {".jpg", ".png", ".gif", ".jpeg"}
+            extensions = {".jpg", ".png", ".gif", ".jpeg",".pdf"}
             max_size = 10485760 # Taille maximale en bytes
             for file in files:
                 if not any(file.filename.endswith(ext) for ext in extensions):
-                    return "Un des fichiers n'a pas le bon format."
+                    error = "Un des fichiers n'a pas le bon format."
 
             if not name or not company or not email or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."

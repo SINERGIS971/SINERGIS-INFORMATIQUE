@@ -46,7 +46,7 @@ button {
 }
 
 .main__form {
-    max-width: 30em;
+    max-width: 40em;
     width: 100%;
 }
 
@@ -198,22 +198,21 @@ button {
 
                 if (fileInput.files.length > maxFileLength) {
                 alert('Le nombre maximal de fichiers autorisés est de ' + maxFileLength);
-                fileInput.value = ''; // Réinitialiser l'input
+                fileInput.value = '';
                 return;
                 }
 
-                for (var i = 0; i < fileInput.files.length; i++) {
+                for (var i = 0; i &lt; fileInput.files.length; i++) {
                     var fileSize = fileInput.files[i].size;
                         if (fileSize > maxFileSizeInBytes) {
                             alert('La taille du fichier dépasse la limite autorisée. Veuillez sélectionner un fichier plus petit.');
-                            fileInput.value = ''; // Réinitialiser l'input
+                            fileInput.value = '';
                             return;
                         }
                 }
 
                 const fileList = fileInput.files;
                 const fileCountDisplay = document.getElementById("fileCount");
-                fileCountDisplay.innerHTML = "";
                 fileCountDisplay.innerHTML = fileList.length + " fichier(s) chargé(s)";
             }
         </script>
