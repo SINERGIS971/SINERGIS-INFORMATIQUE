@@ -113,6 +113,32 @@ button {
     color: red;
 }
 
+
+    .file-input {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .file-input input[type="file"] {
+      font-size: 100px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+    .file-input button {
+      display: inline-block;
+      background: #4CAF50;
+      color: white;
+      padding: 8px 20px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+    }
+    .file-input span {
+      margin-left: 10px;
+    }
+
 @media only screen and (max-width: 768px) {
     .main__form {
         max-width: 100%;
@@ -163,6 +189,13 @@ button {
                     });
                 });
             });
+
+            function handleFiles() {
+                const fileList = document.getElementById("files").files;
+                const fileCountDisplay = document.getElementById("fileCount");
+                fileCountDisplay.innerHTML = "";
+                fileCountDisplay.innerHTML = fileList.length + " fichier(s) chargé(s)";
+            }
         </script>
     </head>
     <body class="page">
@@ -206,6 +239,14 @@ button {
             <div class="form__linput">
                 <label class="form__label" for="problem">Description du problème <span class="required-ast">*</span></label>
                 <textarea class="form__textarea" id="problem" name="problem" placeholder="Décrire votre problème.." rows="7" required="True" maxlength="2000"></textarea>
+            </div>
+            <div class="form__linput">
+                <label class="form__label" for="problem">Documents</label>
+                <div class="file-input">
+                <input type="file" id="files" name="files" onchange="handleFiles()" multiple="1">
+                <button>Choisir des fichiers</button>
+                <span id="fileCount"></span>
+                </div>
             </div>
             <div class="g-recaptcha" data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"></div>
             <br/>

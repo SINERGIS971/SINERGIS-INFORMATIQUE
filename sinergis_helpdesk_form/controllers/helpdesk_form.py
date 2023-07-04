@@ -30,6 +30,7 @@ class HelpdeskFormController(http.Controller):
             subproduct_select = kw.get("subproducts")
             subject = kw.get("subject")
             problem = kw.get("problem")
+            files = kw.get("files")
             if not name or not company or not email or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             product_id = http.request.env['sale.products'].sudo().search([('id','=',product_select)],limit=1)
