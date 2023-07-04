@@ -1,0 +1,57 @@
+<odoo>
+  <data>
+    <record id="sinergis_meeting_room_room_search" model="ir.ui.view">
+        <field name="name">sinergis_meeting_room.room.search</field>
+        <field name="model">sinergis_meeting_room.room</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="id" filter_domain="[('id', '=', self)]"/>
+                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="sinergis_meeting_room_room_tree" model="ir.ui.view">
+          <field name="name">sinergis_meeting_room.room.tree</field>
+          <field name="model">sinergis_meeting_room.room</field>
+          <field name="arch" type="xml">
+              <tree default_order="id desc">
+                <field name="name"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="sinergis_meeting_room_room_form" model="ir.ui.view">
+          <field name="name">sinergis_meeting_room.room.form</field>
+          <field name="model">sinergis_meeting_room.room</field>
+          <field name="arch" type="xml">
+            <form>
+              <sheet>
+                <group>
+                    <field name="name"/>
+                </group>
+              </sheet>
+            </form>
+          </field>
+      </record>
+
+      <record id="sinergis_meeting_room_room_action" model="ir.actions.act_window">
+        <field name="name">Salles de réunion</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sinergis_meeting_room.room</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Il n'y a pas d'enregistrement
+            </p>
+        </field>
+    </record>
+
+      <menuitem id="sinergis_meeting_room_room_root"
+              parent="sinergis_meeting_room_root"
+              name="Salle de réunion"
+              action="sinergis_meeting_room_room_action"
+              sequence="10"/>
+
+  </data>
+</odoo>

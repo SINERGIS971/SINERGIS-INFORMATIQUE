@@ -7,6 +7,7 @@
             <search>
                 <field name="id" filter_domain="[('id', '=', self)]"/>
                 <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="room_id" filter_domain="[('room_id', 'ilike', self)]"/>
             </search>
         </field>
     </record>
@@ -17,6 +18,7 @@
           <field name="arch" type="xml">
               <tree default_order="id desc">
                 <field name="name"/>
+                <field name="room_id"/>
               </tree>
           </field>
       </record>
@@ -25,8 +27,9 @@
         <field name="name">sinergis_meeting_room.event.calendar</field>
         <field name="model">sinergis_meeting_room.event</field>
         <field name="arch" type="xml">
-          <calendar string="Évènements" date_start="start_date" date_stop="end_date" event_open_popup="true" mode="week" color="name" quick_add="False">
+          <calendar string="Évènements" date_start="start_date" date_stop="end_date" event_open_popup="true" mode="week" color="room_id" quick_add="False">
             <field name="name"/>
+            <field name="room_id"/>
           </calendar>
         </field>
       </record>
@@ -38,6 +41,10 @@
             <form>
               <sheet>
                 <group>
+                    <field name="name"/>
+                    <field name="room_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
                 </group>
               </sheet>
             </form>
@@ -50,9 +57,11 @@
         <field name="res_model">sinergis_meeting_room.event</field>
         <field name="view_mode">calendar,tree,form</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Il n'y a pas d'enregistrement
+            <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Cliquez pour créer un évènement.
             </p>
+            </field>
         </field>
     </record>
 
@@ -63,7 +72,7 @@
       <menuitem id="sinergis_meeting_room_event"
               parent="sinergis_meeting_room_root"
               name="Évènements"
-              action="sinergis_meeting_room_action"
+              action="sinergis_meeting_room_event_action"
               sequence="10"/>
 
   </data>
