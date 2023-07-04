@@ -191,7 +191,27 @@ button {
             });
 
             function handleFiles() {
-                const fileList = document.getElementById("files").files;
+                const fileInput = document.getElementById("files");
+
+                var maxFileLength = 3;
+                var maxFileSizeInBytes = 10485760;
+
+                if (fileInput.files.length > maxFileLength) {
+                alert('Le nombre maximal de fichiers autorisés est de ' + maxFileLength);
+                fileInput.value = ''; // Réinitialiser l'input
+                return;
+                }
+
+                for (var i = 0; i < fileInput.files.length; i++) {
+                    var fileSize = fileInput.files[i].size;
+                        if (fileSize > maxFileSizeInBytes) {
+                            alert('La taille du fichier dépasse la limite autorisée. Veuillez sélectionner un fichier plus petit.');
+                            fileInput.value = ''; // Réinitialiser l'input
+                            return;
+                        }
+                }
+
+                const fileList = fileInput.files;
                 const fileCountDisplay = document.getElementById("fileCount");
                 fileCountDisplay.innerHTML = "";
                 fileCountDisplay.innerHTML = fileList.length + " fichier(s) chargé(s)";
@@ -241,9 +261,9 @@ button {
                 <textarea class="form__textarea" id="problem" name="problem" placeholder="Décrire votre problème.." rows="7" required="True" maxlength="2000"></textarea>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="problem">Documents</label>
+                <label class="form__label" for="problem">Documents (images et PDF)</label>
                 <div class="file-input">
-                <input type="file" id="files" name="files[]" onchange="handleFiles()" multiple="1"/>
+                <input type="file" id="files" name="files[]" onchange="handleFiles()" multiple="1" accept="image/*,.pdf"/>
                 <button>Choisir des fichiers</button>
                 <span id="fileCount"></span>
                 </div>

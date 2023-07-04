@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from odoo import http
+import base64
 import json
 import re
 import requests
+import sys
 from datetime import date
 
 class HelpdeskFormController(http.Controller):
@@ -31,6 +33,13 @@ class HelpdeskFormController(http.Controller):
             subject = kw.get("subject")
             problem = kw.get("problem")
             files = http.request.httprequest.files.getlist('files[]')
+            # Verification des extensions
+            extensions = {".jpg", ".png", ".gif", ".jpeg"}
+            max_size = 10485760 # Taille maximale en bytes
+            for file in files:
+                if not any(file.filename.endswith(ext) for ext in extensions):
+                    return "Un des fichiers n'a pas le bon format."
+
             if not name or not company or not email or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             product_id = http.request.env['sale.products'].sudo().search([('id','=',product_select)],limit=1)
@@ -69,16 +78,15 @@ class HelpdeskFormController(http.Controller):
                 for file in files :
                     name = file.filename
                     attached_file = file.read()
-                    http.request.env['ir.attachment'].sudo().create({
-                        'name': file.filename,
-                        'res_model': 'helpdesk.ticket',
-                        'res_id': ticket.id,
-                        'type': 'binary',
-                        'datas_fname': file.filename,
-                        'datas': attached_file.encode('base64'),
-                    }) 
-
-
+                    if sys.getsizeof(attached_file) < max_size:
+                        http.request.env['ir.attachment'].sudo().create({
+                            'name': file.filename,
+                            'res_model': 'helpdesk.ticket',
+                            'res_id': ticket.id,
+                            'type': 'binary',
+                            'store_fname': file.filename,
+                            'datas': base64.b64encode(attached_file),
+                        }) 
 
         return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success})
 
