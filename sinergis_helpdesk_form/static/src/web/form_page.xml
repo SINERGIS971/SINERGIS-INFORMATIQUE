@@ -3,6 +3,7 @@
   <template id="form_page" name="Helpdesk Form">
     <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <style>
             @import "https://unpkg.com/open-props";
 
@@ -130,22 +131,20 @@ button {
             }
 
             document.addEventListener('DOMContentLoaded', () => {
-                console.log('Go...');
                 const selectProduct = document.getElementById('product-select');
                 selectProduct.addEventListener('change', () => {
                 const selectedProduct = selectProduct.value;
                 fetch('https://sinergis-staging-8220421.dev.odoo.com/sinergis/get_subproduct?product_id='+selectedProduct.toString())
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
                         var selectSubproducts = document.getElementById("subproduct-select");
                         selectSubproducts.innerHTML = "";
                         const subproducts = data.subproducts;
 
                         if (subproducts.length == 0){
-                            document.getElementById("subproduct-select").style.display = none;
+                            document.getElementById("subproduct_block").style.display = "none";
                         } else {
-                            document.getElementById("subproduct-select").style.display = block;
+                            document.getElementById("subproduct_block").style.display = "block";
                         }
 
                         var optionElement = document.createElement("option");

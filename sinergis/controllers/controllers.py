@@ -9,7 +9,7 @@ class SinergisController(http.Controller):
     def index_get(self, **kw):
         if "product_id" in kw:
             product_id = int(kw.get('product_id'))
-            subproduct_ids = http.request.env['sale.products.subproducts'].search([('product_id','=',product_id)])
+            subproduct_ids = http.request.env['sale.products.subproducts'].sudo().search([('product_id','=',product_id)])
             data = []
             for subproduct_id in subproduct_ids:
                 data.append({

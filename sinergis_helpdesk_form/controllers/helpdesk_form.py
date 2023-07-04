@@ -44,7 +44,7 @@ class HelpdeskFormController(http.Controller):
                 data = {
                     'name': subject,
                     'description': problem,
-                    'user_id': http.request.env.uid,
+                    'user_id': http.request.env.ref('base.user_root').id,
                     'team_id': http.request.env['helpdesk.ticket']._default_team_id(),
                     'x_sinergis_helpdesk_ticket_produits_new': product_select,
                     'x_sinergis_helpdesk_ticket_sous_produits_new': subproduct_select,
