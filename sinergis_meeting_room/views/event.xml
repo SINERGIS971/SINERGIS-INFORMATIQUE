@@ -29,7 +29,7 @@
         <field name="arch" type="xml">
           <calendar string="Évènements" date_start="start_date" date_stop="end_date" event_open_popup="true" mode="week" color="room_id" quick_add="False">
             <field name="name"/>
-            <field name="room_id"/>
+            <field name="room_id" filters="1"/>
           </calendar>
         </field>
       </record>

@@ -22,6 +22,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/event.xml',
+        'views/room.xml',
     ],
     'assets': {
         'web.assets_backend': [
