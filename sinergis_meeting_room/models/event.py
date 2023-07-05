@@ -9,5 +9,18 @@ class SinergisMeetingRoomEvent(models.Model):
 
     name = fields.Char(string='Reference', required=True)
     room_id = fields.Many2one("sinergis_meeting_room.room",string="Salle")
+    calendar_event_id = fields.Many2one("calendar.room",default=False,ondelete='cascade')
     start_date = fields.Datetime(string='Début')
     end_date = fields.Datetime(string='Fin')
+
+    @api.model_create_multi
+    def create(self, list_value):
+        for vals in list_value:
+            start_date = vals['start_date']
+            end_date = vals['end_date']
+            room_id = vals["room_id"]
+            confront_events = self.env['sinergis_meeting_room.event'].search(['&','|','|',('room_id','=',room_id),'&',('start_date','<',start_date),('end_date','>',start_date),'&',('start_date','<',end_date),('end_date','>',end_date),'&',('start_date','>',start_date),('end_date','<',end_date)])
+            if confront_events:
+                raise ValidationError('La salle de réunion est déjà réservée sur ce créneau.')
+        events = super(SinergisMeetingRoomEvent, self).create(list_value)
+        return events

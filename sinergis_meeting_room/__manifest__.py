@@ -17,12 +17,13 @@
     'category': 'Authentication',
     'version': '0.1',
 
-    'depends': ['web','mail'],
+    'depends': ['web','mail','training'],
 
     'data': [
         'security/ir.model.access.csv',
         'views/event.xml',
         'views/room.xml',
+        'report/meeting_room_sheet.xml',
     ],
     'assets': {
         'web.assets_backend': [

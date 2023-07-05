@@ -67,6 +67,7 @@
 
       <menuitem id="sinergis_meeting_room_root"
               name="Salle de réunion"
+              web_icon="sinergis_meeting_room,static/description/icon.png"
               sequence="10"/>
 
       <menuitem id="sinergis_meeting_room_event"
