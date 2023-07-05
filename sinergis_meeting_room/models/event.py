@@ -28,3 +28,9 @@ class SinergisMeetingRoomEvent(models.Model):
                 raise ValidationError('La salle de réunion est déjà réservée sur ce créneau.')
         events = super(SinergisMeetingRoomEvent, self).create(list_value)
         return events
+    
+    def unlink(self):
+        for rec in self:
+            rec.calendar_event_id.sinergis_meeting_room_id = False
+        return super(SinergisMeetingRoomEvent, self).unlink()
+        
