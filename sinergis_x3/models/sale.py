@@ -242,10 +242,11 @@ class SaleOrder(models.Model):
         if sinergis_x3_id != False:
             for line in self.order_line:
                 if line.product_id:
-                    line_name_array = line.name.split("\n")
-                    if len(line_name_array) > 1:
-                        data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,"".join(line_name_array[1:]),str(i),pool_alias=pool_alias, public_name="INSTEXLIG")
-                        response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode('utf-8'), headers=headers, verify=False).content
+                    if line.product_id.transfer_description:
+                        line_name_array = line.name.split("\n")
+                        if len(line_name_array) > 1:
+                            data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,"".join(line_name_array[1:]),str(i),pool_alias=pool_alias, public_name="INSTEXLIG")
+                            response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode('utf-8'), headers=headers, verify=False).content
                     i+=1
 
         # On ajoute dans le log l'information de synchronisation

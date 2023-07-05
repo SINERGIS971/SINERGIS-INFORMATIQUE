@@ -11,6 +11,9 @@
         <t t-if="record.x_sinergis_calendar_event_intervention_report_done_exists">
           <i role="img" class="fa fa-paperclip" style="color:green;"></i>
         </t>
+        <t t-if="record.x_sinergis_calendar_event_myactions_is_billed">
+          <i role="img" class="fa fa-euro" style="color:green;"></i>
+        </t>
         <!-- FACTURATION DANS LE CALENDRIER -->
         <t t-if="!record.x_sinergis_calendar_event_helpdesk_ticket_id">
           <t t-if="record.x_sinergis_calendar_event_is_facturee_total">

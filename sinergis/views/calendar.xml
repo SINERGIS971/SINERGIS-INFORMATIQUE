@@ -38,6 +38,9 @@
                   <!--Facturation depuis l'assistance-->
                   <field name="x_sinergis_calendar_event_helpdesk_ticket_id" invisible="1"/>
                   <field name="x_sinergis_calendar_event_helpdesk_facturation" invisible="1"/>
+
+                  <!-- Facturation dans mes activités -->
+                  <field name="x_sinergis_calendar_event_myactions_is_billed" invisible="1"/>
               </xpath>
             </field>
         </record>
@@ -115,8 +118,9 @@
                 <xpath expr="//page[@name='page_invitations']" position="after">
                     <page name="x_sinergis_facturation_page" string="Facturation" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False)]}">
                         <group>
+                            <field name="x_sinergis_calendar_event_myactions_is_billed" invisible="1"/>
+                            <p t-if="x_sinergis_calendar_event_myactions_is_billed" style="font-size:16px;color:red;text-align:end;">Facturé depuis mes activités</p>
                             <field name="x_sinergis_calendar_event_object"/>
-
                             <label for="x_sinergis_calendar_event_start_time"/>
                             <div>
                                 <button name="x_sinergis_calendar_event_start_time_button" string="Début" type="object" class="btn-primary oe_inline" readonly="True" style="background-color:grey;margin-right:15px;"/>

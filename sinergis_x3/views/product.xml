@@ -9,6 +9,7 @@
             <xpath expr="//field[@name='detailed_type']" position="after">
                 <field name="is_hostable"/>
                 <field name="is_ch"/>
+                <field name="transfer_description"/>
             </xpath>
         </field>
     </record>

@@ -92,6 +92,8 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_helpdesk_ticket_id = fields.Many2one("helpdesk.ticket")
     x_sinergis_calendar_event_helpdesk_facturation = fields.Char(compute="_compute_x_sinergis_calendar_event_helpdesk_facturation") # Permet de stocker la facturation si nous synchronisons les tickets sur le calendrier
 
+    # 5 Juillet - Savoir si facturé par Lisette
+    x_sinergis_calendar_event_myactions_is_billed = fields.Boolean(compute="_compute_x_sinergis_calendar_event_myactions_is_billed")
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
@@ -187,6 +189,11 @@ class CalendarEvent(models.Model):
                 rec.x_sinergis_calendar_event_helpdesk_facturation = rec.x_sinergis_calendar_event_helpdesk_ticket_id.x_sinergis_helpdesk_ticket_facturation
             else:
                 rec.x_sinergis_calendar_event_helpdesk_facturation = False
+
+    @api.depends("x_sinergis_calendar_event_myactions_is_billed")
+    def _compute_x_sinergis_calendar_event_myactions_is_billed(self):
+        for rec in self:
+            rec.x_sinergis_calendar_event_myactions_is_billed = self.env['sinergis.myactions.billed'].search_count([('model_type', '=', "calendar"),('model_id', '=', rec.id)]) != 0
 
     def updateTasks (self):
         for event in self:
