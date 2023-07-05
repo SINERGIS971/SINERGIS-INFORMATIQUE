@@ -15,7 +15,7 @@ class SinergisMeetingRoomEvent(models.Model):
     end_date = fields.Datetime(string='Fin', required=True)
 
     def download_meeting_room_sheet(self):
-        return self.env.ref('sinergis_meeting_room.meeting_room_sheet_report').report_action(self)
+        return self.env.ref('sinergis_meeting_room.sinergis_meeting_room_meeting_room_sheet_report').report_action(self)
 
     @api.model_create_multi
     def create(self, list_value):
