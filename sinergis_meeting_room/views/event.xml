@@ -39,6 +39,9 @@
           <field name="model">sinergis_meeting_room.event</field>
           <field name="arch" type="xml">
             <form>
+              <header>
+                <button name="download_meeting_room_sheet" string="Feuille de salle de formation" type="object"  icon="fa-download" class="btn-warning"/>
+              </header>
               <sheet>
                 <group>
                     <field name="name"/>
