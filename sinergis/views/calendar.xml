@@ -119,7 +119,7 @@
                     <page name="x_sinergis_facturation_page" string="Facturation" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False)]}">
                         <group>
                             <field name="x_sinergis_calendar_event_myactions_is_billed" invisible="1"/>
-                            <p t-if="x_sinergis_calendar_event_myactions_is_billed" style="font-size:16px;color:red;text-align:end;">Facturé depuis mes activités</p>
+                            <p attrs="{'invisible': [('x_sinergis_calendar_event_myactions_is_billed', '=', False)]}" style="font-size:16px;color:red;text-align:end;">Facturé depuis mes activités</p>
                             <field name="x_sinergis_calendar_event_object"/>
                             <label for="x_sinergis_calendar_event_start_time"/>
                             <div>
