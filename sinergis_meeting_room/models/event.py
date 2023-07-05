@@ -8,8 +8,9 @@ class SinergisMeetingRoomEvent(models.Model):
     _description = "Évènements en salle de réunion Sinergis"
 
     name = fields.Char(string='Reference', required=True)
+    user_id = fields.Many2one("res.users",string="Organisateur", default=lambda self: self.env.user, required=True)
     room_id = fields.Many2one("sinergis_meeting_room.room",string="Salle", required=True)
-    calendar_event_id = fields.Many2one("calendar.room",default=False,ondelete='cascade')
+    calendar_event_id = fields.Many2one("calendar.room",default=False,ondelete='cascade', readonly=True)
     start_date = fields.Datetime(string='Début', required=True)
     end_date = fields.Datetime(string='Fin', required=True)
 

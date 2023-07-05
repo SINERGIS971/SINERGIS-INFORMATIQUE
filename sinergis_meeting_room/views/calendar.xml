@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+
+    <record id="sinergis_meeting_room_inherited_calendar_event_form" model="ir.ui.view">
+        <field name="name">sinergis_meeting_room.inherited.calendar.event.form</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="sinergis_meeting_room_id"/>
+            </xpath>
+        </field>
+    </record>
+
+  </data>
+</odoo>

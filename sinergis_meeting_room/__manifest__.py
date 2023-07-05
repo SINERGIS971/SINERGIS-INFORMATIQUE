@@ -23,6 +23,7 @@
         'security/ir.model.access.csv',
         'views/event.xml',
         'views/room.xml',
+        'views/calendar.xml',
         'report/meeting_room_sheet.xml',
     ],
     'assets': {
