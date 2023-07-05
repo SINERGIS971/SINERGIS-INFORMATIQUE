@@ -19,6 +19,7 @@
               <tree default_order="id desc">
                 <field name="name"/>
                 <field name="room_id"/>
+                <field name="user_id"/>
               </tree>
           </field>
       </record>
@@ -29,6 +30,7 @@
         <field name="arch" type="xml">
           <calendar string="Évènements" date_start="start_date" date_stop="end_date" event_open_popup="true" mode="week" color="room_id" quick_add="False">
             <field name="name"/>
+            <field name="user_id"/>
             <field name="room_id" filters="1"/>
           </calendar>
         </field>
@@ -40,14 +42,15 @@
           <field name="arch" type="xml">
             <form>
               <header>
-                <button name="download_meeting_room_sheet" string="Feuille de salle de formation" type="object"  icon="fa-download" class="btn-warning"/>
+                <button name="open_calendar_event" string="Ouvrir l'évènement" type="object" class="btn-primary" attrs="{'invisible': [('calendar_event_id',  '=', False)]}"/>
+                <button name="download_meeting_room_sheet" string="Feuille de salle de formation" type="object" class="btn-warning"/>
               </header>
               <sheet>
                 <group>
+                    <field name="calendar_event_id" invisible="1"/>
                     <field name="name"/>
                     <field name="room_id"/>
-                    <field name="start_date"/>
-                    <field name="end_date"/>
+                    <field name="user_id"/>
                 </group>
               </sheet>
             </form>
