@@ -13,11 +13,14 @@ class SinergisHotlinePlanningEvent(models.Model):
     date = fields.Date(string="Jour", required=True)
     user_ids = fields.Many2many('res.users', string="Consultants")
 
+    def print_calendar(self):
+        
+
     @api.depends('display_name')
     def _compute_display_name (self):
         for rec in self:
             user_name = []
             for user_id in rec.user_ids:
                 user_name.append(user_id.name)
-            display_name = user_name.join(', ')
+            display_name = ', '.join(user_name)
             rec.display_name = display_name

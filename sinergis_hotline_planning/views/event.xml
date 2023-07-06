@@ -39,6 +39,7 @@
           <field name="arch" type="xml">
             <form>
               <header>
+                <button name="download_meeting_room_sheet" string="Feuille de hotline" type="object" class="btn-warning" icon="fa-download"/>
               </header>
               <sheet>
                 <group>

@@ -43,7 +43,7 @@
             <form>
               <header>
                 <button name="open_calendar_event" string="Ouvrir l'évènement" type="object" class="btn-primary" attrs="{'invisible': [('calendar_event_id',  '=', False)]}"/>
-                <button name="download_meeting_room_sheet" string="Feuille de salle de formation" type="object" class="btn-warning"/>
+                <button name="download_meeting_room_sheet" string="Feuille de salle de formation" type="object" class="btn-warning" icon="fa-download"/>
               </header>
               <sheet>
                 <group>

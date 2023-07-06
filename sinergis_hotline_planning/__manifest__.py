@@ -17,11 +17,12 @@
     'category': 'Authentication',
     'version': '0.1',
 
-    'depends': ['web','mail'],
+    'depends': ['web','mail','training'],
 
     'data': [
         'security/ir.model.access.csv',
         'views/event.xml',
+        'report/hotline_planning_sheet.xml',
     ],
     'assets': {
         'web.assets_backend': [

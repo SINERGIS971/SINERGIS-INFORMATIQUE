@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+	<record id="paperformat_hotline_planning_sheet_report" model="report.paperformat">
+    <field name="name">Paperformat feuille de hotline</field>
+    <field name="default" eval="False"/>
+    <field name="disable_shrinking" eval="True"/>
+    <field name="format">A4</field>
+    <field name="page_height">0</field>
+    <field name="page_width">0</field>
+    <field name="orientation">Landscape</field>
+    <field name="margin_top">0</field>
+    <field name="margin_bottom">0</field>
+    <field name="margin_left">7</field>
+    <field name="margin_right">7</field>
+    <field name="dpi">96</field>
+	</record>
+
+	<!-- Enregistrement des informations du rapport -->
+	<record id="sinergis_hotline_planning_event_sheet_report" model="ir.actions.report">
+		<field name="name">Feuille de hotline</field>
+		<field name="model">sinergis_hotline_planning.event</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="paperformat_id" ref="sinergis_hotline_planning.paperformat_hotline_planning_sheet_report"/>
+		<field name="report_name">sinergis_hotline_planning.hotline_planning_report</field>
+		<field name="report_file">sinergis_hotline_planning.hotline_planning_report</field>
+		<field name="binding_model_id" eval="False"/>
+		<field name="binding_type">report</field>
+	</record>
+
+
+	<template id="hotline_planning_report">
+		<t t-call="web.html_container">
+			<t t-call="training.layout_training_attendance_sheet">
+			<div class="page">
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                    }
+
+                    .calendar {
+                        margin: 20px auto;
+                        max-width: 50%;
+                        text-align: center;
+                    }
+
+                    h1 {
+                        font-size: 24px;
+                    }
+
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+
+                    th, td {
+                        border: 1px solid #ccc;
+                        padding: 10px;
+                        width: 20%;
+                    }
+
+                    thead th {
+                        font-weight: bold;
+                        background-color: #f5f5f5;
+                    }
+
+                    tbody td {
+                        height: 100px;
+                        text-align: left;
+                        vertical-align: top;
+                    }
+
+                    tbody td:hover {
+                        background-color: #f5f5f5;
+                    }
+
+                    .month-name {
+                        font-size: 20px;
+                        font-weight: bold;
+                        margin-bottom: 10px;
+                    }
+
+                </style>
+                <div class="calendar">
+                    <h1>Calendrier Mensuel</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="7"><t t-esc="month"/> <t t-esc="year"/></th>
+                            </tr>
+                            <tr>
+                                <th>Lun</th>
+                                <th>Mar</th>
+                                <th>Mer</th>
+                                <th>Jeu</th>
+                                <th>Ven</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-esc="data"/>
+                        </tbody>
+                    </table>
+                </div>
+			</div>
+			</t>
+		</t>
+	</template>
+
+</data>
+</odoo>
