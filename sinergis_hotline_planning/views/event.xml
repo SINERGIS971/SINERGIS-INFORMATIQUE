@@ -15,7 +15,7 @@
           <field name="model">sinergis_hotline_planning.event</field>
           <field name="arch" type="xml">
               <tree default_order="id desc">
-                <field name="id"/>
+                <field name="id" invisible="1"/>
                 <field name="date"/>
                 <field name="user_ids" widget="many2many_tags"/>
               </tree>
@@ -27,7 +27,7 @@
         <field name="model">sinergis_hotline_planning.event</field>
         <field name="arch" type="xml">
           <calendar string="Évènements" date_start="date" date_stop="date" event_open_popup="true" mode="month" color="id" quick_add="False">
-            <field name="id"/>
+            <field name="id" invisible="1"/>
             <field name="date"/>
             <field name="user_ids"/>
             <button name="print_calendar" string="Feuille de hotline" type="object" class="btn-warning" icon="fa-download"/>
@@ -45,7 +45,7 @@
               </header>
               <sheet>
                 <group>
-                    <field name="id"/>
+                    <field name="id" invisible="1"/>
                     <field name="date"/>
                     <field name="user_ids" widget="many2many_tags"/>
                 </group>

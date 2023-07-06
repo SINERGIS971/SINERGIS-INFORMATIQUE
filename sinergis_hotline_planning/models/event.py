@@ -33,11 +33,8 @@ class SinergisHotlinePlanningEvent(models.Model):
             planning.append(planning_day)
 
 
-        data = {
-            "month": "Novembre",
-            "year": "2023",
-            "data": generate_calendar(planning),
-        }
+        data = generate_calendar(planning),
+        
         return self.env.ref('sinergis_hotline_planning.sinergis_hotline_planning_event_sheet_report').report_action(self, data=data)
 
     @api.depends('display_name')
