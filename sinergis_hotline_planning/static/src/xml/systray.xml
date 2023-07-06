@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+  <t t-name="SaleOrderSystray">
+      <div class="new_icon">
+             <div class="icon_div">
+                 <div class="toggle-icon" role="button">
+                     <i id='create_so' class="fa fa-plus-square-o" role="img" aria-label="Create Sale Order"/>
+                 </div>
+             </div>
+      </div>
+  </t>
+</templates>
