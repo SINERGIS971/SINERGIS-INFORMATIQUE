@@ -30,7 +30,6 @@
             <field name="id" invisible="1"/>
             <field name="date"/>
             <field name="user_ids"/>
-            <button name="print_calendar" string="Feuille de hotline" type="object" class="btn-warning" icon="fa-download"/>
           </calendar>
         </field>
       </record>
