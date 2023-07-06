@@ -41,7 +41,7 @@
 
                     .calendar {
                         margin: 20px auto;
-                        max-width: 50%;
+                        max-width: 90%;
                         text-align: center;
                     }
 
@@ -83,7 +83,8 @@
 
                 </style>
                 <div class="calendar">
-                    <h1>Calendrier Mensuel</h1>
+                    <br/>
+                    <h1>Hotline</h1>
                     <table>
                         <thead>
                             <tr>
@@ -98,7 +99,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-esc="data"/>
+                            <t t-raw="data"/>
                         </tbody>
                     </table>
                 </div>
