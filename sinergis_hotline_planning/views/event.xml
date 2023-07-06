@@ -1,0 +1,80 @@
+<odoo>
+  <data>
+    <record id="sinergis_hotline_planning_event_search" model="ir.ui.view">
+        <field name="name">sinergis_hotline_planning.event.search</field>
+        <field name="model">sinergis_hotline_planning.event</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="id" filter_domain="[('id', '=', self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="sinergis_hotline_planning_event_tree" model="ir.ui.view">
+          <field name="name">sinergis_hotline_planning.event.tree</field>
+          <field name="model">sinergis_hotline_planning.event</field>
+          <field name="arch" type="xml">
+              <tree default_order="id desc">
+                <field name="id"/>
+                <field name="date"/>
+                <field name="user_ids" widget="many2many_tags"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="sinergis_hotline_planning_event_calendar" model="ir.ui.view">
+        <field name="name">sinergis_hotline_planning.event.calendar</field>
+        <field name="model">sinergis_hotline_planning.event</field>
+        <field name="arch" type="xml">
+          <calendar string="Évènements" date_start="date" date_stop="date" event_open_popup="true" mode="month" color="id" quick_add="False">
+            <field name="id"/>
+            <field name="date"/>
+          </calendar>
+        </field>
+      </record>
+
+      <record id="sinergis_hotline_planning_event_form" model="ir.ui.view">
+          <field name="name">sinergis_hotline_planning.event.form</field>
+          <field name="model">sinergis_hotline_planning.event</field>
+          <field name="arch" type="xml">
+            <form>
+              <header>
+              </header>
+              <sheet>
+                <group>
+                    <field name="id"/>
+                    <field name="date"/>
+                    <field name="user_ids" widget="many2many_tags"/>
+                </group>
+              </sheet>
+            </form>
+          </field>
+      </record>
+
+      <record id="sinergis_hotline_planning_event_action" model="ir.actions.act_window">
+        <field name="name">Planning hotlines</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sinergis_hotline_planning.event</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="help" type="html">
+            <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Cliquez pour créer un évènement.
+            </p>
+            </field>
+        </field>
+    </record>
+
+      <menuitem id="sinergis_hotline_planning_root"
+              name="Planning hotlines"
+              web_icon="sinergis_hotline_planning,static/description/icon.png"
+              sequence="10"/>
+
+      <menuitem id="sinergis_hotline_planning_event"
+              parent="sinergis_hotline_planning_root"
+              name="Évènements"
+              action="sinergis_hotline_planning_event_action"
+              sequence="10"/>
+
+  </data>
+</odoo>

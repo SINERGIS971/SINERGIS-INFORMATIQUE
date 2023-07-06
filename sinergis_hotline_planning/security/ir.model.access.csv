@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sinergis_hotline_planning_event_user,sinergis_hotline_planning.event,model_sinergis_hotline_planning_event,base.group_user,1,1,1,1
