@@ -20,10 +20,11 @@ var HotlinePlanningSystrayWidget = Widget.extend({
             type: 'ir.actions.act_window',
             name: 'Hotline',
             res_model: 'sinergis_hotline_planning.event',
-            view_mode: 'tree',
-            views: [[false, 'tree']],
+            view_mode: 'list',
+            views: [[false, 'list']],
             domain: [['date','=', currentDate]],
-            target: 'new'
+            target: 'new',
+            context: {'create':false,'edit':false}
        });
    },
 });

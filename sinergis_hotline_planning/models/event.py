@@ -11,10 +11,13 @@ class SinergisHotlinePlanningEvent(models.Model):
     _description = "Évènement du planning de la hotline"
     _rec_name = 'display_name'
 
-
     display_name = fields.Char(string="Nom", compute="_compute_display_name")
     date = fields.Date(string="Jour", required=True)
     user_ids = fields.Many2many('res.users', string="Consultants")
+    
+    moorning_or_afternoon = fields.Boolean(string="Consultants différents matin / après-midi")
+    morning_user_ids = fields.Many2many('res.users', string="Matin")
+    afternoon_user_ids = fields.Many2many('res.users', string="Après-midi")
 
     def print_calendar(self):
         # Préparation des données
@@ -28,21 +31,48 @@ class SinergisHotlinePlanningEvent(models.Model):
                 "date": event.date.strftime("%Y-%m-%d"),
                 "users": [],
             }
-            for user_id in event.user_ids:
-                planning_day['users'].append(user_id.name)
-            planning.append(planning_day)
+            if event.moorning_or_afternoon:
+                morning = []
+                for user_id in self.morning_user_ids:
+                    if user_id in self.afternoon_user_ids:
+                        planning_day['users'].append(user_id.name)
+                    else:
+                        morning.append(user_id.name)
+                for user in morning:
+                    planning_day['users'].append("MATIN : "+user)
+                for user_id in self.afternoon_user_ids:
+                    if user_id not in self.morning_user_ids:
+                        planning_day['users'].append("APREM : "+user_id.name)
+            else:
+                for user_id in event.user_ids:
+                    planning_day['users'].append(user_id.name)
+                planning.append(planning_day)
 
 
         data = generate_calendar(planning)
         
         return self.env.ref('sinergis_hotline_planning.sinergis_hotline_planning_event_sheet_report').report_action(self, data=data)
 
+    @api.onchange('moorning_or_afternoon')
+    def onchange_moorning_or_afternoon(self):
+        if self.moorning_or_afternoon:
+            self.user_ids = [(5, 0, 0)]
+        else:
+            self.morning_user_ids = [(5, 0, 0)]
+            self.afternoon_user_ids = [(5, 0, 0)]
+
     @api.depends('display_name')
     def _compute_display_name (self):
         for rec in self:
             user_name = []
-            for user_id in rec.user_ids:
-                user_name.append(user_id.name)
+            if rec.moorning_or_afternoon:
+                for user_id in rec.morning_user_ids:
+                    user_name.append(user_id.name)
+                for user_id in rec.afternoon_user_ids:
+                    user_name.append(user_id.name)
+            else:
+                for user_id in rec.user_ids:
+                    user_name.append(user_id.name)
             display_name = ', '.join(user_name)
             rec.display_name = display_name
 
