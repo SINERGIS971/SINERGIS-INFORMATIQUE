@@ -46,6 +46,15 @@ class SinergisMeetingRoomEvent(models.Model):
         events = super(SinergisMeetingRoomEvent, self).create(list_value)
         return events
     
+    def write(self, values):
+        start_date = values.get('start_date',self.start_date)
+        end_date = values.get('end_date',self.end_date)
+        room_id = values.get('room_id',self.room_id)
+        confront_events = self.env['sinergis_meeting_room.event'].search(['|','|','&',('room_id','=',room_id),'&',('start_date','<',start_date),('end_date','>',start_date),'&',('start_date','<',end_date),('end_date','>',end_date),'&',('start_date','>',start_date),('end_date','<',end_date)])
+        if confront_events:
+            raise ValidationError('La salle de réunion est déjà réservée sur ce créneau.')
+        return super(SinergisMeetingRoomEvent, self).write(values)
+    
     def unlink(self):
         ids = []
         for rec in self:

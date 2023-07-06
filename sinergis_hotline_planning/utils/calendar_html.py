@@ -25,7 +25,8 @@ def generate_calendar(planning):
         # Boucle pour générer les cellules
         for j in range(5):
             if i == 0 and j < starting_day:
-                calendar_body += "<td></td>"
+                if starting_day < 5:
+                    calendar_body += "<td></td>"
             elif date > last_day:
                 break
             else:
@@ -37,7 +38,7 @@ def generate_calendar(planning):
                         users = entry["users"]
                         break
                 # Générer la cellule avec les utilisateurs si applicable
-                cell = f"<td>{date}<br>{', '.join(users)}</td>"
+                cell = f"<td>{date}<br>{'<br/>'.join(users)}</td>"
                 calendar_body += cell
                 date += 1
         date += 2

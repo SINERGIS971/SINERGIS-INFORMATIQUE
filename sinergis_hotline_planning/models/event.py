@@ -25,7 +25,7 @@ class SinergisHotlinePlanningEvent(models.Model):
         planning = []
         for event in events:
             planning_day = {
-                "date": "2023-11-01",
+                "date": event.date.strftime("%Y-%m-%d"),
                 "users": [],
             }
             for user_id in event.user_ids:
@@ -48,3 +48,20 @@ class SinergisHotlinePlanningEvent(models.Model):
                 user_name.append(user_id.name)
             display_name = ', '.join(user_name)
             rec.display_name = display_name
+
+    @api.model_create_multi
+    def create(self, list_value):
+        for vals in list_value:
+            date = vals['date']
+            confront_events = self.env['sinergis_hotline_planning.event'].search([('date','=',date)])
+            if confront_events:
+                raise ValidationError('Il y a déjà un évènement à cette date.')
+        events = super(SinergisHotlinePlanningEvent, self).create(list_value)
+        return events
+    
+    def write(self, values):
+        date = values.get('date',self.date)
+        confront_events = self.env['sinergis_hotline_planning.event'].search([('date','=',date)])
+        if confront_events:
+            raise ValidationError('Il y a déjà un évènement à cette date.')
+        return super(SinergisHotlinePlanningEvent, self).write(values)
