@@ -61,7 +61,7 @@ class SinergisHotlinePlanningEvent(models.Model):
     
     def write(self, values):
         date = values.get('date',self.date)
-        confront_events = self.env['sinergis_hotline_planning.event'].search([('date','=',date)])
+        confront_events = self.env['sinergis_hotline_planning.event'].search([('id','!=',self.id),('date','=',date)])
         if confront_events:
             raise ValidationError('Il y a déjà un évènement à cette date.')
         return super(SinergisHotlinePlanningEvent, self).write(values)
