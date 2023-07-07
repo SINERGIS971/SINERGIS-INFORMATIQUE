@@ -15,6 +15,8 @@ class HelpdeskFormController(http.Controller):
         products = http.request.env['sale.products'].sudo().search([], limit=500)
         error = False
         success = False
+        extension_ids = self.env["sinergis_helpdesk_form.extension_allowed"].sudo().search([], limit=100)
+        extensions = [extension_id.extension for extension_id in extension_ids]
         if http.request.httprequest.method == 'POST':
             # Token for response
             recaptcha_response = kw.get("g-recaptcha-response")
@@ -36,7 +38,7 @@ class HelpdeskFormController(http.Controller):
             problem = kw.get("problem")
             files = http.request.httprequest.files.getlist('files[]')
             # Verification des extensions
-            extensions = {".jpg", ".png", ".gif", ".jpeg",".pdf"}
+            # extensions = {".jpg", ".png", ".gif", ".jpeg",".pdf"}
             max_size = 10485760 # Taille maximale en bytes
             for file in files:
                 if not any(file.filename.endswith(ext) for ext in extensions):
@@ -61,7 +63,9 @@ class HelpdeskFormController(http.Controller):
                     'x_sinergis_helpdesk_ticket_produits_new': product_select,
                     'x_sinergis_helpdesk_ticket_sous_produits_new': subproduct_select,
                 }
-                contact_id = http.request.env['res.partner'].sudo().search([('email','=',email),('is_company','=',False)],limit=1)
+                contact_id = http.request.env['res.partner'].sudo().search([('email','=',email),('is_company','=',False),('parent_id','!=',False)],limit=1)
+                if not contact_id:
+                    contact_id = http.request.env['res.partner'].sudo().search([('email','=',email),('is_company','=',False)],limit=1)
                 if contact_id:
                     parent_id = contact_id.parent_id
                     if not parent_id:
@@ -90,6 +94,6 @@ class HelpdeskFormController(http.Controller):
                             'datas': base64.b64encode(attached_file),
                         }) 
 
-        return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success})
+        return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
 
         

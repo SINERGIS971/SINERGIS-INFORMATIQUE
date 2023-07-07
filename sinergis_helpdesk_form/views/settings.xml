@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu parent pour assigner les sous-menus -->
+    <menuitem id="sinergis_helpdesk_form_settings_menu" name="Formulaire ticket" parent="base.menu_custom"/>
+
+    <!-- TRANSCODAGE ARTICLES -->
+
+    <record id="sinergis_helpdesk_form_settings_extension_view_tree" model="ir.ui.view">
+        <field name="name">sinergis_helpdesk_form.settings.extension.view.tree</field>
+        <field name="model">sinergis_helpdesk_form.extension</field>
+        <field name="arch" type="xml">
+            <tree string="Extensions autorisées">
+                <field name="extension"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_helpdesk_form_settings_extension_view_form" model="ir.ui.view">
+        <field name="name">sinergis_helpdesk_form.settings.extension.view.form</field>
+        <field name="model">sinergis_helpdesk_form.extension</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="extension"/>
+                    </group>
+                    <br/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sinergis_helpdesk_form_settings_extension_action" model="ir.actions.act_window">
+        <field name="name">Extensions autorisées</field>
+        <field name="res_model">sinergis_helpdesk_form.extension</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sinergis_helpdesk_form_settings_extension_menu"
+        action="sinergis_helpdesk_form_settings_extension_action"
+        parent="sinergis_helpdesk_form.sinergis_helpdesk_form_settings_menu"
+        sequence="1"/>
+
+</odoo>

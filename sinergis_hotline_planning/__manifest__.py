@@ -5,10 +5,10 @@
     'version': '1.0',
 
     'summary': """
-        Module Sinergis de gestion du planning des hotlines""",
+        Module Sinergis de gestion du planning de la hotline""",
 
     'description': """
-        Module Sinergis de gestion du planning des hotlines
+        Module Sinergis de gestion du planning de la hotline
     """,
 
     'author': "Productivity",
@@ -20,8 +20,8 @@
     'depends': ['web','mail','training'],
 
     'data': [
-        'security/ir.model.access.csv',
         'security/security.xml',
+        'security/ir.model.access.csv',
         'views/event.xml',
         'report/hotline_planning_sheet.xml',
     ],

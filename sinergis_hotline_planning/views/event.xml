@@ -59,7 +59,7 @@
       </record>
 
       <record id="sinergis_hotline_planning_event_action" model="ir.actions.act_window">
-        <field name="name">Planning hotlines</field>
+        <field name="name">Planning hotline</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sinergis_hotline_planning.event</field>
         <field name="view_mode">calendar,tree,form</field>

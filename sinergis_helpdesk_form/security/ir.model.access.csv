@@ -1,1 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sinergis_helpdesk_form_extension_admin,sinergis_helpdesk_form.settings.extension,model_sinergis_helpdesk_form_extension,base.group_system,1,1,1,1
+access_sinergis_helpdesk_form_extension_user,sinergis_helpdesk_form.settings.extension,model_sinergis_helpdesk_form_extension,base.group_user,1,0,0,0
