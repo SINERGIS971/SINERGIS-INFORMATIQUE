@@ -17,7 +17,8 @@
               <tree default_order="id desc">
                 <field name="id" invisible="1"/>
                 <field name="date"/>
-                <field name="user_ids" widget="many2many_tags"/>
+                <field name="morning_user_ids" widget="many2many_tags"/>
+                <field name="afternoon_user_ids" widget="many2many_tags"/>
               </tree>
           </field>
       </record>

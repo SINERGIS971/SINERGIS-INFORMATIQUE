@@ -61,6 +61,11 @@ class SinergisHotlinePlanningEvent(models.Model):
             self.morning_user_ids = [(5, 0, 0)]
             self.afternoon_user_ids = [(5, 0, 0)]
 
+    @api.onchange('user_ids')
+    def onchange_user_ids(self):
+        self.morning_user_ids = self.user_ids
+        self.afternoon_user_ids = self.user_ids
+
     @api.depends('display_name')
     def _compute_display_name (self):
         for rec in self:
