@@ -266,11 +266,11 @@ button {
             <div class="form__linput">
                 <label class="form__label" for="problem">Documents (images et PDF)</label>
                 <div class="file-input">
-                <input type="file" id="files" name="files[]" onchange="handleFiles()" multiple="1" t-att-accept="extension.split(',')"/>
+                <input type="file" id="files" name="files[]" onchange="handleFiles()" multiple="1" t-att-accept="extensions.split(',')"/>
                 <button>Choisir des fichiers</button>
                 <span id="fileCount"></span>
                 </div>
-                <p>Autorisé : <t t-esc="extension.split(',')"/></p>
+                <p>Autorisé : <t t-esc="extensions.split(',')"/></p>
             </div>
             <div class="g-recaptcha" data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"></div>
             <br/>

@@ -15,7 +15,7 @@ class HelpdeskFormController(http.Controller):
         products = http.request.env['sale.products'].sudo().search([], limit=500)
         error = False
         success = False
-        extension_ids = self.env["sinergis_helpdesk_form.extension_allowed"].sudo().search([], limit=100)
+        extension_ids = http.request.env["sinergis_helpdesk_form.extension"].sudo().search([], limit=100)
         extensions = [extension_id.extension for extension_id in extension_ids]
         if http.request.httprequest.method == 'POST':
             # Token for response
