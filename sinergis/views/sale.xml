@@ -226,7 +226,6 @@
             </xpath>
             <xpath expr="//field[@name='amount_total']" position="after">
               <field name="margin" sum="Marge Totale"/>
-              <field name="x_sinergis_sale_order_amount_remaining" sum="Total restant à facturer" widget="monetary"/>
               <field name="x_sinergis_sale_order_scheduled_days" optional="hide"/>
               <field name="x_sinergis_sale_order_completed_days" optional="hide"/>
               <field name="x_sinergis_sale_order_remaining_days" optional="hide"/>

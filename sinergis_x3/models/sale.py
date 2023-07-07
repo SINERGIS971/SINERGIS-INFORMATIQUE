@@ -25,7 +25,7 @@ class SaleOrder(models.Model):
 
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
     ch_in_order_line = fields.Boolean(compute="_compute_ch_in_order_line") # Si il y a un contrat d'heures dans les lignes de commande
-    sinergis_x3_transfered = fields.Boolean(default=False) # Permet de savoir si le devis a déjà été transféré vers X3
+    sinergis_x3_transfered = fields.Boolean(string="Transfert X3",default=False) # Permet de savoir si le devis a déjà été transféré vers X3
     sinergis_x3_id = fields.Char(string="Numéro X3")
     sinergis_x3_price_total = fields.Float(string="Total TTC dans X3 (€)", default=False)
     sinergis_x3_correct_price = fields.Boolean(compute="_compute_sinergis_x3_correct_price")

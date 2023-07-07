@@ -79,4 +79,15 @@
             </field>
     </record>
 
+    <record id="sinergis_x3_inherited_sinergis_inherited_saler_order_tree" model="ir.ui.view">
+            <field name="name">sinergis_x3.saler.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sinergis.sinergis_inherited_saler_order_tree"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='x_sinergis_sale_order_supplier_order']" position="after">
+                    <field name="sinergis_x3_transfered"/>
+                </xpath>
+            </field>
+    </record>
+
 </odoo>
