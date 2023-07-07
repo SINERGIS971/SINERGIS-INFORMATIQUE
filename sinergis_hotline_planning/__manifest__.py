@@ -21,6 +21,7 @@
 
     'data': [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'views/event.xml',
         'report/hotline_planning_sheet.xml',
     ],
