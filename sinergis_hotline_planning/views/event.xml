@@ -30,7 +30,8 @@
           <calendar string="Évènements" date_start="date" date_stop="date" event_open_popup="true" mode="month" color="id" quick_add="False">
             <field name="id" invisible="1"/>
             <field name="date"/>
-            <field name="user_ids"/>
+            <field name="morning_user_ids" widget="many2many_tags"/>
+            <field name="afternoon_user_ids" widget="many2many_tags"/>
           </calendar>
         </field>
       </record>
@@ -48,9 +49,9 @@
                     <field name="id" invisible="1"/>
                     <field name="moorning_or_afternoon"/>
                     <field name="date"/>
-                    <field name="user_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('moorning_or_afternoon', '=', True)]}"/>
-                    <field name="morning_user_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('moorning_or_afternoon', '=', False)]}"/>
-                    <field name="afternoon_user_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('moorning_or_afternoon', '=', False)]}"/>
+                    <field name="user_ids" widget="many2many_avatar_user" options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('moorning_or_afternoon', '=', True)]}"/>
+                    <field name="morning_user_ids" widget="many2many_avatar_user" options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('moorning_or_afternoon', '=', False)]}"/>
+                    <field name="afternoon_user_ids" widget="many2many_avatar_user" options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('moorning_or_afternoon', '=', False)]}"/>
                 </group>
               </sheet>
             </form>

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import http
 import base64
+import html
 import json
 import re
 import requests
@@ -26,8 +27,9 @@ class HelpdeskFormController(http.Controller):
             if response_dict['success'] != True:
                 error = "Le recaptcha n'est pas validé."
             name = kw.get("name")
-            company = kw.get("company")
+            company = html.escape(kw.get("company"))
             email = kw.get("email").lower()
+            phone = html.escape(kw.get("phone"))
             product_select = int(kw.get("products"))
             subproduct_select = kw.get("subproducts")
             subject = kw.get("subject")
@@ -40,7 +42,7 @@ class HelpdeskFormController(http.Controller):
                 if not any(file.filename.endswith(ext) for ext in extensions):
                     error = "Un des fichiers n'a pas le bon format."
 
-            if not name or not company or not email or not product_select or not subject or not problem:
+            if not name or not company or not email or not phone or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             product_id = http.request.env['sale.products'].sudo().search([('id','=',product_select)],limit=1)
             if not product_id:
@@ -53,7 +55,7 @@ class HelpdeskFormController(http.Controller):
                 success = True
                 data = {
                     'name': f"{company} : {subject}",
-                    'description': problem,
+                    'description': f"Société : {company}\nTéléphone : {phone}\n{problem}",
                     'user_id': False,
                     'team_id': http.request.env['helpdesk.ticket'].sudo()._default_team_id(),
                     'x_sinergis_helpdesk_ticket_produits_new': product_select,

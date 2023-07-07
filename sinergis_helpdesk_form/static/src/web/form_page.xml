@@ -237,6 +237,10 @@ button {
                 <input class="form__input" type="email" id="email" name="email" placeholder="Adresse e-mail.." required="True" maxlength="50"/>
             </div>
             <div class="form__linput">
+                <label class="form__label" for="phone">Téléphone</label>
+                <input class="form__input" type="text" id="phone" name="phone" placeholder="Téléphone.." maxlength="16"/>
+            </div>
+            <div class="form__linput">
                 <label class="form__label" for="product-select">Produit <span class="required-ast">*</span></label>
                 <select class="form__select" id="product-select" name="products" required="True">
                 <option value="">Choisissez votre produit</option>
