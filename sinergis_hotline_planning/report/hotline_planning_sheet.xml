@@ -66,6 +66,7 @@
                     }
 
                     tbody td {
+                        font-size: 12px;
                         height: 100px;
                         text-align: left;
                         vertical-align: top;

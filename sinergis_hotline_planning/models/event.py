@@ -13,11 +13,11 @@ class SinergisHotlinePlanningEvent(models.Model):
 
     display_name = fields.Char(string="Nom", compute="_compute_display_name")
     date = fields.Date(string="Jour", required=True)
-    user_ids = fields.Many2many('res.users', string="Consultants")
+    user_ids = fields.Many2many('res.users','hotline_planning', string="Consultants")
     
     moorning_or_afternoon = fields.Boolean(string="Consultants différents matin / après-midi")
-    morning_user_ids = fields.Many2many('res.users', string="Matin")
-    afternoon_user_ids = fields.Many2many('res.users', string="Après-midi")
+    morning_user_ids = fields.Many2many('res.users','moorning_hotline_planning', string="Matin")
+    afternoon_user_ids = fields.Many2many('res.users','afternoon_hotline_planning', string="Après-midi")
 
     def print_calendar(self):
         # Préparation des données
@@ -39,14 +39,14 @@ class SinergisHotlinePlanningEvent(models.Model):
                     else:
                         morning.append(user_id.name)
                 for user in morning:
-                    planning_day['users'].append("MATIN : "+user)
+                    planning_day['users'].append("<span style='color:#3DB2EC'>MATIN : </span>"+user)
                 for user_id in self.afternoon_user_ids:
                     if user_id not in self.morning_user_ids:
-                        planning_day['users'].append("APREM : "+user_id.name)
+                        planning_day['users'].append("<span style='color:#3DB2EC'>APREM : </span>"+user_id.name)
             else:
                 for user_id in event.user_ids:
                     planning_day['users'].append(user_id.name)
-                planning.append(planning_day)
+            planning.append(planning_day)
 
 
         data = generate_calendar(planning)
