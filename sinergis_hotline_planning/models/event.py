@@ -33,15 +33,15 @@ class SinergisHotlinePlanningEvent(models.Model):
             }
             if event.moorning_or_afternoon:
                 morning = []
-                for user_id in self.morning_user_ids:
-                    if user_id in self.afternoon_user_ids:
+                for user_id in event.morning_user_ids:
+                    if user_id in event.afternoon_user_ids:
                         planning_day['users'].append(user_id.name)
                     else:
                         morning.append(user_id.name)
                 for user in morning:
                     planning_day['users'].append("<span style='color:#3DB2EC'>MATIN : </span>"+user)
-                for user_id in self.afternoon_user_ids:
-                    if user_id not in self.morning_user_ids:
+                for user_id in event.afternoon_user_ids:
+                    if user_id not in event.morning_user_ids:
                         planning_day['users'].append("<span style='color:#3DB2EC'>APREM : </span>"+user_id.name)
             else:
                 for user_id in event.user_ids:
