@@ -24,7 +24,7 @@ class SinergisHotlinePlanningEvent(models.Model):
         first_date = self.date.replace(day=1)
         _, last_day = calendar.monthrange(self.date.year, self.date.month)
         last_date = self.date.replace(day=last_day)
-        events = self.env['sinergis_hotline_planning.event'].search([('date','>',first_date),('date','<',last_date)])
+        events = self.env['sinergis_hotline_planning.event'].search([('date','>=',first_date),('date','<=',last_date)])
         planning = []
         for event in events:
             planning_day = {
