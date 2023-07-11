@@ -1,0 +1,20 @@
+<odoo>
+  <data>
+
+    <record id="sinergis_inherited_hr_employee_form" model="ir.ui.view">
+        <field name="name">sinergis.inherited.hr.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_skills.hr_employee_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='resume_line_ids']" position="after">
+                <field name="cv_filename" invisible="1"/>
+                <field name="cv_file" filename="cv_filename"/>
+            </xpath>
+            <xpath expr="//field[@name='resume_line_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+  </data>
+</odoo>
