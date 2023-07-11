@@ -52,7 +52,7 @@
               parent="training_root"
               name="Autres documents"
               action="training_other_document_action"
-              sequence="40"/>
+              sequence="18"/>
 
   </data>
 </odoo>
