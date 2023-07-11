@@ -8,7 +8,7 @@ class ResPartner(models.Model):
     @api.depends("training_count")
     def _compute_training_count(self):
         for rec in self:
-            rec.training_count = self.env['training'].search_count([('partner_id', '=', rec.id)])
+            rec.training_count = self.env['training'].sudo().search_count([('partner_id', '=', rec.id)])
 
      #ACCES AUX FORMATIONS LIEES AU CLIENT
     def action_view_training(self):
