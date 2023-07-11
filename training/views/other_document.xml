@@ -2,7 +2,7 @@
   <data>
     <record id="training_other_document_search" model="ir.ui.view">
         <field name="name">training.other_document.search</field>
-        <field name="model">training_other_document</field>
+        <field name="model">training.other_document</field>
         <field name="arch" type="xml">
             <search>
                 <field name="name" filter_domain="[('name', 'ilike', self)]"/>
