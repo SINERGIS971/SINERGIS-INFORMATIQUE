@@ -1,0 +1,58 @@
+<odoo>
+  <data>
+    <record id="training_other_document_search" model="ir.ui.view">
+        <field name="name">training.other_document.search</field>
+        <field name="model">training_other_document</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="training_other_document_tree" model="ir.ui.view">
+          <field name="name">training.other_document.tree</field>
+          <field name="model">training.other_document</field>
+          <field name="arch" type="xml">
+              <tree default_order="name">
+                <field name="name"/>
+                <field name="file"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="training_other_document_form" model="ir.ui.view">
+          <field name="name">training.other_document.form</field>
+          <field name="model">training.other_document</field>
+          <field name="arch" type="xml">
+              <form>
+              <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="file"/>
+                </group>
+              </sheet>
+            </form>
+          </field>
+      </record>
+
+      <record id="training_other_document_action" model="ir.actions.act_window">
+        <field name="name">Autres documents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">training.other_document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Il n'y a pas d'enregistrement
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="training_other_document_root"
+              parent="training_root"
+              name="Autres documents"
+              action="training_other_document_action"
+              sequence="40"/>
+
+  </data>
+</odoo>

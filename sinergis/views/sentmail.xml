@@ -101,7 +101,7 @@
 <menuitem id="sinergis_email_message_sent_root"
           name="Messages envoyés"
           web_icon="sinergis,static/description/icon.png"
-          sequence="100"/>
+          sequence="55"/>
 
 <menuitem id="sinergis_email_message_sent_root_root"
           parent="sinergis_email_message_sent_root"

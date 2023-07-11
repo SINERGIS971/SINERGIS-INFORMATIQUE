@@ -8,3 +8,4 @@ from . import calendar
 from . import settings
 from . import company
 from . import partner
+from . import other_document

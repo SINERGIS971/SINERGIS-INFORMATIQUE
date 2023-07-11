@@ -151,7 +151,7 @@
 <menuitem id="sinergis_my_actions_root"
           name="Mes activités"
           web_icon="sinergis,static/description/myactions/icon.png"
-          sequence="100"/>
+          sequence="35"/>
 
 <menuitem id="sinergis_my_actions_root_root"
           parent="sinergis_my_actions_root"
