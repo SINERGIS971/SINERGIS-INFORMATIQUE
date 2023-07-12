@@ -6,6 +6,9 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr_skills.hr_employee_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="download_cv_certification" help="Télécharger tous les CV et certifications" string="TELECHARGER CV ET CERTIFICATIONS" type="object"  icon="fa-download" class="btn-warning" groups="base.group_system"/>
+            </xpath>
             <xpath expr="//field[@name='resume_line_ids']" position="after">
                 <group>
                     <field name="cv_filename" invisible="1"/>
