@@ -26,9 +26,11 @@
                             <field name="file" filename="filename"/>
                         </tree>
                         <form>
-                            <field name="name"/>
-                            <field name="filename" invisible="1"/>
-                            <field name="file" filename="filename"/>
+                            <group>
+                                <field name="name"/>
+                                <field name="filename" invisible="1"/>
+                                <field name="file" filename="filename"/>
+                            </group>
                         </form>
                     </field>
                 </page>
