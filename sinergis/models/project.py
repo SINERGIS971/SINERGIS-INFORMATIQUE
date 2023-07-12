@@ -205,6 +205,8 @@ class ProjectProject(models.Model):
     x_sinergis_project_project_seller_id = fields.Many2one("res.users", related="sale_line_id.order_id.user_id",string='Vendeur')
     x_sinergis_project_project_seller_id_stored = fields.Many2one("res.users", related="x_sinergis_project_project_seller_id",string='Vendeur', store=True)
 
+    x_sinergis_project_project_is_ch = fields.Boolean(compute='_compute_x_sinergis_project_project_is_ch')
+
     @api.depends('x_sinergis_project_project_sale_order_contact')
     def _compute_x_sinergis_project_project_sale_order_contact (self):
         for rec in self:
@@ -254,6 +256,14 @@ class ProjectProject(models.Model):
             for task_id in task_ids:
                 effective_hours += task_id.effective_hours
             rec.x_sinergis_project_project_effective_hours = effective_hours
+
+    @api.depends('x_sinergis_project_project_is_ch')
+    def _compute_x_sinergis_project_project_is_ch(self):
+        for rec in self:
+            if "CONTRAT D'HEURES" in rec.name:
+                rec.x_sinergis_project_project_is_ch = True
+            else:
+                rec.x_sinergis_project_project_is_ch = False
 
     #@api.onchange("tag_ids")
     #def on_change_tag_ids (self):
