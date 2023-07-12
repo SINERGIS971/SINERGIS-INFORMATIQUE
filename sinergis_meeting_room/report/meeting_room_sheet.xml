@@ -47,6 +47,7 @@
                 <br/><br/>
 				<h3>Le <span t-esc="context_timestamp(doc.start_date).strftime('%Y-%m-%d')"/> de <span t-esc="context_timestamp(doc.start_date).strftime('%H:%M')"/> à <span t-esc="context_timestamp(doc.end_date).strftime('%H:%M')"/></h3>
 				<br/><br/>
+				
 
             </div>
             </t>
