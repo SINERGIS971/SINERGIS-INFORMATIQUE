@@ -45,7 +45,7 @@
 				<br/><br/>
 				<h2>Organisateur : <span t-field="doc.user_id.name"/></h2>
                 <br/><br/>
-				<h3>Le <span t-esc="doc.start_date.strftime('%Y-%m-%d')"/> de <span t-esc="context_timestamp(doc.start_date).strftime('%H:%M')"/> à <span t-esc="context_timestamp(doc.end_date).strftime('%H:%M')"/></h3>
+				<h3>Le <span t-esc="context_timestamp(doc.start_date).strftime('%Y-%m-%d')"/> de <span t-esc="context_timestamp(doc.start_date).strftime('%H:%M')"/> à <span t-esc="context_timestamp(doc.end_date).strftime('%H:%M')"/></h3>
 				<br/><br/>
 
             </div>
