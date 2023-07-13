@@ -12,17 +12,17 @@
             <xpath expr="//field[@name='resume_line_ids']" position="after">
                 <group>
                     <field name="cv_filename" invisible="1"/>
-                    <field name="cv_file" filename="cv_filename"/>
+                    <field name="cv_file" filename="cv_filename" groups="base.group_system"/>
                     <field name="cover_letter_filename" invisible="1"/>
-                    <field name="cover_letter_file" filename="cover_letter_filename"/>
+                    <field name="cover_letter_file" filename="cover_letter_filename" groups="base.group_system"/>
                 </group>
             </xpath>
             <xpath expr="//field[@name='resume_line_ids']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//page[@name='public']" position="after">
-                <page name="certification" string="Certifications">
-                    <field name="certification_ids">
+                <page name="certification" string="Certifications" groups="base.group_system">
+                    <field name="certification_ids" groups="base.group_system">
                         <tree>
                             <field name="name"/>
                             <field name="filename" invisible="1"/>
@@ -32,7 +32,7 @@
                             <group>
                                 <field name="name"/>
                                 <field name="filename" invisible="1"/>
-                                <field name="file" filename="filename"/>
+                                <field name="file" filename="filename" groups=""/>
                             </group>
                         </form>
                     </field>
