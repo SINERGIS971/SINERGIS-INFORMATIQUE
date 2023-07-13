@@ -41,5 +41,17 @@
         </field>
     </record>
 
+    <record id="sinergis_inherited_hr_employee_tree" model="ir.ui.view">
+        <field name="name">sinergis.inherited.hr.employee.tree</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_ids']" position="after">
+                <field name="cv_filename" invisible="1"/>
+                <field name="cv_file" filename="cv_filename" groups="base.group_system"/>
+            </xpath>
+        </field>
+    </record>
+
   </data>
 </odoo>
