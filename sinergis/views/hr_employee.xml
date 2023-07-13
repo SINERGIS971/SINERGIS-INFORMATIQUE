@@ -32,7 +32,7 @@
                             <group>
                                 <field name="name"/>
                                 <field name="filename" invisible="1"/>
-                                <field name="file" filename="filename" groups=""/>
+                                <field name="file" filename="filename"/>
                             </group>
                         </form>
                     </field>
