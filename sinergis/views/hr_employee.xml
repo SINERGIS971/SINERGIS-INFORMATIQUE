@@ -7,22 +7,22 @@
         <field name="inherit_id" ref="hr_skills.hr_employee_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <button name="download_cv_certification" help="Télécharger tous les CV et certifications" string="TELECHARGER CV ET CERTIFICATIONS" type="object"  icon="fa-download" class="btn-warning" groups="base.group_system"/>
+                <button name="download_cv_certification" help="Télécharger tous les CV et certifications" string="TELECHARGER CV ET CERTIFICATIONS" type="object"  icon="fa-download" class="btn-warning" groups="hr.group_hr_manager"/>
             </xpath>
             <xpath expr="//field[@name='resume_line_ids']" position="after">
                 <group>
                     <field name="cv_filename" invisible="1"/>
-                    <field name="cv_file" filename="cv_filename" groups="base.group_system"/>
+                    <field name="cv_file" filename="cv_filename" groups="hr.group_hr_manager"/>
                     <field name="cover_letter_filename" invisible="1"/>
-                    <field name="cover_letter_file" filename="cover_letter_filename" groups="base.group_system"/>
+                    <field name="cover_letter_file" filename="cover_letter_filename" groups="hr.group_hr_manager"/>
                 </group>
             </xpath>
             <xpath expr="//field[@name='resume_line_ids']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//page[@name='public']" position="after">
-                <page name="certification" string="Certifications" groups="base.group_system">
-                    <field name="certification_ids" groups="base.group_system">
+                <page name="certification" string="Certifications" groups="hr.group_hr_manager">
+                    <field name="certification_ids" groups="hr.group_hr_manager">
                         <tree>
                             <field name="name"/>
                             <field name="filename" invisible="1"/>
