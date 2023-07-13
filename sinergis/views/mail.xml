@@ -47,7 +47,8 @@
             <xpath expr="//field[@name='attachment_ids']" position="replace">
                 <field name="attachment_ids">
                   <tree>
-                    <field name="datas" widget="binary"/>
+                    <field name="name" invisible="1"/>
+                    <field name="datas" widget="binary" filename="name"/>
                   </tree>
                 </field>
             </xpath>
