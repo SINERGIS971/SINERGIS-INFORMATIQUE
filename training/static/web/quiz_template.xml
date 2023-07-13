@@ -7,6 +7,7 @@
         <img src='/web/binary/company_logo' style='width: 25%; height: auto;'/>
         <h1><t t-esc="quiz.name"/></h1>
         <h3><t t-esc="company_name"/> - <t t-esc="user_name"/></h3>
+        <h3><t t-esc="training_name"/></h3>
         <form action="" method="POST" id="training_form">
         <input type="hidden" name="token" t-att-value="str(token)"/>
         <p style="font-size:12px;"><span style="color:red;">* </span>: Champ requis</p>

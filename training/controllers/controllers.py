@@ -39,6 +39,7 @@ class Training(http.Controller):
                             "token" : token,
                             "company_name" : training_id.partner_id.sudo().name,
                             "user_name" : participant.name,
+                            "training_name" : training.name,
                             "quiz" : training_quiz
                         })
                     else:
@@ -57,6 +58,7 @@ class Training(http.Controller):
                             "token" : token,
                             "company_name" : training_id.partner_id.sudo().name,
                             "user_name" : participant.name,
+                            "training_name" : training.name,
                             "quiz" : training_quiz
                         })
                     else:
@@ -75,6 +77,7 @@ class Training(http.Controller):
                             "token" : token,
                             "company_name" : training_id.partner_id.sudo().name,
                             "user_name" : participant.name,
+                            "training_name" : training.name,
                             "quiz" : training_quiz
                         })
                     else:
@@ -92,6 +95,7 @@ class Training(http.Controller):
                         "token" : token,
                         "company_name" : training_id.partner_id.sudo().name,
                         "user_name" : participant.name,
+                        "training_name" : training.name,
                         "quiz" : training_quiz
                     })
                 else:
@@ -109,6 +113,7 @@ class Training(http.Controller):
                             "token" : token,
                             "company_name" : training_id.partner_id.sudo().name,
                             "user_name" : training.partner_manager_id.name,
+                            "training_name" : training.name,
                             "quiz" : training_quiz
                         })
                     else:
@@ -127,6 +132,7 @@ class Training(http.Controller):
                             "token" : token,
                             "company_name" : training_id.partner_id.sudo().name,
                             "user_name" : training.partner_manager_id.name,
+                            "training_name" : training.name,
                             "quiz" : training_quiz
                         })
                     else:

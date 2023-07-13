@@ -53,7 +53,7 @@ class Training(models.Model):
     location = fields.Many2one("training.location", string="Localisation de la formation (département)")
     start = fields.Date(string="Début de la formation")
     end = fields.Date(string="Fin de la formation")
-    duration = fields.Float(string="Durée (jours)",compute="_compute_duration", store="True")
+    duration = fields.Float(string="Durée (jours)",compute="_compute_duration")
     duration_hours = fields.Float(string="Durée (heures)",compute="_compute_duration_hours")
     #agreement_internal_signer = fields.Char(string="Signataire interne de la convention",default="Alain CASIMIRO, Directeur")
     agreement_internal_signer = fields.Many2one("training.agreement_internal_signer",string='Signataire interne de la convention', default=lambda self: self.env['training.agreement_internal_signer'].search([('user_id.name','=','CASIMIRO Alain')]))
@@ -222,7 +222,7 @@ class Training(models.Model):
         for rec in self:
             rec.participants_count = len(rec.training_participants)
 
-    @api.depends("duration")
+    @api.depends("duration", "partner_manager_id")
     def _compute_duration (self):
         for rec in self:
             rec.duration = rec.sale_order_line_id.product_uom_qty
