@@ -225,13 +225,19 @@ class Training(models.Model):
     @api.depends("duration", "partner_manager_id")
     def _compute_duration (self):
         for rec in self:
-            rec.duration = rec.sale_order_line_id.product_uom_qty
+            if rec.sale_order_line_id.product_uom.name == "Heures":
+                rec.duration = round(rec.sale_order_line_id.product_uom_qty/7, 2)
+            else:
+                rec.duration = rec.sale_order_line_id.product_uom_qty
 
     @api.depends("duration_hours")
     def _compute_duration_hours (self):
         for rec in self:
             #Une journée de formation correspond à 7 heures
-            rec.duration_hours = 7.0 * rec.duration
+            if rec.sale_order_line_id.product_uom.name == "Heures":
+                rec.duration_hours = rec.duration
+            else:
+                rec.duration_hours = 7.0 * rec.duration
 
     #Header buttons
 
