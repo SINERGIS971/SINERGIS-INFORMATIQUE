@@ -8,7 +8,7 @@
         Module Sinergis permettant d'organiser les visites chez les clients""",
 
     'description': """
-        Module Sinergis permettant d'organiser les visites chez les clientss
+        Module Sinergis permettant d'organiser les visites chez les clients
     """,
 
     'author': "Productivity",
@@ -17,12 +17,13 @@
     'category': 'Authentication',
     'version': '0.1',
 
-    'depends': ['web','mail'],
+    'depends': ['web','mail','base'],
 
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
         'views/visit.xml',
+        'views/partner.xml',
     ],
     'assets': {
         'web.assets_backend': [
