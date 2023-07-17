@@ -234,7 +234,10 @@ class Training(models.Model):
     def _compute_duration_hours (self):
         for rec in self:
             #Une journée de formation correspond à 7 heures
-            rec.duration_hours = int(7.0 * rec.duration)
+            if rec.sale_order_line_id.product_uom.name == "Heures":
+                rec.duration = rec.sale_order_line_id.product_uom_qty
+            else:
+                rec.duration_hours = 7.0 * rec.duration
 
     #Header buttons
 
