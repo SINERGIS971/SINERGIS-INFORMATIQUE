@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_sinergis_customer_visit_user" model="res.groups">
+        <field name="name">Accès au module de visite des clients</field>
+    </record>
+</odoo>

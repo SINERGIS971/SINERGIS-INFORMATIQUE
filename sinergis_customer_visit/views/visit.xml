@@ -1,0 +1,70 @@
+<odoo>
+  <data>
+    <record id="sinergis_customer_visit_visit_search" model="ir.ui.view">
+        <field name="name">sinergis_customer_visit.visit.search</field>
+        <field name="model">sinergis_customer_visit.visit</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="[('partner_id', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="sinergis_customer_visit_visit_tree" model="ir.ui.view">
+          <field name="name">sinergis_customer_visit.visit.tree</field>
+          <field name="model">sinergis_customer_visit.visit</field>
+          <field name="arch" type="xml">
+              <tree default_order="id desc">
+                <field name="id" invisible="1"/>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="type"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="sinergis_customer_visit_visit_form" model="ir.ui.view">
+          <field name="name">sinergis_customer_visit.visit.form</field>
+          <field name="model">sinergis_customer_visit.visit</field>
+          <field name="arch" type="xml">
+            <form>
+              <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="type"/>
+                </group>
+              </sheet>
+            </form>
+          </field>
+      </record>
+
+      <record id="sinergis_customer_visit_visit_action" model="ir.actions.act_window">
+        <field name="name">Visite client</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sinergis_customer_visit.visit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créer une visite.
+            </p>
+            </field>
+        </field>
+    </record>
+
+      <menuitem id="sinergis_customer_visit_root"
+              name="Visite client"
+              web_icon="sinergis_customer_visit,static/description/icon.png"
+              sequence="40"/>
+
+      <menuitem id="sinergis_customer_visit_visit_root"
+              parent="sinergis_customer_visit_root"
+              name="Visite"
+              action="sinergis_customer_visit_visit_action"
+              sequence="10"/>
+
+  </data>
+</odoo>

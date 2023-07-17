@@ -55,8 +55,8 @@
 	                <tr>
 	                  <th style="width: 25%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">Lieu:</th>
 	                  <th style="width: 25%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">▢ Site client</th>
-										<th style="width: 25%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">▢ Site Sinergis</th>
-										<th style="width: 25%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">▢ À distance</th>
+					  <th style="width: 25%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">▢ Site Sinergis</th>
+					  <th style="width: 25%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">▢ À distance</th>
 	                </tr>
 	            </tbody>
 	            </table>
