@@ -16,7 +16,6 @@
           <field name="arch" type="xml">
               <tree default_order="id desc">
                 <field name="id" invisible="1"/>
-                <field name="name"/>
                 <field name="date"/>
                 <field name="partner_id"/>
                 <field name="type"/>
@@ -31,7 +30,6 @@
             <form>
               <sheet>
                 <group>
-                    <field name="name"/>
                     <field name="date"/>
                     <field name="partner_id"/>
                     <field name="type"/>

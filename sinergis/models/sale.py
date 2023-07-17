@@ -67,6 +67,8 @@ class SaleOrder(models.Model):
     # 1 Avril 2023 : Ajout d'un champ devis signé
     x_sinergis_sale_order_signed_quote = fields.Binary(string="Devis signé")
 
+    x_sinergis_sale_order_signed_cgv = fields.Binary(string="CGV signées")
+
     # 1 Juin 2023 : Permettre à certaines agences de ne pas créer de projets et tâches
 
     x_sinergis_sale_order_forbid_task_creation = fields.Boolean(related="partner_id.company_id.x_sinergis_forbid_task_creation", default=False)

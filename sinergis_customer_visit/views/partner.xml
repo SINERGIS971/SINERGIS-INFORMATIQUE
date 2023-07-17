@@ -33,8 +33,8 @@
 
       <menuitem id="sinergis_customer_visit_partner_root"
               parent="sinergis_customer_visit_root"
-              name="Visite"
-              action="sinergis_customer_visit_visit_action"
+              name="Liste des clients"
+              action="sinergis_customer_visit_partner_action"
               groups="sinergis_customer_visit.group_sinergis_customer_visit_user"
               sequence="10"/>
 

@@ -11,7 +11,7 @@ class SinergisCustomerVisit(models.Model):
     _description = "Visite du client"
     _rec_name = 'name'
 
-    name = fields.Char(string="Name")
+    #name = fields.Char(string="Name")
     partner_id = fields.Many2one("res.partner",string="Client")
 
     date = fields.Date(string="Date de la visite")
