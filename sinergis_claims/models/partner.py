@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import datetime
-
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 
+from datetime import datetime
 
 class ResPartner(models.Model):
     _inherit = "res.partner"

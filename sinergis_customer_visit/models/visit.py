@@ -9,7 +9,6 @@ import calendar
 class SinergisCustomerVisit(models.Model):
     _name = "sinergis_customer_visit.visit"
     _description = "Visite du client"
-    _rec_name = 'name'
 
     #name = fields.Char(string="Name")
     partner_id = fields.Many2one("res.partner",string="Client")

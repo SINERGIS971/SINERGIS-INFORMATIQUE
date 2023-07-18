@@ -25,10 +25,10 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'sinergis_hotline_planning/static/src/js/systray.js',
+            'sinergis_claims/static/src/js/systray.js',
         ],
         'web.assets_qweb': [
-            'sinergis_hotline_planning/static/src/xml/systray.xml',
+            'sinergis_claims/static/src/xml/systray.xml',
         ],
     },
 }
