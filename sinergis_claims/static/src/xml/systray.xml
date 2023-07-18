@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates>
-  <t t-name="HotlinePlanningSystray">
+  <t t-name="SinergisClaimsSystray">
       <div class="new_icon">
              <div class="icon_div">
                  <div class="toggle-icon" role="button">
-                     <i id='sinergis_claims_so' class="fa fa-headphones" role="img" aria-label="Réclamation client" style="padding-left: 15px; padding-right: 15px;"/>
+                     <i id='sinergis_claims_so' class="fa fa-exclamation" role="img" aria-label="Réclamation client" style="padding-left: 15px; padding-right: 15px;"/>
                  </div>
              </div>
       </div>

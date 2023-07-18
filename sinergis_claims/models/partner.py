@@ -23,3 +23,7 @@ class ResPartnerClaims (models.Model):
     user_id = fields.Many2one("res.users",string="Utilisateur", default=lambda self: self.env.user, required=True)
     description = fields.Html(string="Description")
     commercial_ids = fields.Many2many("res.users", string="Commerciaux à contacter")
+
+    @api.onchange("partner_id")
+    def onchange_partner_id (self):
+        self.contact_id = False
