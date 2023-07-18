@@ -1,0 +1,48 @@
+<odoo>
+  <data>
+
+    <record id="sinergis_claims_inherited_partner_form" model="ir.ui.view">
+        <field name="name">sinergis_claims.inherited.res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Réclamations">
+                    <field name="x_sinergis_claims_ids">
+                      <tree default_order='date desc'>
+                        <field name="date"/>
+                        <field name="contact_id"/>
+                        <field name="name"/>
+                        <field name="user_id"/>
+                        <field name="commercial_ids" widget="many2many_tags"/>
+                      </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="sinergis_claims_res_partner_claims_form" model="ir.ui.view">
+        <field name="name">sinergis_claims.res.partner.claims.form</field>
+        <field name="model">res.partner.claims</field>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <form>
+              <sheet>
+                <group>
+                    <field name="date"/>
+                    <field name="contact_id"/>
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="commercial_ids" widget="many2many_tags"/>
+                </group>
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+
+  </data>
+</odoo>
+
