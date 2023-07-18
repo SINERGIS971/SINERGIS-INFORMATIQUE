@@ -53,7 +53,7 @@
                         <p>Dates :</p>
                         <ul>
                           	<t t-foreach="object.planned_hours_ids.sorted(key=lambda x: x.start)" t-as="line">
-                              <li>Du <span t-out="line.start"/> au <span t-out="line.stop"/></li>
+                              <li>Du <span t-out="line.start" t-options='{"widget": "datetime","format": "dd/MM/yyyy HH:mm"}'/> au <span t-out="line.stop" t-options='{"widget": "datetime","format": "dd/MM/yyyy HH:mm"}'/></li>
                             </t>
                         </ul>
                         <p>Nous avons besoin de recueillir votre appréciation sur le traitement du dossier.</p>
