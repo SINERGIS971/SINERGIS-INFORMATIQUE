@@ -27,7 +27,8 @@ class ResPartnerClaims (models.Model):
     @api.onchange("partner_id")
     def onchange_partner_id (self):
         self.contact_id = False
-    
+        
+    @api.model_create_multi
     def create(self, list_value):
         for vals in list_value:
             partner_name = self.env['res.partner'].search([('id','=',vals['partner_id'])]).name
