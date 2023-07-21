@@ -40,10 +40,6 @@ class HelpdeskFormController(http.Controller):
             # Verification des extensions
             # extensions = {".jpg", ".png", ".gif", ".jpeg",".pdf"}
             max_size = 10485760 # Taille maximale en bytes
-            if len(files) > 0:
-                for file in files:
-                    if not any(file.filename.endswith(ext) for ext in extensions):
-                        error = "Un des fichiers n'a pas le bon format."
 
             if not name or not company or not email or not phone or not phone or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
@@ -81,11 +77,11 @@ class HelpdeskFormController(http.Controller):
                 ticket.write({'x_sinergis_helpdesk_ticket_contact': contact_id.id})
 
                 # Création des PJ associées au ticket
-                #To do : vérification du type et de la taille
                 for file in files :
                     name = file.filename
                     attached_file = file.read()
-                    if sys.getsizeof(attached_file) < max_size:
+                    # Vérification de la taille et de l'extension
+                    if sys.getsizeof(attached_file) < max_size and any(file.filename.endswith(ext) for ext in extensions):
                         http.request.env['ir.attachment'].sudo().create({
                             'name': file.filename,
                             'res_model': 'helpdesk.ticket',
