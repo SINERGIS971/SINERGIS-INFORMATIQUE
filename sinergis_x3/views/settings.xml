@@ -214,4 +214,28 @@
         parent="sinergis_x3.sinergis_x3_settings_menu"
         sequence="7"/>
 
+    <!-- Emails à contacter -->
+
+    <record id="sinergis_x3_settings_email_view_tree" model="ir.ui.view">
+        <field name="name">sinergis_x3.settings.email.view.tree</field>
+        <field name="model">sinergis_x3.settings.email</field>
+        <field name="arch" type="xml">
+            <tree string="Emails à contacter">
+                <field name="email"/>
+                <field name="company_x3_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_x3_settings_email_action" model="ir.actions.act_window">
+        <field name="name">Emails à contacter</field>
+        <field name="res_model">sinergis_x3.settings.email</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sinergis_x3_settings_email_menu"
+        action="sinergis_x3_settings_email_action"
+        parent="sinergis_x3.sinergis_x3_settings_menu"
+        sequence="7"/>
+
 </odoo>

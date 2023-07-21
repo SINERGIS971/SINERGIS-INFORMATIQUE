@@ -78,3 +78,11 @@ class SinergisX3SettingsCompany(models.Model):
     def _compute_name(self):
         for rec in self:
             rec.name = f"{rec.company_id.name} ({rec.code})"
+
+class SinergisX3SettingsEmail(models.Model):
+    _name = "sinergis_x3.settings.email"
+    _description = "Email à contacter lors d'un transfère"
+    _rec_name = 'email'
+
+    email = fields.Char(string="Email", required=True)
+    company_x3_id = fields.Many2one("sinergis_x3.settings.company",string="Agence concernée", required=True)

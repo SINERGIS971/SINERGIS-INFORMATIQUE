@@ -9,12 +9,12 @@ class SinergisController(http.Controller):
     def index_get(self, **kw):
         if "product_id" in kw:
             product_id = int(kw.get('product_id'))
-            subproduct_ids = http.request.env['sale.products.subproducts'].sudo().search([('product_id','=',product_id)])
+            subproduct_ids = http.request.env['sale.products.subproducts'].sudo().search([('product_id','=',product_id),('label','!=',False)])
             data = []
             for subproduct_id in subproduct_ids:
                 data.append({
                     'id': subproduct_id.id,
-                    'name': subproduct_id.name
+                    'name': subproduct_id.label
                 })
             headers_json = {'Content-Type': 'application/json'} 
             return Response(json.dumps({'subproducts': data}), headers=headers_json)

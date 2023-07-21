@@ -74,7 +74,7 @@
       <menuitem id="sinergis_rgpd_root"
               name="RGPD"
               web_icon="sinergis_rgpd,static/description/icon.png"
-              sequence="50"/>
+              sequence="55"/>
 
       <menuitem id="sinergis_rgpd_sensitive_data_root"
               parent="sinergis_rgpd_root"

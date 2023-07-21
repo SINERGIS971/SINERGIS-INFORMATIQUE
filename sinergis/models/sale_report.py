@@ -89,7 +89,7 @@ class SinergisSaleReport(models.Model):
             
             CASE
                 WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 = True AND (s.x_sinergis_sale_order_solde_x3 = False OR s.x_sinergis_sale_order_solde_x3 IS NULL)
-                THEN sum(t.deposit_percentage*l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
+                THEN sum(l.x_sinergis_deposit_percentage*l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
                 WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 = True AND s.x_sinergis_sale_order_solde_x3 = True
                 THEN sum(l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
                 ELSE 0
@@ -97,7 +97,7 @@ class SinergisSaleReport(models.Model):
  
             CASE
                 WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 = True AND (s.x_sinergis_sale_order_solde_x3 = False OR s.x_sinergis_sale_order_solde_x3 IS NULL)
-                THEN sum((1-t.deposit_percentage)*l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
+                THEN sum((1-l.x_sinergis_deposit_percentage)*l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
                 WHEN l.product_id IS NOT NULL AND s.x_sinergis_sale_order_acompte_x3 = True AND s.x_sinergis_sale_order_solde_x3 = True
                 THEN 0
                 ELSE sum(l.price_total / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)

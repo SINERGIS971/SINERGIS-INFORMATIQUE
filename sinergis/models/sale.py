@@ -193,7 +193,7 @@ class SaleOrder(models.Model):
         for rec in self:
             amount = 0
             for line in rec.order_line:
-                amount += line.price_total*line.product_id.deposit_percentage
+                amount += line.price_total*line.x_sinergis_deposit_percentage
             rec.x_sinergis_sale_order_facture_acompte = amount
 
     @api.depends('x_sinergis_sale_order_facture_solde')
@@ -201,7 +201,7 @@ class SaleOrder(models.Model):
         for rec in self:
             amount = 0
             for line in rec.order_line:
-                amount += line.price_total*(1-line.product_id.deposit_percentage)
+                amount += line.price_total*(1-line.x_sinergis_deposit_percentage)
             rec.x_sinergis_sale_order_facture_solde = amount
 
 
@@ -364,6 +364,7 @@ class SaleOrderLine(models.Model):
 
     x_sinergis_sale_order_line_product_id = fields.Many2one("sale.products",string="Produit", required=True)
     x_sinergis_sale_order_line_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-Produit")
+    x_sinergis_deposit_percentage = fields.Float(string="Pourcentage d'acompte",default=lambda self: self.product_id,required=True)
 
     @api.onchange("x_sinergis_sale_order_line_product_id")
     def onchange_x_sinergis_sale_order_line_product_id(self):
@@ -382,3 +383,4 @@ class SubProducts (models.Model):
     product_id = fields.Many2one("sale.products",string="Produit",required=True)
     active = fields.Boolean(string='Active', default=True)
     name = fields.Char(string="Sub-Product Name",required=True)
+    label = fields.Char(string="Désignation")

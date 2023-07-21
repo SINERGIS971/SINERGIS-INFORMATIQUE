@@ -38,6 +38,11 @@
                     </field>
                 </page>
             </xpath>
+            <xpath expr="//group[@name='Schedule']" position="after">
+                <group string="Autres informations">
+                    <field name="x_sinergis_note"/>
+                </group>
+            </xpath>
         </field>
     </record>
 

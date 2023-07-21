@@ -16,7 +16,7 @@ class SaleOrderLine(models.Model):
     is_hostable = fields.Boolean(related="product_id.is_hostable")
     is_ch = fields.Boolean(related="product_id.is_ch")
     hosted = fields.Boolean(string="Hébergé", default=False)
-    ch_multi = fields.Boolean(string="CH MULTI", default=False)
+    ch_multi = fields.Boolean(string="CH MULTI", default=True)
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -27,6 +27,7 @@ class SaleOrder(models.Model):
     ch_in_order_line = fields.Boolean(compute="_compute_ch_in_order_line") # Si il y a un contrat d'heures dans les lignes de commande
     sinergis_x3_transfered = fields.Boolean(string="Transfert X3",default=False) # Permet de savoir si le devis a déjà été transféré vers X3
     sinergis_x3_id = fields.Char(string="Numéro X3")
+    sinergis_x3_price_subtotal = fields.Float(string="Total HT dans X3 (€)", default=False)
     sinergis_x3_price_total = fields.Float(string="Total TTC dans X3 (€)", default=False)
     sinergis_x3_correct_price = fields.Boolean(compute="_compute_sinergis_x3_correct_price")
     sinergis_x3_log = fields.One2many(
@@ -71,6 +72,25 @@ class SaleOrder(models.Model):
             "name" : content,
             "type" : log_type
             })
+    
+    def _send_email_for_x3 (self, sinergis_x3_id, sinergis_x3_price_total, sinergis_x3_price_subtotal):
+        company_x3_id = self.sinergis_x3_company_id
+        if company_x3_id:
+            emails = self.env['sinergis_x3.settings.email'].search([("company_x3_id","=",company_x3_id)])
+            for email in emails:
+                mail_vals = {
+                    'email_to': email.email,
+                    'subject': f"Odoo - Transfert d'une commande vers X3 - {self.partner_id.name}",
+                    'body_html': f"""La commande {self.name} du client {self.partner_id.name} a bien été transférée dans X3 par {self.env.user.name}.
+                                     <br/><br/>
+                                    Numéro de commande dans X3 : {sinergis_x3_id}<br/><br/>
+                                    Montant TTC de la commande dans X3 : {sinergis_x3_price_total}<br/>
+                                    Montant TTC de la commande dans Odoo : {self.amount_total}<br/><br/>
+                                    Montant HT de la commande dans X3 : {sinergis_x3_price_subtotal}<br/>
+                                    Montant HT de la commande dans Odoo : {self.amount_untaxed}<br/>
+                    """,
+                }
+        self.env['mail.mail'].create(mail_vals).send()
 
     def send_order_to_x3(self):
         enable = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.enable')
@@ -218,7 +238,8 @@ class SaleOrder(models.Model):
         try:
             result_xml = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["resultXml"]["#text"]
             result_xml = result_xml.replace("""'<?xml version="1.0" encoding="UTF-8"?>""","")
-            result_dict = xmltodict.parse(result_xml)            
+            result_dict = xmltodict.parse(result_xml)
+            sinergis_x3_price_subtotal = False           
             sinergis_x3_price_total = False
             for grp in result_dict["RESULT"]["GRP"]:
                 if grp["@ID"] == "SOH0_1":
@@ -227,10 +248,13 @@ class SaleOrder(models.Model):
                             sinergis_x3_id = fld["#text"]
                 if grp["@ID"] == "SOH4_4":
                     for fld in grp["FLD"]:
+                        if fld["@NAME"] == "ORDINVNOT":
+                            sinergis_x3_price_subtotal = fld["#text"]
                         if fld["@NAME"] == "ORDINVATI":
                             sinergis_x3_price_total = fld["#text"]
             self.sinergis_x3_id = sinergis_x3_id
             self.sinergis_x3_price_total = sinergis_x3_price_total
+            self.sinergis_x3_price_subtotal = sinergis_x3_price_subtotal
         except:
             self.create_log(content=f"Récupération du SOHNUM et du total TTC de la nouvelle commande impossible", log_type="warning")
                 
@@ -252,6 +276,9 @@ class SaleOrder(models.Model):
 
         # On ajoute dans le log l'information de synchronisation
         self.create_log(content=f"Transféré avec succès vers X3", log_type="success")
+
+        #Envoyer le mail aux contacts concernés
+        self._send_email_for_x3(sinergis_x3_id, sinergis_x3_price_total, sinergis_x3_price_subtotal)
         
 
     @api.depends("hostable_in_order_line", "order_line")

@@ -10,6 +10,8 @@ class HrEmployee(models.Model):
 
     certification_ids = fields.One2many('hr.employee.certification', 'employee_id', string="Certifications")
 
+    x_sinergis_note = fields.Text(string="Notes")
+
     def download_cv_certification(self):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         return {

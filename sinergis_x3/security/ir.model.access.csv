@@ -13,5 +13,7 @@ access_sinergis_x3_commercial_admin,sinergis_x3.settings.commercial,model_sinerg
 access_sinergis_x3_commercial_user,sinergis_x3.settings.commercial,model_sinergis_x3_settings_commercial,base.group_user,1,0,0,0
 access_sinergis_x3_company_admin,sinergis_x3.settings.company,model_sinergis_x3_settings_company,base.group_system,1,1,1,1
 access_sinergis_x3_company_user,sinergis_x3.settings.company,model_sinergis_x3_settings_company,base.group_user,1,0,0,0
+access_sinergis_x3_email_admin,sinergis_x3.settings.email,model_sinergis_x3_settings_email,base.group_system,1,1,1,1
+access_sinergis_x3_email_user,sinergis_x3.settings.email,model_sinergis_x3_settings_email,base.group_user,1,0,0,0
 access_sinergis_x3_sale_order_odoo_x3_log,sinergis_x3.sale.order.odoo_x3_log,model_sale_order_odoo_x3_log,base.group_user,1,1,1,1
 access_sinergis_x3_annual_contract,sinergis.annual_contract,model_sinergis_x3_annual_contract,base.group_user,1,1,1,0

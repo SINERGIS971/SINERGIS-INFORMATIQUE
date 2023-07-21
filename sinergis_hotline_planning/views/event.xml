@@ -73,9 +73,9 @@
     </record>
 
       <menuitem id="sinergis_hotline_planning_root"
-              name="Planning hotlines"
+              name="Planning hotline"
               web_icon="sinergis_hotline_planning,static/description/icon.png"
-              sequence="40"/>
+              sequence="45"/>
 
       <menuitem id="sinergis_hotline_planning_event"
               parent="sinergis_hotline_planning_root"

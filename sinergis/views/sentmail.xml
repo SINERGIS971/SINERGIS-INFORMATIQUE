@@ -68,7 +68,7 @@
     </record>-->
 
     <record id="sinergis_email_message_sent_action" model="ir.actions.act_window">
-        <field name="name">Messages envoyés</field>
+        <field name="name">Mails envoyés</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">mail.message</field>
         <field name="view_mode">tree,form</field>
@@ -99,18 +99,18 @@
 <!-- MENU -->
 
 <menuitem id="sinergis_email_message_sent_root"
-          name="Messages envoyés"
+          name="Mails envoyés"
           web_icon="sinergis,static/description/icon.png"
-          sequence="55"/>
+          sequence="59"/>
 
 <menuitem id="sinergis_email_message_sent_root_root"
           parent="sinergis_email_message_sent_root"
           action="sinergis_email_message_sent_action"
-          name="Messages envoyés"
+          name="Mails envoyés"
           sequence="100"/>
 
 <menuitem id="email_sent"
-          name="Messages envoyés"
+          name="Mails envoyés"
           parent="sinergis_email_message_sent_root_root"
           action="sinergis_email_message_sent_action"
           sequence="100"/>

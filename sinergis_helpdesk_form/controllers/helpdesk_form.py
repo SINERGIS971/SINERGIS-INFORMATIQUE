@@ -44,7 +44,7 @@ class HelpdeskFormController(http.Controller):
                 if not any(file.filename.endswith(ext) for ext in extensions):
                     error = "Un des fichiers n'a pas le bon format."
 
-            if not name or not company or not email or not phone or not product_select or not subject or not problem:
+            if not name or not company or not email or not phone or not phone or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             product_id = http.request.env['sale.products'].sudo().search([('id','=',product_select)],limit=1)
             if not product_id:

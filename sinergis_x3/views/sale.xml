@@ -51,6 +51,7 @@
                 <page string="Odoo - X3" name="sinergis_x3_page">
                     <group>
                         <field name="sinergis_x3_id"/>
+                        <field name="sinergis_x3_price_subtotal" attrs="{'invisible': [['sinergis_x3_price_subtotal','=',False]]}"/>
                         <field name="sinergis_x3_price_total" attrs="{'invisible': [['sinergis_x3_price_total','=',False]]}"/>
                     </group>
                     <field name="sinergis_x3_log">
