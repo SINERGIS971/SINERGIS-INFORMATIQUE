@@ -40,9 +40,10 @@ class HelpdeskFormController(http.Controller):
             # Verification des extensions
             # extensions = {".jpg", ".png", ".gif", ".jpeg",".pdf"}
             max_size = 10485760 # Taille maximale en bytes
-            for file in files:
-                if not any(file.filename.endswith(ext) for ext in extensions):
-                    error = "Un des fichiers n'a pas le bon format."
+            if len(files) > 0:
+                for file in files:
+                    if not any(file.filename.endswith(ext) for ext in extensions):
+                        error = "Un des fichiers n'a pas le bon format."
 
             if not name or not company or not email or not phone or not phone or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
