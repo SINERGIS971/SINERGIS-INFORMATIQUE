@@ -8,6 +8,8 @@
                 <field name="name" filter_domain="[('name', 'ilike', self)]"/>
                 <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
                 <field name="description" filter_domain="[('description', 'ilike', self)]"/>
+                <filter string="Client" name="group_by_partner_id" context="{'group_by':'partner_id'}"/>
+                <filter string="Utilisateur" name="group_by_user_id" context="{'group_by':'user_id'}"/>
             </search>
         </field>
     </record>
@@ -21,7 +23,7 @@
                 <field name="name"/>
                 <field name="partner_id"/>
                 <field name="user_id" widget="many2one_avatar_user"/>
-                <field name="commercial_ids"/>
+                <field name="commercial_ids" widget="many2many_tags"/>
               </tree>
           </field>
       </record>
@@ -41,13 +43,13 @@
     </record>
 
       <menuitem id="res_partner_claims_root"
-              name="Réclamtions"
-              web_icon="sinergis_customer_visit,static/description/icon.png"
-              sequence="40"/>
+              name="Réclamations"
+              web_icon="sinergis_claims,static/description/icon.png"
+              sequence="66"/>
 
       <menuitem id="res_partner_claims_claims_root"
               parent="res_partner_claims_root"
-              name="Réclamtions"
+              name="Réclamations"
               action="res_partner_claims_action"
               sequence="10"/>
 
