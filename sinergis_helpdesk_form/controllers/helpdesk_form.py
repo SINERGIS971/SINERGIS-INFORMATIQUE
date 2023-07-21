@@ -68,7 +68,7 @@ class HelpdeskFormController(http.Controller):
                     if not parent_id:
                         data['partner_id'] = contact_id.id
                     else :
-                        data['partner_id'] = contact_id.id
+                        data['partner_id'] = parent_id.id
                 else:
                     contact_id = http.request.env['res.partner'].sudo().create({'name': name, 'email': email, 'is_company': False})
                     data['partner_id'] = contact_id.id

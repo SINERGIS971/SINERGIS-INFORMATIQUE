@@ -836,7 +836,7 @@
     <menuitem id="training_root"
               name="Formations"
               web_icon="training,static/description/icon.png"
-              sequence="65"/>
+              sequence="43"/>
 
     <menuitem id="training_training_root"
               parent="training_root"
