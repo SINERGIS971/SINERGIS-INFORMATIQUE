@@ -22,6 +22,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/partner.xml',
+        'views/claims.xml',
     ],
     'assets': {
         'web.assets_backend': [

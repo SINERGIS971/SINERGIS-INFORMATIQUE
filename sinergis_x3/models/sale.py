@@ -58,7 +58,7 @@ class SaleOrder(models.Model):
             else:
                 rec.sinergis_x3_correct_price = True 
 
-    #Bouton qui informe que la commande est bien synchronisée su Odoo
+    #Bouton qui informe que la commande est bien synchronisée sur Odoo
     def sinegis_x3_header_connected (self):
         return True
 
@@ -76,7 +76,7 @@ class SaleOrder(models.Model):
     def _send_email_for_x3 (self, sinergis_x3_id, sinergis_x3_price_total, sinergis_x3_price_subtotal):
         company_x3_id = self.sinergis_x3_company_id
         if company_x3_id:
-            emails = self.env['sinergis_x3.settings.email'].search([("company_x3_id","=",company_x3_id)])
+            emails = self.env['sinergis_x3.settings.email'].search([("company_x3_id","=",company_x3_id.id)])
             for email in emails:
                 mail_vals = {
                     'email_to': email.email,

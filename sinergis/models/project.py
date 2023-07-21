@@ -145,10 +145,13 @@ class ProjectTask(models.Model):
     @api.depends('x_sinergis_project_task_contract_type')
     def _compute_x_sinergis_project_task_contract_type (self):
         for rec in self :
-            if "CONTRAT D'HEURE" in rec.project_id.name:
-                rec.x_sinergis_project_task_contract_type = 'CH'
-            else :
-                rec.x_sinergis_project_task_contract_type = 'DEVIS'
+            if rec.project_id:
+                if "CONTRAT D'HEURE" in rec.project_id.name:
+                    rec.x_sinergis_project_task_contract_type = 'CH'
+                else :
+                    rec.x_sinergis_project_task_contract_type = 'DEVIS'
+            else:
+                rec.x_sinergis_project_task_contract_type = False
 
     @api.depends('x_sinergis_project_task_is_calendar_event')
     def _compute_x_sinergis_project_task_is_calendar_event (self):

@@ -73,7 +73,7 @@
             <field name="x_sinergis_project_task_is_calendar_event" invisible="True"/>
             <field name="project_id" position="move"/>
             <field name="name" position="move"/>
-            <field name="partner_id" position="move"/>
+            <field name="partner_id" position="move" optional="show"/>
             <field name="user_ids" position="move"/>
             <field name="x_sinergis_project_task_planned_hours" widget="timesheet_uom"/>
             <field name="planned_hours" widget="timesheet_uom"/>

@@ -38,7 +38,7 @@
                     </field>
                 </page>
             </xpath>
-            <xpath expr="//group[@name='Schedule']" position="after">
+            <xpath expr="//div[@id='o_work_employee_main']" position="inside">
                 <group string="Autres informations">
                     <field name="x_sinergis_note"/>
                 </group>

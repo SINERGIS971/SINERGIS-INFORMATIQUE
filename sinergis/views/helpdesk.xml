@@ -32,7 +32,7 @@
                 <filter string="SAGE 1000" name="filter_sage1000" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'SAGE 1000')]"/>
                 <filter string="SAGE 1000 - BI" name="filter_sage1000_bi" domain="['&amp;',('x_sinergis_helpdesk_ticket_produits_new', '=', 'SAGE 1000'),('x_sinergis_helpdesk_ticket_sous_produits_new', '=', 'BI')]"/>
 
-                <filter string="SAP" name="filter_sap" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'SAP')]"/>
+                <filter string="SAP" name="filter_sap" domain="['|',('x_sinergis_helpdesk_ticket_produits_new', '=', 'SAP B1'),('x_sinergis_helpdesk_ticket_produits_new', '=', 'SAP STARTER')]"/>
 
                 <filter string="VIF" name="filter_vif" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'VIF')]"/>
 

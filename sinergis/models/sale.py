@@ -364,7 +364,11 @@ class SaleOrderLine(models.Model):
 
     x_sinergis_sale_order_line_product_id = fields.Many2one("sale.products",string="Produit", required=True)
     x_sinergis_sale_order_line_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-Produit")
-    x_sinergis_deposit_percentage = fields.Float(string="Pourcentage d'acompte",default=lambda self: self.product_id,required=True)
+    x_sinergis_deposit_percentage = fields.Float(string="Pourcentage d'acompte",default=lambda self: self.product_id.deposit_percentage,required=True)
+
+    @api.onchange("product_id")
+    def onchange_product_id(self):
+        self.x_sinergis_deposit_percentage = self.product_id.deposit_percentage
 
     @api.onchange("x_sinergis_sale_order_line_product_id")
     def onchange_x_sinergis_sale_order_line_product_id(self):

@@ -160,7 +160,7 @@ button {
                 const selectProduct = document.getElementById('product-select');
                 selectProduct.addEventListener('change', () => {
                 const selectedProduct = selectProduct.value;
-                fetch('https://sinergis-staging-8220421.dev.odoo.com/sinergis/get_subproduct?product_id='+selectedProduct.toString())
+                fetch('https://sinergis.odoo.com/sinergis/get_subproduct?product_id='+selectedProduct.toString())
                     .then(response => response.json())
                     .then(data => {
                         var selectSubproducts = document.getElementById("subproduct-select");
@@ -252,7 +252,7 @@ button {
                 </select>
             </div>
             <div class="form__linput" id="subproduct_block" style="display:none;">
-                <label class="form__label" for="subproduct-select">Sous-Produit</label>
+                <label class="form__label" for="subproduct-select">Sous-Produit <span class="required-ast">*</span></label>
                 <select class="form__select" id="subproduct-select" name="subproducts">
                 <option value="">Choisissez votre sous-produit</option>
                 </select>
@@ -266,13 +266,13 @@ button {
                 <textarea class="form__textarea" id="problem" name="problem" placeholder="Décrire votre problème.." rows="7" required="True" maxlength="2000"></textarea>
             </div>
             <div class="form__linput">
-                <label class="form__label" for="problem">Documents (images et PDF)</label>
+                <label class="form__label" for="problem">Documents</label>
                 <div class="file-input">
-                <input type="file" id="files" name="files[]" onchange="handleFiles()" multiple="1" t-att-accept="extensions.split(',')"/>
+                <input type="file" id="files" name="files[]" onchange="handleFiles()" multiple="1" t-att-accept="','.join(extensions)"/>
                 <button>Choisir des fichiers</button>
                 <span id="fileCount"></span>
                 </div>
-                <p>Autorisé : <t t-esc="extensions.split(',')"/></p>
+                <p>Autorisé : <t t-esc="','.join(extensions)"/></p>
             </div>
             <div class="g-recaptcha" data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"></div>
             <br/>

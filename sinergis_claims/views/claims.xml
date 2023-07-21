@@ -1,0 +1,55 @@
+<odoo>
+  <data>
+    <record id="res_partner_claims_search" model="ir.ui.view">
+        <field name="name">res.partner.claims.search</field>
+        <field name="model">res.partner.claims</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
+                <field name="description" filter_domain="[('description', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="res_partner_claims_tree" model="ir.ui.view">
+          <field name="name">res.partner.claims.tree</field>
+          <field name="model">res.partner.claims</field>
+          <field name="arch" type="xml">
+              <tree default_order="date desc">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="commercial_ids"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="res_partner_claims_action" model="ir.actions.act_window">
+        <field name="name">Réclamations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner.claims</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créer une réclamation.
+            </p>
+            </field>
+        </field>
+    </record>
+
+      <menuitem id="res_partner_claims_root"
+              name="Réclamtions"
+              web_icon="sinergis_customer_visit,static/description/icon.png"
+              sequence="40"/>
+
+      <menuitem id="res_partner_claims_claims_root"
+              parent="res_partner_claims_root"
+              name="Réclamtions"
+              action="res_partner_claims_action"
+              sequence="10"/>
+
+  </data>
+</odoo>
