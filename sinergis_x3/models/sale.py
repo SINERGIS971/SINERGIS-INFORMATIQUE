@@ -90,7 +90,7 @@ class SaleOrder(models.Model):
                                     Montant HT de la commande dans Odoo : {self.amount_untaxed}<br/>
                     """,
                 }
-        self.env['mail.mail'].sudo().create(mail_vals).send()
+                self.env['mail.mail'].sudo().create(mail_vals).send()
 
     def send_order_to_x3(self):
         enable = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.enable')
