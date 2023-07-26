@@ -298,15 +298,6 @@ class SaleOrder(models.Model):
                 if line.is_ch:
                     ch_in_order_line = True
             rec.ch_in_order_line = ch_in_order_line
-
-
-    # Envoyer la commande vers X3 lors de la confirmation du devis
-    def write(self, values):
-        sale_order = super(SaleOrder, self).write(values)
-        if "state" in values :
-            if values["state"] == "sale":
-                self.send_order_to_x3()
-        return sale_order
     
 class SaleOrderOdooX3Log (models.Model):
     _name = "sale.order.odoo_x3_log"

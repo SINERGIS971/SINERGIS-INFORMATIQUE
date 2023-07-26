@@ -76,16 +76,16 @@
           <!-- Empecher de confirmer le devis si le client est bloqué -->
           <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
             <attribute name="attrs">{'invisible': ['|','|','|',('x_sinergis_sale_order_forbid_task_creation',  '=', True),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['sent'])]}</attribute>
-            <attribute name="confirm">Souhaitez-vous vraiment confirmer ce devis ? Les données seront envoyées vers X3.</attribute>
+            <attribute name="confirm">Souhaitez-vous vraiment confirmer ce devis ?</attribute>
           </xpath>
           <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
             <attribute name="attrs">{'invisible': ['|','|','|',('x_sinergis_sale_order_forbid_task_creation',  '=', True),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft'])]}</attribute>
-            <attribute name="confirm">Souhaitez-vous vraiment confirmer ce devis ? Les données seront envoyées vers X3.</attribute>
+            <attribute name="confirm">Souhaitez-vous vraiment confirmer ce devis ?</attribute>
           </xpath>
 
           <!-- Créer des boutons afin de confirmer le devis sans créer de tâche -->
           <xpath expr="//button[@name='action_confirm'][1]" position="after">
-            <button name="action_confirm_without_task" string="Confirmer sans créer de tâche" class="btn-primary" type="object" attrs="{'invisible': ['|','|','|',('x_sinergis_sale_order_forbid_task_creation',  '=', False),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft','sent'])]}" confirm="Souhaitez-vous vraiment confirmer ce devis ? Les données seront envoyées vers X3."/>
+            <button name="action_confirm_without_task" string="Confirmer sans créer de tâche" class="btn-primary" type="object" attrs="{'invisible': ['|','|','|',('x_sinergis_sale_order_forbid_task_creation',  '=', False),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft','sent'])]}" confirm="Souhaitez-vous vraiment confirmer ce devis ?"/>
           </xpath>
           
             <xpath expr="//field[@name='partner_id']" position="before">
