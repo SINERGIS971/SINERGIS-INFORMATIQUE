@@ -8,8 +8,12 @@
                 <field name="name" filter_domain="[('name', 'ilike', self)]"/>
                 <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
                 <field name="description" filter_domain="[('description', 'ilike', self)]"/>
+                <filter string="Nouveau" name="filter_state_new" domain="[('state', '=', 'new')]"/>
+                <filter string="En cours" name="filter_state_in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Terminé" name="filter_state_ended" domain="[('state', '=', 'ended')]"/>
                 <filter string="Client" name="group_by_partner_id" context="{'group_by':'partner_id'}"/>
                 <filter string="Utilisateur" name="group_by_user_id" context="{'group_by':'user_id'}"/>
+                <filter string="État" name="group_by_state" context="{'group_by':'state'}"/>
             </search>
         </field>
     </record>
@@ -24,6 +28,7 @@
                 <field name="partner_id"/>
                 <field name="user_id" widget="many2one_avatar_user"/>
                 <field name="commercial_ids" widget="many2many_tags"/>
+                <field name="state"/>
               </tree>
           </field>
       </record>

@@ -22,6 +22,7 @@ class ResPartnerClaims (models.Model):
     contact_id = fields.Many2one("res.partner",string="Contact", required=True)
     user_id = fields.Many2one("res.users",string="Utilisateur", default=lambda self: self.env.user, required=True)
     description = fields.Html(string="Description")
+    state = fields.Selection([('new', 'Nouveau'),('in_progress', 'En cours'),('ended', 'Terminé')], string="État", required=True, default="new")
     solution = fields.Html(string="Solution")
     commercial_ids = fields.Many2many("res.users", string="Commerciaux à contacter")
 

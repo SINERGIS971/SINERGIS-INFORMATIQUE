@@ -52,7 +52,7 @@
                     <filter string="Client" name="group_by_client" context="{'group_by':'client'}"/>
                     <filter string="Date" name="group_by_date" context="{'group_by':'date'}"/>
                     <filter string="Consultant" name="group_by_consultant" context="{'group_by':'consultant'}"/>
-                    <filter string="Société SINERGIS" name="group_by_company" context="{'group_by':'consultant_company_id'}"/>
+                    <filter string="Société SINERGIS" name="group_by_company" context="{'group_by':'company_id'}"/>
                     <filter string="Pays du client" name="group_by_country_id" context="{'group_by':'country_id'}"/>
                     <filter string="Origine" name="group_by_origin" context="{'group_by':'origin'}"/>
                 </group>
@@ -112,7 +112,7 @@
               <field name="date"/>
               <field name="billing"/>
               <field name="consultant"/>
-              <field name="consultant_company_id"/>
+              <field name="company_id"/>
               <field name="country_id"/>
             </pivot>
         </field>

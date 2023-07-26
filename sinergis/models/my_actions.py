@@ -25,7 +25,7 @@ class MyActions(models.Model):
     billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable')], string="Facturable/Non facturable")
     time = fields.Float(string = "Temps")
     consultant = fields.Many2one('res.users',string="Consultant")
-    consultant_company_id = fields.Many2one("res.company",string="Société SINERGIS")
+    company_id = fields.Many2one("res.company",string="Société SINERGIS")
     country_id = fields.Many2one("res.country",readonly=True,string="Pays du client")
 
     #Uniquement pour les activités du calendrier
@@ -61,7 +61,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.consultant_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced,T.reinvoiced_company_id FROM
+            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced,T.reinvoiced_company_id FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -82,7 +82,7 @@ class MyActions(models.Model):
                     END AS time,
                     
                     ht.user_id as consultant,
-                    ru.company_id as consultant_company_id,
+                    ru.company_id as company_id,
                     ht.x_sinergis_helpdesk_ticket_contact as contact,
                     ht.x_sinergis_helpdesk_ticket_start_time as start_time,
                     ht.x_sinergis_helpdesk_ticket_end_time as end_time,
@@ -136,7 +136,7 @@ class MyActions(models.Model):
                             ELSE ce.x_sinergis_calendar_duree_facturee::TEXT
                     END AS time,
                     ce.user_id as consultant,
-                    ru.company_id as consultant_company_id,
+                    ru.company_id as company_id,
                     ce.x_sinergis_calendar_event_contact as contact,
                     ce.x_sinergis_calendar_event_start_time as start_time,
                     ce.x_sinergis_calendar_event_end_time as end_time,

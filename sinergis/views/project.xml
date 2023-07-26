@@ -71,6 +71,7 @@
             <field name="x_sinergis_project_task_soon_done" invisible="True"/>
             <field name="x_sinergis_project_task_contract_type" invisible="True"/>
             <field name="x_sinergis_project_task_is_calendar_event" invisible="True"/>
+            <field name="create_date" optional="hide"/>
             <field name="project_id" position="move"/>
             <field name="name" position="move"/>
             <field name="partner_id" position="move" optional="show"/>
@@ -121,6 +122,7 @@
     <field name="inherit_id" ref="project.view_project"/>
     <field name="arch" type="xml">
       <xpath expr="//field[@name='name']" position="after">
+                    <field name="create_date" optional="hide"/>
                     <field name="partner_id" position="move"/>
                     <field name="tag_ids" position="move"/>
                     <field name="x_sinergis_project_project_initial_hours" widget="timesheet_uom"/>
@@ -159,7 +161,8 @@
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@class='o_kanban_record_headings']" position="inside">
-              <div t-if="record.x_sinergis_project_task_first_date.raw_value"><br/><span style="font-size:12px;">Première date planifiée :</span> <field name="x_sinergis_project_task_first_date" widget="date"/><br/></div>
+              <div><br/><span style="font-size:12px;">Créé le</span> <field name="create_date" widget="date"/><br/></div>
+              <div t-if="record.x_sinergis_project_task_first_date.raw_value"><span style="font-size:12px;">Première date planifiée :</span> <field name="x_sinergis_project_task_first_date" widget="date"/><br/></div>
               <div t-if="record.x_sinergis_project_task_planned_hours.raw_value">Temps planifié : <field name="x_sinergis_project_task_planned_hours" widget="timesheet_uom"/></div>
               <div t-if="record.x_sinergis_project_task_first_date.raw_value">Par : <field name="x_sinergis_project_task_first_date_user_id"/><br/></div>
             </xpath>
@@ -183,6 +186,7 @@
               <field name="x_sinergis_project_project_technical_manager"/>
             </xpath>
             <xpath expr="//div[@groups='project.group_project_rating']" position="after">
+              <div><br/><span style="font-size:12px;">Créé le</span> <field name="create_date" widget="date"/><br/></div>
               <div t-if="record.x_sinergis_project_project_technical_manager.raw_value">Responsable technique : <field name="x_sinergis_project_project_technical_manager" widget="many2one_avatar_user"/></div>
               <div t-if="record.x_sinergis_project_project_planned_hours.raw_value">Temps planifié : <field name="x_sinergis_project_project_planned_hours" widget="timesheet_uom"/></div>
             </xpath>
