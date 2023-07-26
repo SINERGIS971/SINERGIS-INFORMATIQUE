@@ -700,7 +700,8 @@ class TrainingParticipants(models.Model):
                 attach_data = {
                     'name': 'Livret de formation.pdf',
                     'datas': result_binary,
-                    'res_model': 'ir.ui.view',
+                    'res_model': 'training.participants',
+                    'res_id': self.id
                 }
                 attach_id = attach_obj.create(attach_data)
                 attachment_ids.append(attach_id.id)
