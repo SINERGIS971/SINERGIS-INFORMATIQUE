@@ -60,6 +60,10 @@ class SaleOrder(models.Model):
 
     #Bouton qui informe que la commande est bien synchronisée sur Odoo
     def sinegis_x3_header_connected (self):
+        if not self.env.user.has_group('base.group_system'):
+            raise ValidationError("Vous n'êtes pas autorisé à resynchroniser la commande vers X3, veuillez contacter un administrateur Odoo.")
+        else:
+            self.send_order_to_x3()
         return True
 
     def sinegis_x3_header_disconnected(self):
@@ -104,12 +108,6 @@ class SaleOrder(models.Model):
             if line.product_id and not line.x_sinergis_sale_order_line_subproduct_id:
                 if self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id),("format","ilike","{subproduct}")]):
                     raise ValidationError(f"Veuillez indiquer un sous-produit pour : {line.product_id.name}")
-
-
-        # Ne pas permettre deux transferts sur le même devis
-        if self.sinergis_x3_transfered:
-            self.create_log(content="Le devis est passé en bon de commande mais un transfert avait déjà été effectué sur celui-ci.", log_type="warning")
-            return True
 
         missing_data = [] # Tableau qui comprend toutes les données manquantes
 
