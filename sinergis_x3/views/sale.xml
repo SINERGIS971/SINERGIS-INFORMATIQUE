@@ -23,7 +23,7 @@
 
                 <button name="sinegis_x3_header_disconnected" type="object" class="oe_stat_button" icon="fa-times icon" style="color:red;"
                     attrs="{'invisible': ['|',['sinergis_x3_transfered','=',True],['state','!=','sale']]}"
-                    confirm="Souhaitez-vous vraiement lancer une synchronisation avec Sage X3 ?">
+                    confirm="Souhaitez-vous vraiement lancer un transfert avec Sage X3 ?">
                         <div class="o_field_widget o_stat_info">
                             <span class="o_stat_text">Odoo - X3:</span>
                             <span class="o_stat_text">Non transféré</span>
