@@ -10,6 +10,11 @@ class AccountAnalyticLine(models.Model):
     x_sinergis_account_analytic_line_ticket_id = fields.Many2one('helpdesk.ticket', string="Ticket", readonly=True)
     x_sinergis_account_analytic_line_event_id = fields.Many2one('calendar.event', string="Evenement", readonly=True)
 
+    def float_to_hh_mm(float_time):
+        hours = int(float_time)
+        minutes = int((float_time - hours) * 60)
+        return "{:02d}:{:02d}".format(hours, minutes)
+
     @api.model_create_multi
     def create(self, list_value):
         for vals in list_value:
@@ -26,20 +31,17 @@ class AccountAnalyticLine(models.Model):
                             else:
                                 limit = email_id.limit
                                 limit_text = f"{str(email_id.limit)} h"
-                            if task_id.remaining_hour > limit and task_id.remaining_hour - unit_amount < limit:
+                            if task_id.remaining_hours > limit and task_id.remaining_hours - unit_amount <= limit:
                                 partner_name = task_id.sale_line_id.order_id.partner_id.name
                                 mail_vals = {
                                     'email_to': email_id.email,
                                     'subject': f"Odoo - ALERTE CONTRAT D'HEURES - {partner_name}",
                                     'body_html': f"""
-                                                    Bonjour,
-
-                                                    Nous vous informons qu’il ne reste que {limit_text} sur le contrat d’heures {task_id.sale_line_id.order_id.name} de la société {partner_name}.
-
-                                                    Heures prévues : {str(task_id.planned_hours)} h
-                                                    Heures réalisées : {str(task_id.effective_hours)} h
-                                                    Heures restantes : {str(task_id.remaining_hours)} h
-
+                                                    Bonjour,<br/><br/>
+                                                    Nous vous informons qu’il reste moins de {limit_text} sur le contrat d’heures {task_id.sale_line_id.order_id.name} de la société {partner_name}.<br/><br/>
+                                                    Heures prévues : {str(task_id.planned_hours)} h<br/>
+                                                    Heures réalisées : {AccountAnalyticLine.float_to_hh_mm(task_id.effective_hours + unit_amount)} h<br/>
+                                                    Heures restantes : {AccountAnalyticLine.float_to_hh_mm(task_id.remaining_hours - unit_amount)} h<br/><br/>
                                                     - Odoo -
                                     """
                                 }
