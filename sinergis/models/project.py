@@ -298,3 +298,13 @@ class ProjectProject(models.Model):
                     vals["name"] = f"{vals['name']} - {sale_order_id.x_sinergis_sale_order_objet}"
         projects = super(ProjectProject, self).create(list_value)
         return projects
+
+class ProjectTaskCHEmail (models.Model):
+    _name = "project.task.ch_email"
+    _description = "Emails à alerter sur CH"
+    _rec_name = "email"
+
+    email = fields.Char(string="Email", required=True)
+    company_id = fields.Many2one('res.company', 'Agence', required=True)
+    limit_type = fields.Selection([('percentage', 'Pourcentage'),('hours', 'Heures restantes')], string="Type de limite", default="percentage")
+    limit = fields.Integer(string="Limite", required=True, default=0)

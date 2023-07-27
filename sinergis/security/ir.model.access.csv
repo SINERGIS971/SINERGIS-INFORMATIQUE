@@ -16,3 +16,5 @@ sale_products_admin,Sale Products Admin,model_sale_products,sinergis.group_sale_
 sale_products_subproducts_admin,Sale Sub Products Admin,model_sale_products_subproducts,sinergis.group_sale_product,1,1,1,1
 access_sinergis_sale_report_manager,sinergis.sale.report,model_sinergis_sale_report,sales_team.group_sale_manager,1,1,1,1
 access_sinergis_hr_employee_certification,hr.employee.certification,model_hr_employee_certification,base.group_user,1,1,1,1
+sinergis_project_task_ch_email_admin,project.task.ch_email,model_project_task_ch_email,base.group_system,1,1,1,1
+sinergis_project_task_ch_email_user,project.task.ch_email,model_project_task_ch_email,base.group_user,1,0,0,0

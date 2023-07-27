@@ -341,6 +341,53 @@
           sequence="3"
           groups="base.group_no_one,project.group_project_user"/>
 
+<!-- ============ CH Email alert ============ -->
+
+    <record id="sinergis_project_task_ch_email_view_tree" model="ir.ui.view">
+        <field name="name">sinergis.project.task.ch_email.tree</field>
+        <field name="model">project.task.ch_email</field>
+        <field name="arch" type="xml">
+            <tree string="Emails à alerter sur CH">
+                <field name="email"/>
+                <field name="company_id"/>
+                <field name="limit_type"/>
+                <field name="limit"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_project_task_ch_email_view_form" model="ir.ui.view">
+        <field name="name">sinergis.project.task.ch_email.form</field>
+        <field name="model">project.task.ch_email</field>
+        <field name="arch" type="xml">
+            <form>
+              <sheet>
+              <group>
+                <group>
+                  <field name="email"/>
+                  <field name="company_id"/>
+                </group>
+                <group>
+                  <field name="limit_type"/>
+                  <field name="limit"/>
+                </group>
+              </group>
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sinergis_project_task_ch_email_action" model="ir.actions.act_window">
+        <field name="name">Emails à alerter sur CH</field>
+        <field name="res_model">project.task.ch_email</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="sinergis_project_task_ch_email_menu"
+        action="sinergis_project_task_ch_email_action"
+        parent="project.menu_project_config"
+        sequence="50"/>
+
   </data>
 </odoo>
 
