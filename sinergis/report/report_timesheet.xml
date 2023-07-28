@@ -71,11 +71,11 @@
 		                      											<tr>
 		                      												<td style="text-align:center;">
 																				<span t-esc="line.x_sinergis_account_analytic_line_start_time" t-if="line.x_sinergis_account_analytic_line_start_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/>
-																				<span t-esc="line.date" t-if="not line.x_sinergis_account_analytic_line_start_time" t-options="{'format': 'dd/MM/yyyy'}"/>
+																				<span t-esc="line.date" t-if="not line.x_sinergis_account_analytic_line_start_time" t-options="{'widget': 'date','format': 'dd/MM/yyyy'}"/>
 																			</td>
 		                      												<td style="text-align:center;">
 																				<span t-field="line.x_sinergis_account_analytic_line_end_time" t-if="line.x_sinergis_account_analytic_line_end_time" t-options="{'format': 'dd/MM/yyyy HH:mm'}"/>
-																				<span t-esc="line.date" t-if="not line.x_sinergis_account_analytic_line_end_time" t-options="{'format': 'dd/MM/yyyy'}"/>
+																				<span t-esc="line.date" t-if="not line.x_sinergis_account_analytic_line_end_time" t-options="{'widget': 'date','format': 'dd/MM/yyyy'}"/>
 																			</td>
 		                      												<td style="text-align:center;"><span t-field="line.unit_amount"  t-options="{'widget': 'float_time'}"/></td>
 		                      												<td style="text-align:center;"><span t-field="line.name"/></td>
