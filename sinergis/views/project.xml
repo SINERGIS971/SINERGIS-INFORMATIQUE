@@ -180,7 +180,7 @@
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
             <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/div[1]/div[1]/div[1]/span[1]/t[1]" position="before">
-                <a href="#" name="x_sinergis_project_projet_configure_button" type="object" string="Configure"><i class="fa fa-wrench"/></a>&#032;
+                <a href="#" name="x_sinergis_project_projet_configure_button" type="object" string="Configure"><i class="fa fa-wrench" title="Configure" aria-label="Configure"/></a>&#032;
             </xpath>
             <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/div[1]/div[1]/div[1]/field[@name='tag_ids']" position="after">
                 <field name="x_sinergis_project_project_etat_projet" display="full" bold="True" widget="badge" attrs="{'invisible': [['x_sinergis_project_project_etat_projet','=',False]]}"/>
