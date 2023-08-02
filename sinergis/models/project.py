@@ -210,6 +210,17 @@ class ProjectProject(models.Model):
 
     x_sinergis_project_project_is_ch = fields.Boolean(compute='_compute_x_sinergis_project_project_is_ch')
 
+    def x_sinergis_project_projet_configure_button(self):
+        return {
+            'name': self.name,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': [self.id],
+            'res_model': 'project.project',
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+        }
+
     @api.depends('x_sinergis_project_project_sale_order_contact')
     def _compute_x_sinergis_project_project_sale_order_contact (self):
         for rec in self:
