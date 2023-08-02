@@ -140,7 +140,8 @@ class SaleOrder(models.Model):
                 if not hosted:
                     missing_data.append(f"transcodage de l'état Hébergé")
                 if not sinergis_product :
-                    missing_data.append(f"transcodage du produit Sinergis ({self.x_sinergis_sale_order_product_new.name})")
+                    self.create_log(content=f"Il n'y a pas de transcodage pour le produit {line.x_sinergis_sale_order_line_product_id.name}", log_type="danger")
+                    return True
                 
                 product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).format
                 if product_format :
