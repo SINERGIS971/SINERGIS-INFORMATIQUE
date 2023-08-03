@@ -226,6 +226,8 @@ class ProjectProject(models.Model):
     def on_change_x_sinergis_project_project_etat_projet(self):
         if self.x_sinergis_project_project_etat_projet == "Projet terminé":
             self.date = datetime.now().strftime("%Y-%m-%d")
+        else:
+            self.date = False
 
     @api.depends('x_sinergis_project_project_sale_order_contact')
     def _compute_x_sinergis_project_project_sale_order_contact (self):

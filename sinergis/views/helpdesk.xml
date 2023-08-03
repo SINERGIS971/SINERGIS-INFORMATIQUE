@@ -7,7 +7,7 @@
           <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_search"/>
           <field name="arch" type="xml">
               <xpath expr="//field[@name='name']" position="attributes">
-                <attribute name="filter_domain">['|',('name', 'ilike', self),('id', 'ilike', self)]"</attribute>
+                <attribute name="filter_domain">['|',('name', 'ilike', self),('id', 'ilike', self)]</attribute>
               </xpath>
               <xpath expr="//field[@name='id']" position="after">
                 <field name="x_sinergis_helpdesk_ticket_ticket_resolution" filter_domain="['|', '|',('x_sinergis_helpdesk_ticket_ticket_resolution', 'ilike', self),('description', 'ilike', self), ('name', 'ilike', self)]"/>

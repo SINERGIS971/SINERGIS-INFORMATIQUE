@@ -71,7 +71,24 @@ class MailActivity(models.Model):
     _inherit = "mail.mail"
     
     x_sinergis_has_attachment = fields.Boolean(string="Pièce jointe ?", compute="_compute_x_sinergis_has_attachment")
-    
+    x_sinergis_attachement_ids = attachment_ids = fields.One2many(
+                                                                    'ir.attachment',
+                                                                    compute="_compute_x_sinergis_attachement_ids",
+                                                                    string='Attachments',
+                                                                    help='Attachments are linked to a document through model / res_id and to the message '
+                                                                        'through this field.')
+
+    @api.depends("x_sinergis_attachement_ids")
+    def _compute_x_sinergis_attachement_ids(self):
+        for rec in self:
+            if rec.mail_message_id:
+                attachement_ids = []
+                for attachement_id in rec.mail_message_id.attachement_ids:
+                    attachement_ids.append(attachement_id)
+                rec.x_sinergis_attachement_ids = attachement_ids
+            else:
+                rec.x_sinergis_attachement_ids = False
+
     @api.depends("x_sinergis_has_attachment")
     def _compute_x_sinergis_has_attachment (self):
         for rec in self:
