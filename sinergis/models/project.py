@@ -221,6 +221,11 @@ class ProjectProject(models.Model):
             'type': 'ir.actions.act_window',
             'target': 'current',
         }
+    
+    @api.onchange("x_sinergis_project_project_etat_projet")
+    def on_change_x_sinergis_project_project_etat_projet(self):
+        if self.x_sinergis_project_project_etat_projet == "Projet terminé":
+            self.date = datetime.now().strftime("%Y-%m-%d")
 
     @api.depends('x_sinergis_project_project_sale_order_contact')
     def _compute_x_sinergis_project_project_sale_order_contact (self):

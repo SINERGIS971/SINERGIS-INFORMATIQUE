@@ -49,6 +49,10 @@
         <separator/>
         <filter string="Projets terminés" name="filter_ended_project" domain="[('x_sinergis_project_project_etat_projet','=','Projet terminé')]"/>
         <filter string="Projets non terminés" name="filter_not_ended_project" domain="[('x_sinergis_project_project_etat_projet','!=','Projet terminé')]"/>
+        <separator/>
+        <filter string="Projets terminés depuis la semaine dernière" name="currentandlastweek_project_ended" domain="[
+        ('date','&gt;=',(context_today()+relativedelta(weeks=-2,days=1,weekday=0)).strftime('%Y-%m-%d')),
+        ('date','&lt;',context_today().strftime('%Y-%m-%d'))]" help="Projets terminés cette semaine et la semaine dernière" />
       </xpath>
 
       <xpath expr="//filter[@name='groupby_stage']" position="after">
