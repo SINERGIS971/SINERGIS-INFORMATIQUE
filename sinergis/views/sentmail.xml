@@ -13,19 +13,6 @@
             <field name="perm_unlink" eval="False"/>
     </record>
 
-    <!--<record id="sinergis.access_mail_message_sinergis_admin" model="ir.rule">
-            <field name="name">mail.message.sinergis.admin</field>
-            <field name="model_id" ref="mail.model_mail_message"/>
-            <field name="groups" eval="[(4, ref('base.group_system'))]"/>
-            <field name="domain_force">[('create_uid', '!=', False)]</field>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_write" eval="True"/>
-            <field name="perm_create" eval="True"/>
-            <field name="perm_unlink" eval="False"/>
-    </record>-->
-
-    <!-- ANCIEN INTERFACE - NOUS UTILISONS MAINTENANT LES VUES D'ODOO - A REMETTRE SI NECESSAIRE -->
-
     <record id="sinergis_email_message_sent_tree" model="ir.ui.view">
         <field name="name">sinergis_email_message_sent.tree</field>
         <field name="type">tree</field>
@@ -60,11 +47,11 @@
                             <field name="email_cc"/>
                         </group>
                         <notebook>
-                            <page string="Body" name="body">
+                            <page string="Contenu" name="body">
                                 <field name="body_html" widget="html" options="{'style-inline': true}"/>
                             </page>
-                            <page string="Attachments" name="attachments">
-                                <field name="x_sinergis_attachement_ids"/>
+                            <page string="PJ" name="attachments">
+                                <field name="x_sinergis_attachment_ids"/>
                             </page>
                         </notebook>
                 </sheet>
@@ -83,31 +70,6 @@
             </field>
     </record>
 
-    <!--<record id="sinergis_email_message_sent_form" model="ir.ui.view">
-        <field name="name">sinergis_email_message_sent.form</field>
-        <field name="type">form</field>
-        <field name="model">mail.message</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <field name="date"/>
-                        <field name="subject"/>
-                        <field name="author_id"/>
-                        <field name="partner_ids" widget="many2many_tags"/>
-                        <field name="mail_ids"/>
-                    </group>
-                    <field name="body" widget="html" options="{'style-inline': true}"/>
-                    <field name="attachment_ids" readonly="True">
-                        <tree>
-                            <field name="name" invisible="1"/>
-                            <field string="Fichier" name="datas" filename="name" widget="binary"/>
-                        </tree>
-                    </field>
-                </sheet>
-            </form>
-        </field>
-    </record>-->
 
     <record id="sinergis_email_message_sent_action" model="ir.actions.act_window">
         <field name="name">Mails envoyés</field>
@@ -121,15 +83,6 @@
             </p>
         </field>
     </record>
-
-    <!-- ANCIEN INTERFACE - NOUS UTILISONS MAINTENANT LES VUES D'ODOO - A REMETTRE SI NECESSAIRE -->
-
-    <!-- <record id="sinergis_email_message_sent_action_form" model="ir.actions.act_window.view">
-        <field name="sequence" eval="560"/>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="sinergis_email_message_sent_form"/>
-        <field name="act_window_id" ref="sinergis_email_message_sent_action"/>
-    </record> -->
 
     <record model="ir.actions.act_window.view" id="sinergis_email_message_sent_action_tree">
         <field name="sequence" eval="1"/>
