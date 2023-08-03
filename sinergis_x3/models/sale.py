@@ -159,7 +159,7 @@ class SaleOrder(models.Model):
                         product_format = product_format.replace("{uom}", uom)
 
                     # Check if multi-product CH
-                    if line.ch_multi:
+                    if line.ch_multi and "CONTRAT D'HEURES" in line.product_id.name:
                         if " MGE" in line.product_id.name:
                             product_format = "CHMGE"
                         else:
