@@ -315,6 +315,7 @@ class ProjectProject(models.Model):
                     vals["partner_id"] = sale_order_id.partner_id.id
                 if "name" in vals:
                     vals["name"] = f"{vals['name']} - {sale_order_id.x_sinergis_sale_order_objet}"
+                vals["date_start"] = datetime.now().strftime("%Y-%m-%d")
         projects = super(ProjectProject, self).create(list_value)
         return projects
 
