@@ -43,7 +43,7 @@ class MyActions(models.Model):
         data = {"SALFCY" : sinergis_x3_company_id.code,
                 "SOHTYP" : "NEW",
                 "CUSORDREF " : self.name,
-                "X_DEVODOO" : "",
+                "X_DEVODOO" : "S00000",
                 "ORDDAT" : datetime.now().strftime("%Y%m%d"),
                 "BPCORD" : partner_id_x3_code,
                 "REP" : commercial,
@@ -58,8 +58,14 @@ class MyActions(models.Model):
         line_qty = self.time
         line_text = f"Intervention par {self.consultant.name}"
         
-        #DEBUG
-        line_price_unit = 10
+        # Chargement du prix horaire de l'intervention
+        #TO DO : Faire la différene entre PME et MGE
+
+        line_price_unit = 0
+        if self.sinergis_product_id.type == "PME":
+            line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.hour_list_price_pme')
+        elif self.sinergis_product_id.type == "MGE":
+            line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.hour_list_price_mge')
 
         data_line = {
             "ITMREF" : line_product_format,
@@ -101,11 +107,16 @@ class MyActions(models.Model):
         path_x3_orders = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
         response = requests.post(base_url+path_x3_orders, data=data_soap.encode('utf-8'), headers=headers, verify=False).content
         
-        raise ValidationError(response.content)
         try:
             response_dict = xmltodict.parse(response)
             status = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["status"]["#text"]
         except:
-            return True
+            return [False, "Erreur rencontrée au moment de lire la réponse d'X3"]
+        
+        if status != "1":
+            return [False, "Erreur rencontrée sur X3! Réponse : {response}"]
+        else:
+            raise ValidationError("Transfert OK")
+
 
         return True

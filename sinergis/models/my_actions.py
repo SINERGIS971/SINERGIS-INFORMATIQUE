@@ -215,7 +215,7 @@ class MyActions(models.Model):
     @api.depends('product')
     def _compute_product (self):
         for rec in self:
-            rec.product = f"{rec.sinergis_product_id.name} {rec.sinergis_subproduct_id.name}"
+            rec.product = f"{rec.sinergis_product_id.name if rec.sinergis_product_id.name else ''} {rec.sinergis_subproduct_id.name if rec.sinergis_subproduct_id.name else ''}"
 
     @api.depends('intervention_count')
     def _compute_intervention_count (self):

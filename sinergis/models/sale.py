@@ -380,6 +380,8 @@ class Products (models.Model):
     _description = "Produits"
     active = fields.Boolean(string='Active', default=True)
     name = fields.Char(string="Product Name",required=True)
+    type = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type PME/MGE", default="PME", required=True)
+
 
 class SubProducts (models.Model):
     _name = "sale.products.subproducts"

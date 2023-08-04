@@ -52,6 +52,14 @@ class ResConfigSettings(models.TransientModel):
     contract_duration_validity = fields.Integer(string="Durée de validité d'un contrat annuel",
                               config_parameter='sinergis_x3.contract_duration_validity')
     
+    # PARAMETRAGE TARIF AU TEMPS PASSE
+
+    hour_list_price_pme = fields.Float(string="Prix horaire d'une intervention au temps passé pour la PME",
+                              config_parameter='sinergis_x3.hour_list_price_pme')
+    
+    hour_list_price_mge = fields.Float(string="Prix horaire d'une intervention au temps passé pour la MGE",
+                              config_parameter='sinergis_x3.hour_list_price_mge')
+    
     def test_x3_connection (self):
         if self.base_url_x3:
             urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
