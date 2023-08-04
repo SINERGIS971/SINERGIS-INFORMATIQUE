@@ -61,7 +61,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced,T.reinvoiced_company_id FROM
+            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced,T.reinvoiced_company_id,T.is_transfered_x3 FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -96,7 +96,8 @@ class MyActions(models.Model):
                     rp.country_id as country_id,
                     CASE WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='helpdesk' and bld.model_id=ht.id) > 0 THEN True else False END as is_billed,
                     CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) > 0 THEN True else False END as is_reinvoiced,
-                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) > 0 THEN (SELECT reinvoiced_company_id FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) else NULL END as reinvoiced_company_id
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) > 0 THEN (SELECT reinvoiced_company_id FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) else NULL END as reinvoiced_company_id,
+                    CASE WHEN (SELECT count(id) FROM sinergis_x3_myactions_transfer AS x3_transfer WHERE x3_transfer.model_type='helpdesk' and x3_transfer.model_id=ht.id) > 0 THEN True else False END as is_transfered_x3
                 FROM
                     helpdesk_ticket as ht
                 FULL JOIN
@@ -150,7 +151,8 @@ class MyActions(models.Model):
                     rp.country_id as country_id,
                     Case WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='calendar' and bld.model_id=ce.id) > 0 THEN True else False END as is_billed,
                                         CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) > 0 THEN True else False END as is_reinvoiced,
-                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) > 0 THEN (SELECT reinvoiced_company_id FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) else NULL END as reinvoiced_company_id
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) > 0 THEN (SELECT reinvoiced_company_id FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) else NULL END as reinvoiced_company_id,
+                    CASE WHEN (SELECT count(id) FROM sinergis_x3_myactions_transfer AS x3_transfer WHERE x3_transfer.model_type='calendar' and x3_transfer.model_id=ce.id) > 0 THEN True else False END as is_transfered_x3
                 FROM
                     calendar_event as ce
                 FULL JOIN
