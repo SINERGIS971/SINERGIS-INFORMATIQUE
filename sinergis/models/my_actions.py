@@ -378,9 +378,9 @@ class MyActions(models.Model):
             self.env["sinergis.myactions.transfer_x3"].create({
                 "model_type": self.origin,
                 "model_id": self.link_id,
-                "sinergis_x3_id": self.sinergis_x3_id,
-                "sinergis_x3_price_subtotal": self.sinergis_x3_price_subtotal,
-                "sinergis_x3_price_total": self.sinergis_x3_price_total,
+                "sinergis_x3_id": result[1]['sinergis_x3_id'],
+                "sinergis_x3_price_subtotal": result[1]['self.sinergis_x3_price_subtotal'],
+                "sinergis_x3_price_total": result[1]['self.sinergis_x3_price_total'],
             })
     def open_x3_transfer_button(self):
         return True

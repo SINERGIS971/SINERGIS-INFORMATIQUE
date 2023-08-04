@@ -138,9 +138,6 @@ class MyActions(models.Model):
                             sinergis_x3_price_subtotal = fld["#text"]
                         if fld["@NAME"] == "ORDINVATI":
                             sinergis_x3_price_total = fld["#text"]
-            self.sinergis_x3_id = sinergis_x3_id
-            self.sinergis_x3_price_total = sinergis_x3_price_total
-            self.sinergis_x3_price_subtotal = sinergis_x3_price_subtotal
         except:
             print("Récupération des données de la commande impossible")
 
