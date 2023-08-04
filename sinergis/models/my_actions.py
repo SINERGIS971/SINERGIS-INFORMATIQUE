@@ -15,8 +15,9 @@ class MyActionsReinvoiced(models.Model):
 
     model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
     model_id = fields.Integer(string="")
-
     sinergis_x3_id = fields.Char(string="Numéro X3")
+    sinergis_x3_price_subtotal = fields.Float(string="Total HT")
+    sinergis_x3_price_total = fields.Float(string="Total TTC")
 
 class MyActions(models.Model):
     _name = "sinergis.myactions"
@@ -373,7 +374,14 @@ class MyActions(models.Model):
         result = self._send_order_for_x3()
         if result[0] == False:
             raise ValidationError(result[1])
-    
+        else:
+            self.env["sinergis.myactions.transfer_x3"].create({
+                "model_type": self.origin,
+                "model_id": self.link_id,
+                "sinergis_x3_id": self.sinergis_x3_id,
+                "sinergis_x3_price_subtotal": self.sinergis_x3_price_subtotal,
+                "sinergis_x3_price_total": self.sinergis_x3_price_total,
+            })
     def open_x3_transfer_button(self):
         return True
 

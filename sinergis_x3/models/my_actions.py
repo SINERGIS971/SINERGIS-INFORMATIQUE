@@ -114,9 +114,36 @@ class MyActions(models.Model):
             return [False, "Erreur rencontrée au moment de lire la réponse d'X3"]
         
         if status != "1":
-            return [False, "Erreur rencontrée sur X3! Réponse : {response}"]
-        else:
-            raise ValidationError("Transfert OK")
+            return [False, f"Erreur rencontrée sur X3! Réponse : {response}"]
+        
+        #Transfer done
 
+        sinergis_x3_id = False
+        sinergis_x3_price_subtotal = False           
+        sinergis_x3_price_total = False
+        try:
+            result_xml = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["resultXml"]["#text"]
+            result_xml = result_xml.replace("""'<?xml version="1.0" encoding="UTF-8"?>""","")
+            result_dict = xmltodict.parse(result_xml)
+            sinergis_x3_price_subtotal = False           
+            sinergis_x3_price_total = False
+            for grp in result_dict["RESULT"]["GRP"]:
+                if grp["@ID"] == "SOH0_1":
+                    for fld in grp["FLD"]:
+                        if fld["@NAME"] == "SOHNUM":
+                            sinergis_x3_id = fld["#text"]
+                if grp["@ID"] == "SOH4_4":
+                    for fld in grp["FLD"]:
+                        if fld["@NAME"] == "ORDINVNOT":
+                            sinergis_x3_price_subtotal = fld["#text"]
+                        if fld["@NAME"] == "ORDINVATI":
+                            sinergis_x3_price_total = fld["#text"]
+            self.sinergis_x3_id = sinergis_x3_id
+            self.sinergis_x3_price_total = sinergis_x3_price_total
+            self.sinergis_x3_price_subtotal = sinergis_x3_price_subtotal
+        except:
+            print("Récupération des données de la commande impossible")
 
-        return True
+        return [True, {'sinergis_x3_id': sinergis_x3_id,
+                       'sinergis_x3_price_subtotal': sinergis_x3_price_subtotal,
+                       'sinergis_x3_price_total': sinergis_x3_price_total}]
