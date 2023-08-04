@@ -370,7 +370,9 @@ class MyActions(models.Model):
             raise ValidationError("Il manque le produit de cette activité pour pouvoir la transférer vers X3.")
         if not self.sinergis_subproduct_id:
             raise ValidationError("Il manque le produit de cette activité pour pouvoir la transférer vers X3.")
-        self._send_order_for_x3()
+        result = self._send_order_for_x3()
+        if result[0] == False:
+            raise ValidationError(result[1])
     
     def open_x3_transfer_button(self):
         return True
