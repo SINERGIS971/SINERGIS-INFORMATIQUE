@@ -355,15 +355,17 @@ class MyActions(models.Model):
                 'target': 'self',
             }
         raise ValidationError(f"Cet évènement comporte {str(report_count)} rapport(s) d'intervention validé(s). Pour y accéder veuillez ouvrir (bouton OUVRIR) l'évènement et cliquer sur l'onglet \"Rapport validé\" afin d’accéder à l’ensemble des rapports validés.")
-        # Pour le moment pas de solution pour pouvoir télécharger plusieurs rapport d'intervention dans le champ one2Many du calendrier.
-        #return {
-        #    'name': 'Rapport',
-        #    'type': 'ir.actions.act_url',
-        #    'url': '/web/content/?model=calendar.event&id={}&field=x_sinergis_calendar_event_rapport_intervention_valide&download=true'.format(
-        #        self.link_id
-        #    ),
-        #    'target': 'self',
-        #}
+
+    # DEV EN COURS : Transfert de la presta vers X3 pour les temps passé
+
+    def start_x3_transfer_button(self):
+        return True
+    
+    def open_x3_transfer_button(self):
+        return True
+
+    def _send_order_for_x3 (self):
+        return True
 
 class MyActionsPrinted(models.Model):
     _name = "sinergis.myactions.printed"

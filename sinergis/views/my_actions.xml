@@ -99,6 +99,12 @@
                 <button name="invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
                 <button name="no_invoiced_button_default" string="Facturée" class="oe_highlight btn-warning" type="object" attrs="{'invisible': [('billing',  '!=', 'Contrat heure')]}"/>
                 <button name="invoiced_button_default" string="Non facturable" class="oe_highlight btn-warning" type="object" attrs="{'invisible': ['&amp;','&amp;','&amp;',('billing',  '!=', 'À définir ultérieurement'),('billing',  '!=', 'Non facturable interne'),('billing',  '!=', 'Non facturable'),('billing',  '!=', 'Avant-vente')]}"/>
+                
+                <!-- TRANSFERT X3 -->
+                <field name="reinvoiced_company_id" invisible="1"/>
+                <button name="start_x3_transfer_button" string="X3" class="oe_highlight btn-alert" icon="fa-refresh" type="object"/>
+                <button name="open_x3_transfer_button" string="X3" class="oe_highlight btn-success" icon="fa-check" type="object"/>
+
             </tree>
         </field>
     </record>
