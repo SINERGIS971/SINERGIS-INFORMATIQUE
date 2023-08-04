@@ -29,6 +29,8 @@ class MyActions(models.Model):
     origin = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')], string="Origine")
     date = fields.Datetime(readonly=True, string="Date")
     client = fields.Many2one("res.partner",string="Client")
+    sinergis_product_id = fields.Many2one("sale.products",string="Produit")
+    sinergis_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-produit")
     product = fields.Char(string = "Produit",compute="_compute_product")
     billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Avant-vente", "Avant-vente")], string="Facturation")
     billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable')], string="Facturable/Non facturable")
@@ -74,7 +76,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced,T.reinvoiced_company_id,T.is_transfered_x3 FROM
+            T.name,T.date,T.client,T.sinergis_product_id,T.sinergis_subproduct_id,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced,T.reinvoiced_company_id,T.is_transfered_x3 FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -82,6 +84,8 @@ class MyActions(models.Model):
                     ht.name as name,
                     ht.x_sinergis_helpdesk_ticket_start_time as date,
                     ht.partner_id as client,
+                    ht.x_sinergis_helpdesk_ticket_produits_new as sinergis_product_id,
+                    ht.x_sinergis_helpdesk_ticket_sous_produits_new as sinergis_subproduct_id,
                     REPLACE(ht.x_sinergis_helpdesk_ticket_facturation,'heures','heure') as billing,
                     CASE
                         WHEN ht.x_sinergis_helpdesk_ticket_facturation = 'À définir ultérieurement' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Non facturable interne' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Non facturable' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Avant-vente'
@@ -138,6 +142,8 @@ class MyActions(models.Model):
                     ce.name as name,
                     ce.start as date,
                     ce.x_sinergis_calendar_event_client as client,
+                    ce.x_sinergis_calendar_event_produits_new as sinergis_product_id,
+                    ce.x_sinergis_calendar_event_sous_produits_new as sinergis_subproduct_id,
                     REPLACE(ce.x_sinergis_calendar_event_facturation,'heures','heure') as billing,
                     CASE
                         WHEN ce.x_sinergis_calendar_event_facturation = 'À définir ultérieurement' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable interne' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable' OR ce.x_sinergis_calendar_event_facturation = 'Avant-vente'
@@ -209,22 +215,7 @@ class MyActions(models.Model):
     @api.depends('product')
     def _compute_product (self):
         for rec in self:
-            if rec.origin == "helpdesk":
-                ticket = rec.env['helpdesk.ticket'].search([('id', '=', rec.link_id)])
-                if ticket.x_sinergis_helpdesk_ticket_produits_new and ticket.x_sinergis_helpdesk_ticket_sous_produits_new:
-                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits_new.name + " " + ticket.x_sinergis_helpdesk_ticket_sous_produits_new.name
-                elif ticket.x_sinergis_helpdesk_ticket_produits_new:
-                    rec.product = ticket.x_sinergis_helpdesk_ticket_produits_new.name
-                else: 
-                    rec.product = ""
-            else:
-                calendar = rec.env['calendar.event'].search([('id', '=', rec.link_id)])
-                if calendar.x_sinergis_calendar_event_produits_new and calendar.x_sinergis_calendar_event_sous_produits_new:
-                    rec.product = calendar.x_sinergis_calendar_event_produits_new.name + " " + calendar.x_sinergis_calendar_event_sous_produits_new.name
-                elif calendar.x_sinergis_calendar_event_produits_new:
-                    rec.product = calendar.x_sinergis_calendar_event_produits_new.name
-                else: 
-                    rec.product = ""
+            rec.product = f"{rec.sinergis_product_id.name} {rec.sinergis_subproduct_id.name}"
 
     @api.depends('intervention_count')
     def _compute_intervention_count (self):
@@ -374,13 +365,16 @@ class MyActions(models.Model):
     # DEV EN COURS : Transfert de la presta vers X3 pour les temps passé
 
     def start_x3_transfer_button(self):
-        return True
+        #Vérification du produit et du sous-produit
+        if not self.sinergis_product_id:
+            raise ValidationError("Il manque le produit de cette activité pour pouvoir la transférer vers X3.")
+        if not self.sinergis_subproduct_id:
+            raise ValidationError("Il manque le produit de cette activité pour pouvoir la transférer vers X3.")
+        self._send_order_for_x3()
     
     def open_x3_transfer_button(self):
         return True
 
-    def _send_order_for_x3 (self):
-        return True
 
 class MyActionsPrinted(models.Model):
     _name = "sinergis.myactions.printed"
