@@ -389,7 +389,7 @@ class MyActions(models.Model):
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'sinergis.myactions.transfer_x3',
-            'res_id': self.env['helpdesk.ticket'].search([('model_id', '=', self.link_id),('model_type', '=', self.origin)],limit=1).id,
+            'res_id': self.env['sinergis.myactions.transfer_x3'].search([('model_id', '=', self.link_id),('model_type', '=', self.origin)],limit=1).id,
             'target': 'new',
             'flags':{'mode':'readonly'},
             }
