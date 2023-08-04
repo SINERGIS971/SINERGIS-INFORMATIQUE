@@ -379,11 +379,20 @@ class MyActions(models.Model):
                 "model_type": self.origin,
                 "model_id": self.link_id,
                 "sinergis_x3_id": result[1]['sinergis_x3_id'],
-                "sinergis_x3_price_subtotal": result[1]['self.sinergis_x3_price_subtotal'],
-                "sinergis_x3_price_total": result[1]['self.sinergis_x3_price_total'],
+                "sinergis_x3_price_subtotal": result[1]['sinergis_x3_price_subtotal'],
+                "sinergis_x3_price_total": result[1]['sinergis_x3_price_total'],
             })
+
     def open_x3_transfer_button(self):
-        return True
+        return {
+            'name': 'Detail du transfert',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'sinergis.myactions.transfer_x3',
+            'res_id': self.env['helpdesk.ticket'].search([('model_id', '=', self.link_id),('model_type', '=', self.origin)],limit=1).id,
+            'target': 'new',
+            'flags':{'mode':'readonly'},
+            }
 
 
 class MyActionsPrinted(models.Model):
