@@ -9,6 +9,15 @@ class MyActionsReinvoiced(models.Model):
     model_id = fields.Integer(string="")
     reinvoiced_company_id = fields.Many2one("res.company",string="Agence")
 
+class MyActionsReinvoiced(models.Model):
+    _name = "sinergis.myactions.transfer_x3"
+    _description = "Detail du transfert au temps passé vers X3"
+
+    model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
+    model_id = fields.Integer(string="")
+
+    sinergis_x3_id = fields.Char(string="Numéro X3")
+
 class MyActions(models.Model):
     _name = "sinergis.myactions"
     _auto = False
@@ -54,6 +63,10 @@ class MyActions(models.Model):
     is_reinvoiced = fields.Boolean(string="")
     reinvoiced_company_id = fields.Many2one("res.company")
 
+    # Transfert de commande vers X3 pour le temps passé
+
+    is_transfered_x3 = fields.Boolean(string="")
+
     #@api.model_cr
     #[16/10/22] Helpdesk : Variable 'date' fixée à 'start_time' pour ne pas voir la date de création mais la date de traitement du ticket
     def init(self):
@@ -97,7 +110,7 @@ class MyActions(models.Model):
                     CASE WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='helpdesk' and bld.model_id=ht.id) > 0 THEN True else False END as is_billed,
                     CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) > 0 THEN True else False END as is_reinvoiced,
                     CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) > 0 THEN (SELECT reinvoiced_company_id FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='helpdesk' and reinv.model_id=ht.id) else NULL END as reinvoiced_company_id,
-                    CASE WHEN (SELECT count(id) FROM sinergis_x3_myactions_transfer AS x3_transfer WHERE x3_transfer.model_type='helpdesk' and x3_transfer.model_id=ht.id) > 0 THEN True else False END as is_transfered_x3
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_transfer_x3 AS x3_transfer WHERE x3_transfer.model_type='helpdesk' and x3_transfer.model_id=ht.id) > 0 THEN True else False END as is_transfered_x3
                 FROM
                     helpdesk_ticket as ht
                 FULL JOIN
@@ -152,7 +165,7 @@ class MyActions(models.Model):
                     Case WHEN (SELECT count(id) FROM sinergis_myactions_billed AS bld WHERE bld.model_type='calendar' and bld.model_id=ce.id) > 0 THEN True else False END as is_billed,
                                         CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) > 0 THEN True else False END as is_reinvoiced,
                     CASE WHEN (SELECT count(id) FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) > 0 THEN (SELECT reinvoiced_company_id FROM sinergis_myactions_reinvoiced AS reinv WHERE reinv.model_type='calendar' and reinv.model_id=ce.id) else NULL END as reinvoiced_company_id,
-                    CASE WHEN (SELECT count(id) FROM sinergis_x3_myactions_transfer AS x3_transfer WHERE x3_transfer.model_type='calendar' and x3_transfer.model_id=ce.id) > 0 THEN True else False END as is_transfered_x3
+                    CASE WHEN (SELECT count(id) FROM sinergis_myactions_transfer_x3 AS x3_transfer WHERE x3_transfer.model_type='calendar' and x3_transfer.model_id=ce.id) > 0 THEN True else False END as is_transfered_x3
                 FROM
                     calendar_event as ce
                 FULL JOIN
