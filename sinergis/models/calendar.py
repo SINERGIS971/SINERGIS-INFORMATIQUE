@@ -36,7 +36,7 @@ class CalendarEvent(models.Model):
 
     x_sinergis_calendar_event_produit_nom_complet = fields.Char(string="Produit", readonly=True, compute="_compute_x_sinergis_calendar_event_produit_nom_complet")
 
-    x_sinergis_calendar_event_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client")
+    x_sinergis_calendar_event_type_client = fields.Selection(related="x_sinergis_calendar_event_produits_new.type")
 
     #PAGE FACTURATION
     x_sinergis_calendar_event_object = fields.Char(string="Objet")
@@ -254,18 +254,13 @@ class CalendarEvent(models.Model):
     @api.onchange("x_sinergis_calendar_event_produits_new")
     def on_change_x_sinergis_calendar_event_produits_new(self):
         self.x_sinergis_calendar_event_sous_produits_new = False
-        CalendarEvent.update_type_client(self)
-
-    @api.onchange("x_sinergis_calendar_event_sous_produits_new")
-    def on_change_x_sinergis_calendar_event_sous_produits_new(self):
-        CalendarEvent.update_type_client(self)
         
     @api.onchange("x_sinergis_calendar_event_start_time","x_sinergis_calendar_event_end_time")
     def _update_temps_passe (self):
         if self.x_sinergis_calendar_event_end_time and self.x_sinergis_calendar_event_start_time:
             self.x_sinergis_calendar_duree_facturee = (self.x_sinergis_calendar_event_end_time - self.x_sinergis_calendar_event_start_time).total_seconds() / 3600
 
-    def update_type_client (self):
+    """def update_type_client (self):
         if self.x_sinergis_calendar_event_produits_new:
             value = self.x_sinergis_calendar_event_produits_new.name
             if value == "CEGID":
@@ -301,6 +296,7 @@ class CalendarEvent(models.Model):
                         self.x_sinergis_calendar_event_type_client = "PME"
                     elif subvalue == "AUTRE":
                         self.x_sinergis_calendar_event_type_client = "PME"
+            """
 
     @api.onchange("x_sinergis_calendar_event_facturation")
     def on_change_x_sinergis_calendar_event_facturation(self):

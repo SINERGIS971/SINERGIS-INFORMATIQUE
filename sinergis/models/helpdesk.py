@@ -171,11 +171,6 @@ class HelpdeskTicket(models.Model):
     @api.onchange("x_sinergis_helpdesk_ticket_produits_new")
     def on_change_x_sinergis_helpdesk_ticket_produits_new(self):
         self.x_sinergis_helpdesk_ticket_sous_produits_new = False
-        HelpdeskTicket.update_type_client(self)
-
-    @api.onchange("x_sinergis_helpdesk_ticket_sous_produits_new")
-    def on_change_x_sinergis_helpdesk_ticket_sous_produits_new(self):
-        HelpdeskTicket.update_type_client(self)
 
     @api.onchange("x_sinergis_helpdesk_ticket_start_time", "x_sinergis_helpdesk_ticket_end_time")
     def _update_temps_passe (self):
