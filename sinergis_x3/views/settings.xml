@@ -15,6 +15,7 @@
             <tree string="Transcodage articles">
                 <field name="product_template_id"/>
                 <field name="format"/>
+                <field name="external_format" optional="hide"/>
             </tree>
         </field>
     </record>

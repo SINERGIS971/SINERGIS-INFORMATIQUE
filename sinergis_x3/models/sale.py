@@ -83,7 +83,7 @@ class SaleOrder(models.Model):
         for rec in self:
             service_in_order_line = False
             for line in rec.order_line:
-                if line.is_service:
+                if line.product_id.is_service:
                     service_in_order_line = True
             rec.service_in_order_line = service_in_order_line
 
@@ -172,7 +172,11 @@ class SaleOrder(models.Model):
                     self.create_log(content=f"Il n'y a pas de transcodage pour le produit {line.x_sinergis_sale_order_line_product_id.name}", log_type="danger")
                     return True
                 
-                product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).format
+                if line.x_sinergis_sale_order_line_product_id.is_service and line.external_service:
+                    product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).external_format
+                else:
+                    product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).format
+                
                 if product_format :
                     product_format = product_format.replace("{product}", sinergis_product)
                     # Load the subproduct
