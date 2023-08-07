@@ -63,7 +63,7 @@ class MyActions(models.Model):
                 "SOHTYP" : "NEW",
                 "CUSORDREF " : self.name,
                 "X_DEVODOO" : X_DEVODOO,
-                "ORDDAT" : fields.Datetime.context_timestamp(self, self.date).strftime("%Y%m%d"),
+                "ORDDAT" : fields.Datetime.context_timestamp(self.with_context(tz=self.env.user.tz), self.date).strftime("%Y%m%d"),
                 "BPCORD" : partner_id_x3_code,
                 "REP" : commercial,
                 "REP(1)" : False,
