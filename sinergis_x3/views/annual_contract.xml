@@ -58,6 +58,18 @@
         <field name="arch" type="xml">
             <search>
                 <field name="CUSORDREF" filter_domain="[('CUSORDREF', 'ilike', self)]"/>
+                <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
+                <filter string="Expiré" name="expired_filter" domain="[('expired','=', True)]"></filter>
+                <filter string="Non expiré" name="expired_filter" domain="[('expired','=', True)]"></filter>
+                <group expand="0" string="Group By">
+                    <filter string="Client" name="group_by_partner_id" context="{'group_by':'partner_id'}"/>
+                    <filter string="Site de vente" name="group_by_SALFCY" context="{'group_by':'SALFCY'}"/>
+                    <filter string="SOHTYP" name="group_by_SOHTYP" context="{'group_by':'SOHTYP'}"/>
+                    <filter string="Type d'article" name="group_by_TSICOD0" context="{'group_by':'TSICOD0'}"/>
+                    <filter string="Logiciel" name="group_by_TSICOD1" context="{'group_by':'TSICOD1'}"/>
+                    <filter string="Module de logiciel" name="group_by_TSICOD2" context="{'group_by':'TSICOD2'}"/>
+                    <filter string="Hébergement" name="group_by_TSICOD4" context="{'group_by':'TSICOD4'}"/>
+                </group>
             </search>
         </field>
     </record>
@@ -68,6 +80,8 @@
           <field name="arch" type="xml">
               <tree decoration-danger="expired==True" default_order='ORDDAT'>
                         <field name="expired" invisible="1"/>
+                        <field name="partner_id"/>
+                        <field name="BPCORD" optional="hide"/>
                         <field name="X_SERNUM"/>
                         <field name="SALFCY"/>
                         <field name="SOHTYP" optional="hide"/>
@@ -113,12 +127,14 @@
 
       <menuitem id="sinergis_x3_annual_contract_root"
               name="Contrats annuels"
-              web_icon="sinergis_rgpd,static/description/icon_2.png"
+              groups="sinergis_x3.group_annual_contract_menu"
+              web_icon="sinergis_x3,static/description/icon_2.png"
               sequence="55"/>
 
       <menuitem id="sinergis_x3_annual_contract_root_root"
               parent="sinergis_x3_annual_contract_root"
               name="Contrats annuels"
+              groups="sinergis_x3.group_annual_contract_menu"
               action="sinergis_x3_annual_contract_action"
               sequence="10"/>
 
