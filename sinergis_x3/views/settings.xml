@@ -26,8 +26,10 @@
             <form>
                 <sheet>
                     <group>
+                    <field name="is_service" invisible="1"/>
                     <field name="product_template_id"/>
                     <field name="format"/>
+                    <field name="external_format" attrs="{'invisible': [['is_service','=',False]]}"/>
                     </group>
                     <br/>
                     <p style="font-size: 10px;">Guide : Pour renseigner le format, vous disposez des variables suivantes :

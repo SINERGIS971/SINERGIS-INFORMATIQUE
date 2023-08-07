@@ -260,44 +260,6 @@ class CalendarEvent(models.Model):
         if self.x_sinergis_calendar_event_end_time and self.x_sinergis_calendar_event_start_time:
             self.x_sinergis_calendar_duree_facturee = (self.x_sinergis_calendar_event_end_time - self.x_sinergis_calendar_event_start_time).total_seconds() / 3600
 
-    """def update_type_client (self):
-        if self.x_sinergis_calendar_event_produits_new:
-            value = self.x_sinergis_calendar_event_produits_new.name
-            if value == "CEGID":
-                self.x_sinergis_calendar_event_type_client = "MGE"
-            elif value == "E2TIME":
-                self.x_sinergis_calendar_event_type_client = "PME"
-            elif value == "MESBANQUES":
-                self.x_sinergis_calendar_event_type_client = "PME"
-            elif value == "OPEN BEE":
-                self.x_sinergis_calendar_event_type_client = "PME"
-            elif value == "QUARKSUP":
-                self.x_sinergis_calendar_event_type_client = "MGE"
-            elif value == "SAGE 100":
-                self.x_sinergis_calendar_event_type_client = "PME"
-            elif value == "SAGE 1000":
-                self.x_sinergis_calendar_event_type_client = "MGE"
-            elif value == "SAP":
-                self.x_sinergis_calendar_event_type_client = "MGE"
-            elif value == "VIF":
-                self.x_sinergis_calendar_event_type_client = "MGE"
-            elif value == "SAGE X3":
-                self.x_sinergis_calendar_event_type_client = "MGE"
-            elif value == "XLSOFT":
-                self.x_sinergis_calendar_event_type_client = "MGE"
-            elif value == "XRT":
-                self.x_sinergis_calendar_event_type_client = "MGE"
-            elif value == "DIVERS":
-                if self.x_sinergis_calendar_event_sous_produits_new:
-                    subvalue = self.x_sinergis_calendar_event_sous_produits_new.name
-                    if subvalue == "SCANFACT":
-                        self.x_sinergis_calendar_event_type_client = "PME"
-                    elif subvalue == "WINDEV":
-                        self.x_sinergis_calendar_event_type_client = "PME"
-                    elif subvalue == "AUTRE":
-                        self.x_sinergis_calendar_event_type_client = "PME"
-            """
-
     @api.onchange("x_sinergis_calendar_event_facturation")
     def on_change_x_sinergis_calendar_event_facturation(self):
         if self.x_sinergis_calendar_event_project_transfered :

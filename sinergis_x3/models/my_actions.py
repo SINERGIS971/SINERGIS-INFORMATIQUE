@@ -17,6 +17,9 @@ class MyActions(models.Model):
 
     # Transfert de Odoo vers X3
     def _send_order_for_x3 (self):
+        # Vérification si l'utilisateur possède les droits
+        if not self.env.user.has_group('sinegis_x3.group_myactivity_transfer'):
+            return [False, f"Vous n'êtes pas autorisé à transférer cette intervention dans X3. Veuillez contacter un administrateur système."]
         # Chargement du code produit et sous-produit
         product_code = self.env["sinergis_x3.settings.sinergis_product"].search([("sinergis_product_id","=",self.sinergis_product_id.id)], limit=1).code
         subproduct_code = self.env["sinergis_x3.settings.sinergis_subproduct"].search([("sinergis_subproduct_id","=",self.sinergis_subproduct_id.id)], limit=1).code

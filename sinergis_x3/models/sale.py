@@ -17,6 +17,7 @@ class SaleOrderLine(models.Model):
     is_ch = fields.Boolean(related="product_id.is_ch")
     hosted = fields.Boolean(string="Hébergé", default=False)
     ch_multi = fields.Boolean(string="CH MULTI", default=True)
+    external_service = fields.Boolean(string="Presta. externe", default=False)
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -25,6 +26,7 @@ class SaleOrder(models.Model):
 
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
     ch_in_order_line = fields.Boolean(compute="_compute_ch_in_order_line") # Si il y a un contrat d'heures dans les lignes de commande
+    service_in_order_line = fields.Boolean(compute="_compute_service_in_order_line") # Si il y a une prestation dans les lignes de commande
     sinergis_x3_transfered = fields.Boolean(string="Transfert X3",default=False) # Permet de savoir si le devis a déjà été transféré vers X3
     sinergis_x3_id = fields.Char(string="Numéro X3")
     sinergis_x3_price_subtotal = fields.Float(string="Total HT dans X3 (€)", default=False)
@@ -57,6 +59,33 @@ class SaleOrder(models.Model):
                 rec.sinergis_x3_correct_price = False
             else:
                 rec.sinergis_x3_correct_price = True 
+
+    @api.depends("hostable_in_order_line", "order_line")
+    def _compute_hostable_in_order_line(self):
+        for rec in self:
+            hostable_in_order_line = False
+            for line in rec.order_line:
+                if line.is_hostable :
+                    hostable_in_order_line = True
+            rec.hostable_in_order_line = hostable_in_order_line
+
+    @api.depends("ch_in_order_line", "order_line")
+    def _compute_ch_in_order_line(self):
+        for rec in self:
+            ch_in_order_line = False
+            for line in rec.order_line:
+                if line.is_ch:
+                    ch_in_order_line = True
+            rec.ch_in_order_line = ch_in_order_line
+
+    @api.depends("service_in_order_line", "order_line")
+    def _compute_service_in_order_line(self):
+        for rec in self:
+            service_in_order_line = False
+            for line in rec.order_line:
+                if line.is_service:
+                    service_in_order_line = True
+            rec.service_in_order_line = service_in_order_line
 
     #Bouton qui informe que la commande est bien synchronisée sur Odoo
     def sinegis_x3_header_connected (self):
@@ -279,24 +308,6 @@ class SaleOrder(models.Model):
         #Envoyer le mail aux contacts concernés
         self._send_email_for_x3(sinergis_x3_id, sinergis_x3_price_total, sinergis_x3_price_subtotal)
         
-
-    @api.depends("hostable_in_order_line", "order_line")
-    def _compute_hostable_in_order_line(self):
-        for rec in self:
-            hostable_in_order_line = False
-            for line in rec.order_line:
-                if line.is_hostable :
-                    hostable_in_order_line = True
-            rec.hostable_in_order_line = hostable_in_order_line
-
-    @api.depends("ch_in_order_line", "order_line")
-    def _compute_ch_in_order_line(self):
-        for rec in self:
-            ch_in_order_line = False
-            for line in rec.order_line:
-                if line.is_ch:
-                    ch_in_order_line = True
-            rec.ch_in_order_line = ch_in_order_line
     
 class SaleOrderOdooX3Log (models.Model):
     _name = "sale.order.odoo_x3_log"

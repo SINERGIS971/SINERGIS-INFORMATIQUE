@@ -9,7 +9,13 @@ class SinergisX3SettingsProductTemplate(models.Model):
     _rec_name = 'product_template_id'
 
     product_template_id = fields.Many2one("product.template", string="Article", required=True)
+    is_service = fields.Boolean(related="product_template_id")
     format = fields.Char(string="Format de l'article X3", required=True)
+    external_format = fields.Char(string="Format de l'article X3 pour prestation externe")
+
+    @api.onchange("product_template_id")
+    def onchange_product_template_id (self):
+        self.external_format = False
 
 class SinergisX3SettingsSinergisProduct(models.Model):
     _name = "sinergis_x3.settings.sinergis_product"
