@@ -102,7 +102,7 @@
                 
                 <!-- TRANSFERT X3 -->
                 <field name="is_transfered_x3" invisible="1"/>
-                <button name="start_x3_transfer_button" string="X3" class="oe_highlight btn-danger" icon="fa-refresh" type="object" attrs="{'invisible': ['|',('is_transfered_x3',  '=', True),('billing',  '!=', 'Temps passé')]}" confirm="Souhaitez-vous vraiment transférer cette commande vers X3 ?"/>
+                <button name="start_x3_transfer_button" string="X3" class="oe_highlight btn-danger" icon="fa-refresh" type="object" attrs="{'invisible': ['|','|',('is_transfered_x3',  '=', True),('billing',  '!=', 'Temps passé'),('is_billed', '=', True)]}" confirm="Souhaitez-vous vraiment transférer cette commande vers X3 ?"/>
                 <button name="open_x3_transfer_button" string="X3" class="oe_highlight btn-success" icon="fa-check" type="object" attrs="{'invisible': [('is_transfered_x3',  '=', False)]}"/>
 
             </tree>
@@ -150,6 +150,29 @@
         <field name="view_mode">pivot</field>
         <field name="view_id" ref="sinergis_my_actions_pivot"/>
         <field name="act_window_id" ref="sinergis_my_actions_action"/>
+    </record>
+
+    <!-- TRANSFERT X3 -->
+
+    <record id="sinergis_myactions_transfer_x3_form" model="ir.ui.view">
+        <field name="name">sinergis.myactions.transfer_x3.form</field>
+        <field name="type">form</field>
+        <field name="model">sinergis.myactions.transfer_x3</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sinergis_x3_id"/>
+                        </group>
+                        <group>
+                            <field name="sinergis_x3_price_subtotal"/>
+                            <field name="sinergis_x3_price_total"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
     </record>
 
 <!-- MENU -->

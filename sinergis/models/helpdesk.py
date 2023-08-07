@@ -42,7 +42,7 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_produit_nom_complet = fields.Char(string="Produit", readonly=True, compute="_compute_x_sinergis_helpdesk_ticket_produit_nom_complet")
 
-    x_sinergis_helpdesk_ticket_type_client = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type de client")
+    x_sinergis_helpdesk_ticket_type_client = fields.Selection(related="x_sinergis_helpdesk_ticket_produits_new.type")
 
     x_sinergis_helpdesk_ticket_show_facturation = fields.Boolean(default=0)
 
@@ -182,7 +182,7 @@ class HelpdeskTicket(models.Model):
         if self.x_sinergis_helpdesk_ticket_end_time and self.x_sinergis_helpdesk_ticket_start_time:
             self.x_sinergis_helpdesk_ticket_temps_passe = (self.x_sinergis_helpdesk_ticket_end_time - self.x_sinergis_helpdesk_ticket_start_time).total_seconds() / 3600
 
-    def update_type_client (self):
+    """def update_type_client (self):
         if self.x_sinergis_helpdesk_ticket_produits_new:
             value = self.x_sinergis_helpdesk_ticket_produits_new.name
             if value == "CEGID":
@@ -218,6 +218,7 @@ class HelpdeskTicket(models.Model):
                         self.x_sinergis_helpdesk_ticket_type_client = "PME"
                     elif subvalue == "AUTRE":
                         self.x_sinergis_helpdesk_ticket_type_client = "PME"
+                        """
 
     @api.depends('x_sinergis_helpdesk_ticket_taches')
     def _compute_tasks (self):
@@ -251,7 +252,6 @@ class HelpdeskTicket(models.Model):
     @api.onchange("partner_id")
     def on_change_partner_id(self):
         self.x_sinergis_helpdesk_ticket_contact = False
-        self.x_sinergis_helpdesk_ticket_type_client = False
         self.x_sinergis_helpdesk_ticket_project = False
         self.x_sinergis_helpdesk_ticket_tache = False
         self.x_sinergis_helpdesk_ticket_tache2 = False

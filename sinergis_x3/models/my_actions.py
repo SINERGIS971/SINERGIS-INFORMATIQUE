@@ -15,16 +15,18 @@ import xmltodict
 class MyActions(models.Model):
     _inherit = "sinergis.myactions"
 
-    # Transfert Odoo - X3
-
+    # Transfert de Odoo vers X3
     def _send_order_for_x3 (self):
+        # Chargement du code produit et sous-produit
         product_code = self.env["sinergis_x3.settings.sinergis_product"].search([("sinergis_product_id","=",self.sinergis_product_id.id)], limit=1).code
         subproduct_code = self.env["sinergis_x3.settings.sinergis_subproduct"].search([("sinergis_subproduct_id","=",self.sinergis_subproduct_id.id)], limit=1).code
+        # Vérification si le transcodage produit / sous-produit existe bien
         if not product_code:
             return [False, f"Le produit {self.sinergis_product_id} n'est pas transcodé."]
         if not subproduct_code:
             return [False, f"Le sous-produit {self.sinergis_subproduct_id} n'est pas transcodé."]
         
+        # Vérification de l'activation du module Odoo - X3
         enable = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.enable')
         if not enable:
             return [False, "Le module de transfert d'X3 n'est pas activé. Veuillez l'activer dans les paramètres."]
@@ -40,6 +42,11 @@ class MyActions(models.Model):
         if not partner_id_x3_code:
             missing_data.append(f"code X3 du client ({self.client.name})")
 
+        # Stop le processus s'il y a une donnée manquante
+        if len(missing_data) > 0:
+            raise ValidationError(f"Echec du transfert ! Éléments manquants : {','.join(missing_data)} ")
+
+        # Construction du tableau de paramètres
         data = {"SALFCY" : sinergis_x3_company_id.code,
                 "SOHTYP" : "NEW",
                 "CUSORDREF " : self.name,
@@ -50,17 +57,17 @@ class MyActions(models.Model):
                 "REP(1)" : False,
                 "DEMDLVDAT" : False}
         
+        # Création du paramétrage de la ligne
         line_product_format = f"I{product_code}{subproduct_code}PH"
+        # Ajout d'une description à la ligne
         if self.date:
             line_description = f"Intervention le {self.date.strftime('%d/%m/%Y %H:%M:%S')}"
         else :
             line_description = "Intervention"
-        line_qty = self.time
+        line_qty = self.time # Quantité en heures
         line_text = f"Intervention par {self.consultant.name}"
         
-        # Chargement du prix horaire de l'intervention
-        #TO DO : Faire la différene entre PME et MGE
-
+        # Chargement du prix horaire de l'intervention en fonction du type de produit
         line_price_unit = 0
         if self.sinergis_product_id.type == "PME":
             line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.hour_list_price_pme')
@@ -102,22 +109,24 @@ class MyActions(models.Model):
                    'Authorization': f'Basic {authentication_token}',
                    'soapaction': "\"\"",}
         data_soap = order_to_soap(data, pool_alias=pool_alias, public_name=public_name)
-        #Connection to X3
+        #Connexion à X3
         base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
         path_x3_orders = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
         response = requests.post(base_url+path_x3_orders, data=data_soap.encode('utf-8'), headers=headers, verify=False).content
         
+        # On obtient le résultat de la requête
         try:
             response_dict = xmltodict.parse(response)
             status = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["status"]["#text"]
         except:
             return [False, "Erreur rencontrée au moment de lire la réponse d'X3"]
         
+        # Si le status n'est pas à "1", il y a une erreur
         if status != "1":
             return [False, f"Erreur rencontrée sur X3! Réponse : {response}"]
         
-        #Transfer done
-
+        # Le transfert est validé
+        # Chargement des informations sur la commande depuis la réponse d'X3
         sinergis_x3_id = False
         sinergis_x3_price_subtotal = False           
         sinergis_x3_price_total = False
@@ -141,6 +150,8 @@ class MyActions(models.Model):
         except:
             print("Récupération des données de la commande impossible")
 
+        # On retourne True car le transfert a été effectué avec succès
+        # On ajoute les données d'X3 pour l'ajout des infos dans Odoo
         return [True, {'sinergis_x3_id': sinergis_x3_id,
                        'sinergis_x3_price_subtotal': sinergis_x3_price_subtotal,
                        'sinergis_x3_price_total': sinergis_x3_price_total}]
