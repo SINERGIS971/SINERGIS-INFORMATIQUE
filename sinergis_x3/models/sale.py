@@ -172,6 +172,7 @@ class SaleOrder(models.Model):
                     self.create_log(content=f"Il n'y a pas de transcodage pour le produit {line.x_sinergis_sale_order_line_product_id.name}", log_type="danger")
                     return True
                 
+                product_format = False
                 if line.product_id.is_service and line.external_service:
                     product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).external_format
                 else:
