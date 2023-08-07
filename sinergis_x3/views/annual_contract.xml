@@ -50,6 +50,77 @@
         </field>
     </record>
 
+   <!-- Création d'une vue globale des contrat annuels de tous les clients -->
+
+    <record id="sinergis_x3_annual_contract_search" model="ir.ui.view">
+        <field name="name">sinergis_x3.annual_contract.search</field>
+        <field name="model">sinergis_x3.annual_contract</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="CUSORDREF" filter_domain="[('CUSORDREF', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="sinergis_x3_annual_contract_tree" model="ir.ui.view">
+          <field name="name">sinergis_x3.annual_contract.tree</field>
+          <field name="model">sinergis_x3.annual_contract</field>
+          <field name="arch" type="xml">
+              <tree decoration-danger="expired==True" default_order='ORDDAT'>
+                        <field name="expired" invisible="1"/>
+                        <field name="X_SERNUM"/>
+                        <field name="SALFCY"/>
+                        <field name="SOHTYP" optional="hide"/>
+                        <field name="SOHNUM" optional="hide"/>
+                        <field name="CUSORDREF"/>
+                        <field name="ORDDAT"/>
+                        <field name="TSICOD0" optional="hide"/>
+                        <field name="TSICOD1"/>
+                        <field name="TSICOD2"/>
+                        <field name="TSICOD4"/>
+                        <field name="ITMDES" optional="hide"/>
+                        <field name="X_EVO" optional="hide"/>
+                        <field name="X_COMEVO" optional="hide"/>
+                        <field name="X_PERIOD" optional="hide"/>
+                        <field name="X_RENOUVELE" optional="hide"/>
+                        <field name="STRDAT"/>
+                        <field name="ENDDAT"/>
+                        <field name="QTY" optional="hide"/>
+                        <field name="SAU" optional="hide"/>
+                        <field name="NETPRI" optional="hide"/>
+                        <field name="PFM" optional="hide"/>
+                        <field name="X_RESILIE"/>
+                        <field name="X_DATRESIL" optional="hide"/>
+                        <field name="LASINVNUM" optional="hide"/>
+                        <field name="AMTLOC" optional="hide"/>
+                        <field name="PAYLOC" optional="hide"/>
+                        <field name="TMPLOC" optional="hide"/>
+                </tree>
+          </field>
+      </record>
+
+      <record id="sinergis_x3_annual_contract_action" model="ir.actions.act_window">
+        <field name="name">Contrats annuels</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sinergis_x3.annual_contract</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Il n'y a pas d'enregistrement
+            </p>
+        </field>
+    </record>
+
+      <menuitem id="sinergis_x3_annual_contract_root"
+              name="Contrats annuels"
+              web_icon="sinergis_rgpd,static/description/icon_2.png"
+              sequence="55"/>
+
+      <menuitem id="sinergis_x3_annual_contract_root_root"
+              parent="sinergis_x3_annual_contract_root"
+              name="Contrats annuels"
+              action="sinergis_x3_annual_contract_action"
+              sequence="10"/>
 
   </data>
 </odoo>

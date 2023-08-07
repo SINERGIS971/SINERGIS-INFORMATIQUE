@@ -13,6 +13,8 @@ class SinergisAnnualContracts(models.Model):
     _name = "sinergis_x3.annual_contract"
     _description = "Contrats Annuels"
 
+    _rec_name = "CUSORDREF"
+
     # Relié via code client X3
     BPCORD = fields.Char(string="Code X3 du client")
     partner_id = fields.Many2one("res.partner",string="Client",required=True)
