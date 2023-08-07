@@ -59,8 +59,8 @@
             <search>
                 <field name="CUSORDREF" filter_domain="[('CUSORDREF', 'ilike', self)]"/>
                 <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
-                <filter string="Expiré" name="expired_filter" domain="[('expired','=', True)]"></filter>
-                <filter string="Non expiré" name="expired_filter" domain="[('expired','=', True)]"></filter>
+                <filter string="Expiré" name="expired_filter" domain="[('ENDDAT','&lt;=', context_today().strftime('%Y-%m-%d'))]"></filter>
+                <filter string="Non expiré" name="expired_filter" domain="[('ENDDAT','&gt;', context_today().strftime('%Y-%m-%d'))]"></filter>
                 <group expand="0" string="Group By">
                     <filter string="Client" name="group_by_partner_id" context="{'group_by':'partner_id'}"/>
                     <filter string="Site de vente" name="group_by_SALFCY" context="{'group_by':'SALFCY'}"/>
