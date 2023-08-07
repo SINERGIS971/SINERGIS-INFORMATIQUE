@@ -63,7 +63,7 @@ class MyActions(models.Model):
                 "SOHTYP" : "NEW",
                 "CUSORDREF " : self.name,
                 "X_DEVODOO" : X_DEVODOO,
-                "ORDDAT" : fields.Datetime.context_timestamp(self.with_context(tz=self.env.user.tz), self.date).strftime("%Y%m%d"),
+                "ORDDAT" : self.date.strftime("%Y%m%d"),
                 "BPCORD" : partner_id_x3_code,
                 "REP" : commercial,
                 "REP(1)" : False,
@@ -73,7 +73,7 @@ class MyActions(models.Model):
         line_product_format = f"I{product_code}{subproduct_code}PH"
         # Ajout d'une description à la ligne
         if self.date:
-            line_description = f"Intervention le {self.date.strftime('%d/%m/%Y %H:%M:%S')}"
+            line_description = f"Intervention le {fields.Datetime.context_timestamp(self, self.date).strftime('%d/%m/%Y %H:%M:%S')}"
         else :
             line_description = "Intervention"
         line_qty = self.time # Quantité en heures
