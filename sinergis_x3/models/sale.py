@@ -15,6 +15,7 @@ class SaleOrderLine(models.Model):
 
     is_hostable = fields.Boolean(related="product_id.is_hostable")
     is_ch = fields.Boolean(related="product_id.is_ch")
+    is_service = fields.Boolean(related="product_id.is_service")
     hosted = fields.Boolean(string="Hébergé", default=False)
     ch_multi = fields.Boolean(string="CH MULTI", default=True)
     external_service = fields.Boolean(string="Presta. externe", default=False)
