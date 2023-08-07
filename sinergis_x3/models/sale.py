@@ -31,7 +31,7 @@ class SaleOrder(models.Model):
     sinergis_x3_id = fields.Char(string="Numéro X3")
     sinergis_x3_price_subtotal = fields.Float(string="Total HT dans X3 (€)", default=False)
     sinergis_x3_price_total = fields.Float(string="Total TTC dans X3 (€)", default=False)
-    sinergis_x3_correct_price = fields.Boolean(compute="_compute_sinergis_x3_correct_price")
+    sinergis_x3_correct_price = fields.Boolean(compute="_compute_sinergis_x3_correct_price", store=True)
     sinergis_x3_log = fields.One2many(
         "sale.order.odoo_x3_log", "sale_id", string="Odoo-X3 log", readonly=True
     )
@@ -52,7 +52,7 @@ class SaleOrder(models.Model):
             else:
                 rec.sinergis_x3_partner_has_codex3 = False
 
-    @api.depends("sinergis_x3_correct_price")
+    @api.depends("sinergis_x3_correct_price", "sinergis_x3_id")
     def _compute_sinergis_x3_correct_price (self):
         for rec in self:
             if rec.amount_total != rec.sinergis_x3_price_total and rec.sinergis_x3_transfered:
