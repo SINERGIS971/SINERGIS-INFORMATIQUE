@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <record id="sinergis_x3_inherited_view_order_select" model="ir.ui.view">
+        <field name="name">sinergis_x3.inherited.view.order.select</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+          <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
+            <separator/>
+            <filter string="Odoo-X3 : Prix ne correspondent pas" name="sinergis_x3_incorrect_price_filter" domain="[('sinergis_x3_transfered','=', True),('sinergis_x3_correct_price','=', False)]"></filter>
+          </xpath>
+        </field>
+    </record>
+
     <record id="sinergis_inherited_saler_order" model="ir.ui.view">
         <field name="name">sinergis.inherited.sale.order</field>
         <field name="model">sale.order</field>
@@ -56,7 +68,7 @@
                         <field name="sinergis_x3_price_total" attrs="{'invisible': [['sinergis_x3_price_total','=',False]]}"/>
                     </group>
                     <field name="sinergis_x3_log">
-                        <tree decoration-success="type=='success'" decoration-danger="type=='danger'" decoration-warning="type=='warning'" >
+                        <tree decoration-success="type=='success'" decoration-danger="type=='danger'" decoration-warning="type=='warning'" default_order='date desc'>
                             <field name="type" invisible="1"/>
                             <field name="date"/>
                             <field name="name"/>
@@ -89,7 +101,11 @@
             <field name="inherit_id" ref="sinergis.sinergis_inherited_saler_order_tree"/>
             <field name="arch" type="xml">
             <xpath expr="//field[@name='x_sinergis_sale_order_supplier_order']" position="after">
+                    <field name="sinergis_x3_correct_price" invisible="1"/>
                     <field name="sinergis_x3_transfered" class="o_sinergis_checkbox"/>
+                    <field name="sinergis_x3_id" optional="hide"/>
+                    <field name="sinergis_x3_price_subtotal" optional="hide"/>
+                    <field name="sinergis_x3_price_total" optional="hide"/>
                 </xpath>
             </field>
     </record>

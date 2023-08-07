@@ -44,17 +44,26 @@ class MyActions(models.Model):
             missing_data.append(f"transcodage du commercial ({self.consultant.name})")
         if not partner_id_x3_code:
             missing_data.append(f"code X3 du client ({self.client.name})")
+        if not self.date:
+            missing_data.append(f"date de l'activité")
 
         # Stop le processus s'il y a une donnée manquante
         if len(missing_data) > 0:
             raise ValidationError(f"Echec du transfert ! Éléments manquants : {','.join(missing_data)} ")
 
+        # Génération du nom de commande Odoo
+        X_DEVODOO = "S00000"
+        if self.origin == "helpdesk":
+            X_DEVODOO = f"A-{self.link_id}"
+        elif self.origin == "calendar":
+            X_DEVODOO = f"I-{self.link_id}"
+
         # Construction du tableau de paramètres
         data = {"SALFCY" : sinergis_x3_company_id.code,
                 "SOHTYP" : "NEW",
                 "CUSORDREF " : self.name,
-                "X_DEVODOO" : "S00000",
-                "ORDDAT" : datetime.now().strftime("%Y%m%d"),
+                "X_DEVODOO" : X_DEVODOO,
+                "ORDDAT" : fields.Datetime.context_timestamp(self.date).strftime("%Y%m%d"),
                 "BPCORD" : partner_id_x3_code,
                 "REP" : commercial,
                 "REP(1)" : False,

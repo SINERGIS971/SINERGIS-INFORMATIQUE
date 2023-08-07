@@ -89,7 +89,7 @@ class SaleOrder(models.Model):
 
     #Bouton qui informe que la commande est bien synchronisée sur Odoo
     def sinegis_x3_header_connected (self):
-        if not self.env.user.has_group('base.group_system'):
+        if not self.env.user.has_group('sinergis_x3.group_sale_multipler_transfer_x3'):
             raise ValidationError("Vous n'êtes pas autorisé à resynchroniser la commande vers X3, veuillez contacter un administrateur Odoo.")
         else:
             self.send_order_to_x3()

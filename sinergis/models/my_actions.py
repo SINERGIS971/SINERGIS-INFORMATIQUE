@@ -23,7 +23,7 @@ class MyActions(models.Model):
     _name = "sinergis.myactions"
     _auto = False
 
-    link_id = fields.Integer()
+    link_id = fields.Integer(string="Identifiant")
 
     name = fields.Char(string="Sujet")
 
