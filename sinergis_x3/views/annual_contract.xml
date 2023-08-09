@@ -132,7 +132,7 @@
               name="Contrats annuels"
               groups="sinergis_x3.group_annual_contract_menu"
               web_icon="sinergis_x3,static/description/icon_2.png"
-              sequence="55"/>
+              sequence="61"/>
 
       <menuitem id="sinergis_x3_annual_contract_root_root"
               parent="sinergis_x3_annual_contract_root"

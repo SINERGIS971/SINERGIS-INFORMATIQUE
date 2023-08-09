@@ -38,7 +38,19 @@
                   </tr>
               </tbody>
               </table>
-							<p style="margin:0;padding: 0;"><strong>Contact : </strong><span t-field="doc.x_sinergis_helpdesk_ticket_contact.name"/></p>
+              <!-- CONTACT ET NUMERO DE TICKET -->
+              <table style="border-collapse:collapse;border:none;width: 100%;">
+              <tbody>
+                  <tr>
+                    <th rowspan="5" style="width: 70%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
+                      <p style="margin:0;padding: 0;"><strong>Contact : </strong><span t-field="doc.x_sinergis_helpdesk_ticket_contact.name"/></p>
+                    </th>
+                     <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
+                      <p style="margin:0;padding: 0;" ><strong>N° de ticket : </strong><span t-field="doc.id"/></p>
+                    </th>
+                  </tr>
+              </tbody>
+              </table>
               <!-- HORAIRES D'INTERVENTION -->
               <t t-if="doc.x_sinergis_helpdesk_ticket_intervention_count &lt;= 1">
               <table style="border-collapse:collapse;border:none;width: 100%;">
