@@ -48,7 +48,7 @@
 
                      <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
                         <t t-if="doc.origin=='helpdesk'">
-                          <p style="margin:0;padding: 0;" ><strong>N° de ticket : </strong><span t-field="doc.id"/></p>
+                          <p style="margin:0;padding: 0;" ><strong>N° de ticket : </strong><span t-field="doc.link_id"/></p>
                         </t>
                     </th>
                   </tr>
