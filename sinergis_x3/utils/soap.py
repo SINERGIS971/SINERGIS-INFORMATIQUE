@@ -73,7 +73,8 @@ def order_line_text_to_soap (SOHNUM,total_text,num_line,pool_alias,public_name,c
     line = ""
 
     for word in words :
-        if len(line) + len(word) + 1 <= 220:
+        #if len(line) + len(word) + 1 <= 220:
+        if len(line) + len(word) + 1 <= 220000:
             line += word+" "
         else:
             results.append(line.strip())

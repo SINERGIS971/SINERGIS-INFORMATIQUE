@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from odoo.addons.sinergis_x3.utils.soap import order_to_soap
+from odoo.addons.sinergis_x3.utils.soap import order_to_soap, order_line_text_to_soap
 
 from base64 import b64encode
 from datetime import datetime
@@ -161,6 +161,17 @@ class MyActions(models.Model):
                             sinergis_x3_price_total = fld["#text"]
         except:
             print("Récupération des données de la commande impossible")
+
+        # Création des lignes de texte dans X3 pour la commande pour y saisir la description de l'intervention
+        if sinergis_x3_id:
+            intervention_description = False
+            if self.origin == 'helpdesk':
+                intervention_description = self.env['helpdesk.ticket'].search([('id','=',self.link_id)], limit=1).x_sinergis_helpdesk_ticket_ticket_resolution
+            elif self.origin == "calendar":
+                intervention_description = self.env['calendar.event'].search([('id','=',self.link_id)], limit=1).x_sinergis_calendar_event_desc_intervention
+                
+            data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,intervention_description,'1',pool_alias=pool_alias, public_name="INSTEXLIG")
+            response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode('utf-8'), headers=headers, verify=False).content
 
         # On retourne True car le transfert a été effectué avec succès
         # On ajoute les données d'X3 pour l'ajout des infos dans Odoo
