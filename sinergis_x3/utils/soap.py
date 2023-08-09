@@ -67,14 +67,14 @@ def order_to_soap(data_in,pool_alias,public_name,code_lang="FRA"):
 def order_line_text_to_soap (SOHNUM,total_text,num_line,pool_alias,public_name,code_lang="FRA"):
     total_text = total_text.replace("<","")
     total_text = total_text.replace(">","")
+    total_text = total_text.replace("\xa0","")
     total_text = total_text.replace("\n"," ")
     words = total_text.split()
     results = []
     line = ""
 
     for word in words :
-        #if len(line) + len(word) + 1 <= 220:
-        if len(line) + len(word) + 1 <= 220000:
+        if len(line) + len(word) + 1 <= 220:
             line += word+" "
         else:
             results.append(line.strip())
@@ -91,6 +91,8 @@ def order_line_text_to_soap (SOHNUM,total_text,num_line,pool_alias,public_name,c
         </LIN>
         """)
         j += 1
+        if j == 6 :
+            break;
     data=f"""
     <soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wss="http://www.adonix.com/WSS">
    <soapenv:Header/>

@@ -5,9 +5,11 @@ from odoo.exceptions import ValidationError
 from odoo.addons.sinergis_x3.utils.soap import order_to_soap, order_line_text_to_soap
 
 from base64 import b64encode
+from bs4 import BeautifulSoup 
 from datetime import datetime
 
 import base64
+import markdown
 import requests
 import urllib3
 import xmltodict
@@ -169,9 +171,11 @@ class MyActions(models.Model):
                 intervention_description = self.env['helpdesk.ticket'].search([('id','=',self.link_id)], limit=1).x_sinergis_helpdesk_ticket_ticket_resolution
             elif self.origin == "calendar":
                 intervention_description = self.env['calendar.event'].search([('id','=',self.link_id)], limit=1).x_sinergis_calendar_event_desc_intervention
-                
-            data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,intervention_description,'1',pool_alias=pool_alias, public_name="INSTEXLIG")
-            response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode('utf-8'), headers=headers, verify=False).content
+            if intervention_description:
+                intervention_description = markdown.markdown(intervention_description)
+                intervention_description_beautiful = BeautifulSoup(intervention_description, 'html.parser')   
+                data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,intervention_description_beautiful,'1',pool_alias=pool_alias, public_name="INSTEXLIG")
+                response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode('utf-8'), headers=headers, verify=False).content
 
         # On retourne True car le transfert a été effectué avec succès
         # On ajoute les données d'X3 pour l'ajout des infos dans Odoo
