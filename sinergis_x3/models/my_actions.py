@@ -166,16 +166,15 @@ class MyActions(models.Model):
 
         # Création des lignes de texte dans X3 pour la commande pour y saisir la description de l'intervention
         if sinergis_x3_id:
-            intervention_description = False
+            intervention_description = f"Consultant : {self.consultant.name} - Description : "
             if self.origin == 'helpdesk':
-                intervention_description = self.env['helpdesk.ticket'].search([('id','=',self.link_id)], limit=1).x_sinergis_helpdesk_ticket_ticket_resolution
+                intervention_description += self.env['helpdesk.ticket'].search([('id','=',self.link_id)], limit=1).x_sinergis_helpdesk_ticket_ticket_resolution
             elif self.origin == "calendar":
-                intervention_description = self.env['calendar.event'].search([('id','=',self.link_id)], limit=1).x_sinergis_calendar_event_desc_intervention
-            if intervention_description:
-                intervention_description = markdown.markdown(intervention_description)
-                intervention_description_beautiful = BeautifulSoup(intervention_description, 'html.parser')   
-                data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,intervention_description_beautiful,'1',pool_alias=pool_alias, public_name="INSTEXLIG")
-                response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode('utf-8'), headers=headers, verify=False).content
+                intervention_description += self.env['calendar.event'].search([('id','=',self.link_id)], limit=1).x_sinergis_calendar_event_desc_intervention
+            intervention_description = markdown.markdown(intervention_description)
+            intervention_description_beautiful = BeautifulSoup(intervention_description, 'html.parser')   
+            data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,intervention_description_beautiful.get_text(),'1',pool_alias=pool_alias, public_name="INSTEXLIG")
+            response = requests.post(base_url+path_x3_orders, data=data_line_text_soap.encode('utf-8'), headers=headers, verify=False).content
 
         # On retourne True car le transfert a été effectué avec succès
         # On ajoute les données d'X3 pour l'ajout des infos dans Odoo
