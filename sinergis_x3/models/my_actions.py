@@ -25,9 +25,9 @@ class MyActions(models.Model):
         subproduct_code = self.env["sinergis_x3.settings.sinergis_subproduct"].search([("sinergis_subproduct_id","=",self.sinergis_subproduct_id.id)], limit=1).code
         # Vérification si le transcodage produit / sous-produit existe bien
         if not product_code:
-            return [False, f"Le produit {self.sinergis_product_id} n'est pas transcodé."]
+            return [False, f"Le produit {self.sinergis_product_id.name} n'est pas transcodé."]
         if not subproduct_code:
-            return [False, f"Le sous-produit {self.sinergis_subproduct_id} n'est pas transcodé."]
+            return [False, f"Le sous-produit {self.sinergis_subproduct_id.name} n'est pas transcodé."]
         
         # Vérification de l'activation du module Odoo - X3
         enable = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.enable')

@@ -12,6 +12,9 @@
                 <field name="is_service"/>
                 <field name="transfer_description"/>
             </xpath>
+            <xpath expr="//field[@name='list_price']" position="before">
+                <p style="font-size: 10px; color: red;">Attention: Si vous modifier le prix des prestations, n'oubliez pas d'aussi modifier le tarif horaire au temps passé depuis les paramètres Odoo dans le menu Sinergis X3.</p>
+            </xpath>
         </field>
     </record>
 
