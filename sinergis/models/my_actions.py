@@ -267,7 +267,7 @@ class MyActions(models.Model):
     # Marquer la facturation
 
     def invoiced_button (self):
-        if self.env.user.has_group('sinergis.group_myactions_employee') == False:
+        if self.env.user.has_group('sinergis.group_myactions_employee') == False or self.env.user.has_group('sinergis_x3.group_myactivity_transfer') == True :
             if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
                 data = {
                     'model_type': self.origin,
@@ -375,6 +375,7 @@ class MyActions(models.Model):
         if result[0] == False:
             raise ValidationError(result[1])
         else:
+            # Création de l'objet contenant toutes les informations sur le transfert X3
             self.env["sinergis.myactions.transfer_x3"].create({
                 "model_type": self.origin,
                 "model_id": self.link_id,
@@ -382,6 +383,8 @@ class MyActions(models.Model):
                 "sinergis_x3_price_subtotal": result[1]['sinergis_x3_price_subtotal'],
                 "sinergis_x3_price_total": result[1]['sinergis_x3_price_total'],
             })
+            # On marque la ligne comme facturée
+            self.invoiced_button()
 
     def open_x3_transfer_button(self):
         return {
