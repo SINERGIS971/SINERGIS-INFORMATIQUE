@@ -129,11 +129,12 @@ class SaleOrder(models.Model):
 
     @api.onchange('x_sinergis_sale_order_solde_x3')
     def onchange_x_sinergis_sale_order_solde_x3(self):
-        if self.x_sinergis_sale_order_solde_x3 == False:
+        if self.x_sinergis_sale_order_solde_x3 == False and self.x_sinergis_sale_order_acompte_x3 == True:
             self.x_sinergis_sale_order_amount_charged = self.x_sinergis_sale_order_facture_acompte
-        else:
+        elif self.x_sinergis_sale_order_solde_x3 == True and self.x_sinergis_sale_order_acompte_x3 == True:
             self.x_sinergis_sale_order_amount_charged = self.x_sinergis_sale_order_facture_acompte + self.x_sinergis_sale_order_facture_solde
-        
+        else:
+            self.x_sinergis_sale_order_amount_charged = 0
 
     @api.depends('x_sinergis_sale_order_client_bloque')
     def _compute_x_sinergis_sale_order_client_bloque (self):
