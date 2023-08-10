@@ -117,7 +117,6 @@
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="x_sinergis_sale_order_signed_quote"/>
                 <field name="x_sinergis_sale_order_signed_cgv"/>
-                <!--<field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>-->
                 <!--<field name="x_sinergis_sale_order_amount_remaining" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>-->
                 <field name="x_sinergis_sale_order_days_count"/>
                 <p style="font-size:8pt;">Dans le calcul du nombre de jours, une journée correspond à 7h.</p>
@@ -125,6 +124,7 @@
                 <field name="x_sinergis_sale_order_acompte_x3" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <field name="x_sinergis_sale_order_facture_solde" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <field name="x_sinergis_sale_order_solde_x3" attrs="{'invisible': [('state',  '!=', 'sale')], 'readonly': [('x_sinergis_sale_order_acompte_x3',  '=', False)]}"/>
+                <field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <p style="font-size:8pt;">Attention: Si vous indiquez que l'acompte est versé (ou non versé) alors l'acompte sur chacun des projets du devis sera marqué comme versé (ou non versé).</p>
                 <field name="x_sinergis_sale_order_supplier_order" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
@@ -240,6 +240,7 @@
                 <field name="x_sinergis_sale_order_acompte_x3" class="o_sinergis_checkbox"/>
                 <field name="x_sinergis_sale_order_facture_solde"/>
                 <field name="x_sinergis_sale_order_solde_x3" class="o_sinergis_checkbox"/>
+                <field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}" class="o_sinergis_checkbox"/>
                 <field name="x_sinergis_sale_order_supplier_order" attrs="{'invisible': [('state',  '!=', 'sale')]}" class="o_sinergis_checkbox"/>
             </xpath>
