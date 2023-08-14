@@ -68,11 +68,12 @@
         <field name="type">tree</field>
         <field name="model">sinergis.myactions</field>
         <field name="arch" type="xml">
-            <tree decoration-success="is_printed==True">
+            <tree decoration-success="is_printed==True" decoration-danger="is_revised_billing==True and is_billed==True">
                 <header>
                     <button name="print_reports" string="Imprimer les rapports d'intervention" class="oe_highlight" type="object"/>
                 </header>
                 <field name="is_printed" invisible="True"/>
+                <field name="is_revised_billing" invisible="True"/>
                 <field name="is_billed" invisible="True"/>
                 <field name="is_reinvoiced" invisible="True"/>
                 <field name="rapport_intervention_valide" invisible="True"/>
