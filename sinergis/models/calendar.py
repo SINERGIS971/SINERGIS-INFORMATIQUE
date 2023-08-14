@@ -76,7 +76,7 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_is_facturee_total = fields.Boolean(string="",compute="_compute_x_sinergis_calendar_event_is_facturee_total")
 
     # 14 Aout 2023 : Ajout d'une date de modification de la facturation poru vérifier si cela n'a pas déjà été facturé
-    x_sinergis_calendar_event_billing_last_date = fields.Datetime(string="Date de modification des données de facturation", default=lambda self: self.create_date.strftime("%Y-%m-%d %H:%M:%S"))
+    x_sinergis_calendar_event_billing_last_date = fields.Datetime(string="Date de modification des données de facturation", default=False)
 
     #Pour la vue list
     x_sinergis_calendar_event_is_downloaded = fields.Boolean(string="Téléchargé",default=False,readonly=True)

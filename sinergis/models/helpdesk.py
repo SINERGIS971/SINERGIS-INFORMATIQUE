@@ -67,7 +67,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_is_facturee = fields.Boolean(string="Présence d'un contrat d'heures chez le client :",default=False)
 
     # 14 Aout 2023 : Ajout d'une date de modification de la facturation poru vérifier si cela n'a pas déjà été facturé
-    x_sinergis_helpdesk_ticket_billing_last_date = fields.Datetime(string="Date de modification des données de facturation", default=lambda self: self.create_date.strftime("%Y-%m-%d %H:%M:%S"))
+    x_sinergis_helpdesk_ticket_billing_last_date = fields.Datetime(string="Date de modification des données de facturation", default=False)
 
     #Colonne de droite
     x_sinergis_helpdesk_ticket_partner_company_id = fields.Many2one('res.company', string="Agence rattachée", compute="_compute_x_sinergis_helpdesk_ticket_partner_company_id", store=True)
