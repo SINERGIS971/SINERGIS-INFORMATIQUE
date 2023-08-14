@@ -66,6 +66,9 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_is_facturee = fields.Boolean(string="Présence d'un contrat d'heures chez le client :",default=False)
 
+    # 14 Aout 2023 : Ajout d'une date de modification de la facturation poru vérifier si cela n'a pas déjà été facturé
+    x_sinergis_helpdesk_ticket_billing_last_date = fields.Datetime(string="Date de modification des données de facturation", default=lambda self: self.create_date.strftime("%Y-%m-%d %H:%M:%S"))
+
     #Colonne de droite
     x_sinergis_helpdesk_ticket_partner_company_id = fields.Many2one('res.company', string="Agence rattachée", compute="_compute_x_sinergis_helpdesk_ticket_partner_company_id", store=True)
     x_sinergis_helpdesk_ticket_partner_company_name = fields.Char(compute="_compute_x_sinergis_helpdesk_ticket_partner_company_name")
@@ -356,6 +359,7 @@ class HelpdeskTicket(models.Model):
         if not self.user_id:
             raise ValidationError("Vous devez assigner une personne pour décompter des heures.")
         if self.x_sinergis_helpdesk_ticket_taches :
+            self.x_sinergis_helpdesk_ticket_billing_last_date = datetime.now() # Mise à jour de la date de modification de la facturation
             self.x_sinergis_helpdesk_ticket_is_facturee = True
             name = self.name
             self.x_sinergis_helpdesk_ticket_taches.timesheet_ids = [(0,0,{'name' : name, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_helpdesk_ticket_temps_passe,'x_sinergis_account_analytic_line_ticket_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_helpdesk_ticket_start_time ,'x_sinergis_account_analytic_line_end_time': self.x_sinergis_helpdesk_ticket_end_time})]
@@ -391,6 +395,8 @@ class HelpdeskTicket(models.Model):
             self.env['calendar.event'].search([("x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id)]).unlink()
             # Marquer le ticket comme non facturé
             self.x_sinergis_helpdesk_ticket_is_facturee = not self.x_sinergis_helpdesk_ticket_is_facturee
+            # Mise à jour de la date de modification de la facturation
+            self.x_sinergis_helpdesk_ticket_billing_last_date = datetime.now()
 
     def x_sinergis_helpdesk_ticket_start_time_button (self):
         self.x_sinergis_helpdesk_ticket_start_time = datetime.now()
@@ -434,7 +440,10 @@ class HelpdeskTicket(models.Model):
                 raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
             if self.x_sinergis_helpdesk_ticket_client_bloque :
                 raise ValidationError("Vous ne pouvez pas modifier le ticket d'un client bloqué. Merci de contacter un commercial ou un administrateur des tickets.")
-        
+        # Vérification si on doit modifier la date de dernière facturation
+        if "x_sinergis_helpdesk_ticket_facturation" in values or "x_sinergis_helpdesk_ticket_temps_passe" in values:
+            self.x_sinergis_helpdesk_ticket_billing_last_date = datetime.now()
+
         # Enregistrer l'intervention dans le calendrier si ce n'est pas décompté sur tâche et que l'utilisateur l'autorise
         if self.user_id.x_sinergis_res_users_tickets_in_calendar:
             facturation = values.get("x_sinergis_helpdesk_ticket_facturation", self.x_sinergis_helpdesk_ticket_facturation)

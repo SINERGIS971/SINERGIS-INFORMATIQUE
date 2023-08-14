@@ -79,6 +79,7 @@
                 <field name="origin"/>
                 <field name="date"/>
                 <field name="billing"/>
+                <field name="billing_last_date" optional="hide"/>
                 <field name="client"/>
                 <field name="sinergis_product_id" optional="hide"/>
                 <field name="sinergis_subproduct_id" optional="hide"/>

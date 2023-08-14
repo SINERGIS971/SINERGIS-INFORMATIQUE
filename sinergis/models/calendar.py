@@ -75,6 +75,9 @@ class CalendarEvent(models.Model):
     # Pour valider cette facturation : Soit on décompte, soit on renseigne un type de facturation sans décomptage et on regarde si il y a du temps passé présent
     x_sinergis_calendar_event_is_facturee_total = fields.Boolean(string="",compute="_compute_x_sinergis_calendar_event_is_facturee_total")
 
+    # 14 Aout 2023 : Ajout d'une date de modification de la facturation poru vérifier si cela n'a pas déjà été facturé
+    x_sinergis_calendar_event_billing_last_date = fields.Datetime(string="Date de modification des données de facturation", default=lambda self: self.create_date.strftime("%Y-%m-%d %H:%M:%S"))
+
     #Pour la vue list
     x_sinergis_calendar_event_is_downloaded = fields.Boolean(string="Téléchargé",default=False,readonly=True)
     x_sinergis_calendar_event_is_sent = fields.Boolean(string="Envoyé",default=False,readonly=True)
@@ -352,6 +355,7 @@ class CalendarEvent(models.Model):
         if not self.user_id:
             raise ValidationError("Vous devez assigner une personne pour décompter des heures.")
         if self.x_sinergis_calendar_event_taches :
+            self.x_sinergis_calendar_event_billing_last_date = datetime.now() # Mise à jour de la date de modification de la facturation
             self.x_sinergis_calendar_event_is_facturee = True
             self.x_sinergis_calendar_event_taches.timesheet_ids = [(0,0,{'name' : self.x_sinergis_calendar_event_object, 'x_sinergis_account_analytic_line_user_id' : self.user_id.id,'unit_amount' : self.x_sinergis_calendar_duree_facturee,'x_sinergis_account_analytic_line_event_id' : self.id, 'x_sinergis_account_analytic_line_start_time': self.x_sinergis_calendar_event_start_time ,'x_sinergis_account_analytic_line_end_time' : self.x_sinergis_calendar_event_end_time})]
             CalendarEvent.set_task_information(self)
@@ -412,6 +416,9 @@ class CalendarEvent(models.Model):
             if not "need_sync_m" in values and self.id :
                 if self.user_id != user_id and self.env.user.has_group('sinergis.group_calendar_admin') == False:
                     raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas. ID : " + str(self.id))
+        # Vérification si on doit modifier la date de dernière facturation
+        if "x_sinergis_calendar_event_facturation" in values or "x_sinergis_calendar_duree_facturee" in values:
+            self.x_sinergis_calendar_event_billing_last_date = datetime.now()
         return super(CalendarEvent, self).write(values)
 
     def generer_rapport_intervention(self):
@@ -464,6 +471,8 @@ class CalendarEvent(models.Model):
         if self.x_sinergis_calendar_event_is_facturee:
             self.env["account.analytic.line"].search([('x_sinergis_account_analytic_line_event_id', '=', self.id)]).unlink()
             self.x_sinergis_calendar_event_is_facturee = not self.x_sinergis_calendar_event_is_facturee
+            # Mise à jour de la date de modification de la facturation
+            self.x_sinergis_calendar_event_billing_last_date = datetime.now()
 
     def x_sinergis_calendar_event_start_time_button (self):
         self.x_sinergis_calendar_event_start_time = datetime.now()

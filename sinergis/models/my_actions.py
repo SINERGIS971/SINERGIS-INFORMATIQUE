@@ -35,6 +35,7 @@ class MyActions(models.Model):
     product = fields.Char(string = "Produit",compute="_compute_product")
     billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Avant-vente", "Avant-vente")], string="Facturation")
     billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable')], string="Facturable/Non facturable")
+    billing_last_date = fields.Datetime(string="Date màj facturation")
     time = fields.Float(string = "Temps")
     consultant = fields.Many2one('res.users',string="Consultant")
     company_id = fields.Many2one("res.company",string="Société SINERGIS")
@@ -77,7 +78,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.sinergis_product_id,T.sinergis_subproduct_id,T.billing,T.billing_type,CAST(T.time AS float),T.consultant,T.company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced,T.reinvoiced_company_id,T.is_transfered_x3 FROM
+            T.name,T.date,T.client,T.sinergis_product_id,T.sinergis_subproduct_id,T.billing,T.billing_type,T.billing_last_date,CAST(T.time AS float),T.consultant,T.company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_reinvoiced,T.reinvoiced_company_id,T.is_transfered_x3 FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -93,6 +94,7 @@ class MyActions(models.Model):
                             THEN 'Non facturable'
                             ELSE 'Facturable'
                     END AS billing_type,
+                    ht.x_sinergis_helpdesk_ticket_billing_last_date as billing_last_date,
                     CASE
                         WHEN ht.x_sinergis_helpdesk_ticket_facturation = 'Contrat heures' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Devis'
                             THEN SUM(aal.unit_amount)::TEXT
@@ -151,6 +153,7 @@ class MyActions(models.Model):
                             THEN 'Non facturable'
                             ELSE 'Facturable'
                     END AS billing_type,
+                    ce.x_sinergis_calendar_event_billing_last_date as billing_last_date,
                     CASE
                         WHEN ce.x_sinergis_calendar_event_facturation = 'Contrat heure' OR ce.x_sinergis_calendar_event_facturation = 'Devis'
                             THEN SUM(aal.unit_amount)::TEXT
@@ -411,3 +414,20 @@ class MyActionsBilled(models.Model):
     _description = "Interventions facturées"
     model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
     model_id = fields.Integer(string="")
+    # Sauvegardes de la facturation en cas de modification
+    billing_type = fields.Char(string="Ancienne facturation")
+    new_billing_type = fields.Char(string="Nouvelle facturation", compute="_compute_new_values")
+    time = fields.Float(string="Ancien temps")
+    new_time = fields.Float(string="Nouveau temps", compute="_compute_new_values")
+
+    @api.depends("new_time")
+    def _compute_new_values(self):
+        for rec in self:
+            if rec.model_type == "helpdesk":
+                ticket = self.env['helpdesk.ticket'].search([('id','=',rec.model_id)])
+                rec.new_billing_type = ticket.x_sinergis_helpdesk_ticket_facturation
+                rec.new_time = ticket.x_sinergis_helpdesk_ticket_temps_cumule
+            elif rec.model_type == "calendar":
+                event = self.env['calendar.event'].search([('id','=',rec.model_id)])
+                rec.new_billing_type = event.x_sinergis_calendar_event_facturation
+                rec.new_time = event.x_sinergis_calendar_event_temps_cumule
