@@ -275,9 +275,13 @@ class MyActions(models.Model):
     def invoiced_button (self):
         if self.env.user.has_group('sinergis.group_myactions_employee') == False or self.env.user.has_group('sinergis_x3.group_myactivity_transfer') == True :
             if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
+                billing_type = self.env['helpdesk.ticket'].search([('id','=',self.model_id)]).x_sinergis_helpdesk_ticket_facturation if self.model_type == "helpdesk" else self.env['calendar.event'].search([('id','=',self.model_id)]).x_sinergis_calendar_event_facturation
+                time = self.env['helpdesk.ticket'].search([('id','=',self.model_id)]).x_sinergis_helpdesk_ticket_temps_cumule if self.model_type == "helpdesk" else self.env['calendar.event'].search([('id','=',self.model_id)]).x_sinergis_calendar_event_temps_cumule
                 data = {
                     'model_type': self.origin,
                     'model_id': self.link_id,
+                    'billing_type': billing_type,
+                    'time': time
                 }
                 self.env['sinergis.myactions.billed'].create(data)
         else:
@@ -431,9 +435,9 @@ class MyActionsBilled(models.Model):
     model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
     model_id = fields.Integer(string="")
     # Sauvegardes de la facturation en cas de modification
-    billing_type = fields.Char(string="Ancienne facturation", default=lambda self: self.env['helpdesk.ticket'].search([('id','=',rec.model_id)]).x_sinergis_helpdesk_ticket_facturation if rec.model_type == "helpdesk" else self.env['calendar.event'].search([('id','=',rec.model_id)]).x_sinergis_calendar_event_facturation)
+    billing_type = fields.Char(string="Ancienne facturation")
     new_billing_type = fields.Char(string="Nouvelle facturation", compute="_compute_new_values")
-    time = fields.Float(string="Ancien temps", default=lambda self: self.env['helpdesk.ticket'].search([('id','=',rec.model_id)]).x_sinergis_helpdesk_ticket_temps_cumule if rec.model_type == "helpdesk" else self.env['calendar.event'].search([('id','=',rec.model_id)]).x_sinergis_calendar_event_temps_cumule)
+    time = fields.Float(string="Ancien temps")
     new_time = fields.Float(string="Nouveau temps", compute="_compute_new_values")
 
     @api.depends("new_time")
