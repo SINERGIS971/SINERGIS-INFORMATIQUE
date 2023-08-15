@@ -106,7 +106,8 @@
                 <button name="invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
                 <button name="no_invoiced_button_default" string="Facturée" class="oe_highlight btn-warning" type="object" attrs="{'invisible': [('billing',  '!=', 'Contrat heure')]}"/>
                 <button name="invoiced_button_default" string="Non facturable" class="oe_highlight btn-warning" type="object" attrs="{'invisible': ['&amp;','&amp;','&amp;',('billing',  '!=', 'À définir ultérieurement'),('billing',  '!=', 'Non facturable interne'),('billing',  '!=', 'Non facturable'),('billing',  '!=', 'Avant-vente')]}"/>
-                
+                <button name="show_revised_billing" string="≠" class="oe_highlight btn-danger" type="object" attrs="{'invisible': [('is_revised_billing',  '=', False)]}"/>
+
                 <!-- TRANSFERT X3 -->
                 <field name="is_transfered_x3" invisible="1"/>
                 <button name="start_x3_transfer_button" string="X3" class="oe_highlight btn-danger" icon="fa-refresh" type="object" attrs="{'invisible': ['|','|',('is_transfered_x3',  '=', True),('billing',  '!=', 'Temps passé'),('is_billed', '=', True)]}" confirm="Souhaitez-vous vraiment transférer cette commande vers X3 ?" groups="sinergis_x3.group_myactivity_transfer"/>

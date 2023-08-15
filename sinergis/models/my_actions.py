@@ -296,6 +296,9 @@ class MyActions(models.Model):
     def invoiced_button_default(self):
         raise ValidationError("Vous ne pouvez pas modifier l'état de cette facturation avec ce mode de facturation.")
 
+    def show_revised_billing (self):
+        raise ValidationError("TO DO")
+
     # Marquer la refacturation
 
     def reinvoiced_button (self):
