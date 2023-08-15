@@ -297,9 +297,18 @@ class MyActions(models.Model):
         raise ValidationError("Vous ne pouvez pas modifier l'état de cette facturation avec ce mode de facturation.")
 
     def show_revised_billing (self):
-        raise ValidationError("TO DO")
+        context = {
+            'name': 'Changement des données de facturation',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'sinergis.myactions.billed',
+            'res_id': self.env['sinergis.myactions.billed'].search([('model_type', '=', self.origin),('model_id', '=', self.link_id)]).id,
+            'target': 'new',
+            'flags':{'mode':'readonly'},
+            }
+        return context
         
-        
+
     # Marquer la refacturation
 
     def reinvoiced_button (self):
@@ -422,9 +431,9 @@ class MyActionsBilled(models.Model):
     model_type = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')])
     model_id = fields.Integer(string="")
     # Sauvegardes de la facturation en cas de modification
-    billing_type = fields.Char(string="Ancienne facturation")
+    billing_type = fields.Char(string="Ancienne facturation", default=lambda self: self.env['helpdesk.ticket'].search([('id','=',rec.model_id)]).x_sinergis_helpdesk_ticket_facturation if rec.model_type == "helpdesk" else self.env['calendar.event'].search([('id','=',rec.model_id)]).x_sinergis_calendar_event_facturation)
     new_billing_type = fields.Char(string="Nouvelle facturation", compute="_compute_new_values")
-    time = fields.Float(string="Ancien temps")
+    time = fields.Float(string="Ancien temps", default=lambda self: self.env['helpdesk.ticket'].search([('id','=',rec.model_id)]).x_sinergis_helpdesk_ticket_temps_cumule if rec.model_type == "helpdesk" else self.env['calendar.event'].search([('id','=',rec.model_id)]).x_sinergis_calendar_event_temps_cumule)
     new_time = fields.Float(string="Nouveau temps", compute="_compute_new_values")
 
     @api.depends("new_time")

@@ -25,6 +25,25 @@
             <field name="perm_unlink" eval="False"/>
     </record>
 
+    <record id="sinergis_myactions_billed_form" model="ir.ui.view">
+        <field name="name">sinergis.myactions.billed.form</field>
+        <field name="model">sinergis.myactions.billed</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="billing_type"/>
+                        <field name="time"/>
+                    </group>
+                    <group>
+                        <field name="new_billing_type"/>
+                        <field name="new_time"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="sinergis_my_actions_search" model="ir.ui.view">
         <field name="name">sinergis_myactions.search</field>
         <field name="model">sinergis.myactions</field>
