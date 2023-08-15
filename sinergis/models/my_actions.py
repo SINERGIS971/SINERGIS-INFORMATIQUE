@@ -298,7 +298,8 @@ class MyActions(models.Model):
 
     def show_revised_billing (self):
         raise ValidationError("TO DO")
-
+        
+        
     # Marquer la refacturation
 
     def reinvoiced_button (self):
