@@ -449,8 +449,8 @@ class MyActionsBilled(models.Model):
         data = {
                     'model_type': self.model_type,
                     'model_id': self.model_id,
-                    'billing_type': self.billing_type,
-                    'time': self.time
+                    'billing_type': self.new_billing_type,
+                    'time': self.new_time
                 }
         self.env['sinergis.myactions.billed'].create(data)
         self.unlink()
