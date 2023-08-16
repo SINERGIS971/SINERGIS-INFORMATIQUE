@@ -12,8 +12,6 @@ class ResPartner(models.Model):
 
     @api.onchange("sinergis_x3_code")
     def on_change_sinergis_x3_code(self):
-        # Suppression des contrats annuels du client
-        self.env["sinergis_x3.annual_contract"].sudo().search([('partner_id','=',self.id)]).unlink()
         # Vérification si un autre client avec le même code X3 existe
         partner = self.env['res.partner'].search([('sinergis_x3_code','=',self.sinergis_x3_code)], limit=1)
         if partner and self.sinergis_x3_code:

@@ -219,6 +219,10 @@ class ResPartner(models.Model):
 
 
     def write(self, values):
+        # Si modification du code client X3
+        if "sinergis_x3_code" in values:
+            # Suppression des contrats annuels du client
+            self.env["sinergis_x3.annual_contract"].sudo().search([('partner_id','=',self.id)]).unlink()
         #Envoyer un mail si la société est bloquée ou débloquée
         if "x_sinergis_societe_litige_bloque" in values:
             if self.x_sinergis_societe_litige_bloque == False and values["x_sinergis_societe_litige_bloque"] == True:
