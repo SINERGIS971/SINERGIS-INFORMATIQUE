@@ -42,6 +42,7 @@
                         </group>
                     </group>
                     <group>
+                        <button name="confirm_billing_change" string="Confirmer le changement sur X3" class="oe_highlight btn-success" type="object"/>
                         <p style="color:red;font-size:10px;">Attention, la modification sur X3 doit-être faite manuellement.</p>
                     </group>
                 </sheet>
