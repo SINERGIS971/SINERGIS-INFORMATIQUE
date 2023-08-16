@@ -68,6 +68,8 @@
                   <filter string="Non facturable" name="filter_is_not_billable" domain="['|','|','|',('billing',  '=', 'À définir ultérieurement'),('billing',  '=', 'Non facturable interne'),('billing',  '=', 'Non facturable'),('billing',  '=', 'Avant-vente')]"/>
                   <filter string="Facturable" name="filter_is_billable" domain="['&amp;','&amp;','&amp;',('billing',  '!=', 'À définir ultérieurement'),('billing',  '!=', 'Non facturable interne'),('billing',  '!=', 'Non facturable'),('billing',  '!=', 'Avant-vente')]"/>
                   <separator/>
+                  <filtre string="Facturation modifiée" name="filter_is_revised_billing" domain="['is_revised_billing','=',True]"/>
+                  <separator/>
                   <filter string="Mes activités" name="filter_my_activities" domain="[('consultant',  '=', uid)]"/>
                     <separator/>
                     <filter string="Facturation" name="group_by_billing" context="{'group_by':'billing'}"/>
