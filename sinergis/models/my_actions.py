@@ -444,6 +444,17 @@ class MyActionsBilled(models.Model):
     time = fields.Float(string="Ancien temps")
     new_time = fields.Float(string="Nouveau temps", compute="_compute_new_values")
 
+    # Confirmer là MàJ sur X3 de la facturation après changement du côté du consultant
+    def confirm_billing_change(self):
+        data = {
+                    'model_type': self.model_type,
+                    'model_id': self.model_id,
+                    'billing_type': self.billing_type,
+                    'time': self.time
+                }
+        self.env['sinergis.myactions.billed'].create(data)
+        self.unlink()
+
     @api.depends("new_time")
     def _compute_new_values(self):
         for rec in self:

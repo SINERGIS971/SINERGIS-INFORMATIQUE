@@ -35,6 +35,7 @@
                         <group>
                             <field name="billing_type"/>
                             <field name="time"/>
+                            <button name="confirm_billing_change" string="Confirmer le changement sur X3" class="oe_highlight btn-success" type="object"/>
                         </group>
                         <group>
                             <field name="new_billing_type"/>
