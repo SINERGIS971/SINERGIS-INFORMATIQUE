@@ -275,8 +275,12 @@ class MyActions(models.Model):
     def invoiced_button (self):
         if self.env.user.has_group('sinergis.group_myactions_employee') == False or self.env.user.has_group('sinergis_x3.group_myactivity_transfer') == True :
             if self.env['sinergis.myactions.billed'].search_count([('model_type', '=', self.origin),('model_id', '=', self.link_id)]) == 0:
-                billing_type = self.env['helpdesk.ticket'].search([('id','=',self.model_id)]).x_sinergis_helpdesk_ticket_facturation if self.model_type == "helpdesk" else self.env['calendar.event'].search([('id','=',self.model_id)]).x_sinergis_calendar_event_facturation
-                time = self.env['helpdesk.ticket'].search([('id','=',self.model_id)]).x_sinergis_helpdesk_ticket_temps_cumule if self.model_type == "helpdesk" else self.env['calendar.event'].search([('id','=',self.model_id)]).x_sinergis_calendar_event_temps_cumule
+                if self.origin == "helpdesk":
+                    billing_type = self.env['helpdesk.ticket'].search([('id','=',self.link_id)]).x_sinergis_helpdesk_ticket_facturation
+                    time = self.env['helpdesk.ticket'].search([('id','=',self.link_id)]).x_sinergis_helpdesk_ticket_temps_cumule
+                elif self.origin == "calendar":
+                    billing_type = self.env['calendar.event'].search([('id','=',self.link_id)]).x_sinergis_calendar_event_facturation
+                    time = self.env['calendar.event'].search([('id','=',self.link_id)]).x_sinergis_calendar_event_temps_cumule
                 data = {
                     'model_type': self.origin,
                     'model_id': self.link_id,

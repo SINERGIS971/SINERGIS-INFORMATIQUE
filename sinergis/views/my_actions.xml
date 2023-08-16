@@ -32,12 +32,14 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="billing_type"/>
-                        <field name="time"/>
-                    </group>
-                    <group>
-                        <field name="new_billing_type"/>
-                        <field name="new_time"/>
+                        <group>
+                            <field name="billing_type"/>
+                            <field name="time"/>
+                        </group>
+                        <group>
+                            <field name="new_billing_type"/>
+                            <field name="new_time"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
