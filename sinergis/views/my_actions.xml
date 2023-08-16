@@ -35,12 +35,14 @@
                         <group>
                             <field name="billing_type"/>
                             <field name="time"/>
-                            <button name="confirm_billing_change" string="Confirmer le changement sur X3" class="oe_highlight btn-success" type="object"/>
                         </group>
                         <group>
                             <field name="new_billing_type"/>
                             <field name="new_time"/>
                         </group>
+                    </group>
+                    <group>
+                        <p style="color:red;font-size:10px;">Attention, la modification sur X3 doit-être faite manuellement.</p>
                     </group>
                 </sheet>
             </form>
