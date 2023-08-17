@@ -63,8 +63,7 @@ class MyActions(models.Model):
         # Génération du nom
         CUSORDEF = "Intervention"
         if self.date :
-            CUSORDEF = f"Intervention le : {self.date.strftime('%Y/%m/%d')}"
-
+            CUSORDEF = f"Intervention le : {self.date.strftime('%d/%m/%Y')}"
         # Construction du tableau de paramètres
         data = {"SALFCY" : sinergis_x3_company_id.code,
                 "SOHTYP" : "NEW",
@@ -88,18 +87,28 @@ class MyActions(models.Model):
         line_qty = self.time # Quantité en heures
         line_text = f"Intervention par {self.consultant.name}"
         
-        # Chargement du prix horaire de l'intervention en fonction du type de produit
+        # Chargement du prix horaire de l'intervention en fonction du type de produit et du nombre d'horaires
         line_price_unit = 0
-        if self.sinergis_product_id.type == "PME":
-            line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.hour_list_price_pme')
-        elif self.sinergis_product_id.type == "MGE":
-            line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.hour_list_price_mge')
+        if line_qty < 7 :
+            SAU = "H"
+            QTY = line_qty
+            if self.sinergis_product_id.type == "PME":
+                line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.hour_list_price_pme')
+            elif self.sinergis_product_id.type == "MGE":
+                line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.hour_list_price_mge')
+        else :
+            SAU = "J"
+            QTY = line_qty/7.0
+            if self.sinergis_product_id.type == "PME":
+                line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.day_list_price_pme')
+            elif self.sinergis_product_id.type == "MGE":
+                line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.day_list_price_mge')
 
         data_line = {
             "ITMREF" : line_product_format,
             "ITMDES" : line_description,
-            "QTY" : line_qty,
-            "SAU" : "H",
+            "QTY" : QTY,
+            "SAU" : SAU,
             "GROPRI" : line_price_unit,
             "DISCRGVAL1" : 0,
             "CPRPRI" : 0,

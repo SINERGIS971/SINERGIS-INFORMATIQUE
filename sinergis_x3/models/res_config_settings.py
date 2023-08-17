@@ -59,6 +59,12 @@ class ResConfigSettings(models.TransientModel):
     
     hour_list_price_mge = fields.Float(string="Prix horaire d'une intervention au temps passé pour la MGE",
                               config_parameter='sinergis_x3.hour_list_price_mge')
+
+    day_list_price_pme = fields.Float(string="Prix journalier d'une intervention au temps passé pour la PME",
+                              config_parameter='sinergis_x3.day_list_price_pme')
+    
+    day_list_price_mge = fields.Float(string="Prix journalier d'une intervention au temps passé pour la MGE",
+                              config_parameter='sinergis_x3.day_list_price_mge')
     
     def test_x3_connection (self):
         if self.base_url_x3:
