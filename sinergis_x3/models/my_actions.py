@@ -60,10 +60,15 @@ class MyActions(models.Model):
         elif self.origin == "calendar":
             X_DEVODOO = f"I-{self.link_id}"
 
+        # Génération du nom
+        CUSORDEF = "Intervention"
+        if self.date :
+            CUSORDEF = f"Intervention le : {self.date.strftime('%Y/%m/%d')}"
+
         # Construction du tableau de paramètres
         data = {"SALFCY" : sinergis_x3_company_id.code,
                 "SOHTYP" : "NEW",
-                "CUSORDREF " : self.name,
+                "CUSORDREF " : CUSORDEF,
                 "X_DEVODOO" : X_DEVODOO,
                 "ORDDAT" : self.date.strftime("%Y%m%d"),
                 "BPCORD" : partner_id_x3_code,
@@ -74,10 +79,12 @@ class MyActions(models.Model):
         # Création du paramétrage de la ligne
         line_product_format = f"I{product_code}{subproduct_code}PH"
         # Ajout d'une description à la ligne
-        if self.date:
-            line_description = f"Intervention le {fields.Datetime.context_timestamp(self, self.date).strftime('%d/%m/%Y %H:%M:%S')}"
-        else :
-            line_description = "Intervention"
+        line_description = f"Prestation {self.sinergis_product_id.name} {self.sinergis_subproduct_id.name}"
+        # A SUPPRIMER
+        #if self.date:
+        #    line_description = f"Intervention le {fields.Datetime.context_timestamp(self, self.date).strftime('%d/%m/%Y %H:%M:%S')}"
+        #else :
+        #    line_description = "Intervention"
         line_qty = self.time # Quantité en heures
         line_text = f"Intervention par {self.consultant.name}"
         
@@ -166,11 +173,17 @@ class MyActions(models.Model):
 
         # Création des lignes de texte dans X3 pour la commande pour y saisir la description de l'intervention
         if sinergis_x3_id:
-            intervention_description = f"Consultant : {self.consultant.name} - Description : "
+            intervention_description = ""
             if self.origin == 'helpdesk':
-                intervention_description += self.env['helpdesk.ticket'].search([('id','=',self.link_id)], limit=1).x_sinergis_helpdesk_ticket_ticket_resolution
+                ticket_id = self.env['helpdesk.ticket'].search([('id','=',self.link_id)], limit=1)
+                start_date = fields.Datetime.context_timestamp(self, ticket_id.x_sinergis_helpdesk_ticket_start_time).strftime('%d/%m/%Y %H:%M:%S')
+                end_date = fields.Datetime.context_timestamp(self, ticket_id.x_sinergis_helpdesk_ticket_end_time).strftime('%d/%m/%Y %H:%M:%S')
+                intervention_description = f"Intervention du {start_date} au {end_date} par {self.consultant.name} - Description : {ticket_id.x_sinergis_helpdesk_ticket_ticket_resolution}"
             elif self.origin == "calendar":
-                intervention_description += self.env['calendar.event'].search([('id','=',self.link_id)], limit=1).x_sinergis_calendar_event_desc_intervention
+                event_id = self.env['calendar.event'].search([('id','=',self.link_id)], limit=1)
+                start_date = fields.Datetime.context_timestamp(self, event_id.x_sinergis_calendar_event_start_time).strftime('%d/%m/%Y %H:%M:%S')
+                end_date = fields.Datetime.context_timestamp(self, event_id.x_sinergis_calendar_event_end_time).strftime('%d/%m/%Y %H:%M:%S')
+                intervention_description = f"Intervention du {start_date} au {end_date} par {self.consultant.name} - Description : {event_id.x_sinergis_calendar_event_desc_intervention}"
             intervention_description = markdown.markdown(intervention_description)
             intervention_description_beautiful = BeautifulSoup(intervention_description, 'html.parser')   
             data_line_text_soap = order_line_text_to_soap(sinergis_x3_id,intervention_description_beautiful.get_text(),'1',pool_alias=pool_alias, public_name="INSTEXLIG")
