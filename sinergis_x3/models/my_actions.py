@@ -79,17 +79,14 @@ class MyActions(models.Model):
         line_product_format = f"I{product_code}{subproduct_code}PH"
         # Ajout d'une description à la ligne
         line_description = f"Prestation {self.sinergis_product_id.name} {self.sinergis_subproduct_id.name}"
-        # A SUPPRIMER
-        #if self.date:
-        #    line_description = f"Intervention le {fields.Datetime.context_timestamp(self, self.date).strftime('%d/%m/%Y %H:%M:%S')}"
-        #else :
-        #    line_description = "Intervention"
+
         line_qty = self.time # Quantité en heures
         line_text = f"Intervention par {self.consultant.name}"
         
         # Chargement du prix horaire de l'intervention en fonction du type de produit et du nombre d'horaires
         line_price_unit = 0
-        if line_qty < 7 :
+        hours_in_day = self.env['uom.uom'].search([('name',"=","Heures")]).ratio # On récupère le nombre d'heures en une journée dans les paramètres d'unités d'Odoo.
+        if line_qty < hours_in_day :
             SAU = "H"
             QTY = line_qty
             if self.sinergis_product_id.type == "PME":
@@ -98,7 +95,7 @@ class MyActions(models.Model):
                 line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.hour_list_price_mge')
         else :
             SAU = "J"
-            QTY = line_qty/7.0
+            QTY = line_qty/hours_in_day
             if self.sinergis_product_id.type == "PME":
                 line_price_unit = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.day_list_price_pme')
             elif self.sinergis_product_id.type == "MGE":
