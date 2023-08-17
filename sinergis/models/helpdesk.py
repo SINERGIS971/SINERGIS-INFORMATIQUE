@@ -458,7 +458,7 @@ class HelpdeskTicket(models.Model):
                     if type(stop) == str:
                         stop = datetime.strptime(stop, '%Y-%m-%d %H:%M:%S')
                     partner_id = self.env['res.partner'].search([('id','=',values.get("partner_id", self.partner_id.id))])
-                    contact_id = self.env['res.partner'].search([('id','=',values.get("x_sinergis_helpdesk_ticket_contact", self.x_sinergis_helpdesk_ticket_contact))])
+                    contact_id = self.env['res.partner'].search([('id','=',values.get("x_sinergis_helpdesk_ticket_contact", self.x_sinergis_helpdesk_ticket_contact.id))])
                     if start and stop and stop > start:
                         context = {
                             "name" : f"ASSISTANCE - {partner_id.name}",
