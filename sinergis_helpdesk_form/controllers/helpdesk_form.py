@@ -71,6 +71,8 @@ class HelpdeskFormController(http.Controller):
                     contact_id = http.request.env['res.partner'].sudo().create({'name': name, 'email': email, 'is_company': False})
                 parent_id = contact_id.parent_id
                 if parent_id:
+                    data['partner_id'] = parent_id.id
+                else:
                     data['partner_id'] = contact_id.id
                 ticket = http.request.env['helpdesk.ticket'].sudo().create(data)
                 if parent_id:
