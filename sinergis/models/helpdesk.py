@@ -447,8 +447,9 @@ class HelpdeskTicket(models.Model):
         
         # Mise à jour des abonnés au ticket
         if "partner_id" in values or "x_sinergis_helpdesk_ticket_contact" in values:
-            ticket.message_unsubscribe(partner_ids=[partner.id for partner in self.message_partner_ids])
-            ticket.message_subscribe(partner_ids=ticket.x_sinergis_helpdesk_ticket_contact.ids)
+            contact_id = values.get("x_sinergis_helpdesk_ticket_contact", self.x_sinergis_helpdesk_ticket_contact)
+            self.message_unsubscribe(partner_ids=[partner.id for partner in self.message_partner_ids])
+            self.message_subscribe(partner_ids=self.x_sinergis_helpdesk_ticket_contact.ids)
 
         # Enregistrer l'intervention dans le calendrier si ce n'est pas décompté sur tâche et que l'utilisateur l'autorise
         if self.user_id.x_sinergis_res_users_tickets_in_calendar:
