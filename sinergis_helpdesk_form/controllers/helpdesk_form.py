@@ -60,18 +60,22 @@ class HelpdeskFormController(http.Controller):
                     'x_sinergis_helpdesk_ticket_produits_new': product_select,
                     'x_sinergis_helpdesk_ticket_sous_produits_new': subproduct_select,
                 }
+
+                # Ajout du contact aux abonnés puis changement via le write
                 contact_id = http.request.env['res.partner'].sudo().search([('email','=',email),('is_company','=',False),('parent_id','!=',False)],limit=1)
+                # Check in contact without company
                 if not contact_id:
                     contact_id = http.request.env['res.partner'].sudo().search([('email','=',email),('is_company','=',False)],limit=1)
-                if contact_id:
-                    parent_id = contact_id.parent_id
-                    if not parent_id:
-                        data['partner_id'] = contact_id.id
-                    else :
-                        data['partner_id'] = parent_id.id
-                else:
+                # Create a contact
+                if not contact_id :
                     contact_id = http.request.env['res.partner'].sudo().create({'name': name, 'email': email, 'is_company': False})
-                    data['partner_id'] = contact_id.id
+                data['partner_id'] = contact_id.id
+                ticket = http.request.env['helpdesk.ticket'].sudo().create(data)
+                parent_id = contact_id.parent_id
+                if parent_id:
+                    ticket.write({'x_sinergis_helpdesk_ticket_contact': contact_id.id, 'partner_id': parent_id.id})
+                else:
+                    ticket.write({'x_sinergis_helpdesk_ticket_contact': contact_id.id, 'partner_id': False})
                 
                 ticket = http.request.env['helpdesk.ticket'].sudo().create(data)
                 ticket.write({'x_sinergis_helpdesk_ticket_contact': contact_id.id})
