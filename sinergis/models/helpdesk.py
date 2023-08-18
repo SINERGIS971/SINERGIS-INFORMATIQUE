@@ -440,9 +440,15 @@ class HelpdeskTicket(models.Model):
                 raise ValidationError("Vous ne pouvez pas modifier un ticket cloturé qui ne vous est pas assigné.")
             if self.x_sinergis_helpdesk_ticket_client_bloque :
                 raise ValidationError("Vous ne pouvez pas modifier le ticket d'un client bloqué. Merci de contacter un commercial ou un administrateur des tickets.")
+        
         # Vérification si on doit modifier la date de dernière facturation
         if "x_sinergis_helpdesk_ticket_facturation" in values or "x_sinergis_helpdesk_ticket_temps_passe" in values:
             self.x_sinergis_helpdesk_ticket_billing_last_date = datetime.now()
+        
+        # Mise à jour des abonnés au ticket
+        if "partner_id" in values or "x_sinergis_helpdesk_ticket_contact" in values:
+            ticket.message_unsubscribe(partner_ids=[partner.id for partner in self.message_partner_ids])
+            ticket.message_subscribe(partner_ids=ticket.x_sinergis_helpdesk_ticket_contact.ids)
 
         # Enregistrer l'intervention dans le calendrier si ce n'est pas décompté sur tâche et que l'utilisateur l'autorise
         if self.user_id.x_sinergis_res_users_tickets_in_calendar:
