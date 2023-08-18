@@ -211,8 +211,6 @@ class HelpdeskTicket(models.Model):
 
     @api.onchange("partner_id")
     def on_change_partner_id(self):
-        # On désabonne tout le monde au suivi du ticket
-        self.message_unsubscribe(partner_ids=[partner.id for partner in self.message_partner_ids])
         self.x_sinergis_helpdesk_ticket_contact = False
         self.x_sinergis_helpdesk_ticket_project = False
         self.x_sinergis_helpdesk_ticket_tache = False
@@ -231,12 +229,6 @@ class HelpdeskTicket(models.Model):
             self.x_sinergis_helpdesk_ticket_facturation = "Temps passé"
         
         HelpdeskTicket.updateTasks(self)
-
-    @api.onchange("x_sinergis_helpdesk_ticket_contact")
-    def on_change_x_sinergis_helpdesk_ticket_contact(self):
-        # On désabonne tout le monde au suivi du ticket et on abonne le contact
-        self.message_unsubscribe(partner_ids=[partner.id for partner in self.message_partner_ids])
-        self.message_subscribe(partner_ids=[self.x_sinergis_helpdesk_ticket_contact])
 
     @api.onchange("x_sinergis_helpdesk_ticket_facturation")
     def on_change_x_sinergis_helpdesk_ticket_facturation(self):

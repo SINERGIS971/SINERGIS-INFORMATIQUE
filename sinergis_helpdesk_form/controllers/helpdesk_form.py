@@ -72,13 +72,15 @@ class HelpdeskFormController(http.Controller):
                 parent_id = contact_id.parent_id
                 if parent_id:
                     data['partner_id'] = parent_id.id
+                    data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
                 else:
                     data['partner_id'] = contact_id.id
+                    data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
                 ticket = http.request.env['helpdesk.ticket'].sudo().create(data)
-                if parent_id:
-                    ticket.write({'x_sinergis_helpdesk_ticket_contact': contact_id.id})
-                else:
-                    ticket.write({'x_sinergis_helpdesk_ticket_contact': contact_id.id, 'partner_id': False})
+                #if parent_id:
+                #    ticket.write({'x_sinergis_helpdesk_ticket_contact': contact_id.id})
+                #else:
+                #    ticket.write({'x_sinergis_helpdesk_ticket_contact': contact_id.id, 'partner_id': False})
 
                 # Création des PJ associées au ticket
                 for file in files :
