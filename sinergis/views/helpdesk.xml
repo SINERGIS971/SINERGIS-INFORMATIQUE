@@ -268,6 +268,7 @@
                           <field name="x_sinergis_helpdesk_ticket_end_time" class="oe_inline"/>
                           <button name="x_sinergis_helpdesk_ticket_stop_time_button" string="Fin" type="object" class="oe_inline btn-primary" readonly="True" style="background-color:grey;margin-left:30px;"/>
                       </div>
+                      <p style="font-size:10px; color: red;">Attention: Modifier les dates d'intervention modifie le champ "Temps passé".</p>
                         <field name="x_sinergis_helpdesk_ticket_ticket_resolution" class="field_description" placeholder="Description de la résolution du ticket..." string="Description de l'intervention"/>
                     <field name="x_sinergis_helpdesk_ticket_partner_company_name" invisible="True"/>
                     <field name="x_sinergis_helpdesk_ticket_facturation" attrs="{'readonly': ['|',('x_sinergis_helpdesk_ticket_is_facturee','=',True),('x_sinergis_helpdesk_ticket_partner_company_name','=','PARINET')], 'required': [('x_sinergis_helpdesk_ticket_show_facturation',  '=', True)]}" force_save="1"/>
