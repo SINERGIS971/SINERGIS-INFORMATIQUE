@@ -4,7 +4,8 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 
-from datetime import datetime, relativedelta
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 
 class ResPartner(models.Model):
@@ -19,32 +20,32 @@ class ResPartner(models.Model):
             #Date de la dernière visite
             last_visit = self.env["calendar.event"].search([('x_sinergis_calendar_event_client','=',rec.id),('is_visit','=',True)], order='start desc', limit=1)
             if last_visit:
-                last_visit_date = last_visit.start
-                last_visit_type = last_visit.visit_type
+                rec.last_visit_date = last_visit.start
+                rec.last_visit_type = last_visit.visit_type
             else:
-                last_visit_date = False
-                last_visit_type = False
+                rec.last_visit_date = False
+                rec.last_visit_type = False
 
             # Visites les 6 derniers mois
             event_6_ids = self.env["calendar.event"].search([('x_sinergis_calendar_event_client','=',rec.id),
                                                              ('is_visit','=',True),
-                                                             ('start','>=',(datetime.now()+relativedelta(months=-6)).strftime('%Y-%m-%d %H:%M:%S')),
+                                                             ('start','>=',(datetime.now() + relativedelta(months=-6)).strftime('%Y-%m-%d %H:%M:%S')),
                                                              ('start','<=',datetime.now().strftime('%Y-%m-%d %H:%M:%S'))], order='start desc')
             # Visite sur site des 12 derniers mois
             event_12_ids = self.env["calendar.event"].search([('x_sinergis_calendar_event_client','=',rec.id),
                                                              ('is_visit','=',True),
                                                              ('visit_type','=','on_site'),
-                                                             ('start','>=',(datetime.now()+relativedelta(months=-12)).strftime('%Y-%m-%d %H:%M:%S')),
+                                                             ('start','>=',(datetime.now() + relativedelta(months=-12)).strftime('%Y-%m-%d %H:%M:%S')),
                                                              ('start','<=',datetime.now().strftime('%Y-%m-%d %H:%M:%S'))], order='start desc')
 
             if len(event_6_ids) > 0 and len(event_12_ids) > 0:
-                visit_state = "visited"
+                rec.visit_state = "visited"
             elif len(event_6_ids) == 0 and len(event_12_ids) > 0:
-                visit_state = "missing_on_site_or_phone"
+                rec.visit_state = "missing_on_site_or_phone"
             elif len(event_6_ids) > 0 and len(event_12_ids) == 0:
-                visit_state = "missing_on_site"
+                rec.visit_state = "missing_on_site"
             else :
-                visit_state = "no_visit"
+                rec.visit_state = "no_visit"
             
 
             
