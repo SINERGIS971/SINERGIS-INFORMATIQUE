@@ -20,7 +20,6 @@
                 <field name="start" string="Date" widget="date"/>
                 <field name="x_sinergis_calendar_event_client"/>
                 <field name="visit_type"/>
-                <button name="visit_open_calendar_event" class="oe_highlight btn-warning" type="object" string="Ouvrir l'évènement"/>
               </tree>
           </field>
       </record>

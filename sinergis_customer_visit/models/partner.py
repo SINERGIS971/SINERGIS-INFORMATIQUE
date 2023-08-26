@@ -4,6 +4,8 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 
+from datetime import datetime, relativedelta
+
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
