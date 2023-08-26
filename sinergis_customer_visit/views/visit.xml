@@ -17,7 +17,7 @@
               <tree default_order="id desc">
                 <field name="id" invisible="1"/>
                 <field name="user_id"/>
-                <field name="start" string="Date"/>
+                <field name="start" string="Date" widget="date"/>
                 <field name="x_sinergis_calendar_event_client"/>
                 <field name="visit_type"/>
                 <button name="visit_open_calendar_event" class="oe_highlight btn-warning" type="object" string="Ouvrir l'évènement"/>
@@ -29,9 +29,9 @@
         <field name="name">Visite client</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">calendar.event</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,form</field>
         <field name="domain">[('is_visit','=',True)]</field>
-        <field name="context">{'create':False,'edit':False}</field>
+        <field name="context">{'create':False}</field>
         <field name="search_view_id" ref="sinergis_calendar_event_visit_search"/>
         <field name="help" type="html">
             <field name="help" type="html">
