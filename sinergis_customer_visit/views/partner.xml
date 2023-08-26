@@ -35,7 +35,6 @@
               parent="sinergis_customer_visit_root"
               name="Liste des clients"
               action="sinergis_customer_visit_partner_action"
-              groups="sinergis_customer_visit.group_sinergis_customer_visit_user"
               sequence="10"/>
 
 

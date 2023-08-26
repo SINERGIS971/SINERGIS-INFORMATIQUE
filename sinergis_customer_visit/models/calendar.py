@@ -6,6 +6,9 @@ class CalendarEvent(models.Model):
     is_visit = fields.Boolean(string="Est une visite ?",default=False)
     visit_type = fields.Selection([('on_site', 'Sur site'),('phone', 'Par téléphone')], string="Type de visite")
 
+    def visit_open_calendar_event(self):
+        return True
+
     @api.onchange("is_visit")
     def on_change_is_visit (self):
         if self.is_training == False:

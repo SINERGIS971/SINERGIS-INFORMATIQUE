@@ -52,6 +52,7 @@
       <menuitem id="sinergis_customer_visit_root"
               name="Visite client"
               web_icon="sinergis_customer_visit,static/description/icon.png"
+              groups="sinergis_customer_visit.group_sinergis_customer_visit_user"
               sequence="40"/>
 
       <menuitem id="sinergis_customer_visit_visit_root"

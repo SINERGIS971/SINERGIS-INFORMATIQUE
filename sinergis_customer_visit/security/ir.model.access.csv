@@ -1,2 +1,1 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-sinergis_customer_visit_visit_user,sinergis_customer_visit.visit,model_sinergis_customer_visit_visit,sinergis_customer_visit.group_sinergis_customer_visit_user,1,1,1,1
