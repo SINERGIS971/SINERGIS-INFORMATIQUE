@@ -6,6 +6,9 @@
           <field name="arch" type="xml">
               <tree default_order="name">
                 <field name="name"/>
+                <field name="last_visit_date"/>
+                <field name="last_visit_type"/>
+                <field name="visit_state"/>
               </tree>
           </field>
       </record>
@@ -14,6 +17,7 @@
         <field name="name">Liste des clients</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
+        <field name="domain">[('is_company','=',True)]</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <field name="help" type="html">
