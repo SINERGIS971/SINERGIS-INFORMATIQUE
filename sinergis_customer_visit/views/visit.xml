@@ -12,13 +12,14 @@
 
     <record id="sinergis_customer_visit_visit_tree" model="ir.ui.view">
           <field name="name">sinergis_customer_visit.visit.tree</field>
-          <field name="model">sinergis_customer_visit.visit</field>
+          <field name="model">calendar.event</field>
+          <field name="domain">[('is_visit','=',True)]</field>
           <field name="arch" type="xml">
               <tree default_order="id desc">
                 <field name="id" invisible="1"/>
-                <field name="date"/>
-                <field name="partner_id"/>
-                <field name="type"/>
+                <field name="start"/>
+                <field name="x_sinergis_calendar_event_client"/>
+                <!--<field name="type"/>-->
               </tree>
           </field>
       </record>
@@ -42,7 +43,7 @@
       <record id="sinergis_customer_visit_visit_action" model="ir.actions.act_window">
         <field name="name">Visite client</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">sinergis_customer_visit.visit</field>
+        <field name="res_model">calendar.event</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <field name="help" type="html">
@@ -51,6 +52,13 @@
             </p>
             </field>
         </field>
+    </record>
+
+    <record id="sinergis_customer_visit_visit_action_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sinergis_customer_visit_visit_tree"/>
+        <field name="act_window_id" ref="sinergis_customer_visit_visit_action"/>
     </record>
 
       <menuitem id="sinergis_customer_visit_root"

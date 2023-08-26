@@ -338,6 +338,7 @@ class MyActions(models.Model):
         else:
             raise ValidationError("Vous n'avez pas l'accès pour changer le statut de la refacturation. Merci de vous rapprocher de la direction.")
 
+    # Bouton depuis la tree view
     # Impression de rapports en sélectionnant un par un les activités
     def print_reports(self):
         ids = []
@@ -357,6 +358,8 @@ class MyActions(models.Model):
                 ticket.last_date = datetime.now()
 
         return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', ids)]))
+
+
 
     # Impression de rapports via le bouton "Éditer" de la ligne d'activité
     def print_report(self):
@@ -424,6 +427,59 @@ class MyActions(models.Model):
             'flags':{'mode':'readonly'},
             }
 
+    def order_verification_for_x3 (self):
+        # Vérification des éléments manquants
+        missing_elements = []
+        if not self.client:
+            missing_elements.append("client")
+        if not self.sinergis_product_id:
+            missing_elements.append("produit Sinergis")
+        if not self.sinergis_subproduct_id:
+            missing_elements.append("sous-produit Sinergis")
+        if not self.consultant:
+            missing_elements.append("consultant")
+        if not self.company_id:
+            missing_elements.append("société Sinergis")
+        if not self.date:
+            missing_data.append("date de l'activité")
+
+        # Vérification du transcodage
+        if self.sinergis_product_id and self.sinergis_subproduct_id:
+            if not self.client.sinergis_x3_code:
+                missing_elements.append("code X3 du client")
+            if not self.env["sinergis_x3.settings.sinergis_product"].search([("sinergis_product_id","=",self.sinergis_product_id.id)]):
+                missing_elements.append(f"transcodage du produit ({self.sinergis_product_id.name})")
+            if not self.env["sinergis_x3.settings.sinergis_subproduct"].search([("sinergis_subproduct_id","=",self.sinergis_subproduct_id.id)]):
+                missing_elements.append(f"transcodage du sous-produit ({self.sinergis_subproduct_id.name})")
+            if not self.env["sinergis_x3.settings.commercial"].search([("user_id","=",self.consultant.id)]):
+                missing_elements.append(f"transcodage du consultant ({self.consultant.name})")
+            if not self.env["sinergis_x3.settings.company"].search([("company_id","=",self.company_id.id)]):
+                missing_elements.append(f"transcodage de la société Sinergis ({self.company_id.name})")
+
+        return {
+            "state": len(missing_elements) == 0,
+            "missing_elements": missing_elements
+        }
+
+    # Bouton depuis la tree view
+    # Envoyer plusieurs "temps passé" vers X3
+    def send_orders_for_x3 (self):
+        enable = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.enable')
+        if not enable:
+            raise ValidationError("Le module de transfert d'X3 n'est pas activé. Veuillez l'activer dans les paramètres.")
+        # Vérification pour chaque client des données
+        for rec in self:
+            if rec.billing != "Temps passé":
+                continue
+            verif = rec.order_verification_for_x3()
+            if not verif["status"] :
+                raise ValidationError(f"L'activité '{rec.name}' ne peut pas être transférée. Les données manquantes sont les suivantes: {' ,'.join(verif['missing_elements'])}.")
+        # Démarage du transfert
+        for rec in self:
+            if rec.billing != "Temps passé":
+                continue
+            start_x3_transfer_button()
+            
 
 class MyActionsPrinted(models.Model):
     _name = "sinergis.myactions.printed"

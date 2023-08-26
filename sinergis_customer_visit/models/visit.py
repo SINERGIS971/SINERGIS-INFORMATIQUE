@@ -12,9 +12,8 @@ class SinergisCustomerVisit(models.Model):
 
     _rec_name = "partner_id"
 
-    #name = fields.Char(string="Name")
-    partner_id = fields.Many2one("res.partner",string="Client")
-
+    event_id = fields.Many2one("calendar.event",string="Évènement", readonly=True)
+    user_id = fields.Many2one("res.users",string="Commercial", readonly=True)
     date = fields.Date(string="Date de la visite",default=lambda self: datetime.now().strftime("%Y-%m-%d"))
-
-    type = fields.Selection([('on_site', 'Sur Site'),('phone', 'Téléphone')], string="Type")
+    partner_id = fields.Many2one("res.partner",string="Client")
+    type = fields.Selection([('on_site', 'Sur site'),('phone', 'Par téléphone')], string="Type")
