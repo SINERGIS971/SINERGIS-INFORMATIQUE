@@ -1,8 +1,8 @@
 <odoo>
   <data>
-    <record id="sinergis_customer_visit_visit_search" model="ir.ui.view">
-        <field name="name">sinergis_customer_visit.visit.search</field>
-        <field name="model">sinergis_customer_visit.visit</field>
+    <record id="sinergis_calendar_event_visit_search" model="ir.ui.view">
+        <field name="name">sinergis_calendar_event.visit.search</field>
+        <field name="model">calendar.event</field>
         <field name="arch" type="xml">
             <search>
                 <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
@@ -10,55 +10,40 @@
         </field>
     </record>
 
-    <record id="sinergis_customer_visit_visit_tree" model="ir.ui.view">
-          <field name="name">sinergis_customer_visit.visit.tree</field>
+    <record id="sinergis_calendar_event_visit_tree" model="ir.ui.view">
+          <field name="name">sinergis_calendar_event.visit.tree</field>
           <field name="model">calendar.event</field>
-          <field name="domain">[('is_visit','=',True)]</field>
           <field name="arch" type="xml">
               <tree default_order="id desc">
                 <field name="id" invisible="1"/>
                 <field name="start"/>
                 <field name="x_sinergis_calendar_event_client"/>
-                <!--<field name="type"/>-->
+                <field name="visit_type"/>
               </tree>
           </field>
       </record>
 
-      <record id="sinergis_customer_visit_visit_form" model="ir.ui.view">
-          <field name="name">sinergis_customer_visit.visit.form</field>
-          <field name="model">sinergis_customer_visit.visit</field>
-          <field name="arch" type="xml">
-            <form>
-              <sheet>
-                <group>
-                    <field name="date"/>
-                    <field name="partner_id" domain="[('is_company', '=', True)]"/>
-                    <field name="type"/>
-                </group>
-              </sheet>
-            </form>
-          </field>
-      </record>
-
-      <record id="sinergis_customer_visit_visit_action" model="ir.actions.act_window">
+      <record id="sinergis_calendar_event_visit_action" model="ir.actions.act_window">
         <field name="name">Visite client</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">calendar.event</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('is_visit','=',True)]</field>
+        <field name="context">{'create':False,'edit':False}</field>
         <field name="help" type="html">
             <field name="help" type="html">
             <p class="oe_view_nocontent_create">
-                Créer une visite.
+                Il n'y a pas de visite.
             </p>
             </field>
         </field>
     </record>
 
-    <record id="sinergis_customer_visit_visit_action_form" model="ir.actions.act_window.view">
+    <record id="sinergis_calendar_event_visit_action_tree" model="ir.actions.act_window.view">
         <field name="sequence" eval="1"/>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="sinergis_customer_visit_visit_tree"/>
-        <field name="act_window_id" ref="sinergis_customer_visit_visit_action"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sinergis_calendar_event_visit_tree"/>
+        <field name="act_window_id" ref="sinergis_calendar_event_visit_action"/>
     </record>
 
       <menuitem id="sinergis_customer_visit_root"
@@ -69,7 +54,7 @@
       <menuitem id="sinergis_customer_visit_visit_root"
               parent="sinergis_customer_visit_root"
               name="Visite"
-              action="sinergis_customer_visit_visit_action"
+              action="sinergis_calendar_event_visit_action"
               sequence="10"/>
 
   </data>

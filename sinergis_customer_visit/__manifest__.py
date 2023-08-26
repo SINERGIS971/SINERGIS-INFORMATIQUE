@@ -17,11 +17,12 @@
     'category': 'Authentication',
     'version': '0.1',
 
-    'depends': ['web','mail','base'],
+    'depends': ['web','mail','base','sinergis'],
 
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
+        'views/calendar.xml',
         'views/visit.xml',
         'views/partner.xml',
     ],
