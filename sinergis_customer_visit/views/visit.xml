@@ -5,7 +5,7 @@
         <field name="model">calendar.event</field>
         <field name="arch" type="xml">
             <search>
-                <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
+                <field name="x_sinergis_calendar_event_client" filter_domain="[('x_sinergis_calendar_event_client', 'ilike', self)]"/>
             </search>
         </field>
     </record>
@@ -16,9 +16,11 @@
           <field name="arch" type="xml">
               <tree default_order="id desc">
                 <field name="id" invisible="1"/>
-                <field name="start"/>
+                <field name="user_id"/>
+                <field name="start" string="Date"/>
                 <field name="x_sinergis_calendar_event_client"/>
                 <field name="visit_type"/>
+                <button name="visit_open_calendar_event" class="oe_highlight btn-warning" type="object" string="Ouvrir l'évènement"/>
               </tree>
           </field>
       </record>

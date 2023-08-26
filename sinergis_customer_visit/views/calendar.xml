@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='user_id']" position="after">
                 <field name="is_visit"/>
-                <field name="visit_type" attrs="{'invisible': [('is_visit',  '=', False)]}"/>
+                <field name="visit_type" attrs="{'invisible': [('is_visit',  '=', False)], 'required': [('is_visit',  '=', True)]}"/>
             </xpath>
         </field>
     </record>
