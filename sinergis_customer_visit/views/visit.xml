@@ -14,7 +14,7 @@
           <field name="name">sinergis_calendar_event.visit.tree</field>
           <field name="model">calendar.event</field>
           <field name="arch" type="xml">
-              <tree default_order="id desc">
+              <tree default_order="date desc">
                 <field name="id" invisible="1"/>
                 <field name="user_id"/>
                 <field name="start" string="Date" widget="date"/>

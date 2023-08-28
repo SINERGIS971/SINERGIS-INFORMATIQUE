@@ -35,7 +35,7 @@
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
             <notebook position="inside">
-                <page string="Visites">
+                <page string="Visites" groups="sinergis_customer_visit.group_sinergis_customer_visit_user">
                     <group>
                     <field name="visit_state"/>
                     <field name="last_visit_date"/>
