@@ -23,7 +23,7 @@
                 <field name="last_visit_type"/>
                 <field name="visit_state"/>
                 <button name="button_view_partner_visits" string="" class="oe_highlight btn-success" type="object" icon="fa-eye"/>
-                <button name="button_create_partner_visit" string="Planifier une visite" class="oe_highlight btn-warning" type="object" icon="fa-eye"/>
+                <button name="button_create_partner_visit" string="Planifier une visite" class="oe_highlight btn-warning" type="object"/>
               </tree>
           </field>
         </record>

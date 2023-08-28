@@ -18,7 +18,7 @@ class ResPartner(models.Model):
         return {
             'name': ('Visites'),
             'type': 'ir.actions.act_window',
-            "views": [[self.env.ref('sinergis_customer_visi.sinergis_customer_visit_partner_tree').id, "tree"],[False, "form"]],
+            "views": [[self.env.ref('sinergis_customer_visit.sinergis_customer_visit_partner_tree').id, "tree"],[False, "form"]],
             'res_model': 'calendar.event',
             'domain': f"[('partner_id', '=', {self.id})]",
         }
@@ -58,8 +58,8 @@ class ResPartner(models.Model):
                                                              ('visit_type','=','on_site'),
                                                              ('start','>=',(datetime.now() + relativedelta(months=-12)).strftime('%Y-%m-%d %H:%M:%S')),
                                                              ('start','<=',datetime.now().strftime('%Y-%m-%d %H:%M:%S'))], order='start desc')
-
-            if len(event_6_ids) > 0 and len(event_12_ids) > 0:
+            # Client considéré comme visité si au moins une visite sur site dans les 12 mois ET une visite les 6 derniers mois
+            if len(event_6_ids) > 1 and len(event_12_ids) > 0:
                 rec.visit_state = "visited"
             elif len(event_6_ids) == 0 and len(event_12_ids) > 0:
                 rec.visit_state = "missing_on_site_or_phone"
