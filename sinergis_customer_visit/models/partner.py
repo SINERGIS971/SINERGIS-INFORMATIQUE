@@ -18,9 +18,9 @@ class ResPartner(models.Model):
         return {
             'name': ('Visites'),
             'type': 'ir.actions.act_window',
-            "views": [[self.env.ref('sinergis_customer_visit.sinergis_customer_visit_partner_tree').id, "tree"],[False, "form"]],
+            "views": [[self.env.ref('sinergis_customer_visit.sinergis_calendar_event_visit_tree').id, "tree"],[False, "form"]],
             'res_model': 'calendar.event',
-            'domain': f"[('partner_id', '=', {self.id})]",
+            'domain': f"[('x_sinergis_calendar_event_client', '=', {self.id}), ('is_visit', '=', True)]",
         }
 
     def button_create_partner_visit(self):
@@ -29,9 +29,10 @@ class ResPartner(models.Model):
         action['context'] = {
             'default_res_id': self.id,
             'default_res_model': "res.partner",
-            'default_name': "Visite - " + self.partner_id.name,
-            'default_x_sinergis_calendar_event_client': self.partner_id.id, # Specificity for Sinergis
+            'default_name': "Visite - " + self.name,
+            'default_x_sinergis_calendar_event_client': self.id, # Specificity for Sinergis
             'default_is_visit': True,
+            'create': True
         }
         return action
 
@@ -47,29 +48,32 @@ class ResPartner(models.Model):
                 rec.last_visit_date = False
                 rec.last_visit_type = False
 
-            # Visites les 6 derniers mois
-            event_6_ids = self.env["calendar.event"].search([('x_sinergis_calendar_event_client','=',rec.id),
-                                                             ('is_visit','=',True),
-                                                             ('start','>=',(datetime.now() + relativedelta(months=-6)).strftime('%Y-%m-%d %H:%M:%S')),
-                                                             ('start','<=',datetime.now().strftime('%Y-%m-%d %H:%M:%S'))], order='start desc')
             # Visite sur site des 12 derniers mois
-            event_12_ids = self.env["calendar.event"].search([('x_sinergis_calendar_event_client','=',rec.id),
+            event_12_id = self.env["calendar.event"].search([('x_sinergis_calendar_event_client','=',rec.id),
                                                              ('is_visit','=',True),
                                                              ('visit_type','=','on_site'),
                                                              ('start','>=',(datetime.now() + relativedelta(months=-12)).strftime('%Y-%m-%d %H:%M:%S')),
-                                                             ('start','<=',datetime.now().strftime('%Y-%m-%d %H:%M:%S'))], order='start desc')
+                                                             ('start','<=',datetime.now().strftime('%Y-%m-%d 23:59:59'))], order='start asc', limit=1)
+            # Visites les 6 derniers mois
+            event_6_ids = self.env["calendar.event"].search([('id','!=',event_12_id.id),
+                                                             ('x_sinergis_calendar_event_client','=',rec.id),
+                                                             ('is_visit','=',True),
+                                                             ('start','>=',(datetime.now() + relativedelta(months=-6)).strftime('%Y-%m-%d %H:%M:%S')),
+                                                             ('start','<=',datetime.now().strftime('%Y-%m-%d 23:59:59'))], order='start desc')
+
+            visit_6_months = False
+            visit_site_12_months = False
+            if event_12_id :
+                visit_site_12_months = True
+            if len(event_6_ids) > 0:
+                visit_6_months = True
+            
             # Client considéré comme visité si au moins une visite sur site dans les 12 mois ET une visite les 6 derniers mois
-            if len(event_6_ids) > 1 and len(event_12_ids) > 0:
+            if visit_6_months and visit_site_12_months:
                 rec.visit_state = "visited"
-            elif len(event_6_ids) == 0 and len(event_12_ids) > 0:
-                rec.visit_state = "missing_on_site_or_phone"
-            elif len(event_6_ids) > 0 and len(event_12_ids) == 0:
+            elif visit_6_months and not visit_site_12_months:
                 rec.visit_state = "missing_on_site"
-            else :
+            elif not visit_6_months and visit_site_12_months:
+                rec.visit_state = "missing_on_site_or_phone"
+            else:
                 rec.visit_state = "no_visit"
-            
-
-            
-            
-            
-

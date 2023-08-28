@@ -56,9 +56,9 @@
 
       <menuitem id="sinergis_customer_visit_visit_root"
               parent="sinergis_customer_visit_root"
-              name="Visite"
+              name="Visites"
               action="sinergis_calendar_event_visit_action"
-              sequence="10"/>
+              sequence="20"/>
 
   </data>
 </odoo>
