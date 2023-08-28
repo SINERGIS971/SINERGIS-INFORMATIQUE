@@ -30,4 +30,8 @@ class CalendarEvent(models.Model):
         return event
 
     def unlink(self):
-        
+        is_visit = self.is_visit
+        partner_id = self.x_sinergis_calendar_event_client
+        unlinked = super(CalendarEvent,self).unlink()
+        if is_visit:
+            partner_id.update_partner_visits()
