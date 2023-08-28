@@ -38,7 +38,7 @@ class ResPartner(models.Model):
         }
         return action
 
-    @api.depends("last_visit_date","last_visit_type","visit_state")
+    @api.depends("last_visit_date","last_visit_type",)
     def _compute_partner_visits (self):
         for rec in self:
             #Date de la dernière visite
