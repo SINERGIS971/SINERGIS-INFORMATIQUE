@@ -8,6 +8,7 @@
                     <field name="name" filter_domain="[('name', 'ilike', self)]"/>
                     <field name="user_id" filter_domain="[('user_id', 'ilike', self)]"/>
                     <filter string="Mes clients" name="filter_my_user_id" domain="[('user_id', '=', uid)]"/>
+                    <filter string="État" name="group_by_visit_state" context="{'group_by':'visit_state'}"/>
                 </search>
             </field>
         </record>
