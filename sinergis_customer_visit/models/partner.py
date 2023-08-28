@@ -10,9 +10,13 @@ from dateutil.relativedelta import relativedelta
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
+
     last_visit_date = fields.Datetime("Date de la dernière visite", compute="_compute_partner_visits")
     last_visit_type = fields.Selection([('on_site', 'Sur site'),('phone', 'Par téléphone')], string="Type de visite", compute="_compute_partner_visits")
-    visit_state = fields.Selection([('no_visit', 'Pas de visite'),('missing_on_site', 'Manque une visite sur site'),('missing_on_site_or_phone', 'Manque une visite'), ('visited', 'Conditions de visite remplies')], string="Etat", compute="_compute_partner_visits")
+    visit_state = fields.Selection([('no_visit', 'Pas de visite'),('missing_on_site', 'Manque une visite sur site'),('missing_on_site_or_phone', 'Manque une visite'), ('visited', 'Conditions de visite remplies')],
+                                    string="Etat",
+                                    compute="_compute_partner_visits",
+                                    store=True)
     visit_ids = fields.One2many('calendar.event', 'x_sinergis_calendar_event_client', domain=[('is_visit', '=', True)],readonly=True,string="Visites")
 
     def button_view_partner_visits(self):
@@ -37,7 +41,7 @@ class ResPartner(models.Model):
         }
         return action
 
-    @api.depends("last_visit_date", "visit_state")
+    @api.depends("last_visit_date","last_visit_type","visit_state")
     def _compute_partner_visits (self):
         for rec in self:
             #Date de la dernière visite

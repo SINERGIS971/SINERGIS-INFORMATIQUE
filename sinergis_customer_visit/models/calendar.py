@@ -12,3 +12,20 @@ class CalendarEvent(models.Model):
         if self.is_training == False:
             self.visit_type = False
 
+    #@api.model
+    #def create(self, values):
+    #    event = super(CalendarEvent, self).create(values)
+    #    if "is_visit" in values or "visit_type" in values:
+    #        partner_id = event.x_sinergis_calendar_event_client
+    #        if partner_id:
+    #            partner_id._compute_partner_visits()
+    #    return event
+
+    #def write(self, values):
+    #    event =  super(CalendarEvent, self).write(values)
+    #    if "is_visit" in values or "visit_type" in values:
+    #        partner_id = event.x_sinergis_calendar_event_client
+    #        if partner_id:
+    #            partner_id._compute_partner_visits()
+    #    return event
+
