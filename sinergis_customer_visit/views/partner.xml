@@ -36,10 +36,12 @@
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page string="Visites">
+                    <group>
                     <field name="visit_state"/>
                     <field name="last_visit_date"/>
                     <field name="last_visit_type"/>
                     <field name="visit_ids" context="{'tree_view_ref' : 'sinergis_customer_visit.sinergis_calendar_event_visit_tree'}"/>
+                    </group>
                 </page>
             </notebook>
         </field>
