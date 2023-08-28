@@ -23,7 +23,7 @@ class CalendarEvent(models.Model):
 
     def write(self, values):
         event =  super(CalendarEvent, self).write(values)
-        if "is_visit" in values or "visit_type" in values:
+        if "is_visit" in values or "visit_type" in values or "start" in values or "end" in values or "user_id" in values:
             partner_id = self.x_sinergis_calendar_event_client
             if partner_id:
                 partner_id.update_partner_visits()
