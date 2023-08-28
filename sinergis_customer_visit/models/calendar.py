@@ -18,7 +18,7 @@ class CalendarEvent(models.Model):
         if "is_visit" in values or "visit_type" in values:
             partner_id = event.x_sinergis_calendar_event_client
             if partner_id:
-                partner_id._compute_partner_visits()
+                partner_id.update_partner_visits()
         return event
 
     def write(self, values):
@@ -26,6 +26,8 @@ class CalendarEvent(models.Model):
         if "is_visit" in values or "visit_type" in values:
             partner_id = event.x_sinergis_calendar_event_client
             if partner_id:
-                partner_id._compute_partner_visits()
+                partner_id.update_partner_visits()
         return event
 
+    def unlink(self):
+        
