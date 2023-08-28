@@ -6,7 +6,7 @@
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='user_id']" position="after">
+            <xpath expr="//field[@name='allday']" position="after">
                 <field name="is_visit" groups="sinergis_customer_visit.group_sinergis_customer_visit_user"/>
                 <field name="visit_type" attrs="{'invisible': [('is_visit',  '=', False)], 'required': [('is_visit',  '=', True)]}" groups="sinergis_customer_visit.group_sinergis_customer_visit_user"/>
             </xpath>
