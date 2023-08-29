@@ -11,6 +11,7 @@
             <xpath expr="//field[@name='display_name']" position="after">
               <field name="x_sinergis_societe_mere" optional="hide"/>
               <field name="x_sinergis_societe_autre_nom" optional="hide"/>
+              <field name="x_sinergis_societe_contact_payer" optional="hide"/>
             </xpath>
         </field>
     </record>
@@ -74,6 +75,7 @@
             </xpath>
             <xpath expr="//div[@class='o_kanban_tags_section oe_kanban_partner_categories']" position="before">
                 <div t-if="record.x_sinergis_societe_contact_inactive.raw_value" style="color:red;">CONTACT INACTIF !</div>
+                <div t-if="record.x_sinergis_societe_contact_payer.raw_value" style="color:red;">PAYEUR</div>
             </xpath>
             <xpath expr="//field[@name='type']" position="after">
                 <field name="x_sinergis_societe_contact_inactive"/>

@@ -163,6 +163,8 @@ class ResPartner(models.Model):
     x_sinergis_societe_contact_inactive = fields.Boolean(string="Contact inactif")
     x_sinergis_societe_contact_inactive_reason = fields.Html(string="Raison de l'inactivité")
 
+    x_sinergis_societe_contact_payer = fields.Boolean(string="Payeur")
+
 
     @api.onchange("x_sinergis_societe_contact_firstname")
     def on_change_x_sinergis_societe_contact_firstname(self):
@@ -183,6 +185,18 @@ class ResPartner(models.Model):
             if len(lastname) > 0:
                 self.x_sinergis_societe_contact_lastname = lastname.upper()
                 ResPartner.update_name(self)
+
+    @api.onchange("x_sinergis_societe_contact_payer")
+    def on_change_x_sinergis_societe_contact_payer(self):
+        if self.parent_id:
+            contact_ids = self.env['res.partner'].search([('parent_id','=',self.parent_id.id),('id','!=',self.id)])
+            has_payer = False
+            for contact_id in contact_ids:
+                if contact_id.x_sinergis_societe_contact_payer:
+                    has_payer = True
+            if has_payer:
+                self.x_sinergis_societe_contact_payer = False
+                raise ValidationError("Un payeur existe déjà pour ce client. Vous ne pouvez spécifier qu'un seul payeur par client")
 
 
     def update_name(self):
