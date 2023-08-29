@@ -11,7 +11,8 @@
             <xpath expr="//field[@name='display_name']" position="after">
               <field name="x_sinergis_societe_mere" optional="hide"/>
               <field name="x_sinergis_societe_autre_nom" optional="hide"/>
-              <field name="x_sinergis_societe_contact_payer" optional="hide"/>
+              <field name="x_sinergis_societe_contact_payer" attrs="{'invisible':[('is_company','=',True)]}" optional="hide"/>
+              <field name="x_sinergis_societe_has_payer" attrs="{'invisible':[('is_company','=',False)]}" optional="hide"/>
             </xpath>
         </field>
     </record>

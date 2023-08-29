@@ -64,6 +64,9 @@ class ResPartner(models.Model):
 
     x_sinergis_societe_etranger = fields.Boolean(string="Étranger", default=False)
 
+    # 29/08/2023 : Ajout d'un champ afin de savoir si la société possère un payeur
+    x_sinergis_societe_has_payer = fields.Boolean(string="Possède un payeur", compute="_compute_x_sinergis_societe_has_payer")
+
 
     #Gestion des contraintes supplémentaires
 
@@ -134,6 +137,13 @@ class ResPartner(models.Model):
         #if self.x_sinergis_societe_litige_bloque: #SEND MAIL
         #    self.env.ref('sinergis.sinergis_mail_societe_bloque').with_context().send_mail(self.id,force_send=True)
         #    template.send_mail(self.id, force_send=True)
+
+    @api.depends("x_sinergis_societe_has_payer")
+    def _compute_x_sinergis_societe_has_payer(self):
+        for rec in self:
+            payer_ids = self.env['res.partner'].search([('parent_id','=',self.id),('x_sinergis_societe_contact_payer','=',True)])
+            x_sinergis_societe_has_payer = len(payer_ids) > 0
+
 
     def sinergisLitige(self):
         douteux = self.x_sinergis_societe_litige_douteux
