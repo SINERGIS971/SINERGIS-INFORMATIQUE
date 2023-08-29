@@ -357,6 +357,13 @@
                     <field name="x_sinergis_societe_contact_inactive_reason" attrs="{'invisible':[('x_sinergis_societe_contact_inactive','=',False)]}"/>
                   </group>
                 </group>
+                <group>
+                  <group>
+                    <field name="x_sinergis_societe_contact_payer"/>
+                  </group>
+                  <group>
+                  </group>
+                </group>
             </xpath>
 
             <xpath expr="//field[@name='child_ids']/form/sheet//field[@name='comment']" position="before">
