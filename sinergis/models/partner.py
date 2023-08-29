@@ -188,9 +188,9 @@ class ResPartner(models.Model):
 
     @api.onchange("x_sinergis_societe_contact_payer")
     def on_change_x_sinergis_societe_contact_payer(self):
-        if self.parent_id:
+        if self.parent_id and self.x_sinergis_societe_contact_payer:
             contact_ids = self.env['res.partner'].search([('parent_id','=',self.parent_id.id),('x_sinergis_societe_contact_payer','=',True)])
-            has_payer = len(contact_ids) > 1
+            has_payer = len(contact_ids) > 0
             if has_payer:
                 self.x_sinergis_societe_contact_payer = False
                 raise ValidationError("Un payeur existe déjà pour ce client. Vous ne pouvez spécifier qu'un seul payeur par client")
