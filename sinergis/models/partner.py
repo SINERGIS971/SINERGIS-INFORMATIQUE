@@ -141,8 +141,8 @@ class ResPartner(models.Model):
     @api.depends("x_sinergis_societe_has_payer")
     def _compute_x_sinergis_societe_has_payer(self):
         for rec in self:
-            payer_ids = self.env['res.partner'].search([('parent_id','=',self.id),('x_sinergis_societe_contact_payer','=',True)])
-            x_sinergis_societe_has_payer = len(payer_ids) > 0
+            payer_ids = self.env['res.partner'].search([('parent_id','=',rec.id),('x_sinergis_societe_contact_payer','=',True)])
+            rec.x_sinergis_societe_has_payer = len(payer_ids) > 0
 
 
     def sinergisLitige(self):
