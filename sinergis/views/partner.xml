@@ -79,6 +79,7 @@
             </xpath>
             <xpath expr="//field[@name='type']" position="after">
                 <field name="x_sinergis_societe_contact_inactive"/>
+                <field name="x_sinergis_societe_contact_payer"/>
             </xpath>
         </field>
     </record>
