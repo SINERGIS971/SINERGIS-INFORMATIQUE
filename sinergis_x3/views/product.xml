@@ -9,7 +9,7 @@
             <xpath expr="//field[@name='detailed_type']" position="after">
                 <field name="is_hostable"/>
                 <field name="is_ch"/>
-                <field name="is_service"/>
+                <field name="is_sinergis_service"/>
                 <field name="transfer_description"/>
             </xpath>
             <xpath expr="//label[@for='list_price']" position="before">

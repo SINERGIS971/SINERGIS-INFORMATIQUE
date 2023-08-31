@@ -15,7 +15,7 @@ class SaleOrderLine(models.Model):
 
     is_hostable = fields.Boolean(related="product_id.is_hostable")
     is_ch = fields.Boolean(related="product_id.is_ch")
-    is_service = fields.Boolean(related="product_id.is_service")
+    is_sinergis_service = fields.Boolean(related="product_id.is_sinergis_service")
     hosted = fields.Boolean(string="Hébergé", default=False)
     ch_multi = fields.Boolean(string="CH MULTI", default=True)
     external_service = fields.Boolean(string="Presta. externe", default=False)
@@ -84,7 +84,7 @@ class SaleOrder(models.Model):
         for rec in self:
             service_in_order_line = False
             for line in rec.order_line:
-                if line.product_id.is_service:
+                if line.product_id.is_sinergis_service:
                     service_in_order_line = True
             rec.service_in_order_line = service_in_order_line
 
@@ -174,7 +174,7 @@ class SaleOrder(models.Model):
                     return True
                 
                 product_format = False
-                if line.product_id.is_service and line.external_service:
+                if line.product_id.is_sinergis_service and line.external_service:
                     product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).external_format
                 else:
                     product_format = self.env["sinergis_x3.settings.product.template"].search([("product_template_id","=",line.product_id.id)], limit=1).format
