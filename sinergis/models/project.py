@@ -305,7 +305,6 @@ class ProjectProject(models.Model):
                 raise ValidationError("Attention, vous ne pouvez pas archiver un projet contenant tous les contrats d'heures.")
         return super(ProjectProject, self).write(values)
 
-    #Lors de la création de ticket via mail, ajouter automatiquement le contact et la société attribuée
     @api.model_create_multi
     def create(self, list_value):
         for vals in list_value:
