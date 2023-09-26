@@ -107,6 +107,7 @@
                 <field name="origin"/>
                 <field name="date"/>
                 <field name="billing"/>
+                <field name="billing_type" optional="hide"/>
                 <field name="billing_last_date" optional="hide"/>
                 <field name="client"/>
                 <field name="sinergis_product_id" optional="hide"/>
@@ -116,6 +117,7 @@
                 <field name="time" widget="float_time" sum="Temps total"/>
                 <field name="consultant" widget="many2one_avatar_user"/>
                 <field name="country_id"/>
+                <field name="company_id" optional="hide"/>
                 <field name="printed_datetime"/>
                 
                 <!-- REFACTURATION -->

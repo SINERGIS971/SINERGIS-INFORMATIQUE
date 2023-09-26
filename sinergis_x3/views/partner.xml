@@ -11,6 +11,18 @@
             </xpath>
         </field>
     </record>
+
+    <record id="sinergis_x3_inherited_partner_tree" model="ir.ui.view">
+        <field name="name">sinergis_x3.inherited.res.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='display_name']" position="after">
+              <field name="sinergis_x3_code" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
     
     <record id="sinergis_x3_inherited_res_partner_select" model="ir.ui.view">
         <field name="name">sinergis_x3.inherited.res.partner.select</field>
