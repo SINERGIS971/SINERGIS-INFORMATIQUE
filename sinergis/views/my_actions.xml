@@ -117,7 +117,6 @@
                 <field name="time" widget="float_time" sum="Temps total"/>
                 <field name="consultant" widget="many2one_avatar_user"/>
                 <field name="country_id"/>
-                <field name="company_id" optional="hide"/>
                 <field name="printed_datetime"/>
                 
                 <!-- REFACTURATION -->
