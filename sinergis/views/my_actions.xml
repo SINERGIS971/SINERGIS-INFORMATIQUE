@@ -104,6 +104,7 @@
                 <field name="is_billed" invisible="True"/>
                 <field name="is_reinvoiced" invisible="True"/>
                 <field name="rapport_intervention_valide" invisible="True"/>
+                <field name="is_rebillable" invisible="True"/>
                 <field name="origin"/>
                 <field name="date"/>
                 <field name="billing"/>
@@ -117,7 +118,7 @@
                 <field name="time" widget="float_time" sum="Temps total"/>
                 <field name="consultant" widget="many2one_avatar_user"/>
                 <field name="company_id" optional="hide"/>
-                <field name="partnercompany_id" optional="hide"/>
+                <field name="partner_company_id" optional="hide"/>
                 <field name="country_id"/>
                 <field name="printed_datetime"/>
                 
