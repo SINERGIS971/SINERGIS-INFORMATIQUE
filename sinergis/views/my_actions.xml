@@ -144,7 +144,6 @@
                 <field name="is_transfered_x3" invisible="1"/>
                 <button name="start_x3_transfer_button" string="X3" class="oe_highlight btn-danger" icon="fa-refresh" type="object" attrs="{'invisible': ['|','|',('is_transfered_x3',  '=', True),('billing',  '!=', 'Temps passé'),('is_billed', '=', True)]}" confirm="Souhaitez-vous vraiment transférer cette commande vers X3 ?" groups="sinergis_x3.group_myactivity_transfer"/>
                 <button name="open_x3_transfer_button" string="X3" class="oe_highlight btn-success" icon="fa-check" type="object" attrs="{'invisible': [('is_transfered_x3',  '=', False)]}" groups="sinergis_x3.group_myactivity_transfer"/>
-
             </tree>
         </field>
     </record>
