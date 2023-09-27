@@ -4,7 +4,7 @@
     <t t-name="sinergis.calendar-box" t-inherit="calendar.Calendar.calendar-box" t-inherit-mode="extension">
       <xpath expr="//t[@t-esc='record.display_name']" position="before">
         <t t-if="record.x_sinergis_calendar_event_is_sent">
-        &#032;<i role="img" class="fa fa-envelope-o" style="color:green;"></i>
+        <i role="img" class="fa fa-envelope-o" style="color:green;">&#032;</i>
         </t>
       </xpath>
       <xpath expr="//t[@t-esc='record.display_name']" position="after">

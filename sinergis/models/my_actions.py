@@ -33,8 +33,8 @@ class MyActions(models.Model):
     sinergis_product_id = fields.Many2one("sale.products",string="Produit")
     sinergis_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-produit")
     product = fields.Char(string = "Produit",compute="_compute_product")
-    billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Avant-vente", "Avant-vente")], string="Facturation")
-    billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable')], string="Facturable/Non facturable")
+    billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Avant-vente", "Avant-vente"),("Congés", "Congés")], string="Facturation")
+    billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable'),('Congés', 'Congés')], string="Facturable/Non facturable")
     billing_last_date = fields.Datetime(string="Date màj facturation")
     time = fields.Float(string = "Temps")
     consultant = fields.Many2one('res.users',string="Consultant")
@@ -156,7 +156,9 @@ class MyActions(models.Model):
                     CASE
                         WHEN ce.x_sinergis_calendar_event_facturation = 'À définir ultérieurement' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable interne' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable' OR ce.x_sinergis_calendar_event_facturation = 'Avant-vente'
                             THEN 'Non facturable'
-                            ELSE 'Facturable'
+                        WHEN ce.x_sinergis_calendar_event_facturation = 'Congés'
+                            THEN 'Congés'
+                        ELSE 'Facturable'
                     END AS billing_type,
                     ce.x_sinergis_calendar_event_billing_last_date as billing_last_date,
                     CASE

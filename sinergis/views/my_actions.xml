@@ -68,8 +68,9 @@
                   <filter string="Facturée" name="filter_is_billed" domain="['|',('billing',  '=', 'Contrat heure'),'&amp;',('is_billed', '=', True),'|',('billing',  '=', 'Devis'),('billing',  '=', 'Temps passé')]"/>
                   <filter string="Non facturée" name="filter_is_not_billed" domain="['&amp;',('is_billed', '=', False),'|',('billing',  '=', 'Devis'),('billing',  '=', 'Temps passé')]"/>
                   <separator/>
-                  <filter string="Non facturable" name="filter_is_not_billable" domain="['|','|','|',('billing',  '=', 'À définir ultérieurement'),('billing',  '=', 'Non facturable interne'),('billing',  '=', 'Non facturable'),('billing',  '=', 'Avant-vente')]"/>
-                  <filter string="Facturable" name="filter_is_billable" domain="['&amp;','&amp;','&amp;',('billing',  '!=', 'À définir ultérieurement'),('billing',  '!=', 'Non facturable interne'),('billing',  '!=', 'Non facturable'),('billing',  '!=', 'Avant-vente')]"/>
+                  <filter string="Non facturable" name="filter_is_not_billable" domain="[('billing_type','=','Non facturable')]"/>
+                  <filter string="Facturable" name="filter_is_billable" domain="[('billing_type','=','Facturable')]"/>
+                  <filter string="Congés" name="filter_is_vacation" domain="[('billing_type','=','Congés')]"/>
                   <separator/>
                   <filter string="Facturation modifiée" name="filter_is_revised_billing" domain="[('is_revised_billing','=',True)]"/>
                   <separator/>
