@@ -201,6 +201,13 @@
                           <button name="x_sinergis_calendar_event_reset_button" string="Réinitialiser" type="object" class="btn-primary" readonly="True" confirm="Souhaitez-vous vraiment réinitialiser les heures décomptées ?" attrs="{'invisible': [('x_sinergis_calendar_event_is_facturee', '=', False)]}" style="background-color:grey;"/>
                         </group>
                     </page>
+                    <!-- Page qui contient les informations du rapport d'intervention envoyé -->
+                    <page name="x_sinergis_rapport_intervention_sent_page" string="Rapport envoyé" attrs="{'invisible': [('x_sinergis_calendar_event_is_sent','=',False)]}">
+                      <group>
+                        <field name="x_sinergis_calendar_event_sent_date"/>
+                        <field name="x_sinergis_calendar_event_sent_mail"/>
+                      </group>
+                    </page>
                     <!-- Ajout d'une page pour ajouter le rapport d'intervention validé -->
                     <page name="x_sinergis_rapport_intervention_valide_page" string="Rapport validé" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False)]}">
                         <group>
