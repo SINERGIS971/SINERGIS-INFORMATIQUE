@@ -25,9 +25,11 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td style="display:flex; flex-direction: row; justify-content: center; align-items: center">
                     <label for="daily_hours" class="o_form_label">Heures travaillées par jour : </label>
                     <input type="number" class="o_input" name="daily_hours" value="8"/>
+                </td>
+                <td>
                 </td>
             </tr>
         </table>
