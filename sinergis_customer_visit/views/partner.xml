@@ -48,6 +48,7 @@
         </field>
     </record>
 
+
       <record id="sinergis_customer_visit_partner_action" model="ir.actions.act_window">
         <field name="name">Liste des clients</field>
         <field name="type">ir.actions.act_window</field>
