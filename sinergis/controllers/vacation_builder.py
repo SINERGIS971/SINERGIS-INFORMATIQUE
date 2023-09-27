@@ -13,14 +13,23 @@ class SinergisVacationBuilder(http.Controller):
         if request.env.user.has_group('base.group_user') == False:
             return
 
-        start_date,start_mid_day,end_date,end_mid_day,daily_hours = operator.itemgetter('start_date', 'start_mid_day','end_date','end_mid_day','daily_hours')({f['name']: f['value'] for f in fields})
+        start_date,end_date,daily_hours = operator.itemgetter('start_date','end_date','daily_hours')({f['name']: f['value'] for f in fields})
+        start_mid_day = False
+        end_mid_day = False
+        for f in fields:
+            if f['name'] == "start_mid_day":
+                start_mid_day = True
+            if f['name'] == "end_mid_day":
+                end_mid_day = True
+
         if not (start_date.strip() and end_date.strip()):
             return {'error': 'Veuillez renseigner correctement les dates.'}
 
-        if not isinstance(daily_hours, int):
+        if not daily_hours.isnumeric():
             return {'error': "Veuillez saisir correctement votre nombre d'heures par jour."}
+        daily_hours = int(daily_hours)
 
         if daily_hours <= 0 or daily_hours >= 10 :
             return {'error': "Votre nombre d'heures par jour n'est pas entre 1 et 9 heures."}
 
-        return {'error': "Tout est OK !"}
+        return {'error': "Tout est OK ! " + str(start_mid_day) + " | " + str(end_mid_day)}
