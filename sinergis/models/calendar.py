@@ -439,16 +439,17 @@ class CalendarEvent(models.Model):
     """
 
     def write(self, values):
-        user_id = self.env.user
-        # Pour autoriser la synchronisation Outlook - TODO : Plus étudier la synchro Outlook pour mieux restreindre
-        # Vérifier si l'objet existe
-        if len(values) == 1:
-            if not "need_sync_m" in values and self.id :
-                if self.user_id != user_id and self.env.user.has_group('sinergis.group_calendar_admin') == False:
-                    raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas. ID : " + str(self.id))
-        # Vérification si on doit modifier la date de dernière facturation
-        if "x_sinergis_calendar_event_facturation" in values or "x_sinergis_calendar_duree_facturee" in values:
-            self.x_sinergis_calendar_event_billing_last_date = datetime.now()
+        for rec in self:
+            user_id = self.env.user
+            # Pour autoriser la synchronisation Outlook - TODO : Plus étudier la synchro Outlook pour mieux restreindre
+            # Vérifier si l'objet existe
+            if len(values) == 1:
+                if not "need_sync_m" in values and rec.id :
+                    if rec.user_id != user_id and self.env.user.has_group('sinergis.group_calendar_admin') == False:
+                        raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas. ID : " + str(self.id))
+            # Vérification si on doit modifier la date de dernière facturation
+            if "x_sinergis_calendar_event_facturation" in values or "x_sinergis_calendar_duree_facturee" in values:
+                rec.x_sinergis_calendar_event_billing_last_date = datetime.now()
         return super(CalendarEvent, self).write(values)
 
     def generer_rapport_intervention(self):
