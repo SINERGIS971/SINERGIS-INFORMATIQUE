@@ -36,3 +36,4 @@ class CalendarEvent(models.Model):
             unlinked = super(CalendarEvent,rec).unlink()
             if is_visit:
                 partner_id.update_partner_visits()
+
