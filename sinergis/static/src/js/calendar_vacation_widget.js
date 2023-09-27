@@ -15,12 +15,9 @@ odoo.define('sinergis.CalendarVacation', function (require) {
             web_client.set_title('Poser des congés');
             var $button = self.$('.oe_form_button');
             $button.appendTo(this.getParent().$footer);
-            $button.eq(1).click(function () {
-                self.$el.parents('.modal').modal('hide');
-            });
             $button.eq(0).click(function () {
                 self._rpc({
-                        route: '/web/session/change_sinergis_password',
+                        route: '/web/session/sinergis_vacation_builder',
                         params: {
                             fields: $('form[name=sinergis_vacation_builder_form]').serializeArray()
                         }

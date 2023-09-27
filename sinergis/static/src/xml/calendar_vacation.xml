@@ -35,7 +35,7 @@
         </table>
     </div>
     <button type="button" class="btn btn-primary oe_form_button">Valider</button>
-    <button type="button" class="btn btn-secondary oe_form_button oe_form_button_cancel" href="javascript:void(0)">Annuler</button>
+    <button type="button" class="btn btn-secondary oe_form_button oe_form_button_cancel" data-dismiss="modal">Annuler</button>
 </form>
 
     <t t-inherit="calendar.CalendarView" t-inherit-mode="extension">
