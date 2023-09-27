@@ -176,12 +176,13 @@ class ProjectTask(models.Model):
                 self.project_id.x_sinergis_project_project_etat_projet = "Projet terminé"
         
     def write(self, values_list):
-        if "active" in values_list :
-            if values_list["active"] :
-                body = f"Cette tâche a été désarchivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
-            else:
-                body = f"Cette tâche a été archivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
-            self.message_post(body=body)
+        for rec in self:
+            if "active" in values_list :
+                if values_list["active"] :
+                    body = f"Cette tâche a été désarchivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
+                else:
+                    body = f"Cette tâche a été archivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
+                rec.message_post(body=body)
         return super(ProjectTask, self).write(values_list)
 
 
