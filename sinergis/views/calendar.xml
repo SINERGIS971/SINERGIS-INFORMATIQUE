@@ -112,7 +112,8 @@
                     <field name="x_sinergis_calendar_event_is_technical_appointment" invisible="1"/>
                     <field name="x_sinergis_calendar_event_helpdesk_ticket_id" invisible="1"/>
                     <field name="x_sinergis_calendar_event_is_sent" invisible="1"/>
-                    <xpath expr="//field[@name='allday']" position="move"/>
+                    <xpath expr="//field[@name='allday']" position="move" attrs="{'invisible': [('allday',  '=', False)]}"/>
+                    <field name="x_sinergis_calendar_event_is_vacation" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False)],'readonly': [('x_sinergis_calendar_event_is_facturee','=',True)]}"/>
                     <field name="x_sinergis_calendar_event_client" domain="[('is_company','=',True)]" options="{'no_create': True, 'no_create_edit':True}" force_save="1" attrs="{'readonly': [('x_sinergis_calendar_event_is_facturee','=',True)]}"/>
                     <field name="x_sinergis_calendar_event_contact" domain="[('parent_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
                     <field name="x_sinergis_calendar_event_contact_transfered" invisible="True"/>
@@ -121,7 +122,7 @@
 
                 <!-- Creation de la page du notebook de facturation -->
                 <xpath expr="//page[@name='page_invitations']" position="after">
-                    <page name="x_sinergis_facturation_page" string="Facturation" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False)]}">
+                    <page name="x_sinergis_facturation_page" string="Facturation" attrs="{'invisible': ['|','|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False),('x_sinergis_calendar_event_is_vacation','=',True)]}">
                         <group>
                             <field name="x_sinergis_calendar_event_myactions_is_billed" invisible="1"/>
                             <p attrs="{'invisible': [('x_sinergis_calendar_event_myactions_is_billed', '=', False)]}" style="font-size:16px;color:red;text-align:end;">Facturé dans Odoo</p>
@@ -207,14 +208,14 @@
                         </group>
                     </page>
                     <!-- Page qui contient les informations du rapport d'intervention envoyé -->
-                    <page name="x_sinergis_rapport_intervention_sent_page" string="Rapport envoyé" attrs="{'invisible': [('x_sinergis_calendar_event_is_sent','=',False)]}">
+                    <page name="x_sinergis_rapport_intervention_sent_page" string="Rapport envoyé" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_sent','=',False),('x_sinergis_calendar_event_is_vacation','=',True)]}">
                       <group>
                         <field name="x_sinergis_calendar_event_sent_date"/>
                         <field name="x_sinergis_calendar_event_sent_mail"/>
                       </group>
                     </page>
                     <!-- Ajout d'une page pour ajouter le rapport d'intervention validé -->
-                    <page name="x_sinergis_rapport_intervention_valide_page" string="Rapport validé" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False)]}">
+                    <page name="x_sinergis_rapport_intervention_valide_page" string="Rapport validé" attrs="{'invisible': ['|','|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False),('x_sinergis_calendar_event_is_vacation','=',True)]}">
                         <group>
                           <field name="x_sinergis_calendar_event_intervention_report_done">
                           <tree>

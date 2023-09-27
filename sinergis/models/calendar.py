@@ -12,6 +12,10 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_is_commercial_appointment = fields.Boolean()
     x_sinergis_calendar_event_is_technical_appointment = fields.Boolean()
 
+    # Indication des vacances
+    x_sinergis_calendar_event_is_vacation = fields.Boolean(string="Congés")
+
+    # Informations sur le client / contact
     x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client")
     x_sinergis_calendar_event_client_name = fields.Char(related="x_sinergis_calendar_event_client.name")
     x_sinergis_calendar_event_client_douteux = fields.Boolean(related="x_sinergis_calendar_event_client.x_sinergis_societe_litige_douteux") # 23 Mai 2023 : Ajout de la banderole : client douteux
@@ -231,6 +235,16 @@ class CalendarEvent(models.Model):
                     if self.x_sinergis_calendar_event_tache2:
                             domain.append(('id', '=', self.x_sinergis_calendar_event_tache2.id))
             self.x_sinergis_calendar_event_taches = self.env["project.task"].search(domain)
+
+    @api.onchange("x_sinergis_calendar_event_is_vacation")
+    def x_sinergis_calendar_event_is_vacation (self):
+        if self.x_sinergis_calendar_event_is_vacation = True:
+            self.name = "Congés"
+            self.x_sinergis_calendar_event_produits = False
+            self.x_sinergis_calendar_event_client = False
+            self.x_sinergis_calendar_event_facturation = "Congés"
+        else:
+            self.x_sinergis_calendar_event_facturation = False
 
     @api.onchange("x_sinergis_calendar_event_is_commercial_appointment")
     def on_change_x_sinergis_calendar_event_is_commercial_appointment(self):
