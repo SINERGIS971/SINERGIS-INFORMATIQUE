@@ -80,7 +80,7 @@ class CalendarEvent(models.Model):
 
     #Pour la vue list
     x_sinergis_calendar_event_is_downloaded = fields.Boolean(string="Téléchargé",default=False,readonly=True)
-    x_sinergis_calendar_event_is_sent = fields.Boolean(string="Envoyé",default=False,readonly=True)
+    x_sinergis_calendar_event_is_sent = fields.Boolean(string="Rapport Envoyé",compute="_compute_x_sinergis_calendar_event_is_sent")
     x_sinergis_calendar_event_is_deducted = fields.Boolean(string="Décompté",compute="_compute_x_sinergis_calendar_event_is_deducted")
 
     # Rapport d'intervention validé :
@@ -125,6 +125,15 @@ class CalendarEvent(models.Model):
                     rec.x_sinergis_calendar_event_temps_cumule = time
                 else :
                     rec.x_sinergis_calendar_event_temps_cumule = rec.x_sinergis_calendar_event_helpdesk_ticket_id.x_sinergis_helpdesk_ticket_temps_passe
+
+    @api.depends("x_sinergis_calendar_event_is_sent")
+    def _compute_x_sinergis_calendar_event_is_sent(self):
+        for rec in self:
+            mail = self.env['mail.mail'].search([("model","=","calendar.event"),("res_id","=",rec.id),("subject","ilike","intervention")],limit=1)
+            if mail :
+                rec.x_sinergis_calendar_event_is_sent = True
+            else:
+                rec.x_sinergis_calendar_event_is_sent = False
 
     @api.depends('x_sinergis_calendar_event_is_deducted')
     def _compute_x_sinergis_calendar_event_is_deducted (self):
