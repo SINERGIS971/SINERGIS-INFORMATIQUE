@@ -81,7 +81,7 @@ class CalendarEvent(models.Model):
     #Pour la vue list
     x_sinergis_calendar_event_is_downloaded = fields.Boolean(string="Téléchargé",default=False,readonly=True)
     x_sinergis_calendar_event_is_sent = fields.Boolean(string="Rapport Envoyé",compute="_compute_x_sinergis_calendar_event_sent_report")
-    x_sinergis_calendar_event_sent_date = fields.Boolean(string="Date d'envoie",compute="_compute_x_sinergis_calendar_event_sent_report")
+    x_sinergis_calendar_event_sent_date = fields.Datetime(string="Date d'envoie",compute="_compute_x_sinergis_calendar_event_sent_report")
     x_sinergis_calendar_event_sent_mail = fields.Many2one("mail.mail", string="Mail",compute="_compute_x_sinergis_calendar_event_sent_report")
     x_sinergis_calendar_event_is_deducted = fields.Boolean(string="Décompté",compute="_compute_x_sinergis_calendar_event_is_deducted")
 

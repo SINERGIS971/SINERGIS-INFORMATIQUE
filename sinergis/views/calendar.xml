@@ -41,6 +41,10 @@
 
                   <!-- Facturation dans mes activités -->
                   <field name="x_sinergis_calendar_event_myactions_is_billed" invisible="1"/>
+
+                  <!-- Visibilité de l'envoie des rapports d'intervention-->
+                  <field name="x_sinergis_calendar_event_is_sent" invisible="1"/>
+
               </xpath>
             </field>
         </record>
