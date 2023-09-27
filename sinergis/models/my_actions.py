@@ -252,7 +252,7 @@ class MyActions(models.Model):
     @api.depends('is_rebillable')
     def _compute_is_rebillable (self):
         for rec in self:
-            if (rec.billing == "Contrat heure" or rec.billing == "Devis" or rec.billing == "Temps passé") and rec.partner_company_id != rec.partner_id:
+            if (rec.billing == "Contrat heure" or rec.billing == "Devis" or rec.billing == "Temps passé") and rec.partner_company_id != rec.company_id:
                 rec.is_rebillable = True
             else:
                 rec.is_rebillable = False
