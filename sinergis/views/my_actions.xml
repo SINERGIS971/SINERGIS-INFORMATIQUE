@@ -117,13 +117,13 @@
                 <field name="time" widget="float_time" sum="Temps total"/>
                 <field name="consultant" widget="many2one_avatar_user"/>
                 <field name="company_id" optional="hide"/>
-                <field name="partner_company_id" optional="hide"/>
+                <field name="partnercompany_id" optional="hide"/>
                 <field name="country_id"/>
                 <field name="printed_datetime"/>
                 
                 <!-- REFACTURATION -->
-                <button name="no_reinvoiced_button" string="Refacturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_reinvoiced',  '=', False),'&amp;','&amp;',('billing',  '!=', 'Contrat heure'),('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
-                <button name="reinvoiced_button" string="Non refacturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_reinvoiced',  '=', True),'&amp;','&amp;',('billing',  '!=', 'Contrat heure'),('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
+                <button name="no_reinvoiced_button" string="Refacturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_reinvoiced',  '=', False),('is_rebillable','=',False)]}"/>
+                <button name="reinvoiced_button" string="Non refacturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_reinvoiced',  '=', True),('is_rebillable','=',False)]}"/>
                 
                 <field name="reinvoiced_company_id" string="Agence qui refacture"/>
 

@@ -66,6 +66,7 @@ class MyActions(models.Model):
 
     # Refacturation
 
+    is_rebillable = fields.Boolean(compute="_compute_is_rebillable")
     is_reinvoiced = fields.Boolean(string="")
     reinvoiced_company_id = fields.Many2one("res.company")
 
@@ -247,6 +248,14 @@ class MyActions(models.Model):
                     rec.rapport_intervention_valide = False
             else:
                 rec.rapport_intervention_valide = False
+
+    @api.depends('is_rebillable')
+    def _compute_is_rebillable (self):
+        for rec in self:
+            if (rec.billing == "Contrat heure" or rec.billing == "Devis" or rec.billing == "Temps passé") and rec.partner_company_id != rec.partner_id:
+                rec.is_rebillable = True
+            else:
+                rec.is_rebillable = False
 
 
     def open(self):
