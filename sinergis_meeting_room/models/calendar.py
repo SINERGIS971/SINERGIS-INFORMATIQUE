@@ -24,28 +24,29 @@ class SinergisMeetingRoomCalendarEvent(models.Model):
         return events
     
     def write(self, values):
-        name = values.get('name', self.name)
-        start_date = values.get('start', self.start)
-        end_date =values.get('stop', self.stop)
-        if "sinergis_meeting_room_id" in values:
-            self.env['sinergis_meeting_room.event'].search([('calendar_event_id','=',self.id)]).unlink()
-            room_id = values['sinergis_meeting_room_id']
-            if room_id:
-                self.env['sinergis_meeting_room.event'].create({
-                    'name': name,
-                    'start_date': start_date,
-                    'end_date': end_date,
-                    'room_id': room_id,
-                    'calendar_event_id': self.id
-                })
-        else:
-            room_event = self.env['sinergis_meeting_room.event'].search([('calendar_event_id','=',self.id)])
-            if room_event:
-                room_event.write({
-                    'name': name,
-                    'start_date': start_date,
-                    'end_date': end_date,
-                })
+        for rec in self:
+            name = values.get('name', rec.name)
+            start_date = values.get('start', rec.start)
+            end_date =values.get('stop', rec.stop)
+            if "sinergis_meeting_room_id" in values:
+                self.env['sinergis_meeting_room.event'].search([('calendar_event_id','=',rec.id)]).unlink()
+                room_id = values['sinergis_meeting_room_id']
+                if room_id:
+                    self.env['sinergis_meeting_room.event'].create({
+                        'name': name,
+                        'start_date': start_date,
+                        'end_date': end_date,
+                        'room_id': room_id,
+                        'calendar_event_id': rec.id
+                    })
+            else:
+                room_event = self.env['sinergis_meeting_room.event'].search([('calendar_event_id','=',rec.id)])
+                if room_event:
+                    room_event.write({
+                        'name': name,
+                        'start_date': start_date,
+                        'end_date': end_date,
+                    })
         return super(SinergisMeetingRoomCalendarEvent, self).write(values)
     
     def unlink(self):
