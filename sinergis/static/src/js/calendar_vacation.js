@@ -4,12 +4,7 @@ odoo.define('sinergis.CalendarView', function (require) {
     var core = require('web.core');
     var Dialog = require('web.Dialog');
     var framework = require('web.framework');
-    const CalendarView = require('@calendar/js/calendar_view')[Symbol.for("default")];
     const CalendarRenderer = require('@calendar/js/calendar_renderer')[Symbol.for("default")].AttendeeCalendarRenderer;
-    const CalendarController = require('@calendar/js/calendar_controller')[Symbol.for("default")];
-    const CalendarModel = require('@calendar/js/calendar_model')[Symbol.for("default")];
-    const viewRegistry = require('web.view_registry');
-    const session = require('web.session');
     
     var _t = core._t;
     
@@ -25,7 +20,12 @@ odoo.define('sinergis.CalendarView', function (require) {
         //--------------------------------------------------------------------------
     
         _addCalendarVacation: function() {
-            console.log("Hello world");
+            var action = {
+                type: 'ir.actions.client',
+                tag: 'sinergis_vacation_builder',
+                target: 'new',
+            };
+            this.do_action(action);
         },
 
     });

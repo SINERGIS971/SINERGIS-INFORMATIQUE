@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates>
+
+    <form t-name="SinergisVacationBuilder" name="sinergis_vacation_builder" method="POST" aria-atomic="true">
+    <div class="o_form_view">
+        <table class="o_group o_inner_group o_label_nowrap">
+            <tr>
+                <td class="o_td_label"><label for="start_date" class="o_form_label">Date de début</label></td>
+                <td width="100%"><input type="date" class="o_field_widget o_input" name="start_date" required="1" autofocus="autofocus"/></td>
+            </tr>
+            <tr>
+                <td class="o_td_label"><label for="start_mid_day" class="o_form_label">Départ le midi</label></td>
+                <td width="100%"><input type="checkbox" class="o_field_widget o_input" name="start_mid_day"/></td>
+            </tr>
+            <tr>
+                <td class="o_td_label"><label for="end_date" class="o_form_label">Date de fin</label></td>
+                <td width="100%"><input type="date" class="o_field_widget o_input" name="end_date" required="1" autofocus="autofocus"/></td>
+            </tr>
+            <tr>
+                <td class="o_td_label"><label for="end_mid_day" class="o_form_label">Arrivée le midi</label></td>
+                <td width="100%"><input type="checkbox" class="o_field_widget o_input" name="end_mid_day"/></td>
+            </tr>
+        </table>
+    </div>
+    <button type="button" class="btn btn-primary oe_form_button">Valider</button>
+    <button type="button" class="btn btn-secondary oe_form_button oe_form_button_cancel" href="javascript:void(0)">Annuler</button>
+</form>
+
     <t t-inherit="calendar.CalendarView" t-inherit-mode="extension">
         <xpath expr="//div[@id='calendar_sync']" position="before">
             <div id="vacation_builder" class="container inline btn-group">
@@ -9,4 +35,6 @@
             </div>
         </xpath>
     </t>
+
+
 </templates>
