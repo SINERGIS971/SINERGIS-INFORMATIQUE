@@ -7,8 +7,8 @@ odoo.define('sinergis.CalendarVacation', function (require) {
     
     var _t = core._t;
     
-    var SinergisCalendarVacation = AbstractAction.extend({
-        template: "SinergisCalendarVacation",
+    var SinergisVacationBuilder = AbstractAction.extend({
+        template: "SinergisVacationBuilder",
     
         start: function () {
             var self = this;
@@ -39,9 +39,9 @@ odoo.define('sinergis.CalendarVacation', function (require) {
         },
     });
     
-    core.action_registry.add("sinergis_vacation_builder", SinergisCalendarVacation);
+    core.action_registry.add("sinergis_vacation_builder", SinergisVacationBuilder);
     
-    return SinergisCalendarVacation;
+    return SinergisVacationBuilder;
     
     });
     

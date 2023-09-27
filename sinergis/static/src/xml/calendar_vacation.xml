@@ -5,20 +5,30 @@
     <div class="o_form_view">
         <table class="o_group o_inner_group o_label_nowrap">
             <tr>
-                <td class="o_td_label"><label for="start_date" class="o_form_label">Date de début</label></td>
-                <td width="100%"><input type="date" class="o_field_widget o_input" name="start_date" required="1" autofocus="autofocus"/></td>
+                <td>
+                    <label for="start_date" class="o_form_label">Date de début : </label>
+                    <input type="date" class="o_input" name="start_date" required="1" autofocus="autofocus"/>
+                </td>
+                <td>
+                    <label for="start_mid_day" class="o_form_label">Départ le midi : </label>
+                    <input type="checkbox" class="o_input" name="start_mid_day"/>
+                </td>
             </tr>
             <tr>
-                <td class="o_td_label"><label for="start_mid_day" class="o_form_label">Départ le midi</label></td>
-                <td width="100%"><input type="checkbox" class="o_field_widget o_input" name="start_mid_day"/></td>
+                <td>
+                    <label for="end_date" class="o_form_label">Date de fin : </label>
+                    <input type="date" class="o_input" name="end_date" required="1" autofocus="autofocus"/>
+                </td>
+                <td>
+                    <label for="end_mid_day" class="o_form_label">Arrivée le midi : </label>
+                    <input type="checkbox" class="o_input" name="end_mid_day"/>
+                </td>
             </tr>
             <tr>
-                <td class="o_td_label"><label for="end_date" class="o_form_label">Date de fin</label></td>
-                <td width="100%"><input type="date" class="o_field_widget o_input" name="end_date" required="1" autofocus="autofocus"/></td>
-            </tr>
-            <tr>
-                <td class="o_td_label"><label for="end_mid_day" class="o_form_label">Arrivée le midi</label></td>
-                <td width="100%"><input type="checkbox" class="o_field_widget o_input" name="end_mid_day"/></td>
+                <td>
+                    <label for="daily_hours" class="o_form_label">Heures travaillées par jour : </label>
+                    <input type="number" class="o_input" name="daily_hours" value="8"/>
+                </td>
             </tr>
         </table>
     </div>
