@@ -526,3 +526,4 @@ class CalendarEvent(models.Model):
         event_id = fields.Many2one("calendar.event",string="Évenement",required=True)
         name = fields.Char(string="Nom",required=True)
         file = fields.Binary(string="Rapport")
+
