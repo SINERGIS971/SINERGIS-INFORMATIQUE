@@ -237,12 +237,13 @@ class CalendarEvent(models.Model):
             self.x_sinergis_calendar_event_taches = self.env["project.task"].search(domain)
 
     @api.onchange("x_sinergis_calendar_event_is_vacation")
-    def x_sinergis_calendar_event_is_vacation (self):
-        if self.x_sinergis_calendar_event_is_vacation = True:
+    def onchange_x_sinergis_calendar_event_is_vacation (self):
+        if self.x_sinergis_calendar_event_is_vacation == True:
             self.name = "Congés"
             self.x_sinergis_calendar_event_produits = False
             self.x_sinergis_calendar_event_client = False
             self.x_sinergis_calendar_event_facturation = "Congés"
+            self.x_sinergis_calendar_duree_facturee = self.duration
         else:
             self.x_sinergis_calendar_event_facturation = False
 
