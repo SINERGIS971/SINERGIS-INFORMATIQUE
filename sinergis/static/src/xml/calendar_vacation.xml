@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates>
 
-    <form t-name="SinergisVacationBuilder" name="sinergis_vacation_builder" method="POST" aria-atomic="true">
+    <form t-name="SinergisVacationBuilder" name="sinergis_vacation_builder_form" method="POST" aria-atomic="true">
     <div class="o_form_view">
         <table class="o_group o_inner_group o_label_nowrap">
             <tr>
