@@ -3,7 +3,9 @@
     <t t-inherit="calendar.CalendarView" t-inherit-mode="extension">
         <xpath expr="//div[@id='calendar_sync']" position="before">
             <div id="vacation_builder" class="container inline btn-group">
-                <b><i class='fa fa-sun-o'/>Poser des congés</b>
+                <button type="button" id="sinergis_add_vacation" class="o_sinergis_add_vacation btn btn-secondary btn">
+                <b><i class='fa fa-sun-o'/> Poser des congés</b>
+                </button>
             </div>
         </xpath>
     </t>

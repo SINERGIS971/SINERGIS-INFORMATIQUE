@@ -63,6 +63,7 @@
             'sinergis/static/src/js/help_button.js',
             # Permet de toujours avoir toutes les sociétés Sinergis cochées.
             'sinergis/static/src/js/all_companies.js',
+            'sinergis/static/src/js/calendar_vacation.js',
             #'sinergis/static/src/js/dialog_popup.js',
             'sinergis/static/src/css/style.css',
         ],
