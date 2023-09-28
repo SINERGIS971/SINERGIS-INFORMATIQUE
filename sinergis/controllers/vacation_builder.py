@@ -59,3 +59,4 @@ class SinergisVacationBuilder(http.Controller):
             self.env["calendar.event"].create(context)
             pointed_date = pointed_date + timedelta(days=1)
         return {'error': "Tout est OK ! " + str(start_mid_day) + " | " + str(end_mid_day)}
+        
