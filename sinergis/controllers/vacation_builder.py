@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from odoo import http
 from odoo.http import request
 from odoo.exceptions import AccessError, UserError, AccessDenied
+from odoo.tools import pytz
 
 class SinergisVacationBuilder(http.Controller):
     @http.route('/web/session/sinergis_vacation_builder', type='json', auth="user")
@@ -41,9 +42,14 @@ class SinergisVacationBuilder(http.Controller):
         if len(event_ids) > 0:
             return {'error': "Il y a déjà des congés sur cette plage de dates. Veuillez les supprimer avant d'en générer de nouveaux."}
 
+        # Chargement timezone
+
+        tz = request.env.user.tz
+
         # Création  des évènements
         pointed_date = start_date
         total_days = (end_date - start_date).days + 1
+
         for i in range(0, total_days):
             if pointed_date.weekday() == 5 or pointed_date.weekday() == 6:
                 pointed_date = pointed_date + timedelta(days=1)
@@ -57,7 +63,8 @@ class SinergisVacationBuilder(http.Controller):
             else :
                 event_start = pointed_date.strftime("%Y-%m-%d 08:00:00")
                 event_stop = (datetime.strptime(event_start, "%Y-%m-%d %H:%M:%S") + timedelta(hours=daily_hours)).strftime("%Y-%m-%d %H:%M:%S")
-
+            event_start = event_start.astimezone(tz)
+            event_stop = event_start.astimezone(tz)
             context = {
                         "name" : f"Congés",
                         "user_id" : request.env.user.id,
@@ -70,5 +77,6 @@ class SinergisVacationBuilder(http.Controller):
 
             # Increment pointer
             pointed_date = pointed_date + timedelta(days=1)
+        return True
         
 
