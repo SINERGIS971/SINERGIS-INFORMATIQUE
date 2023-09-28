@@ -13,7 +13,7 @@ class ResPartner(models.Model):
 
     last_visit_date = fields.Datetime(string="Date de la dernière visite", default=False)
     last_visit_type = fields.Selection([('on_site', 'Sur site'),('phone', 'Par téléphone')], string="Type de visite")
-    visit_state = fields.Selection([('no_visit', 'Pas de visite'),('missing_on_site', 'Manque une visite sur site'),('missing_on_site_or_phone', 'Manque une visite'), ('visited', 'Conditions de visite remplies')],required=True,default="no_visit",string="Etat")
+    visit_state = fields.Selection([('no_visit', 'Pas de visite'),('missing_on_site', 'Manque une visite sur site'),('missing_on_site_or_phone', 'Manque une visite'), ('visited', 'Conditions de visite remplies')],default="no_visit",string="Etat")
     visit_ids = fields.One2many('calendar.event', 'x_sinergis_calendar_event_client', domain=[('is_visit', '=', True)],readonly=True,string="Visites")
 
     def button_view_partner_visits(self):
