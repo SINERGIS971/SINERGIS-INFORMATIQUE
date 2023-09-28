@@ -3,6 +3,8 @@
 
     <form t-name="SinergisVacationBuilder" name="sinergis_vacation_builder_form" method="POST" aria-atomic="true">
     <div class="o_form_view">
+        <p>Les dates de début et de fin sont incluses dans vos congés.</p>
+        <p>Si vous partez le vendredi midi par exemple, sélectionnez la date du vendredi et cliquez sur 'Départ le midi'</p>
         <table class="o_group o_inner_group o_label_nowrap">
             <tr>
                 <td>
@@ -35,7 +37,6 @@
         </table>
     </div>
     <button type="button" class="btn btn-primary oe_form_button">Valider</button>
-    <button type="button" class="btn btn-secondary oe_form_button oe_form_button_cancel" data-dismiss="modal">Annuler</button>
 </form>
 
     <t t-inherit="calendar.CalendarView" t-inherit-mode="extension">
