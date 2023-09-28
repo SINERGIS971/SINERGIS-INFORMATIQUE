@@ -29,7 +29,7 @@ odoo.define('sinergis.CalendarVacation', function (require) {
                                 type: 'danger'
                             });
                         } else {
-                            self.do_action('logout');
+                            window.location.reload();
                         }
                     });
             });

@@ -48,15 +48,27 @@ class SinergisVacationBuilder(http.Controller):
             if pointed_date.weekday() == 5 or pointed_date.weekday() == 6:
                 pointed_date = pointed_date + timedelta(days=1)
                 continue
+            if start_mid_day and i == 0:
+                event_start = pointed_date.strftime("%Y-%m-%d 13:00:00")
+                event_stop = (datetime.strptime(event_start, "%Y-%m-%d %H:%M:%S") + timedelta(hours=daily_hours/2.0)).strftime("%Y-%m-%d %H:%M:%S")
+            elif end_mid_day and i == total_days-1:
+                event_start = pointed_date.strftime("%Y-%m-%d 08:00:00")
+                event_stop = (datetime.strptime(event_start, "%Y-%m-%d %H:%M:%S") + timedelta(hours=daily_hours/2.0)).strftime("%Y-%m-%d %H:%M:%S")
+            else :
+                event_start = pointed_date.strftime("%Y-%m-%d 08:00:00")
+                event_stop = (datetime.strptime(event_start, "%Y-%m-%d %H:%M:%S") + timedelta(hours=daily_hours)).strftime("%Y-%m-%d %H:%M:%S")
+
             context = {
-                        "name" : f"Congés - {self.env.user.name}",
-                        "user_id" : self.env.user.id,
-                        "start" : pointed_date.strftime("%Y-%m-%d 08:00:00"),
-                        "stop" : pointed_date.strftime("%Y-%m-%d 17:00:00"),
-                        "x_sinergis_calendar_event_is_vacation": True,
+                        "name" : f"Congés",
+                        "user_id" : request.env.user.id,
+                        "start" : event_start,
+                        "stop" : event_stop,
                         'need_sync_m': True
                     }
-            self.env["calendar.event"].create(context)
+            event = request.env["calendar.event"].create(context)
+            event.x_sinergis_calendar_event_is_vacation = True
+
+            # Increment pointer
             pointed_date = pointed_date + timedelta(days=1)
-        return {'error': "Tout est OK ! " + str(start_mid_day) + " | " + str(end_mid_day)}
+        
 
