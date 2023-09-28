@@ -80,3 +80,4 @@ class ResPartner(models.Model):
             else:
                 rec.visit_state = "no_visit"
                 
+                
