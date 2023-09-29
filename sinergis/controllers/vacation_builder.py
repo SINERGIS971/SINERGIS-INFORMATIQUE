@@ -92,6 +92,7 @@ class SinergisVacationBuilder(http.Controller):
                         "x_sinergis_calendar_event_is_vacation": True,
                         "x_sinergis_calendar_event_facturation" : "Congés",
                         "x_sinergis_calendar_duree_facturee" : duration,
+                        "x_sinergis_calendar_event_vacation_duration": duration,
                         'need_sync_m': True
                     }
             event = request.env["calendar.event"].create(context)
