@@ -80,6 +80,7 @@
                     <filter string="Facturation" name="group_by_billing" context="{'group_by':'billing'}"/>
                     <filter string="Facturable/Non facturable/Congés" name="group_by_billing_type" context="{'group_by':'billing_type'}"/>
                     <filter string="Client" name="group_by_client" context="{'group_by':'client'}"/>
+                    <filter string="Code X3" name="group_by_client_sinergis_x3_code" context="{'group_by':'client_sinergis_x3_code'}"/>
                     <filter string="Date" name="group_by_date" context="{'group_by':'date'}"/>
                     <filter string="Consultant" name="group_by_consultant" context="{'group_by':'consultant'}"/>
                     <filter string="Société SINERGIS" name="group_by_company" context="{'group_by':'company_id'}"/>
