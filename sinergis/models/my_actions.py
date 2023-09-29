@@ -30,6 +30,7 @@ class MyActions(models.Model):
     origin = fields.Selection([('helpdesk', 'Assistance'),('calendar', 'Intervention calendrier')], string="Origine")
     date = fields.Datetime(readonly=True, string="Date")
     client = fields.Many2one("res.partner",string="Client")
+    client_sinergis_x3_code = fields.Char(string='Code X3')
     sinergis_product_id = fields.Many2one("sale.products",string="Produit")
     sinergis_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-produit")
     product = fields.Char(string = "Produit",compute="_compute_product")
@@ -81,7 +82,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.sinergis_product_id,T.sinergis_subproduct_id,T.billing,T.billing_type,T.billing_last_date,CAST(T.time AS float),T.consultant,T.company_id,T.partner_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_revised_billing,T.is_reinvoiced,T.reinvoiced_company_id,T.is_transfered_x3 FROM
+            T.name,T.date,T.client,T.client_sinergis_x3_code,T.sinergis_product_id,T.sinergis_subproduct_id,T.billing,T.billing_type,T.billing_last_date,CAST(T.time AS float),T.consultant,T.company_id,T.partner_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_revised_billing,T.is_reinvoiced,T.reinvoiced_company_id,T.is_transfered_x3 FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -89,6 +90,7 @@ class MyActions(models.Model):
                     ht.name as name,
                     ht.x_sinergis_helpdesk_ticket_start_time as date,
                     ht.partner_id as client,
+                    rp.sinergis_x3_code as client_sinergis_x3_code,
                     ht.x_sinergis_helpdesk_ticket_produits_new as sinergis_product_id,
                     ht.x_sinergis_helpdesk_ticket_sous_produits_new as sinergis_subproduct_id,
                     REPLACE(ht.x_sinergis_helpdesk_ticket_facturation,'heures','heure') as billing,
@@ -150,6 +152,7 @@ class MyActions(models.Model):
                     ce.name as name,
                     ce.start as date,
                     ce.x_sinergis_calendar_event_client as client,
+                    rp.sinergis_x3_code as client_sinergis_x3_code,
                     ce.x_sinergis_calendar_event_produits_new as sinergis_product_id,
                     ce.x_sinergis_calendar_event_sous_produits_new as sinergis_subproduct_id,
                     REPLACE(ce.x_sinergis_calendar_event_facturation,'heures','heure') as billing,
