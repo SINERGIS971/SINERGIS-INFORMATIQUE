@@ -50,7 +50,7 @@ class SinergisVacationBuilder(http.Controller):
             return {'error': "Vous ne pouvez pas planifier des congés de plus de 60 jours avec cet outil. Veuillez vous rapprocher d'un administrateur."}
 
         # Vérification de la non présence de congés
-        event_ids = request.env['calendar.event'].search([('start','>=',start_date.strftime("%Y-%m-%d 00:00:01")),('stop','<=',end_date.strftime("%Y-%m-%d 23:59:59")),('x_sinergis_calendar_event_is_vacation','=',True)])
+        event_ids = request.env['calendar.event'].search([('start','>=',start_date.strftime("%Y-%m-%d 00:00:01")),('stop','<=',end_date.strftime("%Y-%m-%d 23:59:59")),('x_sinergis_calendar_event_is_vacation','=',True),('user_id','=',request.env.user.id)])
         if len(event_ids) > 0:
             return {'error': "Il y a déjà des congés sur cette plage de dates. Veuillez les supprimer avant d'en générer de nouveaux."}
 
