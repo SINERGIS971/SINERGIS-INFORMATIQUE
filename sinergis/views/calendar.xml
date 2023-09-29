@@ -118,6 +118,9 @@
                 <xpath expr="//page[@name='page_details']" position="attributes">
                   <attribute name="attrs">{'invisible': [('x_sinergis_calendar_event_is_vacation', '=', True)]}</attribute>
                 </xpath>
+                <xpath expr="//page[@name='page_options']" position="attributes">
+                  <attribute name="attrs">{'invisible': True}</attribute>
+                </xpath>
 
                 <!-- Ajout client/contact/participants -->
                 <xpath expr="//field[@name='start']" position="before">

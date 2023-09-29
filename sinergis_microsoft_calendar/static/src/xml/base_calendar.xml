@@ -13,10 +13,13 @@
             </button>
         </xpath>
         <xpath expr="//div[@id='calendar_sync']" position="after">
-            <p style="font-size: 10px;">Fonctionnement du nouveau module de synchronisation Outlook:<br/>
+            <p id="microsoft_not_logged" style="color:red;font-size:0.9em;">
+                Vous n'êtes pas synchronisé à Outlook
+            </p>
+            <!--<p style="font-size: 10px;">Fonctionnement du nouveau module de synchronisation Outlook:<br/>
                                         - Les évènements datant d'il y a plus de 7 jours ne sont plus synchronisés entre Outlook et Odoo.<br/>
                                         - Lors de la première synchronisation des évènements doublons peuvent apparaitre s'ils sont à la fois présents dans outlook et odoo. Il faudra les supprimer.<br/>
-                                        <span style="color:red;">- Les participants des réunions organisées entre il y a 7 jours et dans deux ans peuvent recevoir un mail si c'est votre première synchronisation. Veillez à ne pas avoir de participants aux réunions sur votre calendrier Odoo entre -7 jours et +2 ans.</span></p>
+                                        <span style="color:red;">- Les participants des réunions organisées entre il y a 7 jours et dans deux ans peuvent recevoir un mail si c'est votre première synchronisation. Veillez à ne pas avoir de participants aux réunions sur votre calendrier Odoo entre -7 jours et +2 ans.</span></p>-->
         </xpath>
     </t>
 </templates>
