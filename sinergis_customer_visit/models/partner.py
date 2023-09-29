@@ -37,6 +37,7 @@ class ResPartner(models.Model):
             'create': True
         }
         return action
+        
 
     # Mettre à jour les données de visites du client
     def update_partner_visits (self):

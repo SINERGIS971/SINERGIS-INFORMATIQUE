@@ -13,7 +13,8 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_is_technical_appointment = fields.Boolean()
 
     # Indication des vacances
-    x_sinergis_calendar_event_is_vacation = fields.Boolean(string="Congés")
+    x_sinergis_calendar_event_is_vacation = fields.Boolean(string="Congé")
+    x_sinergis_calendar_event_vacation_duration = fields.Float(string="Durée du congé", default=lambda self: self.duration)
 
     # Informations sur le client / contact
     x_sinergis_calendar_event_client = fields.Many2one("res.partner",string="Client")
@@ -246,6 +247,10 @@ class CalendarEvent(models.Model):
             self.x_sinergis_calendar_duree_facturee = self.duration
         else:
             self.x_sinergis_calendar_event_facturation = False
+
+    @api.onchange("x_sinergis_calendar_event_vacation_duration")
+    def onchange_x_sinergis_calendar_event_vacation_duration (self):
+        self.x_sinergis_calendar_duree_facturee = self.x_sinergis_calendar_event_vacation_duration
 
     @api.onchange("x_sinergis_calendar_event_is_commercial_appointment")
     def on_change_x_sinergis_calendar_event_is_commercial_appointment(self):

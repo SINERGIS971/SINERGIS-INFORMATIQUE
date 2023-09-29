@@ -106,6 +106,22 @@
                   </div>
                 </xpath>
 
+                <xpath expr="//page[@name='page_details']" position="before">
+                  <page name="sinergis_page_vacation" string="Congé" attrs="{'invisible': [('x_sinergis_calendar_event_is_vacation','=',False)]}">
+                    <group>
+                      <field name="x_sinergis_calendar_event_is_vacation"/>
+                      <field name="x_sinergis_calendar_event_vacation_duration"/>
+                    </group>
+                  </page>
+                </xpath>
+
+                <xpath expr="//page[@name='page_details']" position="attributes">
+                  <attribute name="attrs">{'invisible': [('x_sinergis_calendar_event_is_vacation', '=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='page_options']" position="attributes">
+                  <attribute name="attrs">{'invisible': True}</attribute>
+                </xpath>
+
                 <!-- Ajout client/contact/participants -->
                 <xpath expr="//field[@name='start']" position="before">
                     <field name="x_sinergis_calendar_event_is_commercial_appointment" invisible="1"/>
@@ -113,7 +129,6 @@
                     <field name="x_sinergis_calendar_event_helpdesk_ticket_id" invisible="1"/>
                     <field name="x_sinergis_calendar_event_is_sent" invisible="1"/>
                     <xpath expr="//field[@name='allday']" position="move" attrs="{'invisible': [('allday',  '=', False)]}"/>
-                    <field name="x_sinergis_calendar_event_is_vacation" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_commercial_appointment',  '=', True),('x_sinergis_calendar_event_helpdesk_ticket_id','!=',False)],'readonly': [('x_sinergis_calendar_event_is_facturee','=',True)]}"/>
                     <field name="x_sinergis_calendar_event_client" domain="[('is_company','=',True)]" options="{'no_create': True, 'no_create_edit':True}" force_save="1" attrs="{'readonly': [('x_sinergis_calendar_event_is_facturee','=',True)]}"/>
                     <field name="x_sinergis_calendar_event_contact" domain="[('parent_id','=',x_sinergis_calendar_event_client)]" attrs="{'readonly': [('x_sinergis_calendar_event_client',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}" force_save="1"/>
                     <field name="x_sinergis_calendar_event_contact_transfered" invisible="True"/>

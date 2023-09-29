@@ -12,9 +12,11 @@ class SinergisSaleReport(models.Model):
 
     name = fields.Char('Référence de vente', readonly=True)
     date = fields.Datetime('Date de vente', readonly=True)
-    product_id = fields.Many2one('product.product', 'Produit', readonly=True)
+    product_id = fields.Many2one('product.product', 'Article', readonly=True)
     product_uom = fields.Many2one('uom.uom', 'Unité de mesure', readonly=True)
     product_uom_qty = fields.Float('Qté commandée', readonly=True)
+    sinergis_product_id = fields.Many2one('sale.products', 'Produit', readonly=True)
+    sinergis_subproduct_id = fields.Many2one('sale.products.subproducts', 'Sous-produit', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Client', readonly=True)
     company_id = fields.Many2one('res.company', 'Société', readonly=True)
     user_id = fields.Many2one('res.users', 'Vendeur', readonly=True)
@@ -48,6 +50,8 @@ class SinergisSaleReport(models.Model):
         select_ = """
             coalesce(min(l.id), -s.id) as id,
             l.product_id as product_id,
+            l.x_sinergis_sale_order_line_product_id as sinergis_product_id,
+            l.x_sinergis_sale_order_line_subproduct_id as sinergis_subproduct_id,
             t.uom_id as product_uom,
             CASE WHEN l.product_id IS NOT NULL THEN sum(l.product_uom_qty / u.factor * u2.factor) ELSE 0 END as product_uom_qty,
             CASE WHEN l.product_id IS NOT NULL THEN sum(l.qty_delivered / u.factor * u2.factor) ELSE 0 END as qty_delivered,
@@ -128,6 +132,8 @@ class SinergisSaleReport(models.Model):
     def _group_by_sale(self, groupby=''):
         groupby_ = """
             l.product_id,
+            l.x_sinergis_sale_order_line_product_id,
+            l.x_sinergis_sale_order_line_subproduct_id,
             l.order_id,
             t.uom_id,
             t.categ_id,
