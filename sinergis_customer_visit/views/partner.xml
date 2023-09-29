@@ -8,7 +8,7 @@
                     <field name="name" filter_domain="[('name', 'ilike', self)]"/>
                     <field name="user_id" filter_domain="[('user_id', 'ilike', self)]"/>
                     <filter string="Mes clients" name="filter_my_user_id" domain="[('user_id', '=', uid)]"/>
-                    <!--<filter string="État" name="group_by_visit_state" context="{'group_by':'visit_state'}"/>-->
+                    <filter string="État" name="group_by_visit_state" context="{'group_by':'visit_state'}"/>
                 </search>
             </field>
         </record>
@@ -17,13 +17,13 @@
           <field name="name">sinergis_customer_visit.res.partner.tree</field>
           <field name="model">res.partner</field>
           <field name="arch" type="xml">
-              <!--<tree default_order="name" decoration-danger="visit_state=='no_visit'" decoration-warning="visit_state=='missing_on_site' or visit_state=='missing_on_site_or_phone'" decoration-success="visit_state=='visited'">-->
+              <tree default_order="name" decoration-danger="visit_state=='no_visit'" decoration-warning="visit_state=='missing_on_site' or visit_state=='missing_on_site_or_phone'" decoration-success="visit_state=='visited'">
               <tree default_order="name">
                 <field name="user_id"/>
                 <field name="name"/>
                 <field name="last_visit_date"/>
                 <field name="last_visit_type"/>
-                <!--<field name="visit_state"/>-->
+                <field name="visit_state"/>
                 <button name="button_view_partner_visits" string="" class="oe_highlight btn-success" type="object" icon="fa-eye"/>
                 <button name="button_create_partner_visit" string="Planifier une visite" class="oe_highlight btn-warning" type="object"/>
               </tree>
@@ -39,7 +39,7 @@
             <notebook position="inside">
                 <page string="Visites" groups="sinergis_customer_visit.group_sinergis_customer_visit_user">
                     <group>
-                    <!--<field name="visit_state"/>-->
+                    <field name="visit_state"/>
                     <field name="last_visit_date"/>
                     <field name="last_visit_type"/>
                     <field name="visit_ids" context="{'tree_view_ref' : 'sinergis_customer_visit.sinergis_calendar_event_visit_tree'}"/>
