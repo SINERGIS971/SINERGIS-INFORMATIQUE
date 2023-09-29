@@ -16,7 +16,7 @@ class SinergisSaleReport(models.Model):
     product_uom = fields.Many2one('uom.uom', 'Unité de mesure', readonly=True)
     product_uom_qty = fields.Float('Qté commandée', readonly=True)
     sinergis_product_id = fields.Many2one('sale.products', 'Produit', readonly=True)
-    sinergis_subproduct_id = fields.Many2one('sale.products.subproducts', 'Produit', readonly=True)
+    sinergis_subproduct_id = fields.Many2one('sale.products.subproducts', 'Sous-produit', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Client', readonly=True)
     company_id = fields.Many2one('res.company', 'Société', readonly=True)
     user_id = fields.Many2one('res.users', 'Vendeur', readonly=True)
