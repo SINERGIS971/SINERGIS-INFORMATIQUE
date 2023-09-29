@@ -44,7 +44,7 @@
         <xpath expr="//div[@id='calendar_sync']" position="before">
             <div id="vacation_builder" class="container inline btn-group">
                 <button type="button" id="sinergis_add_vacation" class="o_sinergis_add_vacation btn btn-secondary btn" style="border: solid 2px green;color:green;font-size:1.1em;">
-                <b><i class='fa fa-sun-o'/> Déclarer des congés</b>
+                <b><i class='fa fa-sun-o'/> Déclarer mes congés</b>
                 </button>
             </div>
         </xpath>
