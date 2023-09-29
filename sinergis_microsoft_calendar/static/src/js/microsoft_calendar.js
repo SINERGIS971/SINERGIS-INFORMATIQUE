@@ -218,7 +218,7 @@ const MicrosoftCalendarRenderer = CalendarRenderer.include({
     _initMicrosoftPillButton: function() {
         // hide the pending button
         this.$calendarSyncContainer.find('#microsoft_sync_pending').hide();
-        this.$calendarSyncContainer.find('#microsoft_not_logged').hide();
+        this.$('#microsoft_not_logged').hide();
         const switchBadgeClass = elem => elem.toggleClass(['badge-primary', 'badge-danger']);
         this.$('#microsoft_sync_configured').hover(() => {
             switchBadgeClass(this.$calendarSyncContainer.find('#microsoft_sync_configured'));
@@ -234,13 +234,13 @@ const MicrosoftCalendarRenderer = CalendarRenderer.include({
     _getMicrosoftButton: function () {
         this.$calendarSyncContainer.find('#microsoft_sync_configured').hide();
         this.$calendarSyncContainer.find('#microsoft_sync_pending').show();
-        this.$calendarSyncContainer.find('#microsoft_not_logged').show();
+        this.$calendarSyncContainer.$('#microsoft_not_logged').show();
     },
 
     _getMicrosoftStopButton: function () {
         this.$calendarSyncContainer.find('#microsoft_sync_configured').show();
         this.$calendarSyncContainer.find('#microsoft_sync_pending').hide();
-        this.$calendarSyncContainer.find('#microsoft_not_logged').hide();
+        this.$calendarSyncContainer.$('#microsoft_not_logged').hide();
     },
 
     /**
