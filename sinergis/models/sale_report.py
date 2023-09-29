@@ -132,8 +132,8 @@ class SinergisSaleReport(models.Model):
     def _group_by_sale(self, groupby=''):
         groupby_ = """
             l.product_id,
-            l.sinergis_product_id,
-            l.sinergis_subproduct_id,
+            l.x_sinergis_sale_order_line_product_id,
+            l.x_sinergis_sale_order_line_subproduct_id,
             l.order_id,
             t.uom_id,
             t.categ_id,
