@@ -223,6 +223,13 @@ class ProjectProject(models.Model):
             'target': 'current',
         }
     
+    @api.onchange("partner_id")
+    def on_change_partner_id(self):
+        if self.analytic_account_id:
+            if self.partner_id.company_id != self.analytic_account_id.company_id:
+                raise ValidationError("L'agence attachée au client est différente de celle associée au compte analytique du projet à sa création.")
+        self.company_id = self.partner_id.company_id
+    
     @api.onchange("x_sinergis_project_project_etat_projet")
     def on_change_x_sinergis_project_project_etat_projet(self):
         if self.x_sinergis_project_project_etat_projet == "Projet terminé":
