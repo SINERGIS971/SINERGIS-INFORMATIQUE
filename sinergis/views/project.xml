@@ -178,6 +178,7 @@
             </xpath>
         </field>
     </record>
+    
 
     <!-- KANBAN PROJET -->
       <record id="sinergis_inherited_project_project_kanban" model="ir.ui.view">
