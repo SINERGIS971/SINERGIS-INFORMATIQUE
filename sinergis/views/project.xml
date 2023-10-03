@@ -294,7 +294,7 @@
               <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
             </xpath>
             <xpath expr="//field[@name='analytic_account_id']" position="attributes">
-              <attribute name="groups"><attribute/>
+              <attribute name="groups"></attribute>
             </xpath>
             <xpath expr="//field[@name='tag_ids']" position="before">
               <field name="x_sinergis_project_project_acompte_verse"/>
