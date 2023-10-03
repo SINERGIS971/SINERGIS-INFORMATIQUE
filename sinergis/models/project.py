@@ -266,10 +266,12 @@ class ProjectProject(models.Model):
         for rec in self :
             if rec.sale_line_id:
                 rec.x_sinergis_project_project_acompte_verse = rec.sale_line_id.order_id.x_sinergis_sale_order_acompte_verse
-            elif "HORS DEVIS" in rec.tag_ids:
-                rec.x_sinergis_project_project_acompte_verse = True
             else:
-                rec.x_sinergis_project_project_acompte_verse = False
+                tag_id = self.env['project.tags'].search([('name', '=', 'HORS DEVIS')])
+                if tag_id.id in rec.tag_ids:
+                    rec.x_sinergis_project_project_acompte_verse = True
+                else:
+                    rec.x_sinergis_project_project_acompte_verse = False
 
     @api.depends('x_sinergis_project_project_initial_hours')
     def _compute_x_sinergis_project_project_initial_hours (self):
