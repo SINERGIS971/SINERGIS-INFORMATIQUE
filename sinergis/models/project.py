@@ -266,6 +266,8 @@ class ProjectProject(models.Model):
         for rec in self :
             if rec.sale_line_id:
                 rec.x_sinergis_project_project_acompte_verse = rec.sale_line_id.order_id.x_sinergis_sale_order_acompte_verse
+            elif "HORS DEVIS" in rec.tag_ids:
+                rec.x_sinergis_project_project_acompte_verse = True
             else:
                 rec.x_sinergis_project_project_acompte_verse = False
 
@@ -321,7 +323,8 @@ class ProjectProject(models.Model):
                 if sale_order_id.partner_id:
                     vals["partner_id"] = sale_order_id.partner_id.id
                 if "name" in vals:
-                    vals["name"] = f"{vals['name']} - {sale_order_id.x_sinergis_sale_order_objet}"
+                    if sale_order_id:
+                        vals["name"] = f"{vals['name']} - {sale_order_id.x_sinergis_sale_order_objet}"
                 vals["date_start"] = datetime.now().strftime("%Y-%m-%d")
         projects = super(ProjectProject, self).create(list_value)
         return projects
