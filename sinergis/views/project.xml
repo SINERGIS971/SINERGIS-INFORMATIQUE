@@ -298,7 +298,7 @@
             </xpath>
             <xpath expr="//field[@name='tag_ids']" position="before">
               <field name="x_sinergis_project_project_acompte_verse"/>
-              <p style="color:red;">Attention : Si le projet n'est pas rataché à une commande et qu'il est marqué comme "HORS DEVIS" alors l'acompte sera noté comme versé sur celui-ci.</p>
+              <p style="color:red;font-size:10px;">Attention : Si le projet n'est pas rataché à une commande et qu'il est marqué comme "HORS DEVIS" alors l'acompte sera noté comme versé sur celui-ci.</p>
             </xpath>
             <xpath expr="//field[@name='tag_ids']" position="after">
                 <field name="x_sinergis_project_project_sale_order_contact" attrs="{'invisible': [['x_sinergis_project_project_sale_order_contact','=',False]]}"/>

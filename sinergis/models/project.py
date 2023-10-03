@@ -268,7 +268,7 @@ class ProjectProject(models.Model):
                 rec.x_sinergis_project_project_acompte_verse = rec.sale_line_id.order_id.x_sinergis_sale_order_acompte_verse
             else:
                 tag_id = self.env['project.tags'].search([('name', '=', 'HORS DEVIS')])
-                if tag_id.id in rec.tag_ids:
+                if tag_id in rec.tag_ids:
                     rec.x_sinergis_project_project_acompte_verse = True
                 else:
                     rec.x_sinergis_project_project_acompte_verse = False
