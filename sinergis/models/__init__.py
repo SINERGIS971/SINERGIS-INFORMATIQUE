@@ -11,6 +11,7 @@ from . import users
 from . import company
 from . import account
 from . import mail
+from . import mail_thread
 from . import my_actions
 from . import product
 from . import hr_employee

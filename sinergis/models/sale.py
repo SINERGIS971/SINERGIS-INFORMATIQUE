@@ -385,6 +385,11 @@ class SaleOrderLine(models.Model):
     def onchange_x_sinergis_sale_order_line_product_id(self):
         self.x_sinergis_sale_order_line_subproduct_id = False
 
+    @api.onchange('product_uom', 'product_uom_qty')
+    def product_uom_change(self):
+        if not self.product_uom or not self.product_id:
+            return
+
 #SINERGIS PRODUCTS AND SUB-PRODUCTS
 class Products (models.Model):
     _name = "sale.products"
