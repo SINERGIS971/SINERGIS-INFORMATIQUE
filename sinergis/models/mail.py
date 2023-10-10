@@ -77,6 +77,7 @@ class MailActivity(models.Model):
                                                   string='Attachments',
                                                   help='Attachments are linked to a document through model / res_id and to the message '
                                                         'through this field.')
+    x_sinergis_email_list = fields.Char(string="Liste des emails", compute="_compute_x_sinergis_email_list")
 
     @api.depends("x_sinergis_attachment_ids")
     def _compute_x_sinergis_attachment_ids(self):
@@ -101,6 +102,14 @@ class MailActivity(models.Model):
                     rec.x_sinergis_has_attachment = True
             else:
                 rec.x_sinergis_has_attachment = False
+
+    @api.depends("x_sinergis_email_list")
+    def _compute_x_sinergis_email_list (self):
+        for rec in self:
+            recipient_ids_email = rec.email_to.split(',')
+            for recipient_id in rec.recipient_ids:
+                recipient_ids_email.append(recipient_id.email)
+            rec.x_sinergis_email_list = ','.join(recipient_ids_email)
 
 class MailMessage(models.Model):
     _inherit = "mail.message"
