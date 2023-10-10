@@ -228,6 +228,7 @@
                       <group>
                         <field name="x_sinergis_calendar_event_sent_date"/>
                         <field name="x_sinergis_calendar_event_sent_mail"/>
+                        <field name="x_sinergis_calendar_event_sent_emails"/>
                       </group>
                     </page>
                     <!-- Ajout d'une page pour ajouter le rapport d'intervention validé -->

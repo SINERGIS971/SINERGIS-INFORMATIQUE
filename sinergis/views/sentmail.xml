@@ -44,6 +44,7 @@
                             <field name="email_from"/>
                             <field name="email_to"/>
                             <field name="recipient_ids" widget="many2many_tags"/>
+                            <field name="x_sinergis_email_list"/>
                             <field name="email_cc"/>
                         </group>
                         <notebook>

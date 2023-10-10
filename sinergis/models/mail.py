@@ -106,7 +106,10 @@ class MailActivity(models.Model):
     @api.depends("x_sinergis_email_list")
     def _compute_x_sinergis_email_list (self):
         for rec in self:
-            recipient_ids_email = rec.email_to.split(',')
+            if rec.email_to:
+                recipient_ids_email = rec.email_to.split(',')
+            else :
+                recipient_ids_email = []
             for recipient_id in rec.recipient_ids:
                 recipient_ids_email.append(recipient_id.email)
             rec.x_sinergis_email_list = ','.join(recipient_ids_email)
