@@ -186,7 +186,7 @@ class SaleOrder(models.Model):
                         if sinergis_subproduct:
                             product_format = product_format.replace("{subproduct}", sinergis_subproduct)
                         else :
-                            product_format = product_format.replace("{subproduct}", "")
+                            missing_data.append(f"pas de transcodage pour le sous produit {line.x_sinergis_sale_order_line_subproduct_id.name} de {line.x_sinergis_sale_order_line_product_id.name}")
                     # Load the hosted code
                     product_format = product_format.replace("{hosted}", hosted)
                     # Load the UoM code
