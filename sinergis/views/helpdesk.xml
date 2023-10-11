@@ -315,10 +315,10 @@
                   <button name="x_sinergis_helpdesk_ticket_reset_button" string="Réinitialiser" type="object" class="btn-primary" readonly="True" confirm="Souhaitez-vous vraiment réinitialiser les heures décomptées ?" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_is_facturee', '=', False)]}" style="background-color:grey;"/>
                 </group>
                 </page>
-                <page name="x_sinergis_rapport_intervention_sent_page" string="Rapport envoyé" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_is_sent','=',False)]}">
+                <page name="x_sinergis_rapport_intervention_sent_page" string="Rapport envoyé" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_is_sent','=',False)]}">
                       <group>
                         <field name="x_sinergis_helpdesk_ticket_sent_date"/>
-                        <field name="x_sinergis_helpdesk_ticket_mail"/>
+                        <field name="x_sinergis_helpdesk_ticket_sent_mail"/>
                         <field name="x_sinergis_helpdesk_ticket_sent_emails"/>
                       </group>
                 </page>
