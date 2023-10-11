@@ -317,9 +317,9 @@
                 </page>
                 <page name="x_sinergis_rapport_intervention_sent_page" string="Rapport envoyé" attrs="{'invisible': ['|',('x_sinergis_helpdesk_ticket_is_sent','=',False)]}">
                       <group>
-                        <field name="x_sinergis_calendar_event_sent_date"/>
-                        <field name="x_sinergis_calendar_event_sent_mail"/>
-                        <field name="x_sinergis_calendar_event_sent_emails"/>
+                        <field name="x_sinergis_helpdesk_ticket_sent_date"/>
+                        <field name="x_sinergis_helpdesk_ticket_mail"/>
+                        <field name="x_sinergis_helpdesk_ticket_sent_emails"/>
                       </group>
                 </page>
                     </notebook>
