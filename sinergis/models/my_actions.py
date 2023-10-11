@@ -37,6 +37,7 @@ class MyActions(models.Model):
     billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Avant-vente", "Avant-vente"),("Congés", "Congés")], string="Facturation")
     billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable'),('Congés', 'Congés')], string="Facturable/Non facturable/Congés")
     billing_last_date = fields.Datetime(string="Date màj facturation")
+    billing_order = fields.Many2one("sale.order",string="Commande", compute="_compute_billing_order")
     time = fields.Float(string = "Temps")
     consultant = fields.Many2one('res.users',string="Consultant")
     company_id = fields.Many2one("res.company",string="Agence du consultant")
@@ -241,7 +242,21 @@ class MyActions(models.Model):
             elif rec.origin == "calendar":
                 rec.intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_event_id', '=', rec.link_id)])
 
-
+    @api.depends('billing_order')
+    def _compute_billing_order(self):
+        for rec in self:
+            if rec.billing == "Devis":
+                if rec.origin == "helpdesk":
+                    rec.billing_order = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_project.sale_line_id.order_id
+                else:
+                    rec.billing_order = self.env['calendar.event'].search([('id','=',rec.link_id)]).x_sinergis_calendar_event_project.sale_line_id.order_id
+            elif rec.billing == "Contrat heure":
+                if rec.origin == "helpdesk":
+                    rec.billing_order = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_tache2.sale_line_id.order_id
+                else:
+                    rec.billing_order = self.env['calendar.event'].search([('id','=',rec.link_id)]).x_sinergis_calendar_event_tache2.sale_line_id.order_id
+            else:
+                rec.billing_order = False
     # Vrai si l'évènement vient du calendrier et qu'il y a un rapport d'intervention valide sur celui-ci
     @api.depends('rapport_intervention_valide')
     def _compute_rapport_intervention_valide (self):
