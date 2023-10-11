@@ -247,12 +247,12 @@ class MyActions(models.Model):
         for rec in self:
             if rec.billing == "Devis":
                 if rec.origin == "helpdesk":
-                    rec.billing_order = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_project.sale_line_id.order_id
+                    rec.billing_order = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_sale_order
                 else:
                     rec.billing_order = self.env['calendar.event'].search([('id','=',rec.link_id)]).x_sinergis_calendar_event_project.sale_line_id.order_id
             elif rec.billing == "Contrat heure":
                 if rec.origin == "helpdesk":
-                    rec.billing_order = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_tache2.sale_line_id.order_id
+                    rec.billing_order = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_sale_order
                 else:
                     rec.billing_order = self.env['calendar.event'].search([('id','=',rec.link_id)]).x_sinergis_calendar_event_tache2.sale_line_id.order_id
             else:
