@@ -87,7 +87,7 @@
               <tbody>
                   <tr>
                     <th rowspan="5" style="width: 70%;padding: 0;margin:0;vertical-align: top;font-weight: normal;">
-                      <p style="margin:0;padding: 0;"><strong>Facturation :</strong> <span t-field="doc.billing"/></p>
+                      <p style="margin:0;padding: 0;"><strong>Facturation :</strong> <span t-field="doc.billing"/><t t-if="doc.billing_order"> (<span t-field="doc.billing_order"/>)</t></p>
                     </th>
                      <th style="width: 30%;padding: 0;vertical-align: top;margin:0;font-weight: normal;">
                       <p t-if="doc.task2" style="margin:0;padding: 0;"><strong>Solde restant :</strong> <span t-field="doc.task2.remaining_hours"  t-options="{'widget': 'float_time'}"/></p>

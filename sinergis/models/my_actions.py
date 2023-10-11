@@ -245,18 +245,11 @@ class MyActions(models.Model):
     @api.depends('billing_order')
     def _compute_billing_order(self):
         for rec in self:
-            if rec.billing == "Devis":
-                if rec.origin == "helpdesk":
-                    rec.billing_order = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_sale_order
-                else:
-                    rec.billing_order = self.env['calendar.event'].search([('id','=',rec.link_id)]).x_sinergis_calendar_event_project.sale_line_id.order_id
-            elif rec.billing == "Contrat heure":
-                if rec.origin == "helpdesk":
-                    rec.billing_order = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_sale_order
-                else:
-                    rec.billing_order = self.env['calendar.event'].search([('id','=',rec.link_id)]).x_sinergis_calendar_event_tache2.sale_line_id.order_id
+            if rec.origin == "helpdesk":
+                rec.billing_order = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_sale_order
             else:
-                rec.billing_order = False
+                rec.billing_order = self.env['calendar.event'].search([('id','=',rec.link_id)]).x_sinergis_calendar_event_sale_order
+
     # Vrai si l'évènement vient du calendrier et qu'il y a un rapport d'intervention valide sur celui-ci
     @api.depends('rapport_intervention_valide')
     def _compute_rapport_intervention_valide (self):
