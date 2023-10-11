@@ -113,7 +113,7 @@
                 <field name="billing"/>
                 <field name="billing_type" optional="hide"/>
                 <field name="billing_last_date" optional="hide"/>
-                <field name="billing_order" optional="hide"/>
+                <field name="billing_order" widget="many2onebutton" optional="hide"/>
                 <field name="client"/>
                 <field name="client_sinergis_x3_code" optional="hide"/>
                 <field name="sinergis_product_id" optional="hide"/>
