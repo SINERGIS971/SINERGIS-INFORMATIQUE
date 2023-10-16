@@ -283,8 +283,8 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="before">
-                <field name="x_sinergis_sale_order_line_product_id" options="{'no_create': True, 'no_create_edit':True}" optional="hide"/>
-                <field name="x_sinergis_sale_order_line_subproduct_id" domain="[('product_id','=',x_sinergis_sale_order_line_product_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="x_sinergis_sale_order_line_product_id" atts="{'read_only': [('state','in',['sale','done','cancel'])]}" options="{'no_create': True, 'no_create_edit':True}" optional="hide"/>
+                <field name="x_sinergis_sale_order_line_subproduct_id" atts="{'read_only': [('state','in',['sale','done','cancel'])]}" domain="[('product_id','=',x_sinergis_sale_order_line_product_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
                 <field name="x_sinergis_deposit_percentage" widget="percentage" optional="hide"/>
             </xpath>
 

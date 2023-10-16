@@ -10,6 +10,8 @@ class MailMessage(models.Model):
         for rec in self:
             if rec.author_id.parent_id :
                 rec.x_sinergis_partner_company_id = rec.author_id.parent_id
+            elif rec.author_id.is_company:
+                rec.x_sinergis_partner_company_id = rec.author_id
             else :
                 partner_company_id = False
                 for partner_id in rec.partner_ids:
@@ -24,9 +26,10 @@ class MailMessage(models.Model):
         for rec in self:
             x_sinergis_report_origin = ""
             if rec.model == "helpdesk.ticket":
-                x_sinergis_report_origin = f"Ticket {str(rec.res_id.id)}"
+                x_sinergis_report_origin = f"Ticket {str(rec.res_id)}"
             elif rec.model == "calendar.event":
-                x_sinergis_report_origin = f"Événement {str(rec.res_id.id)}"
+                x_sinergis_report_origin = f"Événement {str(rec.res_id)}"
+            rec.x_sinergis_report_origin = x_sinergis_report_origin
 
     
 
