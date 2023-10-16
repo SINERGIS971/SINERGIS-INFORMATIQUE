@@ -1,0 +1,63 @@
+<odoo>
+  <data>
+    <record id="sinergis_reports_overview_search" model="ir.ui.view">
+        <field name="name">sinergis.reports_overview.search</field>
+        <field name="model">mail.mail</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="subject" filter_domain="[('subject', 'ilike', self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="sinergis_reports_overview_tree" model="ir.ui.view">
+          <field name="name">sinergis.reports_overview.tree</field>
+          <field name="model">mail.mail</field>
+          <field name="arch" type="xml">
+              <tree default_order="date desc">
+                <field name="id" invisible="1"/>
+                <field name="date"/>
+                <field name="author_id"/>
+                <field name="partner_ids"/>
+                <field name="subject"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="sinergis_reports_overview_action" model="ir.actions.act_window">
+        <field name="name">Rapports d'intervention</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mail.mail</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{'create':False}</field>
+        <field name="search_view_id" ref="sinergis_reports_overview_search"/>
+        <field name="help" type="html">
+            <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Il n'y a pas de visite.
+            </p>
+            </field>
+        </field>
+    </record>
+
+    <record id="sinergis_reports_overview_action_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sinergis_reports_overview_tree"/>
+        <field name="act_window_id" ref="sinergis_reports_overview_action"/>
+    </record>
+
+      <menuitem id="sinergis_reports_overview_root"
+              name="Rapports d'intervention"
+              web_icon="sinergis,static/description/icon_reports.png"
+              sequence="40"/>
+
+      <menuitem id="sinergis_reports_overview_mail_root"
+              parent="sinergis_reports_overview_root"
+              name="Rapports"
+              action="sinergis_reports_overview_action"
+              sequence="20"/>
+
+  </data>
+</odoo>

@@ -40,6 +40,7 @@
         'views/my_actions.xml',
         'views/product.xml',
         'views/hr_employee.xml',
+        'views/reports_overview.xml',
         'report/report_helpdesk.xml',
         'report/report_calendar.xml',
         'report/layout_devis_ventes.xml',
