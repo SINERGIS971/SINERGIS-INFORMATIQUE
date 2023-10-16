@@ -29,8 +29,8 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">mail.mail</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{'create':False}</field>
+        <field name="domain">[('subject','ilike',"Rapport d'intervention")]</field>
+        <!--<field name="context">{'create':False}</field>-->
         <field name="search_view_id" ref="sinergis_reports_overview_search"/>
         <field name="help" type="html">
             <field name="help" type="html">
@@ -48,10 +48,17 @@
         <field name="act_window_id" ref="sinergis_reports_overview_action"/>
     </record>
 
+    <record id="sinergis_reports_overview_action_form" model="ir.actions.act_window.view" >
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sinergis_email_message_sent_form"/>
+        <field name="act_window_id" ref="sinergis_reports_overview_action"/>
+    </record>
+
       <menuitem id="sinergis_reports_overview_root"
               name="Rapports d'intervention"
-              web_icon="sinergis,static/description/icon_reports.png"
-              sequence="40"/>
+              web_icon="sinergis,static/description/reports_overview/icon.png"
+              sequence="200"/>
 
       <menuitem id="sinergis_reports_overview_mail_root"
               parent="sinergis_reports_overview_root"

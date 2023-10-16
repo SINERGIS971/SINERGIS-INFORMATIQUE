@@ -97,7 +97,7 @@ class SaleOrderLine(models.Model):
     string='Cost', compute=False,
     digits='Product Price', store=True, readonly=False,
     groups="base.group_user")
-    training_partner_id = fields.Many2one("res.partner",string="Client de la formation", default=lambda self: self.order_id.partner_id)
+    training_partner_id = fields.Many2one("res.partner",string="Client de la formation", default=lambda self: self.order_id.partner_id, copy=False)
     is_training = fields.Boolean(related="product_id.is_training",default=False)
 
     @api.onchange("product_id")
