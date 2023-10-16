@@ -2,17 +2,18 @@
   <data>
     <record id="sinergis_reports_overview_search" model="ir.ui.view">
         <field name="name">sinergis.reports_overview.search</field>
-        <field name="model">mail.mail</field>
+        <field name="model">mail.message</field>
         <field name="arch" type="xml">
             <search>
                 <field name="subject" filter_domain="[('subject', 'ilike', self)]"/>
+                <field name="author_id" filter_domain="[('author_id', 'ilike', self)]"/>
             </search>
         </field>
     </record>
 
     <record id="sinergis_reports_overview_tree" model="ir.ui.view">
           <field name="name">sinergis.reports_overview.tree</field>
-          <field name="model">mail.mail</field>
+          <field name="model">mail.message</field>
           <field name="arch" type="xml">
               <tree default_order="date desc">
                 <field name="id" invisible="1"/>
@@ -24,13 +25,39 @@
           </field>
       </record>
 
+      <record id="sinergis_reports_overview_form" model="ir.ui.view">
+        <field name="name">sinergis.reports_overview.form</field>
+        <field name="type">form</field>
+        <field name="model">mail.message</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                        <field name="subject"/>
+                        <field name="author_id"/>
+                        <field name="date" widget="date"/>
+                        <field name="email_from"/>
+                        <field name="partner_ids"/>
+                        <field name="email_ids"/>
+                        <notebook>
+                            <page string="Contenu" name="body">
+                                <field name="body" widget="html" options="{'style-inline': true}"/>
+                            </page>
+                            <page string="PJ" name="attachments">
+                                <field name="attachment_ids"/>
+                            </page>
+                        </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
       <record id="sinergis_reports_overview_action" model="ir.actions.act_window">
         <field name="name">Rapports d'intervention</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">mail.mail</field>
+        <field name="res_model">mail.message</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('subject','ilike',"Rapport d'intervention")]</field>
-        <!--<field name="context">{'create':False}</field>-->
+        <field name="context">{'create':False}</field>
         <field name="search_view_id" ref="sinergis_reports_overview_search"/>
         <field name="help" type="html">
             <field name="help" type="html">
@@ -40,6 +67,8 @@
             </field>
         </field>
     </record>
+
+
 
     <record id="sinergis_reports_overview_action_tree" model="ir.actions.act_window.view">
         <field name="sequence" eval="1"/>
@@ -51,7 +80,7 @@
     <record id="sinergis_reports_overview_action_form" model="ir.actions.act_window.view" >
         <field name="sequence" eval="1"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="sinergis_email_message_sent_form"/>
+        <field name="view_id" ref="sinergis_reports_overview_form"/>
         <field name="act_window_id" ref="sinergis_reports_overview_action"/>
     </record>
 
@@ -60,7 +89,7 @@
               web_icon="sinergis,static/description/reports_overview/icon.png"
               sequence="200"/>
 
-      <menuitem id="sinergis_reports_overview_mail_root"
+      <menuitem id="sinergis_reports_overview_message_root"
               parent="sinergis_reports_overview_root"
               name="Rapports"
               action="sinergis_reports_overview_action"
