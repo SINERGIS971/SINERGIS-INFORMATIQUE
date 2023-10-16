@@ -29,7 +29,7 @@
                 <field name="training_partner_id"
                        force_save="1"
                        options="{'no_create': True, 'no_create_edit':True}"
-                       attrs="{'readonly': ['|',('is_training', '=', False),('state','in',['done','cancel'])], 'column_invisible': [('parent.training_in_order_line', '=', False)], 'required': [('is_training', '=', True)]}"
+                       attrs="{'readonly': ['|',('is_training', '=', False),('state','in',['sale','done','cancel'])], 'column_invisible': [('parent.training_in_order_line', '=', False)], 'required': [('is_training', '=', True)]}"
                        domain="['&amp;',('is_company', '=', True),'|','|','|',('id','=',parent.training_parent_company),('x_sinergis_societe_mere', '=', parent.partner_id),('id', '=', parent.partner_id),'&amp;',('x_sinergis_societe_mere', '=', parent.training_parent_company),('x_sinergis_societe_mere', '!=', False)]"
                        />
             </xpath>

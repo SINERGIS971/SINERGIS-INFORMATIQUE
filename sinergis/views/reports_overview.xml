@@ -5,7 +5,8 @@
         <field name="model">mail.message</field>
         <field name="arch" type="xml">
             <search>
-                <field name="subject" filter_domain="[('subject', 'ilike', self)]"/>
+                <field name="subject" filter_domain="[('subject', 'ilike', self), ('x_sinergis_report_origin', 'ilike', self)]"/>
+                <field name="x_sinergis_partner_company_id" filter_domain="[('x_sinergis_partner_company_id', 'ilike', self)]"/>
                 <field name="author_id" filter_domain="[('author_id', 'ilike', self)]"/>
             </search>
         </field>
@@ -18,7 +19,9 @@
               <tree default_order="date desc">
                 <field name="id" invisible="1"/>
                 <field name="date"/>
+                <field name="x_sinergis_report_origin"/>
                 <field name="author_id"/>
+                <field name="x_sinergis_partner_company_id"/>
                 <field name="partner_ids"/>
                 <field name="subject"/>
               </tree>
@@ -32,18 +35,25 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                        <group>
                         <field name="subject"/>
                         <field name="author_id"/>
-                        <field name="date" widget="date"/>
+                        <field name="date"/>
                         <field name="email_from"/>
                         <field name="partner_ids"/>
-                        <field name="email_ids"/>
+                        <field name="mail_ids"/>
+                        </group>
                         <notebook>
                             <page string="Contenu" name="body">
                                 <field name="body" widget="html" options="{'style-inline': true}"/>
                             </page>
                             <page string="PJ" name="attachments">
-                                <field name="attachment_ids"/>
+                                <field name="attachment_ids">
+                                    <tree>
+                                        <field name="name" invisible="True"/>
+                                        <field name="datas" filename="name" widget="binary"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                 </sheet>

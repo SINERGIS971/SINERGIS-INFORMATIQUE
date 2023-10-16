@@ -15,5 +15,6 @@ from . import mail_thread
 from . import my_actions
 from . import product
 from . import hr_employee
+from . import reports_overview
 
 from . import movementArea
