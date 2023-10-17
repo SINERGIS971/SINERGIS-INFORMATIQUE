@@ -112,7 +112,10 @@ class MailActivity(models.Model):
                 recipient_ids_email = []
             for recipient_id in rec.recipient_ids:
                 recipient_ids_email.append(recipient_id.email)
-            rec.x_sinergis_email_list = ','.join(recipient_ids_email)
+            if recipient_ids_email:
+                rec.x_sinergis_email_list = ','.join(recipient_ids_email)
+            else:
+                rec.x_sinergis_email_list = False
 
 class MailMessage(models.Model):
     _inherit = "mail.message"

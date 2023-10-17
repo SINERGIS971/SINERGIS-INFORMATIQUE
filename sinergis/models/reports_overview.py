@@ -5,6 +5,8 @@ class MailMessage(models.Model):
     x_sinergis_partner_company_id = fields.Many2one("res.partner",string="Client",compute="_compute_x_sinergis_partner_company_id",store=True)
     x_sinergis_report_origin = fields.Char(string="Origine", compute="_compute_x_sinergis_report_origin",store=True)
 
+    x_sinergis_signed_reports = fields.One2many('ir.attachment',compute="_compute_x_sinergis_signed_reports",string="Rapports signés")
+
     @api.depends("x_sinergis_partner_company_id")
     def _compute_x_sinergis_partner_company_id (self):
         for rec in self:
@@ -32,6 +34,40 @@ class MailMessage(models.Model):
                 x_sinergis_report_origin = f"Événement {str(rec.res_id)}"
             rec.x_sinergis_report_origin = x_sinergis_report_origin
 
+    @api.depends("x_sinergis_signed_reports")
+    def _compute_x_sinergis_signed_reports(self):
+        for rec in self:
+            x_sinergis_signed_reports = []
+            message_ids = self.env['mail.message'].search([('x_sinergis_report_origin','=',rec.x_sinergis_report_origin)])
+            for message_id in message_ids:
+                x_sinergis_signed_reports += message_id.attachment_ids
+            rec.x_sinergis_signed_reports = x_sinergis_signed_reports
+            #To do : chercher aussi dans les PJ "rapports validés" dans les évènements
+                
+
+    def x_sinergis_open (self):
+        context = {}
+        if self.model == "helpdesk.ticket":
+            context = {
+            'name': 'Assistance',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'helpdesk.ticket',
+            'res_id': self.env['helpdesk.ticket'].search([('id', '=', self.res_id)]).id,
+            'target': 'new',
+            'flags':{'mode':'readonly'},
+            }
+        elif self.model == "calendar.event":
+            context = {
+            'name': 'Calendrier',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'calendar.event',
+            'res_id': self.env['calendar.event'].search([('id', '=', self.res_id)]).id,
+            'target': 'new',
+            'flags':{'mode':'readonly'},
+            }
+        return context
     
 
 

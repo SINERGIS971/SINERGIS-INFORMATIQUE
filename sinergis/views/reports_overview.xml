@@ -27,6 +27,7 @@
                 <field name="x_sinergis_partner_company_id"/>
                 <field name="partner_ids" widget="many2many_tags"/>
                 <field name="subject"/>
+                <button name="x_sinergis_open" string="Ouvrir" class="oe_highlight" type="object"/>
               </tree>
           </field>
       </record>
@@ -52,6 +53,14 @@
                             </page>
                             <page string="PJ" name="attachments">
                                 <field name="attachment_ids">
+                                    <tree>
+                                        <field name="name" invisible="True"/>
+                                        <field name="datas" filename="name" widget="binary"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Trouver un rapport signé" name="signed_report_page">
+                                <field name="x_sinergis_signed_reports">
                                     <tree>
                                         <field name="name" invisible="True"/>
                                         <field name="datas" filename="name" widget="binary"/>
