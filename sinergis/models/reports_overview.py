@@ -18,7 +18,7 @@ class MailMessage(models.Model):
             else :
                 partner_company_id = False
                 for partner_id in rec.partner_ids:
-                    if partner_id != rec.author_id:
+                    if partner_id != rec.author_id and partner_id.email != rec.author_id.email:
                         if partner_id.parent_id:
                             partner_company_id = partner_id.parent_id
                         else :

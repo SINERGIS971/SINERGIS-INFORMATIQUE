@@ -5,7 +5,7 @@
         <field name="model">mail.message</field>
         <field name="arch" type="xml">
             <search>
-                <field name="subject" filter_domain="[('subject', 'ilike', self), ('x_sinergis_report_origin', 'ilike', self)]"/>
+                <field name="subject" filter_domain="['|', ('subject', 'ilike', self), ('x_sinergis_report_origin', 'ilike', self)]"/>
                 <field name="x_sinergis_partner_company_id" filter_domain="[('x_sinergis_partner_company_id', 'ilike', self)]"/>
                 <field name="author_id" filter_domain="[('author_id', 'ilike', self)]"/>
 
@@ -38,6 +38,9 @@
         <field name="model">mail.message</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="x_sinergis_open" string="Ouvrir" class="oe_highlight" type="object"/>
+                </header>
                 <sheet>
                         <group>
                         <field name="model" invisible="1"/>
@@ -97,7 +100,7 @@
         <field name="help" type="html">
             <field name="help" type="html">
             <p class="oe_view_nocontent_create">
-                Il n'y a pas de visite.
+                Il n'y a pas de rapport d'intervention.
             </p>
             </field>
         </field>
