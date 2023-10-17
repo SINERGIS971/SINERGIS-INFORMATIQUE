@@ -40,6 +40,7 @@
             <form>
                 <sheet>
                         <group>
+                        <field name="model" invisible="1"/>
                         <field name="subject"/>
                         <field name="author_id"/>
                         <field name="date"/>
@@ -60,12 +61,24 @@
                                 </field>
                             </page>
                             <page string="Trouver un rapport signé" name="signed_report_page">
+                                <p>Vous trouverez ici les documents échangés/enregistrés avec le client concernant ce sujet.</p>
                                 <field name="x_sinergis_signed_reports">
-                                    <tree>
+                                    <tree default_order="create_date desc">
                                         <field name="name" invisible="True"/>
+                                        <field name="create_date"/>
                                         <field name="datas" filename="name" widget="binary"/>
                                     </tree>
                                 </field>
+                                <div attrs="{'invisible': [('model',  '!=', 'calendar.event')]}">
+                                <p>Ici vous trouverez les documents enregistrés dans l'onglet 'Rapports signés' de l'évènement dans le calendrier.</p>
+                                <field name="x_sinergis_calendar_signed_reports">
+                                    <tree default_order="create_date desc">
+                                        <field name="name" invisible="True"/>
+                                        <field name="create_date"/>
+                                        <field name="file" filename="name" widget="binary"/>
+                                    </tree>
+                                </field>
+                                </div>
                             </page>
                         </notebook>
                 </sheet>

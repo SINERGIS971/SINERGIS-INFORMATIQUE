@@ -5,7 +5,8 @@ class MailMessage(models.Model):
     x_sinergis_partner_company_id = fields.Many2one("res.partner",string="Client",compute="_compute_x_sinergis_partner_company_id",store=True)
     x_sinergis_report_origin = fields.Char(string="Origine", compute="_compute_x_sinergis_report_origin",store=True)
 
-    x_sinergis_signed_reports = fields.One2many('ir.attachment',compute="_compute_x_sinergis_signed_reports",string="Rapports signés")
+    x_sinergis_signed_reports = fields.One2many('ir.attachment',compute="_compute_x_sinergis_signed_reports",string="Documents échangés")
+    x_sinergis_calendar_signed_reports = fields.One2many('calendar.sinergis_intervention_report_done', compute="_compute_x_sinergis_calendar_signed_reports", string="Rapports signés dans le calendrier")
 
     @api.depends("x_sinergis_partner_company_id")
     def _compute_x_sinergis_partner_company_id (self):
@@ -40,9 +41,17 @@ class MailMessage(models.Model):
             x_sinergis_signed_reports = []
             message_ids = self.env['mail.message'].search([('x_sinergis_report_origin','=',rec.x_sinergis_report_origin)])
             for message_id in message_ids:
-                x_sinergis_signed_reports += message_id.attachment_ids
+                for attachment_id in message_id.attachment_ids:
+                    x_sinergis_signed_reports.append(attachment_id.id)
             rec.x_sinergis_signed_reports = x_sinergis_signed_reports
-            #To do : chercher aussi dans les PJ "rapports validés" dans les évènements
+
+    @api.depends("x_sinergis_calendar_signed_reports")
+    def _compute_x_sinergis_calendar_signed_reports (self):
+        for rec in self:
+            if rec.model == "calendar.event":
+                rec.x_sinergis_calendar_signed_reports = self.env["calendar.sinergis_intervention_report_done"].search([("event_id",'=',rec.res_id)])
+            else:
+                rec.x_sinergis_calendar_signed_reports = False
                 
 
     def x_sinergis_open (self):
