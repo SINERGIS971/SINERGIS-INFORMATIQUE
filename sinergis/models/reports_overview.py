@@ -30,9 +30,11 @@ class MailMessage(models.Model):
         for rec in self:
             x_sinergis_report_origin = ""
             if rec.model == "helpdesk.ticket":
-                x_sinergis_report_origin = f"Ticket {str(rec.res_id)}"
+                ticket_id = self.env["helpdesk.ticket"].search([("id","=",rec.res_id)])
+                x_sinergis_report_origin = f"Ticket {str(rec.res_id)} - {ticket_id.name}"
             elif rec.model == "calendar.event":
-                x_sinergis_report_origin = f"Événement {str(rec.res_id)}"
+                event_id = self.env["calendar.event"].search([("id","=",rec.res_id)])
+                x_sinergis_report_origin = f"Événement {str(rec.res_id)} - {event_id.name}"
             rec.x_sinergis_report_origin = x_sinergis_report_origin
 
     @api.depends("x_sinergis_signed_reports")
