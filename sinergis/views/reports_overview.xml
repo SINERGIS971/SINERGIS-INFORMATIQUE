@@ -8,6 +8,9 @@
                 <field name="subject" filter_domain="[('subject', 'ilike', self), ('x_sinergis_report_origin', 'ilike', self)]"/>
                 <field name="x_sinergis_partner_company_id" filter_domain="[('x_sinergis_partner_company_id', 'ilike', self)]"/>
                 <field name="author_id" filter_domain="[('author_id', 'ilike', self)]"/>
+
+                <filter string="Client" name="group_by_x_sinergis_partner_company_id" context="{'group_by':'x_sinergis_partner_company_id'}"/>
+                <filter string="Origine" name="group_by_x_sinergis_report_origin" context="{'group_by':'x_sinergis_report_origin'}"/>
             </search>
         </field>
     </record>
@@ -67,7 +70,7 @@
         <field name="res_model">mail.message</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('subject','ilike',"Rapport d'intervention")]</field>
-        <field name="context">{'create':False}</field>
+        <field name="context">{'create':False, 'search_default_group_by_x_sinergis_partner_company_id':1, 'search_default_group_by_x_sinergis_report_origin':1}</field>
         <field name="search_view_id" ref="sinergis_reports_overview_search"/>
         <field name="help" type="html">
             <field name="help" type="html">
