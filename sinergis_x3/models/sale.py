@@ -23,18 +23,18 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    sinergis_x3_company_id = fields.Many2one("sinergis_x3.settings.company", string="Site de vente X3")
+    sinergis_x3_company_id = fields.Many2one("sinergis_x3.settings.company", string="Site de vente X3", copy=False)
 
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
     ch_in_order_line = fields.Boolean(compute="_compute_ch_in_order_line") # Si il y a un contrat d'heures dans les lignes de commande
     service_in_order_line = fields.Boolean(compute="_compute_service_in_order_line") # Si il y a une prestation dans les lignes de commande
-    sinergis_x3_transfered = fields.Boolean(string="Transfert X3",default=False) # Permet de savoir si le devis a déjà été transféré vers X3
-    sinergis_x3_id = fields.Char(string="Numéro X3")
-    sinergis_x3_price_subtotal = fields.Float(string="Total HT dans X3 (€)", default=False)
-    sinergis_x3_price_total = fields.Float(string="Total TTC dans X3 (€)", default=False)
+    sinergis_x3_transfered = fields.Boolean(string="Transfert X3",default=False, copy=False) # Permet de savoir si le devis a déjà été transféré vers X3
+    sinergis_x3_id = fields.Char(string="Numéro X3", copy=False)
+    sinergis_x3_price_subtotal = fields.Float(string="Total HT dans X3 (€)", default=False, copy=False)
+    sinergis_x3_price_total = fields.Float(string="Total TTC dans X3 (€)", default=False, copy=False)
     sinergis_x3_correct_price = fields.Boolean(compute="_compute_sinergis_x3_correct_price", store=True)
     sinergis_x3_log = fields.One2many(
-        "sale.order.odoo_x3_log", "sale_id", string="Odoo-X3 log", readonly=True
+        "sale.order.odoo_x3_log", "sale_id", string="Odoo-X3 log", readonly=True, copy=False
     )
 
     sinergis_x3_partner_has_codex3 = fields.Boolean(compute="_compute_sinergis_x3_partner_has_codex3")
