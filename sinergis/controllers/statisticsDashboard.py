@@ -54,6 +54,8 @@ class StatisticsDashboard(http.Controller):
         """
         return http.request.render("sinergis.statistics_dashboard_page", {
                             "actual_year": date.today().year,
+                            "actual_month": date.today().month,
+                            "actual_day": date.today().day,
                             #"date_end_text" : date_end.strftime("%A %d %B %Y"),
                             #"date_end" : date_end.strftime("%Y-%m-%d"),
                             #"total_hours" : total_hours,
@@ -372,6 +374,62 @@ class InvoiceExcelReportController(http.Controller):
 
         return data_consumed, data_not_consumed
     
+class TimeRecordingReportController(http.Controller):
+    @http.route(['/sinergis/statistics_dashboard/time_recording_excel'], type='http', auth="user", csrf=False)
+    def get_time_recording_excel_report(self, **kw):
+        # User verification
+        uid = request.uid
+        user = request.env["res.users"].search([("id", "=", uid)])
+        if request.env.user.has_group('sinergis.group_statistics_dashboard') == False:
+            return "Vous n'êtes pas autorisé à accéder à cette page. Merci de vous rapporcher d'un administrateur."
+        #=========================
+        #Paramètres de génération :
+        #=========================
+        if not "time_recording_begin_date" in kw or not "time_recording_end_date" in kw :
+            return "Il manque la plage de date afin de générer le document, merci de contacter un administrateur système."
+        begin_date = datetime.strptime(kw["time_recording_begin_date"], '%Y-%m-%d').date()
+        end_date = datetime.strptime(kw["time_recording_end_date"], '%Y-%m-%d').date()
+
+        #=============================
+        # Création du nom du fichier
+        #=============================
+        filename = f"SAISIE_TEMPS"
+
+        #=============================
+        # Création de la réponse Http
+        #=============================
+        response = request.make_response(
+        None,
+        headers=[
+           ('Content-Type', 'application/vnd.ms-excel'),
+           ("Content-disposition", f"attachment;filename={filename}.xls")
+        ]
+        )
+
+        #=============================
+        # Création du document
+        #=============================
+
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        #header_format = workbook.add_format({'bold': True, 'font_color': 'blue'})
+        #sum_format = workbook.add_format({'bg_color': "#CFCFCF", 'bold': True})
+        #red_text = workbook.add_format({'font_color': 'red'})
+        #green_text = workbook.add_format({'font_color': 'green'})
+
+        sheet_1 = workbook.add_worksheet("Page")
+        sheet_1.set_column(0, 6, 30)
+
+        workbook.close()
+        output.seek(0)
+        response.stream.write(output.read())
+        output.close()
+        return response
+
+
+
+
+# Fonctionnalité non implantée dans Odoo à ce jour, utilisée uniquement pour une extraction
 class ArticlesReportController(http.Controller):
     @http.route(['/sinergis/statistics_dashboard/articles_report'], type='http', auth="user", csrf=False)
     def get_articles_report(self, **kw):

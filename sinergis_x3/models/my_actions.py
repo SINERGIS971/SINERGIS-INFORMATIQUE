@@ -150,7 +150,11 @@ class MyActions(models.Model):
         
         # Si le status n'est pas à "1", il y a une erreur
         if status != "1":
-            return [False, f"Erreur rencontrée sur X3! Réponse : {response}"]
+            # Vérification si le POOL Odoo est bien allumé dans X3:
+            if "No Pool:" in str(response):
+                return [False, f"Le POOL: {pool_alias} n'est pas démarré dans Sage X3. Veuillez vous rapprocher de l'administrateur X3."]
+            else: # Sinon on affiche toute l'erreur
+                return [False, f"Erreur rencontrée sur X3! Réponse : {response}"]
         
         # Le transfert est validé
         # Chargement des informations sur la commande depuis la réponse d'X3

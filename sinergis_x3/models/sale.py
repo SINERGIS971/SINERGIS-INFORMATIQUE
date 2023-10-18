@@ -258,11 +258,13 @@ class SaleOrder(models.Model):
         
         # S'il y a une erreur dans la requête
         if status != "1":
-            if "Erreur zone [M:SOH4]ITMREF" in str(response):
+            if "Erreur zone [M:SOH4]ITMREF" in str(response): # Si un des codes articles n'existe pas dans X3
                 code_list = []
                 for line in data_lines:
                     code_list.append(line['ITMREF'])
                 self.create_log(content=f"Erreur rencontrée sur X3, le code article n'est pas reconnu. Liste des codes articles : {','.join(code_list)}", log_type="danger")
+            elif "No Pool:" in str(response): # Si le POOL n'est pas démarré dans X3
+                self.create_log(content=f"Le POOL: {pool_alias} n'est pas démarré dans Sage X3. Veuillez vous rapprocher de l'administrateur X3.", log_type="danger")
             else:
                 self.create_log(content=f"Erreur rencontrée sur X3! Réponse : {response}", log_type="danger")
             return True

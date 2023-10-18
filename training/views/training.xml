@@ -118,7 +118,7 @@
                     </p>
                     <group>
                       <label for="sales_manager" class="training-required"/>
-                      <field name="sales_manager" widget="many2one_avatar_user" domain="[('x_sinergis_res_users_is_employee', '=', True)]" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" nolabel="1"/>
+                      <field name="sales_manager" widget="many2one_avatar_user" domain="[('x_sinergis_res_users_is_employee', '=', True)]" attrs="{'readonly': [('state',  '!=', 'unassigned')]}" options="{'no_create': True, 'no_create_edit':True}" nolabel="1"/>
                       <label for="signed_quote" class="training-required"/>
                       <field name="signed_quote" nolabel="1"/>
                     </group>
@@ -269,7 +269,7 @@
                     </p>
                     <group>
                       <label for="consultant_id" class="training-required"/>
-                      <field name="consultant_id" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}" domain="[('x_sinergis_res_users_job','=','CONSULTANT')]" nolabel="1"/>
+                      <field name="consultant_id" attrs="{'readonly': [('state',  '!=', 'consultant_part')]}" domain="[('x_sinergis_res_users_job','=','CONSULTANT')]" nolabel="1"  options="{'no_create': True, 'no_create_edit':True}"/>
                     </group>
                     <p attrs="{'invisible': [('state',  '!=', 'consultant_part')]}">
                       <br/><br/><br/>

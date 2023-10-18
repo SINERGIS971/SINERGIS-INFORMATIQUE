@@ -36,6 +36,19 @@
             <p class="info">3. Générez le fichier Excel</p>
             <input type="submit" value="Générer"/>
           </form>
+          <form action="/sinergis/statistics_dashboard/time_recording_excel" method="POST" id="time_recording_form">
+            <h3>Etat Synthèse 2 : Saisie des temps des consultants dans une plage de dates</h3>
+            <p class="info">1. Sélectionnez une plage de date</p>
+            <div>
+                <label for="time_recording_begin_date">Date de début:</label>
+                <input type="date" id="time_recording_begin_date" name="time_recording_begin_date" required="True" t-att-value="str(actual_year)+'-01-01'"/>
+                <label for="time_recording_end_date">Date de fin:</label>
+                <input type="date" id="time_recording_end_date" name="time_recording_end_date" required="True" t-att-value="str(actual_year)+'-'+str(actual_month)+'-'+str(actual_day)" t-att-max="str(actual_year)+'-'+str(actual_month)+'-'+str(actual_day)"/>
+                <br/>
+                <p class="info">2. Générez le fichier Excel</p>
+                <input type="submit" value="Générer"/>
+            </div>
+          </form>
         </div>
     </div>
   </template>
