@@ -4,6 +4,7 @@ from datetime import date
 from datetime import datetime
 
 import io
+import pandas as pd
 import xlsxwriter
 
 import locale
@@ -412,13 +413,109 @@ class TimeRecordingReportController(http.Controller):
 
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        #header_format = workbook.add_format({'bold': True, 'font_color': 'blue'})
-        #sum_format = workbook.add_format({'bg_color': "#CFCFCF", 'bold': True})
-        #red_text = workbook.add_format({'font_color': 'red'})
-        #green_text = workbook.add_format({'font_color': 'green'})
+        title_format = workbook.add_format({'bold': True})
+        header_format = workbook.add_format({'bg_color': '#adcdff', 'bold': True, 'font_color': 'blue'})
+        sum_format = workbook.add_format({'bg_color': "#CFCFCF", 'bold': True,'num_format': '#,##0.00'})
+        user_format = workbook.add_format({'bold': True})
+        number_format = workbook.add_format({'num_format': '#,##0.00'})
 
-        sheet_1 = workbook.add_worksheet("Page")
-        sheet_1.set_column(0, 6, 30)
+        # Écriture du titre de la page
+        sheet_1 = workbook.add_worksheet("Saisie des temps")
+        sheet_1.set_column(0, 8, 30)
+        sheet_1.write(0, 0, f'Saisie des temps du {begin_date.strftime("%d/%m/%Y")} au {end_date.strftime("%d/%m/%Y")}', title_format)
+        #sheet_1.conditional_format( 'A2:I2' , { 'type' : 'no_blanks' , 'format' : header_format})
+        sheet_1.write(1, 0, '', header_format)
+        sheet_1.write(1, 1, 'Facturable', header_format)
+        sheet_1.write(1, 2, 'Non facturable', header_format)
+        sheet_1.write(1, 3, 'Total', header_format)
+        sheet_1.write(1, 4, 'Moyenne mensuelle', header_format)
+        sheet_1.write(1, 5, 'Moyenne jour', header_format)
+        sheet_1.write(1, 6, 'Moyenne mensuelle facturable', header_format)
+        sheet_1.write(1, 7, 'Moyenne mensuelle non facturable', header_format)
+        sheet_1.write(1, 8, 'Écart moyen mois / 169h', header_format)
+
+        # Variable pour stocker le total de chaque colonne
+        total_billable_time = 0
+        total_not_billable_time = 0
+        total_time = 0
+        total_monthly_average = 0
+        total_daily_average = 0
+        total_monthly_billable_time_average = 0
+        total_monthly_not_billable_time_average = 0
+
+        # Calcul des champs par consultant
+        consultant_ids = request.env['res.users'].search([('x_sinergis_res_users_job','=','CONSULTANT')])
+        i = 3
+        for consulant_id in consultant_ids:
+            sheet_1.write(i, 0, consulant_id.name, user_format)
+            action_ids = request.env["sinergis.myactions"].search([("consultant", "=", consulant_id.id), ('date','>=',begin_date.strftime("%Y-%m-%d 00:00:01")), ('date','<=',end_date.strftime("%Y-%m-%d 23:59:59"))])
+            consultant_billable_sum = 0
+            consultant_not_billable_sum = 0
+            data = {
+                'date': [],
+                'billable_time': [],
+                'not_billable_time': [],
+                'total_time': []
+            }
+            for action_id in action_ids:
+                action_date = action_id.date.strftime("%Y-%m-%d")
+                if not action_date in data['date']:
+                    data['date'].append(action_date)
+                    data['billable_time'].append(0.0)
+                    data['not_billable_time'].append(0.0)
+                    data['total_time'].append(0.0)
+                data_index = data['date'].index(action_date)
+                data['total_time'][data_index] += action_id.time
+                if action_id.billing_type == "Facturable":
+                    consultant_billable_sum += action_id.time
+                    data['billable_time'][data_index] += action_id.time
+                elif action_id.billing_type == "Non facturable":
+                    consultant_not_billable_sum += action_id.time
+                    data['not_billable_time'][data_index] += action_id.time
+            consultant_total_sum = consultant_billable_sum + consultant_not_billable_sum
+            sum_billable_time = sum(data["billable_time"])
+            sum_not_billable_time = sum(data["not_billable_time"])
+            sum_total_time = sum(data["total_time"])
+            total_billable_time += sum_billable_time
+            total_not_billable_time += sum_not_billable_time
+            total_time += sum_total_time
+            sheet_1.write(i, 1, str(sum_billable_time), number_format)
+            sheet_1.write(i, 2, str(sum_not_billable_time), number_format)
+            sheet_1.write(i, 3, str(sum_total_time), number_format)
+
+            # Utilisation de pandas pour extraction
+            df = pd.DataFrame(data)
+            df['date'] = pd.to_datetime(df['date'])
+            monthly_average = df.groupby(df['date'].dt.to_period('M'))['total_time'].sum().mean()
+            daily_average = 0
+            if len(data['total_time']) > 0:
+                daily_average = sum(data['total_time'])/len(data['total_time'])
+            monthly_billable_time_average = df.groupby(df['date'].dt.to_period('M'))['billable_time'].sum().mean()
+            monthly_not_billable_time_average = df.groupby(df['date'].dt.to_period('M'))['not_billable_time'].sum().mean()
+            total_monthly_average += monthly_average
+            total_daily_average += daily_average
+            total_monthly_billable_time_average += monthly_billable_time_average
+            total_monthly_not_billable_time_average += monthly_not_billable_time_average
+            sheet_1.write(i, 4, str(monthly_average), number_format)
+            sheet_1.write(i, 5, str(daily_average), number_format)
+            sheet_1.write(i, 6, str(monthly_billable_time_average), number_format)
+            sheet_1.write(i, 7, str(monthly_not_billable_time_average), number_format)
+            sheet_1.write(i, 8, str(monthly_average-169), number_format) # Ecart / 169h
+            i += 1
+
+        # Affichage du total pour chaque colonne
+        sheet_1.write(2, 0, 'Total', sum_format)
+        sheet_1.write(2, 1, str(total_billable_time), sum_format)
+        sheet_1.write(2, 2, str(total_not_billable_time), sum_format)
+        sheet_1.write(2, 3, str(total_time), sum_format)
+        sheet_1.write(2, 4, str(total_monthly_average), sum_format)
+        sheet_1.write(2, 5, str(total_daily_average), sum_format)
+        sheet_1.write(2, 6, str(total_monthly_billable_time_average), sum_format)
+        sheet_1.write(2, 7, str(total_monthly_not_billable_time_average), sum_format)
+
+        #=============================
+        # Envoie du document
+        #=============================
 
         workbook.close()
         output.seek(0)
