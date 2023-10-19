@@ -46,6 +46,7 @@
                 <input type="date" id="time_recording_end_date" name="time_recording_end_date" required="True" t-att-value="str(actual_year)+'-'+str(actual_month)+'-'+str(actual_day)" t-att-max="str(actual_year)+'-'+str(actual_month)+'-'+str(actual_day)"/>
                 <br/>
                 <p class="info">2. Générez le fichier Excel</p>
+                <p class="info">Attention : Le temps de chargement peut durer une ou plusieurs minutes.</p>
                 <input type="submit" value="Générer"/>
             </div>
           </form>

@@ -415,9 +415,11 @@ class TimeRecordingReportController(http.Controller):
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         title_format = workbook.add_format({'bold': True})
         header_format = workbook.add_format({'bg_color': '#adcdff', 'bold': True, 'font_color': 'blue'})
-        sum_format = workbook.add_format({'bg_color': "#CFCFCF", 'bold': True,'num_format': '#,##0.00'})
+        sum_format = workbook.add_format({'bg_color': "#CFCFCF", 'bold': True})
         user_format = workbook.add_format({'bold': True})
-        number_format = workbook.add_format({'num_format': '0.00'})
+        number_format = workbook.add_format()
+        number_format.set_num_format('0.0')
+        sum_format.set_num_format('0.0')
 
         # Écriture du titre de la page
         sheet_1 = workbook.add_worksheet("Saisie des temps")
@@ -478,9 +480,9 @@ class TimeRecordingReportController(http.Controller):
             total_billable_time += sum_billable_time
             total_not_billable_time += sum_not_billable_time
             total_time += sum_total_time
-            sheet_1.write(i, 1, str(sum_billable_time), number_format)
-            sheet_1.write(i, 2, str(sum_not_billable_time), number_format)
-            sheet_1.write(i, 3, str(sum_total_time), number_format)
+            sheet_1.write(i, 1, sum_billable_time, number_format)
+            sheet_1.write(i, 2, sum_not_billable_time, number_format)
+            sheet_1.write(i, 3, sum_total_time, number_format)
 
             # Utilisation de pandas pour extraction
             df = pd.DataFrame(data)
@@ -495,22 +497,22 @@ class TimeRecordingReportController(http.Controller):
             total_daily_average += daily_average
             total_monthly_billable_time_average += monthly_billable_time_average
             total_monthly_not_billable_time_average += monthly_not_billable_time_average
-            sheet_1.write(i, 4, str(monthly_average), number_format)
-            sheet_1.write(i, 5, str(daily_average), number_format)
-            sheet_1.write(i, 6, str(monthly_billable_time_average), number_format)
-            sheet_1.write(i, 7, str(monthly_not_billable_time_average), number_format)
-            sheet_1.write(i, 8, str(monthly_average-169), number_format) # Ecart / 169h
+            sheet_1.write(i, 4, monthly_average, number_format)
+            sheet_1.write(i, 5, daily_average, number_format)
+            sheet_1.write(i, 6, monthly_billable_time_average, number_format)
+            sheet_1.write(i, 7, monthly_not_billable_time_average, number_format)
+            sheet_1.write(i, 8, monthly_average-169, number_format) # Ecart / 169h
             i += 1
 
         # Affichage du total pour chaque colonne
         sheet_1.write(2, 0, 'Total', sum_format)
-        sheet_1.write(2, 1, str(total_billable_time), sum_format)
-        sheet_1.write(2, 2, str(total_not_billable_time), sum_format)
-        sheet_1.write(2, 3, str(total_time), sum_format)
-        sheet_1.write(2, 4, str(total_monthly_average), sum_format)
-        sheet_1.write(2, 5, str(total_daily_average), sum_format)
-        sheet_1.write(2, 6, str(total_monthly_billable_time_average), sum_format)
-        sheet_1.write(2, 7, str(total_monthly_not_billable_time_average), sum_format)
+        sheet_1.write(2, 1, total_billable_time, sum_format)
+        sheet_1.write(2, 2, total_not_billable_time, sum_format)
+        sheet_1.write(2, 3, total_time, sum_format)
+        sheet_1.write(2, 4, total_monthly_average, sum_format)
+        sheet_1.write(2, 5, total_daily_average, sum_format)
+        sheet_1.write(2, 6, total_monthly_billable_time_average, sum_format)
+        sheet_1.write(2, 7, total_monthly_not_billable_time_average, sum_format)
 
         #=============================
         # Envoie du document
