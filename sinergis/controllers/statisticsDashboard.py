@@ -497,11 +497,24 @@ class TimeRecordingReportController(http.Controller):
             total_daily_average += daily_average
             total_monthly_billable_time_average += monthly_billable_time_average
             total_monthly_not_billable_time_average += monthly_not_billable_time_average
-            sheet_1.write(i, 4, monthly_average, number_format)
+            
+            try:
+                sheet_1.write(i, 4, monthly_average, number_format)
+            except:
+                pass
             sheet_1.write(i, 5, daily_average, number_format)
-            sheet_1.write(i, 6, monthly_billable_time_average, number_format)
-            sheet_1.write(i, 7, monthly_not_billable_time_average, number_format)
-            sheet_1.write(i, 8, monthly_average-169, number_format) # Ecart / 169h
+            try:
+                sheet_1.write(i, 6, monthly_billable_time_average, number_format)
+            except:
+                pass
+            try:
+                sheet_1.write(i, 7, monthly_not_billable_time_average, number_format)
+            except:
+                pass
+            try:
+                sheet_1.write(i, 8, monthly_average-169, number_format) # Ecart / 169h
+            except:
+                pass
             i += 1
 
         # Affichage du total pour chaque colonne
