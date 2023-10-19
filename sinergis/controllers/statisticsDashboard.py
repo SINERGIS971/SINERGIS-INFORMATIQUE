@@ -417,7 +417,7 @@ class TimeRecordingReportController(http.Controller):
         header_format = workbook.add_format({'bg_color': '#adcdff', 'bold': True, 'font_color': 'blue'})
         sum_format = workbook.add_format({'bg_color': "#CFCFCF", 'bold': True,'num_format': '#,##0.00'})
         user_format = workbook.add_format({'bold': True})
-        number_format = workbook.add_format({'num_format': '#,##0.00'})
+        number_format = workbook.add_format({'num_format': '0.00'})
 
         # Écriture du titre de la page
         sheet_1 = workbook.add_worksheet("Saisie des temps")
@@ -472,7 +472,6 @@ class TimeRecordingReportController(http.Controller):
                 elif action_id.billing_type == "Non facturable":
                     consultant_not_billable_sum += action_id.time
                     data['not_billable_time'][data_index] += action_id.time
-            consultant_total_sum = consultant_billable_sum + consultant_not_billable_sum
             sum_billable_time = sum(data["billable_time"])
             sum_not_billable_time = sum(data["not_billable_time"])
             sum_total_time = sum(data["total_time"])
