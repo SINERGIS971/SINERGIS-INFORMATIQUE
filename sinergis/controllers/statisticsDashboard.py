@@ -4,6 +4,7 @@ from datetime import date
 from datetime import datetime
 
 import io
+import math
 import pandas as pd
 import xlsxwriter
 
@@ -488,33 +489,27 @@ class TimeRecordingReportController(http.Controller):
             df = pd.DataFrame(data)
             df['date'] = pd.to_datetime(df['date'])
             monthly_average = df.groupby(df['date'].dt.to_period('M'))['total_time'].sum().mean()
+            if math.isnan(monthly_average):
+                monthly_average=0
             daily_average = 0
             if len(data['total_time']) > 0:
                 daily_average = sum(data['total_time'])/len(data['total_time'])
             monthly_billable_time_average = df.groupby(df['date'].dt.to_period('M'))['billable_time'].sum().mean()
             monthly_not_billable_time_average = df.groupby(df['date'].dt.to_period('M'))['not_billable_time'].sum().mean()
+            if math.isnan(monthly_billable_time_average):
+                monthly_billable_time_average=0
+            if math.isnan(monthly_not_billable_time_average):
+                monthly_not_billable_time_average=0
             total_monthly_average += monthly_average
             total_daily_average += daily_average
             total_monthly_billable_time_average += monthly_billable_time_average
             total_monthly_not_billable_time_average += monthly_not_billable_time_average
             
-            try:
-                sheet_1.write(i, 4, monthly_average, number_format)
-            except:
-                pass
+            sheet_1.write(i, 4, monthly_average, number_format)
             sheet_1.write(i, 5, daily_average, number_format)
-            try:
-                sheet_1.write(i, 6, monthly_billable_time_average, number_format)
-            except:
-                pass
-            try:
-                sheet_1.write(i, 7, monthly_not_billable_time_average, number_format)
-            except:
-                pass
-            try:
-                sheet_1.write(i, 8, monthly_average-169, number_format) # Ecart / 169h
-            except:
-                pass
+            sheet_1.write(i, 6, monthly_billable_time_average, number_format)
+            sheet_1.write(i, 7, monthly_not_billable_time_average, number_format)
+            sheet_1.write(i, 8, monthly_average-169, number_format) # Ecart / 169h
             i += 1
 
         # Affichage du total pour chaque colonne
