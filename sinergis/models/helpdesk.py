@@ -125,7 +125,7 @@ class HelpdeskTicket(models.Model):
                 rec.x_sinergis_helpdesk_ticket_sale_order_line = rec.x_sinergis_helpdesk_ticket_project.sale_line_id
             elif rec.x_sinergis_helpdesk_ticket_facturation == "Contrat heures":
                 rec.x_sinergis_helpdesk_ticket_sale_order = rec.x_sinergis_helpdesk_ticket_tache2.sale_line_id.order_id
-                rec.x_sinergis_helpdesk_ticket_sale_order_line = rec.x_sinergis_helpdesk_ticket_tache2.sale_line_id.order_id
+                rec.x_sinergis_helpdesk_ticket_sale_order_line = rec.x_sinergis_helpdesk_ticket_tache2.sale_line_id
             else:
                 rec.x_sinergis_helpdesk_ticket_sale_order = False
                 rec.x_sinergis_helpdesk_ticket_sale_order_line = False
