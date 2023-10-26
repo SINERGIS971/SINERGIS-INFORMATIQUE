@@ -38,6 +38,7 @@ class MyActions(models.Model):
     billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable'),('Congés', 'Congés')], string="Facturable/Non facturable/Congés")
     billing_last_date = fields.Datetime(string="Date màj facturation")
     billing_order = fields.Many2one("sale.order",string="Commande", compute="_compute_billing_order")
+    billing_order_line = fields.Many2one("sale.order.line",string="Ligne de commande", compute="_compute_billing_order")
     time = fields.Float(string = "Temps")
     consultant = fields.Many2one('res.users',string="Consultant")
     company_id = fields.Many2one("res.company",string="Agence du consultant")
@@ -247,8 +248,10 @@ class MyActions(models.Model):
         for rec in self:
             if rec.origin == "helpdesk":
                 rec.billing_order = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_sale_order
+                rec.billing_order_line = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).x_sinergis_helpdesk_ticket_sale_order_line
             else:
                 rec.billing_order = self.env['calendar.event'].search([('id','=',rec.link_id)]).x_sinergis_calendar_event_sale_order
+                rec.billing_order_line = self.env['calendar.event'].search([('id','=',rec.link_id)]).x_sinergis_calendar_event_sale_order_line
 
     # Vrai si l'évènement vient du calendrier et qu'il y a un rapport d'intervention valide sur celui-ci
     @api.depends('rapport_intervention_valide')

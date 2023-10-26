@@ -57,6 +57,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_tache2 = fields.Many2one("project.task", string="Contrat d'heures")
     x_sinergis_helpdesk_ticket_tache_information = fields.Char(string="")
     x_sinergis_helpdesk_ticket_sale_order = fields.Many2one("sale.order", string="Commande", compute="_compute_x_sinergis_helpdesk_ticket_sale_order")
+    x_sinergis_helpdesk_ticket_sale_order_line = fields.Many2one("sale.order.line", string="Ligne de commande", compute="_compute_x_sinergis_helpdesk_ticket_sale_order")
 
     x_sinergis_helpdesk_ticket_temps_passe = fields.Float(string="Temps passé")
 
@@ -116,15 +117,18 @@ class HelpdeskTicket(models.Model):
             else:
                 rec.x_sinergis_helpdesk_ticket_produit_nom_complet = ""
 
-    @api.depends("x_sinergis_helpdesk_ticket_sale_order")
+    @api.depends("x_sinergis_helpdesk_ticket_sale_order", "x_sinergis_helpdesk_ticket_sale_order_line")
     def _compute_x_sinergis_helpdesk_ticket_sale_order (self):
         for rec in self:
             if rec.x_sinergis_helpdesk_ticket_facturation == "Devis":
                 rec.x_sinergis_helpdesk_ticket_sale_order = rec.x_sinergis_helpdesk_ticket_project.sale_line_id.order_id
+                rec.x_sinergis_helpdesk_ticket_sale_order_line = rec.x_sinergis_helpdesk_ticket_project.sale_line_id
             elif rec.x_sinergis_helpdesk_ticket_facturation == "Contrat heures":
                 rec.x_sinergis_helpdesk_ticket_sale_order = rec.x_sinergis_helpdesk_ticket_tache2.sale_line_id.order_id
+                rec.x_sinergis_helpdesk_ticket_sale_order_line = rec.x_sinergis_helpdesk_ticket_tache2.sale_line_id.order_id
             else:
                 rec.x_sinergis_helpdesk_ticket_sale_order = False
+                rec.x_sinergis_helpdesk_ticket_sale_order_line = False
 
     @api.depends('x_sinergis_helpdesk_ticket_is_sent','x_sinergis_helpdesk_ticket_sent_date','x_sinergis_helpdesk_ticket_sent_mail')
     def _compute_x_sinergis_helpdesk_ticket_sent_report (self):

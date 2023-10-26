@@ -65,7 +65,7 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_tache_information = fields.Char(string="")
 
     x_sinergis_calendar_event_sale_order = fields.Many2one("sale.order", string="Commande", compute="_compute_x_sinergis_calendar_event_sale_order")
-
+    x_sinergis_calendar_event_sale_order_line = fields.Many2one("sale.order.line", string="Ligne de commande", compute="_compute_x_sinergis_calendar_event_sale_order")
 
     x_sinergis_calendar_event_taches = fields.One2many('project.task',compute="_compute_tasks",readonly=True)
 
@@ -108,15 +108,18 @@ class CalendarEvent(models.Model):
     # 5 Juillet - Savoir si facturé par Lisette
     x_sinergis_calendar_event_myactions_is_billed = fields.Boolean(compute="_compute_x_sinergis_calendar_event_myactions_is_billed")
 
-    @api.depends("x_sinergis_calendar_event_sale_order")
+    @api.depends("x_sinergis_calendar_event_sale_order","x_sinergis_calendar_event_sale_order_line")
     def _compute_x_sinergis_calendar_event_sale_order(self):
         for rec in self:
             if rec.x_sinergis_calendar_event_facturation == "Devis":
                 rec.x_sinergis_calendar_event_sale_order = rec.x_sinergis_calendar_event_project.sale_line_id.order_id
+                rec.x_sinergis_calendar_event_sale_order_line = rec.x_sinergis_calendar_event_project.sale_line_id
             elif rec.x_sinergis_calendar_event_facturation == "Contrat heure":
                 rec.x_sinergis_calendar_event_sale_order = rec.x_sinergis_calendar_event_tache2.sale_line_id.order_id
+                rec.x_sinergis_calendar_event_sale_order_line = rec.x_sinergis_calendar_event_tache2.sale_line_id
             else:
                 rec.x_sinergis_calendar_event_sale_order = False
+                rec.x_sinergis_calendar_event_sale_order_line = False
 
     @api.depends('x_sinergis_calendar_event_taches')
     def _compute_tasks (self):
