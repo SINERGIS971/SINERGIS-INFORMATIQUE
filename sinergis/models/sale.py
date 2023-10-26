@@ -350,8 +350,10 @@ class SaleOrder(models.Model):
                     won_stage = self.env["crm.stage"].search([('is_won', '=', True)], limit=1)
                     opportunity_id.stage_id = won_stage
                     # Archivage des autres ventes de l'opportunité
-                    sales = self.env['sale.order'].search(['&',('opportunity_id', '=', opportunity_id.id), ('id', '!=', id)])
-                    sales.active = False
+                    sale_ids = self.env['sale.order'].search(['&',('opportunity_id', '=', opportunity_id.id), ('id', '!=', id)])
+                    for sale_id in sale_ids:
+                        if sale_id.state != 'sale':
+                            sale_id.active = False
         orders = super(SaleOrder, self).write(vals)
         return orders
 
