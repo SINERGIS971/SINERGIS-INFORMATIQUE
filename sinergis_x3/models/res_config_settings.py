@@ -66,6 +66,16 @@ class ResConfigSettings(models.TransientModel):
     day_list_price_mge = fields.Float(string="Prix journalier d'une intervention au temps passé pour la MGE",
                               config_parameter='sinergis_x3.day_list_price_mge')
     
+    # PARAMETRAGE DE LA SYNCHRONISATION DU FACTURABLE ODOO AVEC LA VUE X3
+
+    last_billable_update_x3 = fields.Datetime(string="Date de tri" , readonly=True)
+    last_billable_log_x3 = fields.One2many("sale.order.odoo_x3_log", compute="_compute_last_billable_log_x3", string="Log", readonly=True)
+
+    @api.depends("last_billable_log_x3")
+    def _compute_x_last_billable_log_x3(self):
+        for rec in self:
+            rec.last_billable_log_x3 = self.env["sale.order.odoo_x3_log"].search([],limit=5)
+    
     def test_x3_connection (self):
         if self.base_url_x3:
             urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
