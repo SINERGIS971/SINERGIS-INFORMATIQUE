@@ -69,12 +69,6 @@ class ResConfigSettings(models.TransientModel):
     # PARAMETRAGE DE LA SYNCHRONISATION DU FACTURABLE ODOO AVEC LA VUE X3
 
     last_billable_update_x3 = fields.Datetime(string="Date de tri" , readonly=True)
-    last_billable_log_x3 = fields.One2many("sale.order.odoo_x3_log", compute="_compute_last_billable_log_x3", string="Log", readonly=True)
-
-    @api.depends("last_billable_log_x3")
-    def _compute_x_last_billable_log_x3(self):
-        for rec in self:
-            rec.last_billable_log_x3 = self.env["sale.order.odoo_x3_log"].search([],limit=5)
     
     def test_x3_connection (self):
         if self.base_url_x3:
@@ -88,3 +82,7 @@ class ResConfigSettings(models.TransientModel):
     # Remise à zero des contrats annuels    
     def reset_annual_contracts(self):
         self.env["sinergis_x3.annual_contract"].search([], limit=1000000).unlink()
+
+    def billiable_update_x3(self):
+        
+        raise ValidationError("Fonctionnalité en développement")
