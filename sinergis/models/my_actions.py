@@ -77,6 +77,10 @@ class MyActions(models.Model):
 
     is_transfered_x3 = fields.Boolean(string="")
 
+    # Date de modification du ticket ou de l'évènement
+
+    action_write_date = fields.Datetime(compute="_compute_action_write_date")
+
     #@api.model_cr
     #[16/10/22] Helpdesk : Variable 'date' fixée à 'start_time' pour ne pas voir la date de création mais la date de traitement du ticket
     def init(self):
@@ -273,6 +277,15 @@ class MyActions(models.Model):
             else:
                 rec.is_rebillable = False
 
+    @api.depends('action_write_date')
+    def _compute_action_write_date(self):
+        for rec in self:
+            if rec.origin == "helpdesk":
+                rec.action_write_date = self.env['helpdesk.ticket'].search([('id','=',rec.link_id)]).write_date
+            elif rec.origin == "calendar":
+                rec.action_write_date = self.env['calendar.event'].search([('id','=',rec.link_id)]).write_date
+            else:
+                rec.action_write_date = False
 
     def open(self):
         context = {}

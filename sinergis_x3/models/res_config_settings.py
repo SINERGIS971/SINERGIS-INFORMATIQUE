@@ -4,6 +4,8 @@
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
+from datetime import datetime
+
 import requests
 import urllib3
 
@@ -68,7 +70,7 @@ class ResConfigSettings(models.TransientModel):
     
     # PARAMETRAGE DE LA SYNCHRONISATION DU FACTURABLE ODOO AVEC LA VUE X3
 
-    last_billable_update_x3 = fields.Datetime(string="Date de tri" , readonly=True)
+    last_billable_update_x3 = fields.Char(string="Date de la dernière MàJ (UTC)" , readonly=True, config_parameter='sinergis_x3.last_billable_update_x3')
     
     def test_x3_connection (self):
         if self.base_url_x3:
@@ -84,5 +86,5 @@ class ResConfigSettings(models.TransientModel):
         self.env["sinergis_x3.annual_contract"].search([], limit=1000000).unlink()
 
     def billiable_update_x3(self):
-        
-        raise ValidationError("Fonctionnalité en développement")
+        self.env['ir.config_parameter'].sudo().set_param('sinergis_x3.last_billable_update_x3', datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+        #raise ValidationError("Fonctionnalité en développement")
