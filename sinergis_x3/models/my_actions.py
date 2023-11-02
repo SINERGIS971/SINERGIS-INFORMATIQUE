@@ -298,15 +298,15 @@ class MyActions(models.Model):
         object['QTY'] = action_id.time # Temps en heures
         object['UNITE'] = "H" # Unité de temps
         object['NUM_BDC'] = action_id.billing_order.name if action_id.billing_order else '' # Numéro de la commande
-        object['DATE_BDC'] = action_id.billing_order.date_order.strftime("%Y%m%d") if action_id.billing_order.date_order else ''  # Date de commande
+        object['DATE_BDC'] = action_id.billing_order.date_order.strftime("%Y-%m-%dT%H:%M:%SZ") if action_id.billing_order.date_order else ''  # Date de commande
         object['PRODUCT'] = action_id.sinergis_product_id.name
         object['SUBPRODUCT'] = action_id.sinergis_subproduct_id.name
         object['XTYPE'] = action_id.sinergis_product_id.type
-        object['START'] = action_id.start_time.strftime("%Y%m%d") if action_id.start_time else ''
-        object['ENDDAT'] = action_id.end_time.strftime("%Y%m%d") if action_id.end_time else ''
+        object['START'] = action_id.start_time.strftime("%Y-%m-%dT%H:%M:%SZ") if action_id.start_time else ''
+        object['ENDDAT'] = action_id.end_time.strftime("%Y-%m-%dT%H:%M:%SZ") if action_id.end_time else ''
         object['FACT'] = action_id.billing_type
         object['PROJET'] = int(action_id.has_project)
-        object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y%m%d")
+        object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y-%m-%dT%H:%M:%SZ")
         return object
 
     # ACTIVITES DES CLIENT EN REQUETE SOAP
@@ -372,7 +372,7 @@ class MyActions(models.Model):
                     else:
                         print("ID : {action_id_str} créé dans X3 !")
                 except:
-                    print(f"Erreur dans la lecture de l'ID : {action_id_str}")
+                    print(f"Erreur dans la lecture de l'ID : {action_id_str}. Erreur : {response.content}")
                 
                 # Si le status n'est pas à "1", il y a une erreur
                 
