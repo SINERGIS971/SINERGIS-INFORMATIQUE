@@ -306,7 +306,7 @@ class MyActions(models.Model):
         object['ENDDAT'] = action_id.end_time.strftime("%Y%m%d%H%M%S") if action_id.end_time else ''
         object['FACT'] = action_id.billing_type
         object['PROJET'] = int(action_id.has_project)
-        object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y%m%d%H%M%S")
+        object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y%m%d%H%M%S") if action_id.action_write_date else ''
         return object
 
     # ACTIVITES DES CLIENT EN REQUETE SOAP
