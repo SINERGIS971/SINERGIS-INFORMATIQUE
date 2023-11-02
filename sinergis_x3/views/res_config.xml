@@ -24,12 +24,16 @@
                                             <field name="base_url_x3" class="oe_inline" style="width: 70% !important;"/>
                                         </div>
                                         <div class="row mt16">
-                                            <label class="col-lg-3 o_light_label" string="CHEMIN POST DES COMMANDES" for="path_x3_orders"/>
+                                            <label class="col-lg-3 o_light_label" string="CHEMIN POST SOAP" for="path_x3_orders"/>
                                             <field name="path_x3_orders" class="oe_inline" style="width: 70% !important;"/>
                                         </div>
                                         <div class="row mt16">
                                             <label class="col-lg-3 o_light_label" string="CHEMIN GET DES CONTRATS ANNUELS" for="path_x3_contracts"/>
                                             <field name="path_x3_contracts" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="CHEMIN GET DES ACTIVITES" for="path_x3_actions"/>
+                                            <field name="path_x3_actions" class="oe_inline" style="width: 70% !important;"/>
                                         </div>
                                         <div class="row mt16">
                                             <button name="test_x3_connection" class="oe_highlight btn-info" type="object" string="TESTER LA CONNEXION"/>

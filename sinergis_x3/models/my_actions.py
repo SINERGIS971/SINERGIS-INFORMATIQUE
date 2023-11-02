@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from odoo.addons.sinergis_x3.utils.soap import order_to_soap, order_line_text_to_soap
+from odoo.addons.sinergis_x3.utils.soap import order_to_soap, order_line_text_to_soap, actions_to_soap
 
 from base64 import b64encode
 from bs4 import BeautifulSoup 
@@ -10,12 +10,17 @@ from datetime import datetime
 
 import base64
 import markdown
+import json
 import requests
 import urllib3
 import xmltodict
 
 class MyActions(models.Model):
     _inherit = "sinergis.myactions"
+
+    #=====================================
+    #Transférer les activités en commande#
+    #=====================================
 
     # Transfert de Odoo vers X3
     def _send_order_for_x3 (self):
@@ -204,3 +209,140 @@ class MyActions(models.Model):
         return [True, {'sinergis_x3_id': sinergis_x3_id,
                        'sinergis_x3_price_subtotal': sinergis_x3_price_subtotal,
                        'sinergis_x3_price_total': sinergis_x3_price_total}]
+    
+    #=======================================
+    #Transférer les activités vers XODOOACT#
+    #=======================================
+
+    # CHARGEMENT DES DONNEES X3
+
+    # Fonction pour charger toutes les activités dans X3
+    def load_x3_actions():
+        #Stockage des données X3
+        x3_actions_data = {}
+        #x3_actions_ids = []
+        # Chargement données Reverse Proxy
+        user_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_rproxy')
+        password_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_rproxy')
+        authentication_token_rproxy = False
+        if user_rproxy:
+            authentication_token_rproxy = base64.b64encode(f"{user_rproxy}:{password_rproxy}".encode('utf-8')).decode("ascii")
+        # Chargement authentification
+        user_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_x3')
+        password_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_x3')
+        authentication_token = base64.b64encode(f"{user_x3}:{password_x3}".encode('utf-8')).decode("ascii")
+        # Chargement URL
+        base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
+        path_x3_actions = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_actions')
+        # Parametres
+        url = base_url + path_x3_actions
+        cookies = False # Initalisation des cookies
+        count_per_page = 2 # Nombre d'items par page
+        next_exists = True # Permet de savoir si une page existe ensuite
+
+        if authentication_token_rproxy:
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            headers = {'content-type': 'text/xml;charset=UTF-8',
+            'Authorization': f'Basic {authentication_token}',
+            'sinergisauthorization': f'Basic {authentication_token_rproxy}'}
+        else:
+            headers = {'content-type': 'text/xml;charset=UTF-8',
+            'Authorization': f'Basic {authentication_token}'}
+
+        count = 0
+        while next_exists:
+            print("Count : "+str(count))
+            count += count_per_page
+            response = requests.get(f"{url}&count={str(count_per_page)}",
+                            headers=headers,
+                            cookies=cookies,
+                            verify=False)
+            cookies = response.cookies
+            response_content = response.content
+            response_json = json.loads(response_content)
+            if not "$links" in response_json:
+                raise ValidationError("Impossible de se connecter à X3 pour charger les contrats annuels")
+            if not '$next' in response_json['$links']:
+                next_exists = False
+            else :
+                url = response_json['$links']['$next']["$url"]
+            #Chargement des données
+            for resource in response_json['$resources']:
+                x3_actions_data[str(resource['ODOO_ID'])] = resource['WRITE_DATE']
+                #x3_actions_data.append({
+                #"ODOO_ID": resource['ODOO_ID'],
+                #"WRITE_DATE": resource['WRITE_DATE'],
+                #})
+                #x3_actions_ids.append("ODOO_ID")
+        return x3_actions_data
+
+    # TRANSFORMATION DES DONNEES INTERNES
+
+    def action_to_dict(action_id, company_id_transcode, user_transcode):
+        # Check si projet existe
+        has_project=False
+        if action_id.billing_order_line:
+            project_ids = self.env['projet.project'].search([('sale_line_id','=',action_id.billing_order_line.id)])
+            if len(project_ids) > 0:
+                has_project = True
+        
+        object = {}
+        object['SALFCY'] = company_id_transcode[action_id.company_id.id] if action_id.company_id.id in company_id_transcode else '' # Agence rattachée au client
+        object['ODOOCLIENTID'] = action_id.client.id # Identifiant du client Odoo
+        object['BPCORD'] = action_id.client.sinergis_x3_code if action_id.client.sinergis_x3_code else '' # Code client X3
+        object['CLIENT_NAME'] = action_id.client.name # Nom du client
+        object['REP'] = user_transcode[action_id.consultant.id] if action_id.consultant.id in user_transcode else '' # Consultant
+        object['ODOO_ID'] = action_id.id # Identifiant
+        object['CATEGORIE'] = action_id.origin # Calendrier ou assistance
+        object['BILLING_TYPE'] = action_id.billing_type # Type de facturation
+        object['ITEMLINEODOO'] = action_id.billing_order_line.product_id.name if action_id.billing_order_line else '' # Nom de l'article lié au devis ou au CH
+        object['OBJET'] = action_id.name # Objet de la facturation
+        object['QTY'] = action_id.time # Temps en heures
+        object['UNITE'] = "H" # Unité de temps
+        object['NUM_BDC'] = action_id.billing_order.name if action_id.billing_order else '' # Numéro de la commande
+        object['DATE_BDC'] = action_id.billing_order.date_order.strftime("%Y-%m-%d") if action_id.billing_order.date_order else ''  # Date de commande
+        object['PRODUCT'] = action_id.sinergis_product_id.name
+        object['SUBPRODUCT'] = action_id.sinergis_subproduct_id.name
+        object['XTYPE'] = action_id.sinergis_product_id.type
+        object['START'] = action_id.start_time.strftime("%Y-%m-%d %H:%M:%S") if action_id.start_time else ''
+        object['ENDDAT'] = action_id.end_time.strftime("%Y-%m-%d %H:%M:%S") if action_id.end_time else ''
+        object['FACT'] = action_id.billing_type
+        object['PROJET'] = int(has_project)
+        object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y-%m-%d %H:%M:%S")
+        return object
+
+    # ACTIVITES DES CLIENT EN REQUETE SOAP
+    def start_actions_x3_synchro (self):
+        # Chargement du transcodage
+        company_id_transcode = {settings_company_transcode.company_id.id: settings_company_transcode.code for settings_company_transcode in self.env['sinergis_x3.settings.company'].search([])}
+        user_transcode = {settings_user_transcode.user_id.id: settings_user_transcode.code for settings_user_transcode in self.env["sinergis_x3.settings.commercial"].search([])}
+
+        # Chargement des données d'authentification
+        pool_alias = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.pool_alias')
+        public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name')
+
+        #Chargement des clients
+        partner_id = self.env['res.partner'].search([('name','=','ZORG DISTRIBUTION')])
+        x3_datas  = self.load_x3_actions()
+        
+        #Pour chaque partner
+        action_ids_data = []
+        action_ids = self.env["sinergis.myactions"].search([('client','=', partner_id.id)])
+        for action_id in action_ids:
+            action_id_str = str(action_id.id)
+            if action_id_str in x3_datas:
+                if x3_datas[action_id_str] != action_id.action_write_date.strftime("%Y-%m-%d %H:%M:%S"):
+                    #Update
+                    action_ids_data.append(self.action_to_dict(action_id, company_id_transcode, user_transcode))
+            else:
+                #New
+                action_ids_data.append(self.action_to_dict(action_id, company_id_transcode, user_transcode))
+        
+        # Transformation des activités en requête SOAP
+        data_soap = actions_to_soap(action_ids_data, pool_alias, public_name)
+        print(data_soap)
+        
+
+
+
+

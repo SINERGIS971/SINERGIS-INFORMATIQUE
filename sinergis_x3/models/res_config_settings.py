@@ -28,6 +28,10 @@ class ResConfigSettings(models.TransientModel):
                               config_parameter='sinergis_x3.path_x3_contracts',
                               placeholder="/exemple/")
     
+    path_x3_actions = fields.Char(string="CHEMIN GET DES ACTIVITES ODOO",
+                              config_parameter='sinergis_x3.path_x3_actions',
+                              placeholder="/exemple/")
+    
     # REVERSE PROXY CONNEXION
 
     user_rproxy = fields.Char(string="Nom d'utilisateur reverse proxy",
