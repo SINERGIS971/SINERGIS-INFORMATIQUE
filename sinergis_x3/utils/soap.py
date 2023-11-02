@@ -126,7 +126,7 @@ def order_line_text_to_soap (SOHNUM,total_text,num_line,pool_alias,public_name,c
 # Le client doit être unique.
 
 def actions_to_soap(datas,pool_alias,public_name,code_lang="FRA"):
-    if len(data) < 1 :
+    if len(datas) < 1 :
         return False
     
     # Chargement du transcodage

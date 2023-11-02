@@ -217,7 +217,7 @@ class MyActions(models.Model):
     # CHARGEMENT DES DONNEES X3
 
     # Fonction pour charger toutes les activités dans X3
-    def load_x3_actions():
+    def load_x3_actions(self):
         #Stockage des données X3
         x3_actions_data = {}
         #x3_actions_ids = []
@@ -250,6 +250,8 @@ class MyActions(models.Model):
             'Authorization': f'Basic {authentication_token}'}
 
         count = 0
+        #DEBUG : ERREUR X3 DONC POUR LE MOMENT ON BYPASS ÇA
+        """
         while next_exists:
             print("Count : "+str(count))
             count += count_per_page
@@ -260,7 +262,9 @@ class MyActions(models.Model):
             cookies = response.cookies
             response_content = response.content
             response_json = json.loads(response_content)
+
             if not "$links" in response_json:
+                print("Impossible de se connecter à X3 pour charger les contrats annuels")
                 raise ValidationError("Impossible de se connecter à X3 pour charger les contrats annuels")
             if not '$next' in response_json['$links']:
                 next_exists = False
@@ -274,15 +278,16 @@ class MyActions(models.Model):
                 #"WRITE_DATE": resource['WRITE_DATE'],
                 #})
                 #x3_actions_ids.append("ODOO_ID")
+        """
         return x3_actions_data
 
     # TRANSFORMATION DES DONNEES INTERNES
 
-    def action_to_dict(action_id, company_id_transcode, user_transcode):
+    def action_to_dict(self, action_id, company_id_transcode, user_transcode):
         # Check si projet existe
         has_project=False
         if action_id.billing_order_line:
-            project_ids = self.env['projet.project'].search([('sale_line_id','=',action_id.billing_order_line.id)])
+            project_ids = self.env['project.project'].search([('sale_line_id','=',action_id.billing_order_line.id)])
             if len(project_ids) > 0:
                 has_project = True
         
