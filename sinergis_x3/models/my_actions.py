@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from odoo.addons.sinergis_x3.utils.soap import order_to_soap, order_line_text_to_soap, actions_to_soap
+from odoo.addons.sinergis_x3.utils.soap import order_to_soap, order_line_text_to_soap, action_to_soap
 
 from base64 import b64encode
 from bs4 import BeautifulSoup 
@@ -298,15 +298,15 @@ class MyActions(models.Model):
         object['QTY'] = action_id.time # Temps en heures
         object['UNITE'] = "H" # Unité de temps
         object['NUM_BDC'] = action_id.billing_order.name if action_id.billing_order else '' # Numéro de la commande
-        object['DATE_BDC'] = action_id.billing_order.date_order.strftime("%Y-%m-%d") if action_id.billing_order.date_order else ''  # Date de commande
+        object['DATE_BDC'] = action_id.billing_order.date_order.strftime("%Y%m%d") if action_id.billing_order.date_order else ''  # Date de commande
         object['PRODUCT'] = action_id.sinergis_product_id.name
         object['SUBPRODUCT'] = action_id.sinergis_subproduct_id.name
         object['XTYPE'] = action_id.sinergis_product_id.type
-        object['START'] = action_id.start_time.strftime("%Y-%m-%d %H:%M:%S") if action_id.start_time else ''
-        object['ENDDAT'] = action_id.end_time.strftime("%Y-%m-%d %H:%M:%S") if action_id.end_time else ''
+        object['START'] = action_id.start_time.strftime("%Y%m%d") if action_id.start_time else ''
+        object['ENDDAT'] = action_id.end_time.strftime("%Y%m%d") if action_id.end_time else ''
         object['FACT'] = action_id.billing_type
         object['PROJET'] = int(action_id.has_project)
-        object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y-%m-%d %H:%M:%S")
+        object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y%m%d")
         return object
 
     # ACTIVITES DES CLIENT EN REQUETE SOAP
@@ -335,45 +335,50 @@ class MyActions(models.Model):
                 #New
                 print(f"New id : {action_id_str}")
                 action_id_data = self.action_to_dict(action_id, company_id_transcode, user_transcode)
-                data_soap = actions_to_soap(action_id_data, pool_alias, public_name)
+                data_soap = action_to_soap(action_id_data, pool_alias, public_name)
                 print(data_soap)
-        
-        return
-        # Transformation des activités en requête SOAP
-        
-
-        # === Envoie des données vers X3 ===
-        # Chargement données Reverse Proxy
-        user_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_rproxy')
-        password_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_rproxy')
-        authentication_token_rproxy = False
-        if user_rproxy:
-            authentication_token_rproxy = base64.b64encode(f"{user_rproxy}:{password_rproxy}".encode('utf-8')).decode("ascii")
-        # Obtention de la requete SOAP
-        user_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_x3')
-        password_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_x3')
-        pool_alias = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.pool_alias')
-        public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name')
-        authentication_token = b64encode(f"{user_x3}:{password_x3}".encode('utf-8')).decode("ascii")
-        if authentication_token_rproxy:
-            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-            headers = {'content-type': 'text/xml;charset=UTF-8',
-                   'Authorization': f'Basic {authentication_token}',
-                   'sinergisauthorization': f'Basic {authentication_token_rproxy}',
-                   'soapaction': "\"\"",}
-        else:
-            headers = {'content-type': 'text/xml;charset=UTF-8',
-                   'Authorization': f'Basic {authentication_token}',
-                   'soapaction': "\"\"",}
-        #Connection to X3
-        base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
-        path_x3_actions = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
-        response = requests.post(base_url+path_x3_actions, data=data_soap.encode('utf-8'), headers=headers, verify=False).content
-        print(headers)
-        print(base_url+path_x3_actions)
-        print(response)
-
-        # TO DO : Intégrer vérification et mise en place de logs
+                # === Envoie des données vers X3 ===
+                # Chargement données Reverse Proxy
+                user_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_rproxy')
+                password_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_rproxy')
+                authentication_token_rproxy = False
+                if user_rproxy:
+                    authentication_token_rproxy = base64.b64encode(f"{user_rproxy}:{password_rproxy}".encode('utf-8')).decode("ascii")
+                # Obtention de la requete SOAP
+                user_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_x3')
+                password_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_x3')
+                pool_alias = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.pool_alias')
+                public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name')
+                authentication_token = b64encode(f"{user_x3}:{password_x3}".encode('utf-8')).decode("ascii")
+                if authentication_token_rproxy:
+                    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+                    headers = {'content-type': 'text/xml;charset=UTF-8',
+                        'Authorization': f'Basic {authentication_token}',
+                        'sinergisauthorization': f'Basic {authentication_token_rproxy}',
+                        'soapaction': "\"\"",}
+                else:
+                    headers = {'content-type': 'text/xml;charset=UTF-8',
+                        'Authorization': f'Basic {authentication_token}',
+                        'soapaction': "\"\"",}
+                #Connection to X3
+                base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
+                path_x3_actions = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
+                response = requests.post(base_url+path_x3_actions, data=data_soap.encode('utf-8'), headers=headers, verify=False).content
+                try:
+                    response_dict = xmltodict.parse(response)
+                    status = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["status"]["#text"]
+                    if status != "1":
+                        print(f'Erreur pour ID : {action_id_str} : {response.content}')
+                    else:
+                        print("ID : {action_id_str} créé dans X3 !")
+                except:
+                    print(f"Erreur dans la lecture de l'ID : {action_id_str}")
+                
+                # Si le status n'est pas à "1", il y a une erreur
+                
+                #print(headers)
+                #print(base_url+path_x3_actions)
+                #print(response)
         
 
 
