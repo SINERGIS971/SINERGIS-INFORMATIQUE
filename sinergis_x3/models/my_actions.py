@@ -298,15 +298,15 @@ class MyActions(models.Model):
         object['QTY'] = action_id.time # Temps en heures
         object['UNITE'] = "H" # Unité de temps
         object['NUM_BDC'] = action_id.billing_order.name if action_id.billing_order else '' # Numéro de la commande
-        object['DATE_BDC'] = action_id.billing_order.date_order.strftime("%Y-%m-%dT%H:%M:%SZ") if action_id.billing_order.date_order else ''  # Date de commande
+        object['DATE_BDC'] = action_id.billing_order.date_order.strftime("%Y%m%d%H%M%S") if action_id.billing_order.date_order else ''  # Date de commande
         object['PRODUCT'] = action_id.sinergis_product_id.name
         object['SUBPRODUCT'] = action_id.sinergis_subproduct_id.name
         object['XTYPE'] = action_id.sinergis_product_id.type
-        object['START'] = action_id.start_time.strftime("%Y-%m-%dT%H:%M:%SZ") if action_id.start_time else ''
-        object['ENDDAT'] = action_id.end_time.strftime("%Y-%m-%dT%H:%M:%SZ") if action_id.end_time else ''
+        object['START'] = action_id.start_time.strftime("%Y%m%d%H%M%S") if action_id.start_time else ''
+        object['ENDDAT'] = action_id.end_time.strftime("%Y%m%d%H%M%S") if action_id.end_time else ''
         object['FACT'] = action_id.billing_type
         object['PROJET'] = int(action_id.has_project)
-        object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y-%m-%dT%H:%M:%SZ")
+        object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y%m%d%H%M%S")
         return object
 
     # ACTIVITES DES CLIENT EN REQUETE SOAP
@@ -324,8 +324,11 @@ class MyActions(models.Model):
         x3_datas  = self.load_x3_actions()
         
         #Pour chaque partner
-        action_ids = self.env["sinergis.myactions"].search([('client','=', partner_id.id)])
+        j = 0
+        #action_ids = self.env["sinergis.myactions"].search([('client','=', partner_id.id)])
+        action_ids = self.env["sinergis.myactions"].search([], limit=10000000)
         for action_id in action_ids:
+            print(str(j))
             action_id_str = str(action_id.id)
             if action_id_str in x3_datas:
                 if x3_datas[action_id_str] != action_id.action_write_date.strftime("%Y-%m-%d %H:%M:%S"):
@@ -348,7 +351,7 @@ class MyActions(models.Model):
                 user_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_x3')
                 password_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_x3')
                 pool_alias = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.pool_alias')
-                public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name')
+                public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name_actions')
                 authentication_token = b64encode(f"{user_x3}:{password_x3}".encode('utf-8')).decode("ascii")
                 if authentication_token_rproxy:
                     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -364,6 +367,7 @@ class MyActions(models.Model):
                 base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
                 path_x3_actions = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
                 response = requests.post(base_url+path_x3_actions, data=data_soap.encode('utf-8'), headers=headers, verify=False).content
+                j+=1
                 try:
                     response_dict = xmltodict.parse(response)
                     status = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["status"]["#text"]
@@ -372,7 +376,7 @@ class MyActions(models.Model):
                     else:
                         print("ID : {action_id_str} créé dans X3 !")
                 except:
-                    print(f"Erreur dans la lecture de l'ID : {action_id_str}. Erreur : {response.content}")
+                    print(f"Erreur dans la lecture de l'ID : {action_id_str}. Erreur : {response}")
                 
                 # Si le status n'est pas à "1", il y a une erreur
                 
