@@ -21,7 +21,7 @@ class ResConfigSettings(models.TransientModel):
     base_url_x3 = fields.Char(string="URL X3 DE BASE",
                               config_parameter='sinergis_x3.base_url_x3',
                               placeholder="https://domain.fr")
-    path_x3_orders = fields.Char(string="CHEMIN POST DES COMMANDES",
+    path_x3_orders = fields.Char(string="CHEMIN POST SOAP",
                               config_parameter='sinergis_x3.path_x3_orders',
                               placeholder="/exemple/")
     path_x3_contracts = fields.Char(string="CHEMIN GET DES CONTRATS ANNUELS",

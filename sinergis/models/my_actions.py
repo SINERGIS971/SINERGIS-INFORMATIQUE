@@ -39,6 +39,7 @@ class MyActions(models.Model):
     billing_last_date = fields.Datetime(string="Date màj facturation")
     billing_order = fields.Many2one("sale.order",string="Commande", compute="_compute_billing_order")
     billing_order_line = fields.Many2one("sale.order.line",string="Ligne de commande", compute="_compute_billing_order")
+    has_project = fields.Boolean(string="A un projet ?", compute="_compute_has_project")
     time = fields.Float(string = "Temps")
     consultant = fields.Many2one('res.users',string="Consultant")
     company_id = fields.Many2one("res.company",string="Agence du consultant")
@@ -246,6 +247,16 @@ class MyActions(models.Model):
                 rec.intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_ticket_id', '=', rec.link_id)])
             elif rec.origin == "calendar":
                 rec.intervention_count = self.env['account.analytic.line'].search_count([('x_sinergis_account_analytic_line_event_id', '=', rec.link_id)])
+
+    @api.depends('has_project')
+    def _compute_has_project(self):
+        for rec in self:
+            has_project=False
+            if rec.billing_order_line:
+                project_ids = self.env['project.project'].search([('sale_line_id','=',rec.billing_order_line.id)])
+                if len(project_ids) > 0:
+                    has_project = True
+            rec.has_project = has_project
 
     @api.depends('billing_order')
     def _compute_billing_order(self):

@@ -284,13 +284,6 @@ class MyActions(models.Model):
     # TRANSFORMATION DES DONNEES INTERNES
 
     def action_to_dict(self, action_id, company_id_transcode, user_transcode):
-        # Check si projet existe
-        has_project=False
-        if action_id.billing_order_line:
-            project_ids = self.env['project.project'].search([('sale_line_id','=',action_id.billing_order_line.id)])
-            if len(project_ids) > 0:
-                has_project = True
-        
         object = {}
         object['SALFCY'] = company_id_transcode[action_id.company_id.id] if action_id.company_id.id in company_id_transcode else '' # Agence rattachée au client
         object['ODOOCLIENTID'] = action_id.client.id # Identifiant du client Odoo
@@ -312,7 +305,7 @@ class MyActions(models.Model):
         object['START'] = action_id.start_time.strftime("%Y-%m-%d %H:%M:%S") if action_id.start_time else ''
         object['ENDDAT'] = action_id.end_time.strftime("%Y-%m-%d %H:%M:%S") if action_id.end_time else ''
         object['FACT'] = action_id.billing_type
-        object['PROJET'] = int(has_project)
+        object['PROJET'] = int(action_id.has_project)
         object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y-%m-%d %H:%M:%S")
         return object
 
@@ -331,21 +324,23 @@ class MyActions(models.Model):
         x3_datas  = self.load_x3_actions()
         
         #Pour chaque partner
-        action_ids_data = []
         action_ids = self.env["sinergis.myactions"].search([('client','=', partner_id.id)])
         for action_id in action_ids:
             action_id_str = str(action_id.id)
             if action_id_str in x3_datas:
                 if x3_datas[action_id_str] != action_id.action_write_date.strftime("%Y-%m-%d %H:%M:%S"):
                     #Update
-                    action_ids_data.append(self.action_to_dict(action_id, company_id_transcode, user_transcode))
+                    print(f"Id: {action_id_str} exists and different write_date")
             else:
                 #New
-                action_ids_data.append(self.action_to_dict(action_id, company_id_transcode, user_transcode))
+                print(f"New id : {action_id_str}")
+                action_id_data = self.action_to_dict(action_id, company_id_transcode, user_transcode)
+                data_soap = actions_to_soap(action_id_data, pool_alias, public_name)
+                print(data_soap)
         
+        return
         # Transformation des activités en requête SOAP
-        data_soap = actions_to_soap(action_ids_data, pool_alias, public_name)
-        print(data_soap)
+        
 
         # === Envoie des données vers X3 ===
         # Chargement données Reverse Proxy
@@ -372,9 +367,13 @@ class MyActions(models.Model):
                    'soapaction': "\"\"",}
         #Connection to X3
         base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
-        path_x3_actions = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_actions')
+        path_x3_actions = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_orders')
         response = requests.post(base_url+path_x3_actions, data=data_soap.encode('utf-8'), headers=headers, verify=False).content
+        print(headers)
+        print(base_url+path_x3_actions)
         print(response)
+
+        # TO DO : Intégrer vérification et mise en place de logs
         
 
 
