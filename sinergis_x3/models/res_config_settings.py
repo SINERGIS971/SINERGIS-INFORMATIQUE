@@ -50,8 +50,11 @@ class ResConfigSettings(models.TransientModel):
 
     pool_alias = fields.Char(string="Pool alias",
                               config_parameter='sinergis_x3.pool_alias')
-    public_name = fields.Char(string="Nom du web service",
+    public_name = fields.Char(string="Nom du web service des commandes",
                               config_parameter='sinergis_x3.public_name')
+    
+    public_name_actions = fields.Char(string="Nom du web service des activités",
+                              config_parameter='sinergis_x3.public_name_actions')
     
     # PARAMETRAGE D'IMPORTATION DES DONNEES
     

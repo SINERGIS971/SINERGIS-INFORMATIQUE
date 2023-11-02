@@ -324,7 +324,7 @@ class MyActions(models.Model):
 
         # Chargement des données d'authentification
         pool_alias = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.pool_alias')
-        public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name')
+        public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name_actions')
 
         #Chargement des clients
         partner_id = self.env['res.partner'].search([('name','=','ZORG DISTRIBUTION')])
@@ -346,6 +346,35 @@ class MyActions(models.Model):
         # Transformation des activités en requête SOAP
         data_soap = actions_to_soap(action_ids_data, pool_alias, public_name)
         print(data_soap)
+
+        # === Envoie des données vers X3 ===
+        # Chargement données Reverse Proxy
+        user_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_rproxy')
+        password_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_rproxy')
+        authentication_token_rproxy = False
+        if user_rproxy:
+            authentication_token_rproxy = base64.b64encode(f"{user_rproxy}:{password_rproxy}".encode('utf-8')).decode("ascii")
+        # Obtention de la requete SOAP
+        user_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_x3')
+        password_x3 = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.password_x3')
+        pool_alias = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.pool_alias')
+        public_name = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.public_name')
+        authentication_token = b64encode(f"{user_x3}:{password_x3}".encode('utf-8')).decode("ascii")
+        if authentication_token_rproxy:
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            headers = {'content-type': 'text/xml;charset=UTF-8',
+                   'Authorization': f'Basic {authentication_token}',
+                   'sinergisauthorization': f'Basic {authentication_token_rproxy}',
+                   'soapaction': "\"\"",}
+        else:
+            headers = {'content-type': 'text/xml;charset=UTF-8',
+                   'Authorization': f'Basic {authentication_token}',
+                   'soapaction': "\"\"",}
+        #Connection to X3
+        base_url = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.base_url_x3')
+        path_x3_actions = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.path_x3_actions')
+        response = requests.post(base_url+path_x3_actions, data=data_soap.encode('utf-8'), headers=headers, verify=False).content
+        print(response)
         
 
 
