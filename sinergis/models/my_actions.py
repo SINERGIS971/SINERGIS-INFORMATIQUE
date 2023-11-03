@@ -38,6 +38,7 @@ class MyActions(models.Model):
     billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable'),('Congés', 'Congés')], string="Facturable/Non facturable/Congés")
     billing_last_date = fields.Datetime(string="Date màj facturation")
     billing_order = fields.Many2one("sale.order",string="Commande")
+    billing_order_margin = fields.Float(string="Marge de la commande", compute="_compute_billing_order_margin")
     billing_order_line = fields.Many2one("sale.order.line",string="Ligne de commande", compute="_compute_billing_order")
     has_project = fields.Boolean(string="A un projet ?", compute="_compute_has_project")
     time = fields.Float(string = "Temps")
@@ -259,6 +260,11 @@ class MyActions(models.Model):
                 if len(project_ids) > 0:
                     has_project = True
             rec.has_project = has_project
+
+    @api.depends('billing_order_margin')
+    def _compute_billing_order_margin(self):
+        for rec in self:
+            rec.billing_order_margin = rec.billing_orde.margin
 
     @api.depends('billing_order')
     def _compute_billing_order(self):
