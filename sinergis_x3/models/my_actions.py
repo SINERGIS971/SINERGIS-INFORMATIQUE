@@ -295,7 +295,7 @@ class MyActions(models.Model):
         object['BILLING_TYPE'] = action_id.billing_type # Type de facturation
         object['ITEMLINEODOO'] = action_id.billing_order_line.product_id.name if action_id.billing_order_line else '' # Nom de l'article lié au devis ou au CH
         object['OBJET'] = action_id.name # Objet de la facturation
-        object['QTY'] = action_id.time # Temps en heures
+        object['QTY'] = round(action_id.time,2) # Temps en heures
         object['UNITE'] = "H" # Unité de temps
         object['NUM_BDC'] = action_id.billing_order.name if action_id.billing_order else '' # Numéro de la commande
         object['DATE_BDC'] = action_id.billing_order.date_order.strftime("%Y%m%d%H%M%S") if action_id.billing_order.date_order else ''  # Date de commande
