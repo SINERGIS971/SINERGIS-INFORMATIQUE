@@ -264,7 +264,7 @@ class MyActions(models.Model):
     @api.depends('billing_order_margin')
     def _compute_billing_order_margin(self):
         for rec in self:
-            rec.billing_order_margin = rec.billing_orde.margin
+            rec.billing_order_margin = rec.billing_order.margin
 
     @api.depends('billing_order')
     def _compute_billing_order(self):
