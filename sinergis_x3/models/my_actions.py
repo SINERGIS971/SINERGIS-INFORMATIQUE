@@ -339,7 +339,6 @@ class MyActions(models.Model):
                 print(f"New id : {action_id_str}")
                 action_id_data = self.action_to_dict(action_id, company_id_transcode, user_transcode)
                 data_soap = action_to_soap(action_id_data, pool_alias, public_name)
-                print(data_soap)
                 # === Envoie des données vers X3 ===
                 # Chargement données Reverse Proxy
                 user_rproxy = self.env['ir.config_parameter'].sudo().get_param('sinergis_x3.user_rproxy')
@@ -372,11 +371,11 @@ class MyActions(models.Model):
                     response_dict = xmltodict.parse(response)
                     status = response_dict["soapenv:Envelope"]["soapenv:Body"]["wss:saveResponse"]["saveReturn"]["status"]["#text"]
                     if status != "1":
-                        print(f'Erreur pour ID : {action_id_str} : {response.content}')
+                        print(f'Erreur pour ID Soap : {data_soap} Error : {action_id_str} : {response.content}')
                     else:
                         print("ID : {action_id_str} créé dans X3 !")
                 except:
-                    print(f"Erreur dans la lecture de l'ID : {action_id_str}. Erreur : {response}")
+                    print(f"Erreur dans la lecture de l'ID : {action_id_str}. Soap : {data_soap} Erreur : {response}")
                 
                 # Si le status n'est pas à "1", il y a une erreur
                 
