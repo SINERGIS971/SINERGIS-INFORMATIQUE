@@ -265,7 +265,7 @@ class MyActions(models.Model):
     def _compute_billing_order_margin(self):
         for rec in self:
             # Nombre d'activités dans la commande concernée
-            count = self.env['sinergis.myactions'].search([('billing_order', '=', rec.billing_order)])
+            count = self.env['sinergis.myactions'].search([('billing_order', '=', rec.billing_order.id)])
             if count > 0: # Pour ne pas diviser par 0
                 rec.billing_order_margin = rec.billing_order.margin/count
             else :
