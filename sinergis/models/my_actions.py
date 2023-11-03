@@ -264,7 +264,12 @@ class MyActions(models.Model):
     @api.depends('billing_order_margin')
     def _compute_billing_order_margin(self):
         for rec in self:
-            rec.billing_order_margin = rec.billing_order.margin
+            # Nombre d'activités dans la commande concernée
+            count = self.env['sinergis.myactions'].search([('billing_order', '=', rec.billing_order)])
+            if count > 0: # Pour ne pas diviser par 0
+                rec.billing_order_margin = rec.billing_order.margin/count
+            else :
+                rec.billing_order_margin = 0
 
     @api.depends('billing_order')
     def _compute_billing_order(self):
