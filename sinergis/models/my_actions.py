@@ -115,11 +115,7 @@ class MyActions(models.Model):
                     
                     ht.user_id as consultant,
                     ru.company_id as company_id,
-                    CASE
-                        WHEN rp.company_id is null
-                            THEN ru.company_id
-                            ELSE rp.company_id
-                        END AS partner_company_id,
+                    rp.company_id as partner_company_id,
                     ht.x_sinergis_helpdesk_ticket_contact as contact,
                     ht.x_sinergis_helpdesk_ticket_start_time as start_time,
                     ht.x_sinergis_helpdesk_ticket_end_time as end_time,
@@ -182,11 +178,7 @@ class MyActions(models.Model):
                     END AS time,
                     ce.user_id as consultant,
                     ru.company_id as company_id,
-                    CASE
-                        WHEN rp.company_id is null
-                            THEN ru.company_id
-                            ELSE rp.company_id
-                        END AS partner_company_id,
+                    rp.company_id as partner_company_id,
                     ce.x_sinergis_calendar_event_contact as contact,
                     ce.x_sinergis_calendar_event_start_time as start_time,
                     ce.x_sinergis_calendar_event_end_time as end_time,
