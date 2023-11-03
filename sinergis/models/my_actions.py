@@ -116,7 +116,7 @@ class MyActions(models.Model):
                     ht.user_id as consultant,
                     ru.company_id as company_id,
                     CASE
-                        WHEN rp.company_id = FALSE
+                        WHEN rp.company_id is null
                             THEN ru.company_id
                             ELSE rp.company_id
                         END AS partner_company_id,
@@ -183,7 +183,7 @@ class MyActions(models.Model):
                     ce.user_id as consultant,
                     ru.company_id as company_id,
                     CASE
-                        WHEN rp.company_id = FALSE
+                        WHEN rp.company_id is null
                             THEN ru.company_id
                             ELSE rp.company_id
                         END AS partner_company_id,
