@@ -149,7 +149,7 @@ def action_to_soap(data,pool_alias,public_name,code_lang="FRA"):
                 <GRP ID="XOA1_1">
                     <FLD NAME="SALFCY" TYPE="Char">{data['SALFCY']}</FLD>
                     <FLD NAME="ODOOCLIENTID" TYPE="Char">{data['ODOOCLIENTID']}</FLD>
-                    <FLD NAME="BPCORD" TYPE="Char">{data['BPCORD']}</FLD>
+                    <FLD NAME="BPCORDFORCE" TYPE="Char">{data['BPCORD']}</FLD>
                     <FLD NAME="CLIENT_NAME" TYPE="Char">{data['CLIENT_NAME']}</FLD>
                     <FLD NAME="REP" TYPE="Char">{data['REP']}</FLD>
                     <FLD NAME="CATEGORIE" TYPE="Char">{data['CATEGORIE']}</FLD>
