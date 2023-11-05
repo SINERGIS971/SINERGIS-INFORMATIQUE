@@ -56,7 +56,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_tache = fields.Many2one("project.task", string="Tâche")
     x_sinergis_helpdesk_ticket_tache2 = fields.Many2one("project.task", string="Contrat d'heures")
     x_sinergis_helpdesk_ticket_tache_information = fields.Char(string="")
-    x_sinergis_helpdesk_ticket_sale_order = fields.Many2one("sale.order", string="Commande", compute="_compute_x_sinergis_helpdesk_ticket_sale_order")
+    x_sinergis_helpdesk_ticket_sale_order = fields.Many2one("sale.order", string="Commande", compute="_compute_x_sinergis_helpdesk_ticket_sale_order", store=True)
     x_sinergis_helpdesk_ticket_sale_order_line = fields.Many2one("sale.order.line", string="Ligne de commande", compute="_compute_x_sinergis_helpdesk_ticket_sale_order")
 
     x_sinergis_helpdesk_ticket_temps_passe = fields.Float(string="Temps passé")
