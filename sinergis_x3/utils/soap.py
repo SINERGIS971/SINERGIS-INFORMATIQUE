@@ -164,10 +164,16 @@ def action_to_soap(data,pool_alias,public_name,code_lang="FRA"):
                     <FLD NAME="SUBPRODUCT" TYPE="Char">{data['SUBPRODUCT']}</FLD>
                     <FLD NAME="XTYPE" TYPE="Char">{data['XTYPE']}</FLD>
                     <FLD NAME="START" TYPE="Date">{data['START']}</FLD>
+                    <FLD NAME="START_D" TYPE="Date">{data['START_D']}</FLD>
+                    <FLD NAME="START_H" TYPE="Date">{data['START_H']}</FLD>
                     <FLD NAME="ENDDAT" TYPE="Date">{data['ENDDAT']}</FLD>
+                    <FLD NAME="ENDDAT_D" TYPE="Date">{data['ENDDAT_D']}</FLD>
+                    <FLD NAME="ENDDAT_H" TYPE="Date">{data['ENDDAT_H']}</FLD>
                     <FLD NAME="FACT" TYPE="Char">{data['FACT']}</FLD>
                     <FLD MENULAB="" MENULOCAL="1" NAME="PROJET" TYPE="Integer">{data['PROJET']}</FLD>
                     <FLD NAME="WRITE_DATE" TYPE="Date">{data['WRITE_DATE']}</FLD>
+                    <FLD NAME="WRITE_D" TYPE="Date">{data['WRITE_D']}</FLD>
+                    <FLD NAME="WRITE_H" TYPE="Date">{data['WRITE_H']}</FLD>
                     <FLD NAME="ODOO_ID" TYPE="Char">{data['ODOO_ID']}</FLD>
                 </GRP>
             </PARAM>
