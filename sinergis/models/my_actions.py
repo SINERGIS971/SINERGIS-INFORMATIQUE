@@ -37,7 +37,7 @@ class MyActions(models.Model):
     billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Avant-vente", "Avant-vente"),("Congés", "Congés")], string="Facturation")
     billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable'),('Congés', 'Congés')], string="Facturable/Non facturable/Congés")
     billing_last_date = fields.Datetime(string="Date màj facturation")
-    billing_order = fields.Many2one("sale.order",string="Commande")
+    billing_order = fields.Many2one("sale.order",string="Commande", compute="_compute_billing_order")
     billing_order_margin = fields.Float(string="Marge de la commande", compute="_compute_billing_order_margin")
     billing_order_line = fields.Many2one("sale.order.line",string="Ligne de commande", compute="_compute_billing_order")
     has_project = fields.Boolean(string="A un projet ?", compute="_compute_has_project")
@@ -90,7 +90,7 @@ class MyActions(models.Model):
         query = """
             CREATE OR REPLACE VIEW sinergis_myactions AS (
             SELECT T.id AS id,T.origin,T.link_id,
-            T.name,T.date,T.client,T.client_sinergis_x3_code,T.sinergis_product_id,T.sinergis_subproduct_id,T.billing,T.billing_type,T.billing_last_date,T.billing_order,CAST(T.time AS float),T.consultant,T.company_id,T.partner_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_revised_billing,T.is_reinvoiced,T.reinvoiced_company_id,T.is_transfered_x3 FROM
+            T.name,T.date,T.client,T.client_sinergis_x3_code,T.sinergis_product_id,T.sinergis_subproduct_id,T.billing,T.billing_type,T.billing_last_date,CAST(T.time AS float),T.consultant,T.company_id,T.partner_company_id,T.contact,T.start_time,T.end_time,T.task,T.task2,T.resolution,T.is_solved,T.event_trip,T.movement_country,T.movement_area,T.country_id,T.is_billed,T.is_revised_billing,T.is_reinvoiced,T.reinvoiced_company_id,T.is_transfered_x3 FROM
                 ((SELECT
                     'helpdesk' as origin,
                     2*ht.id as id,
@@ -108,7 +108,6 @@ class MyActions(models.Model):
                             ELSE 'Facturable'
                     END AS billing_type,
                     ht.x_sinergis_helpdesk_ticket_billing_last_date as billing_last_date,
-                    ht.x_sinergis_helpdesk_ticket_sale_order as billing_order,
                     CASE
                         WHEN ht.x_sinergis_helpdesk_ticket_facturation = 'Contrat heures' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Devis'
                             THEN SUM(aal.unit_amount)::TEXT
@@ -173,7 +172,6 @@ class MyActions(models.Model):
                         ELSE 'Facturable'
                     END AS billing_type,
                     ce.x_sinergis_calendar_event_billing_last_date as billing_last_date,
-                    ce.x_sinergis_calendar_event_sale_order as billing_order,
                     CASE
                         WHEN ce.x_sinergis_calendar_event_facturation = 'Contrat heure' OR ce.x_sinergis_calendar_event_facturation = 'Devis'
                             THEN SUM(aal.unit_amount)::TEXT
