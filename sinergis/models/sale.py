@@ -243,8 +243,8 @@ class SaleOrder(models.Model):
             scheduled_days = 0
             tasks = self.env['project.task'].search([('sale_order_id','=',rec.id)])
             for task in tasks:
-                # Une journée correspond à 8 heures
-                scheduled_days += task.planned_hours / 8
+                # Une journée correspond à 7 heures
+                scheduled_days += task.planned_hours / 7
             scheduled_days = round(scheduled_days,2)
             rec.x_sinergis_sale_order_scheduled_days = scheduled_days
 
@@ -255,7 +255,7 @@ class SaleOrder(models.Model):
             tasks = self.env['project.task'].search([('sale_order_id','=',rec.id)])
             for task in tasks:
                 # Une journée correspond à 8 heures
-                completed_days += task.effective_hours / 8
+                completed_days += task.effective_hours / 7
             completed_days = round(completed_days,2)
             rec.x_sinergis_sale_order_completed_days = completed_days
 
@@ -266,7 +266,7 @@ class SaleOrder(models.Model):
             tasks = self.env['project.task'].search([('sale_order_id','=',rec.id)])
             for task in tasks:
                 # Une journée correspond à 8 heures
-                remaining_days += task.remaining_hours / 8
+                remaining_days += task.remaining_hours / 7
             completed_days = round(remaining_days,2)
             rec.x_sinergis_sale_order_remaining_days = remaining_days
 
@@ -277,7 +277,7 @@ class SaleOrder(models.Model):
             tasks = self.env['project.task'].search([('sale_order_id','=',rec.id)])
             for task in tasks:
                 # Une journée correspond à 8 heures
-                planned_days += task.x_sinergis_project_task_planned_hours / 8
+                planned_days += task.x_sinergis_project_task_planned_hours / 7
             planned_days = round(planned_days,2)
             rec.x_sinergis_sale_order_planned_days = planned_days
 

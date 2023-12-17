@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="sinergis_billing_control_tree" model="ir.ui.view">
+        <field name="name">sinergis_billing_control.tree</field>
+        <field name="type">tree</field>
+        <field name="model">sinergis_billing_control.sinergis_billing_control</field>
+        <field name="arch" type="xml">
+            <tree>
+                <header>
+                </header>
+                <field name="partner_id"/>
+                <field name="code_x3"/>
+                <field name="order_id"/>
+                <field name="order_ttc_amount"/>
+                <field name="order_billed_amount"/>
+                <field name="order_billed_remaining"/>
+                <field name="is_project_ended"/>
+                <field name="company_id"/>
+                <field name="billing_step"/>
+                <field name="billing_odoo_flag"/>
+                <field name="user_id"/>
+                <field name="scheduled_days"/>
+                <field name="completed_days"/>
+                <field name="remaining_days"/>
+                <field name="is_overtime"/>
+                <field name="project_archived"/>
+                <field name="date_first_move"/>
+                <field name="date_last_move"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sinergis_billing_control_action" model="ir.actions.act_window">
+        <field name="name">Controle facturation devis</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sinergis_billing_control.sinergis_billing_control</field>
+        <field name="view_mode">tree</field>
+        <field name="context"></field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Pas de donnée
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="sinergis_billing_control_root"
+          name="Controle facturation"
+          web_icon="sinergis,static/description/myactions/icon.png"
+          sequence="60"/>
+
+    <menuitem id="sinergis_my_actions_root_root"
+            parent="sinergis_billing_control_root"
+            action="sinergis_billing_control_action"
+            name="Controle facturations"
+            sequence="100"/>
+
+</odoo>

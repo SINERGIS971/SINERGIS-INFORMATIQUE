@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- GLOBAL - Autoriser l'accès au contole de la facturation -->
+  <record id="group_sinergis_billing_control" model="res.groups">
+    <field name="name">Accès au contole de facturation</field>
+  </record>
+
+</odoo>
