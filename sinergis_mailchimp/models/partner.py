@@ -121,10 +121,10 @@ class ResPartner(models.Model):
         print('New members count : ' + str(len(members)))
         print("    Sending new users to mailchimp ...")
         # Send data to Mailchimp
-        for i in range(0, len(members)//200 + 1):
-            print(str(int(i/(len(members)//200 + 1)*100)) + ' %')
+        for i in range(0, len(members)//5 + 1):
+            print(str(int(i/(len(members)//5 + 1)*100)) + ' %')
             try:
-                response = mailchimp.lists.batch_list_members(list_id, {'members': members[i*200:(i+1)*200]})
+                response = mailchimp.lists.batch_list_members(list_id, {'members': members[i*5:(i+1)*5]})
                 print("response: {}".format(response))
                 # Adding mailchimp_id to new members
                 if "new_members" in response :
