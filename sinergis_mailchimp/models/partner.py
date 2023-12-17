@@ -138,6 +138,7 @@ class ResPartner(models.Model):
                 print("An exception occurred: {}".format(error.text))
                 
         print("    Sending users updates to mailchimp ...")
+        return True
         if ids_to_update:
             for id_to_update in ids_to_update :
                 partner = self.env['res.partner'].sudo().search([('is_company','=',False),('mailchimp_id','=',id_to_update)],limit=1)
