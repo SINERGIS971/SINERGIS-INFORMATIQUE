@@ -516,7 +516,7 @@ class HelpdeskTicket(models.Model):
                         else :
                             event.write(context)
                             event.partner_ids = [(5,)]
-                            event.partner_ids = [(4,[self.user_id.partner_id.id])]
+                            event.partner_ids = [(4,self.user_id.partner_id.id)]
 
         return super(HelpdeskTicket, self).write(values)
 
