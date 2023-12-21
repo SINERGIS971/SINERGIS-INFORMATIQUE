@@ -515,7 +515,6 @@ class HelpdeskTicket(models.Model):
                             self.env["calendar.event"].create(context)
                         else :
                             event.write(context)
-                            event.partner_ids = [(5)]
                             event.partner_ids = [(4, self.user_id.id)]
 
         return super(HelpdeskTicket, self).write(values)
