@@ -514,8 +514,9 @@ class HelpdeskTicket(models.Model):
                         if not event :
                             self.env["calendar.event"].create(context)
                         else :
-                            event.write(context)
-                            event.partner_ids = [(4, self.user_id.id)]
+                            event.unlink()
+                            self.env["calendar.event"].create(context)
+                            #event.write(context)
 
         return super(HelpdeskTicket, self).write(values)
 
