@@ -504,7 +504,7 @@ class HelpdeskTicket(models.Model):
                         context = {
                             "name" : f"ASSISTANCE - {partner_id.name}",
                             "user_id" : self.user_id.id,
-                            "partner_ids" : [(5,self.user_id.id)],
+                            "partner_ids" : [(4,self.user_id.id)],
                             "start" : start,
                             "stop" : stop,
                             "x_sinergis_calendar_event_client": partner_id.id,
