@@ -504,7 +504,6 @@ class HelpdeskTicket(models.Model):
                         context = {
                             "name" : f"ASSISTANCE - {partner_id.name}",
                             "user_id" : self.user_id.id,
-                            "partner_ids": [self.user_id.id],
                             "start" : start,
                             "stop" : stop,
                             "x_sinergis_calendar_event_client": partner_id.id,
@@ -516,6 +515,8 @@ class HelpdeskTicket(models.Model):
                             self.env["calendar.event"].create(context)
                         else :
                             event.write(context)
+                            event.partner_ids = [(5)]
+                            event.partner_ids = [(4, self.user_id.id)]
 
         return super(HelpdeskTicket, self).write(values)
 
