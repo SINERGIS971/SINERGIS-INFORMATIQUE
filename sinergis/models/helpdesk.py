@@ -506,18 +506,18 @@ class HelpdeskTicket(models.Model):
                             "user_id" : self.user_id.id,
                             "start" : start,
                             "stop" : stop,
-                            "partner_id": [self.user_id.partner_id.id],
                             "x_sinergis_calendar_event_client": partner_id.id,
                             "x_sinergis_calendar_event_contact" : contact_id.id,
                             "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
                             'need_sync_m': True
                         }
                         if not event :
-                            self.env["calendar.event"].create(context)
+                            event = self.env["calendar.event"].create(context)
                         else :
                             event.write(context)
-                            #event.partner_ids = [(5,)]
-                            #event.partner_ids = [(4,self.user_id.partner_id.id)]
+                        # Permet de mettre l'activité uniquement dans le calndrier de la personne en charge du ticket
+                        event.partner_ids = [(5,)]
+                        event.partner_ids = [(4,self.user_id.partner_id.id)]
 
         return super(HelpdeskTicket, self).write(values)
 
