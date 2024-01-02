@@ -25,7 +25,7 @@ class SinergisSensitiveData(models.Model):
 
     @api.model
     def is_sensitive_data_to_remove(self):
-        data = self.env["sinergis_rgpd.sensitive_data"].search(['&','&',("active","=",True),("deletion_date",">=",datetime.now().strftime('%Y-%m-%d 00:00:00')),("user_id","=",self.env.user.id)])
+        data = self.env["sinergis_rgpd.sensitive_data"].search(['&','&',("active","=",True),("deletion_date","<=",datetime.now().strftime('%Y-%m-%d 00:00:00')),("user_id","=",self.env.user.id)])
         if len(data) > 0 :
             return True
         else :
