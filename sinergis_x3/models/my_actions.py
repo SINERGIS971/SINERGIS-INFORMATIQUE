@@ -312,7 +312,7 @@ class MyActions(models.Model):
         object['PROJET'] = int(action_id.has_project)
         object['WRITE_DATE'] = action_id.action_write_date.strftime("%Y%m%d%H%M%S") if action_id.action_write_date else ''
         object['WRITE_D'] = action_id.action_write_date.strftime("%Y%m%d") if action_id.action_write_date else ''
-        object['WRITE_J'] = action_id.action_write_date.strftime("%H%M%S") if action_id.action_write_date else ''
+        object['WRITE_H'] = action_id.action_write_date.strftime("%H%M%S") if action_id.action_write_date else ''
         return object
 
     # ACTIVITES DES CLIENT EN REQUETE SOAP

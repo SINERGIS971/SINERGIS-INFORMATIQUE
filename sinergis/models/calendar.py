@@ -64,7 +64,7 @@ class CalendarEvent(models.Model):
     x_sinergis_calendar_event_tache2 = fields.Many2one("project.task", string="Contrat d'heures")
     x_sinergis_calendar_event_tache_information = fields.Char(string="")
 
-    x_sinergis_calendar_event_sale_order = fields.Many2one("sale.order", string="Commande", compute="_compute_x_sinergis_calendar_event_sale_order", store=True)
+    x_sinergis_calendar_event_sale_order = fields.Many2one("sale.order", string="Commande", compute="_compute_x_sinergis_calendar_event_sale_order")
     x_sinergis_calendar_event_sale_order_line = fields.Many2one("sale.order.line", string="Ligne de commande", compute="_compute_x_sinergis_calendar_event_sale_order")
 
     x_sinergis_calendar_event_taches = fields.One2many('project.task',compute="_compute_tasks",readonly=True)

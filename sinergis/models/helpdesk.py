@@ -56,7 +56,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_tache = fields.Many2one("project.task", string="Tâche")
     x_sinergis_helpdesk_ticket_tache2 = fields.Many2one("project.task", string="Contrat d'heures")
     x_sinergis_helpdesk_ticket_tache_information = fields.Char(string="")
-    x_sinergis_helpdesk_ticket_sale_order = fields.Many2one("sale.order", string="Commande", compute="_compute_x_sinergis_helpdesk_ticket_sale_order", store=True)
+    x_sinergis_helpdesk_ticket_sale_order = fields.Many2one("sale.order", string="Commande", compute="_compute_x_sinergis_helpdesk_ticket_sale_order")
     x_sinergis_helpdesk_ticket_sale_order_line = fields.Many2one("sale.order.line", string="Ligne de commande", compute="_compute_x_sinergis_helpdesk_ticket_sale_order")
 
     x_sinergis_helpdesk_ticket_temps_passe = fields.Float(string="Temps passé")
@@ -512,9 +512,12 @@ class HelpdeskTicket(models.Model):
                             'need_sync_m': True
                         }
                         if not event :
-                            self.env["calendar.event"].create(context)
+                            event = self.env["calendar.event"].create(context)
                         else :
                             event.write(context)
+                        # Permet de mettre l'activité uniquement dans le calndrier de la personne en charge du ticket
+                        event.partner_ids = [(5,)]
+                        event.partner_ids = [(4,self.user_id.partner_id.id)]
 
         return super(HelpdeskTicket, self).write(values)
 

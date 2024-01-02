@@ -121,10 +121,10 @@ class ResPartner(models.Model):
         print('New members count : ' + str(len(members)))
         print("    Sending new users to mailchimp ...")
         # Send data to Mailchimp
-        for i in range(0, len(members)//200 + 1):
-            print(str(int(i/(len(members)//200 + 1)*100)) + ' %')
+        for i in range(0, len(members)//1 + 1):
+            print(str(int(i/(len(members)//1 + 1)*100)) + ' %')
             try:
-                response = mailchimp.lists.batch_list_members(list_id, {'members': members[i*200:(i+1)*200]})
+                response = mailchimp.lists.batch_list_members(list_id, {'members': members[i*1:(i+1)*1]})
                 print("response: {}".format(response))
                 # Adding mailchimp_id to new members
                 if "new_members" in response :
@@ -137,6 +137,7 @@ class ResPartner(models.Model):
             except ApiClientError as error:
                 print("An exception occurred: {}".format(error.text))
                 
+        print('New members count : ' + str(len(members))) #DEBUG
         print("    Sending users updates to mailchimp ...")
         if ids_to_update:
             for id_to_update in ids_to_update :
