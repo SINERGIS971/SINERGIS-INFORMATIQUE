@@ -8,7 +8,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
     
     # Mise en place de l'archivage des devis
-    active = fields.Boolean(string='Active', default=True)
+    active = fields.Boolean(string='Active', default=True, track_visibility="onchange")
 
     x_sinergis_sale_order_client_bloque = fields.Boolean(string="",default=False,compute="_compute_x_sinergis_sale_order_client_bloque")
     x_sinergis_sale_order_client_douteux = fields.Boolean(string="",default=False,compute="_compute_x_sinergis_sale_order_client_douteux")
