@@ -67,6 +67,8 @@ class ResPartner(models.Model):
     # 29/08/2023 : Ajout d'un champ afin de savoir si la société possère un payeur
     x_sinergis_societe_has_payer = fields.Boolean(string="Possède un payeur", compute="_compute_x_sinergis_societe_has_payer")
 
+    # 19/01/2024 : Permet de voir si le client est un client burst ou non.
+    x_sinergis_societe_is_burst = fields.Boolean(string="Client BURST")
 
     #Gestion des contraintes supplémentaires
 
