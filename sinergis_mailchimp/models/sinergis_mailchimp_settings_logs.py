@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 
-class SinergisMailchimpLogs (models.Model):
-    _name = "sinergis_mailchimp.logs"
+class SinergisMailchimpSettingdsLogs (models.Model):
+    _name = "sinergis_mailchimp.settings.logs"
     _description = "Informations sur la synchronisation avec Mailchimp"
     
     date = fields.Datetime("Date", default=lambda self: datetime.now().strftime("%Y-%m-%d %H:%M:%S"), readonly=True)

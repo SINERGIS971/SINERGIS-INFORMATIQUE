@@ -8,7 +8,7 @@
 
     <record id="sinergis_mailchimp_settings_logs" model="ir.ui.view">
         <field name="name">sinergis_mailchimp.settings.logs</field>
-        <field name="model">sinergis_mailchimp.logs</field>
+        <field name="model">sinergis_mailchimp.settings.logs</field>
         <field name="arch" type="xml">
             <tree string="Logs" decoration-success="type=='success'" decoration-danger="type=='danger'" decoration-warning="type=='warning'" default_order='date desc'>
                 <field name="date"/>
@@ -19,7 +19,7 @@
 
     <record id="sinergis_mailchimp_settings_logs_action" model="ir.actions.act_window">
         <field name="name">Transcodage des articles</field>
-        <field name="res_model">sinergis_mailchimp.logs</field>
+        <field name="res_model">sinergis_mailchimp.settings.logs</field>
         <field name="view_mode">tree</field>
     </record>
 
