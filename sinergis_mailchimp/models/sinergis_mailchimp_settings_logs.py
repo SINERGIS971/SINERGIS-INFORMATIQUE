@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from datetime import datetime
 
 class SinergisMailchimpSettingdsLogs (models.Model):
     _name = "sinergis_mailchimp.settings.logs"
