@@ -27,6 +27,7 @@
     'data': [
         'views/res_config.xml',
         'views/settings.xml',
+        'views/sinergis_mailchimp_log.xml',
         'data/automation.xml',
         'security/ir.model.access.csv',
     ],
