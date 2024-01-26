@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Menu parent pour assigner les sous-menus -->
-    <menuitem id="sinergis_mailchimp_settings_menu" name="Connecteur Odoo - Mailchimp" parent="base.menu_custom"/>
-
     <!-- Logs -->
 
     <record id="sinergis_mailchimp_settings_logs" model="ir.ui.view">
@@ -11,6 +8,7 @@
         <field name="model">sinergis_mailchimp.settings.logs</field>
         <field name="arch" type="xml">
             <tree string="Logs" decoration-success="type=='success'" decoration-danger="type=='danger'" decoration-warning="type=='warning'" default_order='date desc'>
+                <field name="type" invisible="1"/>
                 <field name="date"/>
                 <field name="name"/>
             </tree>
@@ -18,7 +16,7 @@
     </record>
 
     <record id="sinergis_mailchimp_settings_logs_action" model="ir.actions.act_window">
-        <field name="name">Transcodage des articles</field>
+        <field name="name">Logs</field>
         <field name="res_model">sinergis_mailchimp.settings.logs</field>
         <field name="view_mode">tree</field>
     </record>

@@ -15,7 +15,14 @@ class ResPartner(models.Model):
 
     mailchimp_id = fields.Char(string="Mailchimp ID")
 
+    def create_log(self, content, log_type):
+        self.env["sinergis_mailchimp.settings.logs"].create({
+            "name" : content,
+            "type" : log_type
+            })
+
     def sync_mailchimp(self):
+        self.create_log("Début de synchronisation vers Mailchimp.",'success')
         # Loading API KEY and LIST ID from parameters
         api_key = self.env['ir.config_parameter'].sudo().get_param('sinergis_mailchimp.api_key')
         list_id = self.env['ir.config_parameter'].sudo().get_param('sinergis_mailchimp.list_id')
@@ -135,9 +142,12 @@ class ResPartner(models.Model):
                                 #print("ADDING MAILCHIMP_ID TO NEW CLIENT")
                                 partner.mailchimp_id = new_member['id']
             except ApiClientError as error:
+                self.create_log(f"Erreur pendant l'ajout de nouveaux contacts : {error.text}",'danger')
                 print("An exception occurred: {}".format(error.text))
                 
         print('New members count : ' + str(len(members))) #DEBUG
+        if len(members) > 0 :
+            self.create_log(f"Ajout de {str((len(members)))} nouveaux contacts dans la base Mailchimp",'success')
         print("    Sending users updates to mailchimp ...")
         if ids_to_update:
             for id_to_update in ids_to_update :
@@ -162,6 +172,7 @@ class ResPartner(models.Model):
                     try:
                         mailchimp.lists.update_list_member(list_id, partner.mailchimp_id, member_info)
                     except ApiClientError as error:
+                        self.create_log(f"Erreur pendant la mise à jour de {partner_email} : {error.text}",'danger')
                         print("An exception occurred: {}".format(error.text))
             
                         
