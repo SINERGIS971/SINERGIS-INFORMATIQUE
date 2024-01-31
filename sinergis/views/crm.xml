@@ -47,14 +47,11 @@
     </record>
 
     <!--RETIRER LES SMS DE LA VUE LISTE-->
-    <record id="sinergis_inherited_crm.lead_inherit_sms" model="ir.ui.view">
+    <record id="sinergis_inherited_crm_lead_inherit_sms" model="ir.ui.view">
             <field name="name">crm.inherit.lead.tree.sms</field>
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm_sms.crm_case_tree_view_oppor"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='contact_name']" position="replace">
-                    <field name="x_sinergis_crm_lead_contact"/>
-                </xpath>
                 <xpath expr="//button[@name='209']" position="replace">
                 </xpath>
             </field>
@@ -98,8 +95,13 @@
           <!-- Retirer le mail associé -->
           <xpath expr="//label[@for='email_from']" position="replace">
           </xpath>
-          <xpath expr="//div[@class='o_row o_row_readonly']" position="attributes">
-              <attribute name="invisible">1</attribute>
+          <xpath expr="//div[@class='o_row o_row_readonly'][1]" position="replace">
+          </xpath>
+          <!-- Retirer le tel. société pour le remplacer par un autre champ similaire -->
+          <xpath expr="//label[@for='phone']" position="replace">
+          </xpath>
+          <xpath expr="//div[@class='o_row o_row_readonly'][2]" position="replace">
+            <field name="phone" string="Tel. société"/>
           </xpath>
           
         </field>
