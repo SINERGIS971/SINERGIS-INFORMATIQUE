@@ -30,7 +30,6 @@
         'web.assets_backend': [
             'sinergis_rgpd/static/src/js/systray.js',
             'sinergis_rgpd/static/src/js/service.js',
-            'sinergis_rgpd/static/src/js/user_menu.js',
         ],
         'web.assets_qweb': [
             'sinergis_rgpd/static/src/xml/templates.xml',

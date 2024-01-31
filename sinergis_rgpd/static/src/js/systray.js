@@ -16,9 +16,9 @@ export class SinergisSensitiveFileMenu extends Component {
         this.companyService.display_sensitive_file_menu();
     }
     
-    //changePassword(companyId) {
-    //   this.companyService.load_page();
-    //}
+    openSensitiveFileList(companyId) {
+       this.companyService.load_page();
+    }
 }
 SinergisSensitiveFileMenu.template = "sinergis_rgpd.SinergisSensitiveFileMenu";
 SinergisSensitiveFileMenu.toggleDelay = 1000;

@@ -26,9 +26,14 @@ export const sensitiveFileMenuService = {
                 });
             },
             async load_page() {
-                const actionDescription = await env.services.orm.call("sinergis_rgpd.sensitive_data", "display_tree_view")
-                actionDescription.res_id = env.services.user.userId
-                env.services.action.doAction(actionDescription);
+                env.services.action.doAction({
+                    name: "Données sensibles",
+                    res_model: "sinergis_rgpd.sensitive_data",
+                    views: [[false, "tree"],[false, "form"]],
+                    type: "ir.actions.act_window",
+                    view_mode: "tree",
+                    target: "new",
+                });
             }
         };
     },
