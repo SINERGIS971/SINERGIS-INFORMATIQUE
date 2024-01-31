@@ -41,7 +41,22 @@
                     <field name="phone" class="o_force_ltr" string="Tel. société"/>
                     <field name="x_sinergis_crm_lead_contact_phone" class="o_force_ltr" string="Tel. contact"/>
                 </xpath>
+                <xpath expr="//button[@name='187']" position="replace">
+                </xpath>
+            </field>
+    </record>
 
+    <!--RETIRER LES SMS DE LA VUE LISTE-->
+    <record id="sinergis_inherited_crm.lead_inherit_sms" model="ir.ui.view">
+            <field name="name">crm.inherit.lead.tree.sms</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm_sms.crm_case_tree_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='contact_name']" position="replace">
+                    <field name="x_sinergis_crm_lead_contact"/>
+                </xpath>
+                <xpath expr="//button[@name='209']" position="replace">
+                </xpath>
             </field>
     </record>
 
@@ -77,6 +92,13 @@
           </xpath>
           <!-- Retirer le bouton perdu dans le header de la vue FORM -->
           <xpath expr="//span[@groups='!crm.group_use_recurring_revenues']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+
+          <!-- Retirer le mail associé -->
+          <xpath expr="//label[@for='email_from']" position="replace">
+          </xpath>
+          <xpath expr="//div[@class='o_row o_row_readonly']" position="attributes">
               <attribute name="invisible">1</attribute>
           </xpath>
           
