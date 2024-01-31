@@ -45,7 +45,7 @@ odoo.define('sinergis.SetPartnerReminder', function (require) {
     
     core.action_registry.add("sinergis_set_partner_reminder", SinergisSetPartnerReminder);
     
-    return SinergisChangePassword;
+    return SinergisSetPartnerReminder;
     
     });
     
