@@ -74,6 +74,7 @@
           <xpath expr="//field[@name='user_id']" position="before">
                     <field name="x_sinergis_crm_lead_contact_email"/>
                     <field name="x_sinergis_crm_lead_contact_phone" class="o_force_ltr" string="Tel. contact"/>
+                    <field name="phone" string="Tel. société"/>
           </xpath>
           
           <!-- Retirer la probabilité calculée par Odoo dans la vue FORM -->
@@ -101,7 +102,6 @@
           <xpath expr="//label[@for='phone']" position="replace">
           </xpath>
           <xpath expr="//div[@class='o_row o_row_readonly'][2]" position="replace">
-            <field name="phone" string="Tel. société"/>
           </xpath>
           
         </field>
