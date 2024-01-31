@@ -6,6 +6,15 @@
             <t t-set-slot="toggler">
                 <span>Documents sensibles à supprimer</span>
             </t>
+            <DropdownItem class="p-0 bg-white">
+                <div
+                role="button"
+                t-on-click="openSensitiveFileList()"
+                class="btn btn-light font-weight-normal border-0 d-flex flex-grow-1 align-items-center py-0 log_into pl-2 o_py">
+                    <t t-esc='service_text' />
+                    <span class='company_label pr-3' style="font-size: 15px;">Voir les documents à supprimer</span>
+                </div>
+            </DropdownItem>
     </Dropdown>
 </t>
 

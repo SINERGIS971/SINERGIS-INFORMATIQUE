@@ -38,8 +38,8 @@
                     <field name="x_sinergis_crm_lead_contact_email"/>
                 </xpath>
                 <xpath expr="//field[@name='phone']" position="replace">
-                    <field name="phone" class="o_force_ltr" string="Tel. société"/>
-                    <field name="x_sinergis_crm_lead_contact_phone" class="o_force_ltr" string="Tel. contact"/>
+                    <field name="phone" class="o_force_ltr" string="Tél. société"/>
+                    <field name="x_sinergis_crm_lead_contact_phone" class="o_force_ltr" string="Tél. contact"/>
                 </xpath>
                 <xpath expr="//button[@name='187']" position="replace">
                 </xpath>
@@ -71,10 +71,10 @@
                 <field name="x_sinergis_crm_lead_contact" domain="[('parent_id','=',partner_id)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
           </xpath>
 
-          <xpath expr="//field[@name='user_id']" position="before">
+          <xpath expr="//field[@name='user_id']" position="before"> 
                     <field name="x_sinergis_crm_lead_contact_email"/>
-                    <field name="x_sinergis_crm_lead_contact_phone" class="o_force_ltr" string="Tel. contact"/>
-                    <field name="phone" string="Tel. société"/>
+                    <field name="x_sinergis_crm_lead_contact_phone" class="o_force_ltr" string="Tél. contact"/>
+                    <field name="phone" string="Tél. société"/>
           </xpath>
           
           <!-- Retirer la probabilité calculée par Odoo dans la vue FORM -->
@@ -98,8 +98,11 @@
           </xpath>
           <xpath expr="//div[@class='o_row o_row_readonly'][1]" position="replace">
           </xpath>
-          <!-- Retirer le tel. société pour le remplacer par un autre champ similaire -->
+          <!-- Retirer le tél. société pour le remplacer par un autre champ similaire -->
           <xpath expr="//label[@for='phone']" position="replace">
+          <label for="phone" string="Tél. société"/>
+          </xpath>
+          <xpath expr="//label[@for='phone_group_lead_info']" position="replace">
           </xpath>
           <xpath expr="//div[@class='o_row o_row_readonly'][2]" position="replace">
           </xpath>
