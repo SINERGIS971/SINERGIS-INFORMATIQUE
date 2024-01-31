@@ -66,6 +66,7 @@
             'sinergis/static/src/js/all_companies.js',
             'sinergis/static/src/js/calendar_vacation.js',
             'sinergis/static/src/js/calendar_vacation_widget.js',
+            'sinergis/static/src/js/helpdesk_widget.js',
             #'sinergis/static/src/js/dialog_popup.js',
             'sinergis/static/src/css/style.css',
         ],
@@ -75,6 +76,7 @@
             'sinergis/static/src/xml/sinergis_base_calendar.xml',
             'sinergis/static/src/xml/calendar_vacation.xml',
             #'sinergis/static/src/xml/chatter.xml',
+            'sinergis/static/src/xml/helpdesk.xml',
         ],
     },
 

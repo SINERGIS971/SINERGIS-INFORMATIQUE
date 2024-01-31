@@ -457,6 +457,11 @@ class HelpdeskTicket(models.Model):
         self.sort_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         body = f"Il y a eu une relance du client le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
         self.message_post(body=body)
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'sinergis_set_partner_reminder',
+            'target': 'new',
+        }
         
     # Bouton dans la tree view qui informe que le client n'a pas répondu.
     def x_sinergis_helpdesk_ticket_tree_last_call_button (self):

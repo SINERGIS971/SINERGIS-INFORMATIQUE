@@ -29,10 +29,10 @@ export const sensitiveFileMenuService = {
                 env.services.action.doAction({
                     name: "Données sensibles",
                     res_model: "sinergis_rgpd.sensitive_data",
-                    views: [[false, "tree"],[false, "form"]],
+                    views: [[false, "list"],[false, "form"]],
                     type: "ir.actions.act_window",
-                    view_mode: "tree",
-                    target: "new",
+                    view_mode: "list",
+                    target: "main",
                 });
             }
         };
