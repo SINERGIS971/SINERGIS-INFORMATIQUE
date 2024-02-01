@@ -104,11 +104,13 @@
 <menuitem id="sinergis_email_message_sent_root"
           name="Mails envoyés"
           web_icon="sinergis,static/description/icon.png"
+          groups="sinergis.group_allow_email_message_sent_menu"
           sequence="59"/>
 
 <menuitem id="sinergis_email_message_sent_root_root"
           parent="sinergis_email_message_sent_root"
           action="sinergis_email_message_sent_action"
+          groups="sinergis.group_allow_email_message_sent_menu"
           name="Mails envoyés"
           sequence="100"/>
 
@@ -116,6 +118,7 @@
           name="Mails envoyés"
           parent="sinergis_email_message_sent_root_root"
           action="sinergis_email_message_sent_action"
+          groups="sinergis.group_allow_email_message_sent_menu"
           sequence="100"/>
 
   </data>

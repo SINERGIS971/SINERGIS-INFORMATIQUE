@@ -25,6 +25,11 @@
     <field name="name">Utilisateurs autorisés à accéder à la page statistiques</field>
   </record>
 
+  <!-- GLOBAL - Autoriser des utilisateurs à accéder à la liste des mails envoyés -->
+  <record id="group_allow_email_message_sent_menu" model="res.groups">
+    <field name="name">Utilisateurs autorisés à accéder aux mails envoyés</field>
+  </record>
+
 
   <!-- Groupe d'accès au module Mes Activités -->
   <record id="module_category_sinergis_my_actions" model="ir.module.category">
