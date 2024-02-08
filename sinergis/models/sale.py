@@ -1,6 +1,8 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
+from datetime import datetime
+
 import math
 import re
 
@@ -72,6 +74,10 @@ class SaleOrder(models.Model):
     # 1 Juin 2023 : Permettre à certaines agences de ne pas créer de projets et tâches
 
     x_sinergis_sale_order_forbid_task_creation = fields.Boolean(related="partner_id.company_id.x_sinergis_forbid_task_creation", default=False)
+
+    # 8 Février 2024 Ajout de la date de derniere modification
+
+    x_sinergis_sale_last_update = fields.Datetime(string="Dernière modification",default=lambda self: self.write_date)
 
     def action_confirm_without_task(self):
         # Passer le devis en bon de commande sans créer de tâche
@@ -354,6 +360,8 @@ class SaleOrder(models.Model):
                     for sale_id in sale_ids:
                         if sale_id.state != 'sale':
                             sale_id.active = False
+        if not "x_sinergis_sale_last_update" in vals:
+            vals["x_sinergis_sale_last_update"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         orders = super(SaleOrder, self).write(vals)
         return orders
 

@@ -18,7 +18,7 @@
           <field name="model">res.partner</field>
           <field name="arch" type="xml">
               <tree default_order="name" decoration-danger="visit_state=='no_visit'" decoration-warning="visit_state=='missing_on_site' or visit_state=='missing_on_site_or_phone'" decoration-success="visit_state=='visited'">
-                <field name="user_id"/>
+                <field name="last_visit_user"/>
                 <field name="name"/>
                 <field name="last_visit_date"/>
                 <field name="last_visit_type"/>

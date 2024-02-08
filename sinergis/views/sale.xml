@@ -128,7 +128,7 @@
                 <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <p style="font-size:8pt;">Attention: Si vous indiquez que l'acompte est versé (ou non versé) alors l'acompte sur chacun des projets du devis sera marqué comme versé (ou non versé).</p>
                 <field name="x_sinergis_sale_order_supplier_order" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-
+                <field name="x_sinergis_sale_last_update"/>
             </xpath>
 
             <xpath expr="//field[@name='user_id']" position="after">
@@ -243,6 +243,7 @@
                 <field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}" class="o_sinergis_checkbox"/>
                 <field name="x_sinergis_sale_order_supplier_order" attrs="{'invisible': [('state',  '!=', 'sale')]}" class="o_sinergis_checkbox"/>
+                <field name="x_sinergis_sale_last_update"/>
             </xpath>
 
         </field>

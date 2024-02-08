@@ -13,6 +13,7 @@ class ResPartner(models.Model):
 
     last_visit_date = fields.Datetime(string="Date de la dernière visite", default=False)
     last_visit_type = fields.Selection([('on_site', 'Sur site'),('phone', 'Par téléphone')], string="Type de visite")
+    last_visit_user = fields.Many2one("res.users", string="Dernière visite par :", compute="_compute_last_visit_user")
     visit_state = fields.Selection([('no_visit', 'Pas de visite'),('missing_on_site', 'Manque une visite sur site'),('missing_on_site_or_phone', 'Manque une visite'), ('visited', 'Conditions de visite remplies')],default="no_visit",string="Etat")
     visit_ids = fields.One2many('calendar.event', 'x_sinergis_calendar_event_client', domain=[('is_visit', '=', True)],readonly=True,string="Visites")
 
@@ -80,4 +81,13 @@ class ResPartner(models.Model):
                 rec.visit_state = "missing_on_site_or_phone"
             else:
                 rec.visit_state = "no_visit"
+    
+    #Permet d'avoir le dernier commeercial qui a visité le client
+    @api.depends("last_visit_user")
+    def _compute_last_visit_user(self):
+        for rec in self:
+            rec.last_visit_user = self.env["calendar.event"].search([('x_sinergis_calendar_event_client','=',rec.id),
+                                                             ('is_visit','=',True)], order='start desc', limit=1).user_id
+            
+            
                 
