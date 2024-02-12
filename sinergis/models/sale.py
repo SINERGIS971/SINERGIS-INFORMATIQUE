@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
     
     # Mise en place de l'archivage des devis
-    active = fields.Boolean(string='Active', default=True, track_visibility="onchange")
+    active = fields.Boolean(string='Active', default=True)
 
     x_sinergis_sale_order_client_bloque = fields.Boolean(string="",default=False,compute="_compute_x_sinergis_sale_order_client_bloque")
     x_sinergis_sale_order_client_douteux = fields.Boolean(string="",default=False,compute="_compute_x_sinergis_sale_order_client_douteux")
@@ -77,7 +77,7 @@ class SaleOrder(models.Model):
 
     # 8 Février 2024 Ajout de la date de derniere modification
 
-    x_sinergis_sale_last_update = fields.Datetime(string="Dernière modification",default=lambda self: self.write_date)
+    x_sinergis_sale_last_update = fields.Datetime(string="Dernière modification",default=lambda self: self.write_date, track_visibility="onchange")
 
     def action_confirm_without_task(self):
         # Passer le devis en bon de commande sans créer de tâche
@@ -362,6 +362,9 @@ class SaleOrder(models.Model):
                             sale_id.active = False
         if not "x_sinergis_sale_last_update" in vals:
             vals["x_sinergis_sale_last_update"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            body = f"{self.env.user.name} a changé la date de modification du devis"
+            self.message_post(body=body)
         orders = super(SaleOrder, self).write(vals)
         return orders
 

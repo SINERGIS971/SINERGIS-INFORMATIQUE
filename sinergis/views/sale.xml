@@ -221,6 +221,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='create_date']" position="after">
                 <field name="date_order" optional="hide"/>
+                <field name="x_sinergis_sale_last_update"/>
                 <field name="x_sinergis_sale_order_objet" readonly="1" decoration-bf="1"/>
             </xpath>
             <xpath expr="//field[@name='company_id']" position="replace">
@@ -243,7 +244,6 @@
                 <field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
                 <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}" class="o_sinergis_checkbox"/>
                 <field name="x_sinergis_sale_order_supplier_order" attrs="{'invisible': [('state',  '!=', 'sale')]}" class="o_sinergis_checkbox"/>
-                <field name="x_sinergis_sale_last_update"/>
             </xpath>
 
         </field>

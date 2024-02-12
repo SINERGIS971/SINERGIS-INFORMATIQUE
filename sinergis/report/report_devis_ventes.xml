@@ -66,11 +66,11 @@
 									</div>
 									<div t-if="doc.date_order and doc.state not in ['draft','sent']" class="col-auto col-3 mw-100 mb-2">
 											<strong>Date:</strong>
-											<p class="m-0" t-field="doc.date_order"/>
+											<p class="m-0" t-field="doc.x_sinergis_sale_last_update"/>
 									</div>
 									<div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-auto col-3 mw-100 mb-2">
 											<strong>Date:</strong>
-											<p class="m-0" t-field="doc.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+											<p class="m-0" t-field="doc.x_sinergis_sale_last_update" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
 									</div>
 									<div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto col-3 mw-100 mb-2" name="expiration_date">
 											<strong>Date d'échéance:</strong>
