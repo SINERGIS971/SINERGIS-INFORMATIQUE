@@ -77,7 +77,7 @@ class SaleOrder(models.Model):
 
     # 8 Février 2024 Ajout de la date de derniere modification
 
-    x_sinergis_sale_last_update = fields.Datetime(string="Dernière modification",default=lambda self: self.write_date, track_visibility="onchange")
+    x_sinergis_sale_last_update = fields.Datetime(string="Dernière modification",default=lambda self: datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
     def action_confirm_without_task(self):
         # Passer le devis en bon de commande sans créer de tâche

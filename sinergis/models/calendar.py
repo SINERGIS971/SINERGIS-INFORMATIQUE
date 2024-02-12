@@ -467,7 +467,9 @@ class CalendarEvent(models.Model):
             if len(values) == 1:
                 if not "need_sync_m" in values and rec.id :
                     if rec.user_id != user_id and self.env.user.has_group('sinergis.group_calendar_admin') == False:
-                        raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas. ID : " + str(self.id))
+                        values.clear()
+                        # En attente d'une réponse de Magalie, concernant le bug de la synchro Outlook.
+                        #raise ValidationError("Vous ne pouvez pas modifier un évènement du calendrier qui ne vous appartient pas. ID : " + str(self.id))
             # Vérification si on doit modifier la date de dernière facturation
             if "x_sinergis_calendar_event_facturation" in values or "x_sinergis_calendar_duree_facturee" in values:
                 rec.x_sinergis_calendar_event_billing_last_date = datetime.now()
