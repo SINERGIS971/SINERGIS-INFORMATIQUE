@@ -21,4 +21,4 @@ class SinergisUnlockTechnicalNotes(http.Controller):
             request.env.user.x_sinergis_res_users_partner_technical_notes_limit = datetime.now() + relativedelta(minutes=10)
             return {}
         else:
-            return {'error': 'Mot de passe incorrect'}
+            return {'error': f"Mot de passe incorrect"}

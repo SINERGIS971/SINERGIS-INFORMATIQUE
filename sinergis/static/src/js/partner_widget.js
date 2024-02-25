@@ -29,7 +29,7 @@ odoo.define('sinergis.UnlockTechnicalNotes', function (require) {
                     .then(function (result) {
                         if (result.error) {
                             self.displayNotification({
-                                message: "Mauvais mot de passe",
+                                message: result.error,
                                 type: 'danger'
                             });
                         } else {

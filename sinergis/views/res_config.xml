@@ -12,9 +12,13 @@
                             <div class="col-12 col-lg-12 o_setting_box" id="sinergis_text_block">
                                 <div class="o_setting_right_pane">
                                     <div class="text-muted">
-                                        Paramètres
+                                        Paramètres de sécurité des fiches client
                                     </div>
                                     <div class="content-group">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="Sécurité des notes techniques activée" for="technical_notes_security_enabled"/>
+                                            <field name="technical_notes_security_enabled" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
                                         <div class="row mt16">
                                             <label class="col-lg-3 o_light_label" string="Mot de passe des notes techniques" for="technical_notes_password"/>
                                             <field name="technical_notes_password" class="oe_inline" style="width: 70% !important;" password="True"/>

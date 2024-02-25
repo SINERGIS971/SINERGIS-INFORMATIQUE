@@ -5,7 +5,6 @@ from . import training_quiz
 from . import product
 from . import sale
 from . import calendar
-from . import settings
 from . import company
 from . import partner
 from . import other_document

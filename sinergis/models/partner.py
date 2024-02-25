@@ -154,11 +154,13 @@ class ResPartner(models.Model):
     @api.depends("x_sinergis_societe_technical_notes_allowed")
     def _compute_x_sinergis_societe_technical_notes_allowed (self):
         for rec in self:
-            if self.env.user.x_sinergis_res_users_partner_technical_notes_limit == False:
+            if self.env['ir.config_parameter'].sudo().get_param('sinergis.technical_notes_security_enabled'):  # Si le paramètre de sécurité est désactivé
+                rec.x_sinergis_societe_technical_notes_allowed = True
+            elif self.env.user.x_sinergis_res_users_partner_technical_notes_limit == False:  # Si l'utilisateur n'a jamais eu l'authorisation
                 rec.x_sinergis_societe_technical_notes_allowed = False
-            elif self.env.user.x_sinergis_res_users_partner_technical_notes_limit < datetime.now():
+            elif self.env.user.x_sinergis_res_users_partner_technical_notes_limit < datetime.now(): # Si l'utilisateur a dépassé le temps d'accès
                 rec.x_sinergis_societe_technical_notes_allowed = False
-            else :
+            else :  # Si tout est bon, on lui donne l'accès
                 rec.x_sinergis_societe_technical_notes_allowed = True
 
 
