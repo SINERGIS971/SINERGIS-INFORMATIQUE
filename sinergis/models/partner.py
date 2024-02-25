@@ -4,6 +4,8 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 
+from datetime import datetime
+
 
 class ResPartner(models.Model):
 
@@ -69,6 +71,9 @@ class ResPartner(models.Model):
 
     # 19/01/2024 : Permet de voir si le client est un client burst ou non.
     x_sinergis_societe_is_burst = fields.Boolean(string="Client BURST")
+
+    # 24/01/2024 : Champs permettant la sécurisation des données techniques du client
+    x_sinergis_societe_technical_notes_allowed = fields.Boolean(compute="_compute_x_sinergis_societe_technical_notes_allowed")
 
     #Gestion des contraintes supplémentaires
 
@@ -145,6 +150,18 @@ class ResPartner(models.Model):
         for rec in self:
             payer_ids = self.env['res.partner'].search([('parent_id','=',rec.id),('x_sinergis_societe_contact_payer','=',True)])
             rec.x_sinergis_societe_has_payer = len(payer_ids) > 0
+
+    @api.depends("x_sinergis_societe_technical_notes_allowed")
+    def _compute_x_sinergis_societe_technical_notes_allowed (self):
+        for rec in self:
+            if not self.env['ir.config_parameter'].sudo().get_param('sinergis.technical_notes_security_enabled'):  # Si le paramètre de sécurité est désactivé
+                rec.x_sinergis_societe_technical_notes_allowed = True
+            elif self.env.user.x_sinergis_res_users_partner_technical_notes_limit == False:  # Si l'utilisateur n'a jamais eu l'authorisation
+                rec.x_sinergis_societe_technical_notes_allowed = False
+            elif self.env.user.x_sinergis_res_users_partner_technical_notes_limit < datetime.now(): # Si l'utilisateur a dépassé le temps d'accès
+                rec.x_sinergis_societe_technical_notes_allowed = False
+            else :  # Si tout est bon, on lui donne l'accès
+                rec.x_sinergis_societe_technical_notes_allowed = True
 
 
     def sinergisLitige(self):
@@ -232,6 +249,14 @@ class ResPartner(models.Model):
         }
         action['domain'] = ['|', ('id', 'in', self._compute_meeting()[self.id]), ('partner_ids', 'in', self.ids)]
         return action
+    
+    #Bouton permettant de débloquer les notes techniques :
+    def x_sinergis_societe_unlock_technical_notes_button(self):
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'sinergis_unlock_technical_notes',
+            'target': 'new',
+        }
 
     #Supprimer les contacts de la société
     def unlink (self):

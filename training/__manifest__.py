@@ -25,7 +25,6 @@
         'views/product.xml',
         'views/calendar.xml',
         'views/sale.xml',
-        'views/settings.xml',
         'views/company.xml',
         'views/partner.xml',
         'views/other_document.xml',

@@ -16,5 +16,6 @@ from . import my_actions
 from . import product
 from . import hr_employee
 from . import reports_overview
+from . import res_config_settings
 
 from . import movementArea

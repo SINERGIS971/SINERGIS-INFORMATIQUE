@@ -696,15 +696,16 @@ class TrainingParticipants(models.Model):
                     self.token_quiz_positioning = "posi-"+str(self.id)+secrets.token_urlsafe(40)
                 attach_obj = self.env['ir.attachment']
                 attachment_ids = []
-                result_binary = self.env['ir.config_parameter'].sudo().get_param('training.training_booklet')
-                attach_data = {
-                    'name': 'Livret de formation.pdf',
-                    'datas': result_binary,
-                    'res_model': 'training.participants',
-                    'res_id': self.id
-                }
-                attach_id = attach_obj.create(attach_data)
-                attachment_ids.append(attach_id.id)
+                result_binary = self.env['training.other_document'].sudo().search([('type', '=', 'Livret de formation')], limit=1)
+                if result_binary:
+                    attach_data = {
+                        'name': 'Livret de formation.pdf',
+                        'datas': result_binary,
+                        'res_model': 'training.participants',
+                        'res_id': self.id
+                    }
+                    attach_id = attach_obj.create(attach_data)
+                    attachment_ids.append(attach_id.id)
 
                 # Create iCalendar File
                 timezone = pytz.timezone(self.env.user.tz)

@@ -150,8 +150,10 @@
                     <field name="comment" string="Notes internes" options="{'height': 70}" />
                 </page>
                 <page string="Notes techniques" name="x_sinergis_societe_notes_techniques_page">
-                    <field name="x_sinergis_societe_notes_techniques" string="Notes techniques" options="{'height': 70}" />
-                    <field name="x_sinergis_societe_fichier_notes_techniques">
+                    <field name="x_sinergis_societe_technical_notes_allowed" invisible="1" />
+                    <button name="x_sinergis_societe_unlock_technical_notes_button" string="Débloquer les notes techniques" type="object"  icon="fa-unlock-alt" class="btn-success" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', True)]}"/>
+                    <field name="x_sinergis_societe_notes_techniques" string="Notes techniques" options="{'height': 70}"  attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}"/>
+                    <field name="x_sinergis_societe_fichier_notes_techniques" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}">
                        <tree>
                         <field name="name" invisible="True"/>
                         <field name="file" filename="name" widget="binary"/>
