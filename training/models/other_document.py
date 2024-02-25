@@ -16,3 +16,4 @@ class TrainingOtherDocument(models.Model):
                 raise ValidationError("Le document 'Livret de formation' existe déjà")
         if self.env['training.other_document'].search_count([('type', '=', 'Diagnostic initial')]) >= 1:
                 raise ValidationError("Le document 'Diagnostic initial' existe déjà")
+        
