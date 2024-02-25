@@ -39,7 +39,7 @@
       </record>
 
       <record id="training_other_document_action" model="ir.actions.act_window">
-        <field name="name">Autres documents</field>
+        <field name="name">Documents</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">training.other_document</field>
         <field name="view_mode">tree,form</field>
@@ -52,7 +52,7 @@
 
     <menuitem id="training_other_document_root"
               parent="training_root"
-              name="Autres documents"
+              name="Documents"
               action="training_other_document_action"
               sequence="18"/>
 
