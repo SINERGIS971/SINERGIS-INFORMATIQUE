@@ -23,7 +23,7 @@ odoo.define('sinergis.UnlockTechnicalNotes', function (require) {
                 self._rpc({
                         route: '/web/session/unlock_technical_notes',
                         params: {
-                            fields: $('form[name=password]').serializeArray()
+                            fields: $('form[name=sinergis_unlock_technical_notes]').serializeArray()
                         }
                     })
                     .then(function (result) {

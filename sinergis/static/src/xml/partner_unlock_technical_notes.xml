@@ -5,8 +5,8 @@
     <div class="o_form_view">
         <table class="o_group o_inner_group o_label_nowrap">
             <tr>
-                <td class="o_td_label"><label for="password" class="o_form_label">Mot de passe des notes techniques</label></td>
-                <td width="100%"><input id="password" type="password" class="o_field_widget o_input" name="password"/></td>
+                <td class="o_td_label"><label for="pass" class="o_form_label">Mot de passe des notes techniques</label></td>
+                <td width="100%"><input id="pass" type="password" class="o_field_widget o_input" name="pass"/></td>
             </tr>
         </table>
     </div>
