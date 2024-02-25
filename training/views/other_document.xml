@@ -17,6 +17,7 @@
               <tree default_order="name">
                 <field name="name"/>
                 <field name="file"/>
+                <field name="type"/>
               </tree>
           </field>
       </record>
@@ -30,6 +31,7 @@
                 <group>
                     <field name="name"/>
                     <field name="file"/>
+                    <field name="type"/>
                 </group>
               </sheet>
             </form>
