@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+<form t-name="UnlockTechnicalNotes" name="sinergis_unlock_technical_notes" method="POST" aria-atomic="true">
+    <div class="o_form_view">
+        <table class="o_group o_inner_group o_label_nowrap">
+            <tr>
+                <td class="o_td_label"><label for="password" class="o_form_label">Mot de passe des notes techniques</label></td>
+                <td width="100%"><input id="password" type="password" class="o_field_widget o_input" name="password"/></td>
+            </tr>
+        </table>
+    </div>
+    <button type="button" class="btn btn-primary oe_form_button">Valider</button>
+    <button type="button" class="btn btn-secondary oe_form_button oe_form_button_cancel" href="javascript:void(0)">Annuler</button>
+</form>
+
+</templates>
