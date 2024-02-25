@@ -154,7 +154,9 @@ class ResPartner(models.Model):
     @api.depends("x_sinergis_societe_technical_notes_allowed")
     def _compute_x_sinergis_societe_technical_notes_allowed (self):
         for rec in self:
-            if self.env.user.x_sinergis_res_users_partner_technical_notes_limit < datetime.now():
+            if self.env.user.x_sinergis_res_users_partner_technical_notes_limit == False:
+                rec.x_sinergis_societe_technical_notes_allowed = False
+            elif self.env.user.x_sinergis_res_users_partner_technical_notes_limit < datetime.now():
                 rec.x_sinergis_societe_technical_notes_allowed = False
             else :
                 rec.x_sinergis_societe_technical_notes_allowed = True
