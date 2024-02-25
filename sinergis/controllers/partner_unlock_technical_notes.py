@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 
 # Permet d'autoriser à un utilisateur l'accès aux notes techniques des clients
 class SinergisUnlockTechnicalNotes(http.Controller):
-    @http.route('/web/session/unlock_technical_notes', type='json', auth="user")
+    @http.route('/web/session/unlock_technical_notes', type='json', auth="user", csrf=False)
     def confirm_partner_reminder(self, fields):
         password = operator.itemgetter('pass')({f['name']: f['value'] for f in fields})
         if not (password.strip()):
