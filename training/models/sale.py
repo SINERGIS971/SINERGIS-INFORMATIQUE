@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
     training_parent_company = fields.Many2one('res.partner', related="partner_id.x_sinergis_societe_mere",string="Société mère")
 
     def download_initiale_diagnostique(self):
-        result = self.env['ir.config_parameter'].sudo().search([('type', '=', 'Diagnostic initial')], limit=1)
+        result = self.env['training.other_document'].sudo().search([('type', '=', 'Diagnostic initial')], limit=1)
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         attachment_obj = self.env['ir.attachment']
         attachment_id = attachment_obj.create(

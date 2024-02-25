@@ -696,7 +696,7 @@ class TrainingParticipants(models.Model):
                     self.token_quiz_positioning = "posi-"+str(self.id)+secrets.token_urlsafe(40)
                 attach_obj = self.env['ir.attachment']
                 attachment_ids = []
-                result_binary = self.env['ir.config_parameter'].sudo().search([('type', '=', 'Livret de formation')], limit=1)
+                result_binary = self.env['training.other_document'].sudo().search([('type', '=', 'Livret de formation')], limit=1)
                 if result_binary:
                     attach_data = {
                         'name': 'Livret de formation.pdf',
