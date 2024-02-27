@@ -18,7 +18,7 @@ class SinergisUnlockTechnicalNotes(http.Controller):
             return {'error': 'Mot de passe non renseigné'}
         correct_password = request.env['ir.config_parameter'].sudo().get_param('sinergis.technical_notes_password')
         if password == correct_password:
-            request.env.user.x_sinergis_res_users_partner_technical_notes_limit = datetime.now() + relativedelta(seconds=12)
+            request.env.user.x_sinergis_res_users_partner_technical_notes_limit = datetime.now() + relativedelta(seconds=15)
             return {}
         else:
             return {'error': f"Mot de passe incorrect"}
