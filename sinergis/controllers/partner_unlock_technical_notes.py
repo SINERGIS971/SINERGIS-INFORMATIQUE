@@ -13,7 +13,8 @@ from dateutil.relativedelta import relativedelta
 class SinergisUnlockTechnicalNotes(http.Controller):
     @http.route('/web/session/unlock_technical_notes', type='json', auth="user", csrf=False)
     def confirm_partner_reminder(self, fields):
-        password = fields['pass']
+        #password = operator.itemgetter('pass')({f['name']: f['value'] for f in fields})
+        password = fields[0]["pass"]
         if not (password.strip()):
             return {'error': 'Mot de passe non renseigné'}
         correct_password = request.env['ir.config_parameter'].sudo().get_param('sinergis.technical_notes_password')
