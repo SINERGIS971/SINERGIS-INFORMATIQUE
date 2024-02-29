@@ -23,13 +23,13 @@ odoo.define('sinergis.UnlockTechnicalNotes', function (require) {
                 self._rpc({
                         route: '/web/session/unlock_technical_notes',
                         params: {
-                            fields: [{'pass': $('input[name=pass]').val()}]
+                            fields: $('form[name=sinergis_unlock_technical_notes]').serializeArray()
                         }
                     })
                     .then(function (result) {
                         if (result.error) {
                             self.displayNotification({
-                                message: result.error,
+                                message: "Mauvais mot de passe",
                                 type: 'danger'
                             });
                         } else {
