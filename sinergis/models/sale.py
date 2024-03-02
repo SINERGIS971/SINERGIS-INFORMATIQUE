@@ -193,7 +193,7 @@ class SaleOrder(models.Model):
                         elif country_id == "Guadeloupe" or country_id == "Martinique":
                             rec.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA DOM"),('company_id.name', '=', company_id.name)])[0].id
                             rec.partner_id.property_account_position_id = rec.fiscal_position_id
-                        elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)":
+                        elif country_id == "Guyane" or country_id == "Guyane française" or country_id=="Saint Barthélémy" or country_id == "Saint-Martin (partie française)" or country_id == "Saint-Martin (partie néerlandaise)" or country_id == "Saint Pierre et Miquelon":
                             rec.fiscal_position_id = self.env['account.fiscal.position'].search([('name','=',"TVA EXO"),('company_id.name', '=', company_id.name)])[0].id
                             rec.partner_id.property_account_position_id = rec.fiscal_position_id
                         #Si le client est étranger, alors on ne recalcule pas automatiquement les taxes
