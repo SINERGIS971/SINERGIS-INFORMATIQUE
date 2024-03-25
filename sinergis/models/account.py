@@ -56,7 +56,7 @@ class AccountAnalyticLine(models.Model):
                 if task_id.project_id and task_id.project_id.company_id:
                     email_ids = self.env['project.task.ch_email'].search([('company_id','=',task_id.project_id.company_id.id)])
                     if email_ids and task_id.project_id.x_sinergis_project_project_is_ch:
-                        unit_amount = vals['unit_amount']
+                        unit_amount = list_value['unit_amount']
                         for email_id in email_ids:
                             if email_id.limit_type == "percentage":
                                 limit = email_id.limit/100 * task_id.planned_hours
