@@ -331,7 +331,7 @@
     </record>
     <record id="sale_sinergis_products_form" model="ir.ui.view">
         <field name="name">sale.sinergis.products.form</field>
-        <field name="model">sale.products.products</field>
+        <field name="model">sale.products</field>
         <field name="arch" type="xml">
         <form>
             <sheet>
