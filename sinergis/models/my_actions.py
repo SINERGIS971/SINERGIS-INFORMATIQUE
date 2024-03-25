@@ -165,7 +165,7 @@ class MyActions(models.Model):
                     ce.x_sinergis_calendar_event_sous_produits_new as sinergis_subproduct_id,
                     REPLACE(ce.x_sinergis_calendar_event_facturation,'heures','heure') as billing,
                     CASE
-                        WHEN ce.x_sinergis_calendar_event_facturation = 'À définir ultérieurement' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable interne' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Facturable à 0' OR ce.x_sinergis_calendar_event_facturation = 'Avant-vente'
+                        WHEN ce.x_sinergis_calendar_event_facturation = 'À définir ultérieurement' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable interne' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable' OR ce.x_sinergis_calendar_event_facturation = 'Facturable à 0' OR ce.x_sinergis_calendar_event_facturation = 'Avant-vente'
                             THEN 'Non facturable'
                         WHEN ce.x_sinergis_calendar_event_facturation = 'Congés'
                             THEN 'Congés'
