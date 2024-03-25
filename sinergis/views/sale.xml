@@ -335,9 +335,11 @@
         <field name="arch" type="xml">
         <form>
             <sheet>
+            <group>
             <field name="active" string="Archivé"/>
             <field name="name" string="Nom du sous-produit"/>
             <field name="type"/>
+            </group>
             </sheet>
             <div class="oe_chatter">
                     <field name="message_follower_ids"/>
@@ -378,10 +380,12 @@
         <field name="arch" type="xml">
         <form>
             <sheet>
+            <group>
             <field name="active" string="Archivé"/>
             <field name="name" string="Nom du sous-produit"/>
             <field name="product_id"/>
             <field name="label"/>
+            </group>
             </sheet>
             <div class="oe_chatter">
                     <field name="message_follower_ids"/>
