@@ -329,6 +329,22 @@
         </tree>
         </field>
     </record>
+    <record id="sale_sinergis_products_form" model="ir.ui.view">
+        <field name="name">sale.sinergis.products.form</field>
+        <field name="model">sale.products.products</field>
+        <field name="arch" type="xml">
+        <form>
+            <sheet>
+            <field name="active" string="Archivé"/>
+            <field name="name" string="Nom du sous-produit"/>
+            <field name="type"/>
+            <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+            </div>
+        </form>
+        </field>
+    </record>
     <record id="sale_sinergis_products_search" model="ir.ui.view">
         <field name="name">sale.sinergis.products.tree</field>
         <field name="model">sale.products</field>
@@ -353,6 +369,23 @@
             <field name="product_id" string="Produit"/>
             <field name="name" string="Nom du sous-produit"/>
         </tree>
+        </field>
+    </record>
+    <record id="sale_sinergis_subproducts_form" model="ir.ui.view">
+        <field name="name">sale.sinergis.subproducts.form</field>
+        <field name="model">sale.products.subproducts</field>
+        <field name="arch" type="xml">
+        <form>
+            <sheet>
+            <field name="active" string="Archivé"/>
+            <field name="name" string="Nom du sous-produit"/>
+            <field name="product_id"/>
+            <field name="label"/>
+            <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+            </div>
+        </form>
         </field>
     </record>
     <record id="sale_sinergis_subproducts_search" model="ir.ui.view">
