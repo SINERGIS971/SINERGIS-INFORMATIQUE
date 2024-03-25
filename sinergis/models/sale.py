@@ -427,15 +427,17 @@ class SaleOrderLine(models.Model):
 class Products (models.Model):
     _name = "sale.products"
     _description = "Produits"
-    active = fields.Boolean(string='Active', default=True)
-    name = fields.Char(string="Product Name",required=True)
-    type = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type PME/MGE", default="PME", required=True)
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    active = fields.Boolean(string='Active', default=True, tracking=True)
+    name = fields.Char(string="Product Name",required=True, tracking=True)
+    type = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type PME/MGE", default="PME", required=True, tracking=True)
 
 
 class SubProducts (models.Model):
     _name = "sale.products.subproducts"
     _description = "Sous-Produits"
-    product_id = fields.Many2one("sale.products",string="Produit",required=True)
-    active = fields.Boolean(string='Active', default=True)
-    name = fields.Char(string="Sub-Product Name",required=True)
-    label = fields.Char(string="Désignation")
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    product_id = fields.Many2one("sale.products",string="Produit",required=True, tracking=True)
+    active = fields.Boolean(string='Active', default=True, tracking=True)
+    name = fields.Char(string="Sub-Product Name",required=True, tracking=True)
+    label = fields.Char(string="Désignation", tracking=True)

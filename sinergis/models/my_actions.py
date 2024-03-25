@@ -34,7 +34,7 @@ class MyActions(models.Model):
     sinergis_product_id = fields.Many2one("sale.products",string="Produit")
     sinergis_subproduct_id = fields.Many2one("sale.products.subproducts",string="Sous-produit")
     product = fields.Char(string = "Produit",compute="_compute_product")
-    billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Avant-vente", "Avant-vente"),("Congés", "Congés")], string="Facturation")
+    billing = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heure", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Facturable à 0", "Facturable à 0"),("Avant-vente", "Avant-vente"),("Congés", "Congés")], string="Facturation")
     billing_type = fields.Selection([('Non facturable', 'Non facturable'),('Facturable', 'Facturable'),('Congés', 'Congés')], string="Facturable/Non facturable/Congés")
     billing_last_date = fields.Datetime(string="Date màj facturation")
     billing_order = fields.Many2one("sale.order",string="Commande", compute="_compute_billing_order")
@@ -103,7 +103,7 @@ class MyActions(models.Model):
                     ht.x_sinergis_helpdesk_ticket_sous_produits_new as sinergis_subproduct_id,
                     REPLACE(ht.x_sinergis_helpdesk_ticket_facturation,'heures','heure') as billing,
                     CASE
-                        WHEN ht.x_sinergis_helpdesk_ticket_facturation = 'À définir ultérieurement' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Non facturable interne' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Non facturable' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Avant-vente'
+                        WHEN ht.x_sinergis_helpdesk_ticket_facturation = 'À définir ultérieurement' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Non facturable interne' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Non facturable' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Facturable à 0' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Avant-vente'
                             THEN 'Non facturable'
                             ELSE 'Facturable'
                     END AS billing_type,
@@ -165,7 +165,7 @@ class MyActions(models.Model):
                     ce.x_sinergis_calendar_event_sous_produits_new as sinergis_subproduct_id,
                     REPLACE(ce.x_sinergis_calendar_event_facturation,'heures','heure') as billing,
                     CASE
-                        WHEN ce.x_sinergis_calendar_event_facturation = 'À définir ultérieurement' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable interne' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable' OR ce.x_sinergis_calendar_event_facturation = 'Avant-vente'
+                        WHEN ce.x_sinergis_calendar_event_facturation = 'À définir ultérieurement' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable interne' OR ce.x_sinergis_calendar_event_facturation = 'Non facturable' OR ht.x_sinergis_helpdesk_ticket_facturation = 'Facturable à 0' OR ce.x_sinergis_calendar_event_facturation = 'Avant-vente'
                             THEN 'Non facturable'
                         WHEN ce.x_sinergis_calendar_event_facturation = 'Congés'
                             THEN 'Congés'

@@ -143,7 +143,7 @@
                 <button name="no_invoiced_button" string="Facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', False),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
                 <button name="invoiced_button" string="Non facturée" class="oe_highlight" type="object" attrs="{'invisible': ['|',('is_billed',  '=', True),'&amp;',('billing',  '!=', 'Devis'),('billing',  '!=', 'Temps passé')]}"/>
                 <button name="no_invoiced_button_default" string="Facturée" class="oe_highlight btn-warning" type="object" attrs="{'invisible': [('billing',  '!=', 'Contrat heure')]}"/>
-                <button name="invoiced_button_default" string="Non facturable" class="oe_highlight btn-warning" type="object" attrs="{'invisible': ['&amp;','&amp;','&amp;',('billing',  '!=', 'À définir ultérieurement'),('billing',  '!=', 'Non facturable interne'),('billing',  '!=', 'Non facturable'),('billing',  '!=', 'Avant-vente')]}"/>
+                <button name="invoiced_button_default" string="Non facturable" class="oe_highlight btn-warning" type="object" attrs="{'invisible': ['&amp;','&amp;','&amp;','&amp;',('billing',  '!=', 'À définir ultérieurement'),('billing',  '!=', 'Non facturable interne'),('billing',  '!=', 'Non facturable'),('billing',  '!=', 'Facturable à 0'),('billing',  '!=', 'Avant-vente')]}"/>
                 <button name="show_revised_billing" string="≠" class="oe_highlight btn-danger" type="object" attrs="{'invisible': [('is_revised_billing',  '=', False)]}"/>
 
                 <!-- TRANSFERT X3 -->

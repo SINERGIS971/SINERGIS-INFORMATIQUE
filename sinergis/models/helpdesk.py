@@ -51,7 +51,7 @@ class HelpdeskTicket(models.Model):
 
     x_sinergis_helpdesk_ticket_ticket_resolution = fields.Html(string="Description de l'intervention")
 
-    x_sinergis_helpdesk_ticket_facturation = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heures", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Avant-vente", "Avant-vente")], string="Facturation")
+    x_sinergis_helpdesk_ticket_facturation = fields.Selection([("À définir ultérieurement", "À définir ultérieurement"),("Contrat heures", "Contrat d'heures"),('Temps passé', 'Temps passé'),('Devis', 'Devis'),('Non facturable interne', 'Non facturable interne'),('Non facturable', 'Non facturable'),("Facturable à 0", "Facturable à 0"),("Avant-vente", "Avant-vente")], string="Facturation")
     x_sinergis_helpdesk_ticket_project = fields.Many2one("project.project", string="Projet")
     x_sinergis_helpdesk_ticket_tache = fields.Many2one("project.task", string="Tâche")
     x_sinergis_helpdesk_ticket_tache2 = fields.Many2one("project.task", string="Contrat d'heures")

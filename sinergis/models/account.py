@@ -48,3 +48,36 @@ class AccountAnalyticLine(models.Model):
                                 self.env['mail.mail'].sudo().create(mail_vals).send()
         analytic_lines = super(AccountAnalyticLine, self).create(list_value)
         return analytic_lines
+    
+    def write(self, list_value):
+        for vals in list_value:
+            if "unit_amount" in vals:
+                task_id = self.task_id
+                if task_id.project_id and task_id.project_id.company_id:
+                    email_ids = self.env['project.task.ch_email'].search([('company_id','=',task_id.project_id.company_id.id)])
+                    if email_ids and task_id.project_id.x_sinergis_project_project_is_ch:
+                        unit_amount = vals['unit_amount']
+                        for email_id in email_ids:
+                            if email_id.limit_type == "percentage":
+                                limit = email_id.limit/100 * task_id.planned_hours
+                                limit_text = f"{str(email_id.limit)} %"
+                            else:
+                                limit = email_id.limit
+                                limit_text = f"{str(email_id.limit)} h"
+                            if task_id.remaining_hours > limit and task_id.remaining_hours - unit_amount <= limit:
+                                partner_name = task_id.sale_line_id.order_id.partner_id.name
+                                mail_vals = {
+                                    'email_to': email_id.email,
+                                    'subject': f"Odoo - ALERTE CONTRAT D'HEURES - {partner_name}",
+                                    'body_html': f"""
+                                                    Bonjour,<br/><br/>
+                                                    Nous vous informons qu’il reste moins de {limit_text} sur le contrat d’heures {task_id.sale_line_id.order_id.name} de la société {partner_name}.<br/><br/>
+                                                    Heures prévues : {str(task_id.planned_hours)} h<br/>
+                                                    Heures réalisées : {AccountAnalyticLine.float_to_hh_mm(task_id.effective_hours + unit_amount)} h<br/>
+                                                    Heures restantes : {AccountAnalyticLine.float_to_hh_mm(task_id.remaining_hours - unit_amount)} h<br/><br/>
+                                                    - Odoo -
+                                    """
+                                }
+                                self.env['mail.mail'].sudo().create(mail_vals).send()
+        analytic_lines = super(AccountAnalyticLine, self).write(list_value)
+        return analytic_lines
