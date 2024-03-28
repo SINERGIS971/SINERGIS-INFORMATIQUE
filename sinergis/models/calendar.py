@@ -465,7 +465,8 @@ class CalendarEvent(models.Model):
             # Pour autoriser la synchronisation Outlook - TODO : Plus étudier la synchro Outlook pour mieux restreindre
             # Vérifier si l'objet existe
             if len(values) == 1:
-                if not "need_sync_m" in values and rec.id :
+                #if not "need_sync_m" in values and rec.id :
+                if rec.id:
                     if rec.user_id != user_id and self.env.user.has_group('sinergis.group_calendar_admin') == False:
                         values.clear()
                         # En attente d'une réponse de Magalie, concernant le bug de la synchro Outlook.
