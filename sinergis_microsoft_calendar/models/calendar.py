@@ -122,7 +122,7 @@ class Meeting(models.Model):
         return res
 
     def _get_microsoft_sync_domain(self):
-        # in case of full sync, limit to a range of 1y in past and 1y in the future by default
+        # in case of full sync, limit to a range of 7 days in past and 1y in the future by default
         ICP = self.env['ir.config_parameter'].sudo()
         day_range = int(ICP.get_param('sinergis_microsoft_calendar.sync.range_days', default=365))
         prior_days_limit = 7 # Sinergis modification : Add prior days limit

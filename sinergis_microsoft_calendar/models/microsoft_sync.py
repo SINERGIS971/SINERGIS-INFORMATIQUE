@@ -418,6 +418,8 @@ class MicrosoftSync(models.AbstractModel):
         start = self.start
         if start.date() < (datetime.date.today() - datetime.timedelta(days=7)) :
             raise UserError("Outlook update Odoo -> Microsoft : PATCH intercepted")
+        if len(self.partner_ids) > 1:
+            raise UserError("Outlook update Odoo -> Microsoft : PATCH intercepted (PARTNER_IDS > 1)")
         microsoft_service = self._get_microsoft_service()
         with microsoft_calendar_token(self._impersonate_user(user_id).sudo()) as token:
             if token:
