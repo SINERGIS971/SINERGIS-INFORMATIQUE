@@ -400,6 +400,8 @@ class MicrosoftSync(models.AbstractModel):
         start = self.start
         if start.date() < (datetime.date.today() - datetime.timedelta(days=7)) :
             raise UserError("Outlook update Odoo -> Microsoft : DELETE intercepted")
+        if len(self.partner_ids) > 1:
+            raise UserError("Outlook update Odoo -> Microsoft : DELETE intercepted (PARTNER_IDS > 1)")
         microsoft_service = self._get_microsoft_service()
         with microsoft_calendar_token(self._impersonate_user(user_id).sudo()) as token:
             if token:
@@ -442,6 +444,8 @@ class MicrosoftSync(models.AbstractModel):
             return
         if datetime.datetime.strptime(values["start"]["dateTime"][0:10], '%Y-%m-%d').date() < (datetime.date.today() - datetime.timedelta(days=7)) :
             raise UserError("Outlook update Odoo -> Microsoft : INSERT intercepted")
+        if len(self.partner_ids) > 1:
+            raise UserError("Outlook update Odoo -> Microsoft : INSERT intercepted (PARTNER_IDS > 1)")
         microsoft_service = self._get_microsoft_service()
         with microsoft_calendar_token(self.env.user.sudo()) as token:
             if token:
