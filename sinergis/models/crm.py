@@ -15,9 +15,10 @@ class CrmLead(models.Model):
 
     def write(self, vals):
         if "stage_id" in vals :
-            stage_id = self.env['crm.stage'].search([('id','=',stage_id)])
+            stage_id = self.env['crm.stage'].search([('id','=',vals['stage_id'])])
             if stage_id.name == "% - PERDU":
-                sale_ids = self.env['sale.order'].search(['opportunity_id','=',self.id])
+                id = vals.get("id", self.id)
+                sale_ids = self.env['sale.order'].search([('opportunity_id','=',id)])
                 for sale_id in sale_ids:
                     sale_id.active = False
         lead = super(CrmLead, self).write(vals)
