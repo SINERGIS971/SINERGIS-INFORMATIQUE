@@ -12,3 +12,13 @@ class CrmLead(models.Model):
     @api.onchange("partner_id")
     def on_change_partner_id(self):
         self.x_sinergis_crm_lead_contact = False
+
+    def write(self, vals):
+        if "stage_id" in vals :
+            stage_id = self.env['crm.stage'].search([('id','=',stage_id)])
+            if stage_id.name == "% - PERDU":
+                sale_ids = self.env['sale.order'].search(['opportunity_id','=',self.id])
+                for sale_id in sale_ids:
+                    sale_id.active = False
+        lead = super(CrmLead, self).write(vals)
+        return lead
