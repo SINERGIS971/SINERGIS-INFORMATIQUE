@@ -379,13 +379,13 @@ class HelpdeskTicket(models.Model):
         }
 
     def x_sinergis_intervention_planned(self):
-        body = f"Une intervention est à planifier"
+        body = f"Une intervention est à planifier."
         self.message_post(body=body)
-        self.x_sinergis_helpdesk_ticket_planned_intervention_user_id = self.user_id
+        self.x_sinergis_helpdesk_ticket_planned_intervention_user_id = self.env.user
         self.x_sinergis_helpdesk_ticket_planned_intervention = True
 
     def x_sinergis_intervention_unplanned(self):
-        body = f"L'intervention n'est plus à planifier"
+        body = f"L'intervention n'est plus à planifier."
         self.message_post(body=body)
         self.x_sinergis_helpdesk_ticket_planned_intervention = False
 
