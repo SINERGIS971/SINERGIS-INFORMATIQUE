@@ -104,13 +104,8 @@ class HelpdeskTicket(models.Model):
     def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):
         for rec in self:
             if rec.x_sinergis_helpdesk_ticket_planned_intervention:
-                body = f"Une intervention est à planifier"
-                self.message_post(body=body)
                 rec.x_sinergis_helpdesk_ticket_planned_intervention_text = "Intervention à planifier"
-                rec.x_sinergis_helpdesk_ticket_planned_intervention_user_id = self.user_id
             else:
-                body = f"L'intervention n'est plus à planifier"
-                self.message_post(body=body)
                 rec.x_sinergis_helpdesk_ticket_planned_intervention_text = False
 
     @api.depends('x_sinergis_helpdesk_ticket_produit_nom_complet')
@@ -384,9 +379,14 @@ class HelpdeskTicket(models.Model):
         }
 
     def x_sinergis_intervention_planned(self):
+        body = f"Une intervention est à planifier"
+        self.message_post(body=body)
+        self.x_sinergis_helpdesk_ticket_planned_intervention_user_id = self.user_id
         self.x_sinergis_helpdesk_ticket_planned_intervention = True
 
     def x_sinergis_intervention_unplanned(self):
+        body = f"L'intervention n'est plus à planifier"
+        self.message_post(body=body)
         self.x_sinergis_helpdesk_ticket_planned_intervention = False
 
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
