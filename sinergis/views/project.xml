@@ -196,6 +196,11 @@
             <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/div[1]/div[1]/div[1]/span[2]" position="attributes">
                 <attribute name="class"></attribute>
             </xpath>
+
+            <!-- Permettre l'overflow du titre des projets en vue kanban -->
+            <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/div[1]/div[1]/div[1]/span[1]" position="attributes">
+                <attribute name="class"></attribute>
+            </xpath>
             
             <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/div[1]/div[1]/div[1]/field[@name='tag_ids']" position="after">
                 <field name="x_sinergis_project_project_etat_projet" display="full" bold="True" widget="badge" attrs="{'invisible': [['x_sinergis_project_project_etat_projet','=',False]]}"/>
