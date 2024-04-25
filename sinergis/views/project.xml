@@ -53,6 +53,9 @@
         <filter string="Projets terminés depuis la semaine dernière" name="currentandlastweek_project_ended" domain="[
         ('date','&gt;=',(context_today()+relativedelta(weeks=-2,days=1,weekday=0)).strftime('%Y-%m-%d')),
         ('date','&lt;=',context_today().strftime('%Y-%m-%d'))]" help="Projets terminés cette semaine et la semaine dernière" />
+        <separator/>
+        <filter string="Acompte versé" name="filter_acompte_verse" domain="[('x_sinergis_project_project_acompte_verse','=',True)]"/>
+        <filter string="Acompte non versé" name="filter_acompte_non_verse" domain="[('x_sinergis_project_project_acompte_verse','=',False)]"/>
       </xpath>
 
       <xpath expr="//filter[@name='groupby_stage']" position="after">
