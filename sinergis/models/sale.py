@@ -365,6 +365,9 @@ class SaleOrder(models.Model):
         else:
             body = f"{self.env.user.name} a changé la date de modification du devis"
             self.message_post(body=body)
+            
+        orders = super(SaleOrder, self).write(vals)
+
         if "x_sinergis_sale_order_acompte_verse" in vals:
             # Mettre à jour le champ "Acompte versé" pour les projets.
             # Permet le filtrage des projets avec ou sans acompte versé.
@@ -372,7 +375,6 @@ class SaleOrder(models.Model):
                 project_ids = self.env['project.project'].search([('sale_line_id', '=', line_id.id)])
                 for project_id in project_ids:
                     project_id._compute_x_sinergis_project_project_acompte_verse()
-        orders = super(SaleOrder, self).write(vals)
         return orders
 
     # 26 Février 2023 - Lors de la suppression d'un devis / bon de commande, supprimer aussi les tâches et projets associés
