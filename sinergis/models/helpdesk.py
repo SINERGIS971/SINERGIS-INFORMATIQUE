@@ -266,6 +266,10 @@ class HelpdeskTicket(models.Model):
 
     @api.onchange("x_sinergis_helpdesk_ticket_facturation")
     def on_change_x_sinergis_helpdesk_ticket_facturation(self):
+        # Si le client est douteux, on autorise uniquement la facturation sur devis
+        if self.x_sinergis_helpdesk_ticket_client_douteux:
+            if self.x_sinergis_helpdesk_ticket_facturation != "Devis":
+                raise ValidationError("Le client est douteux, vous ne pouvez séléctionner que la facturation sur Devis.")
         self.x_sinergis_helpdesk_ticket_project = False
         self.x_sinergis_helpdesk_ticket_tache = False
         self.x_sinergis_helpdesk_ticket_tache2 = False
