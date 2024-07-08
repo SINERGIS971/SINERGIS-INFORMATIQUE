@@ -318,7 +318,7 @@ class CalendarEvent(models.Model):
     def on_change_x_sinergis_calendar_event_facturation(self):
         # Si le client est douteux, on autorise uniquement la facturation sur devis
         if self.x_sinergis_calendar_event_client_douteux:
-            if self.x_sinergis_calendar_event_facturation == "Devis":
+            if self.x_sinergis_calendar_event_facturation != "Devis":
                 raise ValidationError("Le client est douteux, vous ne pouvez séléctionner que la facturation sur Devis.")
         if self.x_sinergis_calendar_event_project_transfered :
             if self.x_sinergis_calendar_event_facturation == "Devis":
