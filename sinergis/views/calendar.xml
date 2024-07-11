@@ -99,7 +99,7 @@
                 <xpath expr="//notebook" position="before">
                   <field name="x_sinergis_calendar_event_client_douteux" invisible="1"/>
                   <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E45600;color:white;font-size:17px;padding:15px;" attrs="{'invisible': [('x_sinergis_calendar_event_client_douteux',  '=', False)]}">
-                        Attention! Le client est <strong>douteux</strong>!.
+                        Attention! Le client est <strong>douteux</strong>! Vous ne pouvez sélectionner que la facturation sur <strong>Devis</strong>.
                   </div>
                   <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#FFA96E;color:black;font-size:16px;padding:10px;margin-top:3px;" attrs="{'invisible': [('x_sinergis_calendar_event_contact_note',  '=', False)]}">
                             <strong>Note concernant <field name="x_sinergis_calendar_event_contact" readonly="1"/></strong> : <field name="x_sinergis_calendar_event_contact_note"/>

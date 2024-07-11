@@ -163,7 +163,7 @@
               <xpath expr="//header" position="after">
                 <field name="x_sinergis_helpdesk_ticket_client_douteux" invisible="True"/>
                 <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E45600;color:white;font-size:17px;padding:15px;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_douteux',  '=', False)]}">
-                      Attention! Le client est <strong>douteux</strong>!.
+                      Attention! Le client est <strong>douteux</strong>! Vous ne pouvez sélectionner que la facturation sur <strong>Devis</strong>.
                 </div>
                 <field name="x_sinergis_helpdesk_ticket_client_bloque" invisible="True"/>
                 <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E30000;color:white;font-size:17px;padding:15px;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_bloque',  '=', False)]}">
