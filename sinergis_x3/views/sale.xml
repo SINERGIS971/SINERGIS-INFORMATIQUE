@@ -107,7 +107,10 @@
                     <field name="sinergis_x3_id" optional="hide"/>
                     <field name="sinergis_x3_price_subtotal" optional="hide"/>
                     <field name="sinergis_x3_price_total" optional="hide"/>
-                </xpath>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="sinergis_x3_company_id" optional="hide"/>
+            </xpath>
             </field>
     </record>
 
