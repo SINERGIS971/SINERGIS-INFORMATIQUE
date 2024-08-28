@@ -52,6 +52,8 @@
         'data/mail_helpdesk_ticket.xml',
         'data/mail_calendar_event_intervention.xml',
         'data/mail_res_partner_litige.xml',
+        'data/mail_helpdesk_ticket_last_call_button.xml',
+        'data/mail_helpdesk_consultant_assignated.xml',
         'data/helpdesk_automation.xml',
         'static/web/statistics_dashboard.xml',
     ],

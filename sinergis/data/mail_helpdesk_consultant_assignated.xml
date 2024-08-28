@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+       <record id="sinergis_mail_helpdesk_ticket_consultant_assignated" model="mail.template">
+            <field name="name">Vous êtes assigné à un nouveau ticket</field>
+            <field name="model_id" ref="helpdesk.ticket"/>
+            <field name="email_from">no-reply@sinergis.odoo.com</field>
+            <field name="email_to">{{ (ctx['email'] or '') }}</field>
+            <field name="subject">Vous êtes assigné à un nouveau ticket</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+            <p>Bonjour <t t-out="ctx['name']"/> ,</p>
+            <p></p>
+            <p>Vous venez d'être assigné au ticket : <t t-out="ctx['ticket_name']"/>.</p>
+            <p>Ce ticket concerne le client : <t t-out="ctx['partner_name']"/>.</p>
+            <p></p>
+            <p>Ceci est un message automatique, merci de ne pas répondre.</p>
+            </field>
+        </record>
+</odoo>

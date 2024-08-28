@@ -456,6 +456,16 @@ class HelpdeskTicket(models.Model):
         self.message_post(body=body)
         # Création d'un rappel pour le consultant
         self.activity_schedule('mail.mail_activity_data_call',summary='Rappeler le client',note="Rappeler le client car il n'a pas répondu",date_deadline=datetime.today()+timedelta(minutes=30),user_id=self.env.user.id)
+        # Envoie du mail au client
+        ctx={
+            "title" : self.x_sinergis_helpdesk_ticket_contact.title,
+            "last_name" : self.x_sinergis_helpdesk_ticket_contact.x_sinergis_societe_contact_lastname,
+            "time": datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%H:%M'),
+            "company" : self.x_sinergis_helpdesk_ticket_partner_company_id.name,
+        }
+        template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_last_call_button').id
+        self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(self.id, force_send=True)
+        
 
     def x_sinergis_helpdesk_ticket_partner_replied (self):
         self.x_sinergis_helpdesk_last_call = False
@@ -498,6 +508,21 @@ class HelpdeskTicket(models.Model):
             self.message_unsubscribe(partner_ids=[partner.id for partner in self.message_partner_ids])
             if contact_id:
                 self.message_subscribe(partner_ids=[contact_id])
+
+        # Envoyer un mail au consultant lorsqu'il est assigné au ticket
+        if "user_id" in values :
+            if values["user_id"] != False:
+                user_id = self.env['res.users'].search([('id','=',values["user_id"])])
+                partner_id = values.get("partner_id", self.partner_id)
+                name = values.get("name", self.name) + f"#{self.id}"
+                ctx = {
+                    'email': user_id.login,
+                    'name': user_id.name,
+                    'ticket_name': name,
+                    'partner_name': partner_id.name,
+                }
+                template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_consultant_assignated').id
+                self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(self.id, force_send=True)
 
         # Enregistrer l'intervention dans le calendrier si ce n'est pas décompté sur tâche et que l'utilisateur l'autorise
         if self.user_id.x_sinergis_res_users_tickets_in_calendar:

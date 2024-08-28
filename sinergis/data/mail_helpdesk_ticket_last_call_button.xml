@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+       <record id="sinergis_mail_helpdesk_ticket_last_call_button" model="mail.template">
+            <field name="name">SINERGIS - Nous avons tenté de vous contacter</field>
+            <field name="model_id" ref="helpdesk.ticket"/>
+            <field name="email_from">no-reply@sinergis.odoo.com</field>
+            <field name="email_to">{{ (object.x_sinergis_helpdesk_ticket_contact.email or '') }}</field>
+            <field name="subject">SINERGIS - Nous avons tenté de vous contacter</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+            <p>Bonjour <t t-out="ctx['title']"/> <t t-out="ctx['last_name']"/> ,</p>
+            <p></p>
+            <p>SINERGIS vous informe qu’un consultant a tenté de vous contacter ce jour à <t t-out="ctx['time']"/> suite au ticket #<t t-out="ctx['ticket']"/></p>
+            <p></p>
+            <p t-if="ctx['company'] == 'SINGERIS MQE'">N'hésitez pas à rappeler au 0590 56 00 34 (si client MARTINIQUE) ou par retour de mail.</p>
+            <p t-if="ctx['company'] == 'SINGERIS GPE'">N'hésitez pas à rappeler au 0590 26 62 73 (si client GUADELOUPE) ou par retour de mail.</p>
+            <p></p>
+            <p>SINERGIS reste à votre disposition pour échanger et répondre à vos questions.</p>
+            <p></p>
+            <p>Dans l'attente de votre retour,</p>
+            <p></p>
+            <p>Cordialement,</p>
+            <p></p>
+            <p>SINERGIS</p>
+            </field>
+        </record>
+</odoo>

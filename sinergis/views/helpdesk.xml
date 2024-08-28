@@ -18,6 +18,8 @@
                 <field name="x_sinergis_helpdesk_ticket_produit_nom_complet" invisible="True"/>
                 <field name="x_sinergis_helpdesk_ticket_produits_new" invisible="True"/>
                 <field name="x_sinergis_helpdesk_ticket_client_answer" invisible="True"/>
+                <filter string="AGICAP" name="filter_agicap" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'AGICAP')]"/>
+
                 <filter string="CEGID" name="filter_cegid" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'CEGID')]"/>
 
                 <filter string="E2TIME" name="filter_e2time" domain="[('x_sinergis_helpdesk_ticket_produits_new', '=', 'E2TIME')]"/>
@@ -223,6 +225,7 @@
                           <div>
                             <button name="x_sinergis_helpdesk_ticket_last_call_button" class="oe_highlight btn-info" type="object" string="LE CLIENT N'A PAS RÉPONDU" icon="fa-phone" attrs="{'invisible': [('x_sinergis_helpdesk_last_call',  '=', False)]}" style="margin-right: 10px;"/>
                             <button name="x_sinergis_helpdesk_ticket_last_call_button" class="btn-outline-info" type="object" string="LE CLIENT N'A PAS RÉPONDU" icon="fa-phone" attrs="{'invisible': [('x_sinergis_helpdesk_last_call',  '!=', False)]}"/>
+                            <p style="font-size:10px; color: red;">En appuyant sur ce bouton, le client sera informé de votre appel par mail.</p>
                             <button name="x_sinergis_helpdesk_ticket_partner_replied" class="oe_highlight btn-success" type="object" string="LE CLIENT A RÉPONDU" icon="fa-phone" attrs="{'invisible': [('x_sinergis_helpdesk_last_call',  '=', False)]}"/>
                           </div>
                       </group>

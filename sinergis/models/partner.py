@@ -271,13 +271,19 @@ class ResPartner(models.Model):
             # Suppression des contrats annuels du client
             self.env["sinergis_x3.annual_contract"].sudo().search([('partner_id','=',self.id)]).unlink()
         #Envoyer un mail si la société est bloquée ou débloquée
+        #Aussi si on débloque un client, il faut remonter toutes les dates de tri des tickets
         if "x_sinergis_societe_litige_bloque" in values:
             if self.x_sinergis_societe_litige_bloque == False and values["x_sinergis_societe_litige_bloque"] == True:
                 template_id = self.env.ref('sinergis.sinergis_mail_res_partner_litige_bloque').id
                 self.env["mail.template"].browse(template_id).with_context(reason=values["x_sinergis_societe_litige_bloque_remarques"]).send_mail(self.id, force_send=True)
             elif self.x_sinergis_societe_litige_bloque == True and values["x_sinergis_societe_litige_bloque"] == False:
+                # Envoie du mail
                 template_id = self.env.ref('sinergis.sinergis_mail_res_partner_litige_debloque').id
                 self.env["mail.template"].browse(template_id).send_mail(self.id, force_send=True)
+                # Remonter les tickets ouverts
+                ticket_ids = self.env["helpdesk.ticket"].search([('partner_id','=',self.id),('stage_id.is_close','=',False)])
+                for ticket_id in ticket_ids:
+                    ticket_id.sort_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         return super(ResPartner, self).write(values)
 
 # A SUPPRIMER
