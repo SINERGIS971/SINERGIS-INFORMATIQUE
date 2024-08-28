@@ -462,6 +462,7 @@ class HelpdeskTicket(models.Model):
             "last_name" : self.x_sinergis_helpdesk_ticket_contact.x_sinergis_societe_contact_lastname,
             "time": datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%H:%M'),
             "company" : self.x_sinergis_helpdesk_ticket_partner_company_id.name,
+            "ticket" : self.id,
         }
         template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_last_call_button').id
         self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(self.id, force_send=True)
