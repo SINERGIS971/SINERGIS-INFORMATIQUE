@@ -458,7 +458,7 @@ class HelpdeskTicket(models.Model):
         self.activity_schedule('mail.mail_activity_data_call',summary='Rappeler le client',note="Rappeler le client car il n'a pas répondu",date_deadline=datetime.today()+timedelta(minutes=30),user_id=self.env.user.id)
         # Envoie du mail au client
         ctx={
-            "title" : self.x_sinergis_helpdesk_ticket_contact.title,
+            "title" : self.x_sinergis_helpdesk_ticket_contact.title.name,
             "last_name" : self.x_sinergis_helpdesk_ticket_contact.x_sinergis_societe_contact_lastname,
             "time": datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%H:%M'),
             "company" : self.x_sinergis_helpdesk_ticket_partner_company_id.name,
