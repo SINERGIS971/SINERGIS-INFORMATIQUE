@@ -13,8 +13,8 @@
             <p></p>
             <p>SINERGIS vous informe qu’un consultant a tenté de vous contacter ce jour à <t t-out="ctx['time']"/> (GMT-4) suite au ticket #<t t-out="ctx['ticket']"/></p>
             <p></p>
-            <p t-if="ctx['company'] == 'SINGERIS MQE'">N'hésitez pas à rappeler au 0590 56 00 34 (si client MARTINIQUE) ou par retour de mail.</p>
-            <p t-if="ctx['company'] == 'SINGERIS GPE'">N'hésitez pas à rappeler au 0590 26 62 73 (si client GUADELOUPE) ou par retour de mail.</p>
+            <p t-if="ctx['company'] == 'SINERGIS MQE'">N'hésitez pas à rappeler au 0590 56 00 34 (si client MARTINIQUE) ou par retour de mail.</p>
+            <p t-if="ctx['company'] == 'SINERGIS GPE'">N'hésitez pas à rappeler au 0590 26 62 73 (si client GUADELOUPE) ou par retour de mail.</p>
             <p></p>
             <t t-out="ctx['company']"/>
             <p>SINERGIS reste à votre disposition pour échanger et répondre à vos questions.</p>
