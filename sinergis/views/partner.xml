@@ -132,6 +132,24 @@
                 <attribute name="attrs">{'invisible':[('is_company','=',True)]}</attribute>
             </xpath>
 
+            <xpath expr="//page[@name='contact_addresses']" position="before">
+                <page string="Notes techniques" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}">
+                    <field name="x_sinergis_societe_notes_techniques" string="Notes techniques" options="{'height': 70}"  attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}"/>
+                    <field name="x_sinergis_societe_fichier_notes_techniques" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}">
+                       <tree>
+                        <field name="name" invisible="True"/>
+                        <field name="file" filename="name" widget="binary"/>
+                      </tree>
+                      <form>
+                        <group>
+                            <field name="name" invisible="True"/>
+                            <field name="file" filename="name"/>
+                        </group>
+                      </form>
+                    </field>
+                </page>
+            </xpath>
+
             <notebook position="inside">
                 <page string="Litige" name="x_sinergis_societe_litige_page" attrs="{'invisible':[('x_sinergis_societe_suspect','=',True)]}">
                     <group>
@@ -149,7 +167,7 @@
                 <page string="Notes internes" name="x_sinergis_societe_notes_internes_page">
                     <field name="comment" string="Notes internes" options="{'height': 70}" />
                 </page>
-                <page string="Notes techniques" name="x_sinergis_societe_notes_techniques_page">
+                <page string="Notes techniques" name="x_sinergis_societe_notes_techniques_page" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', True)]}" >
                     <field name="x_sinergis_societe_technical_notes_allowed" invisible="1" />
                     <button name="x_sinergis_societe_unlock_technical_notes_button" string="Débloquer les notes techniques" type="object"  icon="fa-unlock-alt" class="btn-success" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', True)]}"/>
                     <field name="x_sinergis_societe_notes_techniques" string="Notes techniques" options="{'height': 70}"  attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}"/>

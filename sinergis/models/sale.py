@@ -8,6 +8,9 @@ import re
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
+
+    # Changement du nom de "Société" à "Société du client"
+    company_id = fields.Many2one('res.company', 'Société du client', required=True, index=True, default=lambda self: self.env.company)
     
     # Mise en place de l'archivage des devis
     active = fields.Boolean(string='Active', default=True)
