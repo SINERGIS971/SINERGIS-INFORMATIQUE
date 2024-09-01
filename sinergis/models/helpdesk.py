@@ -568,13 +568,29 @@ class HelpdeskTicket(models.Model):
             if self.env['res.partner'].search([('id','=',vals["partner_id"])]).is_company == False:
                 vals["x_sinergis_helpdesk_ticket_contact"] = vals["partner_id"]
                 vals["partner_id"] = self.env['res.partner'].search([('id','=',vals["partner_id"])]).parent_id.id
-            # A REMETTRE
+            # ANCIENNE FONCTIONALITE
             #if not "team_id" in vals or vals["team_id"] == False :
                 #raise ValidationError("Veuillez sélectionner toutes les sociétés Sinergis (en haut à droite) afin de créer un ticket.")
+
         tickets = super(HelpdeskTicket, self).create(list_value)
         for ticket in tickets :
             ticket.message_unsubscribe(partner_ids=[ticket.partner_id.id])
             ticket.message_subscribe(partner_ids=ticket.x_sinergis_helpdesk_ticket_contact.ids)
+            # Envoyer un mail au consultant en charge du ticket pour l'informer de l'assignation.
+            if ticket.user_id != False:
+                user_id = self.env['res.users'].search([('id','=',ticket.user_id)])
+                partner_id = self.partner_id
+                name = self.name + f" #{self.id}"
+                ctx = {
+                    'email': user_id.login,
+                    'name': user_id.name,
+                    'ticket_name': name,
+                    'partner_name': partner_id.name,
+                }
+                template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_consultant_assignated').id
+                self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(self.id, force_send=True)
+
+
         return tickets
     
     # Ne pas permettre la suppression d'un ticket si l'utilisateur n'est pas un administrateur des tickets
