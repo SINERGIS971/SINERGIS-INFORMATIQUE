@@ -54,6 +54,7 @@ class ResPartner(models.Model):
     x_sinergis_societe_litige_bloque_remarques = fields.Text(string="Remarques")
 
     x_sinergis_societe_notes_techniques = fields.Text(string="Notes techniques")
+    x_sinergis_societe_notes_techniques_displayed = fields.Text(string="Notes techniques", compute="_compute_x_sinergis_societe_notes_techniques_displayed", store=True)
     x_sinergis_societe_fichier_notes_techniques = fields.One2many('sinergis.technical_note_files', 'partner_id', string="Fichiers notes techniques")
 
     x_sinergis_societe_societe_fille = fields.One2many('res.partner', 'x_sinergis_societe_mere', string='Contact', domain=[('active', '=', True)]) #EN TEST
@@ -144,6 +145,15 @@ class ResPartner(models.Model):
         #if self.x_sinergis_societe_litige_bloque: #SEND MAIL
         #    self.env.ref('sinergis.sinergis_mail_societe_bloque').with_context().send_mail(self.id,force_send=True)
         #    template.send_mail(self.id, force_send=True)
+
+    @api.depends("x_sinergis_societe_notes_techniques_displayed","x_sinergis_societe_notes_techniques")
+    def _compute_x_sinergis_societe_notes_techniques_displayed(self):
+        for rec in self:
+            if not rec.x_sinergis_societe_technical_notes_allowed:
+                rec.x_sinergis_societe_notes_techniques_displayed = "NON AUTORISÉ"
+            else:
+                rec.x_sinergis_societe_notes_techniques_displayed = rec.x_sinergis_societe_notes_techniques
+
 
     @api.depends("x_sinergis_societe_has_payer")
     def _compute_x_sinergis_societe_has_payer(self):
