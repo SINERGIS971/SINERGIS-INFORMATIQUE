@@ -578,9 +578,9 @@ class HelpdeskTicket(models.Model):
             ticket.message_subscribe(partner_ids=ticket.x_sinergis_helpdesk_ticket_contact.ids)
             # Envoyer un mail au consultant en charge du ticket pour l'informer de l'assignation.
             if ticket.user_id != False:
-                user_id = self.env['res.users'].search([('id','=',ticket.user_id)])
-                partner_id = self.partner_id
-                name = self.name + f" #{self.id}"
+                user_id = self.env['res.users'].search([('id','=',ticket.user_id.id)])
+                partner_id = ticket.partner_id
+                name = ticket.name + f" #{ticket.id}"
                 ctx = {
                     'email': user_id.login,
                     'name': user_id.name,
@@ -588,7 +588,7 @@ class HelpdeskTicket(models.Model):
                     'partner_name': partner_id.name,
                 }
                 template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_consultant_assignated').id
-                self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(self.id, force_send=True)
+                self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(ticket.id, force_send=True)
 
 
         return tickets
