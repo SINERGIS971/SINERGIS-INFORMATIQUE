@@ -131,23 +131,12 @@
             <xpath expr="//field[@name='email']" position="attributes">
                 <attribute name="attrs">{'invisible':[('is_company','=',True)]}</attribute>
             </xpath>
-
-            <xpath expr="//page[@name='contact_addresses']" position="before">
-                <page string="Notes techniques" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}">
-                    <field name="x_sinergis_societe_notes_techniques" string="Notes techniques" options="{'height': 70}"  attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}"/>
-                    <field name="x_sinergis_societe_fichier_notes_techniques" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}">
-                       <tree>
-                        <field name="name" invisible="True"/>
-                        <field name="file" filename="name" widget="binary"/>
-                      </tree>
-                      <form>
-                        <group>
-                            <field name="name" invisible="True"/>
-                            <field name="file" filename="name"/>
-                        </group>
-                      </form>
-                    </field>
-                </page>
+            
+            <xpath expr="//page[@name='contact_addresses']" position="attributes">
+                <attribute name="autofocus"/>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']" position="attributes">
+                <attribute name="attrs">{'autofocus':[('x_sinergis_societe_technical_notes_allowed','=',False )]}</attribute>
             </xpath>
 
             <notebook position="inside">
@@ -170,8 +159,10 @@
                 <page string="Notes techniques" name="x_sinergis_societe_notes_techniques_page" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', True)]}" >
                     <field name="x_sinergis_societe_technical_notes_allowed" invisible="1" />
                     <button name="x_sinergis_societe_unlock_technical_notes_button" string="Débloquer les notes techniques" type="object"  icon="fa-unlock-alt" class="btn-success" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', True)]}"/>
-                    <field name="x_sinergis_societe_notes_techniques" string="Notes techniques" options="{'height': 70}"  attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}"/>
-                    <field name="x_sinergis_societe_fichier_notes_techniques" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}">
+                </page>
+                <page string="Notes techniques" name="x_sinergis_societe_notes_techniques_allowed_page" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}" autofocus="autofocus" >
+                    <field name="x_sinergis_societe_notes_techniques" string="Notes techniques" options="{'height': 70}"/>
+                    <field name="x_sinergis_societe_fichier_notes_techniques">
                        <tree>
                         <field name="name" invisible="True"/>
                         <field name="file" filename="name" widget="binary"/>
@@ -184,6 +175,7 @@
                       </form>
                     </field>
                 </page>
+                
                 <page string="Société(s) fille(s)" name="x_sinergis_societe_societe_fille_page">
                     <!-- EN TEST -->
                     <field name="x_sinergis_societe_societe_fille" mode="kanban" readonly="True">
