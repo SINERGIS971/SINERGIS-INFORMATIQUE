@@ -294,6 +294,9 @@ class ResPartner(models.Model):
                 ticket_ids = self.env["helpdesk.ticket"].search([('partner_id','=',self.id),('stage_id.is_close','=',False)])
                 for ticket_id in ticket_ids:
                     ticket_id.sort_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Appliquer changement des notes techniques si demandé
+        if "x_sinergis_societe_notes_techniques_displayed" in values:
+            values["x_sinergis_societe_notes_techniques"] = values["x_sinergis_societe_notes_techniques_displayed"]
         return super(ResPartner, self).write(values)
 
 # A SUPPRIMER
