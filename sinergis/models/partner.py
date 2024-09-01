@@ -54,7 +54,7 @@ class ResPartner(models.Model):
     x_sinergis_societe_litige_bloque_remarques = fields.Text(string="Remarques")
 
     x_sinergis_societe_notes_techniques = fields.Text(string="Notes techniques")
-    x_sinergis_societe_notes_techniques_displayed = fields.Text(string="Notes techniques", compute="_compute_x_sinergis_societe_notes_techniques_displayed", store=True)
+    x_sinergis_societe_notes_techniques_displayed = fields.Text(string="Notes techniques", compute="_compute_x_sinergis_societe_notes_techniques_displayed")
     x_sinergis_societe_fichier_notes_techniques = fields.One2many('sinergis.technical_note_files', 'partner_id', string="Fichiers notes techniques")
 
     x_sinergis_societe_societe_fille = fields.One2many('res.partner', 'x_sinergis_societe_mere', string='Contact', domain=[('active', '=', True)]) #EN TEST

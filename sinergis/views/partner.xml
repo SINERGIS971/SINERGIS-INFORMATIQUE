@@ -161,7 +161,7 @@
                     <button name="x_sinergis_societe_unlock_technical_notes_button" string="Débloquer les notes techniques" type="object"  icon="fa-unlock-alt" class="btn-success" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', True)]}"/>
                 </page>
                 <page string="Notes techniques" name="x_sinergis_societe_notes_techniques_allowed_page" attrs="{'invisible': [('x_sinergis_societe_technical_notes_allowed', '=', False)]}" autofocus="autofocus">
-                    <field name="x_sinergis_societe_notes_techniques_displayed" string="Notes techniques" options="{'height': 70}"/>
+                    <field name="x_sinergis_societe_notes_techniques_displayed" string="Notes techniques" options="{'height': 70}" readonly="False"/>
                     <!--<field name="x_sinergis_societe_notes_techniques" string="Notes techniques" options="{'height': 70}"/>-->
                     <field name="x_sinergis_societe_fichier_notes_techniques">
                        <tree>
