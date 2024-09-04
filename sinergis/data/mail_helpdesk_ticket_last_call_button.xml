@@ -12,7 +12,7 @@
             <p>Bonjour <t t-out="ctx['title']"/> <t t-out="ctx['last_name']"/>,</p>
             <br></br>
             <p>SINERGIS vous informe qu’un consultant a tenté de vous contacter ce jour à <t t-out="ctx['time']"/> (GMT-4) suite au ticket #<t t-out="ctx['ticket']"/></p>
-            <p t-if="ctx['company'] == 'SINERGIS MQE'">N'hésitez pas à rappeler au 0590 56 00 34 ou par retour de mail.</p>
+            <p t-if="ctx['company'] == 'SINERGIS MQE'">N'hésitez pas à rappeler au 0596 56 00 34 ou par retour de mail.</p>
             <p t-if="ctx['company'] == 'SINERGIS GPE'">N'hésitez pas à rappeler au 0590 26 62 73 ou par retour de mail.</p>
             <p t-if="ctx['company'] == 'SINERGIS GUY'">N'hésitez pas à rappeler au 0594 35 92 35 ou par retour de mail.</p>
             <p t-if="ctx['company'] == 'SINERGIS BRD'">N'hésitez pas à rappeler au 06 33 45 84 49 ou par retour de mail.</p>
