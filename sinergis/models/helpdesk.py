@@ -394,6 +394,8 @@ class HelpdeskTicket(models.Model):
         self.x_sinergis_helpdesk_ticket_planned_intervention = False
 
     def x_sinergis_helpdesk_ticket_show_facturation_button (self):
+        if not self.x_sinergis_helpdesk_ticket_contact and not self.field_description:
+            raise ValidationError('Veuillez renseigner le Contact et la Description du ticket pour afficher cette partie.')
         self.x_sinergis_helpdesk_ticket_show_facturation = not self.x_sinergis_helpdesk_ticket_show_facturation
 
     def x_sinergis_helpdesk_ticket_duree_button(self):
