@@ -516,16 +516,17 @@ class HelpdeskTicket(models.Model):
         if "user_id" in values :
             if values["user_id"] != False:
                 user_id = self.env['res.users'].search([('id','=',values["user_id"])])
-                partner_id = values.get("partner_id", self.partner_id)
-                name = values.get("name", self.name) + f"#{self.id}"
-                ctx = {
-                    'email': user_id.login,
-                    'name': user_id.name,
-                    'ticket_name': name,
-                    'partner_name': partner_id.name,
-                }
-                template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_consultant_assignated').id
-                self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(self.id, force_send=True)
+                if user_id != self.env.user:  # Envoyer uniquement si ce n'est pas l'utilisateur connecté qui s'assigne le ticket
+                    partner_id = values.get("partner_id", self.partner_id)
+                    name = values.get("name", self.name) + f"#{self.id}"
+                    ctx = {
+                        'email': user_id.login,
+                        'name': user_id.name,
+                        'ticket_name': name,
+                        'partner_name': partner_id.name,
+                    }
+                    template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_consultant_assignated').id
+                    self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(self.id, force_send=True)
 
         # Enregistrer l'intervention dans le calendrier si ce n'est pas décompté sur tâche et que l'utilisateur l'autorise
         if self.user_id.x_sinergis_res_users_tickets_in_calendar:
