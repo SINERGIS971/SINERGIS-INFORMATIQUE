@@ -157,7 +157,8 @@
                 </xpath>
 
               <xpath expr="//button[@name='assign_ticket_to_self']" position="after">
-                  <button name="x_sinergis_send_intervention_report_mail" string="Envoyer le rapport d'intervention" type="object" class="oe_highlight"/>
+                  <button name="x_sinergis_send_intervention_report_mail" string="Envoyer le rapport d'intervention" type="object" class="btn-primary oe_right" readonly="True" style="background-color:green;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_is_sent','=',False)]}"/>
+                  <button name="x_sinergis_send_intervention_report_mail" string="Rapport d'intervention envoyé" confirm="Le rapport d'intervention a déjà été envoyé. Voulez-vous l'envoyer de nouveau ?" type="object" class="btn-primary oe_right" readonly="True" style="background-color:orange;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_is_sent','=',False)]}"/>
                   <field name="x_sinergis_helpdesk_ticket_planned_intervention" invisible="True"/>
                   <button name="x_sinergis_intervention_planned" string="Intervention à planifier" type="object" class="oe_highlight" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', True)]}"/>
                   <button name="x_sinergis_intervention_unplanned" string="Ne plus planifier d'intervention" type="object" class="oe_highlight" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}"/>
@@ -319,7 +320,8 @@
                   <button name="x_sinergis_helpdesk_ticket_reset_button" string="Réinitialiser" type="object" class="btn-primary" readonly="True" confirm="Souhaitez-vous vraiment réinitialiser les heures décomptées ?" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_is_facturee', '=', False)]}" style="background-color:grey;"/>
                 </group>
                 <group>
-                <button name="x_sinergis_send_intervention_report_mail" string="Envoyer le rapport d'intervention" type="object" class="oe_highlight"/>
+                <button name="x_sinergis_send_intervention_report_mail" string="Envoyer le rapport d'intervention" type="object" class="btn-primary oe_right" readonly="True" style="background-color:green;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_is_sent','=',False)]}"/>
+                <button name="x_sinergis_send_intervention_report_mail" string="Rapport d'intervention envoyé" type="object" class="btn-primary oe_right" readonly="True" style="background-color:orange;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_is_sent','=',False)]}" confirm="Le rapport d'intervention a déjà été envoyé. Voulez-vous l'envoyer de nouveau ?"/>
                 </group>
                 </page>
                 <page name="x_sinergis_rapport_intervention_sent_page" string="Rapport envoyé" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_is_sent','=',False)]}">
