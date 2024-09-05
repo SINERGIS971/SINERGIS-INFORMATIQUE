@@ -580,7 +580,7 @@ class HelpdeskTicket(models.Model):
             ticket.message_unsubscribe(partner_ids=[ticket.partner_id.id])
             ticket.message_subscribe(partner_ids=ticket.x_sinergis_helpdesk_ticket_contact.ids)
             # Envoyer un mail au consultant en charge du ticket pour l'informer de l'assignation.
-            if ticket.user_id != False:
+            if ticket.user_id:
                 user_id = self.env['res.users'].search([('id','=',ticket.user_id.id)])
                 if user_id != self.env.user:  # Envoyer uniquement si ce n'est pas l'utilisateur connecté qui s'assigne le ticket
                     partner_id = ticket.partner_id
