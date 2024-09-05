@@ -242,7 +242,7 @@
                     </group>
                     
                     <group>
-                        <field name="description" class="field_description" placeholder="Description du problème..." string="Description du problème" attrs="{'required':[('field_description',  '!=', False)]}"/>
+                        <field name="description" class="field_description" placeholder="Description du problème..." string="Description du problème" attrs="{'required':[('description',  '!=', False)]}"/>
                     </group>
                     <group>
                       <field name="x_sinergis_helpdesk_ticket_contrat_heures">
