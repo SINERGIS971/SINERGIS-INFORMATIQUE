@@ -582,16 +582,17 @@ class HelpdeskTicket(models.Model):
             # Envoyer un mail au consultant en charge du ticket pour l'informer de l'assignation.
             if ticket.user_id != False:
                 user_id = self.env['res.users'].search([('id','=',ticket.user_id.id)])
-                partner_id = ticket.partner_id
-                name = ticket.name + f" #{ticket.id}"
-                ctx = {
-                    'email': user_id.login,
-                    'name': user_id.name,
-                    'ticket_name': name,
-                    'partner_name': partner_id.name,
-                }
-                template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_consultant_assignated').id
-                self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(ticket.id, force_send=True)
+                if user_id != self.env.user:  # Envoyer uniquement si ce n'est pas l'utilisateur connecté qui s'assigne le ticket
+                    partner_id = ticket.partner_id
+                    name = ticket.name + f" #{ticket.id}"
+                    ctx = {
+                        'email': user_id.login,
+                        'name': user_id.name,
+                        'ticket_name': name,
+                        'partner_name': partner_id.name,
+                    }
+                    template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_consultant_assignated').id
+                    self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(ticket.id, force_send=True)
 
 
         return tickets
