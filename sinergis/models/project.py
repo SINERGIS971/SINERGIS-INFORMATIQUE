@@ -8,6 +8,9 @@ import pytz
 class ProjectTask(models.Model):
     _inherit = "project.task"
 
+    # Permet de retracer la commande même si le client de la commande a changé
+    create_sale_line_id = fields.Many2one("sale.order.line", string="Ligne de commande à la création", default=lambda self: self.order_line_id)
+
     x_sinergis_project_task_etat_tache = fields.Selection([("Tâche en cours", "Tâche en cours"),('Tâche terminée', 'Tâche terminée')], string="Etat de la tâche")
     x_sinergis_project_task_details_ch = fields.Char(string="Détails contrat d'heures")
     x_sinergis_project_task_alerte = fields.Char(compute="_compute_x_sinergis_project_task_alerte")
