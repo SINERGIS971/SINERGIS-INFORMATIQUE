@@ -170,6 +170,7 @@ class InvoiceExcelReportController(http.Controller):
         sheet_1.write(0, 7, f'Heures consommées entre le {begin_date.strftime("%d/%m/%Y")} et {end_date.strftime("%d/%m/%Y")}', header_format)
         sheet_1.write(0, 8, f'Heures restantes le {end_date.strftime("%d/%m/%Y")}', header_format)
         sheet_1.write(0, 9, 'Société', header_format)
+        sheet_1.write(0, 10, 'Société', header_format)
         
         line = 1
         if data_not_consumed :
@@ -200,6 +201,7 @@ class InvoiceExcelReportController(http.Controller):
             sheet_1.write(line, 7, data_line["effective_hours"])
             sheet_1.write(line, 8, data_line["remaining_hours"],green_text)
             sheet_1.write(line, 9, data_line["company"])
+            sheet_1.write(line, 10, data_line["dispute"])
             # Sum data treatment
             sum_data['planned_hours']['not_consumed']['total'] += float(data_line["planned_hours"])
             sum_data['effective_hours']['not_consumed']['total'] += float(data_line["effective_hours"])
@@ -242,6 +244,7 @@ class InvoiceExcelReportController(http.Controller):
         sheet_2.write(0, 9, 'Archivé à ce jour ?', header_format)
         sheet_2.write(0, 10, 'Autre contrat à ce jour ?', header_format)
         sheet_2.write(0, 11, 'Société', header_format)
+        sheet_2.write(0, 12, 'Litige', header_format)
         
         line = 1
         if data_consumed :
@@ -280,6 +283,8 @@ class InvoiceExcelReportController(http.Controller):
             else:
                 sheet_2.write(line, 10, "NON",red_text)
             sheet_2.write(line, 11, data_line["company"])
+            sheet_2.write(line, 12, data_line["dispute"])
+
             # Sum data treatment
             sum_data['planned_hours']['consumed']['total'] += float(data_line["planned_hours"])
             sum_data['effective_hours']['consumed']['total'] += float(data_line["effective_hours"])
@@ -351,6 +356,17 @@ class InvoiceExcelReportController(http.Controller):
             else : 
                 is_other_contract = False
 
+            # On regarde les litiges du client
+            dispute = "NON"
+            dispute_douteux = task.partner_id.x_sinergis_societe_litige_douteux
+            dispute_bloque = task.partner_id.x_sinergis_societe_litige_bloque
+            if dispute_douteux and dispute_bloque:
+                dispute = "Douteux et Bloqué"
+            elif dispute_douteux:
+                dispute = "Douteux"
+            elif dispute_bloque:
+                dispute="Bloqué"
+
             element = {
                 "create_date" : task.create_date.strftime("%d/%m/%Y %H:%M:%S"),
                 "create_by" : task.sale_order_id.user_id.name,
@@ -364,6 +380,7 @@ class InvoiceExcelReportController(http.Controller):
                 "active" : task.active,
                 "is_other_contract": is_other_contract,
                 "company" : task.company_id.name,
+                "dispute" : dispute
                 }
             
             # Si l'utilisateur a demandé les informations de cette companie
