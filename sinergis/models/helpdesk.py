@@ -12,6 +12,8 @@ class HelpdeskTicket(models.Model):
     
     # Date nécessaire pour trier les tickets
     sort_date = fields.Datetime("Date de tri", default=lambda self: datetime.now().strftime("%Y-%m-%d %H:%M:%S"), readonly=True)
+    # Permet de retracer la commande même si le client de la commande a changé
+    create_sale_line_id = fields.Many2one("sale.order.line", string="Ligne de commande à la création", default=self.sale_line_id)
 
     #Override
     #company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company, readonly=True,related='')

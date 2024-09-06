@@ -367,11 +367,18 @@ class InvoiceExcelReportController(http.Controller):
             elif dispute_bloque:
                 dispute="Bloqué"
 
+            # Retrouver la commande dans tous les cas de figure
+            sale_order_id = task.sale_order_id
+            if not sale_order_id:
+                sale_order_id = task.sale_line_id.order_id
+            if not sale_order_id:
+                sale_order_id = task.create_sale_line_id
+
             element = {
                 "create_date" : task.create_date.strftime("%d/%m/%Y %H:%M:%S"),
-                "create_by" : task.sale_order_id.user_id.name,
+                "create_by" : sale_order_id.user_id.name,
                 "date_deadline" : date_deadline, #COMPUTE
-                "command_number" : task.sale_order_id.name,
+                "command_number" : sale_order_id.name,
                 "type": type, #COMPUTE
                 "client" : task.partner_id.name,
                 "planned_hours" : task.planned_hours,
