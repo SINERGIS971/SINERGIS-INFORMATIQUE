@@ -9,7 +9,7 @@ class ProjectTask(models.Model):
     _inherit = "project.task"
 
     # Permet de retracer la commande même si le client de la commande a changé
-    create_sale_line_id = fields.Many2one("sale.order.line", string="Ligne de commande à la création")
+    create_order_id = fields.Many2one("sale.order", string="Commande à la création")
 
     x_sinergis_project_task_etat_tache = fields.Selection([("Tâche en cours", "Tâche en cours"),('Tâche terminée', 'Tâche terminée')], string="Etat de la tâche")
     x_sinergis_project_task_details_ch = fields.Char(string="Détails contrat d'heures")
@@ -187,15 +187,15 @@ class ProjectTask(models.Model):
                     body = f"Cette tâche a été archivée le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
                 rec.message_post(body=body)
             if "sale_line_id" in values_list:
-                if not self.create_sale_line_id:
-                    values_list['create_sale_line_id'] = vals["sale_line_id"]
+                if not self.create_order_id:
+                    values_list['create_order_id'] = self.env['sale.order.line'].search([('id','=',values_list["sale_line_id"])]).order_id.id
         return super(ProjectTask, self).write(values_list)
 
     @api.model_create_multi
     def create(self, list_value):
         for vals in list_value:
             if "sale_line_id" in vals:
-                vals['create_sale_line_id'] = vals["sale_line_id"]
+                vals['create_order_id'] = self.env['sale.order.line'].search([('id','=',vals["sale_line_id"])]).order_id.id
         tasks =   super(ProjectTask, self).create(list_value)
         return tasks
 
