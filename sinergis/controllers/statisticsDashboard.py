@@ -372,7 +372,7 @@ class InvoiceExcelReportController(http.Controller):
             if not sale_order_id:
                 sale_order_id = task.sale_line_id.order_id
             if not sale_order_id:
-                sale_order_id = task.create_sale_line_id
+                sale_order_id = task.create_order_id
 
             element = {
                 "create_date" : task.create_date.strftime("%d/%m/%Y %H:%M:%S"),
