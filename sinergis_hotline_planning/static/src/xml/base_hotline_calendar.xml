@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+
+    <t t-name="sinergis_hotline_planning.CalendarView" t-extend="CalendarView">
+        <t t-jquery="div.o_calendar_sidebar" t-operation="append">
+            <div id="calendar_sync" class="o_calendar_sync container inline btn-group">
+                <p>OK</p>
+            </div>
+        </t>
+    </t>
+
+</template>

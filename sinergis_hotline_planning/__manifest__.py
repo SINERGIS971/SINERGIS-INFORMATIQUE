@@ -31,6 +31,7 @@
         ],
         'web.assets_qweb': [
             'sinergis_hotline_planning/static/src/xml/systray.xml',
+            'sinergis_hotline_planning/static/src/xml/base_hotline_calendar.xml',
         ],
     },
 }

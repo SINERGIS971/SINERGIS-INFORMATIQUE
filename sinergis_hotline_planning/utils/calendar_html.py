@@ -41,7 +41,11 @@ def generate_calendar(planning):
                 cell = f"<td>{date}<br>{'<br/>'.join(users)}</td>"
                 calendar_body += cell
                 date += 1
-        date += 2
+        # Si le premier jour du mois est un dimanche, on passe au Lundi
+        if date == 1 and starting_day == 6:
+            date += 1
+        else:
+            date += 2
         calendar_body += "</tr>"
 
     return {'data': calendar_body, 'month': calendar.month_name[month], 'year': year}

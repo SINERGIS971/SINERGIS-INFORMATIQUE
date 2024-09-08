@@ -61,7 +61,7 @@ class SaleOrder(models.Model):
 
     # 27 Janvier 2023 : Ajout d'une case 'Commande fournisseur' qui permet de savoir si les licences sont déjà commandées.
 
-    x_sinergis_sale_order_supplier_order = fields.Boolean(string="Commande fournisseur", default=False)
+    x_sinergis_sale_order_supplier_order = fields.Boolean(string="Commande fournisseur", default=False, copy=False)
 
     # 9 Mars 2023 : Ajout du nombre de jours dans le devis.
     x_sinergis_sale_order_days_count = fields.Float(string="Nombre de jours", compute="_compute_x_sinergis_sale_order_days_count")

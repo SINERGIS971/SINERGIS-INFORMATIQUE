@@ -76,6 +76,9 @@
                   <filter string="Facturation modifiée" name="filter_is_revised_billing" domain="[('is_revised_billing','=',True)]"/>
                   <separator/>
                   <filter string="Mes activités" name="filter_my_activities" domain="[('consultant',  '=', uid)]"/>
+                  <separator/>
+                  <filter string="RI envoyé" name="filter_rapport_intervention_sent" domain="[('rapport_intervention_sent','=',True)]"/>
+                  <filter string="RI non envoyé" name="filter_rapport_intervention_not_sent" domain="[('rapport_intervention_sent','=',False)]"/>
                     <separator/>
                     <filter string="Facturation" name="group_by_billing" context="{'group_by':'billing'}"/>
                     <filter string="Facturable/Non facturable/Congés" name="group_by_billing_type" context="{'group_by':'billing_type'}"/>
@@ -88,6 +91,7 @@
                     <filter string="Origine" name="group_by_origin" context="{'group_by':'origin'}"/>
                     <filter string="Produit" name="group_by_sinergis_product_id" context="{'group_by':'sinergis_product_id'}"/>
                     <filter string="Sous-Produit" name="group_by_sinergis_subproduct_id" context="{'group_by':'sinergis_subproduct_id'}"/>
+                    <filter string="RI envoyé" name="group_by_rapport_intervention_sent" context="{'group_by':'rapport_intervention_sent'}"/>
                 </group>
             </search>
         </field>
