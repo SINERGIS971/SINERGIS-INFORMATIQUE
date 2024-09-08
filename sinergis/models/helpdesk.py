@@ -65,7 +65,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_is_solved = fields.Boolean(string="Le ticket est-il résolu ?",default=False)
 
     # Ajout de la notion de rapport d'intervention envoyé
-    x_sinergis_helpdesk_ticket_is_sent = fields.Boolean(string="Rapport Envoyé",compute="_compute_x_sinergis_helpdesk_ticket_sent_report")
+    x_sinergis_helpdesk_ticket_is_sent = fields.Boolean(string="Rapport Envoyé",compute="_compute_x_sinergis_helpdesk_ticket_sent_report", store=True)
     x_sinergis_helpdesk_ticket_sent_date = fields.Datetime(string="Date d'envoie",compute="_compute_x_sinergis_helpdesk_ticket_sent_report")
     x_sinergis_helpdesk_ticket_sent_mail = fields.Many2one("mail.mail", string="Mail",compute="_compute_x_sinergis_helpdesk_ticket_sent_report")
     x_sinergis_helpdesk_ticket_sent_emails = fields.Char(string="Emails", related="x_sinergis_helpdesk_ticket_sent_mail.x_sinergis_email_list")

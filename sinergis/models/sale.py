@@ -24,15 +24,15 @@ class SaleOrder(models.Model):
 
     pricelist_id = fields.Many2one(default=lambda self: self.env['product.pricelist'].search([('name','=',"PRIX PUBLIC")]))
 
-    x_sinergis_sale_order_amount_charged = fields.Monetary(string="Montant facturé")
+    x_sinergis_sale_order_amount_charged = fields.Monetary(string="Montant facturé", copy=False)
     x_sinergis_sale_order_amount_remaining = fields.Monetary(string="Restant à facturer",compute="_compute_x_sinergis_sale_order_amount_remaining")
-    x_sinergis_sale_order_acompte_verse = fields.Boolean(string="Acompte versé")
+    x_sinergis_sale_order_acompte_verse = fields.Boolean(string="Acompte versé", copy=False)
 
     # 23 Mai 2023 : Ajout de la facturation acompte + facturation solde calculés à partir du pourcentage d'acompte des produits
     x_sinergis_sale_order_facture_acompte = fields.Monetary(string="Facture acompte", compute="_compute_x_sinergis_sale_order_facture_acompte")
     x_sinergis_sale_order_facture_solde = fields.Monetary(string="Facture solde", compute="_compute_x_sinergis_sale_order_facture_solde")
-    x_sinergis_sale_order_acompte_x3 = fields.Boolean(string="Acompte X3", default=False)
-    x_sinergis_sale_order_solde_x3 = fields.Boolean(string="Solde X3", default=False)
+    x_sinergis_sale_order_acompte_x3 = fields.Boolean(string="Acompte X3", default=False, copy=False)
+    x_sinergis_sale_order_solde_x3 = fields.Boolean(string="Solde X3", default=False, copy=False)
 
     x_sinergis_sale_order_model = fields.Many2one("sale.order",string="Modele de devis")
 
@@ -67,9 +67,9 @@ class SaleOrder(models.Model):
     x_sinergis_sale_order_days_count = fields.Float(string="Nombre de jours", compute="_compute_x_sinergis_sale_order_days_count")
 
     # 1 Avril 2023 : Ajout d'un champ devis signé
-    x_sinergis_sale_order_signed_quote = fields.Binary(string="Devis signé")
+    x_sinergis_sale_order_signed_quote = fields.Binary(string="Devis signé", copy=False)
 
-    x_sinergis_sale_order_signed_cgv = fields.Binary(string="CGV signées")
+    x_sinergis_sale_order_signed_cgv = fields.Binary(string="CGV signées", copy=False)
 
     # 1 Juin 2023 : Permettre à certaines agences de ne pas créer de projets et tâches
 
