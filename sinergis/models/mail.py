@@ -67,7 +67,7 @@ class MailActivity(models.Model):
             }
             return action
 
-class MailActivity(models.Model):
+class MailMail(models.Model):
     _inherit = "mail.mail"
     
     x_sinergis_has_attachment = fields.Boolean(string="Pièce jointe ?", compute="_compute_x_sinergis_has_attachment")
@@ -116,6 +116,18 @@ class MailActivity(models.Model):
                 rec.x_sinergis_email_list = ','.join(recipient_ids_email)
             else:
                 rec.x_sinergis_email_list = False
+
+    @api.model
+    def send(self, auto_commit=False, raise_exception=False):
+        result = super(MailMail, self).send(auto_commit=auto_commit, raise_exception=raise_exception)
+        for mail in self:
+            if mail.model == "helpdesk.ticket":
+                self.env['helpdesk.ticket'].search([('id','=',mail.res_id)]).x_sinergis_helpdesk_ticket_is_sent = True
+            elif mail.model == "calendar.event":
+                self.env['calendar.event'].search([('id','=',mail.res_id)]).x_sinergis_helpdesk_ticket_is_sent = True
+        return result
+
+
 
 class MailMessage(models.Model):
     _inherit = "mail.message"
