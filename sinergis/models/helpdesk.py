@@ -66,8 +66,8 @@ class HelpdeskTicket(models.Model):
 
     # Ajout de la notion de rapport d'intervention envoyé
     x_sinergis_helpdesk_ticket_is_sent = fields.Boolean(string="Rapport Envoyé")
-    x_sinergis_helpdesk_ticket_sent_date = fields.Datetime(string="Date d'envoie",compute="_compute_x_sinergis_helpdesk_ticket_sent_report")
-    x_sinergis_helpdesk_ticket_sent_mail = fields.Many2one("mail.mail", string="Mail",compute="_compute_x_sinergis_helpdesk_ticket_sent_report")
+    x_sinergis_helpdesk_ticket_sent_date = fields.Datetime(string="Date d'envoie")
+    x_sinergis_helpdesk_ticket_sent_mail = fields.Many2one("mail.mail", string="Mail")
     x_sinergis_helpdesk_ticket_sent_emails = fields.Char(string="Emails", related="x_sinergis_helpdesk_ticket_sent_mail.x_sinergis_email_list")
 
     x_sinergis_helpdesk_ticket_intervention_count = fields.Integer(string="Nombre d'interventions", compute="_compute_x_sinergis_helpdesk_ticket_intervention_count", group_operator="sum")
@@ -131,18 +131,24 @@ class HelpdeskTicket(models.Model):
                 rec.x_sinergis_helpdesk_ticket_sale_order = False
                 rec.x_sinergis_helpdesk_ticket_sale_order_line = False
 
-    @api.depends('x_sinergis_helpdesk_ticket_is_sent','x_sinergis_helpdesk_ticket_sent_date','x_sinergis_helpdesk_ticket_sent_mail')
-    def _compute_x_sinergis_helpdesk_ticket_sent_report (self):
+    #@api.depends('x_sinergis_helpdesk_ticket_is_sent','x_sinergis_helpdesk_ticket_sent_date','x_sinergis_helpdesk_ticket_sent_mail')
+    #def _compute_x_sinergis_helpdesk_ticket_sent_report (self):
+    #    for rec in self:
+    #        mail = self.env['mail.mail'].search([("model","=","helpdesk.ticket"),("res_id","=",rec.id),("subject","ilike","Rapport d'intervention")],limit=1)
+    #        if mail :
+    #            rec.x_sinergis_helpdesk_ticket_is_sent = True
+    #            rec.x_sinergis_helpdesk_ticket_sent_date = mail.date
+    #            rec.x_sinergis_helpdesk_ticket_sent_mail = mail
+    #        else:
+    #            rec.x_sinergis_helpdesk_ticket_is_sent = False
+    #            rec.x_sinergis_helpdesk_ticket_sent_date = False
+    #            rec.x_sinergis_helpdesk_ticket_sent_mail = False
+
+    def action_x_sinergis_helpdesk_ticket_sent_report(self, mail):
         for rec in self:
-            mail = self.env['mail.mail'].search([("model","=","helpdesk.ticket"),("res_id","=",rec.id),("subject","ilike","Rapport d'intervention")],limit=1)
-            if mail :
-                rec.x_sinergis_helpdesk_ticket_is_sent = True
-                rec.x_sinergis_helpdesk_ticket_sent_date = mail.date
-                rec.x_sinergis_helpdesk_ticket_sent_mail = mail
-            else:
-                rec.x_sinergis_helpdesk_ticket_is_sent = False
-                rec.x_sinergis_helpdesk_ticket_sent_date = False
-                rec.x_sinergis_helpdesk_ticket_sent_mail = False
+            rec.x_sinergis_helpdesk_ticket_is_sent = True
+            rec.x_sinergis_helpdesk_ticket_sent_date = mail.date
+            rec.x_sinergis_helpdesk_ticket_sent_mail = mail
 
     @api.depends('x_sinergis_helpdesk_ticket_intervention_count')
     def _compute_x_sinergis_helpdesk_ticket_intervention_count (self):
