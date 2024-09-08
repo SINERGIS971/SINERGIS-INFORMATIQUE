@@ -170,7 +170,7 @@ class InvoiceExcelReportController(http.Controller):
         sheet_1.write(0, 7, f'Heures consommées entre le {begin_date.strftime("%d/%m/%Y")} et {end_date.strftime("%d/%m/%Y")}', header_format)
         sheet_1.write(0, 8, f'Heures restantes le {end_date.strftime("%d/%m/%Y")}', header_format)
         sheet_1.write(0, 9, 'Société', header_format)
-        sheet_1.write(0, 10, 'Société', header_format)
+        sheet_1.write(0, 10, 'Litige', header_format)
         
         line = 1
         if data_not_consumed :
@@ -368,17 +368,19 @@ class InvoiceExcelReportController(http.Controller):
                 dispute="Bloqué"
 
             # Retrouver la commande dans tous les cas de figure
-            sale_order_id = task.sale_order_id
-            if not sale_order_id:
-                sale_order_id = task.sale_line_id.order_id
-            if not sale_order_id:
-                sale_order_id = task.create_order_id
+            correct_sale_order_id = False
+            if len(task.sale_order_id) > 0:
+                correct_sale_order_id = task.sale_order_id
+            elif len(task.sale_line_id) > 0:
+                correct_sale_order_id = task.sale_line_id.order_id
+            else:
+                correct_sale_order_id = task.create_order_id
 
             element = {
                 "create_date" : task.create_date.strftime("%d/%m/%Y %H:%M:%S"),
-                "create_by" : sale_order_id.user_id.name,
+                "create_by" : correct_sale_order_id.user_id.name,
                 "date_deadline" : date_deadline, #COMPUTE
-                "command_number" : sale_order_id.name,
+                "command_number" : correct_sale_order_id.name,
                 "type": type, #COMPUTE
                 "client" : task.partner_id.name,
                 "planned_hours" : task.planned_hours,
