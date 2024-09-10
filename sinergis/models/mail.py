@@ -120,7 +120,7 @@ class MailMail(models.Model):
     @api.model
     def send(self, auto_commit=False, raise_exception=False):
         result = super(MailMail, self).send(auto_commit=auto_commit, raise_exception=raise_exception)
-        for mail in self:
+        for mail in result:
             # Marquer le Rapport d'intervention comme envoyé.
             if "Rapport d'intervention" in mail.subject:
                 if mail.model == "helpdesk.ticket":
