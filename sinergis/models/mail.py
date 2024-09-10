@@ -120,13 +120,14 @@ class MailMail(models.Model):
     @api.model
     def send(self, auto_commit=False, raise_exception=False):
         result = super(MailMail, self).send(auto_commit=auto_commit, raise_exception=raise_exception)
-        for mail in result:
+        for mail in self:
             # Marquer le Rapport d'intervention comme envoyé.
-            if "Rapport d'intervention" in mail.subject:
-                if mail.model == "helpdesk.ticket":
-                    self.env['helpdesk.ticket'].search([('id','=',mail.res_id)]).action_x_sinergis_helpdesk_ticket_sent_report(mail)
-                elif mail.model == "calendar.event":
-                    self.env['calendar.event'].search([('id','=',mail.res_id)]).action_x_sinergis_calendar_event_sent_report(mail)
+            if len(self.env['mail.mail'].search([('id','=',mail.id)])) > 0:
+                if "Rapport d'intervention" in mail.subject:
+                    if mail.model == "helpdesk.ticket":
+                        self.env['helpdesk.ticket'].search([('id','=',mail.res_id)]).action_x_sinergis_helpdesk_ticket_sent_report(mail)
+                    elif mail.model == "calendar.event":
+                        self.env['calendar.event'].search([('id','=',mail.res_id)]).action_x_sinergis_calendar_event_sent_report(mail)
         return result
 
 
