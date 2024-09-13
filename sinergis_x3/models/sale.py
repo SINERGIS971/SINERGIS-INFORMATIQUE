@@ -49,8 +49,8 @@ class SaleOrder(models.Model):
 
     @api.onchange("x_sinergis_sale_order_product_new")
     def onchange_x_sinergis_sale_order_product_new_sinergis_x3(self):
-        if x_sinergis_sale_order_product_new.x_sinergis_obligatory_sinergis_x3_company_id:
-            self.sinergis_x3_company_id = x_sinergis_sale_order_product_new.x_sinergis_obligatory_sinergis_x3_company_id
+        if self.x_sinergis_sale_order_product_new.x_sinergis_obligatory_sinergis_x3_company_id:
+            self.sinergis_x3_company_id = self.x_sinergis_sale_order_product_new.x_sinergis_obligatory_sinergis_x3_company_id
 
     @api.depends("sinergis_x3_partner_has_codex3")
     def _compute_sinergis_x3_partner_has_codex3(self):
