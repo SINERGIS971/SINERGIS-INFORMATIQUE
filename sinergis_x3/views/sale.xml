@@ -53,7 +53,7 @@
             <xpath expr="//field[@name='partner_invoice_id']" position="before">
                 <field name="sinergis_x3_correct_price" invisible="1"/>
                 <field name="x_sinergis_obligatory_sinergis_x3_company_id" invisible="1"/>
-                <field name="sinergis_x3_company_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('x_sinergis_obligatory_sinergis_x3_company_id', '!=', False)]}"/>
+                <field name="sinergis_x3_company_id" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('x_sinergis_obligatory_sinergis_x3_company_id', '!=', False)]}" force_save="1"/>
             </xpath>
 
             <xpath expr="//group[@name='order_details']" position="after">
