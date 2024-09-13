@@ -39,6 +39,8 @@ class SaleOrder(models.Model):
 
     sinergis_x3_partner_has_codex3 = fields.Boolean(compute="_compute_sinergis_x3_partner_has_codex3")
 
+    x_sinergis_obligatory_sinergis_x3_company_id = fields.Many2one("sinergis_x3.settings.company",related="x_sinergis_sale_order_product_new.x_sinergis_obligatory_sinergis_x3_company_id",string="Site de vente X3 obligatoire")
+
     @api.onchange("partner_id")
     def onchange_partner_id_sinergis_x3(self):
         self._compute_sinergis_x3_partner_has_codex3()
@@ -330,4 +332,10 @@ class SaleOrderOdooX3Log (models.Model):
     sale_id = fields.Many2one("sale.order",string="Vente",required=True,ondelete="cascade")
     name = fields.Text(string="Information",required=True)
     type = fields.Selection([('success', 'success'),('danger', 'danger'),('warning', 'warning')], string="Type")
+
+    
+class Products(models.Model):
+    _inherit = "sale.products"
+
+    x_sinergis_obligatory_sinergis_x3_company_id = fields.Many2one("sinergis_x3.settings.company",string="Site de vente X3 obligatoire", default=False)
 

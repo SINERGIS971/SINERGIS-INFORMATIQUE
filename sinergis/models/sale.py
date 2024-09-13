@@ -441,8 +441,6 @@ class Products (models.Model):
     name = fields.Char(string="Product Name",required=True, tracking=True)
     type = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type PME/MGE", default="PME", required=True, tracking=True)
 
-    x_sinergis_obligatory_sinergis_x3_company_id = fields.Many2one("sinergis_x3.settings.company",string="Site de vente X3 obligatoire", default=False)
-
 
 class SubProducts (models.Model):
     _name = "sale.products.subproducts"
