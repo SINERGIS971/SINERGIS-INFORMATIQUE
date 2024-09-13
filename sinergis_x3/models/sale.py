@@ -331,9 +331,3 @@ class SaleOrderOdooX3Log (models.Model):
     name = fields.Text(string="Information",required=True)
     type = fields.Selection([('success', 'success'),('danger', 'danger'),('warning', 'warning')], string="Type")
 
-    
-class Products(models.Model):
-    _inherit = "sale.products"
-
-    x_sinergis_obligatory_sinergis_x3_company_id = fields.Many2one("sinergis_x3.settings.company",string="Site de vente X3 obligatoire", default=False)
-
