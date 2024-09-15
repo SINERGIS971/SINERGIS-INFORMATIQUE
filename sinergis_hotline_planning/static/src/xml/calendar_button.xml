@@ -1,0 +1,9 @@
+<templates xml:space="preserve">
+   <t t-inherit="web.CalendarView" t-inherit-mode="extension">
+       <xpath expr="//button[contains(@class, 'o_form_button_create')]" position="before">
+           <button type="button" class="btn btn-primary download_hotline_button" id="download_hotline_button"
+               t-on-click="buttonClicked">
+               <span>NEW BUTTON</span>
+           </button>
+       </xpath>
+   </t></templates>

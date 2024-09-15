@@ -10,14 +10,15 @@ class SinergisHotlinePlanningEvent(models.Model):
     _name = "sinergis_hotline_planning.event"
     _description = "Évènement du planning de la hotline"
     _rec_name = 'display_name'
+    _inherit = ["mail.thread"]
 
     display_name = fields.Char(string="Nom", compute="_compute_display_name")
-    date = fields.Date(string="Jour", required=True)
-    user_ids = fields.Many2many('res.users','hotline_planning', string="Consultants")
+    date = fields.Date(string="Jour", required=True, tracking=True)
+    user_ids = fields.Many2many('res.users','hotline_planning', string="Consultants", tracking=True)
     
-    moorning_or_afternoon = fields.Boolean(string="Consultants différents matin / après-midi")
-    morning_user_ids = fields.Many2many('res.users','moorning_hotline_planning', string="Matin")
-    afternoon_user_ids = fields.Many2many('res.users','afternoon_hotline_planning', string="Après-midi")
+    moorning_or_afternoon = fields.Boolean(string="Consultants différents matin / après-midi", tracking=True)
+    morning_user_ids = fields.Many2many('res.users','moorning_hotline_planning', string="Matin", tracking=True)
+    afternoon_user_ids = fields.Many2many('res.users','afternoon_hotline_planning', string="Après-midi", tracking=True)
 
     def print_calendar(self):
         # Préparation des données

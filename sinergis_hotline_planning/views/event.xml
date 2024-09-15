@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="id" filter_domain="[('id', '=', self)]"/>
+                <field name="user_ids" filter_domain="['|','|',('user_ids', 'ilike', self.uid),('morning_user_ids', 'ilike', self.uid),('afternoon_user_ids', 'ilike', self.uid)]"/>
             </search>
         </field>
     </record>
@@ -53,7 +54,16 @@
                     <field name="morning_user_ids" widget="many2many_avatar_user" options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('moorning_or_afternoon', '=', False)]}"/>
                     <field name="afternoon_user_ids" widget="many2many_avatar_user" options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('moorning_or_afternoon', '=', False)]}"/>
                 </group>
+                <separator string="Autres informations"/>
+                <group>
+                  <field name="create_uid" string="Créé par"/>
+                  <field name="write_uid" string="Dernière modification par"/>
+                </group>
               </sheet>
+              <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+              </div>
             </form>
           </field>
       </record>
