@@ -6,6 +6,12 @@ from datetime import datetime, timedelta
 
 import calendar
 
+class SinergisHotlinePlanningCalendarEvent(models.Model):
+    _inherit = "calendar.event"
+
+    sinergis_hotline_event_id = fields.Many2one("sinergis_hotline_planning.event",string="Salle de réunion")
+
+
 class SinergisHotlinePlanningEvent(models.Model):
     _name = "sinergis_hotline_planning.event"
     _description = "Évènement du planning de la hotline"
@@ -90,6 +96,18 @@ class SinergisHotlinePlanningEvent(models.Model):
             if confront_events:
                 raise ValidationError('Il y a déjà un évènement à cette date.')
         events = super(SinergisHotlinePlanningEvent, self).create(list_value)
+        for event_id in events:
+            calendar_event_id = self.env['calendar.event'].search([('sinergis_hotline_event_id','=',event_id.id)])
+            user_ids = event_id.user_ids + event_id.morning_user_ids + event_id.afternoon_user_ids
+            for user_id in user_ids:
+                if not sinergis_hotline_event_id :
+                    self.env['calendar.event'].create({
+                        'name': "HOTLINE",
+                        'user_id': user_id
+                        'start': event_id.date.replace(hour=8,minute=0)),
+                        'stop': event_id.date.replace(hour=18,minute=0),
+                        'sinergis_hotline_event_id': event_id.id
+                    })
         return events
     
     def write(self, values):

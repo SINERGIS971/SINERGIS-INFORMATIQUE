@@ -28,11 +28,11 @@
     'assets': {
         'web.assets_backend': [
             'sinergis_hotline_planning/static/src/js/systray.js',
-            'sinergis_hotline_planning/static/src/js/calendar_button.js',
+            #'sinergis_hotline_planning/static/src/js/calendar_button.js',
         ],
         'web.assets_qweb': [
             'sinergis_hotline_planning/static/src/xml/systray.xml',
-            'sinergis_hotline_planning/static/src/xml/calendar_button.xml',
+            #'sinergis_hotline_planning/static/src/xml/calendar_button.xml',
         ],
     },
 }
