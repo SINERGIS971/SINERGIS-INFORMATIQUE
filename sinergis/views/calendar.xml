@@ -222,6 +222,10 @@
                         <group>
                           <button name="x_sinergis_calendar_event_reset_button" string="Réinitialiser" type="object" class="btn-primary" readonly="True" confirm="Souhaitez-vous vraiment réinitialiser les heures décomptées ?" attrs="{'invisible': [('x_sinergis_calendar_event_is_facturee', '=', False)]}" style="background-color:grey;"/>
                         </group>
+                        <group>
+                          <button name="send_rapport_intervention" string="Envoyer le rapport d'intervention" type="object" class="btn-primary oe_right" readonly="True" style="background-color:green;" attrs="{'invisible': [('x_sinergis_calendar_event_is_sent','=',True)]}"/>
+                          <button name="send_rapport_intervention" string="Rapport d'intervention envoyé" type="object" class="btn-primary oe_right" readonly="True" style="background-color:orange;" attrs="{'invisible': [('x_sinergis_calendar_event_is_sent','=',False)]}" confirm="Le rapport d'intervention a déjà été envoyé. Voulez-vous l'envoyer de nouveau ?"/>
+                        </group>
                     </page>
                     <!-- Page qui contient les informations du rapport d'intervention envoyé -->
                     <page name="x_sinergis_rapport_intervention_sent_page" string="Rapport envoyé" attrs="{'invisible': ['|',('x_sinergis_calendar_event_is_sent','=',False),('x_sinergis_calendar_event_is_vacation','=',True)]}">
