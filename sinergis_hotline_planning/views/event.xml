@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="id" filter_domain="[('id', '=', self)]"/>
-                <field name="user_ids" filter_domain="['|','|',('user_ids', 'ilike', self.uid),('morning_user_ids', 'ilike', self.uid),('afternoon_user_ids', 'ilike', self.uid)]"/>
+                <field name="user_ids" filter_domain="['|',('morning_user_ids.name', 'ilike', self),('afternoon_user_ids.name', 'ilike', self)]"/>
             </search>
         </field>
     </record>
