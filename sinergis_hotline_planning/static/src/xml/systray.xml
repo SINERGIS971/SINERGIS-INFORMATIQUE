@@ -1,9 +1,11 @@
-<templates xml:space="preserve">
-   <t t-inherit="calendar.Calendar.calendar_add_buttons" t-inherit-mode="extension">
-       <xpath expr="//span[contains(@class, 'o_calendar_create_buttons')]" position="before">
-           <button type="button" class="btn btn-primary download_hotline_button" id="download_hotline_button"
-               t-on-click="buttonClicked" t-if="widget.model == 'sinergis_hotline_planning'">
-               <span>NEW BUTTON</span>
-           </button>
-       </xpath>
-   </t></templates>
+<templates>
+  <t t-name="HotlinePlanningSystray">
+      <div class="new_icon">
+             <div class="icon_div">
+                 <div class="toggle-icon" role="button">
+                     <i id='planning_hotline_so' class="fa fa-headphones" role="img" aria-label="Planning hotline" style="padding-left: 15px; padding-right: 15px;"/>
+                 </div>
+             </div>
+      </div>
+  </t>
+</templates>

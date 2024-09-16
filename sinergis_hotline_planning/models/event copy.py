@@ -112,14 +112,11 @@ class SinergisHotlinePlanningEvent(models.Model):
                     }
                     if event_id.moorning_or_afternoon:
                         if user_id in event_id.afternoon_user_ids and user_id not in event_id.morning_user_ids :
-                            vals['start'] = datetime(event_id.date.year, event_id.date.month, event_id.date.day, 18, 0, 0)
+                            vals['start'] = datetime(event_id.date.year, event_id.date.month, event_id.date.day, 12, 0, 0)
                             vals['stop'] = datetime(event_id.date.year, event_id.date.month, event_id.date.day, 22, 0, 0)
                         elif user_id in event_id.morning_user_ids and user_id not in event_id.afternoon_user_ids :
                             vals['start'] = datetime(event_id.date.year, event_id.date.month, event_id.date.day, 12, 0, 0)
                             vals['stop'] = datetime(event_id.date.year, event_id.date.month, event_id.date.day, 16, 0, 0)
-                        elif user_id in event_id.afternoon_user_ids and user_id in event_id.morning_user_ids :
-                            vals['start'] = datetime(event_id.date.year, event_id.date.month, event_id.date.day, 12, 0, 0)
-                            vals['stop'] = datetime(event_id.date.year, event_id.date.month, event_id.date.day, 22, 0, 0)
                     else:
                         vals['start'] = datetime(event_id.date.year, event_id.date.month, event_id.date.day, 12, 0, 0)
                         vals['stop'] = datetime(event_id.date.year, event_id.date.month, event_id.date.day, 22, 0, 0)
@@ -131,34 +128,31 @@ class SinergisHotlinePlanningEvent(models.Model):
         confront_events = self.env['sinergis_hotline_planning.event'].search([('id','!=',self.id),('date','=',date)])
         if confront_events:
             raise ValidationError('Il y a déjà un évènement à cette date.')
-        event_id = super(SinergisHotlinePlanningEvent, self).write(values)
-        user_ids = self.user_ids + self.morning_user_ids + self.afternoon_user_ids
+        event_user_ids = values.get("user_ids", self.user_ids)
+        event_morning_user_ids = values.get("morning_user_ids", self.morning_user_ids)
+        event_afternoon_user_ids = values.get("afternoon_user_ids", self.afternoon_user_ids)
+        user_ids = event_user_ids + event_morning_user_ids + event_afternoon_user_ids
         for user_id in user_ids:
             calendar_event_id = self.env['calendar.event'].search([('sinergis_hotline_event_id','=',self.id),('user_id','=',user_id.id)])
-            user_tz = user_id.tz
-            vals = {
-                'name': "HOTLINE",
-                'user_id': user_id.id,
-                'sinergis_hotline_event_id': self.id,
-                'partner_ids': [(4,user_id.partner_id.id)],
-                'need_sync_m': True
-            }
-            if self.moorning_or_afternoon:
-                if user_id in self.afternoon_user_ids and user_id not in self.morning_user_ids :
-                    vals['start'] = datetime(self.date.year, self.date.month, self.date.day, 18, 0, 0)
-                    vals['stop'] = datetime(self.date.year, self.date.month, self.date.day, 22, 0, 0)
-                elif user_id in self.morning_user_ids and user_id not in self.afternoon_user_ids :
-                    vals['start'] = datetime(self.date.year, self.date.month, self.date.day, 12, 0, 0)
-                    vals['stop'] = datetime(self.date.year, self.date.month, self.date.day, 16, 0, 0)
-                elif user_id in self.afternoon_user_ids and user_id in self.morning_user_ids :
-                    vals['start'] = datetime(self.date.year, self.date.month, self.date.day, 12, 0, 0)
-                    vals['stop'] = datetime(self.date.year, self.date.month, self.date.day, 22, 0, 0)
-            else:
-                vals['start'] = datetime(self.date.year, self.date.month, self.date.day, 12, 0, 0)
-                vals['stop'] = datetime(self.date.year, self.date.month, self.date.day, 22, 0, 0)
             if not calendar_event_id :
+                user_tz = user_id.tz
+                vals = {
+                    'name': "HOTLINE",
+                    'user_id': user_id.id,
+                    'sinergis_hotline_event_id': self.id,
+                    'partner_ids': [(4,user_id.partner_id.id)],
+                    'need_sync_m': True
+                }
+                event_date = values.get("date", self.date)
+                if self.moorning_or_afternoon:
+                    if user_id in event_afternoon_user_ids and user_id not in event_morning_user_ids :
+                        vals['start'] = datetime(event_date.year, event_date.month, event_date.day, 12, 0, 0)
+                        vals['stop'] = datetime(event_date.year, event_date.month, event_date.day, 22, 0, 0)
+                    elif user_id in event_morning_user_ids and user_id not in event_afternoon_user_ids :
+                        vals['start'] = datetime(event_date.year, event_date.month, event_date.day, 12, 0, 0)
+                        vals['stop'] = datetime(event_date.year, event_date.month, event_date.day, 16, 0, 0)
+                else:
+                    vals['start'] = datetime(event_date.year, event_date.month, event_date.day, 12, 0, 0)
+                    vals['stop'] = datetime(event_date.year, event_date.month, event_date.day, 22, 0, 0)
                 calendar_event_id = self.env['calendar.event'].create(vals)
-            else:
-                calendar_event_id.write(vals)
-                
-        return event_id
+        return super(SinergisHotlinePlanningEvent, self).write(values)
