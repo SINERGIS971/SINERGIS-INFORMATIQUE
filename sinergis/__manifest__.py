@@ -56,6 +56,7 @@
         'data/mail_helpdesk_ticket_partner_reminder_button.xml',
         'data/mail_helpdesk_consultant_assignated.xml',
         'data/helpdesk_automation.xml',
+        'data/helpdesk_cron.xml',
         'static/web/statistics_dashboard.xml',
     ],
     # only loaded in demonstration mode

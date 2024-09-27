@@ -7,7 +7,7 @@
             <field name="state">code</field>
             <field name="code">
                 stage_id = self.env['helpdesk.stage'].search([('name','=',"Annulé")])
-                tickets = env['your_module.ticket'].search([('sort_date', '<=', (fields.Date.today() - relativedelta(months=3)))])
+                tickets = env['your_module.ticket'].search([('sort_date', '&lt;=', (fields.Date.today() - relativedelta(months=3)))])
                 for ticket in tickets:
                     ticket.stage_id = stage_id
             </field>
