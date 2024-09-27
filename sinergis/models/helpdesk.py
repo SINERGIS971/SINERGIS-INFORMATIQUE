@@ -518,6 +518,12 @@ class HelpdeskTicket(models.Model):
     def button_x_sinergis_helpdesk_ticket_client_answer (self):
         raise ValidationError("Le client a envoyé au moins deux mails concernant ce ticket.")
 
+    def x_sinergis_close_old_tickets(self):
+        stage_id = self.env['helpdesk.stage'].search([('name','=',"Annulé")])
+        tickets = env['helpdesk.ticket'].search([('sort_date', '<=', (fields.Date.today() - relativedelta(months=3)))])
+        for ticket in tickets:
+            ticket.stage_id = stage_id
+
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
     def write(self, values):
         user_id = self.user_id

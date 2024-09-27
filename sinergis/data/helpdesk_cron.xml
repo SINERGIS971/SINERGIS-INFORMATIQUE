@@ -5,12 +5,7 @@
             <field name="model_id" ref="model_helpdesk_ticket"/>
             <field name="type">ir.actions.server</field>
             <field name="state">code</field>
-            <field name="code">
-                stage_id = self.env['helpdesk.stage'].search([('name','=',"Annulé")])
-                tickets = env['your_module.ticket'].search([('sort_date', '&lt;=', (fields.Date.today() - relativedelta(months=3)))])
-                for ticket in tickets:
-                    ticket.stage_id = stage_id
-            </field>
+            <field name="code">model.x_sinergis_close_old_tickets()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
