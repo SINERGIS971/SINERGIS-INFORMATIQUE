@@ -85,6 +85,7 @@ class Training(models.Model):
 
     #Training closed part
     training_closed_date = fields.Date(string="Date de cloture de la formation", default=False,readonly=True)
+    valid = fields.Boolean(string="Dossier validé par un utilisateur", default=False)
 
     delayed_assessment_sent = fields.Boolean(string="Évaluation à froid envoyée",default=False,readonly=True)
     answer_delayed_assessment = fields.Html(default="",readonly=True, string="Réponses de l'évaluation à froid")
@@ -558,6 +559,12 @@ class Training(models.Model):
                     self.opco_quiz_sent = True
             else:
                 raise ValidationError("Vous devez renseigner un OPCO (partie commerciale) afin d'envoyer le questionnaire OPCO")
+
+    def validate_training(self):
+        self.valid = not self.valid
+
+    def is_valid_button(self):
+        raise ValidationError("Ce dossier de formation a été validé par un utilisateur Odoo.")
 
     # def button_download_all_documents (self):
     #     path = os.path.dirname(os.path.realpath(__file__))

@@ -151,17 +151,17 @@ class CalendarEvent(models.Model):
 
 
     #@api.depends("x_sinergis_calendar_event_is_sent","x_sinergis_calendar_event_sent_date","x_sinergis_calendar_event_sent_mail")
-    #def _compute_x_sinergis_calendar_event_sent_report(self):
-    #    for rec in self:
-    #        mail = self.env['mail.mail'].search([("model","=","calendar.event"),("res_id","=",rec.id),("subject","ilike","Rapport d'intervention")],limit=1)
-    #        if mail :
-    #            rec.x_sinergis_calendar_event_is_sent = True
-    #            rec.x_sinergis_calendar_event_sent_date = mail.date
-    #            rec.x_sinergis_calendar_event_sent_mail = mail
-    #        else:
-    #            rec.x_sinergis_calendar_event_is_sent = False
-    #            rec.x_sinergis_calendar_event_sent_date = False
-    #            rec.x_sinergis_calendar_event_sent_mail = False
+    def _compute_x_sinergis_calendar_event_sent_report(self):
+        for rec in self:
+            mail = self.env['mail.mail'].search([("model","=","calendar.event"),("res_id","=",rec.id),("subject","ilike","Rapport d'intervention")],limit=1)
+            if mail :
+                rec.x_sinergis_calendar_event_is_sent = True
+                rec.x_sinergis_calendar_event_sent_date = mail.date
+                rec.x_sinergis_calendar_event_sent_mail = mail
+            else:
+                rec.x_sinergis_calendar_event_is_sent = False
+                rec.x_sinergis_calendar_event_sent_date = False
+                rec.x_sinergis_calendar_event_sent_mail = False
 
     # Fonction appelée depuis le middleware mail.mail
     def action_x_sinergis_calendar_event_sent_report(self, mail):

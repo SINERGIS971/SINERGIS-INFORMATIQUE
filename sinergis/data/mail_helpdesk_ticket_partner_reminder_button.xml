@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+       <record id="sinergis_mail_helpdesk_ticket_partner_reminder_button" model="mail.template">
+            <field name="name">SINERGIS - Nous avons tenté de vous contacter</field>
+            <field name="model_id" ref="sinergis.model_helpdesk_ticket"/>
+            <field name="email_from">notifications@sinergis.odoo.com</field>
+            <field name="email_to">{{ (object.x_sinergis_helpdesk_ticket_contact.email or '') }}</field>
+            <field name="subject">SINERGIS - Votre ticket a été relancé ce jour</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+            <p>Bonjour <t t-out="ctx['title']"/> <t t-out="ctx['last_name']"/>,</p>
+            <br></br>
+            <p t-if="ctx['company'] == 'SINERGIS MQE'">Nous vous informons que votre ticket <t t-out="ctx['ticket']" a été relancé ce jour./> </p>
+            <br></br>
+            <p>SINERGIS reste à votre disposition pour échanger et répondre à vos questions.</p>
+            <br></br>
+            <p>Dans l'attente de votre retour,</p>
+            <br></br>
+            <p>Cordialement,</p>
+            <br></br>
+            <p>SINERGIS</p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="sinergis_helpdesk_ticket_answer_closed_ticket_automation" model="base.automation">
-        <field name="name">Answer to closed ticket Automation</field>
+        <field name="name">Ouvrir les tickets fermé avec relance client</field>
         <field name="model_id" ref="mail.model_mail_message"/>
         <field name="state">code</field>
         <field name="filter_domain">["&amp;",("message_type","=","email"),("model","=","helpdesk.ticket")]</field>
@@ -22,4 +22,23 @@ if record.res_id:
         <field name="trigger">on_create</field>
         <field name="active" eval="True"/>
     </record>
+
+        <record id="automated_close_old_tickets" model="base.automation">
+            <field name="name">Fermer les tickets de plus de 3 mois</field>
+            <field name="model_id" ref="helpdesk.model_helpdesk_ticket"/>
+            <field name="state">code</field>
+            <field name="code">
+                <![CDATA[
+                stage_id = self.env['helpdesk.stage'].search([('name','=',"Annulé")])
+                tickets = env['your_module.ticket'].search([('sort_date', '<=', (fields.Date.today() - relativedelta(months=3)))])
+                for ticket in tickets:
+                    ticket.stage_id = stage_id
+                ]]>
+            </field>
+            <field name="trigger">time</field>
+            <field name="interval_type">days</field>
+            <field name="interval_number">1</field>
+            <field name="active">True</field>
+        </record>
+
 </odoo>

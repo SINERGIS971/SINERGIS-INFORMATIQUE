@@ -306,6 +306,14 @@ class HelpdeskTicket(models.Model):
         elif self.x_sinergis_helpdesk_ticket_show_facturation: #Pour eviter un changement d'état à la création d'un ticket
             self.stage_id = self.env['helpdesk.stage'].search([('name','=',"En cours")])
 
+    @api.onchange("x_sinergis_helpdesk_ticket_is_sent")
+    def on_change_x_sinergis_helpdesk_ticket_is_sent(self):
+        event = self.env['calendar.event'].search([("x_sinergis_calendar_event_helpdesk_ticket_id","=",self.id)], limit=1)
+        if event :
+            event.x_sinergis_calendar_event_is_sent = self.x_sinergis_helpdesk_ticket_is_sent
+            event.x_sinergis_calendar_event_sent_date = self.x_sinergis_helpdesk_ticket_sent_date
+            event.x_sinergis_calendar_event_sent_mail = self.x_sinergis_helpdesk_ticket_sent_mail
+
     def updateTasks (self):
         for event in self:
             domain = []
@@ -465,12 +473,20 @@ class HelpdeskTicket(models.Model):
         # Création d'un rappel pour le consultant
         self.activity_schedule('mail.mail_activity_data_call',summary='Rappeler le client',note="Rappeler le client car il n'a pas répondu",date_deadline=datetime.today()+timedelta(minutes=30),user_id=self.env.user.id)
         # Envoie du mail au client
+        
+
+        if self.x_sinergis_helpdesk_ticket_sous_produits_new :
+            product = f"{self.x_sinergis_helpdesk_ticket_produits_new.name} - {self.x_sinergis_helpdesk_ticket_sous_produits_new.name}"
+        else:
+            product = self.x_sinergis_helpdesk_ticket_produits_new.name
+
         ctx={
             "title" : self.x_sinergis_helpdesk_ticket_contact.title.name,
             "last_name" : self.x_sinergis_helpdesk_ticket_contact.x_sinergis_societe_contact_lastname,
             "time": datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%H:%M'),
             "company" : self.x_sinergis_helpdesk_ticket_partner_company_id.name,
             "ticket" : self.id,
+            "product" : product
         }
         template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_last_call_button').id
         self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(self.id, force_send=True)
@@ -485,11 +501,15 @@ class HelpdeskTicket(models.Model):
         self.sort_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         body = f"Il y a eu une relance du client le {datetime.now(pytz.timezone('America/Guadeloupe')).strftime('%Y/%m/%d à %H:%M:%S')} (horaire de Guadeloupe)."
         self.message_post(body=body)
-        #return {
-        #    'type': 'ir.actions.client',
-        #    'tag': 'sinergis_set_partner_reminder',
-        #    'target': 'new',
-        #}
+
+        ctx={
+            "title" : self.x_sinergis_helpdesk_ticket_contact.title.name,
+            "last_name" : self.x_sinergis_helpdesk_ticket_contact.x_sinergis_societe_contact_lastname,
+            "ticket" : f"#{self.id}",
+        }
+
+        template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_partner_reminder_button').id
+        self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(self.id, force_send=True)
         
     # Bouton dans la tree view qui informe que le client n'a pas répondu.
     def x_sinergis_helpdesk_ticket_tree_last_call_button (self):
@@ -557,6 +577,9 @@ class HelpdeskTicket(models.Model):
                             "stop" : stop,
                             "x_sinergis_calendar_event_client": partner_id.id,
                             "x_sinergis_calendar_event_contact" : contact_id.id,
+                            "x_sinergis_calendar_event_is_sent" : self.x_sinergis_helpdesk_ticket_is_sent,
+                            "x_sinergis_calendar_event_sent_date" : self.x_sinergis_helpdesk_ticket_sent_date,
+                            "x_sinergis_calendar_event_sent_mail" : self.x_sinergis_helpdesk_ticket_sent_mail,
                             "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
                             'need_sync_m': True
                         }

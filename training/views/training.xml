@@ -6,6 +6,7 @@
         <field name="model">training</field>
         <field name="arch" type="xml">
             <tree decoration-success="state=='training_closed'" default_order="id desc">
+              <field name="valid" invisible="1"/>
               <field name="id" string="ID"/>
               <field name="start"/>
               <field name="partner_id"/>
@@ -17,6 +18,7 @@
               <field name="effective_hours"/>
               <field name="remaining_hours"/>
               <field name="state"/>
+              <button name="is_valid_button" string="" class="oe_highlight btn-success" icon="fa-flag" type="object" attrs="{'invisible': [('valid',  '=', False)]}"/>
             </tree>
         </field>
     </record>
@@ -37,6 +39,9 @@
                 <filter string="Formations OPCO" name="filter_opco" domain="[('opco_file', '!=', False)]"/>
                 <filter string="Formations non OPCO" name="filter_non_opco" domain="[('opco_file', '=', False)]"/>
                 <separator/>
+                <filter string="Validé" name="filter_valid" domain="[('valid', '=', True)]"/>
+                <filter string="Non validé" name="filter_not_valid" domain="[('valid', '=', False)]"/>
+                <separator/>
                 <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
                 <group expand="0" string="Group By">
                     <filter string="Client" name="group_by_partner_id" context="{'group_by':'partner_id'}"/>
@@ -45,6 +50,7 @@
                     <filter string="Consultant" name="group_by_consultant_id" context="{'group_by':'consultant_id'}"/>
                     <filter string="Produit" name="group_by_type_product_id" context="{'group_by':'type_product_id'}"/>
                     <filter string="État" name="group_by_state" context="{'group_by':'state'}"/>
+                    <filter string="Validé" name="group_by_valid" context="{'group_by':'valid'}"/>
                 </group>
             </search>
         </field>
@@ -85,9 +91,14 @@
                   <button name="button_download_certificate_of_attendance" string="Attestation de présence au stage" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': ['|','|',('state',  '==', 'unassigned'),('state',  '==', 'commercial_part'),('state',  '==', 'training_closed')]}"/>
                   <button name="download_training_quiz_answers" string="Réponses aux quiz" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>
                   <button name="download_all_documents" string="TÉLÉCHARGER TOUS LES DOCUMENTS" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>
+
+                  <button name="validate_training" string="" type="object" icon="fa-flag" class="btn-primary oe_right" readonly="True" style="background-color:green;" attrs="{'invisible': [('valid','=',True)]}"/>
+                  <button name="validate_training" string="" type="object" icon="fa-flag" class="btn-primary oe_right" readonly="True" style="background-color:red;" attrs="{'invisible': [('valid','=',False)]}"/>
+
                </header>
                 <sheet>
                   <field name="active" invisible="True"/>
+                  <field name="valid" invisible="True"/>
                   <div class="oe_button_box" name="button_box">
                     <field name="sale_id" invisible="True"/>
                     <button name="action_open_sended_mail" string="Mails envoyés" type="object" class="oe_link" icon="fa-envelope-o"/>
