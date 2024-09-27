@@ -11,7 +11,7 @@
             <field name="body_html" type="html">
             <p>Bonjour <t t-out="ctx['title']"/> <t t-out="ctx['last_name']"/>,</p>
             <br></br>
-            <p t-if="ctx['company'] == 'SINERGIS MQE'">Nous vous informons que votre ticket <t t-out="ctx['ticket']" a été relancé ce jour./> </p>
+            <p t-if="ctx['company'] == 'SINERGIS MQE'">Nous vous informons que votre ticket <t t-out="ctx['ticket']"/> a été relancé ce jour.</p>
             <br></br>
             <p>SINERGIS reste à votre disposition pour échanger et répondre à vos questions.</p>
             <br></br>

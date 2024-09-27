@@ -446,7 +446,7 @@ class MyActions(models.Model):
             default_use_template=bool(template_id),
             default_template_id=template_id,
             default_attachment_ids=[attachment.id],
-            default_partner_ids=False
+            default_partner_ids=False,
             mail_tz=self.env.user.tz,
         )
 
