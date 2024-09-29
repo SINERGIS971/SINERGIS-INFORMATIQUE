@@ -147,9 +147,11 @@ class HelpdeskTicket(models.Model):
 
     def action_x_sinergis_helpdesk_ticket_sent_report(self, mail):
         for rec in self:
-            rec.x_sinergis_helpdesk_ticket_is_sent = True
-            rec.x_sinergis_helpdesk_ticket_sent_date = mail.date
-            rec.x_sinergis_helpdesk_ticket_sent_mail = mail
+            rec.write({
+                "x_sinergis_helpdesk_ticket_is_sent": True,
+                "x_sinergis_helpdesk_ticket_sent_date": mail.date,
+                "x_sinergis_helpdesk_ticket_sent_mail": mail.id,
+            })
 
     @api.depends('x_sinergis_helpdesk_ticket_intervention_count')
     def _compute_x_sinergis_helpdesk_ticket_intervention_count (self):

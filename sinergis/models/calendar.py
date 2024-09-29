@@ -166,9 +166,11 @@ class CalendarEvent(models.Model):
     # Fonction appelée depuis le middleware mail.mail
     def action_x_sinergis_calendar_event_sent_report(self, mail):
         for rec in self:
-            rec.x_sinergis_calendar_event_is_sent = True
-            rec.x_sinergis_calendar_event_sent_date = mail.date
-            rec.x_sinergis_calendar_event_sent_mail = mail
+            rec.write({
+                "x_sinergis_calendar_event_is_sent": True,
+                "x_sinergis_calendar_event_sent_date": mail.date,
+                "x_sinergis_calendar_event_sent_mail": mail.id,
+            })
 
 
     @api.depends('x_sinergis_calendar_event_is_deducted')

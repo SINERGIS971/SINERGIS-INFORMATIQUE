@@ -123,11 +123,12 @@ class MailMail(models.Model):
         for mail in self:
             # Marquer le Rapport d'intervention comme envoyé.
             if len(self.env['mail.mail'].search([('id','=',mail.id)])) > 0:
-                if "Rapport d'intervention" in mail.subject:
-                    if mail.model == "helpdesk.ticket":
-                        self.env['helpdesk.ticket'].search([('id','=',mail.res_id)]).action_x_sinergis_helpdesk_ticket_sent_report(mail)
-                    elif mail.model == "calendar.event":
-                        self.env['calendar.event'].search([('id','=',mail.res_id)]).action_x_sinergis_calendar_event_sent_report(mail)
+                if hasattr(mail, 'subject') and hasattr(mail, 'res_id'):
+                    if "Rapport d'intervention" in mail.subject:
+                        if mail.model == "helpdesk.ticket":
+                            self.env['helpdesk.ticket'].search([('id','=',mail.res_id)]).action_x_sinergis_helpdesk_ticket_sent_report(mail)
+                        elif mail.model == "calendar.event":
+                            self.env['calendar.event'].search([('id','=',mail.res_id)]).action_x_sinergis_calendar_event_sent_report(mail)
         return result
 
 
