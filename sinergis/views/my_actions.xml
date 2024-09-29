@@ -105,7 +105,7 @@
             <tree decoration-success="is_printed==True" decoration-danger="is_revised_billing==True and is_billed==True">
                 <header>
                     <button name="print_reports" string="Imprimer les rapports d'intervention" class="oe_highlight" type="object"/>
-                    <button name="send_reports" string="Envoyer les rapports" class="oe_highlight" type="object"/>
+                    <!--<button name="send_reports" string="Envoyer les rapports" class="oe_highlight" type="object"/>-->
                 </header>
                 <field name="is_printed" invisible="True"/>
                 <field name="is_revised_billing" invisible="True"/>
