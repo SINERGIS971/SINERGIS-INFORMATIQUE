@@ -2,7 +2,7 @@
 <odoo>
     <data>
        <record id="sinergis_mail_helpdesk_ticket_partner_reminder_button" model="mail.template">
-            <field name="name">SINERGIS - Nous avons tenté de vous contacter</field>
+            <field name="name">SINERGIS - Relance d'un ticket</field>
             <field name="model_id" ref="sinergis.model_helpdesk_ticket"/>
             <field name="email_from">notifications@sinergis.odoo.com</field>
             <field name="email_to">{{ (object.x_sinergis_helpdesk_ticket_contact.email or '') }}</field>
