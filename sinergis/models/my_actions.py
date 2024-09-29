@@ -1,6 +1,7 @@
 from odoo import api, fields, models, tools
 from odoo.exceptions import ValidationError
 from datetime import datetime
+import base64
 
 class MyActionsReinvoiced(models.Model):
     _name = "sinergis.myactions.reinvoiced"
@@ -426,12 +427,15 @@ class MyActions(models.Model):
         return self.env.ref('sinergis.sinergis_report_myactions').report_action(self.env['sinergis.myactions'].search([('id', '=', ids)]))
 
     def send_reports(self):
+        ids = []
+        for rec in self:
+            ids.append(rec.id)
         template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis.sinergis_mail_myactions_report', raise_if_not_found=False)
-        report_action = self.env.ref('sinergis.sinergis_mail_calendar_rapport_intervention').report_action(
-            self.env['sinergis.myactions'].search([('id', '=', self.ids)])
-        )
+        #report_action = self.env.ref('sinergis.sinergis_report_myactions').report_action(
+        #    self.env['sinergis.myactions'].search([('id', '=', ids)])
+        #)
         
-        report_pdf = self.env['ir.actions.report'].sudo()._get_report_from_name('sinergis.sinergis_report_myactions')._render_qweb_pdf(self.ids)[0]
+        report_pdf = self.env.ref('sinergis.sinergis_report_myactions')._render_qweb_pdf(ids)[0]
         attachment = self.env['ir.attachment'].create({
             'name': 'myactions_report.pdf',
             'type': 'binary',
@@ -439,10 +443,14 @@ class MyActions(models.Model):
             'mimetype': 'application/pdf'
         })
 
+        model = "calendar.event"
+        if self[0].origin == "helpdesk":
+            model = "helpdesk.ticket"
+
         compose_ctx = dict(
             default_composition_mode='comment',
-            default_model='sinergis.myactions',
-            default_res_ids=self.ids,
+            default_model=model,
+            default_res_ids=self[0].link_id,
             default_use_template=bool(template_id),
             default_template_id=template_id,
             default_attachment_ids=[attachment.id],

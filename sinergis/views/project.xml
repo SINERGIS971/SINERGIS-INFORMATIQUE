@@ -20,9 +20,10 @@
               <filter string="Contrat d'heures" name="filter_contrat_heures" domain='[("project_id.name","ilike","CONTRAT D&#39;HEURES")]'/>
               <filter string="Devis" name="filter_quotation" domain='[("project_id.name","not ilike","CONTRAT D&#39;HEURES")]'/>
               <separator/>
-              <filter string="Tâches non terminées" name="filter_not_ended_task" domain="[('remaining_hours','&gt;',0)]"/>
-              <filter string="Tâches terminées et/ou dépassées" name="filter_ended_task" domain="[('remaining_hours','&lt;=',0)]"/>
+              <filter string="Tâches avec temps restant" name="filter_not_ended_task" domain="[('remaining_hours','&gt;',0)]"/>
+              <filter string="Tâches sans temps restant" name="filter_ended_task" domain="[('remaining_hours','&lt;=',0)]"/>
               <separator/>
+              <filter string="Tâches à faire" name="filter_task_to_do" domain="[('x_sinergis_project_task_etat_tache','!=','Tâche terminée')]"/>
               <filter string="Tâches marquées comme terminées" name="filter_ended_task" domain="[('x_sinergis_project_task_etat_tache','=','Tâche terminée')]"/>
               <group expand="0" string="Group By">
                     <filter string="CH/DEVIS" name="group_by_contract_type" context="{'group_by':'x_sinergis_project_task_contract_type_stored'}"/>

@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
+from dateutil.relativedelta import relativedelta
 import pytz
 import re
 
@@ -505,6 +506,7 @@ class HelpdeskTicket(models.Model):
         ctx={
             "title" : self.x_sinergis_helpdesk_ticket_contact.title.name,
             "last_name" : self.x_sinergis_helpdesk_ticket_contact.x_sinergis_societe_contact_lastname,
+            "company" : self.x_sinergis_helpdesk_ticket_partner_company_id.name,
             "ticket" : f"#{self.id}",
         }
 
@@ -519,10 +521,9 @@ class HelpdeskTicket(models.Model):
         raise ValidationError("Le client a envoyé au moins deux mails concernant ce ticket.")
 
     def x_sinergis_close_old_tickets(self):
-        stage_id = self.env['helpdesk.stage'].search([('name','=',"Annulé")])
-        tickets = env['helpdesk.ticket'].search([('sort_date', '<=', (fields.Date.today() - relativedelta(months=3)))])
+        tickets = self.env['helpdesk.ticket'].search([('sort_date', '<=', (date.today() - relativedelta(months=3))),('active','=',True),'|','|',('stage_id.name','=',"Nouveau"),('stage_id.name','=',"En cours"),('stage_id.name','=',"Annulé")])
         for ticket in tickets:
-            ticket.stage_id = stage_id
+            ticket.active = False
 
     #L'objectif est d'empecher les gens non assignés de changer le ticket une fois celui-ci terminé
     def write(self, values):

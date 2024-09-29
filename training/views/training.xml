@@ -92,8 +92,8 @@
                   <button name="download_training_quiz_answers" string="Réponses aux quiz" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>
                   <button name="download_all_documents" string="TÉLÉCHARGER TOUS LES DOCUMENTS" type="object"  icon="fa-download" class="btn-warning" attrs="{'invisible': [('state',  '!=', 'training_closed')]}"/>
 
-                  <button name="validate_training" string="" type="object" icon="fa-flag" class="btn-primary oe_right" readonly="True" style="background-color:green;" attrs="{'invisible': [('valid','=',True)]}"/>
-                  <button name="validate_training" string="" type="object" icon="fa-flag" class="btn-primary oe_right" readonly="True" style="background-color:red;" attrs="{'invisible': [('valid','=',False)]}"/>
+                  <button name="validate_training" string="" type="object" icon="fa-flag" class="btn-primary oe_right" readonly="True" style="background-color:red;" attrs="{'invisible': [('valid','=',True)]}"/>
+                  <button name="validate_training" string="" type="object" icon="fa-flag" class="btn-primary oe_right" readonly="True" style="background-color:green;" attrs="{'invisible': [('valid','=',False)]}"/>
 
                </header>
                 <sheet>

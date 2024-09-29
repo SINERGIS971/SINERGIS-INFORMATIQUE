@@ -156,8 +156,8 @@ class CalendarEvent(models.Model):
             mail = self.env['mail.mail'].search([("model","=","calendar.event"),("res_id","=",rec.id),("subject","ilike","Rapport d'intervention")],limit=1)
             if mail :
                 rec.x_sinergis_calendar_event_is_sent = True
-                rec.x_sinergis_calendar_event_sent_date = mail.date
-                rec.x_sinergis_calendar_event_sent_mail = mail
+                rec.x_sinergis_calendar_event_sent_date = mail[0].date
+                rec.x_sinergis_calendar_event_sent_mail = mail[0]
             else:
                 rec.x_sinergis_calendar_event_is_sent = False
                 rec.x_sinergis_calendar_event_sent_date = False
@@ -513,7 +513,6 @@ class CalendarEvent(models.Model):
             raise UserError("Il vous faut un contact pour envoyer le rapport d'intervention.")
         template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis.sinergis_mail_calendar_rapport_intervention', raise_if_not_found=False)
         composition_mode = self.env.context.get('composition_mode', 'comment')
-        self.x_sinergis_calendar_event_is_sent = True
         compose_ctx = dict(
             default_composition_mode=composition_mode,
             default_model='calendar.event',
