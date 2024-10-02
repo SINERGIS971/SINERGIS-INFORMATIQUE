@@ -73,7 +73,7 @@
             'sinergis/static/src/js/calendar_vacation_widget.js',
             'sinergis/static/src/js/helpdesk_widget.js',
             'sinergis/static/src/js/partner_widget.js',
-            'sinergis/static/src/js/exit_validation_helpdesk_ticket.js.js',
+            'sinergis/static/src/js/exit_validation_helpdesk_ticket.js',
             #'sinergis/static/src/js/dialog_popup.js',
             'sinergis/static/src/css/style.css',
         ],
