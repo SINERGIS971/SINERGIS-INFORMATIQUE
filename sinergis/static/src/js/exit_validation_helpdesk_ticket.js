@@ -1,75 +1,37 @@
-odoo.define("sinergis.FormLeaveCheck", function (require) {
+odoo.define('sinergis.FormLeaveCheck', function (require) {
     "use strict";
-  
-    const FormController = require("web.FormController");
-    const Dialog = require("web.Dialog");
-  
+
+    const FormController = require('web.FormController');
+    const Dialog = require('web.Dialog');
+
     FormController.include({
-      async canBeDiscarded(recordID) {
-        // Appel du comportement par défaut d'Odoo
-        const res = this._super.apply(this, arguments);
-  
-        // Récupération du modèle en cours
-        const record = this.model.get(this.handle);
-  
-          await Dialog.confirm(
-              this,
-              "OKOK",
-              {
-                confirm_callback: () => {
-                  this._super.apply(this, arguments);
-                },
-              }
-            );
-          
-        // Vérification que le modèle est 'helpdesk.ticket'
-        // Conditions :
-        // - Mettre un message si nous quittons le modele avec une facturation CH mais pas de CH.
-        // - Mettre un message si nous oublions de décompter le temps à facturer.
-        if (record.model === "helpdesk.ticket") {
-          const billing = record.data.x_sinergis_helpdesk_ticket_facturation;
-          const contract = record.data.x_sinergis_helpdesk_ticket_tache2;
-            await Dialog.confirm(
-              this,
-              billing.toString() + " | " + contract.toString(),
-              {
-                confirm_callback: () => {
-                  this._super.apply(this, arguments);
-                },
-              }
-            );
-          if (billing == "Contrat heures" && contract == false) {
-            await Dialog.confirm(
-              this,
-              "Attention, vous avez séléctionner la facturation 'contrat d'heures' sans séléctionner de contrat !",
-              {
-                confirm_callback: () => {
-                  this._super.apply(this, arguments);
-                },
-              }
-            );
-            return false;
-          } else if (billing == "Devis" || billing == "Contrat heures") {
-              const time = record.data.x_sinergis_helpdesk_ticket_temps_passe;
-              const is_billed = record.x_sinergis_helpdesk_ticket_is_facturee;
-              if (time > 0 && is_billed == false)
-              {
-                  await Dialog.confirm(
-                      this,
-                      "Attention ! Vous allez quitter le ticket sans décompter vos heures sur la tâche !",
-                      {
+        async canBeDiscarded(recordID) {
+            // Appel du comportement par défaut d'Odoo
+            const res = this._super.apply(this, arguments);
+
+            // Récupération du modèle en cours
+            const record = this.model.get(this.handle);
+
+            // Vérification que le modèle est 'helpdesk.ticket'
+            if (record.model === 'helpdesk.ticket') {
+                // Vérification d'un champ spécifique (par exemple, x_field_name)
+                //const fieldValue = record.data.x_field_name;
+
+                // Si le champ n'est pas rempli (vide ou null), afficher une confirmation avant de quitter
+                if (true) {
+                    await Dialog.confirm(this, 'Ce champ n\'est pas rempli. Êtes-vous sûr de vouloir quitter ?', {
                         confirm_callback: () => {
-                          this._super.apply(this, arguments);
+                            // Si l'utilisateur confirme, on autorise à quitter la vue
+                            this._super.apply(this, arguments);
                         },
-                      }
-                    );
+                    });
+                    // Retourne `false` pour empêcher la fermeture du formulaire immédiatement
                     return false;
-              }
-          }
-        }
-  
-        return res;
-      },
+                }
+            }
+
+            // Si ce n'est pas le modèle helpdesk.ticket, ou si le champ est rempli, on continue normalement
+            return res;
+        },
     });
-  });
-  
+});
