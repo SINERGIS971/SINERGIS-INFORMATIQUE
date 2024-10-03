@@ -16,6 +16,7 @@
             </xpath>
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="x_sinergis_societe_is_burst" optional="hide"/>
+                <field name="x_sinergis_societe_helpdesk_code" optional="hide"/>
             </xpath>
         </field>
     </record>
@@ -281,6 +282,7 @@
                 <field name="x_sinergis_societe_is_burst"/>
                 <field name="x_sinergis_societe_ancien_code_sap"/>
                 <field name="x_sinergis_societe_code_client_sage"/>
+                <field name="x_sinergis_societe_helpdesk_code"/>
                 <field name="x_sinergis_societe_compte_tiers"/>
                 <field name="write_date"/>
             </xpath>

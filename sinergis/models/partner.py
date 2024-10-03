@@ -76,6 +76,10 @@ class ResPartner(models.Model):
     # 24/01/2024 : Champs permettant la sécurisation des données techniques du client
     x_sinergis_societe_technical_notes_allowed = fields.Boolean(compute="_compute_x_sinergis_societe_technical_notes_allowed")
 
+    # 03/10/2024 : Code d'accès à l'assistance
+    # Initialisé à la création du partner
+    x_sinergis_societe_helpdesk_code = fields.Text(string="Code d'accès à l'assistance")
+
     #Gestion des contraintes supplémentaires
 
     @api.constrains("child_ids")
@@ -268,6 +272,15 @@ class ResPartner(models.Model):
             'target': 'new',
         }
 
+    def _generate_unique_helpdesk_code(self):
+        while True:
+            # Génère un code aléatoire sur 8 chiffres
+            code = '{:08d}'.format(random.randint(0, 99999999))
+            # Vérification si ce code n'existe pas déjà
+            if not self.env['res.partner'].search([('partner_code', '=', code)]):
+                return code
+
+
     #Supprimer les contacts de la société
     def unlink (self):
         for societe in self:
@@ -298,6 +311,14 @@ class ResPartner(models.Model):
         if "x_sinergis_societe_notes_techniques_displayed" in values:
             values["x_sinergis_societe_notes_techniques"] = values["x_sinergis_societe_notes_techniques_displayed"]
         return super(ResPartner, self).write(values)
+
+    @api.model_create_multi
+    def create(self, list_value):
+        for vals in list_value:
+            #Vérification s'il s'agit bien d'une société et non d'un contact
+            if vals['is_company'] == True:
+                vals['partner_code'] = self._generate_unique_code()
+        return super(ResPartner, self).create(list_value)
 
 # A SUPPRIMER
 class SinergisAnnualContracts(models.Model):

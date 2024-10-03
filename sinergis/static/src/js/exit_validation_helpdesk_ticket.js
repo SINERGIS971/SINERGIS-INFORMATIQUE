@@ -5,33 +5,28 @@ odoo.define('sinergis.FormLeaveCheck', function (require) {
     const Dialog = require('web.Dialog');
 
     FormController.include({
-        async canBeDiscarded(recordID) {
-            // Appel du comportement par défaut d'Odoo
-            const res = this._super.apply(this, arguments);
 
-            // Récupération du modèle en cours
+        // Méthode appelée lorsque la vue va être changée
+        on_detach_callback: function () {
             const record = this.model.get(this.handle);
 
-            // Vérification que le modèle est 'helpdesk.ticket'
-            if (record.model === 'helpdesk.ticket') {
-                // Vérification d'un champ spécifique (par exemple, x_field_name)
-                //const fieldValue = record.data.x_field_name;
+            // Vérifier si le modèle est 'helpdesk.ticket'
+            if (record && record.model === 'helpdesk.ticket') {
+                const fieldValue = record.data.x_field_name; // Remplacer par le nom de votre champ
 
-                // Si le champ n'est pas rempli (vide ou null), afficher une confirmation avant de quitter
-                if (true) {
-                    await Dialog.confirm(this, 'Ce champ n\'est pas rempli. Êtes-vous sûr de vouloir quitter ?', {
-                        confirm_callback: () => {
-                            // Si l'utilisateur confirme, on autorise à quitter la vue
-                            this._super.apply(this, arguments);
-                        },
-                    });
-                    // Retourne `false` pour empêcher la fermeture du formulaire immédiatement
-                    return false;
+                // Si le champ est vide, afficher la confirmation avant de quitter
+                if (!fieldValue) {
+                    const confirmation = confirm('Ce champ n\'est pas rempli. Êtes-vous sûr de vouloir quitter cette page ?');
+                    if (!confirmation) {
+                        // Bloquer la navigation
+                        return false;
+                    }
                 }
             }
 
-            // Si ce n'est pas le modèle helpdesk.ticket, ou si le champ est rempli, on continue normalement
-            return res;
+            // Appeler le comportement par défaut d'Odoo (permettre la navigation)
+            return this._super.apply(this, arguments);
         },
     });
+
 });
