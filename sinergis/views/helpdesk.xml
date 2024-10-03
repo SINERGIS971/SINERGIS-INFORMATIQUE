@@ -162,6 +162,8 @@
                   <field name="x_sinergis_helpdesk_ticket_planned_intervention" invisible="True"/>
                   <button name="x_sinergis_intervention_planned" string="Intervention à planifier" type="object" class="oe_highlight" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', True)]}"/>
                   <button name="x_sinergis_intervention_unplanned" string="Ne plus planifier d'intervention" type="object" class="oe_highlight" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}"/>
+                  <button name="x_sinergis_no_automatically_archive_button" class="btn-outline-info" type="object" string="BUG" icon="fa-phone" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_no_automatically_archive',  '=', True)]}"/>
+                  <button name="x_sinergis_no_automatically_archive_button" class="btn-outline-info" type="object" string="RETIRER BUG" icon="fa-phone" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_no_automatically_archive',  '=', False)]}"/>
               </xpath>
               <xpath expr="//header" position="after">
                 <field name="x_sinergis_helpdesk_ticket_client_douteux" invisible="True"/>

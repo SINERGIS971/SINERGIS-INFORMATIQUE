@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 
 from datetime import datetime
+import random
 
 
 class ResPartner(models.Model):
@@ -277,7 +278,7 @@ class ResPartner(models.Model):
             # Génère un code aléatoire sur 8 chiffres
             code = '{:08d}'.format(random.randint(0, 99999999))
             # Vérification si ce code n'existe pas déjà
-            if not self.env['res.partner'].search([('partner_code', '=', code)]):
+            if not self.env['res.partner'].search([('x_sinergis_societe_helpdesk_code', '=', code)]):
                 return code
 
 
@@ -317,7 +318,7 @@ class ResPartner(models.Model):
         for vals in list_value:
             #Vérification s'il s'agit bien d'une société et non d'un contact
             if vals['is_company'] == True:
-                vals['partner_code'] = self._generate_unique_code()
+                vals['x_sinergis_societe_helpdesk_code'] = self._generate_unique_helpdesk_code()
         return super(ResPartner, self).create(list_value)
 
 # A SUPPRIMER

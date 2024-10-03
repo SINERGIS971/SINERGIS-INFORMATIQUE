@@ -30,6 +30,7 @@ class HelpdeskFormController(http.Controller):
                 error = "Le recaptcha n'est pas validé."
             name = kw.get("name")
             company = html.escape(kw.get("company"))
+            code = kw.get("code")
             email = kw.get("email").lower()
             phone = html.escape(kw.get("phone"))
             product_select = int(kw.get("products"))
@@ -40,9 +41,10 @@ class HelpdeskFormController(http.Controller):
             # Verification des extensions
             # extensions = {".jpg", ".png", ".gif", ".jpeg",".pdf"}
             max_size = 10485760 # Taille maximale en bytes
-
-            if not name or not company or not email or not phone or not phone or not product_select or not subject or not problem:
+            if not name or not company or not code or not email or not phone or not phone or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
+            if self.env['res.partner'].search_count([('x_sinergis_societe_helpdesk_code', '=', code)]) == 0:
+                error = "Le code client Sinergis est incorrect."
             product_id = http.request.env['sale.products'].sudo().search([('id','=',product_select)],limit=1)
             if not product_id:
                 error = "Le produit que vous venez de sélectionner n'existe pas dans notre base de données."

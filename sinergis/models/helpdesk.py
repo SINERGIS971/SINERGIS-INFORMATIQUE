@@ -101,6 +101,9 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_last_call = fields.Datetime(string="Date et heure du dernier appel",default=False)
     x_sinergis_helpdesk_last_call_user_id = fields.Many2one("res.users",string="Dernier utilisateur: le client n'a pas répondu")
 
+    # 03/10/2024 : Champ permettant de ne pas archiver automatiquement le ticket (car archivage automatique des tickets tous les 3 mois)
+    x_sinergis_helpdesk_ticket_no_automatically_archive = fields.Boolean(string="Ne pas archiver automatiquement", default=False)
+
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
     def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):
         for rec in self:
@@ -494,6 +497,8 @@ class HelpdeskTicket(models.Model):
         template_id = self.env.ref('sinergis.sinergis_mail_helpdesk_ticket_last_call_button').id
         self.env["mail.template"].browse(template_id).with_context(ctx).send_mail(self.id, force_send=True)
         
+    def x_sinergis_no_automatically_archive_button(self):
+        self.x_sinergis_helpdesk_ticket_no_automatically_archive = not self.x_sinergis_helpdesk_ticket_no_automatically_archive
 
     def x_sinergis_helpdesk_ticket_partner_replied (self):
         self.x_sinergis_helpdesk_last_call = False
@@ -523,7 +528,7 @@ class HelpdeskTicket(models.Model):
         raise ValidationError("Le client a envoyé au moins deux mails concernant ce ticket.")
 
     def x_sinergis_close_old_tickets(self):
-        tickets = self.env['helpdesk.ticket'].search([('sort_date', '<=', (date.today() - relativedelta(months=3))),('active','=',True),'|','|',('stage_id.name','=',"Nouveau"),('stage_id.name','=',"En cours"),('stage_id.name','=',"Annulé")])
+        tickets = self.env['helpdesk.ticket'].search([('x_sinergis_helpdesk_ticket_no_automatically_archive','=','False'),('sort_date', '<=', (date.today() - relativedelta(months=3))),('active','=',True),'|','|',('stage_id.name','=',"Nouveau"),('stage_id.name','=',"En cours"),('stage_id.name','=',"Annulé")])
         for ticket in tickets:
             ticket.active = False
 
