@@ -78,4 +78,6 @@ odoo.define('sinergis.FormLeaveCheck', function (require) {
         },
     });
 
+    
+
 });
