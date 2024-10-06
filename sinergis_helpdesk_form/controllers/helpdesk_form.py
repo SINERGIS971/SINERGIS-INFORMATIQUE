@@ -58,12 +58,12 @@ class HelpdeskFormController(http.Controller):
                 success = True
                 description = f"""
                     <body>
-                    Nom et Prénom : {lastname} {firstname}<br/>
-                    Société : {company}<br/>
-                    Email : {email}<br/>
-                    Téléphone : {phone}<br/>
-                    Sujet : {subject}<br/>
-                    Description :<br/>
+                    <strong>Nom et Prénom :</strong> {lastname} {firstname}<br/>
+                    <strong>Société :</strong> {company}<br/>
+                    <strong>Email :</strong> {email}<br/>
+                    <strong>Téléphone :</strong> {phone}<br/>
+                    <strong>Sujet :</strong> {subject}<br/>
+                    <strong>Description :</strong><br/>
                     {problem}
                     </body>
                 """
@@ -100,20 +100,26 @@ class HelpdeskFormController(http.Controller):
                 ticket = http.request.env['helpdesk.ticket'].sudo().create(data)
 
                 # Création des PJ associées au ticket
+                attachement_ids = []
                 for file in files :
                     name = file.filename
                     attached_file = file.read()
                     # Vérification de la taille et de l'extension
                     if sys.getsizeof(attached_file) < max_size and any(file.filename.endswith(ext) for ext in extensions):
-                        http.request.env['ir.attachment'].sudo().create({
-                            'name': file.filename,
+                        attachement_id = http.request.env['ir.attachment'].sudo().create({
+                            'name': name,
                             'res_model': 'helpdesk.ticket',
                             'res_id': ticket.id,
                             'type': 'binary',
                             'store_fname': file.filename,
                             'datas': base64.b64encode(attached_file),
-                        }) 
-
+                        })
+                        attachement_ids.append(attachement_id)
+                
+                ticket.message_post(
+                    body="Le client à joint à sa demande un ou plusieurs fichiers.",
+                    attachments=attachement_ids
+                )
         return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
 
         

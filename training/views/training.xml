@@ -11,7 +11,7 @@
               <field name="start"/>
               <field name="partner_id"/>
               <field name="name"/>
-              <field name="sale_id"/>
+              <field name="sale_id" string="Commande"/>
               <field name="sales_manager"/>
               <field name="consultant_id"/>
               <field name="scheduled_hours"/>
@@ -913,8 +913,3 @@
 
   </data>
 </odoo>
-
-
-
-
-
