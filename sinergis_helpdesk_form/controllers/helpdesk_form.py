@@ -44,7 +44,7 @@ class HelpdeskFormController(http.Controller):
             max_size = 10485760 # Taille maximale en bytes
             if not firstname or not lastname or not company or not code or not email or not phone or not phone or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
-            partner_id = http.request.env['res.partner'].search([('x_sinergis_societe_helpdesk_code', '=', code)], limit=1)
+            partner_id = http.request.env['res.partner'].sudo().search([('x_sinergis_societe_helpdesk_code', '=', code)], limit=1)
             if len(partner_id) == 0:
                 error = "Le code client Sinergis est incorrect."
             product_id = http.request.env['sale.products'].sudo().search([('id','=',product_select)],limit=1)

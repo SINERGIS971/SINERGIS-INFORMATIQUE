@@ -69,13 +69,13 @@
                   
                 <separator/>
 
-                <filter string="Sans Bug" name="filter_x_sinergis_helpdesk_last_call_user_id" domain="[('x_sinergis_helpdesk_last_call_user_id', '=', False)]"/>
-                <filter string="Avec Bug" name="filter_no_x_sinergis_helpdesk_last_call_user_id" domain="[('x_sinergis_helpdesk_last_call_user_id', '=', True)]"/>
+                <filter string="Sans Bug" name="filter_x_sinergis_helpdesk_ticket_no_automatically_archive" domain="[('x_sinergis_helpdesk_ticket_no_automatically_archive', '=', False)]"/>
+                <filter string="Avec Bug" name="filter_no_x_sinergis_helpdesk_ticket_no_automatically_archive" domain="[('x_sinergis_helpdesk_ticket_no_automatically_archive', '=', True)]"/>
 
                 <!-- GROUP BY -->
                   
                 <filter string="Agence rattachée" name="group_by_x_sinergis_helpdesk_ticket_partner_company_id" context="{'group_by':'x_sinergis_helpdesk_ticket_partner_company_id'}"/>
-                <filter string="Bug" name="group_by_x_sinergis_helpdesk_last_call_user_id" context="{'group_by':'x_sinergis_helpdesk_last_call_user_id'}"/>
+                <filter string="Bug" name="group_by_x_sinergis_helpdesk_ticket_no_automatically_archive" context="{'group_by':'x_sinergis_helpdesk_ticket_no_automatically_archive'}"/>
                   
               </xpath>
               <xpath expr="//filter[@name='unassigned']" position="after">
