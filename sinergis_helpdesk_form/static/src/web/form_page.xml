@@ -1,290 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <template id="form_page" name="Helpdesk Form">
-    <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <style>
-            @import "https://unpkg.com/open-props";
+    <template id="form_page" name="Helpdesk Form">
+        <html>
+            <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <style>
+                    @import "https://unpkg.com/open-props";
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
+                    *,
+                    *::before,
+                    *::after {
+                    box-sizing: border-box;
+                    }
 
-h1 {
-    font-weight: bold;
-    font-size: 1.4em;
-    text-align: center;
-    margin-bottom: 20px;
-}
+                    h1 {
+                    font-weight: bold;
+                    font-size: 1.4em;
+                    text-align: center;
+                    margin-bottom: 20px;
+                    }
 
-button {
-    font: inherit;
-}
+                    button {
+                    font: inherit;
+                    }
 
-.page {
-    color: var(--gray-9);
-    background-color: var(--gray-0);
-    display: grid;
-    grid-template-areas: "main";
-    min-height: 100vh;
-    font-family: var(--font-sans);
-}
+                    .page {
+                    color: var(--gray-9);
+                    background-color: var(--gray-0);
+                    display: grid;
+                    grid-template-areas: "main";
+                    min-height: 100vh;
+                    font-family: var(--font-sans);
+                    }
 
-.page__mani {
-    grid-area: main;
-}
+                    .page__mani {
+                    grid-area: main;
+                    }
 
-.main {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    padding: var(--size-3);
-}
+                    .main {
+                    display: flex;
+                    flex-direction: column;
+                    justify-items: center;
+                    align-items: center;
+                    padding: var(--size-3);
+                    }
 
-.main__form {
-    max-width: 40em;
-    width: 100%;
-}
+                    .main__form {
+                    max-width: 40em;
+                    width: 100%;
+                    }
 
-.form {
-    color: var(--gray-9);
-    background-color: #d6e2f4;
-    display: grid;
-    padding: var(--size-4);
-    width: 100%;
-    border: 1px solid var(--gray-4);
-    border-radius: var(--radius-2);
-}
+                    .form {
+                    color: var(--gray-9);
+                    background-color: #d6e2f4;
+                    display: grid;
+                    padding: var(--size-4);
+                    width: 100%;
+                    border: 1px solid var(--gray-4);
+                    border-radius: var(--radius-2);
+                    }
 
-.form__linput {
-    display: grid;
-    margin-bottom: var(--size-3);
-}
+                    .form__linput {
+                    display: grid;
+                    margin-bottom: var(--size-3);
+                    }
 
-.form__label {
-    margin-bottom: var(--size-2);
-}
+                    .form__label {
+                    margin-bottom: var(--size-2);
+                    }
 
-.form__input,
-.form__select,
-.form__textarea {
-    padding: 1em 0.7rem;
-    border: 1px solid var(--gray-4);
-    border-radius: var(--radius-2);
-    width: 100%;
-}
+                    .form__input,
+                    .form__select,
+                    .form__textarea {
+                    padding: 1em 0.7rem;
+                    border: 1px solid var(--gray-4);
+                    border-radius: var(--radius-2);
+                    width: 100%;
+                    }
 
-.form__select {
-    background: inherit;
-}
+                    .form__select {
+                    background: inherit;
+                    }
 
-.form__textarea {
-    padding: 1em 0.7rem;
-    resize: vertical;
-    border: 1px solid var(--gray-4);
-    border-radius: var(--radius-2);
-    font: inherit;
-}
+                    .form__textarea {
+                    padding: 1em 0.7rem;
+                    resize: vertical;
+                    border: 1px solid var(--gray-4);
+                    border-radius: var(--radius-2);
+                    font: inherit;
+                    }
 
-.form__btn {
-    margin-right: auto;
-}
+                    .form__btn {
+                    margin-right: auto;
+                    }
 
-.primary-btn {
-    transition: 180ms ease-in;
-    color: var(--gray-0);
-    background-color: #f58c00;
-    padding: 0.7em var(--size-3);
-    border: 0;
-    border-radius: var(--radius-2);
-    cursor: pointer;
-    font-size: 1.5em;
-}
+                    .primary-btn {
+                    transition: 180ms ease-in;
+                    color: var(--gray-0);
+                    background-color: #f58c00;
+                    padding: 0.7em var(--size-3);
+                    border: 0;
+                    border-radius: var(--radius-2);
+                    cursor: pointer;
+                    font-size: 1.5em;
+                    }
 
-.primary-btn:hover {
-    background-color: #f4bd48;
-}
+                    .primary-btn:hover {
+                    background-color: #f4bd48;
+                    }
 
-.required-ast {
-    color: red;
-}
+                    .required-ast {
+                    color: red;
+                    }
 
 
-    .file-input {
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-    }
-    .file-input input[type="file"] {
-      font-size: 100px;
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-    }
-    .file-input button {
-      display: inline-block;
-      background: #4CAF50;
-      color: white;
-      padding: 8px 20px;
-      cursor: pointer;
-      border: none;
-      border-radius: 4px;
-    }
-    .file-input span {
-      margin-left: 10px;
-    }
+                    .file-input {
+                    position: relative;
+                    overflow: hidden;
+                    display: inline-block;
+                    }
+                    .file-input input[type="file"] {
+                    font-size: 100px;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    opacity: 0;
+                    }
+                    .file-input button {
+                    display: inline-block;
+                    background: #4CAF50;
+                    color: white;
+                    padding: 8px 20px;
+                    cursor: pointer;
+                    border: none;
+                    border-radius: 4px;
+                    }
+                    .file-input span {
+                    margin-left: 10px;
+                    }
 
-@media only screen and (max-width: 768px) {
-    .main__form {
-        max-width: 100%;
-    }
-}
-        </style>
-         <script src="https://www.google.com/recaptcha/api.js"></script>
-         <script>
-            function validateForm() {
-                var response = grecaptcha.getResponse();
-                if (response.length === 0) {
+                    .form__name-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: var(--size-3); /* espace entre les champs */
+                    }
+
+                    @media only screen and (max-width: 768px) {
+                    .main__form {
+                    max-width: 100%;
+                    }
+                    .form__name-grid {
+                        grid-template-columns: 1fr;
+                    }
+                    }
+                </style>
+                <script src="https://www.google.com/recaptcha/api.js"></script>
+                <script>
+                    function validateForm() {
+                    var response = grecaptcha.getResponse();
+                    if (response.length === 0) {
                     alert("Veuillez compléter le reCAPTCHA.");
-                return false;
-                }
-                return true;
-            }
+                    return false;
+                    }
+                    return true;
+                    }
 
-            document.addEventListener('DOMContentLoaded', () => {
-                const selectProduct = document.getElementById('product-select');
-                selectProduct.addEventListener('change', () => {
-                const selectedProduct = selectProduct.value;
-                fetch('https://sinergis.odoo.com/sinergis/get_subproduct?product_id='+selectedProduct.toString())
+                    document.addEventListener('DOMContentLoaded', () => {
+                    const selectProduct = document.getElementById('product-select');
+                    selectProduct.addEventListener('change', () => {
+                    const selectedProduct = selectProduct.value;
+                    fetch('https://sinergis.odoo.com/sinergis/get_subproduct?product_id='+selectedProduct.toString())
                     .then(response => response.json())
                     .then(data => {
-                        var selectSubproducts = document.getElementById("subproduct-select");
-                        selectSubproducts.innerHTML = "";
-                        const subproducts = data.subproducts;
+                    var selectSubproducts = document.getElementById("subproduct-select");
+                    selectSubproducts.innerHTML = "";
+                    const subproducts = data.subproducts;
 
-                        if (subproducts.length == 0){
-                            document.getElementById("subproduct_block").style.display = "none";
-                            selectSubproducts.removeAttribute('required');
-                        } else {
-                            document.getElementById("subproduct_block").style.display = "block";
-                            selectSubproducts.setAttribute('required', 'true');
-                        }
+                    if (subproducts.length == 0){
+                    document.getElementById("subproduct_block").style.display = "none";
+                    selectSubproducts.removeAttribute('required');
+                    } else {
+                    document.getElementById("subproduct_block").style.display = "block";
+                    selectSubproducts.setAttribute('required', 'true');
+                    }
 
-                        var optionElement = document.createElement("option");
-                        optionElement.value = "";
-                        optionElement.text = "";
-                        selectSubproducts.appendChild(optionElement)
+                    var optionElement = document.createElement("option");
+                    optionElement.value = "";
+                    optionElement.text = "";
+                    selectSubproducts.appendChild(optionElement)
                     subproducts.forEach(subproduct => {
-                        var optionElement = document.createElement("option");
-                        optionElement.value = subproduct.id;
-                        optionElement.text = subproduct.name;
-                        selectSubproducts.appendChild(optionElement)
+                    var optionElement = document.createElement("option");
+                    optionElement.value = subproduct.id;
+                    optionElement.text = subproduct.name;
+                    selectSubproducts.appendChild(optionElement)
                     });
                     })
                     .catch(error => {
                     console.error('Erreur lors de la requête:', error);
                     });
-                });
-            });
+                    });
+                    });
 
-            function handleFiles() {
-                const fileInput = document.getElementById("files");
+                    function handleFiles() {
+                    const fileInput = document.getElementById("files");
 
-                var maxFileLength = 3;
-                var maxFileSizeInBytes = 10485760;
+                    var maxFileLength = 3;
+                    var maxFileSizeInBytes = 10485760;
 
-                if (fileInput.files.length > maxFileLength) {
-                alert('Le nombre maximal de fichiers autorisés est de ' + maxFileLength);
-                fileInput.value = '';
-                return;
-                }
+                    if (fileInput.files.length > maxFileLength) {
+                    alert('Le nombre maximal de fichiers autorisés est de ' + maxFileLength);
+                    fileInput.value = '';
+                    return;
+                    }
 
-                for (var i = 0; i &lt; fileInput.files.length; i++) {
+                    for (var i = 0; i &lt; fileInput.files.length; i++) {
                     var fileSize = fileInput.files[i].size;
-                        if (fileSize > maxFileSizeInBytes) {
-                            alert('La taille du fichier dépasse la limite autorisée. Veuillez sélectionner un fichier plus petit.');
-                            fileInput.value = '';
-                            return;
-                        }
-                }
+                    if (fileSize > maxFileSizeInBytes) {
+                    alert('La taille du fichier dépasse la limite autorisée. Veuillez sélectionner
+                    un fichier plus petit.');
+                    fileInput.value = '';
+                    return;
+                    }
+                    }
 
-                const fileList = fileInput.files;
-                const fileCountDisplay = document.getElementById("fileCount");
-                fileCountDisplay.innerHTML = fileList.length + " fichier(s) chargé(s)";
-            }
-        </script>
-    </head>
-    <body class="page">
-        <main class="main page__main">
-            <p t-if="success and not error" style="background-color: #5cb85c; color: #fff; text-align: center; padding: 10px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 12px;">Votre ticket a bien été pris en charge par Sinergis.<br/>Nous reviendrons vers vous rapidement.</p>
-            <p t-if="error" style="background-color: #E94D4D; color: #fff; text-align: center; padding: 10px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 12px;">Erreur<br/><t t-esc="error"/></p>
-            <form class="form main__form" id="help_form" method="POST" enctype="multipart/form-data" onsubmit="return validateForm();">
-            <h1>Formulaire d'assistance Sinergis</h1>
-            <input type="hidden" name="csrf_token" t-att-value="csrf" />
-            <div class="form__linput">
-                <label class="form__label" for="name">Nom et prénom <span class="required-ast">*</span></label>
-                <input class="form__input" type="text" id="name" name="name" placeholder="Nom et prénom.." required="True" maxlength="50"/>
-            </div>
-            <div class="form__linput">
-                <label class="form__label" for="company">Société <span class="required-ast">*</span></label>
-                <input class="form__input" type="text" id="company" name="company" placeholder="Société.." required="True" maxlength="50"/>
-            </div>
-            <div class="form__linput">
-                <label class="form__label" for="code">Code d'assistance Sinergis <span class="required-ast">*</span></label>
-                <input class="form__input" type="text" id="code" name="code" placeholder="Code client.." required="True" maxlength="16"/>
-            </div>
-            <div class="form__linput">
-                <label class="form__label" for="email">E-mail <span class="required-ast">*</span></label>
-                <input class="form__input" type="email" id="email" name="email" placeholder="Adresse e-mail.." required="True" maxlength="50"/>
-            </div>
-            <div class="form__linput">
-                <label class="form__label" for="phone">Téléphone <span class="required-ast">*</span></label>
-                <input class="form__input" type="text" id="phone" name="phone" placeholder="Téléphone.." required="True" maxlength="16"/>
-            </div>
-            <div class="form__linput">
-                <label class="form__label" for="product-select">Produit <span class="required-ast">*</span></label>
-                <select class="form__select" id="product-select" name="products" required="True">
-                <option value="">Choisissez votre produit</option>
-                <t t-foreach="products" t-as="product">
-                    <option t-att-value="product.id"><t t-esc="product.name"/></option>
-                </t>
-                </select>
-            </div>
-            <div class="form__linput" id="subproduct_block" style="display:none;">
-                <label class="form__label" for="subproduct-select">Sous-Produit <span class="required-ast">*</span></label>
-                <select class="form__select" id="subproduct-select" name="subproducts">
-                <option value="">Choisissez votre sous-produit</option>
-                </select>
-            </div>
-            <div class="form__linput">
-                <label class="form__label" for="subject">Sujet <span class="required-ast">*</span></label>
-                <input class="form__input" type="text" id="subject" name="subject" placeholder="Sujet.." required="True" maxlength="150"/>
-            </div>
-            <div class="form__linput">
-                <label class="form__label" for="problem">Description du problème <span class="required-ast">*</span></label>
-                <textarea class="form__textarea" id="problem" name="problem" placeholder="Décrire votre problème.." rows="7" required="True" maxlength="2000"></textarea>
-            </div>
-            <div class="form__linput">
-                <label class="form__label" for="problem">Documents</label>
-                <div class="file-input">
-                <input type="file" id="files" name="files[]" onchange="handleFiles()" multiple="1" t-att-accept="','.join(extensions)"/>
-                <button>Choisir des fichiers</button>
-                <span id="fileCount"></span>
-                </div>
-                <p>Autorisé : <t t-esc="','.join(extensions)"/></p>
-            </div>
-            <div class="g-recaptcha" data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"></div>
-            <br/>
-            <input type="submit" class="primary-btn form__btn" value="Envoyer"/>
-            </form>
-        </main>
-    </body>
-    </html>
-  </template>
+                    const fileList = fileInput.files;
+                    const fileCountDisplay = document.getElementById("fileCount");
+                    fileCountDisplay.innerHTML = fileList.length + " fichier(s) chargé(s)";
+                    }
+                </script>
+            </head>
+            <body class="page">
+                <main class="main page__main">
+                    <p t-if="success and not error"
+                        style="background-color: #5cb85c; color: #fff; text-align: center; padding: 10px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 12px;">Votre
+                        ticket a bien été pris en charge par Sinergis.<br />Nous reviendrons vers
+                        vous rapidement.</p>
+                    <p t-if="error"
+                        style="background-color: #E94D4D; color: #fff; text-align: center; padding: 10px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 12px;">
+                        Erreur<br /><t t-esc="error" /></p>
+                    <form class="form main__form" id="help_form" method="POST"
+                        enctype="multipart/form-data" onsubmit="return validateForm();">
+                        <h1>Formulaire d'assistance Sinergis</h1>
+                        <input type="hidden" name="csrf_token" t-att-value="csrf" />
+                        <div class="form__linput form__name-grid">
+                            <div>
+                                <label class="form__label" for="lastname">Nom<span
+                                        class="required-ast">*</span></label>
+                                <input class="form__input" type="text" id="lastname" name="lastname"
+                                    placeholder="Nom" required="True" maxlength="50" />
+                            </div>
+                            <div>
+                                <label class="form__label" for="firstname">Prénom<span
+                                        class="required-ast">*</span></label>
+                                <input class="form__input" type="text" id="firstname"
+                                    name="firstname" placeholder="Prénom" required="True"
+                                    maxlength="50" />
+                            </div>
+                        </div>
+                        <div class="form__linput">
+                            <label class="form__label" for="company">Société <span
+                                    class="required-ast">*</span></label>
+                            <input class="form__input" type="text" id="company" name="company"
+                                placeholder="Société.." required="True" maxlength="50" />
+                        </div>
+                        <div class="form__linput">
+                            <label class="form__label" for="code">Code d'assistance Sinergis <span
+                                    class="required-ast">*</span></label>
+                            <input class="form__input" type="text" id="code" name="code"
+                                placeholder="Code client.." required="True" maxlength="16" />
+                        </div>
+                        <div class="form__linput">
+                            <label class="form__label" for="email">E-mail <span class="required-ast">
+                                *</span></label>
+                            <input class="form__input" type="email" id="email" name="email"
+                                placeholder="Adresse e-mail.." required="True" maxlength="50" />
+                        </div>
+                        <div class="form__linput">
+                            <label class="form__label" for="phone">Téléphone <span
+                                    class="required-ast">*</span></label>
+                            <input class="form__input" type="text" id="phone" name="phone"
+                                placeholder="Téléphone.." required="True" maxlength="16" />
+                        </div>
+                        <div class="form__linput">
+                            <label class="form__label" for="product-select">Produit <span
+                                    class="required-ast">*</span></label>
+                            <select class="form__select" id="product-select" name="products"
+                                required="True">
+                                <option value="">Choisissez votre produit</option>
+                                <t t-foreach="products" t-as="product">
+                                    <option t-att-value="product.id">
+                                        <t t-esc="product.name" />
+                                    </option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="form__linput" id="subproduct_block" style="display:none;">
+                            <label class="form__label" for="subproduct-select">Sous-Produit <span
+                                    class="required-ast">*</span></label>
+                            <select class="form__select" id="subproduct-select" name="subproducts">
+                                <option value="">Choisissez votre sous-produit</option>
+                            </select>
+                        </div>
+                        <div class="form__linput">
+                            <label class="form__label" for="subject">Sujet <span
+                                    class="required-ast">*</span></label>
+                            <input class="form__input" type="text" id="subject" name="subject"
+                                placeholder="Sujet.." required="True" maxlength="150" />
+                        </div>
+                        <div class="form__linput">
+                            <label class="form__label" for="problem">Description du problème <span
+                                    class="required-ast">*</span></label>
+                            <textarea class="form__textarea" id="problem" name="problem"
+                                placeholder="Décrire votre problème.." rows="7" required="True"
+                                maxlength="2000"></textarea>
+                        </div>
+                        <div class="form__linput">
+                            <label class="form__label" for="problem">Documents</label>
+                            <div class="file-input">
+                                <input type="file" id="files" name="files[]"
+                                    onchange="handleFiles()" multiple="1"
+                                    t-att-accept="','.join(extensions)" />
+                                <button>Choisir des fichiers</button>
+                                <span id="fileCount"></span>
+                            </div>
+                            <p>Autorisé : <t t-esc="','.join(extensions)" /></p>
+                        </div>
+                        <div class="g-recaptcha"
+                            data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"></div>
+                        <br />
+                        <input type="submit" class="primary-btn form__btn" value="Envoyer" />
+                    </form>
+                </main>
+            </body>
+        </html>
+    </template>
 </odoo>
-

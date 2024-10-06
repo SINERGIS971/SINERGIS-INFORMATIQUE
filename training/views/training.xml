@@ -11,6 +11,7 @@
               <field name="start"/>
               <field name="partner_id"/>
               <field name="name"/>
+              <field name="sale_id"/>
               <field name="sales_manager"/>
               <field name="consultant_id"/>
               <field name="scheduled_hours"/>
@@ -31,6 +32,7 @@
                 <field name="id" filter_domain="[('id', '=', self)]"/>
                 <field name="name" filter_domain="[('name', 'ilike', self)]"/>
                 <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
+                <field name="sale_id" filter_domain="[('sale_id', 'ilike', self)]"/>
                 <field name="sales_manager" filter_domain="[('sales_manager', 'ilike', self)]"/>
                 <field name="consultant_id" filter_domain="[('consultant_id', 'ilike', self)]"/>
                 <filter string="Formations ouvertes" name="filter_open_training" domain="[('state', '!=', 'training_closed')]"/>

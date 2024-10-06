@@ -28,7 +28,8 @@ class HelpdeskFormController(http.Controller):
             response_dict = json.loads(response)
             if response_dict['success'] != True:
                 error = "Le recaptcha n'est pas validé."
-            name = kw.get("name")
+            firstname = kw.get("firstname")
+            lastname = kw.get("lastname")
             company = html.escape(kw.get("company"))
             code = kw.get("code")
             email = kw.get("email").lower()
@@ -41,9 +42,10 @@ class HelpdeskFormController(http.Controller):
             # Verification des extensions
             # extensions = {".jpg", ".png", ".gif", ".jpeg",".pdf"}
             max_size = 10485760 # Taille maximale en bytes
-            if not name or not company or not code or not email or not phone or not phone or not product_select or not subject or not problem:
+            if not firstname or not lastname or not company or not code or not email or not phone or not phone or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
-            if http.request.env['res.partner'].search_count([('x_sinergis_societe_helpdesk_code', '=', code)]) == 0:
+            partner_id = http.request.env['res.partner'].search([('x_sinergis_societe_helpdesk_code', '=', code)], limit=1)
+            if len(partner_id) == 0:
                 error = "Le code client Sinergis est incorrect."
             product_id = http.request.env['sale.products'].sudo().search([('id','=',product_select)],limit=1)
             if not product_id:
@@ -54,30 +56,47 @@ class HelpdeskFormController(http.Controller):
                     error = "Le sous-produit que vous venez de sélectionner n'existe pas dans notre base de données."
             if not error :
                 success = True
+                description = f"""
+                    <body>
+                    Nom et Prénom : {lastname} {firstname}<br/>
+                    Société : {company}<br/>
+                    Email : {email}<br/>
+                    Téléphone : {phone}<br/>
+                    Sujet : {subject}<br/>
+                    Description :<br/>
+                    {problem}
+                    </body>
+                """
                 data = {
                     'name': f"{company} : {subject}",
-                    'description': f"Société : {company}\nTéléphone : {phone}\n{problem}",
+                    'description': description,
                     'user_id': False,
+                    'partner_id': partner_id.id,
                     'team_id': http.request.env['helpdesk.ticket'].sudo()._default_team_id(),
                     'x_sinergis_helpdesk_ticket_produits_new': product_select,
                     'x_sinergis_helpdesk_ticket_sous_produits_new': subproduct_select,
                 }
 
-                # Ajout du contact aux abonnés puis changement via le write
-                contact_id = http.request.env['res.partner'].sudo().search([('email','=',email),('is_company','=',False),('parent_id','!=',False)],limit=1)
+                # Recherche d'un contact dans la société associée au code client.
+                contact_id = http.request.env['res.partner'].sudo().search([('email','=',email),('is_company','=',False),('parent_id','=',partner_id.id)],limit=1)
+                data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
+
+                # ANCIEN CODE
                 # Check in contact without company
-                if not contact_id:
-                    contact_id = http.request.env['res.partner'].sudo().search([('email','=',email),('is_company','=',False)],limit=1)
+                #if not contact_id:
+                #    contact_id = http.request.env['res.partner'].sudo().search([('email','=',email),('is_company','=',False)],limit=1)
                 # Create a contact
-                if not contact_id :
-                    contact_id = http.request.env['res.partner'].sudo().create({'name': name, 'email': email, 'is_company': False})
-                parent_id = contact_id.parent_id
-                if parent_id:
-                    data['partner_id'] = parent_id.id
-                    data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
-                else:
-                    data['partner_id'] = contact_id.id
-                    data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
+                #if not contact_id :
+                #    contact_id = http.request.env['res.partner'].sudo().create({'name': name, 'email': email, 'is_company': False})
+                #parent_id = contact_id.parent_id
+                #if parent_id:
+                #    data['partner_id'] = parent_id.id
+                #    data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
+                #else:
+                #    data['partner_id'] = contact_id.id
+                #    data['x_sinergis_helpdesk_ticket_contact'] = contact_id.id
+                
+                
                 ticket = http.request.env['helpdesk.ticket'].sudo().create(data)
 
                 # Création des PJ associées au ticket

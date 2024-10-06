@@ -317,8 +317,9 @@ class ResPartner(models.Model):
     def create(self, list_value):
         for vals in list_value:
             #Vérification s'il s'agit bien d'une société et non d'un contact
-            if vals['is_company'] == True:
-                vals['x_sinergis_societe_helpdesk_code'] = self._generate_unique_helpdesk_code()
+            if "is_company" in vals:
+                if vals['is_company'] == True:
+                    vals['x_sinergis_societe_helpdesk_code'] = self._generate_unique_helpdesk_code()
         return super(ResPartner, self).create(list_value)
 
 # A SUPPRIMER

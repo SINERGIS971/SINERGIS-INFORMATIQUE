@@ -102,7 +102,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_last_call_user_id = fields.Many2one("res.users",string="Dernier utilisateur: le client n'a pas répondu")
 
     # 03/10/2024 : Champ permettant de ne pas archiver automatiquement le ticket (car archivage automatique des tickets tous les 3 mois)
-    x_sinergis_helpdesk_ticket_no_automatically_archive = fields.Boolean(string="Ne pas archiver automatiquement", default=False)
+    x_sinergis_helpdesk_ticket_no_automatically_archive = fields.Boolean(string="Bug", default=False, tracking=True)
 
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
     def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):
