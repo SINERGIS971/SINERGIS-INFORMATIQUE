@@ -114,7 +114,7 @@ class HelpdeskFormController(http.Controller):
                             'store_fname': file.filename,
                             'datas': base64.b64encode(attached_file),
                         })
-                        attachement_ids.append(attachement_id)
+                        attachement_ids.append(attachement_id.id)
                 if len(attachement_ids) > 0:
                     ticket.message_post(
                         body="Le client à joint à sa demande un ou plusieurs fichiers.",
