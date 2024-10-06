@@ -118,7 +118,7 @@ class HelpdeskFormController(http.Controller):
                 if len(attachement_ids) > 0:
                     ticket.message_post(
                         body="Le client à joint à sa demande un ou plusieurs fichiers.",
-                        attachments=attachement_ids
+                        attachment_ids=attachement_ids
                     )
         return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
 
