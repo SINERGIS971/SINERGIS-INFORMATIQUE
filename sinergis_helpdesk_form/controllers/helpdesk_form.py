@@ -116,7 +116,7 @@ class HelpdeskFormController(http.Controller):
                         })
                         attachement_ids.append(attachement_id.id)
                 if len(attachement_ids) > 0:
-                    ticket.message_post(
+                    ticket.sudo().message_post(
                         body="Le client à joint à sa demande un ou plusieurs fichiers.",
                         attachment_ids=attachement_ids
                     )
