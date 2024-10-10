@@ -215,6 +215,7 @@
 
                 <xpath expr="//field[@name='partner_phone']" position="after">
                     
+                    <field name="x_sinergis_helpdesk_ticket_partner_helpdesk_code" attrs="{'invisible': [('partner_id',  '=', False)]}"/>
                     <field name="x_sinergis_helpdesk_ticket_partner_company_id" attrs="{'invisible': ['|',('partner_id',  '=', False), ('x_sinergis_helpdesk_ticket_partner_company_id',  '=', False)]}" force_save="1"/>
                     <br/>
                     <field name="x_sinergis_helpdesk_ticket_contact" domain="[('parent_id','=',partner_id),('x_sinergis_societe_contact_inactive','=',False)]" attrs="{'readonly': ['|',('partner_id',  '=', False),('x_sinergis_helpdesk_ticket_is_facturee','=',True)],'required':[('x_sinergis_helpdesk_ticket_contact',  '!=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>

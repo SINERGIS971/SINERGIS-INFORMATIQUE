@@ -80,6 +80,7 @@ class HelpdeskTicket(models.Model):
     x_sinergis_helpdesk_ticket_billing_last_date = fields.Datetime(string="Date de modification des données de facturation", default=False)
 
     #Colonne de droite
+    x_sinergis_helpdesk_ticket_partner_helpdesk_code = fields.Text(string="Code d'accès du client", related="partner_id.x_sinergis_societe_helpdesk_code")
     x_sinergis_helpdesk_ticket_partner_company_id = fields.Many2one('res.company', string="Agence rattachée", compute="_compute_x_sinergis_helpdesk_ticket_partner_company_id", store=True)
     x_sinergis_helpdesk_ticket_partner_company_name = fields.Char(compute="_compute_x_sinergis_helpdesk_ticket_partner_company_name")
     
