@@ -16,6 +16,15 @@
               <p>Vous trouverez en pièce jointe le rapport d'intervention détaillé.</p>
               <br/>
               <p>N'hésitez pas à nous contacter si vous avez des questions.</p>
+              <br/>
+              <br/>
+              <t t-if="object.x_sinergis_helpdesk_ticket_partner_helpdesk_code">
+                <p><strong>Nouveau : </strong>Vous pouvez désormais saisir vos tickets en ligne.</p>
+                <p>Utilisez votre code client unique pour soumettre vos demandes rapidement.</p>
+                <br/>
+                <p>Votre code client : <strong style="color:'red'"><t t-out="object.x_sinergis_helpdesk_ticket_partner_helpdesk_code"/></strong></p>
+                <a style="font-weight:'bold'" href="https://sinergis.odoo.com/help_sinergis">Cliquez ici pour accéder à la page</a>
+              </t>
             </field>
         </record>
     </data>
