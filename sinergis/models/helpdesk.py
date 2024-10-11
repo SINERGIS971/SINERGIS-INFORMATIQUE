@@ -598,7 +598,7 @@ class HelpdeskTicket(models.Model):
                             "x_sinergis_calendar_event_contact" : contact_id.id,
                             "x_sinergis_calendar_event_is_sent" : self.x_sinergis_helpdesk_ticket_is_sent,
                             "x_sinergis_calendar_event_sent_date" : self.x_sinergis_helpdesk_ticket_sent_date,
-                            "x_sinergis_calendar_event_sent_mail" : self.x_sinergis_helpdesk_ticket_sent_mail,
+                            "x_sinergis_calendar_event_sent_mail" : self.x_sinergis_helpdesk_ticket_sent_mail.id,
                             "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
                             'need_sync_m': True
                         }
