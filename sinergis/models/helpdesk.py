@@ -381,6 +381,8 @@ class HelpdeskTicket(models.Model):
             raise ValidationError("Il vous faut sélectionner un type de facturation pour générer un rapport d'intervention")
         if not self.partner_id:
             raise ValidationError("Il vous faut sélectionner une société pour générer un rapport d'intervention")
+        if not self.user_id:
+            raise ValidationError("Vous devez assigner une personne pour générer le rapport d'intervention.")
         template_id = self.env['ir.model.data']._xmlid_to_res_id('sinergis.sinergis_mail_helpdesk_ticket_rapport_intervention', raise_if_not_found=False)
         # The mail is sent with datetime corresponding to the sending user TZ
         composition_mode = self.env.context.get('composition_mode', 'comment')
@@ -596,7 +598,7 @@ class HelpdeskTicket(models.Model):
                             "x_sinergis_calendar_event_contact" : contact_id.id,
                             "x_sinergis_calendar_event_is_sent" : self.x_sinergis_helpdesk_ticket_is_sent,
                             "x_sinergis_calendar_event_sent_date" : self.x_sinergis_helpdesk_ticket_sent_date,
-                            "x_sinergis_calendar_event_sent_mail" : self.x_sinergis_helpdesk_ticket_sent_mail,
+                            "x_sinergis_calendar_event_sent_mail" : self.x_sinergis_helpdesk_ticket_sent_mail.id,
                             "x_sinergis_calendar_event_helpdesk_ticket_id" : self.id,
                             'need_sync_m': True
                         }
