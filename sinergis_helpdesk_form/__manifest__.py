@@ -22,6 +22,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/settings.xml',
+        'views/res_config.xml',
         'static/src/web/form_page.xml',
     ],
     'assets': {
