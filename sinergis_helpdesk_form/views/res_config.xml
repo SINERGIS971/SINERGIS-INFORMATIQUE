@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="sinergis_helpdesk_form_res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">sinergis_helpdesk_form.res.config.settings.view.form.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Formulaire Sinergis" string="Formulaire Sinergis" data-key="sinergis_helpdesk_form">
+                        <h2>Paramètres - Formulaire d'assistance</h2>
+                        <div class="row mt16 o_settings_container" id="sinergis_helpdesk_form_settings_container">
+                            <div class="col-12 col-lg-12 o_setting_box" id="sinergis_helpdesk_form_files_block">
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        Fichiers
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="ACTIVER LE FORMULAIRE EN LIGNE" for="enable"/>
+                                            <field name="enable" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="NOMBRE MAX. DE FICHIERS POUR UN TICKET" for="max_files"/>
+                                            <field name="max_files" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="TAILLE MAXIMALE POUR UN FICHIER (OCTETS)" for="max_size"/>
+                                            <field name="max_size" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- MENU ITEMS -->
+        <menuitem id="sinergis_x3_root"
+              name="Connecteur Odoo X3"
+              sequence="10"/>
+</odoo>
