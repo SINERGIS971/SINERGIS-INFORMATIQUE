@@ -28,6 +28,7 @@ class HelpdeskFormController(http.Controller):
             response_dict = json.loads(response)
             if response_dict['success'] != True:
                 error = "Le recaptcha n'est pas validé."
+                return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
             firstname = kw.get("firstname")
             lastname = kw.get("lastname")
             company = html.escape(kw.get("company"))
@@ -46,7 +47,7 @@ class HelpdeskFormController(http.Controller):
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             partner_id = http.request.env['res.partner'].sudo().search([('x_sinergis_societe_helpdesk_code', '=', code)], limit=1)
             if len(partner_id) == 0:
-                error = "Le code client Sinergis est incorrect."
+                error = "Votre code d'accès à l'assistance est incorrect."
             product_id = http.request.env['sale.products'].sudo().search([('id','=',product_select)],limit=1)
             if not product_id:
                 error = "Le produit que vous venez de sélectionner n'existe pas dans notre base de données."
@@ -54,6 +55,24 @@ class HelpdeskFormController(http.Controller):
                 subproduct_id = http.request.env['sale.products.subproducts'].sudo().search([('id','=',subproduct_select)],limit=1)
                 if not subproduct_id:
                     error = "Le sous-produit que vous venez de sélectionner n'existe pas dans notre base de données."
+            #Vérification des longueurs
+            if not (2 <= len(firstname) <= 50):
+                error = "La longueur du prénom est incorrecte."
+            if not (2 <= len(lastname) <= 50):
+                error = "La longueur du nom est incorrecte."
+            if not (2 <= len(company) <= 20):
+                error = "La longueur de la société est incorrecte."
+            if not (2 <= len(code) <= 16):
+                error = "La longueur du code d'assistance Sinergis est incorrecte."
+            if not (5 <= len(email) <= 128):
+                error = "La longueur de l'email est incorrecte."
+            if not (9 <= len(phone) <= 16):
+                error = "La longueur du téléphone est incorrecte."
+            if not (2 <= len(subject) <= 128):
+                error = "La longueur du sujet est incorrecte."
+            if not (2 <= len(problem) <= 2000):
+                error = "La longueur du problème est incorrecte."
+            
             if not error :
                 success = True
                 description = f"""
@@ -62,7 +81,7 @@ class HelpdeskFormController(http.Controller):
                     <strong>Société :</strong> {company}<br/>
                     <strong>Email :</strong> {email}<br/>
                     <strong>Téléphone :</strong> {phone}<br/>
-                    <strong>Sujet :</strong> {subject}<br/>
+                    <strong>Sujet :</strong> {subject}<br/><br/>
                     <strong>Description :</strong><br/>
                     {problem}
                     </body>

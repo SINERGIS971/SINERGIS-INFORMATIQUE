@@ -61,7 +61,9 @@
                     }
 
                     .form__linput {
-                    display: grid;
+                    display: flex;
+                    flex-direction: column;
+                    /*display: grid;*/
                     margin-bottom: var(--size-3);
                     }
 
@@ -145,6 +147,42 @@
                         gap: var(--size-3); /* espace entre les champs */
                     }
 
+                    .form_star-rating {
+                        display: flex;
+                        flex-direction: row-reverse;
+                        justify-content: center;
+                        gap: 5px;
+                      }
+                      
+                      .form_star-rating input[type="radio"] {
+                        display: none;
+                      }
+                      
+                      .star {
+                        font-size: 2rem;
+                        color: lightgray;
+                        cursor: pointer;
+                        transition: color 0.3s, transform 0.2s;
+                      }
+                      
+                      .form_star-rating input[type="radio"]:checked ~ .star {
+                        color: gold;
+                      }
+                      
+                      .star:hover,
+                      .star:hover ~ .star {
+                        color: #B8860B;
+                        transform: scale(1.1);
+                      }
+
+                    .char-count {
+                        align-self: flex-end;
+                        font-size: 12px;
+                        color: #666; /* Couleur du texte */
+                    }
+
+                    
+
                     @media only screen and (max-width: 768px) {
                     .main__form {
                     max-width: 100%;
@@ -157,13 +195,47 @@
                 <script src="https://www.google.com/recaptcha/api.js"></script>
                 <script>
                     function validateForm() {
-                    var response = grecaptcha.getResponse();
-                    if (response.length === 0) {
-                    alert("Veuillez compléter le reCAPTCHA.");
-                    return false;
+                        var response = grecaptcha.getResponse();
+                        if (response.length === 0) {
+                        alert("Veuillez compléter le reCAPTCHA.");
+                        return false;
+                        }
+                        return true;
                     }
-                    return true;
-                    }
+
+                    function validateForm(event) {
+                        // Empêche l'envoi du formulaire si la validation échoue
+                        event.preventDefault();
+                        
+                        const name = document.getElementById('name').value.trim();
+                        const email = document.getElementById('email').value.trim();
+                        const recaptchaResponse = grecaptcha.getResponse();
+                        
+                        // Vérification du reCAPTCHA
+                        if (recaptchaResponse === '') {
+                            alert('Veuillez compléter le CAPTCHA.');
+                            return false;
+                        }
+
+                        // Exemple de validation simple
+                        if (name === '') {
+                          alert('Le champ nom est obligatoire.');
+                          return false;
+                        }
+                        
+                        if (email === '' || !validateEmail(email)) {
+                          alert('Veuillez entrer une adresse email valide.');
+                          return false;
+                        }
+                        
+                        // Si tout est valide, soumettre le formulaire
+                        event.target.submit();
+                      }
+                      
+                      function validateEmail(email) {
+                        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        return re.test(email);
+                      }
 
                     document.addEventListener('DOMContentLoaded', () => {
                     const selectProduct = document.getElementById('product-select');
@@ -199,6 +271,14 @@
                     console.error('Erreur lors de la requête:', error);
                     });
                     });
+                    });
+
+                    const textarea = document.getElementById('problem');
+                    const charCountDisplay = document.getElementById('charCount');
+
+                    problemTextarea.addEventListener('input', function() {
+                        const currentLength = textarea.value.length;
+                        charCountDisplay.textContent = `${currentLength} / 2000`;
                     });
 
                     function handleFiles() {
@@ -238,6 +318,8 @@
                     <p t-if="error"
                         style="background-color: #E94D4D; color: #fff; text-align: center; padding: 10px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 12px;">
                         Erreur<br /><t t-esc="error" /></p>
+                    
+                    <img src='data:image/jpeg;base64,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' style='width: 100px; height: auto;'/>
                     <form class="form main__form" id="help_form" method="POST"
                         enctype="multipart/form-data" onsubmit="return validateForm();">
                         <h1>Formulaire d'assistance Sinergis</h1>
@@ -247,39 +329,52 @@
                                 <label class="form__label" for="lastname">Nom<span
                                         class="required-ast">*</span></label>
                                 <input class="form__input" type="text" id="lastname" name="lastname"
-                                    placeholder="Nom" required="True" maxlength="50" />
+                                    placeholder="Nom.." required="True" minlength="2" maxlength="50"/>
                             </div>
                             <div>
                                 <label class="form__label" for="firstname">Prénom<span
                                         class="required-ast">*</span></label>
                                 <input class="form__input" type="text" id="firstname"
-                                    name="firstname" placeholder="Prénom" required="True"
-                                    maxlength="50" />
+                                    name="firstname" placeholder="Prénom.." required="True"
+                                    minlength="2" maxlength="50" />
                             </div>
                         </div>
                         <div class="form__linput">
                             <label class="form__label" for="company">Société <span
                                     class="required-ast">*</span></label>
                             <input class="form__input" type="text" id="company" name="company"
-                                placeholder="Société.." required="True" maxlength="50" />
+                                placeholder="Société.." required="True" minlength="2" maxlength="50" />
                         </div>
                         <div class="form__linput">
-                            <label class="form__label" for="code">Code d'assistance Sinergis <span
+                            <label class="form__label" for="code">Code d'accès à l'assistance Sinergis <span
                                     class="required-ast">*</span></label>
                             <input class="form__input" type="text" id="code" name="code"
-                                placeholder="Code client.." required="True" maxlength="16" />
+                                placeholder="Code d'accès à l'assistance.." required="True" minlength="2" maxlength="16" />
                         </div>
                         <div class="form__linput">
                             <label class="form__label" for="email">E-mail <span class="required-ast">
                                 *</span></label>
                             <input class="form__input" type="email" id="email" name="email"
-                                placeholder="Adresse e-mail.." required="True" maxlength="50" />
+                                placeholder="Adresse e-mail.." required="True" minlength="5" maxlength="128" />
                         </div>
                         <div class="form__linput">
                             <label class="form__label" for="phone">Téléphone <span
                                     class="required-ast">*</span></label>
                             <input class="form__input" type="text" id="phone" name="phone"
-                                placeholder="Téléphone.." required="True" maxlength="16" />
+                                placeholder="Téléphone.." required="True" minlength="9" maxlength="16" />
+                        </div>
+                        <div class="form__importance">
+                        <label for="importance" class="importance-label">Importance</label>
+                            <div class="star-rating">
+                                <input type="radio" name="importance" id="star-3" value="3" required="True"/>
+                                <label for="star-3" class="star">&#9733;</label>
+                                
+                                <input type="radio" name="importance" id="star-2" value="2" required="True"/>
+                                <label for="star-2" class="star">&#9733;</label>
+                                
+                                <input type="radio" name="importance" id="star-1" value="1" required="True"/>
+                                <label for="star-1" class="star">&#9733;</label>
+                            </div>
                         </div>
                         <div class="form__linput">
                             <label class="form__label" for="product-select">Produit <span
@@ -305,7 +400,7 @@
                             <label class="form__label" for="subject">Sujet <span
                                     class="required-ast">*</span></label>
                             <input class="form__input" type="text" id="subject" name="subject"
-                                placeholder="Sujet.." required="True" maxlength="150" />
+                                placeholder="Sujet.." required="True" minlength="2" maxlength="128" />
                         </div>
                         <div class="form__linput">
                             <label class="form__label" for="problem">Description du problème <span
@@ -313,6 +408,7 @@
                             <textarea class="form__textarea" id="problem" name="problem"
                                 placeholder="Décrire votre problème.." rows="7" required="True"
                                 maxlength="2000"></textarea>
+                            <div id="charCount" class="char-count">0 / 2000</div>
                         </div>
                         <div class="form__linput">
                             <label class="form__label" for="problem">Documents</label>
