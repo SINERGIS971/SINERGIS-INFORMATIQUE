@@ -64,13 +64,11 @@ class HelpdeskFormController(http.Controller):
                 error = "Vous devez indiquer si le ticket est bloquant ou non"
             if len(files) > max_files:
                 error = "Vous avez atteint la limite de fichiers à envoyer."
-            if len(files) > 0:
-                for file in files :
-                    name = file.filename
-                    attached_file = file.read()
-                    if not (sys.getsizeof(attached_file) < max_file_size and any(file.filename.endswith(ext) for ext in extensions)):
-                        error = file.filename
-                        #error = "Un de vos fichiers est trop volumineux ou son extension n'est pas correcte."
+            for file in files :
+                name = file.filename
+                attached_file = file.read()
+                if not (sys.getsizeof(attached_file) < max_file_size and file.filename and any(file.filename.endswith(ext) for ext in extensions)):
+                    error = "Un de vos fichiers est trop volumineux ou son extension n'est pas correcte."
             #Vérification des longueurs
             if not (2 <= len(firstname) <= 50):
                 error = "La longueur du prénom est incorrecte."
@@ -88,7 +86,6 @@ class HelpdeskFormController(http.Controller):
                 error = "La longueur du sujet est incorrecte."
             if not (2 <= len(problem) <= 2000):
                 error = "La longueur du problème est incorrecte."
-            
             if not error :
                 success = True
                 importance_text = f"{importance*'&#9733;'} - {'Bloquant' if is_blocking else 'Non bloquant'}"
@@ -142,15 +139,16 @@ class HelpdeskFormController(http.Controller):
                     name = file.filename
                     attached_file = file.read()
                     # Vérification de la taille et de l'extension faite avant
-                    attachement_id = http.request.env['ir.attachment'].sudo().create({
-                            'name': name,
-                            'res_model': 'helpdesk.ticket',
-                            'res_id': ticket.id,
-                            'type': 'binary',
-                            'store_fname': file.filename,
-                            'datas': base64.b64encode(attached_file),
-                    })
-                    attachement_ids.append(attachement_id.id)
+                    if sys.getsizeof(attached_file) < max_files and any(file.filename.endswith(ext) for ext in extensions):
+                        attachement_id = http.request.env['ir.attachment'].sudo().create({
+                                'name': name,
+                                'res_model': 'helpdesk.ticket',
+                                'res_id': ticket.id,
+                                'type': 'binary',
+                                'store_fname': file.filename,
+                                'datas': base64.b64encode(attached_file),
+                        })
+                        attachement_ids.append(attachement_id.id)
                 if len(attachement_ids) > 0:
                     ticket.sudo().message_post(
                         body="Le client à joint à sa demande un ou plusieurs fichiers.",
