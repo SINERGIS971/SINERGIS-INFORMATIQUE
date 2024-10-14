@@ -246,9 +246,10 @@
                       }
 
                     document.addEventListener('DOMContentLoaded', () => {
-                    selectProduct.addEventListener('change', () => {
                     const selectProduct = document.getElementById('product-select');
-                    const selectedProduct = selectProduct.value;
+                    var selectedProduct = 0;
+                    selectProduct.addEventListener('change', () => {
+                    selectedProduct = selectProduct.value;
                     fetch('https://sinergis.odoo.com/sinergis/get_subproduct?product_id='+selectedProduct.toString())
                     .then(response => response.json())
                     .then(data => {
