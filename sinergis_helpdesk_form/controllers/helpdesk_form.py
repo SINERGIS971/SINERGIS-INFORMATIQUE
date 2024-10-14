@@ -13,8 +13,8 @@ class HelpdeskFormController(http.Controller):
     def index(self, **kw):
         csrf = http.request.csrf_token()
         products = http.request.env['sale.products'].sudo().search([], limit=500)
-        max_files = self.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_files')
-        max_file_size = self.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_file_size')
+        max_files = int(http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_files'))
+        max_file_size = int(http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_file_size'))
         error = False
         success = False
         extension_ids = http.request.env["sinergis_helpdesk_form.extension"].sudo().search([], limit=100)
@@ -64,9 +64,13 @@ class HelpdeskFormController(http.Controller):
                 error = "Vous devez indiquer si le ticket est bloquant ou non"
             if len(files) > max_files:
                 error = "Vous avez atteint la limite de fichiers à envoyer."
-            for file in files :
-                if not (sys.getsizeof(attached_file) < max_file_size and any(file.filename.endswith(ext) for ext in extensions)):
-                    error = "Un de vos fichiers est trop volumineux ou son extension n'est pas correcte."
+            if len(files) > 0:
+                for file in files :
+                    name = file.filename
+                    attached_file = file.read()
+                    if not (sys.getsizeof(attached_file) < max_file_size and any(file.filename.endswith(ext) for ext in extensions)):
+                        error = file.filename
+                        #error = "Un de vos fichiers est trop volumineux ou son extension n'est pas correcte."
             #Vérification des longueurs
             if not (2 <= len(firstname) <= 50):
                 error = "La longueur du prénom est incorrecte."

@@ -24,8 +24,8 @@
                                             <field name="max_files" class="oe_inline" style="width: 70% !important;"/>
                                         </div>
                                         <div class="row mt16">
-                                            <label class="col-lg-3 o_light_label" string="TAILLE MAXIMALE POUR UN FICHIER (OCTETS)" for="max_size"/>
-                                            <field name="max_size" class="oe_inline" style="width: 70% !important;"/>
+                                            <label class="col-lg-3 o_light_label" string="TAILLE MAXIMALE POUR UN FICHIER (OCTETS)" for="max_file_size"/>
+                                            <field name="max_file_size" class="oe_inline" style="width: 70% !important;"/>
                                         </div>
                                     </div>
                                 </div>

@@ -200,7 +200,7 @@
                 <script src="https://www.google.com/recaptcha/api.js"></script>
                 <script>
                     function validateForm() {
-                        return true
+                        return true;
                         var response = grecaptcha.getResponse();
                         if (response.length === 0) {
                         alert("Veuillez compléter le reCAPTCHA.");
@@ -386,7 +386,7 @@
                             </div>
                             <div>
                                 <label for="is_blocking" class="form__is_blocking">Est bloquant</label>
-                                <select class="form__select form__select-grid" id="product-select" name="products"
+                                <select class="form__select form__select-grid" id="product-select" name="is_blocking"
                                 required="True">
                                 <option value="0" selected="selected">Non</option>
                                 <option value="1">Oui</option>
