@@ -202,7 +202,6 @@
 
                     function validateForm(event) {
                         // Empêche l'envoi du formulaire si la validation échoue
-                        event.preventDefault();
                         
                         const name = document.getElementById('name').value.trim();
                         const email = document.getElementById('email').value.trim();
