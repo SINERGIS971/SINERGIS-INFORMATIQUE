@@ -161,8 +161,8 @@ class HelpdeskFormController(http.Controller):
                                     'error': error,
                                     'success': success,
                                     'extensions': extensions,
-                                    'max_files': max_files,
-                                    'max_file_size': max_file_size}
+                                    'max_files': str(max_files),
+                                    'max_file_size': str(max_file_size)}
                                    )
 
         
