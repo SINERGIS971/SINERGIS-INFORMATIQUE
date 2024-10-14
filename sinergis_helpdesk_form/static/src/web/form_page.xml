@@ -318,6 +318,7 @@
                     else {
                         fileCountDisplay.innerHTML = fileListLength + " fichiers chargés";
                     }
+                }
                 </script>
             </head>
             <body class="page">
