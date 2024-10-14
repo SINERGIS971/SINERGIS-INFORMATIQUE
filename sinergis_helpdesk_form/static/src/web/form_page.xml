@@ -147,14 +147,19 @@
                         gap: var(--size-3); /* espace entre les champs */
                     }
 
-                    .form_star-rating {
-                        display: flex;
-                        flex-direction: row-reverse;
-                        justify-content: center;
-                        gap: 5px;
-                      }
-                      
-                      .form_star-rating input[type="radio"] {
+                    .form__select-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: var(--size-3); /* espace entre les champs */
+                    }
+
+                    .star-rating {
+                     display: flex;
+                     flex-direction: row-reverse;
+                     justify-content: start;
+                    }
+
+                      .star-rating input[type="radio"] {
                         display: none;
                       }
                       
@@ -165,7 +170,7 @@
                         transition: color 0.3s, transform 0.2s;
                       }
                       
-                      .form_star-rating input[type="radio"]:checked ~ .star {
+                      .star-rating input[type="radio"]:checked ~ .star {
                         color: gold;
                       }
                       
@@ -178,7 +183,7 @@
                     .char-count {
                         align-self: flex-end;
                         font-size: 12px;
-                        color: #666; /* Couleur du texte */
+                        color: #666;
                     }
 
                     
@@ -266,19 +271,21 @@
                     optionElement.text = subproduct.name;
                     selectSubproducts.appendChild(optionElement)
                     });
+
                     })
                     .catch(error => {
                     console.error('Erreur lors de la requête:', error);
                     });
                     });
-                    });
 
-                    const textarea = document.getElementById('problem');
+                    const problemTextarea = document.getElementById('problem');
                     const charCountDisplay = document.getElementById('charCount');
 
                     problemTextarea.addEventListener('input', function() {
-                        const currentLength = textarea.value.length;
-                        charCountDisplay.textContent = `${currentLength} / 2000`;
+                        const currentLength = problemTextarea.value.length;
+                        charCountDisplay.innerHTML = `${currentLength} / 2000`;
+                    });
+
                     });
 
                     function handleFiles() {
@@ -296,8 +303,7 @@
                     for (var i = 0; i &lt; fileInput.files.length; i++) {
                     var fileSize = fileInput.files[i].size;
                     if (fileSize > maxFileSizeInBytes) {
-                    alert('La taille du fichier dépasse la limite autorisée. Veuillez sélectionner
-                    un fichier plus petit.');
+                    alert('La taille du fichier dépasse la limite autorisée. Veuillez sélectionner un fichier plus petit.');
                     fileInput.value = '';
                     return;
                     }
@@ -364,16 +370,26 @@
                                 placeholder="Téléphone.." required="True" minlength="9" maxlength="16" />
                         </div>
                         <div class="form__importance">
-                        <label for="importance" class="importance-label">Importance</label>
-                            <div class="star-rating">
-                                <input type="radio" name="importance" id="star-3" value="3" required="True"/>
-                                <label for="star-3" class="star">&#9733;</label>
-                                
-                                <input type="radio" name="importance" id="star-2" value="2" required="True"/>
-                                <label for="star-2" class="star">&#9733;</label>
-                                
-                                <input type="radio" name="importance" id="star-1" value="1" required="True"/>
-                                <label for="star-1" class="star">&#9733;</label>
+                            <div>
+                            <label for="importance" class="importance-label">Importance</label>
+                                <div class="star-rating">
+                                    <input type="radio" name="importance" id="star-3" value="3" required="True"/>
+                                    <label for="star-3" class="star">&#9733;</label>
+                                    
+                                    <input type="radio" name="importance" id="star-2" value="2" required="True"/>
+                                    <label for="star-2" class="star">&#9733;</label>
+                                    
+                                    <input type="radio" name="importance" id="star-1" value="1" required="True"/>
+                                    <label for="star-1" class="star">&#9733;</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="is_blocking" class="form__is_blocking">Est bloquant</label>
+                                <select class="form__select form__select-grid" id="product-select" name="products"
+                                required="True">
+                                <option value="0" selected="selected">Non</option>
+                                <option value="1">Oui</option>
+                            </select>
                             </div>
                         </div>
                         <div class="form__linput">
