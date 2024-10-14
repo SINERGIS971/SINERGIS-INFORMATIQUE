@@ -199,14 +199,6 @@
                 </style>
                 <script src="https://www.google.com/recaptcha/api.js"></script>
                 <script>
-                    function validateForm() {
-                        var response = grecaptcha.getResponse();
-                        if (response.length === 0) {
-                        alert("Veuillez compléter le reCAPTCHA.");
-                        return false;
-                        }
-                        return true;
-                    }
 
                     function validateForm(event) {
                         // Empêche l'envoi du formulaire si la validation échoue
@@ -232,6 +224,13 @@
                           alert('Veuillez entrer une adresse email valide.');
                           return false;
                         }
+
+                        var response = grecaptcha.getResponse();
+                        if (response.length === 0) {
+                        alert("Veuillez compléter le reCAPTCHA.");
+                        return false;
+                        }
+                        return true;
                         
                         // Si tout est valide, soumettre le formulaire
                         event.target.submit();
