@@ -11,5 +11,5 @@ class ResConfigSettings(models.TransientModel):
                             config_parameter='sinergis_helpdesk_form.enable')
     max_files = fields.Integer(string="Nombre max. de fichiers pour un ticket",
                             config_parameter='sinergis_helpdesk_form.max_files')
-    max_size = fields.Integer(string="Taille maximale par fichier (octet)",
-                            config_parameter='sinergis_helpdesk_form.max_size')
+    max_file_size = fields.Integer(string="Taille maximale par fichier (octet)",
+                            config_parameter='sinergis_helpdesk_form.max_file_size')

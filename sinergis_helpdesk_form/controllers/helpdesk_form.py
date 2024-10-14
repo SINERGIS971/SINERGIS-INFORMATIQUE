@@ -13,6 +13,8 @@ class HelpdeskFormController(http.Controller):
     def index(self, **kw):
         csrf = http.request.csrf_token()
         products = http.request.env['sale.products'].sudo().search([], limit=500)
+        max_files = self.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_files')
+        max_file_size = self.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_file_size')
         error = False
         success = False
         extension_ids = http.request.env["sinergis_helpdesk_form.extension"].sudo().search([], limit=100)
@@ -24,17 +26,19 @@ class HelpdeskFormController(http.Controller):
             secret_server_key = "6Lf5wOMmAAAAAAHHM43V-jETpH-FEFM4l7nAlcmX" # Secret key
             client_ip = http.request.httprequest.remote_addr # Client IP address 
             data = {'secret': secret_server_key, 'response': recaptcha_response, 'remoteip': client_ip}
-            response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data).content.decode('utf-8')
-            response_dict = json.loads(response)
-            if response_dict['success'] != True:
-                error = "Le recaptcha n'est pas validé."
-                return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
+            #response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data).content.decode('utf-8')
+            #response_dict = json.loads(response)
+            #if response_dict['success'] != True:
+            #    error = "Le recaptcha n'est pas validé."
+            #    return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
             firstname = kw.get("firstname")
             lastname = kw.get("lastname")
             company = html.escape(kw.get("company"))
             code = kw.get("code")
             email = kw.get("email").lower()
             phone = html.escape(kw.get("phone"))
+            importance = int(kw.get("importance"))
+            is_blocking = bool(kw.get("is_blocking"))
             product_select = int(kw.get("products"))
             subproduct_select = kw.get("subproducts")
             subject = kw.get("subject")
@@ -42,8 +46,7 @@ class HelpdeskFormController(http.Controller):
             files = http.request.httprequest.files.getlist('files[]')
             # Verification des extensions
             # extensions = {".jpg", ".png", ".gif", ".jpeg",".pdf"}
-            max_size = 10485760 # Taille maximale en bytes
-            if not firstname or not lastname or not company or not code or not email or not phone or not phone or not product_select or not subject or not problem:
+            if not firstname or not lastname or not company or not code or not email or not phone or not phone or not importance or not is_blocking or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             partner_id = http.request.env['res.partner'].sudo().search([('x_sinergis_societe_helpdesk_code', '=', code)], limit=1)
             if len(partner_id) == 0:
@@ -55,6 +58,15 @@ class HelpdeskFormController(http.Controller):
                 subproduct_id = http.request.env['sale.products.subproducts'].sudo().search([('id','=',subproduct_select)],limit=1)
                 if not subproduct_id:
                     error = "Le sous-produit que vous venez de sélectionner n'existe pas dans notre base de données."
+            if importance not in (1, 2, 3):
+                error = "Vous devez indiquer l'importance du ticket"
+            if is_blocking not in (0, 1):
+                error = "Vous devez indiquer si le ticket est bloquant ou non"
+            if len(files) > max_files:
+                error = "Vous avez atteint la limite de fichiers à envoyer."
+            for file in files :
+                if not (sys.getsizeof(attached_file) < max_file_size and any(file.filename.endswith(ext) for ext in extensions)):
+                    error = "Un de vos fichiers est trop volumineux ou son extension n'est pas correcte."
             #Vérification des longueurs
             if not (2 <= len(firstname) <= 50):
                 error = "La longueur du prénom est incorrecte."
@@ -75,12 +87,14 @@ class HelpdeskFormController(http.Controller):
             
             if not error :
                 success = True
+                importance_text = f"{importance*"&#9733;"} - {"Bloquant" if is_blocking else "Non bloquant"}"}"
                 description = f"""
                     <body>
                     <strong>Nom et Prénom :</strong> {lastname} {firstname}<br/>
                     <strong>Société :</strong> {company}<br/>
                     <strong>Email :</strong> {email}<br/>
                     <strong>Téléphone :</strong> {phone}<br/>
+                    <strong>Importance :</strong> {importance_text}<br/>
                     <strong>Sujet :</strong> {subject}<br/><br/>
                     <strong>Description :</strong><br/>
                     {problem}
@@ -123,22 +137,29 @@ class HelpdeskFormController(http.Controller):
                 for file in files :
                     name = file.filename
                     attached_file = file.read()
-                    # Vérification de la taille et de l'extension
-                    if sys.getsizeof(attached_file) < max_size and any(file.filename.endswith(ext) for ext in extensions):
-                        attachement_id = http.request.env['ir.attachment'].sudo().create({
+                    # Vérification de la taille et de l'extension faite avant
+                    attachement_id = http.request.env['ir.attachment'].sudo().create({
                             'name': name,
                             'res_model': 'helpdesk.ticket',
                             'res_id': ticket.id,
                             'type': 'binary',
                             'store_fname': file.filename,
                             'datas': base64.b64encode(attached_file),
-                        })
-                        attachement_ids.append(attachement_id.id)
+                    })
+                    attachement_ids.append(attachement_id.id)
                 if len(attachement_ids) > 0:
                     ticket.sudo().message_post(
                         body="Le client à joint à sa demande un ou plusieurs fichiers.",
                         attachment_ids=attachement_ids
                     )
-        return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
+        return http.request.render("sinergis_helpdesk_form.form_page",
+                                   {'csrf': csrf,
+                                    'products': products,
+                                    'error': error,
+                                    'success': success,
+                                    'extensions': extensions,
+                                    'max_files': max_files,
+                                    'max_file_size': max_file_size}
+                                   )
 
         

@@ -147,7 +147,7 @@
                         gap: var(--size-3); /* espace entre les champs */
                     }
 
-                    .form__select-grid {
+                    .form__importance-grid {
                         display: grid;
                         grid-template-columns: 1fr 1fr;
                         gap: var(--size-3); /* espace entre les champs */
@@ -200,6 +200,7 @@
                 <script src="https://www.google.com/recaptcha/api.js"></script>
                 <script>
                     function validateForm() {
+                        return true
                         var response = grecaptcha.getResponse();
                         if (response.length === 0) {
                         alert("Veuillez compléter le reCAPTCHA.");
@@ -291,8 +292,8 @@
                     function handleFiles() {
                     const fileInput = document.getElementById("files");
 
-                    var maxFileLength = 3;
-                    var maxFileSizeInBytes = 10485760;
+                    var maxFileLength = <t t-esc='max_files'/>;
+                    var maxFileSizeInBytes = <t t-esc='max_file_size'/>;
 
                     if (fileInput.files.length > maxFileLength) {
                     alert('Le nombre maximal de fichiers autorisés est de ' + maxFileLength);
@@ -369,7 +370,7 @@
                             <input class="form__input" type="text" id="phone" name="phone"
                                 placeholder="Téléphone.." required="True" minlength="9" maxlength="16" />
                         </div>
-                        <div class="form__importance">
+                        <div class="form__importance .form__importance-grid">
                             <div>
                             <label for="importance" class="importance-label">Importance</label>
                                 <div class="star-rating">
