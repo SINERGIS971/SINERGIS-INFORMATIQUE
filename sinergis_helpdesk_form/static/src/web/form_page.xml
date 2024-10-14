@@ -247,9 +247,8 @@
 
                     document.addEventListener('DOMContentLoaded', () => {
                     const selectProduct = document.getElementById('product-select');
-                    var selectedProduct = 0;
                     selectProduct.addEventListener('change', () => {
-                    selectedProduct = selectProduct.value;
+                    const selectedProduct = selectProduct.value;
                     fetch('https://sinergis.odoo.com/sinergis/get_subproduct?product_id='+selectedProduct.toString())
                     .then(response => response.json())
                     .then(data => {
@@ -398,7 +397,7 @@
                             <div>
                                 <label for="is_blocking" class="form__is_blocking">Est bloquant <span
                                     class="required-ast">*</span></label>
-                                <select class="form__select form__select-grid" id="product-select" name="is_blocking"
+                                <select class="form__select form__select-grid" id="is_blocking-select" name="is_blocking"
                                 required="True">
                                 <option value="0" selected="selected">Non</option>
                                 <option value="1">Oui</option>
