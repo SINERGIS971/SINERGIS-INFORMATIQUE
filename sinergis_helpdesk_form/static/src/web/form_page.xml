@@ -203,7 +203,8 @@
                     function validateForm(event) {
                         // Empêche l'envoi du formulaire si la validation échoue
                         
-                        const name = document.getElementById('name').value.trim();
+                        const firstname = document.getElementById('firstname').value.trim();
+                        const lastname = document.getElementById('lastname').value.trim();
                         const email = document.getElementById('email').value.trim();
                         const recaptchaResponse = grecaptcha.getResponse();
                         
@@ -214,10 +215,14 @@
                         }
 
                         // Exemple de validation simple
-                        if (name === '') {
+                        if (firstname === '') {
                           alert('Le champ nom est obligatoire.');
                           return false;
                         }
+                        if (lastname === '') {
+                            alert('Le champ nom est obligatoire.');
+                            return false;
+                          }
                         
                         if (email === '' || !validateEmail(email)) {
                           alert('Veuillez entrer une adresse email valide.');
