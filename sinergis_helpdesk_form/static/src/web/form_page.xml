@@ -290,8 +290,8 @@
                     function handleFiles() {
                     const fileInput = document.getElementById("files");
 
-                    var maxFileLength = <t t-esc='max_files'/>;
-                    var maxFileSizeInBytes = <t t-esc='max_file_size'/>;
+                    var maxFileLength = <t t-esc='str(max_files)'/>;
+                    var maxFileSizeInBytes = <t t-esc='str(max_file_size)'/>;
 
                     if (fileInput.files.length > maxFileLength) {
                     alert('Le nombre maximal de fichiers autorisés est de ' + maxFileLength);
