@@ -107,7 +107,7 @@ class HelpdeskFormController(http.Controller):
                     'user_id': False,
                     'partner_id': partner_id.id,
                     'team_id': http.request.env['helpdesk.ticket'].sudo()._default_team_id(),
-                    'priority': importance,
+                    'priority': str(importance),
                     'x_sinergis_helpdesk_ticket_produits_new': product_select,
                     'x_sinergis_helpdesk_ticket_sous_produits_new': subproduct_select,
                 }
