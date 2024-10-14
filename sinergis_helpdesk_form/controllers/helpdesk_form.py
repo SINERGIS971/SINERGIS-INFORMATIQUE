@@ -87,7 +87,7 @@ class HelpdeskFormController(http.Controller):
             
             if not error :
                 success = True
-                importance_text = f"{importance*"&#9733;"} - {"Bloquant" if is_blocking else "Non bloquant"}"}"
+                importance_text = f"{importance*'&#9733;'} - {'Bloquant' if is_blocking else 'Non bloquant'}"
                 description = f"""
                     <body>
                     <strong>Nom et Prénom :</strong> {lastname} {firstname}<br/>
