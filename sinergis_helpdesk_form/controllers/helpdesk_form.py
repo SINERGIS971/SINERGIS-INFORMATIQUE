@@ -67,7 +67,7 @@ class HelpdeskFormController(http.Controller):
             for file in files :
                 name = file.filename
                 attached_file = file.read()
-                if not (sys.getsizeof(attached_file) < max_file_size and file.filename and any(file.filename.endswith(ext) for ext in extensions)):
+                if not (sys.getsizeof(attached_file) < max_file_size and any(file.filename.endswith(ext) for ext in extensions)) and file.filename:
                     error = "Un de vos fichiers est trop volumineux ou son extension n'est pas correcte."
             #Vérification des longueurs
             if not (2 <= len(firstname) <= 50):
