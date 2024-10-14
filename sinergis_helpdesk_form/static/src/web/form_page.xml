@@ -200,7 +200,6 @@
                 <script src="https://www.google.com/recaptcha/api.js"></script>
                 <script>
                     function validateForm() {
-                        return true;
                         var response = grecaptcha.getResponse();
                         if (response.length === 0) {
                         alert("Veuillez compléter le reCAPTCHA.");
@@ -311,8 +310,14 @@
                     }
 
                     const fileList = fileInput.files;
+                    const fileListLength = fileList.length;
                     const fileCountDisplay = document.getElementById("fileCount");
-                    fileCountDisplay.innerHTML = fileList.length + " fichier(s) chargé(s)";
+                    
+                    if (fileListLength <= 1) {
+                        fileCountDisplay.innerHTML = fileListLength + " fichier chargé";
+                    }
+                    else {
+                        fileCountDisplay.innerHTML = fileListLength + " fichiers chargés";
                     }
                 </script>
             </head>
@@ -372,7 +377,8 @@
                         </div>
                         <div class="form__importance form__importance-grid">
                             <div>
-                            <label for="importance" class="importance-label">Importance</label>
+                            <label for="importance" class="importance-label">Importance <span
+                                class="required-ast">*</span></label>
                                 <div class="star-rating">
                                     <input type="radio" name="importance" id="star-3" value="3" required="True"/>
                                     <label for="star-3" class="star">&#9733;</label>
@@ -385,7 +391,8 @@
                                 </div>
                             </div>
                             <div>
-                                <label for="is_blocking" class="form__is_blocking">Est bloquant</label>
+                                <label for="is_blocking" class="form__is_blocking">Est bloquant <span
+                                    class="required-ast">*</span></label>
                                 <select class="form__select form__select-grid" id="product-select" name="is_blocking"
                                 required="True">
                                 <option value="0" selected="selected">Non</option>
