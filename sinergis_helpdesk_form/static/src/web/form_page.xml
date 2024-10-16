@@ -384,13 +384,13 @@
                             <label for="importance" class="importance-label">Importance <span
                                 class="required-ast">*</span></label>
                                 <div class="star-rating">
-                                    <input type="radio" name="importance" id="star-3" value="3" required="True" checked="1"/>
+                                    <input type="radio" name="importance" id="star-3" value="3" required="True"/>
                                     <label for="star-3" class="star">&#9733;</label>
                                     
                                     <input type="radio" name="importance" id="star-2" value="2" required="True"/>
                                     <label for="star-2" class="star">&#9733;</label>
                                     
-                                    <input type="radio" name="importance" id="star-1" value="1" required="True"/>
+                                    <input type="radio" name="importance" id="star-1" value="1" required="True" checked="1"/>
                                     <label for="star-1" class="star">&#9733;</label>
                                 </div>
                             </div>
@@ -439,12 +439,12 @@
                             <div id="charCount" class="char-count">0 / 2000</div>
                         </div>
                         <div class="form__linput">
-                            <label class="form__label" for="problem">Documents</label>
+                            <label class="form__label" for="problem">Documents (max. <t t-esc='str(max_files)'/> fichiers)</label>
                             <div class="file-input">
                                 <input type="file" id="files" name="files[]"
                                     onchange="handleFiles()" multiple="1"
                                     t-att-accept="','.join(extensions)" />
-                                <button>Choisir des fichiers (max. <t t-esc='str(max_files)'/> fichiers)</button>
+                                <button>Choisir des fichiers</button>
                                 <span id="fileCount"></span>
                             </div>
                             <p>Autorisé : <t t-esc="','.join(extensions)" /></p>
