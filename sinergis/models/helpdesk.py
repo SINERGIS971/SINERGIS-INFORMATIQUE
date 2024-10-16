@@ -652,3 +652,4 @@ class HelpdeskTicket(models.Model):
         else :
             super(HelpdeskTicket, self).unlink()
         return
+
