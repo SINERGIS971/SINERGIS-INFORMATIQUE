@@ -150,6 +150,10 @@ class HelpdeskFormController(http.Controller):
                                 'datas': base64.b64encode(attached_file),
                         })
                         attachement_ids.append(attachement_id.id)
+                if not contact_id:
+                    ticket.sudo().message_post(
+                        body=f"Attention ! Aucun contact n'a été trouvé pour l'email '{email}' dans la société {partner_id.name}.",
+                    )
                 if len(attachement_ids) > 0:
                     ticket.sudo().message_post(
                         body="Le client à joint à sa demande un ou plusieurs fichiers.",

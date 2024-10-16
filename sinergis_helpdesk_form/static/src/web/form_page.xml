@@ -384,7 +384,7 @@
                             <label for="importance" class="importance-label">Importance <span
                                 class="required-ast">*</span></label>
                                 <div class="star-rating">
-                                    <input type="radio" name="importance" id="star-3" value="3" required="True"/>
+                                    <input type="radio" name="importance" id="star-3" value="3" required="True" checked="1"/>
                                     <label for="star-3" class="star">&#9733;</label>
                                     
                                     <input type="radio" name="importance" id="star-2" value="2" required="True"/>
@@ -444,7 +444,7 @@
                                 <input type="file" id="files" name="files[]"
                                     onchange="handleFiles()" multiple="1"
                                     t-att-accept="','.join(extensions)" />
-                                <button>Choisir des fichiers</button>
+                                <button>Choisir des fichiers (max. <t t-esc='str(max_files)'/> fichiers)</button>
                                 <span id="fileCount"></span>
                             </div>
                             <p>Autorisé : <t t-esc="','.join(extensions)" /></p>
