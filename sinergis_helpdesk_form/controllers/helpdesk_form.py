@@ -152,7 +152,7 @@ class HelpdeskFormController(http.Controller):
                         attachement_ids.append(attachement_id.id)
                 if not contact_id:
                     ticket.sudo().message_post(
-                        body=f"Attention ! Aucun contact n'a été trouvé pour l'email '{email}' dans la société {partner_id.name}.",
+                        body=f"""<p style='color:"'red'">Attention ! Aucun contact n'a été trouvé dans Odoo pour l'email '{email}' dans la société {partner_id.name}. Par conséquent, le mail de création de ticket n'a pas été envoyé cu client. Veuillez créer le contact dans Odoo</p>""",
                     )
                 if len(attachement_ids) > 0:
                     ticket.sudo().message_post(
