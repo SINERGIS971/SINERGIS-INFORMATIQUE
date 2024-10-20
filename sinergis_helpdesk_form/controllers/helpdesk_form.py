@@ -9,6 +9,19 @@ import sys
 from datetime import date
 
 class HelpdeskFormController(http.Controller):
+
+    @http.route('/help_sinergis/verify_code', auth='public', methods=['POST'])
+    def index(self, **kw):
+        code = kw.get("code")
+        if not code:
+            return {"success": False}
+        if not (2 <= len(code) <= 16):
+            return {"success": False}
+        partner_id = http.request.env['res.partner'].sudo().search([('x_sinergis_societe_helpdesk_code', '=', code)], limit=1)
+        if len(partner_id) == 0:
+            return {"success": False}
+        return {"success": True}
+
     @http.route('/help_sinergis', auth='public', methods=['GET','POST'])
     def index(self, **kw):
         csrf = http.request.csrf_token()
@@ -21,16 +34,16 @@ class HelpdeskFormController(http.Controller):
         extensions = [extension_id.extension for extension_id in extension_ids]
         if http.request.httprequest.method == 'POST':
             # Token for response
-            recaptcha_response = kw.get("g-recaptcha-response")
+            #recaptcha_response = kw.get("g-recaptcha-response")
             data = {}
             secret_server_key = "6Lf5wOMmAAAAAAHHM43V-jETpH-FEFM4l7nAlcmX" # Secret key
-            client_ip = http.request.httprequest.remote_addr # Client IP address 
-            data = {'secret': secret_server_key, 'response': recaptcha_response, 'remoteip': client_ip}
-            response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data).content.decode('utf-8')
-            response_dict = json.loads(response)
-            if response_dict['success'] != True:
-                error = "Le recaptcha n'est pas validé."
-                return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
+            #client_ip = http.request.httprequest.remote_addr # Client IP address 
+            #data = {'secret': secret_server_key, 'response': recaptcha_response, 'remoteip': client_ip}
+            #response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data).content.decode('utf-8')
+            #response_dict = json.loads(response)
+            #if response_dict['success'] != True:
+            #    error = "Le recaptcha n'est pas validé."
+            #    return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
             firstname = kw.get("firstname")
             lastname = kw.get("lastname")
             company = html.escape(kw.get("company"))
@@ -89,6 +102,7 @@ class HelpdeskFormController(http.Controller):
             if not error :
                 success = True
                 importance_text = f"{importance*'&#9733;'} - {'Bloquant' if is_blocking else 'Non bloquant'}"
+                problem = problem.replace("\n","<br/>")
                 description = f"""
                     <body>
                     <strong>Nom et Prénom :</strong> {lastname} {firstname}<br/>
@@ -152,18 +166,21 @@ class HelpdeskFormController(http.Controller):
                         attachement_ids.append(attachement_id.id)
                 if not contact_id:
                     ticket.sudo().message_post(
-                        body=f"""<p style='color:"'red'">Attention ! Aucun contact n'a été trouvé dans Odoo pour l'email '{email}' dans la société {partner_id.name}. Par conséquent, le mail de création de ticket n'a pas été envoyé cu client. Veuillez créer le contact dans Odoo</p>""",
+                        body=f"""<p style="color:'orange'">Attention ! Aucun contact n'a été trouvé dans Odoo pour l'email '{email}' dans la société {partner_id.name}. Par conséquent, le mail de création de ticket n'a pas été envoyé cu client. Veuillez créer le contact dans Odoo</p>""",
+                        author_id=http.request.env.ref('base.partner_root').id, # OdooBot
                     )
                 if len(attachement_ids) > 0:
                     ticket.sudo().message_post(
                         body="Le client à joint à sa demande un ou plusieurs fichiers.",
-                        attachment_ids=attachement_ids
+                        attachment_ids=attachement_ids,
+                        author_id=http.request.env.ref('base.partner_root').id, # OdooBot
                     )
         return http.request.render("sinergis_helpdesk_form.form_page",
                                    {'csrf': csrf,
                                     'products': products,
                                     'error': error,
                                     'success': success,
+                                    'ticket_id': str(ticket.id),
                                     'extensions': extensions,
                                     'max_files': str(max_files),
                                     'max_file_size': str(max_file_size)}

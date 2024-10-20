@@ -327,6 +327,7 @@
         <field name="arch" type="xml">
         <tree>
             <field name="name" string="Nom"/>
+            <field name="order" string="Ordre"/>
         </tree>
         </field>
     </record>
@@ -337,9 +338,10 @@
         <form>
             <sheet>
             <group>
-            <field name="active" string="Archivé"/>
-            <field name="name" string="Nom du sous-produit"/>
+            <field name="active" string="Actif"/>
+            <field name="name" string="Nom du produit"/>
             <field name="type"/>
+            <field name="order"/>
             </group>
             </sheet>
             <div class="oe_chatter">
@@ -372,6 +374,7 @@
         <tree>
             <field name="product_id" string="Produit"/>
             <field name="name" string="Nom du sous-produit"/>
+            <field name="order" string="Ordre"/>
         </tree>
         </field>
     </record>
@@ -382,10 +385,11 @@
         <form>
             <sheet>
             <group>
-            <field name="active" string="Archivé"/>
+            <field name="active" string="Actif"/>
             <field name="name" string="Nom du sous-produit"/>
             <field name="product_id"/>
             <field name="label"/>
+            <field name="order"/>
             </group>
             </sheet>
             <div class="oe_chatter">

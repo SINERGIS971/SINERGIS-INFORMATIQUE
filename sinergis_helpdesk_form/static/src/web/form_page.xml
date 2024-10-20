@@ -5,7 +5,7 @@
             <head>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <style>
-                    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+                    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;display=swap');
 
 body {
     font-family: "DM Sans", sans-serif;
@@ -346,6 +346,7 @@ button[type="submit"] .button-icon {
 
                 </style>
                 <script src="https://www.google.com/recaptcha/api.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
 
                     function validateForm(event) {
@@ -377,15 +378,29 @@ button[type="submit"] .button-icon {
                           return false;
                         }
 
+                        /*
                         var response = grecaptcha.getResponse();
                         if (response.length === 0) {
-                        alert("Veuillez compléter le reCAPTCHA.");
-                        return false;
+                            alert("Veuillez compléter le reCAPTCHA.");
+                            return false;
                         }
-                        return true;
+                        return true;*/
                         
-                        // Si tout est valide, soumettre le formulaire
-                        event.target.submit();
+                        $.ajax({
+                            url: '/help_sinergis/verify_code',
+                            type: 'POST',
+                            data: { code: code },
+                            success: function(response) {
+                                if (response.success) {
+                                    event.target.submit();
+                                } else {
+                                    alert("Votre code d'accès à l'assistance Sinergis est incorrect.");
+                                }
+                            },
+                            error: function() {
+                                alert("Votre code d'accès à l'assistance Sinergis est incorrect.");
+                            }
+                        });
                       }
                       
                       function validateEmail(email) {
@@ -669,7 +684,7 @@ button[type="submit"] .button-icon {
                 
                 <div class="input-row">
                 <div class="input-container full-width-input-container">
-                            <label for="files">Documents (<t t-esc='str(max_files)'/> fichiers max. de 5 Mo chacun)</label>
+                            <label for="files">Documents (<t t-esc='str(max_files)'/> fichiers max. de <t t-esc='str(round(float(max_file_size)/0.000001,1))'/> Mo chacun)</label>
                   <p>Autorisé : <t t-esc="', '.join(extensions)" /></p>
                            <div class="file-input">
                                                 <input type="file" id="files" name="files[]"

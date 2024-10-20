@@ -437,9 +437,10 @@ class Products (models.Model):
     _name = "sale.products"
     _description = "Produits"
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    active = fields.Boolean(string='Active', default=True, tracking=True)
+    active = fields.Boolean(string='Actif', default=True, tracking=True)
     name = fields.Char(string="Product Name",required=True, tracking=True)
     type = fields.Selection([('PME', 'PME'),('MGE', 'MGE')], string="Type PME/MGE", default="PME", required=True, tracking=True)
+    order = fields.Integer(string="Ordre", required=True, default=0)
 
 
 class SubProducts (models.Model):
@@ -447,6 +448,7 @@ class SubProducts (models.Model):
     _description = "Sous-Produits"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     product_id = fields.Many2one("sale.products",string="Produit",required=True, tracking=True)
-    active = fields.Boolean(string='Active', default=True, tracking=True)
+    active = fields.Boolean(string='Actif', default=True, tracking=True)
     name = fields.Char(string="Sub-Product Name",required=True, tracking=True)
     label = fields.Char(string="Désignation", tracking=True)
+    order = fields.Integer(string="Ordre", required=True, default=0)
