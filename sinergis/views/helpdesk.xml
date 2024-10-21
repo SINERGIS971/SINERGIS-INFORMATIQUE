@@ -116,6 +116,7 @@
                 <xpath expr="//field[@name='display_name']" position="before">
                   <field name="x_sinergis_helpdesk_ticket_client_answer" invisible="True"/>
                   <field name="x_sinergis_helpdesk_ticket_client_bloque" invisible="True"/>
+                  <field name="x_sinergis_helpdesk_ticket_blocking_for_client" invisible="True"/>
                   <field name="x_sinergis_helpdesk_ticket_partner_company_name" invisible="1"/>
                   <button name="button_x_sinergis_helpdesk_ticket_client_answer" readonly="True" type="object"  icon="fa-bell" class="btn-danger" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_answer', '=', False)]}"/>
                   <field name="sort_date"/>
@@ -182,6 +183,7 @@
               <xpath expr="//header" position="after">
                 <field name="x_sinergis_helpdesk_ticket_client_douteux" invisible="True"/>
                 <field name="x_sinergis_helpdesk_ticket_no_automatically_archive" invisible="True"/>
+                <field name="x_sinergis_helpdesk_ticket_blocking_for_client" invisible="True"/>
                 <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E45600;color:white;font-size:17px;padding:15px;" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_client_douteux',  '=', False)]}">
                       Attention! Le client est <strong>douteux</strong>! Vous ne pouvez sélectionner que la facturation sur <strong>Devis</strong>.
                 </div>

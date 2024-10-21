@@ -25,7 +25,7 @@ class HelpdeskFormController(http.Controller):
     @http.route('/help_sinergis', auth='public', methods=['GET','POST'])
     def index(self, **kw):
         csrf = http.request.csrf_token()
-        products = http.request.env['sale.products'].sudo().search([], limit=500)
+        products = http.request.env['sale.products'].sudo().search([], order='order DESC',limit=500)
         max_files = int(http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_files'))
         max_file_size = int(http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_file_size'))
         error = False

@@ -1,435 +1,436 @@
 <odoo>
-  <data>
-
-    <record id="sinergis_inherited_sale_order_list_select" model="ir.ui.view">
-        <field name="name">sinergis.inherited.sale.order.list.select</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
-        <field name="arch" type="xml">
-          <xpath expr="//filter[@name='order_month']" position="after">
-            <separator/>
-            <filter string="Profil" name="group_by_user_job" context="{'group_by':'x_sinergis_sale_res_users_job'}"/>
-            <separator/>
-            <filter string="Produit" name="group_by_product" context="{'group_by':'x_sinergis_sale_order_product_new'}"/>
-          </xpath>
-          <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
-            <separator/>
-            <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
-            <separator/>
-            <filter string="Consultant" domain="[('x_sinergis_sale_res_users_job', '=', 'CONSULTANT')]" name="user_type_consultant"/>
-            <filter string="Commercial" domain="[('x_sinergis_sale_res_users_job', '=', 'COMMERCIAL')]" name="user_type_commercial"/>
-            <separator/>
-            <filter string="AGICAP" domain="[('x_sinergis_sale_order_product_new.name', '=', 'AGICAP')]" name="product_agicap_filter"/>
-            <filter string="CEGID" domain="[('x_sinergis_sale_order_product_new.name', '=', 'CEGID')]" name="product_cegid_filter"/>
-            <filter string="E2TIME" domain="[('x_sinergis_sale_order_product_new.name', '=', 'E2TIME')]" name="product_e2time_filter"/>
-            <filter string="MESBANQUES" domain="[('x_sinergis_sale_order_product_new.name', '=', 'MESBANQUES')]" name="product_mesbanques_filter"/>
-            <filter string="OPEN BEE" domain="[('x_sinergis_sale_order_product_new.name', '=', 'OPEN BEE')]" name="product_openbee_filter"/>
-            <filter string="QUARKSUP" domain="[('x_sinergis_sale_order_product_new.name', '=', 'QUARKSUP')]" name="product_quarksup_filter"/>
-            <filter string="SAGE 100" domain="[('x_sinergis_sale_order_product_new.name', '=', 'SAGE 100')]" name="product_sage100_filter"/>
-            <filter string="SAGE 1000" domain="[('x_sinergis_sale_order_product_new.name', '=', 'SAGE 1000')]" name="product_sage1000_filter"/>
-            <filter string="SAP" domain="[('x_sinergis_sale_order_product_new.name', '=', 'SAP')]" name="product_sap_filter"/>
-            <filter string="VIF" domain="[('x_sinergis_sale_order_product_new.name', '=', 'VIF')]" name="product_vif_filter"/>
-            <filter string="SAGE X3" domain="[('x_sinergis_sale_order_product_new.name', '=', 'X3')]" name="product_x3_filter"/>
-            <filter string="XLSOFT" domain="[('x_sinergis_sale_order_product_new.name', '=', 'XLSOFT')]" name="product_xlsoft_filter"/>
-            <filter string="XRT" domain="[('x_sinergis_sale_order_product_new.name', '=', 'XRT')]" name="product_xrt_filter"/>
-            <filter string="DIVERS" domain="[('x_sinergis_sale_order_product_new.name', '=', 'DIVERS')]" name="product_divers_filter"/>
-            <!--<separator/>
-            <filter string="Projet terminé" name="filter_ended_project" domain="[('x_sinergis_sale_order_projects_ended','=',True)]"/>
-            <filter string="Projet non terminé" name="filter_not_ended_project" domain="[('x_sinergis_sale_order_projects_ended','=',False)]"/>-->
-            <separator/>
-            <filter string="Acompte versé" name="filter_acompte_verse" domain="[('x_sinergis_sale_order_acompte_verse','=',True)]"/>
-            <filter string="Acompte non versé" name="filter_acompte_non_verse" domain="[('x_sinergis_sale_order_acompte_verse','=',False)]"/>
-            <separator/>
-            <filter string="Commande fournisseur" name="filter_supplier_order" domain="[('x_sinergis_sale_order_supplier_order','=',True)]"/>
-            <filter string="Pas de commande fournisseur" name="filter_not_supplier_order" domain="[('x_sinergis_sale_order_supplier_order','=',False)]"/>
-          </xpath>
-        </field>
-    </record>
-
-    <record id="sinergis_inherited_saler_order" model="ir.ui.view">
-        <field name="name">sinergis.inherited.sale.order</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
-        <field name="priority" eval="10"/>
-        <field name="arch" type="xml">
-
-
-          <xpath expr="//header" position="after">
-            <field name="active" invisible="True"/>
-            <field name="x_sinergis_sale_order_client_bloque" invisible="True"/>
-            <field name="x_sinergis_sale_order_client_douteux" invisible="True"/>
-            <field name="x_sinergis_sale_order_client_suspect" invisible="True"/>
-            <field name="x_sinergis_sale_order_forbid_task_creation" invisible="True"/>
-            <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E30000;color:white;font-size:17px;padding:15px;" attrs="{'invisible': [('x_sinergis_sale_order_client_bloque',  '=', False)]}">
-                  Attention! Le client est <strong>bloqué</strong>!. Vous ne pouvez pas confirmer le devis.
-            </div>
-            <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E45600;color:white;font-size:17px;padding:15px;" attrs="{'invisible': ['|',('x_sinergis_sale_order_client_douteux',  '=', False),('x_sinergis_sale_order_client_bloque',  '=', True)]}">
-                  Attention! Le client est <strong>douteux</strong>!.
-            </div>
-            <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#A7A7A7;color:white;" attrs="{'invisible': [('x_sinergis_sale_order_client_suspect',  '=', False)]}">
-                  Le client est enregistré comme suspect, vous ne pouvez pas confirmer le devis.
-            </div>
-            <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#EEE3FF;color:black;font-size:12px;padding:10px;" attrs="{'invisible': [('x_sinergis_sale_order_contact_note',  '=', False)]}">
-                      Note concernant <strong><field name="x_sinergis_sale_order_contact" readonly="1"/></strong> : <field name="x_sinergis_sale_order_contact_note"/>
-            </div>
-          </xpath>
-
-          <!-- Empecher de confirmer le devis si le client est bloqué -->
-          <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
-            <attribute name="attrs">{'invisible': ['|','|','|',('x_sinergis_sale_order_forbid_task_creation',  '=', True),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['sent'])]}</attribute>
-            <attribute name="confirm">Souhaitez-vous vraiment confirmer ce devis ?</attribute>
-          </xpath>
-          <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
-            <attribute name="attrs">{'invisible': ['|','|','|',('x_sinergis_sale_order_forbid_task_creation',  '=', True),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft'])]}</attribute>
-            <attribute name="confirm">Souhaitez-vous vraiment confirmer ce devis ?</attribute>
-          </xpath>
-
-          <!-- Créer des boutons afin de confirmer le devis sans créer de tâche -->
-          <xpath expr="//button[@name='action_confirm'][1]" position="after">
-            <button name="action_confirm_without_task" string="Confirmer sans créer de tâche" class="btn-primary" type="object" attrs="{'invisible': ['|','|','|',('x_sinergis_sale_order_forbid_task_creation',  '=', False),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft','sent'])]}" confirm="Souhaitez-vous vraiment confirmer ce devis ?"/>
-          </xpath>
-          
-            <xpath expr="//field[@name='partner_id']" position="before">
-                <field name="x_sinergis_sale_order_objet" placeholder="Objet du devis..."/>
+    <data>
+  
+      <record id="sinergis_inherited_sale_order_list_select" model="ir.ui.view">
+          <field name="name">sinergis.inherited.sale.order.list.select</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+          <field name="arch" type="xml">
+            <xpath expr="//filter[@name='order_month']" position="after">
+              <separator/>
+              <filter string="Profil" name="group_by_user_job" context="{'group_by':'x_sinergis_sale_res_users_job'}"/>
+              <separator/>
+              <filter string="Produit" name="group_by_product" context="{'group_by':'x_sinergis_sale_order_product_new'}"/>
             </xpath>
-
-            <xpath expr="//field[@name='partner_id']" position="attributes">
-                <attribute name="string">Société</attribute>
-                <attribute name="domain">[('is_company','=',True)]</attribute>
-                <attribute name="attrs">{'readonly': [('state','not in','draft')], 'required': True}</attribute>
+            <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
+              <separator/>
+              <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
+              <separator/>
+              <filter string="Consultant" domain="[('x_sinergis_sale_res_users_job', '=', 'CONSULTANT')]" name="user_type_consultant"/>
+              <filter string="Commercial" domain="[('x_sinergis_sale_res_users_job', '=', 'COMMERCIAL')]" name="user_type_commercial"/>
+              <separator/>
+              <filter string="AGICAP" domain="[('x_sinergis_sale_order_product_new.name', '=', 'AGICAP')]" name="product_agicap_filter"/>
+              <filter string="CEGID" domain="[('x_sinergis_sale_order_product_new.name', '=', 'CEGID')]" name="product_cegid_filter"/>
+              <filter string="E2TIME" domain="[('x_sinergis_sale_order_product_new.name', '=', 'E2TIME')]" name="product_e2time_filter"/>
+              <filter string="MESBANQUES" domain="[('x_sinergis_sale_order_product_new.name', '=', 'MESBANQUES')]" name="product_mesbanques_filter"/>
+              <filter string="OPEN BEE" domain="[('x_sinergis_sale_order_product_new.name', '=', 'OPEN BEE')]" name="product_openbee_filter"/>
+              <filter string="QUARKSUP" domain="[('x_sinergis_sale_order_product_new.name', '=', 'QUARKSUP')]" name="product_quarksup_filter"/>
+              <filter string="SAGE 100" domain="[('x_sinergis_sale_order_product_new.name', '=', 'SAGE 100')]" name="product_sage100_filter"/>
+              <filter string="SAGE 1000" domain="[('x_sinergis_sale_order_product_new.name', '=', 'SAGE 1000')]" name="product_sage1000_filter"/>
+              <filter string="SAP" domain="[('x_sinergis_sale_order_product_new.name', '=', 'SAP')]" name="product_sap_filter"/>
+              <filter string="VIF" domain="[('x_sinergis_sale_order_product_new.name', '=', 'VIF')]" name="product_vif_filter"/>
+              <filter string="SAGE X3" domain="[('x_sinergis_sale_order_product_new.name', '=', 'X3')]" name="product_x3_filter"/>
+              <filter string="XLSOFT" domain="[('x_sinergis_sale_order_product_new.name', '=', 'XLSOFT')]" name="product_xlsoft_filter"/>
+              <filter string="XRT" domain="[('x_sinergis_sale_order_product_new.name', '=', 'XRT')]" name="product_xrt_filter"/>
+              <filter string="DIVERS" domain="[('x_sinergis_sale_order_product_new.name', '=', 'DIVERS')]" name="product_divers_filter"/>
+              <!--<separator/>
+              <filter string="Projet terminé" name="filter_ended_project" domain="[('x_sinergis_sale_order_projects_ended','=',True)]"/>
+              <filter string="Projet non terminé" name="filter_not_ended_project" domain="[('x_sinergis_sale_order_projects_ended','=',False)]"/>-->
+              <separator/>
+              <filter string="Acompte versé" name="filter_acompte_verse" domain="[('x_sinergis_sale_order_acompte_verse','=',True)]"/>
+              <filter string="Acompte non versé" name="filter_acompte_non_verse" domain="[('x_sinergis_sale_order_acompte_verse','=',False)]"/>
+              <separator/>
+              <filter string="Commande fournisseur" name="filter_supplier_order" domain="[('x_sinergis_sale_order_supplier_order','=',True)]"/>
+              <filter string="Pas de commande fournisseur" name="filter_not_supplier_order" domain="[('x_sinergis_sale_order_supplier_order','=',False)]"/>
             </xpath>
-            <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
-                <attribute name="domain">[('is_company','=',True)]</attribute>
-            </xpath>
-            <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
-                <attribute name="domain">[('is_company','=',True)]</attribute>
-            </xpath>
-
-            <xpath expr="//field[@name='partner_invoice_id']" position="before">
-                <field name="x_sinergis_sale_order_contact" domain="[('parent_id','=',partner_id),('x_sinergis_societe_contact_inactive','=',False)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
-                <field name="x_sinergis_sale_order_product" invisible="1"/>
-                <field name="x_sinergis_sale_order_product_new" options="{'no_create': True, 'no_create_edit':True}"/>
-                <!-- Pour voir si un sous-produit existe pour ce produit, afin de bloquer la sélection des sous-produits -->
-                <field name="x_sinergis_sale_order_product_new_have_subproduct" invisible="1"/>
-                <br/>
-                <br/>
-            </xpath>
-
-            <xpath expr="//field[@name='payment_term_id']" position="after">
-                <field name="x_sinergis_sale_order_signed_quote"/>
-                <field name="x_sinergis_sale_order_signed_cgv"/>
-                <!--<field name="x_sinergis_sale_order_amount_remaining" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>-->
-                <field name="x_sinergis_sale_order_days_count"/>
-                <p style="font-size:8pt;">Dans le calcul du nombre de jours, une journée correspond à 7h.</p>
-                <field name="x_sinergis_sale_order_facture_acompte" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <field name="x_sinergis_sale_order_acompte_x3" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <field name="x_sinergis_sale_order_facture_solde" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <field name="x_sinergis_sale_order_solde_x3" attrs="{'invisible': [('state',  '!=', 'sale')], 'readonly': [('x_sinergis_sale_order_acompte_x3',  '=', False)]}"/>
-                <field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <p style="font-size:8pt;">Attention: Si vous indiquez que l'acompte est versé (ou non versé) alors l'acompte sur chacun des projets du devis sera marqué comme versé (ou non versé).</p>
-                <field name="x_sinergis_sale_order_supplier_order" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <field name="x_sinergis_sale_last_update"/>
-            </xpath>
-
-            <xpath expr="//field[@name='user_id']" position="after">
-                <field name="opportunity_id"/>
-            </xpath>
-
-            <notebook position="inside">
-                <page string="Suivi" name="x_sinergis_sale_order_monitoring_page">
-                  <group>
-                    <field name="x_sinergis_sale_order_scheduled_days"/>
-                    <field name="x_sinergis_sale_order_completed_days"/>
-                    <field name="x_sinergis_sale_order_remaining_days"/>
-                    <field name="x_sinergis_sale_order_planned_days"/>
-                    <p style="font-size:8pt;">Attention: Les jours planifiés correspondent à la somme de tous les évènements du calendrier qui ont comme élément sélectionné: un projet rattaché à ce devis.</p>
-                  </group>
-                  <group>
-                  </group>
-                </page>
-            </notebook>
-
-            <xpath expr="//notebook" position="after">
-                <group>
-                    <!--<field name="x_sinergis_sale_order_model" attrs="{'invisible': [('state',  '!=', 'draft')]}"/>-->
-                </group>
-            </xpath>
-
-            <xpath expr="//field[@name='order_line']" position="attributes">
-                <attribute name="context">{'default_x_sinergis_sale_order_line_product_id': x_sinergis_sale_order_product_new}</attribute>
-            </xpath>
-
-            <!-- MODIFICATION DE LA LISTE -->
-            <xpath expr="//field[@name='order_line']//field[@name='product_id'][1]" position="attributes">
-                <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
-            </xpath>
-            <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='product_id'][1]" position="attributes">
-                <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
-            </xpath>
-
-
-            <xpath expr="//group[@name='utm_link']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-
-            <xpath expr="//field[@name='payment_term_id']" position="attributes">
-                <attribute name="required">1</attribute>
-                <attribute name="default">3</attribute>
-            </xpath>
-
-            <xpath expr="//field[@name='require_signature']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-
-            <xpath expr="//field[@name='require_payment']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-
-            <xpath expr="//group[@name='technical']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-
-            <xpath expr="//group[@name='utm_link']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-
-        </field>
-    </record>
-
-    <record id="sinergis_inherited_management_saler_order" model="ir.ui.view">
-        <field name="name">sinergis.inherited.management.sale.order</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale_management.sale_order_form_quote"/>
-        <field name="priority" eval="10"/>
-        <field name="arch" type="xml">
-          <xpath expr="//page[@name='other_information']" position="after">
-              <xpath expr="//page[@name='optional_products']" position="move"/>
-          </xpath>
-          <xpath expr="//page[@name='optional_products']" position="attributes">
-            <attribute name="invisible">1</attribute>
-          </xpath>
-        </field>
+          </field>
       </record>
-
-    <!-- TREE VIEW  -->
-
-    <record id="sinergis_inherited_saler_order_tree" model="ir.ui.view">
-        <field name="name">sinergis.inherited.sale.order.tree</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
-        <field name="priority" eval="10"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='create_date']" position="after">
-                <field name="date_order" optional="hide"/>
-                <field name="x_sinergis_sale_last_update"/>
-                <field name="x_sinergis_sale_order_objet" readonly="1" decoration-bf="1"/>
+  
+      <record id="sinergis_inherited_saler_order" model="ir.ui.view">
+          <field name="name">sinergis.inherited.sale.order</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_order_form"/>
+          <field name="priority" eval="10"/>
+          <field name="arch" type="xml">
+  
+  
+            <xpath expr="//header" position="after">
+              <field name="active" invisible="True"/>
+              <field name="x_sinergis_sale_order_client_bloque" invisible="True"/>
+              <field name="x_sinergis_sale_order_client_douteux" invisible="True"/>
+              <field name="x_sinergis_sale_order_client_suspect" invisible="True"/>
+              <field name="x_sinergis_sale_order_forbid_task_creation" invisible="True"/>
+              <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E30000;color:white;font-size:17px;padding:15px;" attrs="{'invisible': [('x_sinergis_sale_order_client_bloque',  '=', False)]}">
+                    Attention! Le client est <strong>bloqué</strong>!. Vous ne pouvez pas confirmer le devis.
+              </div>
+              <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#E45600;color:white;font-size:17px;padding:15px;" attrs="{'invisible': ['|',('x_sinergis_sale_order_client_douteux',  '=', False),('x_sinergis_sale_order_client_bloque',  '=', True)]}">
+                    Attention! Le client est <strong>douteux</strong>!.
+              </div>
+              <div class="alert alert-info" role="alert" style="height: 40px; margin-bottom:0px;background-color:#A7A7A7;color:white;" attrs="{'invisible': [('x_sinergis_sale_order_client_suspect',  '=', False)]}">
+                    Le client est enregistré comme suspect, vous ne pouvez pas confirmer le devis.
+              </div>
+              <div class="alert alert-info" role="alert" style="margin-bottom:0px;background-color:#EEE3FF;color:black;font-size:12px;padding:10px;" attrs="{'invisible': [('x_sinergis_sale_order_contact_note',  '=', False)]}">
+                        Note concernant <strong><field name="x_sinergis_sale_order_contact" readonly="1"/></strong> : <field name="x_sinergis_sale_order_contact_note"/>
+              </div>
             </xpath>
-            <xpath expr="//field[@name='company_id']" position="replace">
+  
+            <!-- Empecher de confirmer le devis si le client est bloqué -->
+            <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
+              <attribute name="attrs">{'invisible': ['|','|','|',('x_sinergis_sale_order_forbid_task_creation',  '=', True),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['sent'])]}</attribute>
+              <attribute name="confirm">Souhaitez-vous vraiment confirmer ce devis ?</attribute>
             </xpath>
-            <xpath expr="//field[@name='amount_total']" position="after">
-              <field name="margin" sum="Marge Totale"/>
-              <field name="x_sinergis_sale_order_scheduled_days" optional="hide"/>
-              <field name="x_sinergis_sale_order_completed_days" optional="hide"/>
-              <field name="x_sinergis_sale_order_remaining_days" optional="hide"/>
-              <field name="x_sinergis_sale_order_planned_days" optional="hide"/>
+            <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
+              <attribute name="attrs">{'invisible': ['|','|','|',('x_sinergis_sale_order_forbid_task_creation',  '=', True),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft'])]}</attribute>
+              <attribute name="confirm">Souhaitez-vous vraiment confirmer ce devis ?</attribute>
             </xpath>
-            <xpath expr="//field[@name='state']" position="after">
-                <field name="x_sinergis_sale_order_product_new"/>
-                <field name="company_id" optional="show" readonly="1" on_change="1" can_create="true" can_write="true" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
-                <field name="x_sinergis_sale_order_projects_ended" class="o_sinergis_checkbox" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <field name="x_sinergis_sale_order_facture_acompte"/>
-                <field name="x_sinergis_sale_order_acompte_x3" class="o_sinergis_checkbox" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <field name="x_sinergis_sale_order_facture_solde"/>
-                <field name="x_sinergis_sale_order_solde_x3" class="o_sinergis_checkbox" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
-                <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}" class="o_sinergis_checkbox"/>
-                <field name="x_sinergis_sale_order_supplier_order" attrs="{'invisible': [('state',  '!=', 'sale')]}" class="o_sinergis_checkbox"/>
+  
+            <!-- Créer des boutons afin de confirmer le devis sans créer de tâche -->
+            <xpath expr="//button[@name='action_confirm'][1]" position="after">
+              <button name="action_confirm_without_task" string="Confirmer sans créer de tâche" class="btn-primary" type="object" attrs="{'invisible': ['|','|','|',('x_sinergis_sale_order_forbid_task_creation',  '=', False),('x_sinergis_sale_order_client_bloque',  '=', True),('x_sinergis_sale_order_client_suspect',  '=', True),('state', 'not in', ['draft','sent'])]}" confirm="Souhaitez-vous vraiment confirmer ce devis ?"/>
             </xpath>
-
-        </field>
-    </record>
-
-    <!--Tree view : Company => Orders => Tree view -->
-    <record id="sinergis_inherited_sale_view_order_tree" model="ir.ui.view">
-        <field name="name">sinergis.inherited.sale.view.order.tree</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_tree"/>
-        <field name="priority" eval="10"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='name']" position="after">
-                <field name="x_sinergis_sale_order_objet" readonly="1" decoration-bf="1"/>
+            
+              <xpath expr="//field[@name='partner_id']" position="before">
+                  <field name="x_sinergis_sale_order_objet" placeholder="Objet du devis..."/>
+              </xpath>
+  
+              <xpath expr="//field[@name='partner_id']" position="attributes">
+                  <attribute name="string">Société</attribute>
+                  <attribute name="domain">[('is_company','=',True)]</attribute>
+                  <attribute name="attrs">{'readonly': [('state','not in','draft')], 'required': True}</attribute>
+              </xpath>
+              <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                  <attribute name="domain">[('is_company','=',True)]</attribute>
+              </xpath>
+              <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                  <attribute name="domain">[('is_company','=',True)]</attribute>
+              </xpath>
+  
+              <xpath expr="//field[@name='partner_invoice_id']" position="before">
+                  <field name="x_sinergis_sale_order_contact" domain="[('parent_id','=',partner_id),('x_sinergis_societe_contact_inactive','=',False)]" attrs="{'readonly': [('partner_id',  '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                  <field name="x_sinergis_sale_order_product" invisible="1"/>
+                  <field name="x_sinergis_sale_order_product_new" options="{'no_create': True, 'no_create_edit':True}"/>
+                  <!-- Pour voir si un sous-produit existe pour ce produit, afin de bloquer la sélection des sous-produits -->
+                  <field name="x_sinergis_sale_order_product_new_have_subproduct" invisible="1"/>
+                  <br/>
+                  <br/>
+              </xpath>
+  
+              <xpath expr="//field[@name='payment_term_id']" position="after">
+                  <field name="x_sinergis_sale_order_signed_quote"/>
+                  <field name="x_sinergis_sale_order_signed_cgv"/>
+                  <!--<field name="x_sinergis_sale_order_amount_remaining" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>-->
+                  <field name="x_sinergis_sale_order_days_count"/>
+                  <p style="font-size:8pt;">Dans le calcul du nombre de jours, une journée correspond à 7h.</p>
+                  <field name="x_sinergis_sale_order_facture_acompte" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                  <field name="x_sinergis_sale_order_acompte_x3" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                  <field name="x_sinergis_sale_order_facture_solde" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                  <field name="x_sinergis_sale_order_solde_x3" attrs="{'invisible': [('state',  '!=', 'sale')], 'readonly': [('x_sinergis_sale_order_acompte_x3',  '=', False)]}"/>
+                  <field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                  <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                  <p style="font-size:8pt;">Attention: Si vous indiquez que l'acompte est versé (ou non versé) alors l'acompte sur chacun des projets du devis sera marqué comme versé (ou non versé).</p>
+                  <field name="x_sinergis_sale_order_supplier_order" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                  <field name="x_sinergis_sale_last_update"/>
+              </xpath>
+  
+              <xpath expr="//field[@name='user_id']" position="after">
+                  <field name="opportunity_id"/>
+              </xpath>
+  
+              <notebook position="inside">
+                  <page string="Suivi" name="x_sinergis_sale_order_monitoring_page">
+                    <group>
+                      <field name="x_sinergis_sale_order_scheduled_days"/>
+                      <field name="x_sinergis_sale_order_completed_days"/>
+                      <field name="x_sinergis_sale_order_remaining_days"/>
+                      <field name="x_sinergis_sale_order_planned_days"/>
+                      <p style="font-size:8pt;">Attention: Les jours planifiés correspondent à la somme de tous les évènements du calendrier qui ont comme élément sélectionné: un projet rattaché à ce devis.</p>
+                    </group>
+                    <group>
+                    </group>
+                  </page>
+              </notebook>
+  
+              <xpath expr="//notebook" position="after">
+                  <group>
+                      <!--<field name="x_sinergis_sale_order_model" attrs="{'invisible': [('state',  '!=', 'draft')]}"/>-->
+                  </group>
+              </xpath>
+  
+              <xpath expr="//field[@name='order_line']" position="attributes">
+                  <attribute name="context">{'default_x_sinergis_sale_order_line_product_id': x_sinergis_sale_order_product_new}</attribute>
+              </xpath>
+  
+              <!-- MODIFICATION DE LA LISTE -->
+              <xpath expr="//field[@name='order_line']//field[@name='product_id'][1]" position="attributes">
+                  <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
+              </xpath>
+              <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='product_id'][1]" position="attributes">
+                  <attribute name="options">{'no_create': True, 'no_create_edit':True}</attribute>
+              </xpath>
+  
+  
+              <xpath expr="//group[@name='utm_link']" position="attributes">
+                  <attribute name="invisible">1</attribute>
+              </xpath>
+  
+              <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                  <attribute name="required">1</attribute>
+                  <attribute name="default">3</attribute>
+              </xpath>
+  
+              <xpath expr="//field[@name='require_signature']" position="attributes">
+                  <attribute name="invisible">1</attribute>
+              </xpath>
+  
+              <xpath expr="//field[@name='require_payment']" position="attributes">
+                  <attribute name="invisible">1</attribute>
+              </xpath>
+  
+              <xpath expr="//group[@name='technical']" position="attributes">
+                  <attribute name="invisible">1</attribute>
+              </xpath>
+  
+              <xpath expr="//group[@name='utm_link']" position="attributes">
+                  <attribute name="invisible">1</attribute>
+              </xpath>
+  
+          </field>
+      </record>
+  
+      <record id="sinergis_inherited_management_saler_order" model="ir.ui.view">
+          <field name="name">sinergis.inherited.management.sale.order</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale_management.sale_order_form_quote"/>
+          <field name="priority" eval="10"/>
+          <field name="arch" type="xml">
+            <xpath expr="//page[@name='other_information']" position="after">
+                <xpath expr="//page[@name='optional_products']" position="move"/>
             </xpath>
-        </field>
-    </record>
-
-
-    
-
-    <!-- DANS LA LISTE DES ELEMENTS DU DEVIS, METTRE LE COUT PAR DEFAUT -->
-    <record id="sinergis_inherited_margin_sale_order_line_form" model="ir.ui.view">
-        <field name="name">sinergis.inherited.margin.sale.order.line.form</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form"/>
-        <field name="priority" eval="10"/>
-        <field name="arch" type="xml">
-          <xpath expr="//field[@name='purchase_price']" position="attributes">
-            <attribute name="optional"></attribute>
-          </xpath>
-        </field>
-    </record>
-
-    <record id="sinergis_inherited_view_order_line_tree" model="ir.ui.view">
-        <field name="name">sinergis.sale.order.line.tree</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="before">
-                <field name="x_sinergis_sale_order_line_product_id" attrs="{'readonly': [('state','in',['sale','done','cancel'])]}" options="{'no_create': True, 'no_create_edit':True}" optional="hide"/>
-                <field name="x_sinergis_sale_order_line_subproduct_id" domain="[('product_id','=',x_sinergis_sale_order_line_product_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
-                <field name="x_sinergis_deposit_percentage" widget="percentage" optional="hide"/>
+            <xpath expr="//page[@name='optional_products']" position="attributes">
+              <attribute name="invisible">1</attribute>
             </xpath>
-
-            <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="attributes">
-                <attribute name="attrs">{'readonly': [('state','in',['sale','done','cancel'])]}</attribute>
+          </field>
+        </record>
+  
+      <!-- TREE VIEW  -->
+  
+      <record id="sinergis_inherited_saler_order_tree" model="ir.ui.view">
+          <field name="name">sinergis.inherited.sale.order.tree</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+          <field name="priority" eval="10"/>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='create_date']" position="after">
+                  <field name="date_order" optional="hide"/>
+                  <field name="x_sinergis_sale_last_update"/>
+                  <field name="x_sinergis_sale_order_objet" readonly="1" decoration-bf="1"/>
+              </xpath>
+              <xpath expr="//field[@name='company_id']" position="replace">
+              </xpath>
+              <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="margin" sum="Marge Totale"/>
+                <field name="x_sinergis_sale_order_scheduled_days" optional="hide"/>
+                <field name="x_sinergis_sale_order_completed_days" optional="hide"/>
+                <field name="x_sinergis_sale_order_remaining_days" optional="hide"/>
+                <field name="x_sinergis_sale_order_planned_days" optional="hide"/>
+              </xpath>
+              <xpath expr="//field[@name='state']" position="after">
+                  <field name="x_sinergis_sale_order_product_new"/>
+                  <field name="company_id" optional="show" readonly="1" on_change="1" can_create="true" can_write="true" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
+                  <field name="x_sinergis_sale_order_projects_ended" class="o_sinergis_checkbox" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                  <field name="x_sinergis_sale_order_facture_acompte"/>
+                  <field name="x_sinergis_sale_order_acompte_x3" class="o_sinergis_checkbox" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                  <field name="x_sinergis_sale_order_facture_solde"/>
+                  <field name="x_sinergis_sale_order_solde_x3" class="o_sinergis_checkbox" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                  <field name="x_sinergis_sale_order_amount_charged" attrs="{'invisible': [('state',  '!=', 'sale')]}"/>
+                  <field name="x_sinergis_sale_order_acompte_verse" attrs="{'invisible': [('state',  '!=', 'sale')]}" class="o_sinergis_checkbox"/>
+                  <field name="x_sinergis_sale_order_supplier_order" attrs="{'invisible': [('state',  '!=', 'sale')]}" class="o_sinergis_checkbox"/>
+              </xpath>
+  
+          </field>
+      </record>
+  
+      <!--Tree view : Company => Orders => Tree view -->
+      <record id="sinergis_inherited_sale_view_order_tree" model="ir.ui.view">
+          <field name="name">sinergis.inherited.sale.view.order.tree</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_order_tree"/>
+          <field name="priority" eval="10"/>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='name']" position="after">
+                  <field name="x_sinergis_sale_order_objet" readonly="1" decoration-bf="1"/>
+              </xpath>
+          </field>
+      </record>
+  
+  
+      
+  
+      <!-- DANS LA LISTE DES ELEMENTS DU DEVIS, METTRE LE COUT PAR DEFAUT -->
+      <record id="sinergis_inherited_margin_sale_order_line_form" model="ir.ui.view">
+          <field name="name">sinergis.inherited.margin.sale.order.line.form</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form"/>
+          <field name="priority" eval="10"/>
+          <field name="arch" type="xml">
+            <xpath expr="//field[@name='purchase_price']" position="attributes">
+              <attribute name="optional"></attribute>
             </xpath>
-            <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="attributes">
-                <attribute name="attrs">{'readonly': [('state','in',['sale','done','cancel'])]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']" position="attributes">
-                <attribute name="attrs">{'readonly': [('state','in',['sale','done','cancel'])]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/tree//field[@name='tax_id']" position="attributes">
-                <attribute name="attrs">{'readonly': [('state','in',['sale','done','cancel'])]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/tree//field[@name='discount']" position="attributes">
-                <attribute name="attrs">{'readonly': [('state','in',['sale','done','cancel'])]}</attribute>
-            </xpath>
-
-            <xpath expr="//field[@name='order_line']/tree//field[@name='qty_delivered']" position="attributes">
-                <attribute name="optional">hide</attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/tree//field[@name='qty_invoiced']" position="attributes">
-                <attribute name="optional">hide</attribute>
-            </xpath>
-        </field>
-    </record>
-
-    <record id="sale_products_action" model="ir.actions.act_window">
-        <field name="name">Produits</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">sale.products</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-    <record id="sale_sinergis_products_tree" model="ir.ui.view">
-        <field name="name">sale.sinergis.products.tree</field>
-        <field name="model">sale.products</field>
-        <field name="arch" type="xml">
-        <tree>
-            <field name="name" string="Nom"/>
-            <field name="order" string="Ordre"/>
-        </tree>
-        </field>
-    </record>
-    <record id="sale_sinergis_products_form" model="ir.ui.view">
-        <field name="name">sale.sinergis.products.form</field>
-        <field name="model">sale.products</field>
-        <field name="arch" type="xml">
-        <form>
-            <sheet>
-            <group>
-            <field name="active" string="Actif"/>
-            <field name="name" string="Nom du produit"/>
-            <field name="type"/>
-            <field name="order"/>
-            <p>L'ordre permet d'organiser la liste des sous-produits dans le formulaire d'assistance.</p>
-            </group>
-            </sheet>
-            <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="message_ids"/>
-            </div>
-        </form>
-        </field>
-    </record>
-    <record id="sale_sinergis_products_search" model="ir.ui.view">
-        <field name="name">sale.sinergis.products.tree</field>
-        <field name="model">sale.products</field>
-        <field name="arch" type="xml">
-            <search>
-                <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
-            </search>
-        </field>
-    </record>
-
-    <record id="sale_products_subproducts_action" model="ir.actions.act_window">
-        <field name="name">Sous-Produits</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">sale.products.subproducts</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-    <record id="sale_sinergis_subproducts_tree" model="ir.ui.view">
-        <field name="name">sale.sinergis.subproducts.tree</field>
-        <field name="model">sale.products.subproducts</field>
-        <field name="arch" type="xml">
-        <tree>
-            <field name="product_id" string="Produit"/>
-            <field name="name" string="Nom du sous-produit"/>
-            <field name="order" string="Ordre"/>
-        </tree>
-        </field>
-    </record>
-    <record id="sale_sinergis_subproducts_form" model="ir.ui.view">
-        <field name="name">sale.sinergis.subproducts.form</field>
-        <field name="model">sale.products.subproducts</field>
-        <field name="arch" type="xml">
-        <form>
-            <sheet>
-            <group>
-            <field name="active" string="Actif"/>
-            <field name="name" string="Nom du sous-produit"/>
-            <field name="product_id"/>
-            <field name="label"/>
-            <field name="order"/>
-            <p>Sans désignation, le produit n'apparaitra pas dans le formulaire d'assistance.</p>
-            <p>L'ordre permet d'organiser la liste des sous-produits dans le formulaire d'assistance.</p>
-            </group>
-            </sheet>
-            <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="message_ids"/>
-            </div>
-        </form>
-        </field>
-    </record>
-    <record id="sale_sinergis_subproducts_search" model="ir.ui.view">
-        <field name="name">sale.sinergis.subproducts.tree</field>
-        <field name="model">sale.products.subproducts</field>
-        <field name="arch" type="xml">
-            <search>
-                <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
-                <group expand="0" string="Group By">
-                    <filter string="Produit" name="group_by_product_id" context="{'group_by':'product_id'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <menuitem id="sale_sinergis_products_root"
-              parent="sale.sale_menu_root"
-              name="Produits Sinergis"
-              sequence="20"/>
-    <menuitem id="sale_sinergis_products"
-              parent="sale_sinergis_products_root"
-              name="Produits"
-              action="sale_products_action"
-              sequence="10"/>
-    <menuitem id="sale_sinergis_subproducts"
-              parent="sale_sinergis_products_root"
-              name="Sous-Produits"
-              action="sale_products_subproducts_action"
-              sequence="20"/>
-
-
-  </data>
-</odoo>
+          </field>
+      </record>
+  
+      <record id="sinergis_inherited_view_order_line_tree" model="ir.ui.view">
+          <field name="name">sinergis.sale.order.line.tree</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_order_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="before">
+                  <field name="x_sinergis_sale_order_line_product_id" attrs="{'readonly': [('state','in',['sale','done','cancel'])]}" options="{'no_create': True, 'no_create_edit':True}" optional="hide"/>
+                  <field name="x_sinergis_sale_order_line_subproduct_id" domain="[('product_id','=',x_sinergis_sale_order_line_product_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                  <field name="x_sinergis_deposit_percentage" widget="percentage" optional="hide"/>
+              </xpath>
+  
+              <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="attributes">
+                  <attribute name="attrs">{'readonly': [('state','in',['sale','done','cancel'])]}</attribute>
+              </xpath>
+              <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="attributes">
+                  <attribute name="attrs">{'readonly': [('state','in',['sale','done','cancel'])]}</attribute>
+              </xpath>
+              <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']" position="attributes">
+                  <attribute name="attrs">{'readonly': [('state','in',['sale','done','cancel'])]}</attribute>
+              </xpath>
+              <xpath expr="//field[@name='order_line']/tree//field[@name='tax_id']" position="attributes">
+                  <attribute name="attrs">{'readonly': [('state','in',['sale','done','cancel'])]}</attribute>
+              </xpath>
+              <xpath expr="//field[@name='order_line']/tree//field[@name='discount']" position="attributes">
+                  <attribute name="attrs">{'readonly': [('state','in',['sale','done','cancel'])]}</attribute>
+              </xpath>
+  
+              <xpath expr="//field[@name='order_line']/tree//field[@name='qty_delivered']" position="attributes">
+                  <attribute name="optional">hide</attribute>
+              </xpath>
+              <xpath expr="//field[@name='order_line']/tree//field[@name='qty_invoiced']" position="attributes">
+                  <attribute name="optional">hide</attribute>
+              </xpath>
+          </field>
+      </record>
+  
+      <record id="sale_products_action" model="ir.actions.act_window">
+          <field name="name">Produits</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">sale.products</field>
+          <field name="view_mode">tree,form</field>
+      </record>
+      <record id="sale_sinergis_products_tree" model="ir.ui.view">
+          <field name="name">sale.sinergis.products.tree</field>
+          <field name="model">sale.products</field>
+          <field name="arch" type="xml">
+          <tree>
+              <field name="name" string="Nom"/>
+              <field name="order" string="Ordre"/>
+          </tree>
+          </field>
+      </record>
+      <record id="sale_sinergis_products_form" model="ir.ui.view">
+          <field name="name">sale.sinergis.products.form</field>
+          <field name="model">sale.products</field>
+          <field name="arch" type="xml">
+          <form>
+              <sheet>
+              <group>
+              <field name="active" string="Actif"/>
+              <field name="name" string="Nom du produit"/>
+              <field name="type"/>
+              <field name="order"/>
+              <p>L'ordre permet d'organiser la liste des sous-produits dans le formulaire d'assistance.</p>
+              </group>
+              </sheet>
+              <div class="oe_chatter">
+                      <field name="message_follower_ids"/>
+                      <field name="message_ids"/>
+              </div>
+          </form>
+          </field>
+      </record>
+      <record id="sale_sinergis_products_search" model="ir.ui.view">
+          <field name="name">sale.sinergis.products.tree</field>
+          <field name="model">sale.products</field>
+          <field name="arch" type="xml">
+              <search>
+                  <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
+              </search>
+          </field>
+      </record>
+  
+      <record id="sale_products_subproducts_action" model="ir.actions.act_window">
+          <field name="name">Sous-Produits</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">sale.products.subproducts</field>
+          <field name="view_mode">tree,form</field>
+      </record>
+      <record id="sale_sinergis_subproducts_tree" model="ir.ui.view">
+          <field name="name">sale.sinergis.subproducts.tree</field>
+          <field name="model">sale.products.subproducts</field>
+          <field name="arch" type="xml">
+          <tree>
+              <field name="product_id" string="Produit"/>
+              <field name="name" string="Nom du sous-produit"/>
+              <field name="order" string="Ordre"/>
+          </tree>
+          </field>
+      </record>
+      <record id="sale_sinergis_subproducts_form" model="ir.ui.view">
+          <field name="name">sale.sinergis.subproducts.form</field>
+          <field name="model">sale.products.subproducts</field>
+          <field name="arch" type="xml">
+          <form>
+              <sheet>
+              <group>
+              <field name="active" string="Actif"/>
+              <field name="name" string="Nom du sous-produit"/>
+              <field name="product_id"/>
+              <field name="label"/>
+              <field name="order"/>
+              </group>
+                              <p>Sans désignation, le produit n'apparaitra pas dans le formulaire d'assistance.</p>
+              <p>L'ordre permet d'organiser la liste des sous-produits dans le formulaire d'assistance.</p>
+              </sheet>
+              <div class="oe_chatter">
+                      <field name="message_follower_ids"/>
+                      <field name="message_ids"/>
+              </div>
+          </form>
+          </field>
+      </record>
+      <record id="sale_sinergis_subproducts_search" model="ir.ui.view">
+          <field name="name">sale.sinergis.subproducts.tree</field>
+          <field name="model">sale.products.subproducts</field>
+          <field name="arch" type="xml">
+              <search>
+                  <filter string="Archivé" name="inactive" domain="[('active','=', False)]"></filter>
+                  <group expand="0" string="Group By">
+                      <filter string="Produit" name="group_by_product_id" context="{'group_by':'product_id'}"/>
+                  </group>
+              </search>
+          </field>
+      </record>
+  
+      <menuitem id="sale_sinergis_products_root"
+                parent="sale.sale_menu_root"
+                name="Produits Sinergis"
+                sequence="20"/>
+      <menuitem id="sale_sinergis_products"
+                parent="sale_sinergis_products_root"
+                name="Produits"
+                action="sale_products_action"
+                sequence="10"/>
+      <menuitem id="sale_sinergis_subproducts"
+                parent="sale_sinergis_products_root"
+                name="Sous-Produits"
+                action="sale_products_subproducts_action"
+                sequence="20"/>
+  
+  
+    </data>
+  </odoo>
+  
