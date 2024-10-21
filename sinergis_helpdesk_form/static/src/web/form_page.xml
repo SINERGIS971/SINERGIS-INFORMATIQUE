@@ -349,19 +349,19 @@ button[type="submit"] .button-icon {
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
 
-                    function validateForm(event) {
+                  async function validateForm(event) {
                         // Empêche l'envoi du formulaire si la validation échoue
                         
                         const firstname = document.getElementById('firstname').value.trim();
                         const lastname = document.getElementById('lastname').value.trim();
                         const email = document.getElementById('email').value.trim();
-                        const recaptchaResponse = grecaptcha.getResponse();
+                        //const recaptchaResponse = grecaptcha.getResponse();
                         
                         // Vérification du reCAPTCHA
-                        if (recaptchaResponse === '') {
-                            alert('Veuillez compléter le CAPTCHA.');
-                            return false;
-                        }
+                        //if (recaptchaResponse === '') {
+                        //    alert('Veuillez compléter le CAPTCHA.');
+                        //    return false;
+                        //}
 
                         // Exemple de validation simple
                         if (firstname === '') {
@@ -384,21 +384,26 @@ button[type="submit"] .button-icon {
                             alert("Veuillez compléter le reCAPTCHA.");
                             return false;
                         }
-                        return true;*/
+                        return true;
+                        */
+                        
                         
                         $.ajax({
                             url: '/help_sinergis/verify_code',
                             type: 'POST',
-                            data: { code: code },
+                            contentType: 'application/json',
+                            data: JSON.stringify({ code: code }),
                             success: function(response) {
-                                if (response.success) {
-                                    event.target.submit();
+                                if (response.result.success) {
+                                    return true;
                                 } else {
                                     alert("Votre code d'accès à l'assistance Sinergis est incorrect.");
+                                    return false
                                 }
                             },
                             error: function() {
                                 alert("Votre code d'accès à l'assistance Sinergis est incorrect.");
+                                return false
                             }
                         });
                       }
@@ -684,7 +689,7 @@ button[type="submit"] .button-icon {
                 
                 <div class="input-row">
                 <div class="input-container full-width-input-container">
-                            <label for="files">Documents (<t t-esc='str(max_files)'/> fichiers max. de <t t-esc='str(round(float(max_file_size)/0.000001,1))'/> Mo chacun)</label>
+                            <label for="files">Documents (<t t-esc='str(max_files)'/> fichiers max. de <t t-esc='str(round(float(max_file_size)*0.000001,1))'/> Mo chacun)</label>
                   <p>Autorisé : <t t-esc="', '.join(extensions)" /></p>
                            <div class="file-input">
                                                 <input type="file" id="files" name="files[]"

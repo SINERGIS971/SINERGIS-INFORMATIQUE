@@ -10,9 +10,9 @@ from datetime import date
 
 class HelpdeskFormController(http.Controller):
 
-    @http.route('/help_sinergis/verify_code', auth='public', methods=['POST'])
-    def index(self, **kw):
-        code = kw.get("code")
+    @http.route('/help_sinergis/verify_code', auth='public', methods=['POST'], type='json', csrf=False)
+    def index_verify_code(self, **kw):
+        code = http.request.jsonrequest.get("code")
         if not code:
             return {"success": False}
         if not (2 <= len(code) <= 16):
@@ -30,6 +30,7 @@ class HelpdeskFormController(http.Controller):
         max_file_size = int(http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_file_size'))
         error = False
         success = False
+        ticket = False
         extension_ids = http.request.env["sinergis_helpdesk_form.extension"].sudo().search([], limit=100)
         extensions = [extension_id.extension for extension_id in extension_ids]
         if http.request.httprequest.method == 'POST':
@@ -57,8 +58,6 @@ class HelpdeskFormController(http.Controller):
             subject = kw.get("subject")
             problem = kw.get("problem")
             files = http.request.httprequest.files.getlist('files[]')
-            # Verification des extensions
-            # extensions = {".jpg", ".png", ".gif", ".jpeg",".pdf"}
             if not firstname or not lastname or not company or not code or not email or not phone or not phone or not importance or not is_blocking or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             partner_id = http.request.env['res.partner'].sudo().search([('x_sinergis_societe_helpdesk_code', '=', code)], limit=1)
@@ -180,7 +179,7 @@ class HelpdeskFormController(http.Controller):
                                     'products': products,
                                     'error': error,
                                     'success': success,
-                                    'ticket_id': str(ticket.id),
+                                    'ticket_id': str(ticket.id) if ticket else 0,
                                     'extensions': extensions,
                                     'max_files': str(max_files),
                                     'max_file_size': str(max_file_size)}
