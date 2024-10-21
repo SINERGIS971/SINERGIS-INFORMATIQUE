@@ -342,6 +342,7 @@
             <field name="name" string="Nom du produit"/>
             <field name="type"/>
             <field name="order"/>
+            <p>L'ordre permet d'organiser la liste des sous-produits dans le formulaire d'assistance.</p>
             </group>
             </sheet>
             <div class="oe_chatter">
@@ -390,6 +391,8 @@
             <field name="product_id"/>
             <field name="label"/>
             <field name="order"/>
+            <p>Sans désignation, le produit n'apparaitra pas dans le formulaire d'assistance.</p>
+            <p>L'ordre permet d'organiser la liste des sous-produits dans le formulaire d'assistance.</p>
             </group>
             </sheet>
             <div class="oe_chatter">

@@ -76,11 +76,6 @@ class HelpdeskFormController(http.Controller):
                 error = "Vous devez indiquer si le ticket est bloquant ou non"
             if len(files) > max_files:
                 error = "Vous avez atteint la limite de fichiers à envoyer."
-            for file in files :
-                name = file.filename
-                attached_file = file.read()
-                if not (sys.getsizeof(attached_file) < max_file_size and any(file.filename.endswith(ext) for ext in extensions)) and file.filename:
-                    error = "Un de vos fichiers est trop volumineux ou son extension n'est pas correcte."
             #Vérification des longueurs
             if not (2 <= len(firstname) <= 50):
                 error = "La longueur du prénom est incorrecte."
@@ -121,6 +116,7 @@ class HelpdeskFormController(http.Controller):
                     'partner_id': partner_id.id,
                     'team_id': http.request.env['helpdesk.ticket'].sudo()._default_team_id(),
                     'priority': str(importance),
+                    'x_sinergis_helpdesk_ticket_blocking_for_client': is_blocking,
                     'x_sinergis_helpdesk_ticket_produits_new': product_select,
                     'x_sinergis_helpdesk_ticket_sous_produits_new': subproduct_select,
                 }
@@ -153,7 +149,7 @@ class HelpdeskFormController(http.Controller):
                     name = file.filename
                     attached_file = file.read()
                     # Vérification de la taille et de l'extension faite avant
-                    if sys.getsizeof(attached_file) < max_files and any(file.filename.endswith(ext) for ext in extensions):
+                    if sys.getsizeof(attached_file) < max_file_size and any(file.filename.endswith(ext) for ext in extensions):
                         attachement_id = http.request.env['ir.attachment'].sudo().create({
                                 'name': name,
                                 'res_model': 'helpdesk.ticket',
@@ -165,15 +161,15 @@ class HelpdeskFormController(http.Controller):
                         attachement_ids.append(attachement_id.id)
                 if not contact_id:
                     ticket.sudo().message_post(
-                        body=f"""<p style="color:'orange'">Attention ! Aucun contact n'a été trouvé dans Odoo pour l'email '{email}' dans la société {partner_id.name}. Par conséquent, le mail de création de ticket n'a pas été envoyé cu client. Veuillez créer le contact dans Odoo</p>""",
+                        body=f"""<p style="color:orange">Attention ! Aucun contact n'a été trouvé dans Odoo pour l'email '{email}' dans la société {partner_id.name}. Par conséquent, le mail de création de ticket n'a pas été envoyé au client. Veuillez créer le contact dans Odoo</p>""",
                         author_id=http.request.env.ref('base.partner_root').id, # OdooBot
                     )
                 if len(attachement_ids) > 0:
-                    ticket.sudo().message_post(
-                        body="Le client à joint à sa demande un ou plusieurs fichiers.",
-                        attachment_ids=attachement_ids,
+                    message = ticket.sudo().message_post(
+                        body="""<p style="color:orange">Le client à joint à sa demande un ou plusieurs fichiers.</p>""",
                         author_id=http.request.env.ref('base.partner_root').id, # OdooBot
                     )
+                    message.attachment_ids=attachement_ids
         return http.request.render("sinergis_helpdesk_form.form_page",
                                    {'csrf': csrf,
                                     'products': products,

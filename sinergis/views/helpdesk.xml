@@ -72,10 +72,15 @@
                 <filter string="Sans Bug" name="filter_x_sinergis_helpdesk_ticket_no_automatically_archive" domain="[('x_sinergis_helpdesk_ticket_no_automatically_archive', '=', False)]"/>
                 <filter string="Avec Bug" name="filter_no_x_sinergis_helpdesk_ticket_no_automatically_archive" domain="[('x_sinergis_helpdesk_ticket_no_automatically_archive', '=', True)]"/>
 
+                <filter string="Non bloquant" name="filter_no_x_sinergis_helpdesk_ticket_blocking_for_client" domain="[('x_sinergis_helpdesk_ticket_blocking_for_client', '=', False)]"/>
+                <filter string="Bloquant" name="filter_x_sinergis_helpdesk_ticket_blocking_for_client" domain="[('x_sinergis_helpdesk_ticket_blocking_for_client', '=', True)]"/>
+                
+                
                 <!-- GROUP BY -->
                   
                 <filter string="Agence rattachée" name="group_by_x_sinergis_helpdesk_ticket_partner_company_id" context="{'group_by':'x_sinergis_helpdesk_ticket_partner_company_id'}"/>
                 <filter string="Bug" name="group_by_x_sinergis_helpdesk_ticket_no_automatically_archive" context="{'group_by':'x_sinergis_helpdesk_ticket_no_automatically_archive'}"/>
+                <filter string="Bloquant" name="group_by_x_sinergis_helpdesk_ticket_blocking_for_client" context="{'group_by':'x_sinergis_helpdesk_ticket_blocking_for_client'}"/>
                   
               </xpath>
               <xpath expr="//filter[@name='unassigned']" position="after">
@@ -170,6 +175,9 @@
                   <button name="x_sinergis_intervention_unplanned" string="Ne plus planifier d'intervention" type="object" class="oe_highlight" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_planned_intervention',  '=', False)]}"/>
                   <button name="x_sinergis_no_automatically_archive_button" class="btn-primary oe_right" style="background-color:red;" type="object" string="BUG" icon="fa-bug" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_no_automatically_archive',  '=', True)]}"/>
                   <button name="x_sinergis_no_automatically_archive_button" class="btn-primary oe_right" style="background-color:green;" type="object" string="RETIRER BUG" icon="fa-bug" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_no_automatically_archive',  '=', False)]}"/>
+
+                  <button name="x_sinergis_helpdesk_ticket_blocking_for_client_button" class="btn-primary oe_right" style="background-color:red;" type="object" string="BLOQUANT" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_blocking_for_client',  '=', True)]}"/>
+                  <button name="x_sinergis_helpdesk_ticket_blocking_for_client_button" class="btn-primary oe_right" style="background-color:green;" type="object" string="RETIRER BLOQUANT" attrs="{'invisible': [('x_sinergis_helpdesk_ticket_blocking_for_client',  '=', False)]}"/>
               </xpath>
               <xpath expr="//header" position="after">
                 <field name="x_sinergis_helpdesk_ticket_client_douteux" invisible="True"/>

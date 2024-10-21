@@ -105,6 +105,9 @@ class HelpdeskTicket(models.Model):
     # 03/10/2024 : Champ permettant de ne pas archiver automatiquement le ticket (car archivage automatique des tickets tous les 3 mois)
     x_sinergis_helpdesk_ticket_no_automatically_archive = fields.Boolean(string="Bug", default=False, tracking=True)
 
+    # 21/10/2024 : Pouvoir indiquer que le ticket est bloquant pour le client
+    x_sinergis_helpdesk_ticket_blocking_for_client = fields.Boolean(string="Bloquant", default=False, tracking=True)
+
     @api.depends('x_sinergis_helpdesk_ticket_planned_intervention_text')
     def _compute_x_sinergis_helpdesk_ticket_planned_intervention_text (self):
         for rec in self:
@@ -504,6 +507,9 @@ class HelpdeskTicket(models.Model):
         
     def x_sinergis_no_automatically_archive_button(self):
         self.x_sinergis_helpdesk_ticket_no_automatically_archive = not self.x_sinergis_helpdesk_ticket_no_automatically_archive
+
+    def x_sinergis_helpdesk_ticket_blocking_for_client_button(self):
+        self.x_sinergis_helpdesk_ticket_blocking_for_client = not self.x_sinergis_helpdesk_ticket_blocking_for_client
 
     def x_sinergis_helpdesk_ticket_partner_replied (self):
         self.x_sinergis_helpdesk_last_call = False
