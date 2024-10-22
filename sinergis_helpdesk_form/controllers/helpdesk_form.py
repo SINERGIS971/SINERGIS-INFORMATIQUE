@@ -177,7 +177,7 @@ class HelpdeskFormController(http.Controller):
                                     'extensions': extensions,
                                     'max_files': str(max_files),
                                     'max_file_size': str(max_file_size),
-                                    'client_ket': http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.client_key')}
+                                    'client_key': http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.client_key')}
                                    )
 
         
