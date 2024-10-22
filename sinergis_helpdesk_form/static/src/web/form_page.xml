@@ -776,7 +776,7 @@ box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
                 </div>
                 </div>
                 <div class="g-recaptcha"
-                    data-sitekey="6Lf5wOMmAAAAAO-ow6ARgz6ZX0guZEm3yE81O32M"
+                    t-att-data-sitekey="client_key"
                     data-size="invisible">
                 </div>
                 <button type="submit">Créer votre demande <span class="button-icon">&#9656;</span></button>

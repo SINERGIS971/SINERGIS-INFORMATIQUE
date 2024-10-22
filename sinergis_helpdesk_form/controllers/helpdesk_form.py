@@ -37,7 +37,7 @@ class HelpdeskFormController(http.Controller):
             # Token for response
             recaptcha_response = kw.get("g-recaptcha-response")
             data = {}
-            secret_server_key = "6Lf5wOMmAAAAAAHHM43V-jETpH-FEFM4l7nAlcmX" # Secret key
+            secret_server_key = http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.server_key') # Secret key
             client_ip = http.request.httprequest.remote_addr # Client IP address 
             data = {'secret': secret_server_key, 'response': recaptcha_response, 'remoteip': client_ip}
             response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data).content.decode('utf-8')
@@ -176,7 +176,8 @@ class HelpdeskFormController(http.Controller):
                                     'ticket_id': str(ticket.id) if ticket else 0,
                                     'extensions': extensions,
                                     'max_files': str(max_files),
-                                    'max_file_size': str(max_file_size)}
+                                    'max_file_size': str(max_file_size),
+                                    'client_ket': http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.client_key')}
                                    )
 
         

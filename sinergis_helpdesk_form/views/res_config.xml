@@ -27,6 +27,14 @@
                                             <label class="col-lg-3 o_light_label" string="TAILLE MAXIMALE POUR UN FICHIER (OCTETS)" for="max_file_size"/>
                                             <field name="max_file_size" class="oe_inline" style="width: 70% !important;"/>
                                         </div>
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="CLÉ RECAPTCHA CLIENT" for="client_key"/>
+                                            <field name="client_key" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
+                                        <div class="row mt16">
+                                            <label class="col-lg-3 o_light_label" string="CLÉ RECAPTCHA SERVEUR" for="server_key"/>
+                                            <field name="server_key" class="oe_inline" style="width: 70% !important;"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

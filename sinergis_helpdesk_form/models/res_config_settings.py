@@ -13,3 +13,7 @@ class ResConfigSettings(models.TransientModel):
                             config_parameter='sinergis_helpdesk_form.max_files')
     max_file_size = fields.Integer(string="Taille maximale par fichier (octet)",
                             config_parameter='sinergis_helpdesk_form.max_file_size')
+    client_key = fields.Char(string="Clé serveur",
+                            config_parameter='sinergis_helpdesk_form.client_key')
+    server_key = fields.Char(string="Clé serveur",
+                            config_parameter='sinergis_helpdesk_form.server_key')
