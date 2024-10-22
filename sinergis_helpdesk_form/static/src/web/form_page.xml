@@ -391,6 +391,16 @@ box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
 
+                  function onRecaptchaSuccess(token) {
+                    const helpForm = document.getElementById('help_form');
+                    const recaptchaInput = document.createElement('input');
+                    recaptchaInput.setAttribute('type', 'hidden');
+                    recaptchaInput.setAttribute('name', 'g-recaptcha-response');
+                    recaptchaInput.setAttribute('value', token);
+                    helpForm.appendChild(recaptchaInput);
+                    helpForm.submit();
+                }
+
                   async function validateForm(event) {
                         // Empêche l'envoi du formulaire si la validation échoue
                         
@@ -716,7 +726,7 @@ box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
                             <div class="input-container" id="subproduct_block" style="display:none;">
                             <label for="subproduct-select">Sous-produit</label>
                             <div class="input-container-field">
-                              <select id="subproduct-select" name="subproducts">
+                              <select id="subproduct-select" name="subproducts" required="0">
                                 <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="input-icon">
                     <path d="M12.8 9.6H11.2V11.2H12.8M12.8 6.4H11.2V8H12.8M14.4 12.8H8V11.2H9.6V9.6H8V8H9.6V6.4H8V4.8H14.4M6.4 3.2H4.8V1.6H6.4M6.4 6.4H4.8V4.8H6.4M6.4 9.6H4.8V8H6.4M6.4 12.8H4.8V11.2H6.4M3.2 3.2H1.6V1.6H3.2M3.2 6.4H1.6V4.8H3.2M3.2 9.6H1.6V8H3.2M3.2 12.8H1.6V11.2H3.2M8 3.2V0H0V14.4H16V3.2H8Z" fill="#474746"/>
                     </svg>
@@ -768,8 +778,9 @@ box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
                 </div>
                 </div>
                 </div>
-                <div class="g-recaptcha"
+                <div id="recaptcha" class="g-recaptcha"
                     t-att-data-sitekey="client_key"
+                    data-callback="onRecaptchaSuccess"
                     data-size="invisible">
                 </div>
                 <button type="submit">Créer votre demande <span class="button-icon">&#9656;</span></button>
