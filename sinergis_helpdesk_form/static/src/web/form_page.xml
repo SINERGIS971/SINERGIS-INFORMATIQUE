@@ -398,13 +398,6 @@ box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
                         const lastname = document.getElementById('lastname').value.trim();
                         const email = document.getElementById('email').value.trim();
                         const code = document.getElementById('code').value.trim();
-                        //const recaptchaResponse = grecaptcha.getResponse();
-                        
-                        // Vérification du reCAPTCHA
-                        //if (recaptchaResponse === '') {
-                        //    alert('Veuillez compléter le CAPTCHA.');
-                        //    return false;
-                        //}
 
                         // Exemple de validation simple
                         if (firstname === '') {
@@ -421,14 +414,14 @@ box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
                           return false;
                         }
 
-                        /*
+                        
                         var response = grecaptcha.getResponse();
                         if (response.length === 0) {
                             alert("Veuillez compléter le reCAPTCHA.");
                             return false;
                         }
                         return true;
-                        */
+                        
                         
                         
                         $.ajax({

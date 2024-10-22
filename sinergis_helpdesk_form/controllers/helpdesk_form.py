@@ -35,16 +35,16 @@ class HelpdeskFormController(http.Controller):
         extensions = [extension_id.extension for extension_id in extension_ids]
         if http.request.httprequest.method == 'POST':
             # Token for response
-            #recaptcha_response = kw.get("g-recaptcha-response")
+            recaptcha_response = kw.get("g-recaptcha-response")
             data = {}
             secret_server_key = "6Lf5wOMmAAAAAAHHM43V-jETpH-FEFM4l7nAlcmX" # Secret key
-            #client_ip = http.request.httprequest.remote_addr # Client IP address 
-            #data = {'secret': secret_server_key, 'response': recaptcha_response, 'remoteip': client_ip}
-            #response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data).content.decode('utf-8')
-            #response_dict = json.loads(response)
-            #if response_dict['success'] != True:
-            #    error = "Le recaptcha n'est pas validé."
-            #    return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
+            client_ip = http.request.httprequest.remote_addr # Client IP address 
+            data = {'secret': secret_server_key, 'response': recaptcha_response, 'remoteip': client_ip}
+            response = requests.post("https://www.google.com/recaptcha/api/siteverify", data=data).content.decode('utf-8')
+            response_dict = json.loads(response)
+            if response_dict['success'] != True:
+                error = "Le recaptcha n'est pas validé."
+                return http.request.render("sinergis_helpdesk_form.form_page",{'csrf': csrf,'products': products, 'error': error, 'success': success, 'extensions': extensions})
             firstname = kw.get("firstname")
             lastname = kw.get("lastname")
             company = html.escape(kw.get("company"))
