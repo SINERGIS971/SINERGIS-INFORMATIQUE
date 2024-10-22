@@ -25,7 +25,7 @@ class HelpdeskFormController(http.Controller):
     @http.route('/help_sinergis', auth='public', methods=['GET','POST'])
     def index(self, **kw):
         csrf = http.request.csrf_token()
-        products = http.request.env['sale.products'].sudo().search([], order='order DESC',limit=500)
+        products = http.request.env['sale.products'].sudo().search([], order='order DESC, name ASC',limit=500)
         max_files = int(http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_files'))
         max_file_size = int(http.request.env['ir.config_parameter'].sudo().get_param('sinergis_helpdesk_form.max_file_size'))
         error = False
@@ -52,13 +52,13 @@ class HelpdeskFormController(http.Controller):
             email = kw.get("email").lower()
             phone = html.escape(kw.get("phone"))
             importance = int(kw.get("importance"))
-            is_blocking = bool(kw.get("is_blocking"))
+            is_blocking = True if kw.get("is_blocking") == "1" else False
             product_select = int(kw.get("products"))
             subproduct_select = kw.get("subproducts")
             subject = kw.get("subject")
             problem = kw.get("problem")
             files = http.request.httprequest.files.getlist('files[]')
-            if not firstname or not lastname or not company or not code or not email or not phone or not phone or not importance or not is_blocking or not product_select or not subject or not problem:
+            if not firstname or not lastname or not company or not code or not email or not phone or not phone or not importance or not product_select or not subject or not problem:
                 error = "Il vous manque des informations dans le formulaire que vous venez d'envoyer."
             partner_id = http.request.env['res.partner'].sudo().search([('x_sinergis_societe_helpdesk_code', '=', code)], limit=1)
             if len(partner_id) == 0:
@@ -72,8 +72,6 @@ class HelpdeskFormController(http.Controller):
                     error = "Le sous-produit que vous venez de sélectionner n'existe pas dans notre base de données."
             if importance not in (1, 2, 3):
                 error = "Vous devez indiquer l'importance du ticket"
-            if is_blocking not in (0, 1):
-                error = "Vous devez indiquer si le ticket est bloquant ou non"
             if len(files) > max_files:
                 error = "Vous avez atteint la limite de fichiers à envoyer."
             #Vérification des longueurs
