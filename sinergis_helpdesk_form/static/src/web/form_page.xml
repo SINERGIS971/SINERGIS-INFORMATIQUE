@@ -413,14 +413,6 @@ box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
                           alert('Veuillez entrer une adresse email valide.');
                           return false;
                         }
-
-                        
-                        var response = grecaptcha.getResponse();
-                        if (response.length === 0) {
-                            alert("Veuillez compléter le reCAPTCHA.");
-                            return false;
-                        }
-                        return true;
                         
                         
                         
@@ -431,7 +423,8 @@ box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
                             data: JSON.stringify({ code: code }),
                             success: function(response) {
                                 if (response.result.success) {
-                                    document.getElementById('help_form').submit();
+                                    grecaptcha.execute();
+                                    //document.getElementById('help_form').submit();
                                     return true;
                                 } else {
                                     alert("Votre code d'accès à l'assistance Sinergis est incorrect.");
