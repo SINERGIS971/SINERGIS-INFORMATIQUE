@@ -43,7 +43,6 @@ class SaleOrder(models.Model):
 
     @api.onchange("partner_id")
     def onchange_partner_id_sinergis_x3(self):
-        self.onchange_x_sinergis_sale_order_product_new_sinergis_x3()
         self._compute_sinergis_x3_partner_has_codex3()
         if not self.sinergis_x3_company_id:
             self.sinergis_x3_company_id = self.env["sinergis_x3.settings.company"].search([("company_id","=",self.partner_id.company_id.id)], limit=1)
