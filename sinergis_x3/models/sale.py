@@ -23,7 +23,7 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    sinergis_x3_company_id = fields.Many2one("sinergis_x3.settings.company", string="Site de vente X3", copy=False)
+    sinergis_x3_company_id = fields.Many2one("sinergis_x3.settings.company", string="Site de vente X3")
 
     hostable_in_order_line = fields.Boolean(compute="_compute_hostable_in_order_line")
     ch_in_order_line = fields.Boolean(compute="_compute_ch_in_order_line") # Si il y a un contrat d'heures dans les lignes de commande
